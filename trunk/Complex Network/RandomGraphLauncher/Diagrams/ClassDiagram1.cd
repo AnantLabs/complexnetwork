@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="RandomGraphLauncher.CalculationControl" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AGI5jQSVSLytJJwUqEyHQWWWDEncCY6QHughkQCACAo=</HashCode>
+      <FileName>CalculationControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraphLauncher.DataExportImport" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAIAACAQAQAAAAKAAAAiAEgAJABEADEJAAAEABA=</HashCode>
+      <FileName>DataExportImport.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraphLauncher.MainWindow" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>FJCAAAAAACIcAACACACUAQAWAAgAMAAAAiABAAQMUCA=</HashCode>
+      <FileName>MainWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraphLauncher.ModelChooserWindow" Collapsed="true">
+    <Position X="7.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAACAQBBAAAACAkAMCAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>ModelChooserWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraphLauncher.Program" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraphLauncher.ServiceManager" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQBACAAABAAAACABAACAAAIAAAIIEAAAIEAAAA=</HashCode>
+      <FileName>ServiceManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraphLauncher.controls.DataGridViewDisableButtonCell" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAQIABA=</HashCode>
+      <FileName>controls\DataGridViewDisableButtonCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraphLauncher.controls.DataGridViewDisableButtonColumn" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>controls\DataGridViewDisableButtonCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraphLauncher.controls.DataGridViewProgressCell" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAgAAIAAAAAAAQAAAAAIAAAAAAAAAIABA=</HashCode>
+      <FileName>controls\DataGridViewProgressCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraphLauncher.controls.DataGridViewProgressColumn" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAACAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>controls\DataGridViewProgressColumn.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyControlLibrary.TabCtlEx" Collapsed="true">
+    <Position X="7.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIACAABAAAAACAAAACBBgABAAAIAIACAAAAAA=</HashCode>
+      <FileName>controls\TabCtlEx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyControlLibrary.CloseEventArgs" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>controls\TabCtlEx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyControlLibrary.TabPageEx" Collapsed="true">
+    <Position X="0.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACACAAAAAAAACAAAACAAAIAAAAAAAACAAAAAA=</HashCode>
+      <FileName>controls\TabPage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flash.External.ExternalInterfaceCall" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAACABAAAQAAAAAAYAAAAAAAAAA=</HashCode>
+      <FileName>FlashAPI\ExternalInterfaceCall.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flash.External.ExternalInterfaceCallEventArgs" Collapsed="true">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAA=</HashCode>
+      <FileName>FlashAPI\ExternalInterfaceCallEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flash.External.ExternalInterfaceProxy" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAQAAAAAAAAAAAAAAAAIAAAAAAAAAEAAAAEAA=</HashCode>
+      <FileName>FlashAPI\ExternalInterfaceProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flash.External.ExternalInterfaceSerializer" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAIAAAAAEAAAQCAAACAAAAAABAAgAAAAgAAAABA=</HashCode>
+      <FileName>FlashAPI\ExternalInterfaceSerializer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraphLauncher.Properties.Resources" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAACAAAAAAAQBBEBAAAQCAAAAAIAAAABAAAIQ=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraphLauncher.Properties.Settings" Collapsed="true">
+    <Position X="5.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraphLauncher.events.ModelChooserEventArgs" Collapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\events\ModelChooserEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraphLauncher.models.AnalyzeEventArgs" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\models\AnalyzeEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Delegate Name="Flash.External.ExternalInterfaceCallEventHandler" Collapsed="true">
+    <Position X="0.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>FlashAPI\ExternalInterfaceCallEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

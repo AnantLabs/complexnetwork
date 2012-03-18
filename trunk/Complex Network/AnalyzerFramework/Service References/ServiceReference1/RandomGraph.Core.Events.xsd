@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/RandomGraph.Core.Events" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/RandomGraph.Core.Events" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/RandomGraph.Common.Model.Status" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/System" />
+  <xs:complexType name="GraphProgressEventArgs">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/System" base="q1:EventArgs">
+        <xs:sequence>
+          <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/RandomGraph.Common.Model.Status" minOccurs="0" name="Progress" nillable="true" type="q2:GraphProgressStatus" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="GraphProgressEventArgs" nillable="true" type="tns:GraphProgressEventArgs" />
+</xs:schema>
