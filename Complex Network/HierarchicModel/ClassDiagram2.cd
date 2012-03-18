@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="HeirarchicModel.Analizer">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAEABACQCIIAAgACEAAAAAAAAFhQAAAQAEAA=</HashCode>
+      <FileName>Model\Analizer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeirarchicModel.Engine" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Model\Engine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeirarchicModel.EngineForConnectedComp" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAIAQAAEQAAAAgCAAAAAAAACUAQABABCAAAA=</HashCode>
+      <FileName>Model\EngineForConnectedComp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeirarchicModel.HierarchicGenerator" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Model\HierarchicGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeirarchicModel.HierarchicGeneratorPerLevel" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Model\HierarchicGeneratorPerLevel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeirarchicModel.HierarchicGraphGenerator" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAIAIAAAAAAAAAAAAAAEIAAAAFAAAAACAAAAAAEA=</HashCode>
+      <FileName>Model\HierarchicGraphGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeirarchicModel.node" Collapsed="true">
+    <Position X="5.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Model\HierarchicGraphNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeirarchicModel.HierarchicModel" Collapsed="true">
+    <Position X="8.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACBAAAGAAAAAAkABAGAAAAAAAgAAAAAIAgAAIAAA=</HashCode>
+      <FileName>Model\HierarchicModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeirarchicModel.HierarchicGraph" Collapsed="true">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAACAAQAgQgACGAIAIAEAAAAUFCQAAACAAAAAAEQ=</HashCode>
+      <FileName>Model\Tree.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeirarchicModel.Model.HierarchicGraphFactory" Collapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\HierarchicGraphFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

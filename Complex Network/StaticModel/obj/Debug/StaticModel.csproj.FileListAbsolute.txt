@@ -1,0 +1,3 @@
+C:\Users\Artak\Desktop\StaticModel\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Artak\Desktop\StaticModel\obj\Debug\BAModel.dll
+C:\Users\Artak\Desktop\StaticModel\obj\Debug\BAModel.pdb
