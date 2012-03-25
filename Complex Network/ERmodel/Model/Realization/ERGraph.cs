@@ -1,29 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections;
+﻿using System.Collections;
 
-using RandomGraph.Common.Model;
 using Model.ERModel.Result;
 using model.ERModel.Realization;
+using log4net;
 
 namespace Model.ERModel.Realization
 {
     public class ERGraph
     {
+        /// <summary>
+        /// The logger static object for monitoring.
+        /// </summary>
+        protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(ERGraph));
+
         private int m_vertex_count;
-        private int m_edge_count; 
+        //private int m_edge_count; 
 
         private ERContainer m_container;
         //private ERGenerator m_generator;
-        private ERAnalyzer m_analyzer;
+        public ERAnalyzer m_analyzer;
 
         private AnalyzeResult m_analyzeResult;
 
         public ERGraph(int vcount)
         {
-
+            log.Info("Creating ERGraph object with given vertex count");
             m_vertex_count = vcount;
             m_container = new ERContainer(m_vertex_count);
             //m_generator = new ERGenerator();
@@ -32,18 +33,15 @@ namespace Model.ERModel.Realization
 
         public ERGraph(ArrayList m)
         {
+            log.Info("Creating ERGraph object from given matrix");
             m_container = new ERContainer(m);
             m_analyzer = new ERAnalyzer(m_container);
         }
 
         public void Generate(double p)
         {
-            m_container.FillContainerByPropability(p);
-        }
-
-        public void Analyze(AnalyseOptions m_analyzeOptions)
-        {
-            m_analyzeResult = m_analyzer.Analyze(m_analyzeOptions);
+            log.Info("Generating ERGraph with given probability");
+            m_container.FillContainerByProbability(p);
         }
 
         public AnalyzeResult Result

@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using log4net;
 
 namespace Model.ERModel.Realization
 {
     public class ERContainer
     {
+        /// <summary>
+        /// The logger static object for monitoring.
+        /// </summary>
+        protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(ERContainer));
+
+        protected static Random r = new Random();
         private int m_size;                                            // number of vertices
         private SortedDictionary<int, List<int>> m_neighbourship;      // list of neighbours     
 
@@ -16,6 +21,7 @@ namespace Model.ERModel.Realization
 
         public ERContainer(int size)
         {
+            log.Info("Creating ERContainer object with given size");
             m_size = size;
             m_neighbourship = new SortedDictionary<int, List<int>>();
             for (int i = 0; i < m_size; ++i)
@@ -32,6 +38,7 @@ namespace Model.ERModel.Realization
 
         public ERContainer(ArrayList matrix)
         {
+            log.Info("Creating ERContainer object from given matrix");
             m_size = matrix.Count;
             m_neighbourship = new SortedDictionary<int, List<int>>();
             ArrayList neighbourshipOfIVertex = new ArrayList();
@@ -66,10 +73,8 @@ namespace Model.ERModel.Realization
             return m_neighbourship[i].Count;
         }
 
-        public void FillContainerByPropability(double p)
+        public void FillContainerByProbability(double p)
         {
-            Random r = new Random();
-
             for (int i = 0; i < m_size; ++i)
             {
                 for (int j = i + 1; j < m_size; ++j)
