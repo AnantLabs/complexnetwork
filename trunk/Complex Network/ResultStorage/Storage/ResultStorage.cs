@@ -56,7 +56,7 @@ namespace ResultStorage.Storage
                 case 5:
                     return typeof(WSModel);
                 case 6:
-                    return typeof(NonRegularHierarchicModel);
+                    return typeof(Model.NonRegularHierarchicModel.NonRegularHierarchicModel);
                 case 7:
                     return typeof(StaticModel);
                 default:

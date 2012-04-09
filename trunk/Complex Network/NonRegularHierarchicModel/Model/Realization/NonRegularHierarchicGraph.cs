@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
-using NumberGeneration;
+//using NumberGeneration;
 
-namespace Model.NonRegularHierarchicModel.Realization
+namespace NonRegularHierarchicModel.Model.Realization
 {
     public class NonRegularHierarchicGraph
     {
@@ -154,6 +154,35 @@ namespace Model.NonRegularHierarchicModel.Realization
         }
 
         /// <summary>
+        /// Counts number of vertexes adjusent to the given in the graph.
+        /// </summary>
+        /// <param name="vertex"> Number of vertex to which adjusents to be found</param>
+        /// <returns>Number of edges in the graph</returns>
+        public uint get_adjacent_vertexes_count(uint vertex)
+        {
+            if (1 == vertexes_count)
+                return 0;
+            uint i;
+            uint edges_count = 0;
+
+            /// Number of block which contains given vertex.
+            uint my_block = get_block_of_vertex(vertex);
+
+            // Take into account connections between blocks.
+            for (i = 0; i < children.Length; ++i)
+            {
+                if (is_connected_blocks(i, my_block))
+                {
+                    edges_count += children[i].get_vertexes_count();
+                }
+            }
+
+            // Get this number from my subblock containing this vertex.
+            edges_count += children[my_block].get_adjacent_vertexes_count(get_index_in_subtree(vertex));
+            return edges_count;
+        }
+
+        /// <summary>
         /// Counts number of circles of length 3 in this graph.
         /// </summary>
         /// <returns>number of circles of length 3</returns>
@@ -196,6 +225,53 @@ namespace Model.NonRegularHierarchicModel.Realization
             {
                 res += children[i].get_3_circles_count();
             }
+
+            return res;
+        }
+
+
+        /// <summary>
+        /// Counts number of circles of length 3 in this graph which contain given vertex.
+        /// </summary>
+        /// <param name="vertex"> Number of vertex.</param>
+        /// <returns>number of circles of length 3 in this graph which contain given vertex</returns>
+        public uint get_3_circles_count_with_vertex(uint vertex)
+        {
+            if (1 == vertexes_count)
+            {
+                return 0;
+            }
+
+            /// Number of block which contains given vertex.
+            uint my_block = get_block_of_vertex(vertex);
+            uint res = 0;
+            uint i, j;
+
+            /// Count one edge from one block + a vertex in another block connected to that one.
+            for (i = 0; i < children.Length; ++i)
+            {
+                if (is_connected_blocks(i, my_block))
+                {
+                    res += children[i].get_edges_count();
+                }
+            }
+
+            /// One vertex from 3 connected blocks.
+            for (i = 0; i < children.Length; ++i)
+            {
+                for (j = i + 1; j < children.Length; ++j)
+                {
+                    if (!is_connected_blocks(i, j))
+                        continue;
+                    if (is_connected_blocks(j, my_block) && (is_connected_blocks(my_block, i)))
+                    {
+                        res += children[i].get_vertexes_count() * children[j].get_vertexes_count();
+                    }
+                }
+            }
+
+            /// Count circles in subblock of this vertex.
+            res += children[my_block].get_3_circles_count_with_vertex(get_index_in_subtree(vertex));
 
             return res;
         }
@@ -482,6 +558,42 @@ namespace Model.NonRegularHierarchicModel.Realization
                     break;
             }
             return i;
+        }
+
+        /// <summary>
+        /// Calculates clustering coefficient of graph.
+        /// </summary>
+        /// <returns></returns>
+        public SortedDictionary<double, int> GetClusteringCoefficient()
+        {
+            SortedDictionary<double, int> retArray = new SortedDictionary<double, int>();
+
+            for (uint i = 0; i < vertexes_count; i++)
+            {
+                double dresult = clusteringCoefficientOfVertex(i);
+                dresult = dresult * 10000;
+                int iResult = Convert.ToInt32(dresult);
+                double result = (double)iResult / 10000;
+                if (retArray.Keys.Contains(result))
+                    retArray[result] += 1;
+                else
+                    retArray.Add(result, 1);
+            }
+
+            return retArray;
+        }
+
+        private double clusteringCoefficientOfVertex(uint v)
+        {
+            uint adj = get_adjacent_vertexes_count(v);
+
+            /// Check if there are at least 2 vertexes. If not, return 0.
+            if (adj < 2)
+            {
+                return 0;
+            }
+            uint cyrcles = get_3_circles_count_with_vertex(v);
+            return (cyrcles + 0.0) / (adj * (adj - 1.0) / 2);
         }
 
         // Some magic number to set infinite distance between blocks.

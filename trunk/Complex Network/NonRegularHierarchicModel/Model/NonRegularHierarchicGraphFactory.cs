@@ -22,6 +22,21 @@ namespace Model.NonRegularHierarchicModel
         {
 
         }
+        /// <summary>
+        /// Created Graphmodel instance form file. 
+        /// </summary>
+        /*public override void CreateInstanceFromFile()
+        {
+            throw new NotImplementedException();
+        }*/
+
+        /// <summary>
+        /// Created random Graphmodel instance. 
+        /// </summary>
+        /*public override void CreateRandomInstance()
+        {
+            //mModel = new HierarchicModel(GenerationParamValues, AnalizeOptions, 0);
+        }*/
 
         public override AbstractGraphModel CreateGraphModel(int sequenceNumber)
         {

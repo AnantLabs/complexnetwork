@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using RandomGraph.Common.Model;
 using CommonLibrary.Model;
-using Model.NonRegularHierarchicModel.Realization;
+using NonRegularHierarchicModel.Model.Realization;
 
 namespace Model.NonRegularHierarchicModel.Realization
 {
@@ -72,11 +72,7 @@ namespace Model.NonRegularHierarchicModel.Realization
         /// <returns></returns>
         public override SortedDictionary<double, int> GetClusteringCoefficient()
         {
-            double result = (double)(graph.get_3_circles_count() * 3) / graph.get_2_length_chains_count();
-
-            // TODO return upper result when fixed.
-            SortedDictionary<double, int> result_bad = new SortedDictionary<double, int>();
-            return result_bad;
+            return graph.GetClusteringCoefficient();
         }
 
         //Calculate Eigen values of graph.
