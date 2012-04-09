@@ -85,10 +85,6 @@ namespace Model.NonRegularHierarchicModel
 
                 InvokeProgressEvent(GraphProgress.Generating, 8);
 
-                Int16 a = (Int16)GenerationParamValues[GenerationParam.BranchIndex];
-                Int16 b = (Int16)GenerationParamValues[GenerationParam.Level];
-                Double doooooooo = (Double)GenerationParamValues[GenerationParam.Mu];
-
                 graph.generate_with((Int16)GenerationParamValues[GenerationParam.BranchIndex],
                                                         (Int16)GenerationParamValues[GenerationParam.Level],
                                                         (Double)GenerationParamValues[GenerationParam.Mu]);
@@ -98,7 +94,6 @@ namespace Model.NonRegularHierarchicModel
                 InvokeProgressEvent(GraphProgress.GenerationDone, 8);
 
             }
-
             catch (Exception ex)
             {
                 InvokeFailureProgressEvent(GraphProgress.GenerationFailed, ex.Message);
@@ -181,11 +176,6 @@ namespace Model.NonRegularHierarchicModel
                 }
                 if ((AnalizeOptions & AnalyseOptions.EigenValue) == AnalyseOptions.EigenValue)
                 {
-                    // InvokeProgressEvent(GraphProgress.Analizing, 90, "EigenValue");
-                    // Algorithms.EigenValue ev = new EigenValue();
-                    // bool[,] m = GetMatrix();
-                    //Result.EigenVector = ev.EV(m);
-                    //Result.DistancesBetweenEigenValues = ev.CalcEigenValuesDist();
                 }
                 //Place analizing logic here
                 //Invoke ModelProgress event if possible to show current

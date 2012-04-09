@@ -29,9 +29,9 @@ namespace Model.NonRegularHierarchicModel.Realization
             /// Iterate over all the vertexes and count degrees.
             uint v;
             int degree;
-            for (v = 0; v < graph.get_vertexes_count(); ++v)
+            for (v = 0; v < graph.VertexCount; ++v)
             {
-                degree = (int)(graph.get_degree(v));
+                degree = (int)(graph.GetDegree(v));
                 if (!result.ContainsKey(degree))
                 {
                     result.Add(degree, 1);
@@ -76,6 +76,7 @@ namespace Model.NonRegularHierarchicModel.Realization
         }
 
         //Calculate Eigen values of graph.
+        // Not implemented
         public override ArrayList GetEigenValue()
         {
             ArrayList result = new ArrayList();
@@ -85,8 +86,7 @@ namespace Model.NonRegularHierarchicModel.Realization
         //Calculate count of cycles in 3 lenght of graph.
         public override double GetCycles3()
         {
-            double result = (double)(graph.get_3_circles_count());
-            return result;
+            return (double)(graph.Get3CirclesCount());
         }
 
         //Calculate diameter of graph.
@@ -106,6 +106,7 @@ namespace Model.NonRegularHierarchicModel.Realization
         }
 
         //Calculate distribution of connected subgraph of graph.
+        // Not implemented
         public override SortedDictionary<int, int> GetConnSubGraph()
         {
             SortedDictionary<int, int> result = new SortedDictionary<int, int>();
@@ -118,8 +119,7 @@ namespace Model.NonRegularHierarchicModel.Realization
         /// <returns></returns>
         public override double GetCycleEigen3()
         {
-            double result = -1.0;
-            return result;
+            return -1.0;
         }
 
         /// <summary>
@@ -128,8 +128,7 @@ namespace Model.NonRegularHierarchicModel.Realization
         /// <returns></returns>
         public override double GetCycles4()
         {
-            double result = graph.get_4_circles_count();
-            return result;
+            return graph.Get4CirclesCount();
         }
 
         /// <summary>
@@ -138,13 +137,13 @@ namespace Model.NonRegularHierarchicModel.Realization
         /// <returns></returns>
         public override double GetCycleEigen4()
         {
-            double result = 0;
-            return result;
+            return 0;
         }
 
         /// <summary>
         /// Calculate motive of graph.
         /// </summary>
+        // Not implemented
         public override void GetMotif()
         {
         }
@@ -152,14 +151,14 @@ namespace Model.NonRegularHierarchicModel.Realization
         //Calculate distribution of minimum paths of graph.
         public override SortedDictionary<int, int> GetMinPathDist()
         {
-            SortedDictionary<int, int> result = graph.get_min_path_distribution();
-            return result;
+            return graph.GetMinPathDistribution();
         }
 
         /// <summary>
         /// Calculate distribution of eigen value of graph. WILL NEVER BE IMPLEMENTED.
         /// </summary>
         /// <returns></returns>
+        // Not implemented
         public override SortedDictionary<double, int> GetDistEigenPath()
         {
             SortedDictionary<double, int> result = new SortedDictionary<double, int>();
@@ -170,6 +169,7 @@ namespace Model.NonRegularHierarchicModel.Realization
         /// Calculate distribution of connected subgraph of graph.  WILL NEVER BE IMPLEMENTED.
         /// </summary>
         /// <returns></returns>
+        // Not implemented
         public override SortedDictionary<int, int> GetFullSubGraph()
         {
             SortedDictionary<int, int> result = new SortedDictionary<int, int>();

@@ -9,13 +9,41 @@ namespace NonRegularHierarchicModel.Model.Realization
 {
     public class NonRegularHierarchicGraph
     {
+        // Some magic number to set infinite distance between blocks.
+        private const uint INFINITE_DISTANCE = 1000000000;
+
+        // Distances between blocks.
+        private uint[,] blockDists;
+
+        // Number of vertices in current graph.
+        private uint vertexCount;
+
+        // Children blocks stored here.
+        private NonRegularHierarchicGraph[] children;
+
+        // Tree connectivity data. Information about connectivity of subblocks of this graph.
+        public BitArray data;
+
+        /// KM TODO change to RGNCRYPTO.
+        //RNGCrypto rnd2 = new RNGCrypto();
+        Random rnd2 = new Random();
+
+        // Minimum paths distribution here. Stored to return without counting again if called many times.
+        SortedDictionary<int, int> minPathDistribution;
+
+        // Number of chains of length 2
+        uint chainsLength2;
+
+        // Magic value for not yet counted values.
+        uint NOT_COUNTED_YET_VALUE = uint.MaxValue;
+
         /// <summary>
         /// Constructor.
         /// </summary>
         public NonRegularHierarchicGraph()
         {
-            vertexes_count = 0;
-            m_chains_length_2 = NOT_COUNTED_YET_VALUE;
+            vertexCount = 0;
+            chainsLength2 = NOT_COUNTED_YET_VALUE;
         }
 
         /// <summary>
@@ -27,12 +55,12 @@ namespace NonRegularHierarchicModel.Model.Realization
         public void generate_with(Int16 p, Int16 max_level, Double Mu)
         {
             // Delete this old value if any.
-            m_min_path_distribution = null;
+            minPathDistribution = null;
 
             /// If this is to be a leave, just return.
             if (0 == max_level)
             {
-                vertexes_count = 1;
+                vertexCount = 1;
                 return;
             }
 
@@ -44,7 +72,7 @@ namespace NonRegularHierarchicModel.Model.Realization
 
                 /// generate further tree of graph.
                 children[i].generate_with(p, (Int16)(max_level - 1), Mu);
-                vertexes_count += children[i].get_vertexes_count();
+                vertexCount += children[i].VertexCount;
             }
 
             int length = (children.Length - 1) * children.Length / 2;
@@ -62,40 +90,12 @@ namespace NonRegularHierarchicModel.Model.Realization
                 }
             }
 
-            count_blocks_dists();
+            CountBlocksDists();
         }
 
-        /// <summary>
-        /// Counts distances between subblocks of this graph.
-        /// </summary>
-        private void count_blocks_dists()
+        public uint VertexCount
         {
-            block_dists = new uint[children.Length, children.Length];
-            uint i, j, k;
-            for (i = 0; i < children.Length; ++i)
-                for (j = 0; j < children.Length; ++j)
-                {
-                    if (is_connected_blocks(i, j))
-                        block_dists[i, j] = 1;
-                    else
-                        block_dists[i, j] = INFINITE_DISTANCE;
-                }
-
-            for (i = 0; i < children.Length; ++i)
-                block_dists[i, i] = 0;
-
-            for (k = 0; k < children.Length; ++k)
-                for (i = 0; i < children.Length; ++i)
-                    for (j = 0; j < children.Length; ++j)
-                    {
-                        if (is_connected_blocks(i, k) && is_connected_blocks(k, j) && (block_dists[i, j] > block_dists[i, k] + block_dists[k, j]))
-                            block_dists[i, j] = block_dists[i, k] + block_dists[k, j];
-                    }
-        }
-
-        public uint get_vertexes_count()
-        {
-            return vertexes_count;
+            get { return vertexCount; }
         }
 
         /// <summary>
@@ -103,27 +103,27 @@ namespace NonRegularHierarchicModel.Model.Realization
         /// </summary>
         /// <param name="vertex"> Number of vertex</param>
         /// <returns> Degree of given vertex</returns>
-        public uint get_degree(uint vertex)
+        public uint GetDegree(uint vertex)
         {
             /// If this tree is a leave, return 0.
-            if (1 == vertexes_count)
+            if (1 == vertexCount)
             {
                 return 0;
             }
 
             uint degree = 0;
-            if (vertex >= vertexes_count)
+            if (vertex >= vertexCount)
                 throw new Exception("Vertex number more than maximal number of vertexes in get_degree");
-            uint block_num = get_block_of_vertex(vertex);
+            uint block_num = GetBlockOfVertex(vertex);
             uint i;
             for (i = 0; i < children.Length; ++i)
             {
-                if (is_connected_blocks(block_num, i))
+                if (IsConnectedBlocks(block_num, i))
                 {
-                    degree += children[i].get_vertexes_count();
+                    degree += children[i].VertexCount;
                 }
             }
-            degree += children[block_num].get_degree(get_index_in_subtree(vertex));
+            degree += children[block_num].GetDegree(GetIndexInSubtree(vertex));
             return degree;
         }
 
@@ -131,9 +131,9 @@ namespace NonRegularHierarchicModel.Model.Realization
         /// Counts number of edges in the graph.
         /// </summary>
         /// <returns>Number of edges in the graph</returns>
-        public uint get_edges_count()
+        public uint GetEdgesCount()
         {
-            if (1 == vertexes_count)
+            if (1 == vertexCount)
                 return 0;
             uint i, j;
             uint edges_count = 0;
@@ -143,12 +143,12 @@ namespace NonRegularHierarchicModel.Model.Realization
             {
                 for (j = i + 1; j < children.Length; ++j)
                 {
-                    if (is_connected_blocks(i, j))
+                    if (IsConnectedBlocks(i, j))
                     {
-                        edges_count += children[i].get_vertexes_count() * children[j].get_vertexes_count();
+                        edges_count += children[i].VertexCount * children[j].VertexCount;
                     }
                 }
-                edges_count += children[i].get_edges_count();
+                edges_count += children[i].GetEdgesCount();
             }
             return edges_count;
         }
@@ -158,27 +158,27 @@ namespace NonRegularHierarchicModel.Model.Realization
         /// </summary>
         /// <param name="vertex"> Number of vertex to which adjusents to be found</param>
         /// <returns>Number of edges in the graph</returns>
-        public uint get_adjacent_vertexes_count(uint vertex)
+        public uint GetAdjacentVertexCount(uint vertex)
         {
-            if (1 == vertexes_count)
+            if (1 == vertexCount)
                 return 0;
             uint i;
             uint edges_count = 0;
 
             /// Number of block which contains given vertex.
-            uint my_block = get_block_of_vertex(vertex);
+            uint my_block = GetBlockOfVertex(vertex);
 
             // Take into account connections between blocks.
             for (i = 0; i < children.Length; ++i)
             {
-                if (is_connected_blocks(i, my_block))
+                if (IsConnectedBlocks(i, my_block))
                 {
-                    edges_count += children[i].get_vertexes_count();
+                    edges_count += children[i].VertexCount;
                 }
             }
 
             // Get this number from my subblock containing this vertex.
-            edges_count += children[my_block].get_adjacent_vertexes_count(get_index_in_subtree(vertex));
+            edges_count += children[my_block].GetAdjacentVertexCount(GetIndexInSubtree(vertex));
             return edges_count;
         }
 
@@ -186,9 +186,9 @@ namespace NonRegularHierarchicModel.Model.Realization
         /// Counts number of circles of length 3 in this graph.
         /// </summary>
         /// <returns>number of circles of length 3</returns>
-        public uint get_3_circles_count()
+        public uint Get3CirclesCount()
         {
-            if (1 == vertexes_count)
+            if (1 == vertexCount)
                 return 0;
             uint res = 0;
             uint i, j, k;
@@ -198,8 +198,8 @@ namespace NonRegularHierarchicModel.Model.Realization
             {
                 for (j = 0; j < children.Length; ++j)
                 {
-                    if (is_connected_blocks(i, j))
-                        res += children[i].get_edges_count() * children[j].get_vertexes_count();
+                    if (IsConnectedBlocks(i, j))
+                        res += children[i].GetEdgesCount() * children[j].VertexCount;
                 }
             }
 
@@ -208,13 +208,13 @@ namespace NonRegularHierarchicModel.Model.Realization
             {
                 for (j = i + 1; j < children.Length; ++j)
                 {
-                    if (!is_connected_blocks(i, j))
+                    if (!IsConnectedBlocks(i, j))
                         continue;
                     for (k = j + 1; k < children.Length; ++k)
                     {
-                        if (is_connected_blocks(j, k) && (is_connected_blocks(k, i)))
+                        if (IsConnectedBlocks(j, k) && (IsConnectedBlocks(k, i)))
                         {
-                            res += children[i].get_vertexes_count() * children[j].get_vertexes_count() * children[k].get_vertexes_count();
+                            res += children[i].VertexCount * children[j].VertexCount * children[k].VertexCount;
                         }
                     }
                 }
@@ -223,7 +223,7 @@ namespace NonRegularHierarchicModel.Model.Realization
             /// Count circles in subblocks.
             for (i = 0; i < children.Length; ++i)
             {
-                res += children[i].get_3_circles_count();
+                res += children[i].Get3CirclesCount();
             }
 
             return res;
@@ -235,24 +235,24 @@ namespace NonRegularHierarchicModel.Model.Realization
         /// </summary>
         /// <param name="vertex"> Number of vertex.</param>
         /// <returns>number of circles of length 3 in this graph which contain given vertex</returns>
-        public uint get_3_circles_count_with_vertex(uint vertex)
+        public uint Get3CirclesCountWithVertex(uint vertex)
         {
-            if (1 == vertexes_count)
+            if (1 == vertexCount)
             {
                 return 0;
             }
 
             /// Number of block which contains given vertex.
-            uint my_block = get_block_of_vertex(vertex);
+            uint my_block = GetBlockOfVertex(vertex);
             uint res = 0;
             uint i, j;
 
             /// Count one edge from one block + a vertex in another block connected to that one.
             for (i = 0; i < children.Length; ++i)
             {
-                if (is_connected_blocks(i, my_block))
+                if (IsConnectedBlocks(i, my_block))
                 {
-                    res += children[i].get_edges_count();
+                    res += children[i].GetEdgesCount();
                 }
             }
 
@@ -261,17 +261,17 @@ namespace NonRegularHierarchicModel.Model.Realization
             {
                 for (j = i + 1; j < children.Length; ++j)
                 {
-                    if (!is_connected_blocks(i, j))
+                    if (!IsConnectedBlocks(i, j))
                         continue;
-                    if (is_connected_blocks(j, my_block) && (is_connected_blocks(my_block, i)))
+                    if (IsConnectedBlocks(j, my_block) && (IsConnectedBlocks(my_block, i)))
                     {
-                        res += children[i].get_vertexes_count() * children[j].get_vertexes_count();
+                        res += children[i].VertexCount * children[j].VertexCount;
                     }
                 }
             }
 
             /// Count circles in subblock of this vertex.
-            res += children[my_block].get_3_circles_count_with_vertex(get_index_in_subtree(vertex));
+            res += children[my_block].Get3CirclesCountWithVertex(GetIndexInSubtree(vertex));
 
             return res;
         }
@@ -280,15 +280,15 @@ namespace NonRegularHierarchicModel.Model.Realization
         /// Counts number of chains of length 2 in graph. NOTE: For a triangle there are 3 chains of length 2.
         /// </summary>
         /// <returns>Number of chains of length 2</returns>
-        public uint get_2_length_chains_count()
+        public uint Get2LengthChainsCount()
         {
-            if (1 == vertexes_count)
+            if (1 == vertexCount)
                 return 0;
             // Check answer memorization.
-            if (m_chains_length_2 != NOT_COUNTED_YET_VALUE)
-                return m_chains_length_2;
+            if (chainsLength2 != NOT_COUNTED_YET_VALUE)
+                return chainsLength2;
 
-            m_chains_length_2 = 0;
+            chainsLength2 = 0;
             uint i, j, k;
 
             /// One vertex from 3 connected blocks.
@@ -296,13 +296,13 @@ namespace NonRegularHierarchicModel.Model.Realization
             {
                 for (j = i + 1; j < children.Length; ++j)
                 {
-                    if (!is_connected_blocks(i, j))
+                    if (!IsConnectedBlocks(i, j))
                         continue;
                     for (k = j + 1; k < children.Length; ++k)
                     {
-                        if (is_connected_blocks(j, k) && (is_connected_blocks(k, i)))
+                        if (IsConnectedBlocks(j, k) && (IsConnectedBlocks(k, i)))
                         {
-                            m_chains_length_2 += children[i].get_vertexes_count() * children[j].get_vertexes_count() * children[k].get_vertexes_count() * 3;
+                            chainsLength2 += children[i].VertexCount * children[j].VertexCount * children[k].VertexCount * 3;
                         }
                     }
                 }
@@ -313,13 +313,13 @@ namespace NonRegularHierarchicModel.Model.Realization
             {
                 for (j = 0; j < children.Length; ++j)
                 {
-                    if (is_connected_blocks(i, j))
+                    if (IsConnectedBlocks(i, j))
                     {
                         // Chains with an edge in one side.
-                        m_chains_length_2 += children[i].get_edges_count() * children[j].get_vertexes_count() * 2;
+                        chainsLength2 += children[i].GetEdgesCount() * children[j].VertexCount * 2;
 
                         // Chains with 2 vertexes in one side, and one in another side.
-                        m_chains_length_2 += ((children[i].get_edges_count() - 1) * children[i].get_edges_count() / 2) * children[j].get_vertexes_count();
+                        chainsLength2 += ((children[i].GetEdgesCount() - 1) * children[i].GetEdgesCount() / 2) * children[j].VertexCount;
                     }
                 }
             }
@@ -327,18 +327,18 @@ namespace NonRegularHierarchicModel.Model.Realization
             /// Count circles in subblocks.
             for (i = 0; i < children.Length; ++i)
             {
-                m_chains_length_2 += children[i].get_2_length_chains_count();
+                chainsLength2 += children[i].Get2LengthChainsCount();
             }
-            return m_chains_length_2;
+            return chainsLength2;
         }
 
         /// <summary>
         /// Counts number of circles of length 4 in this graph.
         /// </summary>
         /// <returns>number of circles of length 4</returns>
-        public uint get_4_circles_count()
+        public uint Get4CirclesCount()
         {
-            if (1 == vertexes_count)
+            if (1 == vertexCount)
                 return 0;
             uint res = 0;
             uint i1, i2, i3, i4;
@@ -348,17 +348,17 @@ namespace NonRegularHierarchicModel.Model.Realization
             {
                 for (i2 = i1 + 1; i2 < children.Length; ++i2)
                 {
-                    if (!is_connected_blocks(i1, i2))
+                    if (!IsConnectedBlocks(i1, i2))
                         continue;
                     for (i3 = i2 + 1; i3 < children.Length; ++i3)
                     {
-                        if (!is_connected_blocks(i2, i3))
+                        if (!IsConnectedBlocks(i2, i3))
                             continue;
                         for (i4 = i3 + 1; i4 < children.Length; ++i4)
                         {
-                            if (is_connected_blocks(i3, i4) && (is_connected_blocks(i4, i1)))
+                            if (IsConnectedBlocks(i3, i4) && (IsConnectedBlocks(i4, i1)))
                             {
-                                res += children[i1].get_vertexes_count() * children[i2].get_vertexes_count() * children[i3].get_vertexes_count() * children[i4].get_vertexes_count() * 3;
+                                res += children[i1].VertexCount * children[i2].VertexCount * children[i3].VertexCount * children[i4].VertexCount * 3;
                             }
                         }
                     }
@@ -370,15 +370,15 @@ namespace NonRegularHierarchicModel.Model.Realization
             {
                 for (i2 = i1 + 1; i2 < children.Length; ++i2)
                 {
-                    if (!is_connected_blocks(i1, i2))
+                    if (!IsConnectedBlocks(i1, i2))
                         continue;
                     for (i3 = i2 + 1; i3 < children.Length; ++i3)
                     {
-                        if (!is_connected_blocks(i2, i3) || !is_connected_blocks(i3, i1))
+                        if (!IsConnectedBlocks(i2, i3) || !IsConnectedBlocks(i3, i1))
                             continue;
-                        res += (children[i1].get_vertexes_count() * children[i2].get_vertexes_count() * children[i3].get_edges_count() +
-                            children[i3].get_vertexes_count() * children[i2].get_vertexes_count() * children[i1].get_edges_count() +
-                            children[i1].get_vertexes_count() * children[i3].get_vertexes_count() * children[i2].get_edges_count()) * 2;
+                        res += (children[i1].VertexCount * children[i2].VertexCount * children[i3].GetEdgesCount() +
+                            children[i3].VertexCount * children[i2].VertexCount * children[i1].GetEdgesCount() +
+                            children[i1].VertexCount * children[i3].VertexCount * children[i2].GetEdgesCount()) * 2;
                     }
                 }
             }
@@ -388,15 +388,16 @@ namespace NonRegularHierarchicModel.Model.Realization
             {
                 for (i2 = 0; i2 < children.Length; ++i2)
                 {
-                    if (is_connected_blocks(i1, i2))
-                        res += children[i1].get_edges_count() * children[i2].get_edges_count() + children[i1].get_2_length_chains_count() * children[i2].get_vertexes_count();
+                    if (IsConnectedBlocks(i1, i2))
+                        res += children[i1].GetEdgesCount() * children[i2].GetEdgesCount() + 
+                            children[i1].Get2LengthChainsCount() * children[i2].VertexCount;
                 }
             }
 
             /// Count circles in subblocks.
             for (i1 = 0; i1 < children.Length; ++i1)
             {
-                res += children[i1].get_4_circles_count();
+                res += children[i1].Get4CirclesCount();
             }
 
             return res;
@@ -406,18 +407,18 @@ namespace NonRegularHierarchicModel.Model.Realization
         /// Counts average path.
         /// </summary>
         /// <returns> A pair of numbers. Key is the average path length. Value is the number of paths, on which average has been counted.</returns>
-        public SortedDictionary<int, int> get_min_path_distribution()
+        public SortedDictionary<int, int> GetMinPathDistribution()
         {
             /// Check if we have this value allready.
-            if (null != m_min_path_distribution)
+            if (null != minPathDistribution)
             {
-                return m_min_path_distribution;
+                return minPathDistribution;
             }
 
-            m_min_path_distribution = new SortedDictionary<int, int>();
+            minPathDistribution = new SortedDictionary<int, int>();
 
             /// If this tree is a leave, return 0.
-            if (1 == vertexes_count)
+            if (1 == vertexCount)
             {
                 return new SortedDictionary<int, int>();
             }
@@ -430,19 +431,19 @@ namespace NonRegularHierarchicModel.Model.Realization
             {
                 for (j = i + 1; j < children.Length; ++j)
                 {
-                    if (INFINITE_DISTANCE != block_dists[i, j])
+                    if (INFINITE_DISTANCE != blockDists[i, j])
                     {
-                        int new_average = (int)(block_dists[i, j]);
-                        int new_power_average = (int)(children[i].get_vertexes_count() * children[j].get_vertexes_count());
+                        int new_average = (int)(blockDists[i, j]);
+                        int new_power_average = (int)(children[i].VertexCount * children[j].VertexCount);
 
-                        add_values(m_min_path_distribution, new_average, new_power_average);
+                        AddValues(minPathDistribution, new_average, new_power_average);
                     }
                 }
 
                 has_connection = false;
                 for (j = 1; j < children.Length; ++j)
                 {
-                    if (is_connected_blocks(i, j))
+                    if (IsConnectedBlocks(i, j))
                     {
                         has_connection = true;
                         break;
@@ -454,28 +455,81 @@ namespace NonRegularHierarchicModel.Model.Realization
                 {
                     /// Counted immediate edges in [i]-th subgraph.
                     int new_average = 1;
-                    int new_power_average = (int)children[i].get_edges_count();
+                    int new_power_average = (int)children[i].GetEdgesCount();
 
-                    add_values(m_min_path_distribution, new_average, new_power_average);
+                    AddValues(minPathDistribution, new_average, new_power_average);
 
                     /// Count connections passing through another block connection.
                     new_average = 2;
-                    new_power_average = (int)((children[i].get_vertexes_count() * (children[i].get_vertexes_count() - 1) / 2) - children[i].get_edges_count());
+                    new_power_average = (int)((children[i].VertexCount * (children[i].VertexCount - 1) / 2) - children[i].GetEdgesCount());
 
-                    add_values(m_min_path_distribution, new_average, new_power_average);
+                    AddValues(minPathDistribution, new_average, new_power_average);
                 }
                 else
                 {
                     /// Get distribution from child and add it to result.
-                    SortedDictionary<int, int> sub_distribution = children[i].get_min_path_distribution();
+                    SortedDictionary<int, int> sub_distribution = children[i].GetMinPathDistribution();
                     foreach (KeyValuePair<int, int> k in sub_distribution)
                     {
-                        add_values(m_min_path_distribution, k.Key, k.Value);
+                        AddValues(minPathDistribution, k.Key, k.Value);
                     }
                 }
             }
 
-            return m_min_path_distribution;
+            return minPathDistribution;
+        }
+
+        /// <summary>
+        /// Calculates clustering coefficient of graph.
+        /// </summary>
+        /// <returns></returns>
+        public SortedDictionary<double, int> GetClusteringCoefficient()
+        {
+            SortedDictionary<double, int> retArray = new SortedDictionary<double, int>();
+
+            for (uint i = 0; i < vertexCount; i++)
+            {
+                double dresult = ClusteringCoefficientOfVertex(i);
+                dresult = dresult * 10000;
+                int iResult = Convert.ToInt32(dresult);
+                double result = (double)iResult / 10000;
+                if (retArray.Keys.Contains(result))
+                    retArray[result] += 1;
+                else
+                    retArray.Add(result, 1);
+            }
+
+            return retArray;
+        }
+
+        // Utilities
+
+        /// <summary>
+        /// Counts distances between subblocks of this graph.
+        /// </summary>
+        private void CountBlocksDists()
+        {
+            blockDists = new uint[children.Length, children.Length];
+            uint i, j, k;
+            for (i = 0; i < children.Length; ++i)
+                for (j = 0; j < children.Length; ++j)
+                {
+                    if (IsConnectedBlocks(i, j))
+                        blockDists[i, j] = 1;
+                    else
+                        blockDists[i, j] = INFINITE_DISTANCE;
+                }
+
+            for (i = 0; i < children.Length; ++i)
+                blockDists[i, i] = 0;
+
+            for (k = 0; k < children.Length; ++k)
+                for (i = 0; i < children.Length; ++i)
+                    for (j = 0; j < children.Length; ++j)
+                    {
+                        if (IsConnectedBlocks(i, k) && IsConnectedBlocks(k, j) && (blockDists[i, j] > blockDists[i, k] + blockDists[k, j]))
+                            blockDists[i, j] = blockDists[i, k] + blockDists[k, j];
+                    }
         }
 
         /// <summary>
@@ -484,7 +538,7 @@ namespace NonRegularHierarchicModel.Model.Realization
         /// <param name="ret">Dictionary in which to add</param>
         /// <param name="key">Key</param>
         /// <param name="value_to_add">Value to be added</param>
-        private void add_values(SortedDictionary<int, int> ret, int key, int value_to_add)
+        private void AddValues(SortedDictionary<int, int> ret, int key, int value_to_add)
         {
             // Check not to create empty, not needed values in the list.
             if (0 == value_to_add)
@@ -502,7 +556,7 @@ namespace NonRegularHierarchicModel.Model.Realization
         /// <param name="block1_num">Number of 1st block</param>
         /// <param name="block2_num">Number of 2nd block</param>
         /// <returns>True, if given 2 blocks are connected.</returns>
-        private bool is_connected_blocks(uint block1_num, uint block2_num)
+        private bool IsConnectedBlocks(uint block1_num, uint block2_num)
         {
             if (block1_num == block2_num)
             {
@@ -511,7 +565,7 @@ namespace NonRegularHierarchicModel.Model.Realization
             // vertex1 must have min number
             if (block1_num > block2_num)
             {
-                return is_connected_blocks(block2_num, block1_num);
+                return IsConnectedBlocks(block2_num, block1_num);
             }
 
             // Get the index of two vertexes adjacent value
@@ -529,13 +583,13 @@ namespace NonRegularHierarchicModel.Model.Realization
         /// </summary>
         /// <param name="vertex">Number of vertex in this tree.</param>
         /// <returns>Number of vertex in subtree.</returns>
-        private uint get_index_in_subtree(uint vertex)
+        private uint GetIndexInSubtree(uint vertex)
         {
             uint i;
             for (i = 0; i < children.Length; ++i)
             {
-                if (vertex >= children[i].get_vertexes_count())
-                    vertex -= children[i].get_vertexes_count();
+                if (vertex >= children[i].VertexCount)
+                    vertex -= children[i].VertexCount;
                 else
                     break;
             }
@@ -547,81 +601,30 @@ namespace NonRegularHierarchicModel.Model.Realization
         /// </summary>
         /// <param name="vertex">Number of vertex</param>
         /// <returns>Number of subtree/block in which it is</returns>
-        private uint get_block_of_vertex(uint vertex)
+        private uint GetBlockOfVertex(uint vertex)
         {
             uint i;
             for (i = 0; i < children.Length; ++i)
             {
-                if (vertex >= children[i].get_vertexes_count())
-                    vertex -= children[i].get_vertexes_count();
+                if (vertex >= children[i].VertexCount)
+                    vertex -= children[i].VertexCount;
                 else
                     break;
             }
             return i;
         }
 
-        /// <summary>
-        /// Calculates clustering coefficient of graph.
-        /// </summary>
-        /// <returns></returns>
-        public SortedDictionary<double, int> GetClusteringCoefficient()
+        private double ClusteringCoefficientOfVertex(uint v)
         {
-            SortedDictionary<double, int> retArray = new SortedDictionary<double, int>();
-
-            for (uint i = 0; i < vertexes_count; i++)
-            {
-                double dresult = clusteringCoefficientOfVertex(i);
-                dresult = dresult * 10000;
-                int iResult = Convert.ToInt32(dresult);
-                double result = (double)iResult / 10000;
-                if (retArray.Keys.Contains(result))
-                    retArray[result] += 1;
-                else
-                    retArray.Add(result, 1);
-            }
-
-            return retArray;
-        }
-
-        private double clusteringCoefficientOfVertex(uint v)
-        {
-            uint adj = get_adjacent_vertexes_count(v);
+            uint adj = GetAdjacentVertexCount(v);
 
             /// Check if there are at least 2 vertexes. If not, return 0.
             if (adj < 2)
             {
                 return 0;
             }
-            uint cyrcles = get_3_circles_count_with_vertex(v);
+            uint cyrcles = Get3CirclesCountWithVertex(v);
             return (cyrcles + 0.0) / (adj * (adj - 1.0) / 2);
         }
-
-        // Some magic number to set infinite distance between blocks.
-        private const uint INFINITE_DISTANCE = 1000000000;
-
-        // Distances between blocks.
-        private uint[,] block_dists;
-
-        // Number of vertexes in current graph.
-        private uint vertexes_count;
-
-        // Children blocks stored here.
-        private NonRegularHierarchicGraph[] children;
-
-        // Tree connectivity data. Information about connectivity of subblocks of this graph.
-        public BitArray data;
-
-        /// KM TODO change to RGNCRYPTO.
-        //RNGCrypto rnd2 = new RNGCrypto();
-        Random rnd2 = new Random();
-
-        // Minimum paths distribution here. Stored to return without counting again if called many times.
-        SortedDictionary<int, int> m_min_path_distribution;
-
-        // Number of chains of length 2
-        uint m_chains_length_2;
-
-        // Magic value for not yet counted values.
-        uint NOT_COUNTED_YET_VALUE = uint.MaxValue;
     }
 }
