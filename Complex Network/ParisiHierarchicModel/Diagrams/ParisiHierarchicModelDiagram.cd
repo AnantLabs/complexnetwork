@@ -1,36 +1,52 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Model.ParisiHierarchicModel.ParisiHierarchicGraphFactory">
-    <Position X="0.5" Y="3.75" Width="3" />
+    <Position X="0.5" Y="3" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAEEAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\ParisiHierarchicGraphFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Model.ParisiHierarchicModel.ParisiHierarchicModel">
-    <Position X="7.75" Y="0.5" Width="2.5" />
+    <Position X="7" Y="0.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAACBAAACAAAAAAkAAAGAAAAAAAgAAAAAIAgAAIAAA=</HashCode>
       <FileName>Model\ParisiHierarchicModel.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="generator" />
+      <Field Name="tree" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Model.ParisiHierarchicModel.Realization.ParisiHierarchicGenerator">
-    <Position X="11" Y="4.25" Width="2" />
+    <Position X="10.75" Y="4.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAgAAAAAA=</HashCode>
       <FileName>Model\Realization\ParisiHierarchicGenerator.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="HierarchicModel.Model.Realization.HierarchicGraphGenerator">
-    <Position X="11" Y="0.5" Width="2" />
-    <TypeIdentifier />
-  </Class>
   <Class Name="RandomGraph.Common.Model.AbstractGraphFactory">
-    <Position X="0.5" Y="0.5" Width="3" />
+    <Position X="0.5" Y="0.5" Width="2.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="RandomGraph.Common.Model.AbstractGraphModel">
-    <Position X="4.5" Y="0.5" Width="2.5" />
+    <Position X="3.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Model.HierarchicModel.Realization.HierarchicGraphGenerator">
+    <Position X="10.75" Y="0.5" Width="2" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Field Name="treeMatrix" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Model.HierarchicModel.Realization.HierarchicGraph">
+    <Position X="7" Y="4.25" Width="2.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="System.Collections.BitArray" Collapsed="true">
+    <Position X="13.75" Y="0.5" Width="1.5" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
