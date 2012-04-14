@@ -1,5 +1,1 @@
-C:\Users\User\Desktop\Complex Network\RandomGraphLauncher\bin\Debug\Models\BAModel.dll
-C:\Users\User\Desktop\Complex Network\RandomGraphLauncher\bin\Debug\Models\BAModel.pdb
-C:\Users\User\Desktop\Complex Network\BAModel\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\User\Desktop\Complex Network\BAModel\obj\Debug\BAModel.dll
-C:\Users\User\Desktop\Complex Network\BAModel\obj\Debug\BAModel.pdb
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\BAModel.dll

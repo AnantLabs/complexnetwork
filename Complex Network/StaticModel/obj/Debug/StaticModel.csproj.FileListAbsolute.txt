@@ -1,5 +1,1 @@
-C:\Users\User\Desktop\Complex Network\RandomGraphLauncher\bin\Debug\Models\StaticModel.dll
-C:\Users\User\Desktop\Complex Network\RandomGraphLauncher\bin\Debug\Models\StaticModel.pdb
-C:\Users\User\Desktop\Complex Network\StaticModel\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\User\Desktop\Complex Network\StaticModel\obj\Debug\StaticModel.dll
-C:\Users\User\Desktop\Complex Network\StaticModel\obj\Debug\StaticModel.pdb
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\StaticModel.dll

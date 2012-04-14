@@ -279,5 +279,11 @@ namespace RandomGraphLauncher
             ConfigurationManager.RefreshSection("appSettings");
         }
 
+        private void testerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TesterForm tester = new TesterForm();
+            tester.Show();
+        }
+
     }
 }

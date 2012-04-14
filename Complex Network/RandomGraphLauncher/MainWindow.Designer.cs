@@ -44,6 +44,7 @@ namespace RandomGraphLauncher
             this.dataExportIMportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userControl11 = new MyControlLibrary.TabCtlEx();
+            this.testerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -119,7 +120,8 @@ namespace RandomGraphLauncher
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statisticAnalyzerToolStripMenuItem,
-            this.dataExportIMportToolStripMenuItem});
+            this.dataExportIMportToolStripMenuItem,
+            this.testerToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -159,6 +161,13 @@ namespace RandomGraphLauncher
             this.userControl11.TabStop = false;
             this.userControl11.OnClose += new MyControlLibrary.TabCtlEx.OnHeaderCloseDelegate(this.userControl11_OnClose);
             // 
+            // testerToolStripMenuItem
+            // 
+            this.testerToolStripMenuItem.Name = "testerToolStripMenuItem";
+            this.testerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.testerToolStripMenuItem.Text = "Tester";
+            this.testerToolStripMenuItem.Click += new System.EventHandler(this.testerToolStripMenuItem_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -197,6 +206,7 @@ namespace RandomGraphLauncher
         private ToolStripMenuItem dataExportIMportToolStripMenuItem;
         private ToolStripMenuItem distributedToolStripMenuItem;
         private ToolStripMenuItem trainingModeToolStripMenuItem;
+        private ToolStripMenuItem testerToolStripMenuItem;
 
     }
 }

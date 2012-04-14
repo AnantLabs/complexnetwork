@@ -144,6 +144,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\ViewController.cs" />
+    <Compile Include="TesterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TesterForm.Designer.cs">
+      <DependentUpon>TesterForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="CalculationControl.resx">
       <DependentUpon>CalculationControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -169,6 +175,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TesterForm.resx">
+      <DependentUpon>TesterForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="App.config" />
     <None Include="Diagrams\ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
@@ -227,9 +236,21 @@
       <Project>{1EF8E8A9-7B5B-4B64-BA93-54861F3F9926}</Project>
       <Name>AnalyzerFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BAModel\BAModel.csproj">
+      <Project>{FA9574B3-FA11-4A33-8496-D6738146BA0A}</Project>
+      <Name>BAModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommonLibrary\CommonLibrary.csproj">
       <Project>{9095E370-9B63-4FF8-B97C-6E3F93265D89}</Project>
       <Name>CommonLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ERmodel\ERmodel.csproj">
+      <Project>{2C7885A1-5E9D-4CF3-A797-125AA0B62919}</Project>
+      <Name>ERmodel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GenericAlgorithms\GenericAlgorithms.csproj">
+      <Project>{98632726-4F62-4777-9231-2A97610DD653}</Project>
+      <Name>GenericAlgorithms</Name>
     </ProjectReference>
     <ProjectReference Include="..\ResultStorage\ResultStorage.csproj">
       <Project>{6FA3FD94-7C49-4232-810E-BCFB026C8608}</Project>
@@ -239,9 +260,17 @@
       <Project>{5BA843EE-8960-4255-8FB0-62B71260F793}</Project>
       <Name>SettingsConfiguration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\StaticModel\StaticModel.csproj">
+      <Project>{48BB3A60-F508-45F7-9A92-37E218867C55}</Project>
+      <Name>StaticModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StatisticAnalyzer\StatisticAnalyzer.csproj">
       <Project>{71B1E21C-71A1-4A06-BEB7-B88FC93AAFCC}</Project>
       <Name>StatisticAnalyzer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WSModel\WSModel.csproj">
+      <Project>{8F726BFA-8644-43BE-9E13-49E2E3FF04B2}</Project>
+      <Name>WSModel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

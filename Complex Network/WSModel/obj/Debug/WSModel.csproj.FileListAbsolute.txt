@@ -1,5 +1,1 @@
-C:\Users\User\Desktop\Complex Network\RandomGraphLauncher\bin\Debug\Models\WSModel.dll
-C:\Users\User\Desktop\Complex Network\RandomGraphLauncher\bin\Debug\Models\WSModel.pdb
-C:\Users\User\Desktop\Complex Network\WSModel\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\User\Desktop\Complex Network\WSModel\obj\Debug\WSModel.dll
-C:\Users\User\Desktop\Complex Network\WSModel\obj\Debug\WSModel.pdb
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\WSModel.dll

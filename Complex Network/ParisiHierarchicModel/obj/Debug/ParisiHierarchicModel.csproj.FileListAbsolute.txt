@@ -1,5 +1,1 @@
-C:\Users\User\Desktop\Complex Network\RandomGraphLauncher\bin\Debug\Models\ParisiHierarchicModel.dll
-C:\Users\User\Desktop\Complex Network\RandomGraphLauncher\bin\Debug\Models\ParisiHierarchicModel.pdb
-C:\Users\User\Desktop\Complex Network\ParisiHierarchicModel\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\User\Desktop\Complex Network\ParisiHierarchicModel\obj\Debug\ParisiHierarchicModel.dll
-C:\Users\User\Desktop\Complex Network\ParisiHierarchicModel\obj\Debug\ParisiHierarchicModel.pdb
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\ParisiHierarchicModel.dll
