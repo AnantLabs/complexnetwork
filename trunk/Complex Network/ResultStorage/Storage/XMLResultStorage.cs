@@ -289,6 +289,105 @@ namespace ResultStorage.Storage
             return resultAssembly;
         }
 
+        public ResultAssembly LoadXML(String assemblyID)
+        {
+            ResultAssembly resultAssembly = new ResultAssembly();
+            //resultAssembly.ID = assemblyID;
+
+            List<AnalizeResult> results = new List<AnalizeResult>();
+            resultAssembly.Results = results;
+            AnalizeResult result = null;
+            XmlDocument xml = new XmlDocument();
+
+            xml.Load(assemblyID);
+            resultAssembly.Name = xml.SelectSingleNode("/assembly/name").InnerText;
+            resultAssembly.ModelType = GetModelType(int.Parse(xml.SelectSingleNode("/assembly/graphmodel").Attributes["id"].Value));
+
+            foreach (XmlNode paramNode in xml.SelectNodes("/assembly/generationparams/generationparam"))
+            {
+                GenerationParam param = (GenerationParam)Enum.ToObject(typeof(GenerationParam), int.Parse(paramNode.Attributes["id"].Value));
+
+                GenerationParamInfo paramInfo = (GenerationParamInfo)(param.GetType().GetField(param.ToString()).GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);
+                if (paramInfo.Type.Equals(typeof(Double)))
+                {
+                    resultAssembly.GenerationParams.Add(param, Convert.ToDouble(paramNode.Attributes["value"].Value, CultureInfo.InvariantCulture));
+                }
+                else if (paramInfo.Type.Equals(typeof(Int16)))
+                {
+                    resultAssembly.GenerationParams.Add(param, Convert.ToInt16(paramNode.Attributes["value"].Value));
+                }
+                else if (paramInfo.Type.Equals(typeof(Int32)))
+                {
+                    resultAssembly.GenerationParams.Add(param, Convert.ToInt32(paramNode.Attributes["value"].Value));
+                }
+                else if (paramInfo.Type.Equals(typeof(bool)))
+                {
+                    resultAssembly.GenerationParams.Add(param, Convert.ToBoolean(paramNode.Attributes["value"].Value));
+                }
+            }
+            int degree, count, sub, distance;
+            double coefficient;
+            foreach (XmlNode paramNode in xml.SelectNodes("/assembly/analyseresults/instance"))
+            {
+                result = new AnalizeResult();
+                results.Add(result);
+
+                string base64Motif = paramNode.SelectNodes("motif")[0].InnerText;
+                if (!String.IsNullOrEmpty(base64Motif))
+                {
+                    //result.MotifCount = (SubgruphCount)BinaryDeserialization(Convert.FromBase64String(base64Motif));
+                }
+                foreach (XmlNode item in paramNode.SelectNodes("result/item"))
+                {
+                    AnalyseOptions option = (AnalyseOptions)Enum.Parse(typeof(AnalyseOptions), item.Attributes["option"].Value, true);
+                    result.Result.Add(option, double.Parse(item.InnerText));
+                }
+                foreach (XmlNode item in paramNode.SelectNodes("vertexdegree/vd"))
+                {
+                    degree = int.Parse(item.Attributes["degree"].Value);
+                    count = int.Parse(item.Attributes["count"].Value);
+                    result.VertexDegree.Add(degree, count);
+                }
+                foreach (XmlNode item in paramNode.SelectNodes("coefficients/coeff"))
+                {
+                    coefficient = double.Parse(item.Attributes["coefficient"].Value);
+                    count = int.Parse(item.Attributes["count"].Value);
+                    result.Coefficient.Add(coefficient, count);
+                }
+                /////////////////////////////////////////////////////////////////////////////
+                foreach (XmlNode item in paramNode.SelectNodes("eigenvalues/ev"))
+                {
+                    coefficient = double.Parse(item.Attributes["eigenValue"].Value);
+                    result.EigenVector.Add(coefficient);
+                }
+                foreach (XmlNode item in paramNode.SelectNodes("eigenvaluesdistance/ev"))
+                {
+                    coefficient = double.Parse(item.Attributes["distance"].Value);
+                    count = int.Parse(item.Attributes["count"].Value);
+                    result.DistancesBetweenEigenValues.Add(coefficient, count);
+                }
+                foreach (XmlNode item in paramNode.SelectNodes("vertexdistance/vd"))
+                {
+                    distance = int.Parse(item.Attributes["distance"].Value);
+                    count = int.Parse(item.Attributes["count"].Value);
+                    result.DistanceBetweenVertices.Add(distance, count);
+                }
+                /////////////////////////////////////////////////////////////////////////////
+                foreach (XmlNode item in paramNode.SelectNodes("subgraphs/sub"))
+                {
+                    sub = int.Parse(item.Attributes["vx"].Value);
+                    count = int.Parse(item.Attributes["count"].Value);
+                    result.Subgraphs.Add(sub, count);
+                }
+                XmlNodeList XmlBits = paramNode.SelectNodes("parisiarray/par");
+                BitArray bits = new BitArray(XmlBits.Count);
+                for (int i = 0; i < XmlBits.Count; i++)
+                {
+                    bits[i] = bool.Parse(XmlBits[i].Attributes["bit"].Value);
+                }
+            }
+            return resultAssembly;
+        }
         public override List<ResultAssembly> LoadAllAssemblies()
         {
             List<ResultAssembly> assemblies = new List<ResultAssembly>();

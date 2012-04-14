@@ -32,11 +32,9 @@ namespace Model.WSModel.Realization
             m_generator = new WSGenerator(prob, size);
         }
 
-        public WSGraph(int size, int param, double prob, ArrayList martix)
+        public WSGraph(ArrayList martix)
         {
-
             m_container = new WSContainer(martix);
-            m_generator = new WSGenerator(prob, size);
         }
 
         public void Generate()

@@ -29,10 +29,8 @@ namespace Model.BAModel.Realization
             m_container = new BAContainer(m_size);
         }
 
-        public BAGraph(int size, int numberOfEdges, ArrayList matrix)
+        public BAGraph(ArrayList matrix)
         {
-            m_size = size;
-            m_numberOfEdges = numberOfEdges;
             m_container = new BAContainer(matrix);
         }
 
