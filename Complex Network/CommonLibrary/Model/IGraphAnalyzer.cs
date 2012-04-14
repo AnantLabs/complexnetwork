@@ -51,6 +51,8 @@ namespace CommonLibrary.Model
         
         //Calculate distribution of connected subgraph of graph.
         SortedDictionary<int, int> GetFullSubGraph();
+
+        //
     }
 
 }
