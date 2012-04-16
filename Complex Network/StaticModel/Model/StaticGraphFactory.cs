@@ -16,8 +16,8 @@ namespace Model.StaticModel
     {
         public StaticGraphFactory() { }
 
-        public StaticGraphFactory(Dictionary<GenerationParam, object> genParam, AnalyseOptions analizeOptions)
-            : base(genParam, analizeOptions)
+        public StaticGraphFactory(Dictionary<GenerationParam, object> genParam, AnalyseOptions analizeOptions, Dictionary<String, Object> analizeOptionsValues)
+            : base(genParam, analizeOptions,analizeOptionsValues)
         {
 
         }

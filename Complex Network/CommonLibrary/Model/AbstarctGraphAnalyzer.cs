@@ -81,5 +81,17 @@ namespace CommonLibrary.Model
         {
             return new SortedDictionary<int, int>();
         }
+
+        //Calculate distribution of cycles of graph.
+        public virtual SortedDictionary<int, int> GetCycles(int lowBound, int hightBound)
+        {
+            return new SortedDictionary<int, int>();
+        }
+
+        //Calculate distribution of motives subgraph of graph.
+        public virtual SortedDictionary<int, int> GetMotivs(int lowBound, int hightBound)
+        {
+            return new SortedDictionary<int, int>();
+        }
     }
 }

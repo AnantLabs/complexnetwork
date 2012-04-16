@@ -11,6 +11,7 @@ using System.Runtime.Serialization;
 using AnalyzerFramework.Manager.ModelRepo;
 using CommonLibrary.Model.Events;
 using CommonLibrary.Model.Util;
+using System.Collections;
 
 namespace RandomGraph.Common.Model
 {
@@ -108,6 +109,11 @@ namespace RandomGraph.Common.Model
         /// during analyze process
         /// </summary>
         public AnalyseOptions AnalizeOptions { get; set; }
+
+        /// <summary>
+        /// Values of AnalyseOptions
+        /// </summary>
+        public  Dictionary<String, Object> AnalizeOptionsValues { get; set; }
 
         public string ModelName { get; set; }
 

@@ -11,7 +11,7 @@ using CommonLibrary.Model;
 
 namespace Model.BAModel.Realization
 {
-    public class BAAnalyzer : IGraphAnalyzer
+    public class BAAnalyzer : AbstarctGraphAnalyzer
     {
         // Type definitions //
         private class Node

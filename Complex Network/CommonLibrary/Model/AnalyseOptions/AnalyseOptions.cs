@@ -51,7 +51,7 @@ namespace RandomGraph.Common.Model
         CycleEigen4 = 0x200,
 
         [AnalyzeOptionInfo("Motifs", "Calculate the count of motifs ")]
-        Motif = 0x400,
+        Motifs = 0x400,
 
         [AnalyzeOptionInfo("Distance between Vertices", "Minpath distribution", LXAxis = "Distance", LYAxis = "Distribution")]
         MinPathDist = 0x800,
@@ -76,7 +76,7 @@ namespace RandomGraph.Common.Model
         [AnalyzeOptionInfo("Maximal Eigen value", "Maximal eigen value", GXAxis = "Instances", GYAxis = "Count")]
         MaxEigenValue = 0x20000,
 
-        [AnalyzeOptionInfo("Cycles", "Propability of k-degree cycle existance", LXAxis = "Order", LYAxis = "Distribution")]
-        Cycles = 0x40000
+        [AnalyzeOptionInfo("Cycles", "Cycles of any degree", LXAxis = "Order", LYAxis = "Distribution")]
+        Cycles = 0x40000,
     }
 }

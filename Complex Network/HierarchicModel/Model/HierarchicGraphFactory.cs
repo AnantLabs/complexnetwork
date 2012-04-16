@@ -20,8 +20,8 @@ namespace Model.HierarchicModel
 
         public HierarchicGraphFactory() { }
 
-        public HierarchicGraphFactory(Dictionary<GenerationParam, object> genParam, AnalyseOptions analizeOptions)
-            : base(genParam, analizeOptions)
+        public HierarchicGraphFactory(Dictionary<GenerationParam, object> genParam, AnalyseOptions analizeOptions, Dictionary<String, Object> analizeOptionsValues)
+            : base(genParam, analizeOptions,analizeOptionsValues)
         {
 
         }

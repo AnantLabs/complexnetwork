@@ -16,14 +16,16 @@ namespace Model.BAModel
     {
         public BAGraphFactory() { }
 
-        public BAGraphFactory(Dictionary<GenerationParam, object> genParam, AnalyseOptions analizeOptions)
-            : base(genParam, analizeOptions)
+        public BAGraphFactory(Dictionary<GenerationParam, object> genParam, AnalyseOptions analizeOptions, Dictionary<String, Object> analizeOptionsValues)
+            : base(genParam, analizeOptions, analizeOptionsValues)
         {
 
         }
         public override AbstractGraphModel CreateGraphModel(int sequenceNumber)
         {
-                return new BAModel(GenerationParamValues, AnalizeOptions, sequenceNumber);
+                BAModel model = new BAModel(GenerationParamValues, AnalizeOptions, sequenceNumber);
+                model.AnalizeOptionsValues = AnalizeOptionsValues;
+                return model;
         }
     }
 }

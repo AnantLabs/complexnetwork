@@ -1,1 +1,5 @@
 C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\ParisiHierarchicModel.dll
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\ParisiHierarchicModel.pdb
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\ParisiHierarchicModel\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\ParisiHierarchicModel\obj\Debug\ParisiHierarchicModel.dll
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\ParisiHierarchicModel\obj\Debug\ParisiHierarchicModel.pdb

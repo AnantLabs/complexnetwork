@@ -42,6 +42,12 @@
             this.groupBox_Gen_params = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox_Options = new System.Windows.Forms.GroupBox();
+            this.cycles = new System.Windows.Forms.Label();
+            this.motives = new System.Windows.Forms.Label();
+            this.cyclesHi = new System.Windows.Forms.ComboBox();
+            this.cyclesLow = new System.Windows.Forms.ComboBox();
+            this.motiveHi = new System.Windows.Forms.ComboBox();
+            this.motiveLow = new System.Windows.Forms.ComboBox();
             this.checkedListBox_Options = new System.Windows.Forms.CheckedListBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.numericUpDown_Instances_Count = new System.Windows.Forms.NumericUpDown();
@@ -109,8 +115,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Panel2MinSize = 100;
-            this.splitContainer1.Size = new System.Drawing.Size(769, 408);
-            this.splitContainer1.SplitterDistance = 220;
+            this.splitContainer1.Size = new System.Drawing.Size(820, 476);
+            this.splitContainer1.SplitterDistance = 293;
             this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -121,7 +127,7 @@
             this.groupBox4.Controls.Add(this.model_Name);
             this.groupBox4.Location = new System.Drawing.Point(3, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(209, 212);
+            this.groupBox4.Size = new System.Drawing.Size(209, 285);
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Info";
@@ -163,7 +169,7 @@
             this.groupBox_Gen_params.Controls.Add(this.label2);
             this.groupBox_Gen_params.Location = new System.Drawing.Point(218, 3);
             this.groupBox_Gen_params.Name = "groupBox_Gen_params";
-            this.groupBox_Gen_params.Size = new System.Drawing.Size(336, 212);
+            this.groupBox_Gen_params.Size = new System.Drawing.Size(387, 285);
             this.groupBox_Gen_params.TabIndex = 5;
             this.groupBox_Gen_params.TabStop = false;
             this.groupBox_Gen_params.Text = "Generation parameters";
@@ -179,13 +185,117 @@
             // groupBox_Options
             // 
             this.groupBox_Options.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox_Options.Controls.Add(this.cycles);
+            this.groupBox_Options.Controls.Add(this.motives);
+            this.groupBox_Options.Controls.Add(this.cyclesHi);
+            this.groupBox_Options.Controls.Add(this.cyclesLow);
+            this.groupBox_Options.Controls.Add(this.motiveHi);
+            this.groupBox_Options.Controls.Add(this.motiveLow);
             this.groupBox_Options.Controls.Add(this.checkedListBox_Options);
-            this.groupBox_Options.Location = new System.Drawing.Point(560, 3);
+            this.groupBox_Options.Location = new System.Drawing.Point(611, 3);
             this.groupBox_Options.Name = "groupBox_Options";
-            this.groupBox_Options.Size = new System.Drawing.Size(204, 212);
+            this.groupBox_Options.Size = new System.Drawing.Size(204, 285);
             this.groupBox_Options.TabIndex = 4;
             this.groupBox_Options.TabStop = false;
             this.groupBox_Options.Text = "Analize options";
+            // 
+            // cycles
+            // 
+            this.cycles.AutoSize = true;
+            this.cycles.Location = new System.Drawing.Point(6, 204);
+            this.cycles.Name = "cycles";
+            this.cycles.Size = new System.Drawing.Size(38, 13);
+            this.cycles.TabIndex = 6;
+            this.cycles.Text = "Cycles";
+            this.cycles.Visible = false;
+            // 
+            // motives
+            // 
+            this.motives.AutoSize = true;
+            this.motives.Location = new System.Drawing.Point(6, 178);
+            this.motives.Name = "motives";
+            this.motives.Size = new System.Drawing.Size(44, 13);
+            this.motives.TabIndex = 5;
+            this.motives.Text = "Motives";
+            this.motives.Visible = false;
+            // 
+            // cyclesHi
+            // 
+            this.cyclesHi.FormatString = "N2";
+            this.cyclesHi.FormattingEnabled = true;
+            this.cyclesHi.Items.AddRange(new object[] {
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"});
+            this.cyclesHi.Location = new System.Drawing.Point(136, 201);
+            this.cyclesHi.MaxDropDownItems = 4;
+            this.cyclesHi.Name = "cyclesHi";
+            this.cyclesHi.Size = new System.Drawing.Size(51, 21);
+            this.cyclesHi.TabIndex = 4;
+            this.cyclesHi.Visible = false;
+            this.cyclesHi.SelectedIndexChanged += new System.EventHandler(this.cyclesHi_SelectedIndexChanged);
+            // 
+            // cyclesLow
+            // 
+            this.cyclesLow.FormatString = "N2";
+            this.cyclesLow.FormattingEnabled = true;
+            this.cyclesLow.Items.AddRange(new object[] {
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"});
+            this.cyclesLow.Location = new System.Drawing.Point(66, 201);
+            this.cyclesLow.MaxDropDownItems = 4;
+            this.cyclesLow.Name = "cyclesLow";
+            this.cyclesLow.Size = new System.Drawing.Size(49, 21);
+            this.cyclesLow.TabIndex = 3;
+            this.cyclesLow.Visible = false;
+            this.cyclesLow.SelectedIndexChanged += new System.EventHandler(this.cyclesLow_SelectedIndexChanged);
+            // 
+            // motiveHi
+            // 
+            this.motiveHi.FormatString = "N2";
+            this.motiveHi.FormattingEnabled = true;
+            this.motiveHi.Items.AddRange(new object[] {
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"});
+            this.motiveHi.Location = new System.Drawing.Point(136, 175);
+            this.motiveHi.MaxDropDownItems = 4;
+            this.motiveHi.Name = "motiveHi";
+            this.motiveHi.Size = new System.Drawing.Size(51, 21);
+            this.motiveHi.TabIndex = 2;
+            this.motiveHi.Visible = false;
+            this.motiveHi.SelectedIndexChanged += new System.EventHandler(this.motiveHi_SelectedIndexChanged);
+            // 
+            // motiveLow
+            // 
+            this.motiveLow.DisplayMember = "1";
+            this.motiveLow.FormatString = "N2";
+            this.motiveLow.FormattingEnabled = true;
+            this.motiveLow.Items.AddRange(new object[] {
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"});
+            this.motiveLow.Location = new System.Drawing.Point(66, 175);
+            this.motiveLow.MaxDropDownItems = 4;
+            this.motiveLow.Name = "motiveLow";
+            this.motiveLow.Size = new System.Drawing.Size(49, 21);
+            this.motiveLow.TabIndex = 1;
+            this.motiveLow.ValueMember = "1";
+            this.motiveLow.Visible = false;
+            this.motiveLow.SelectedIndexChanged += new System.EventHandler(this.motiveLow_SelectedIndexChanged);
             // 
             // checkedListBox_Options
             // 
@@ -194,10 +304,11 @@
             this.checkedListBox_Options.FormattingEnabled = true;
             this.checkedListBox_Options.Location = new System.Drawing.Point(7, 20);
             this.checkedListBox_Options.Name = "checkedListBox_Options";
-            this.checkedListBox_Options.Size = new System.Drawing.Size(191, 135);
+            this.checkedListBox_Options.Size = new System.Drawing.Size(191, 150);
             this.checkedListBox_Options.Sorted = true;
             this.checkedListBox_Options.TabIndex = 0;
             this.checkedListBox_Options.ThreeDCheckBoxes = true;
+            this.checkedListBox_Options.SelectedIndexChanged += new System.EventHandler(this.checkedListBox_Options_SelectedIndexChanged);
             // 
             // splitContainer2
             // 
@@ -222,7 +333,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.groupBox1);
             this.splitContainer2.Panel2.Controls.Add(this.axShockwaveFlash1);
-            this.splitContainer2.Size = new System.Drawing.Size(769, 182);
+            this.splitContainer2.Size = new System.Drawing.Size(820, 177);
             this.splitContainer2.SplitterDistance = 71;
             this.splitContainer2.SplitterWidth = 6;
             this.splitContainer2.TabIndex = 19;
@@ -320,7 +431,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(767, 103);
+            this.groupBox1.Size = new System.Drawing.Size(818, 98);
             this.groupBox1.TabIndex = 17;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Current progress";
@@ -330,9 +441,9 @@
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 75);
+            this.toolStrip1.Location = new System.Drawing.Point(3, 70);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(761, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(812, 25);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -358,12 +469,12 @@
             this.Host,
             this.stopColumn,
             this.manageColumn});
-            this.dataGridView1.Location = new System.Drawing.Point(3, 16);
+            this.dataGridView1.Location = new System.Drawing.Point(4, 19);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowTemplate.Height = 35;
-            this.dataGridView1.Size = new System.Drawing.Size(761, 56);
+            this.dataGridView1.Size = new System.Drawing.Size(812, 51);
             this.dataGridView1.TabIndex = 4;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableCellClick);
             // 
@@ -439,7 +550,7 @@
             this.axShockwaveFlash1.Location = new System.Drawing.Point(0, 0);
             this.axShockwaveFlash1.Name = "axShockwaveFlash1";
             this.axShockwaveFlash1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axShockwaveFlash1.OcxState")));
-            this.axShockwaveFlash1.Size = new System.Drawing.Size(767, 103);
+            this.axShockwaveFlash1.Size = new System.Drawing.Size(818, 98);
             this.axShockwaveFlash1.TabIndex = 18;
             // 
             // backgroundStartWorker
@@ -492,7 +603,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.Name = "CalculationControl";
-            this.Size = new System.Drawing.Size(769, 408);
+            this.Size = new System.Drawing.Size(820, 476);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -502,6 +613,7 @@
             this.groupBox_Gen_params.ResumeLayout(false);
             this.groupBox_Gen_params.PerformLayout();
             this.groupBox_Options.ResumeLayout(false);
+            this.groupBox_Options.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
@@ -556,5 +668,11 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cyclesHi;
+        private System.Windows.Forms.ComboBox cyclesLow;
+        private System.Windows.Forms.ComboBox motiveHi;
+        private System.Windows.Forms.ComboBox motiveLow;
+        private System.Windows.Forms.Label cycles;
+        private System.Windows.Forms.Label motives;
     }
 }

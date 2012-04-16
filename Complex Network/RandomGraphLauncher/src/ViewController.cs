@@ -40,7 +40,7 @@ namespace RandomGraphLauncher.src
         public AnalyseOptions availableOptions { get; set; }
         public List<RequiredGenerationParam> reqGenParams { get; set; }
         public Dictionary<GenerationParam, object> genParams { get; set; }
-
+        public Dictionary<String, Object> AnalizeOptionsValues = new Dictionary<string, object>();
         private ExternalInterfaceProxy proxy { get; set; }
         private AbstractGraphManager manager { get; set; }
         private Type factoryType { get; set; }
@@ -99,7 +99,7 @@ namespace RandomGraphLauncher.src
 
         public void StartGraphModel(object[] invokeParams)
         {
-            Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), typeof(AnalyseOptions) };
+            Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), typeof(AnalyseOptions), typeof(Dictionary<String, Object>) };
             AbstractGraphFactory graphFactory = (AbstractGraphFactory)this.factoryType.GetConstructor(constructTypes).Invoke(invokeParams);
             this.manager.Start(graphFactory, this.instances, this.jobName);
         }
