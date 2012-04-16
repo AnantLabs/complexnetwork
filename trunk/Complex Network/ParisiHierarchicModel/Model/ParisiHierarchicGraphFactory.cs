@@ -16,8 +16,8 @@ namespace Model.ParisiHierarchicModel
     {
         public ParisiHierarchicGraphFactory() { }
 
-        public ParisiHierarchicGraphFactory(Dictionary<GenerationParam, object> genParam, AnalyseOptions analizeOptions)
-            : base(genParam, analizeOptions)
+        public ParisiHierarchicGraphFactory(Dictionary<GenerationParam, object> genParam, AnalyseOptions analizeOptions, Dictionary<String, Object> analizeOptionsValues)
+            : base(genParam, analizeOptions, analizeOptionsValues)
         {
         }
         public override AbstractGraphModel CreateGraphModel(int sequenceNumber)

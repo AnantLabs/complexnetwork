@@ -52,6 +52,11 @@ namespace CommonLibrary.Model
         //Calculate distribution of connected subgraph of graph.
         SortedDictionary<int, int> GetFullSubGraph();
 
+        //Calculate distribution of cycles of graph.
+        SortedDictionary<int, int> GetCycles(int lowBound, int hightBound);
+
+        //Calculate distribution of motives subgraph of graph.
+        SortedDictionary<int, int> GetMotivs(int lowBound, int hightBound);
         //
     }
 

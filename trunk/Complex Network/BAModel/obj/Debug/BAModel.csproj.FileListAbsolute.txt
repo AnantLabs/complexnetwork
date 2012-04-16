@@ -1,1 +1,5 @@
 C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\BAModel.dll
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\BAModel.pdb
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\BAModel\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\BAModel\obj\Debug\BAModel.dll
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\BAModel\obj\Debug\BAModel.pdb

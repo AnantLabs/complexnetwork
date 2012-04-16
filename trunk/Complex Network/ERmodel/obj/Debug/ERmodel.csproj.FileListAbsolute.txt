@@ -1,1 +1,5 @@
 C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\ERmodel.dll
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\ERmodel.pdb
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\ERmodel\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\ERmodel\obj\Debug\ERmodel.dll
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\ERmodel\obj\Debug\ERmodel.pdb

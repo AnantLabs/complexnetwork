@@ -24,10 +24,11 @@ namespace RandomGraph.Common.Model
         /// <param name="genParam">Generation params, that should be than passed to models</param>
         /// <param name="analizeOptions">Analyze options selected by user, again should
         /// be passed to model</param>
-        public AbstractGraphFactory(Dictionary<GenerationParam, object> genParam, AnalyseOptions analizeOptions)
+        public AbstractGraphFactory(Dictionary<GenerationParam, object> genParam, AnalyseOptions analizeOptions, Dictionary<String, Object> analizeOptionsValues)
         {
             GenerationParamValues = genParam;
             AnalizeOptions = analizeOptions;
+            AnalizeOptionsValues = analizeOptionsValues;
         }
 
         /// <summary>
@@ -41,6 +42,12 @@ namespace RandomGraph.Common.Model
         /// to constructor
         /// </summary>
         public AnalyseOptions AnalizeOptions { get; set; }
+
+        /// <summary>
+        /// Values of AnalyseOptions
+        /// </summary>
+        public Dictionary<String, Object> AnalizeOptionsValues { get; set; }
+
         /// <summary>
         /// Abstract method that should create instances of Graph
         /// models and returns them to caller.

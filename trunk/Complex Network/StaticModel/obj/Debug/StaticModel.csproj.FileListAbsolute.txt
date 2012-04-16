@@ -1,1 +1,5 @@
 C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\StaticModel.dll
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\StaticModel.pdb
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\StaticModel\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\StaticModel\obj\Debug\StaticModel.dll
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\StaticModel\obj\Debug\StaticModel.pdb

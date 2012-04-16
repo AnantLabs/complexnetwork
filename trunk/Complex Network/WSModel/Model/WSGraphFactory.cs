@@ -16,8 +16,8 @@ namespace Model.WSModel
     {
         public WSGraphFactory() { }
 
-        public WSGraphFactory(Dictionary<GenerationParam, object> genParam, AnalyseOptions analizeOptions)
-            : base(genParam, analizeOptions)
+        public WSGraphFactory(Dictionary<GenerationParam, object> genParam, AnalyseOptions analizeOptions, Dictionary<String, Object> analizeOptionsValues)
+            : base(genParam, analizeOptions, analizeOptionsValues)
         {
 
         }

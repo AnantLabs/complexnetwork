@@ -5,3 +5,10 @@ C:\Users\User\Desktop\Complex Network\GenericAlgorithms\bin\Debug\MathNet.Iridiu
 C:\Users\User\Desktop\Complex Network\GenericAlgorithms\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\User\Desktop\Complex Network\GenericAlgorithms\obj\Debug\GenericAlgorithms.dll
 C:\Users\User\Desktop\Complex Network\GenericAlgorithms\obj\Debug\GenericAlgorithms.pdb
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\GenericAlgorithms\bin\Debug\GenericAlgorithms.dll
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\GenericAlgorithms\bin\Debug\GenericAlgorithms.pdb
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\GenericAlgorithms\bin\Debug\log4net.dll
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\GenericAlgorithms\bin\Debug\MathNet.Iridium.dll
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\GenericAlgorithms\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\GenericAlgorithms\obj\Debug\GenericAlgorithms.dll
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\GenericAlgorithms\obj\Debug\GenericAlgorithms.pdb

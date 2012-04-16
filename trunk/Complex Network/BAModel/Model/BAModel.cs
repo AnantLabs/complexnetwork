@@ -25,6 +25,8 @@ namespace Model.BAModel
      AnalyseOptions.MinPathDist |
      AnalyseOptions.DistEigenPath |
      AnalyseOptions.EigenValue |
+     AnalyseOptions.Cycles |
+     AnalyseOptions.Motifs |
      AnalyseOptions.MaxFullSubgraph)]
     [RequiredGenerationParam(GenerationParam.Vertices, 2)]
     [RequiredGenerationParam(GenerationParam.MaxEdges, 3)]
@@ -122,53 +124,40 @@ namespace Model.BAModel
                 {
                     BAModelGraph.m_analyzer.CountAnalyzeOptions();
                     
-                    InvokeProgressEvent(GraphProgress.Analizing, 39, "Average path distrubution");
                     if ((AnalizeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
                     {
-
+                        InvokeProgressEvent(GraphProgress.Analizing, 25, "Average path distrubution");
                         Result.Result[AnalyseOptions.AveragePath] = BAModelGraph.m_analyzer.GetAveragePath();
-
-
                     }
                     //Get diameter
 
                     if ((AnalizeOptions & AnalyseOptions.Diameter) == AnalyseOptions.Diameter)
                     {
-
-                        
-                        Result.Result[AnalyseOptions.Diameter] = BAModelGraph.m_analyzer.GetDiameter();
-
+                       InvokeProgressEvent(GraphProgress.Analizing, 30, "Diameter");
+                       Result.Result[AnalyseOptions.Diameter] = BAModelGraph.m_analyzer.GetDiameter();
                     }
                     // Get classtering coefficient
 
                     if ((AnalizeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
                     {
-                        InvokeProgressEvent(GraphProgress.Analizing, 53, "Classtering Coefficient");
-                    //    Result.Result[AnalyseOptions.ClusteringCoefficient] = BAModelGraph.Result.m_clusteringCoefficient;
+                        InvokeProgressEvent(GraphProgress.Analizing, 35, "Classtering Coefficient");
                         Result.Coefficient = BAModelGraph.m_analyzer.GetClusteringCoefficient();
-
                     }
                     if ((AnalizeOptions & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3)
                     {
-                       
-                        InvokeProgressEvent(GraphProgress.Analizing, 67, "Diameter");
+                        InvokeProgressEvent(GraphProgress.Analizing, 40, "Diameter");
                         Result.Result[AnalyseOptions.Cycles3] = BAModelGraph.m_analyzer.GetCycles3();
-
                     } 
                     if ((AnalizeOptions & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4)
                     {
-                       
-                        InvokeProgressEvent(GraphProgress.Analizing, 75, "Diameter");
-                      //  Result.Result[AnalyseOptions.Cycles4] = BAModelGraph.Result.m_cyclesOfOrder4;
-
+                        InvokeProgressEvent(GraphProgress.Analizing, 45, "Diameter");
                     }
                 }
 
                 if ((AnalizeOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
                 {
                     SortedDictionary<int,int> degree =  BAModelGraph.m_analyzer.GetDegreeDistribution();
-                    InvokeProgressEvent(GraphProgress.Analizing, 32, "Degree distrubution");
-                    //  double[] degress = BAModelGraph.m_analyzeOptions
+                    InvokeProgressEvent(GraphProgress.Analizing, 50, "Degree distrubution");
                     double avgDegree = 0;
                         	foreach (KeyValuePair<int, int> pair in degree)
                     {
@@ -180,7 +169,7 @@ namespace Model.BAModel
                 }
                 if ((AnalizeOptions & AnalyseOptions.EigenValue) == AnalyseOptions.EigenValue)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 90, "Calculating EigenValue");
+                    InvokeProgressEvent(GraphProgress.Analizing, 55, "Calculating EigenValue");
                   //  BAModelGraph.Analyze(AnalizeOptions & AnalyseOptions.EigenValue);
                  //   Result.EigenVector = BAModelGraph.Result.ArrayOfEigVal;
                      Algorithms.EigenValue ev = new EigenValue();
@@ -189,17 +178,6 @@ namespace Model.BAModel
                      Result.EigenVector = ev.EV(m);
                      Result.DistancesBetweenEigenValues = ev.CalcEigenValuesDist();
                 }
-                //Get average path.
-
-
-                //Get diameter
-
-
-                // Get classtering coefficient
-
-
-
-                // Get full Subgraphs array
 
                 if ((AnalizeOptions & AnalyseOptions.FullSubGraph) == AnalyseOptions.FullSubGraph)
                 {
@@ -207,10 +185,25 @@ namespace Model.BAModel
                     Result.Result[AnalyseOptions.FullSubGraph] =  BAModelGraph.m_analyzer.GetMaxFullSubgraph();
                 }
 
-                //Get cycles3
-                //Place analizing logic here
-                //Invoke ModelProgress event if possible to show current
-                //state with use of Percent and TargetItem properties
+                if ((AnalizeOptions & AnalyseOptions.Cycles) == AnalyseOptions.Cycles)
+                {
+                    int maxValue = Int32.Parse((String)AnalizeOptionsValues["cyclesHi"]);
+                    int minvalue = Int32.Parse((String)AnalizeOptionsValues["cyclesLow"]);
+                    InvokeProgressEvent(GraphProgress.Analizing, 70, "Cycles of " + minvalue + "-" + maxValue + "degree");
+                    //calculate cycles here
+                    //Result.CyclesCount = 
+                }
+
+
+                if ((AnalizeOptions & AnalyseOptions.Motifs) == AnalyseOptions.Motifs)
+                {
+                    int maxValue = Int32.Parse((String)AnalizeOptionsValues["motiveHi"]);
+                    int minvalue = Int32.Parse((String)AnalizeOptionsValues["motiveLow"]);
+                    InvokeProgressEvent(GraphProgress.Analizing, 80, "Motiv of " + minvalue + "-" + maxValue + "degree");
+                    //calculate motives here
+                    Result.MotivesCount = new SortedDictionary<int, int>(); //for test
+                    Result.MotivesCount.Add(5,10);
+                }
 
                 InvokeProgressEvent(GraphProgress.AnalizingDone, 95);
 

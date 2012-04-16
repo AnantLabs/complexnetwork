@@ -10,7 +10,7 @@ using log4net;
 
 namespace model.ERModel.Realization
 {
-    public class ERAnalyzer : IGraphAnalyzer
+    public class ERAnalyzer : AbstarctGraphAnalyzer
     {
         /// <summary>
         /// The logger static object for monitoring.

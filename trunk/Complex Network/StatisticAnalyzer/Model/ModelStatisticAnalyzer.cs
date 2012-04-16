@@ -253,7 +253,7 @@ namespace StatisticAnalyzer.Model
             m_method.SetSize();
             m_motifResults.Clear();
 
-            ByMotifOption(AnalyseOptions.Motif);
+            ByMotifOption(AnalyseOptions.Motifs);
         }
 
         public double LocalMathWaiting(AnalyseOptions p)

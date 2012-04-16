@@ -17,8 +17,8 @@ namespace Model.ERModel
     {
         public ERGraphFactory() { }
 
-        public ERGraphFactory(Dictionary<GenerationParam, object> genParam, AnalyseOptions analizeOptions)
-            : base(genParam, analizeOptions)
+        public ERGraphFactory(Dictionary<GenerationParam, object> genParam, AnalyseOptions analizeOptions, Dictionary<String, Object> analizeOptionsValues)
+            : base(genParam, analizeOptions, analizeOptionsValues)
         {
         }
         public override AbstractGraphModel CreateGraphModel(int sequenceNumber)

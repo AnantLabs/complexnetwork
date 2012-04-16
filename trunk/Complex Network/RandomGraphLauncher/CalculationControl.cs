@@ -248,6 +248,23 @@ namespace RandomGraphLauncher
                     analizeOptionBoxes.Add(optionInfo.Name, opt);
                     checkedListBox_Options.Items.Add(optionInfo.Name, true);
                 }
+                if ((opt & controller.availableOptions) == opt && opt == AnalyseOptions.Motifs)
+                {
+                    motiveHi.SelectedIndex = 0;
+                    motiveLow.SelectedIndex = 0;
+                    motiveHi.Show();
+                    motiveLow.Show();
+                    motives.Show();
+
+                }
+                if ((opt & controller.availableOptions) == opt && opt == AnalyseOptions.Cycles)
+                {
+                    cyclesHi.SelectedIndex = 0;
+                    cyclesLow.SelectedIndex = 0;
+                    cyclesHi.Show();
+                    cyclesLow.Show();
+                    cycles.Show();
+                }
             }
 
             genParamBoxes = new Dictionary<GenerationParam, Control>();
@@ -376,11 +393,19 @@ namespace RandomGraphLauncher
         private void DisableAnalyseOptins()
         {
             checkedListBox_Options.Enabled = false;
+            motiveLow.Enabled = false;
+            motiveHi.Enabled = false;
+            cyclesLow.Enabled = false;
+            cyclesHi.Enabled = false;
         }
 
         private void EnableAnalyseOptins()
         {
             checkedListBox_Options.Enabled = true;
+            motiveLow.Enabled = true;
+            motiveHi.Enabled = true;
+            cyclesLow.Enabled = true;
+            cyclesHi.Enabled = true;
         }
 
         private void DisableGenerationParamsInput()
@@ -454,9 +479,10 @@ namespace RandomGraphLauncher
 
         private void StartWork(object sender, DoWorkEventArgs e)
         {
+
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
             Tuple<Dictionary<GenerationParam, object>, AnalyseOptions> args = (Tuple<Dictionary<GenerationParam, object>, AnalyseOptions>)e.Argument;
-            object[] invokeParams = new object[] { args.Item1, args.Item2 };
+            object[] invokeParams = new object[] { args.Item1, args.Item2, controller.AnalizeOptionsValues};
             controller.StartGraphModel(invokeParams);
        }
 
@@ -594,6 +620,34 @@ namespace RandomGraphLauncher
             {
                 controller.Stop();
             }*/
+        }
+
+        private void motiveLow_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            controller.AnalizeOptionsValues["motiveLow"] = motiveLow.SelectedItem;
+        }
+
+        private void motiveHi_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            controller.AnalizeOptionsValues["motiveHi"] = motiveHi.SelectedItem;
+        }
+
+        private void cyclesLow_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            controller.AnalizeOptionsValues["cyclesLow"] = cyclesLow.SelectedItem;
+        }
+
+        private void cyclesHi_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            controller.AnalizeOptionsValues["cyclesHi"] = cyclesHi.SelectedItem;
+        }
+
+        private void checkedListBox_Options_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (((CheckedListBox)sender).Text == "Motives")
+            {
+               // if (((CheckedListBox)sender).)
+            }
         }
     }
 }

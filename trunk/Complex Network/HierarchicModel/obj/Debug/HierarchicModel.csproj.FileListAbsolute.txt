@@ -1,1 +1,5 @@
 C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\HierarchicModel.dll
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\HierarchicModel.pdb
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\HierarchicModel\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\HierarchicModel\obj\Debug\HierarchicModel.dll
+C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\HierarchicModel\obj\Debug\HierarchicModel.pdb
