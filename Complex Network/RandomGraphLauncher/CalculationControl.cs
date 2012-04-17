@@ -41,7 +41,7 @@ namespace RandomGraphLauncher
         private Dictionary<string, AnalyseOptions> analizeOptionBoxes;
         private Dictionary<GenerationParam, Control> genParamBoxes;
 
-        public CalculationControl(Type arg_modelFactoryType, Type arg_modelType, string jobName, AbstractGraphManager manager, bool isDistributed, bool isTrainingMode)
+        public CalculationControl(Type arg_modelFactoryType, Type arg_modelType, string jobName, AbstractGraphManager manager, bool isDistributed, bool isTrainingMode, bool isTraceingMode)
         {
             log.Info("Started constructing UI");
             controller.Init(arg_modelFactoryType, arg_modelType, jobName, manager, isDistributed, isTrainingMode);
@@ -69,7 +69,7 @@ namespace RandomGraphLauncher
                     dataGridView1.Columns[4].Visible = true;
                 }
             }
-            
+            controller.isTraceingMode = isTraceingMode;
         }
 
         private void DisapleControlButtons()

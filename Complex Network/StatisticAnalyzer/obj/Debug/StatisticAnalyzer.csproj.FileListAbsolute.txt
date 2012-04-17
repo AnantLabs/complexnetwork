@@ -3,8 +3,3 @@ C:\Users\User\Desktop\Complex Network\RandomGraphLauncher\bin\Debug\StatisticAna
 C:\Users\User\Desktop\Complex Network\StatisticAnalyzer\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\User\Desktop\Complex Network\StatisticAnalyzer\obj\Debug\StatisticAnalyzer.dll
 C:\Users\User\Desktop\Complex Network\StatisticAnalyzer\obj\Debug\StatisticAnalyzer.pdb
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\StatisticAnalyzer.dll
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\StatisticAnalyzer.pdb
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\StatisticAnalyzer\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\StatisticAnalyzer\obj\Debug\StatisticAnalyzer.dll
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\StatisticAnalyzer\obj\Debug\StatisticAnalyzer.pdb

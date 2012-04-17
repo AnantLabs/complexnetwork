@@ -98,6 +98,10 @@ namespace AnalyzerFramework.Manager.Impl
                 {
                     Models[index].StartGenerate();
                 }
+                if (isTraceingMode)
+                {
+                    Models[index].StartTrace();
+                }
                 if (isTrainingMode)
                 {
                     Models[index].UpdateGeneratedMatrix();

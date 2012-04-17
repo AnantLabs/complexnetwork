@@ -27,7 +27,9 @@ namespace Model.HierarchicModel
         }
         public override AbstractGraphModel CreateGraphModel(int sequenceNumber)
         {
-            return new HierarchicModel(GenerationParamValues, AnalizeOptions, sequenceNumber);
+            HierarchicModel model = new HierarchicModel(GenerationParamValues, AnalizeOptions, sequenceNumber);
+            model.AnalizeOptionsValues = AnalizeOptionsValues;
+            return model;
         }
     }
 }

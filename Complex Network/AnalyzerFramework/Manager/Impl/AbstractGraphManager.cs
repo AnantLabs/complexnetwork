@@ -28,6 +28,8 @@ namespace RandomGraph.Core.Manager.Impl
 
         public bool mFileMode { get; set; }
 
+        public bool isTraceingMode { get; set; }
+
         public event GraphsAreGenerated GraphsGenerated;
 
         /// <summary>

@@ -6,11 +6,3 @@ C:\Users\User\Desktop\Complex Network\CommonLibrary\bin\Debug\NumberGeneration.p
 C:\Users\User\Desktop\Complex Network\CommonLibrary\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\User\Desktop\Complex Network\CommonLibrary\obj\Debug\CommonLibrary.dll
 C:\Users\User\Desktop\Complex Network\CommonLibrary\obj\Debug\CommonLibrary.pdb
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\CommonLibrary\bin\Debug\CommonLibrary.dll
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\CommonLibrary\bin\Debug\CommonLibrary.pdb
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\CommonLibrary\bin\Debug\log4net.dll
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\CommonLibrary\bin\Debug\NumberGeneration.dll
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\CommonLibrary\bin\Debug\NumberGeneration.pdb
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\CommonLibrary\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\CommonLibrary\obj\Debug\CommonLibrary.dll
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\CommonLibrary\obj\Debug\CommonLibrary.pdb

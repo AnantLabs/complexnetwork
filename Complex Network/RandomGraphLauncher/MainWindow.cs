@@ -139,7 +139,7 @@ namespace RandomGraphLauncher
             // 
             // calculationControl
             // 
-            CalculationControl calculationControl = new CalculationControl(modelType.Item1, modelType.Item2, jobName, manager, isDistributed, ApplicationMode.IsTrainingMode);
+            CalculationControl calculationControl = new CalculationControl(modelType.Item1, modelType.Item2, jobName, manager, isDistributed, ApplicationMode.IsTrainingMode, traceingModeToolStripMenuItem.Checked);
             calculationControl.Dock = System.Windows.Forms.DockStyle.Fill;
             calculationControl.Location = new System.Drawing.Point(0, 0);
             calculationControl.Name = "calculationControl";
@@ -284,6 +284,5 @@ namespace RandomGraphLauncher
             TesterForm tester = new TesterForm();
             tester.Show();
         }
-
     }
 }

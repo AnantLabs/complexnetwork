@@ -21,6 +21,7 @@ namespace Model.HierarchicModel
         AnalyseOptions.MinPathDist |
         AnalyseOptions.DistEigenPath |
         AnalyseOptions.EigenValue |
+        AnalyseOptions.Cycles |
     AnalyseOptions.ClusteringCoefficient)]
     [RequiredGenerationParam(GenerationParam.BranchIndex, 1)]
     [RequiredGenerationParam(GenerationParam.Level, 2)]
@@ -136,7 +137,7 @@ namespace Model.HierarchicModel
                 // Getting degree distribution and distanes between verices
                 if ((AnalizeOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "Degree distrubution");
+                    //InvokeProgressEvent(GraphProgress.Analizing, timer, "Degree distrubution");
                     timer += 100 * 20 / tasksTimes;
                     analyzer.Tree = tree;
                     SortedDictionary<int, int> res = analyzer.GetDegreeDistribution();
@@ -144,60 +145,74 @@ namespace Model.HierarchicModel
                     Result.DistanceBetweenVertices = res;
                     Result.Result[AnalyseOptions.DegreeDistribution] = 1;
                     Result.Result[AnalyseOptions.MinPathDist] = 1;
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "");
+                    //InvokeProgressEvent(GraphProgress.Analizing, timer, "");
+                    InvokeProgressEvent(GraphProgress.Analizing, 10, "");
                 }
 
                 // Getting average path
                 if ((AnalizeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "Average path distrubution");
+                    //InvokeProgressEvent(GraphProgress.Analizing, timer, "Average path distrubution");
                     timer += 100 * 30 / tasksTimes;
                     analyzer.Tree = tree;
                     Result.Result[AnalyseOptions.AveragePath] = analyzer.GetAveragePath();
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "");
+                    //InvokeProgressEvent(GraphProgress.Analizing, timer, "");
+                    InvokeProgressEvent(GraphProgress.Analizing, 20, "");
                 }
 
                 // Getting connected subgraph graph
                 if ((AnalizeOptions & AnalyseOptions.ConnSubGraph) == AnalyseOptions.ConnSubGraph)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "Connected Subgraph");
+                    //InvokeProgressEvent(GraphProgress.Analizing, timer, "Connected Subgraph");
                     timer += 100 * 5 / tasksTimes;
                     analyzer.Tree = tree;
                     Result.FullSubgraphs = analyzer.GetConnSubGraph();
                     Result.Result[AnalyseOptions.ConnSubGraph] = 1;
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "");
+                    //InvokeProgressEvent(GraphProgress.Analizing, timer, "");
+                    InvokeProgressEvent(GraphProgress.Analizing, 30, "");
                 }
 
                 // Getting count of 3 cycles
                 if ((AnalizeOptions & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "Count cycles with 3 length");
+                    //InvokeProgressEvent(GraphProgress.Analizing, timer, "Count cycles with 3 length");
                     timer += 100 * 55 / tasksTimes;
                     analyzer.Tree = tree;
                     Result.Result[AnalyseOptions.Cycles3] = analyzer.GetCycles3();
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "");
+                   // InvokeProgressEvent(GraphProgress.Analizing, timer, "");
+                    InvokeProgressEvent(GraphProgress.Analizing, 40, "");
                 }
 
                 // Getting count of 4 cycles
                 if ((AnalizeOptions & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "Count cycles with 4 length");
+                   // InvokeProgressEvent(GraphProgress.Analizing, timer, "Count cycles with 4 length");
                     timer += 100 * 150 / tasksTimes;
                     analyzer.Tree = tree;
                     Result.Result[AnalyseOptions.Cycles4] = analyzer.GetCycles4();
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "");
+                   // InvokeProgressEvent(GraphProgress.Analizing, timer, "");
+                    InvokeProgressEvent(GraphProgress.Analizing, 50, "");
                 }
 
                 // Getting clusterring coefficient
                 if ((AnalizeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "Clustering Coefficient");
+                    //InvokeProgressEvent(GraphProgress.Analizing, timer, "Clustering Coefficient");
                     timer += 100 * 20 / tasksTimes;
                     analyzer.Tree = tree;
                     Result.Coefficient = analyzer.GetClusteringCoefficient();
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "");
+                   // InvokeProgressEvent(GraphProgress.Analizing, timer, "");
+                    InvokeProgressEvent(GraphProgress.Analizing, 60, "");
                 }
 
+                if ((AnalizeOptions & AnalyseOptions.Cycles) == AnalyseOptions.Cycles)
+                {
+                    int maxValue = Int32.Parse((String)AnalizeOptionsValues["cyclesHi"]);
+                    int minvalue = Int32.Parse((String)AnalizeOptionsValues["cyclesLow"]);
+                    InvokeProgressEvent(GraphProgress.Analizing, 70, "Cycles of " + minvalue + "-" + maxValue + "degree");
+                    //calculate cycles here
+                    //Result.CyclesCount = 
+                }
                 //Place analizing logic here
                 //Invoke ModelProgress event if possible to show current
                 //state with use of Percent and TargetItem properties
