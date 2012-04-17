@@ -8,5 +8,6 @@ namespace CommonLibrary.Model.Settings
     public class ApplicationMode
     {
         public static bool IsTrainingMode { get; set; }
+        public static bool IsTraceingMode { get; set; }
     }
 }

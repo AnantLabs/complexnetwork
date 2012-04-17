@@ -36,6 +36,7 @@ namespace RandomGraphLauncher.src
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(ViewController));
         public bool isDistributed { get; set; }
         public bool isTrainingMode { get; set; }
+        public bool isTraceingMode { get; set; }
         public int instances { get; set; }
         public AnalyseOptions availableOptions { get; set; }
         public List<RequiredGenerationParam> reqGenParams { get; set; }
@@ -101,6 +102,7 @@ namespace RandomGraphLauncher.src
         {
             Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), typeof(AnalyseOptions), typeof(Dictionary<String, Object>) };
             AbstractGraphFactory graphFactory = (AbstractGraphFactory)this.factoryType.GetConstructor(constructTypes).Invoke(invokeParams);
+            this.manager.isTraceingMode = isTraceingMode;
             this.manager.Start(graphFactory, this.instances, this.jobName);
         }
 

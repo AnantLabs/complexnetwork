@@ -42,9 +42,10 @@ namespace RandomGraphLauncher
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statisticAnalyzerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataExportIMportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.userControl11 = new MyControlLibrary.TabCtlEx();
             this.testerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.traceingModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.userControl11 = new MyControlLibrary.TabCtlEx();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -89,7 +90,8 @@ namespace RandomGraphLauncher
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.storageToolStripMenuItem,
             this.distributedToolStripMenuItem,
-            this.trainingModeToolStripMenuItem});
+            this.trainingModeToolStripMenuItem,
+            this.traceingModeToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
@@ -97,14 +99,14 @@ namespace RandomGraphLauncher
             // storageToolStripMenuItem
             // 
             this.storageToolStripMenuItem.Name = "storageToolStripMenuItem";
-            this.storageToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.storageToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.storageToolStripMenuItem.Text = "Storage";
             this.storageToolStripMenuItem.Click += new System.EventHandler(this.storageToolStripMenuItem_Click);
             // 
             // distributedToolStripMenuItem
             // 
             this.distributedToolStripMenuItem.Name = "distributedToolStripMenuItem";
-            this.distributedToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.distributedToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.distributedToolStripMenuItem.Text = "Distributed";
             this.distributedToolStripMenuItem.Click += new System.EventHandler(this.distributedToolStripMenuItem_Click);
             // 
@@ -112,7 +114,7 @@ namespace RandomGraphLauncher
             // 
             this.trainingModeToolStripMenuItem.CheckOnClick = true;
             this.trainingModeToolStripMenuItem.Name = "trainingModeToolStripMenuItem";
-            this.trainingModeToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.trainingModeToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.trainingModeToolStripMenuItem.Text = "TrainingMode";
             this.trainingModeToolStripMenuItem.CheckedChanged += new System.EventHandler(this.TrainingModeChanged);
             // 
@@ -140,11 +142,25 @@ namespace RandomGraphLauncher
             this.dataExportIMportToolStripMenuItem.Text = "Data Export/Import";
             this.dataExportIMportToolStripMenuItem.Click += new System.EventHandler(this.dataExportIMportToolStripMenuItem_Click);
             // 
+            // testerToolStripMenuItem
+            // 
+            this.testerToolStripMenuItem.Name = "testerToolStripMenuItem";
+            this.testerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.testerToolStripMenuItem.Text = "Tester";
+            this.testerToolStripMenuItem.Click += new System.EventHandler(this.testerToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // traceingModeToolStripMenuItem
+            // 
+            this.traceingModeToolStripMenuItem.CheckOnClick = true;
+            this.traceingModeToolStripMenuItem.Name = "traceingModeToolStripMenuItem";
+            this.traceingModeToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.traceingModeToolStripMenuItem.Text = "Traceing Mode";
             // 
             // userControl11
             // 
@@ -160,13 +176,6 @@ namespace RandomGraphLauncher
             this.userControl11.TabIndex = 0;
             this.userControl11.TabStop = false;
             this.userControl11.OnClose += new MyControlLibrary.TabCtlEx.OnHeaderCloseDelegate(this.userControl11_OnClose);
-            // 
-            // testerToolStripMenuItem
-            // 
-            this.testerToolStripMenuItem.Name = "testerToolStripMenuItem";
-            this.testerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
-            this.testerToolStripMenuItem.Text = "Tester";
-            this.testerToolStripMenuItem.Click += new System.EventHandler(this.testerToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -207,6 +216,7 @@ namespace RandomGraphLauncher
         private ToolStripMenuItem distributedToolStripMenuItem;
         private ToolStripMenuItem trainingModeToolStripMenuItem;
         private ToolStripMenuItem testerToolStripMenuItem;
+        private ToolStripMenuItem traceingModeToolStripMenuItem;
 
     }
 }

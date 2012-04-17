@@ -4,9 +4,3 @@ C:\Users\User\Desktop\Complex Network\NumberGeneration\bin\Debug\log4net.dll
 C:\Users\User\Desktop\Complex Network\NumberGeneration\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\User\Desktop\Complex Network\NumberGeneration\obj\Debug\NumberGeneration.dll
 C:\Users\User\Desktop\Complex Network\NumberGeneration\obj\Debug\NumberGeneration.pdb
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\NumberGeneration\bin\Debug\NumberGeneration.dll
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\NumberGeneration\bin\Debug\NumberGeneration.pdb
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\NumberGeneration\bin\Debug\log4net.dll
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\NumberGeneration\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\NumberGeneration\obj\Debug\NumberGeneration.dll
-C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\NumberGeneration\obj\Debug\NumberGeneration.pdb

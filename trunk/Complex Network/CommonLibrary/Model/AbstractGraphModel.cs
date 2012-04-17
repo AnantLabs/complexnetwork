@@ -151,6 +151,32 @@ namespace RandomGraph.Common.Model
         public abstract string GetParamsInfo();
 
         /// <summary>
+        /// Dump generated graph matrix into file
+        /// </summary>
+        public void StartTrace()
+        {
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\dump.txt"))
+            {
+                bool [,] matrix = GetMatrix();
+                for (int i = 0; i < matrix.GetLength(0); ++i )
+                {
+                    for (int j = 0; j < matrix.GetLength(1); ++j)
+                    {
+                        if (matrix[i, j])
+                        {
+                            file.Write(1 + " ");
+                        }
+                        else
+                        {
+                            file.Write(0 + " ");
+                        }
+                    }
+                    file.WriteLine("");
+                }
+            }
+        }
+
+        /// <summary>
         /// ???.
         /// </summary>
         protected void OnModelProgress(GraphProgressEventArgs args)
