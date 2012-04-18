@@ -11,13 +11,15 @@ namespace Model.HierarchicModel.Realization
     {
         private Engine engine;
         private EngineForConnectedComp engForConnectedComponent;
+        private EngineForCycles engForCycles;
         private HierarchicGraph mTree;
 
         public HierarchicAnalyzer(HierarchicGraph tree)
         {
             this.engine = new Engine();
-            engForConnectedComponent = new EngineForConnectedComp();
-            mTree = tree;
+            this.engForConnectedComponent = new EngineForConnectedComp();
+            this.engForCycles = new EngineForCycles();
+            this.mTree = tree;
         }
 
         public HierarchicGraph Tree
@@ -128,6 +130,15 @@ namespace Model.HierarchicModel.Realization
         public override SortedDictionary<int, int> GetFullSubGraph()
         {
             SortedDictionary<int, int> result = new SortedDictionary<int, int>();
+            return result;
+        }
+
+        public override SortedDictionary<int, int> GetCycles(int lowBound, int hightBound)
+        {
+            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
+            for (int i = lowBound; i <= hightBound; ++i)
+                result[i] = (int)engForCycles.GetCycleCount(this.mTree, i);
+
             return result;
         }
 
