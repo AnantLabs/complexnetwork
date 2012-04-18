@@ -205,13 +205,14 @@ namespace Model.HierarchicModel
                     InvokeProgressEvent(GraphProgress.Analizing, 60, "");
                 }
 
+                // Getting cycle counts
                 if ((AnalizeOptions & AnalyseOptions.Cycles) == AnalyseOptions.Cycles)
                 {
                     int maxValue = Int32.Parse((String)AnalizeOptionsValues["cyclesHi"]);
                     int minvalue = Int32.Parse((String)AnalizeOptionsValues["cyclesLow"]);
                     InvokeProgressEvent(GraphProgress.Analizing, 70, "Cycles of " + minvalue + "-" + maxValue + "degree");
-                    //calculate cycles here
-                    //Result.CyclesCount = 
+                    analyzer.Tree = tree;
+                    Result.CyclesCount = analyzer.GetCycles(minvalue, maxValue); 
                 }
                 //Place analizing logic here
                 //Invoke ModelProgress event if possible to show current
