@@ -23,22 +23,22 @@ namespace CommonLibrary.Model
         ArrayList GetEigenValue();
 
         //Calculate count of cycles in 3 lenght of graph.
-        double GetCycles3();
+        int GetCycles3();
 
         //Calculate diameter of graph.
-        double GetDiameter();
+        int GetDiameter();
 
         //Calculate distribution of connected subgraph of graph.
         SortedDictionary<int, int> GetConnSubGraph();
 
         //Calculate count of cycles in 3 lenght based in eigen valu of graph.
-        double GetCycleEigen3();
+        int GetCycleEigen3();
 
         //Calculate count of cycles in 4 lenght of graph.
-        double GetCycles4();
+        int GetCycles4();
 
         //Calculate count of cycles in 4 lenght based in eigen valu of graph.
-        double GetCycleEigen4();
+        int GetCycleEigen4();
 
         //Calculate motive of graph.
         void GetMotif();

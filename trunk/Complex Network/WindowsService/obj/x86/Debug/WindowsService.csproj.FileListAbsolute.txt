@@ -14,3 +14,19 @@ C:\Users\User\Desktop\Complex Network\WindowsService\obj\x86\Debug\GenerateResou
 C:\Users\User\Desktop\Complex Network\WindowsService\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\User\Desktop\Complex Network\WindowsService\obj\x86\Debug\WindowsService.exe
 C:\Users\User\Desktop\Complex Network\WindowsService\obj\x86\Debug\WindowsService.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\bin\Debug\WindowsService.exe.config
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\bin\Debug\WindowsService.exe
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\bin\Debug\WindowsService.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\bin\Debug\WcfService.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\bin\Debug\CommonLibrary.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\bin\Debug\NumberGeneration.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\bin\Debug\log4net.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\bin\Debug\WcfService.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\bin\Debug\CommonLibrary.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\bin\Debug\NumberGeneration.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\obj\x86\Debug\WindowsService.ProjectInstaller.resources
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\obj\x86\Debug\WindowsService.exe
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\obj\x86\Debug\WindowsService.pdb

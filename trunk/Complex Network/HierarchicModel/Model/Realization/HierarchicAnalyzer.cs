@@ -69,15 +69,15 @@ namespace Model.HierarchicModel.Realization
         }
 
         //Calculate count of cycles in 3 lenght of graph.
-        public override double GetCycles3()
+        public override int GetCycles3()
         {
-            return Count3Cycle(0, 0)[1];
+            return (int)Count3Cycle(0, 0)[1];
         }
 
         //Calculate diameter of graph.
-        public override double GetDiameter()
+        public override int GetDiameter()
         {
-            double result = 0;
+            int result = 0;
             return result;
         }
 
@@ -88,22 +88,22 @@ namespace Model.HierarchicModel.Realization
         }
 
         //Calculate count of cycles in 3 lenght based in eigen valu of graph.
-        public override double GetCycleEigen3()
+        public override int GetCycleEigen3()
         {
-            double result = 0;
+            int result = 0;
             return result;
         }
 
         //Calculate count of cycles in 4 lenght of graph.
-        public override double GetCycles4()
+        public override int GetCycles4()
         {
-            return Count4Cycle(0, 0)[0];
+            return (int)Count4Cycle(0, 0)[0];
         }
 
         //Calculate count of cycles in 4 lenght based in eigen valu of graph.
-        public override double GetCycleEigen4()
+        public override int GetCycleEigen4()
         {
-            double result = 0;
+            int result = 0;
             return result;
         }
 

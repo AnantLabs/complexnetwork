@@ -16,3 +16,21 @@ C:\Users\User\Desktop\Complex Network\SettingsConfiguration\obj\Debug\GenerateRe
 C:\Users\User\Desktop\Complex Network\SettingsConfiguration\obj\Debug\GenerateResource.write.1.tlog
 C:\Users\User\Desktop\Complex Network\SettingsConfiguration\obj\Debug\SettingsConfiguration.dll
 C:\Users\User\Desktop\Complex Network\SettingsConfiguration\obj\Debug\SettingsConfiguration.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\bin\Debug\SettingsConfiguration.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\bin\Debug\SettingsConfiguration.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\bin\Debug\log4net.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\bin\Debug\Microsoft.Data.ConnectionUI.Dialog.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\bin\Debug\Microsoft.Data.ConnectionUI.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\bin\Debug\WcfService.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\bin\Debug\CommonLibrary.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\bin\Debug\NumberGeneration.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\bin\Debug\WcfService.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\bin\Debug\CommonLibrary.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\bin\Debug\NumberGeneration.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\obj\Debug\SettingsConfiguration.Properties.Resources.resources
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\obj\Debug\SettingsConfiguration.StartUpWindow.resources
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\obj\Debug\GenerateResource.read.1.tlog
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\obj\Debug\GenerateResource.write.1.tlog
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\obj\Debug\SettingsConfiguration.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\SettingsConfiguration\obj\Debug\SettingsConfiguration.pdb

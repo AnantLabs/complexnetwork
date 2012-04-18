@@ -30,3 +30,35 @@ C:\Users\User\Desktop\Complex Network\AnalyzerFramework\bin\Debug\StaticModel.pd
 C:\Users\User\Desktop\Complex Network\AnalyzerFramework\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\User\Desktop\Complex Network\AnalyzerFramework\obj\Debug\AnalyzerFramework.dll
 C:\Users\User\Desktop\Complex Network\AnalyzerFramework\obj\Debug\AnalyzerFramework.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\AnalyzerFramework.dll.config
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\AnalyzerFramework.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\AnalyzerFramework.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\BAModel.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\CommonLibrary.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\ERmodel.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\HierarchicModel.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\log4net.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\NonRegularHierarchicModel.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\ParisiHierarchicModel.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\ResultStorage.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\StatisticAnalyzer.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\WSModel.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\NumberGeneration.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\GenericAlgorithms.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\StaticModel.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\MathNet.Iridium.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\BAModel.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\CommonLibrary.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\ERmodel.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\HierarchicModel.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\NonRegularHierarchicModel.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\ParisiHierarchicModel.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\ResultStorage.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\StatisticAnalyzer.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\WSModel.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\NumberGeneration.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\GenericAlgorithms.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\bin\Debug\StaticModel.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\obj\Debug\AnalyzerFramework.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\obj\Debug\AnalyzerFramework.pdb
