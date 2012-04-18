@@ -259,13 +259,13 @@ namespace Model.WSModel.Realization
             return new ArrayList();
         }
         //Calculate count of cycles in 3 lenght of graph.
-        public override double GetCycles3()
+        public override int GetCycles3()
         {
             return m_result.m_cyclesOfOrder3;
         }
 
         //Calculate diameter of graph.
-        public override double GetDiameter()
+        public override int GetDiameter()
         {
             return m_result.m_diametr;
         }
@@ -276,19 +276,19 @@ namespace Model.WSModel.Realization
             return m_result.m_fullSubgraphs;
         }
         //Calculate count of cycles in 3 lenght based in eigen valu of graph.
-        public override double GetCycleEigen3()
+        public override int GetCycleEigen3()
         {
             return 0;
         }
 
         //Calculate count of cycles in 4 lenght of graph.
-        public override double GetCycles4()
+        public override int GetCycles4()
         {
             return m_result.m_cyclesOfOrder4;
         }
 
         //Calculate count of cycles in 4 lenght based in eigen valu of graph.
-        public override double GetCycleEigen4()
+        public override int GetCycleEigen4()
         {
             return 0;
         }

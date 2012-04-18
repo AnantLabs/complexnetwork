@@ -84,17 +84,17 @@ namespace Model.NonRegularHierarchicModel.Realization
         }
 
         //Calculate count of cycles in 3 lenght of graph.
-        public override double GetCycles3()
+        public override int GetCycles3()
         {
-            return (double)(graph.Get3CirclesCount());
+            return (int)(graph.Get3CirclesCount());
         }
 
         //Calculate diameter of graph.
-        public override double GetDiameter()
+        public override int GetDiameter()
         {
             SortedDictionary<int, int> dist = GetMinPathDist();
 
-            double result = 0.0;
+            int result = 0;
 
             foreach (KeyValuePair<int, int> k in dist)
             {
@@ -117,25 +117,25 @@ namespace Model.NonRegularHierarchicModel.Realization
         /// Calculate count of cycles in 3 lenght based in eigen valu of graph. WILL NEVER BE IMPLEMENTED.
         /// </summary>
         /// <returns></returns>
-        public override double GetCycleEigen3()
+        public override int GetCycleEigen3()
         {
-            return -1.0;
+            return -1;
         }
 
         /// <summary>
         /// Calculate count of cycles in 4 lenght of graph.
         /// </summary>
         /// <returns></returns>
-        public override double GetCycles4()
+        public override int GetCycles4()
         {
-            return graph.Get4CirclesCount();
+            return (int)graph.Get4CirclesCount();
         }
 
         /// <summary>
         /// Calculate count of cycles in 4 lenght based in eigen valu of graph. WILL NEVER BE IMPLEMENTED.
         /// </summary>
         /// <returns></returns>
-        public override double GetCycleEigen4()
+        public override int GetCycleEigen4()
         {
             return 0;
         }

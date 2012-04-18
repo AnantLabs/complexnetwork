@@ -3,3 +3,8 @@ C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\
 C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\BAModel\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\BAModel\obj\Debug\BAModel.dll
 C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\BAModel\obj\Debug\BAModel.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\RandomGraphLauncher\bin\Debug\Models\BAModel.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\RandomGraphLauncher\bin\Debug\Models\BAModel.pdb
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\BAModel\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\BAModel\obj\Debug\BAModel.dll
+C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\BAModel\obj\Debug\BAModel.pdb
