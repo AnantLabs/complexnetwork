@@ -216,6 +216,7 @@ namespace StatisticAnalyzerUI
                         m_analyzer.GetParameterLine(), inform, m_analyzer.GlobalResults[key], ApproximationTypes.None);
                 }
                 m_existingGraphics[inform].m_parent = this;
+                m_existingGraphics[inform].modelName = this.ModelNameCmb.Text;
 
                 m_existingGraphics[inform].RefreshGraphic();
                 m_existingGraphics[inform].Show();
@@ -283,6 +284,7 @@ namespace StatisticAnalyzerUI
                         m_analyzer.GetParameterLine(), inform, m_analyzer.GlobalResults[key], m_localApproximationType);
                 }
                 m_existingGraphics[inform].m_parent = this;
+                m_existingGraphics[inform].modelName = this.ModelNameCmb.Text;
 
                 m_existingGraphics[inform].RefreshGraphic();
                 m_existingGraphics[inform].Show();

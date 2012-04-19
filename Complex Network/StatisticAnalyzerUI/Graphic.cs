@@ -24,6 +24,7 @@ namespace StatisticAnalyzerUI
         private ApproximationTypes m_approximationType;
 
         public StatisticAnalyzer m_parent;
+        public String modelName;
 
         public Graphic(Color c, bool p, Dictionary<GenerationParam, string> par, GraphicalInformation g,
             SortedDictionary<double, double> d, ApproximationTypes t)
@@ -120,8 +121,18 @@ namespace StatisticAnalyzerUI
                     break;
             }
 
-            string label = "ani";
+            string label = "";
+            Dictionary<GenerationParam, string>.KeyCollection keys = m_parameters.Keys;
+            foreach (GenerationParam p in keys)
+            {
+                GenerationParamInfo infoGenParam = (GenerationParamInfo)(p.GetType().
+                    GetField(Enum.GetName(typeof(GenerationParam), p)).
+                    GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);
+                label += infoGenParam.Name + " = " + m_parameters[p] + "; ";
+            }
             LineItem line = graphPane.AddCurve(label, this.m_pointPair, this.m_curveColor, SymbolType.Circle);
+
+            this.ModelNameTxt.Text = modelName;
 
             if (m_points)
                 line.Line.IsVisible = false;
