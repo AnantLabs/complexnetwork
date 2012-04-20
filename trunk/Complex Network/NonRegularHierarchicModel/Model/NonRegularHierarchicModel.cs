@@ -221,29 +221,7 @@ namespace Model.NonRegularHierarchicModel
 
         public override bool[,] GetMatrix()
         {
-            // KM TODO
-            /*int primeNumber = generator.prime;
-            int maxlevel = generator.degree;
-            int nodeDataLength = (primeNumber - 1) * primeNumber / 2;
-            long dataLength = Convert.ToInt64(Math.Pow(primeNumber, maxlevel) * nodeDataLength);
-            bool[,] matrix = new bool[maxlevel, dataLength];
-
-            for (int i = 0; i < maxlevel; i++)
-            {
-                for (int j = 0; j < dataLength; j++)
-                {
-                    if (j < generator.treeMatrix[i][0].Length)
-                    {
-                        matrix[i, j] = (generator.treeMatrix[i][0][j]) ? true : false;
-                    }
-                    else
-                    {
-                        matrix[i, j] = false;
-                    }
-                }
-            }
-            return matrix;*/
-            return new bool[10, 10];
+            return graph.GetMatrix();
         }
     }
 }

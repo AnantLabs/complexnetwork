@@ -8,3 +8,8 @@ C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\RandomGra
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WSModel\obj\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WSModel\obj\Debug\WSModel.dll
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WSModel\obj\Debug\WSModel.pdb
+C:\Users\User\Desktop\From site\RandomGraphLauncher\bin\Debug\Models\WSModel.dll
+C:\Users\User\Desktop\From site\RandomGraphLauncher\bin\Debug\Models\WSModel.pdb
+C:\Users\User\Desktop\From site\WSModel\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\From site\WSModel\obj\Debug\WSModel.dll
+C:\Users\User\Desktop\From site\WSModel\obj\Debug\WSModel.pdb

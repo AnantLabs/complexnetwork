@@ -8,3 +8,8 @@ C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\RandomGra
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\HierarchicModel\obj\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\HierarchicModel\obj\Debug\HierarchicModel.dll
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\HierarchicModel\obj\Debug\HierarchicModel.pdb
+C:\Users\User\Desktop\From site\RandomGraphLauncher\bin\Debug\Models\HierarchicModel.dll
+C:\Users\User\Desktop\From site\RandomGraphLauncher\bin\Debug\Models\HierarchicModel.pdb
+C:\Users\User\Desktop\From site\HierarchicModel\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\From site\HierarchicModel\obj\Debug\HierarchicModel.dll
+C:\Users\User\Desktop\From site\HierarchicModel\obj\Debug\HierarchicModel.pdb

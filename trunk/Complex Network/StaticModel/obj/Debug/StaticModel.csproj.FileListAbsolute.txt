@@ -8,3 +8,8 @@ C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\RandomGra
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\StaticModel\obj\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\StaticModel\obj\Debug\StaticModel.dll
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\StaticModel\obj\Debug\StaticModel.pdb
+C:\Users\User\Desktop\From site\RandomGraphLauncher\bin\Debug\Models\StaticModel.dll
+C:\Users\User\Desktop\From site\RandomGraphLauncher\bin\Debug\Models\StaticModel.pdb
+C:\Users\User\Desktop\From site\StaticModel\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\From site\StaticModel\obj\Debug\StaticModel.dll
+C:\Users\User\Desktop\From site\StaticModel\obj\Debug\StaticModel.pdb

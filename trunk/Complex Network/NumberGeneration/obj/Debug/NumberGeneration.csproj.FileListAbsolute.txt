@@ -10,3 +10,9 @@ C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\NumberGen
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\NumberGeneration\obj\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\NumberGeneration\obj\Debug\NumberGeneration.dll
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\NumberGeneration\obj\Debug\NumberGeneration.pdb
+C:\Users\User\Desktop\From site\NumberGeneration\bin\Debug\NumberGeneration.dll
+C:\Users\User\Desktop\From site\NumberGeneration\bin\Debug\NumberGeneration.pdb
+C:\Users\User\Desktop\From site\NumberGeneration\bin\Debug\log4net.dll
+C:\Users\User\Desktop\From site\NumberGeneration\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\From site\NumberGeneration\obj\Debug\NumberGeneration.dll
+C:\Users\User\Desktop\From site\NumberGeneration\obj\Debug\NumberGeneration.pdb

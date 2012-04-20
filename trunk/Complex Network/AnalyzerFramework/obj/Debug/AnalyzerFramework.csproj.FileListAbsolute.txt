@@ -62,3 +62,35 @@ C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerF
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\obj\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\obj\Debug\AnalyzerFramework.dll
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\AnalyzerFramework\obj\Debug\AnalyzerFramework.pdb
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\AnalyzerFramework.dll.config
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\AnalyzerFramework.dll
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\AnalyzerFramework.pdb
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\BAModel.dll
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\CommonLibrary.dll
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\ERmodel.dll
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\HierarchicModel.dll
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\log4net.dll
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\NonRegularHierarchicModel.dll
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\ParisiHierarchicModel.dll
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\ResultStorage.dll
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\StatisticAnalyzer.dll
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\WSModel.dll
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\NumberGeneration.dll
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\GenericAlgorithms.dll
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\StaticModel.dll
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\MathNet.Iridium.dll
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\BAModel.pdb
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\CommonLibrary.pdb
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\ERmodel.pdb
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\HierarchicModel.pdb
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\NonRegularHierarchicModel.pdb
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\ParisiHierarchicModel.pdb
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\ResultStorage.pdb
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\StatisticAnalyzer.pdb
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\WSModel.pdb
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\NumberGeneration.pdb
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\GenericAlgorithms.pdb
+C:\Users\User\Desktop\From site\AnalyzerFramework\bin\Debug\StaticModel.pdb
+C:\Users\User\Desktop\From site\AnalyzerFramework\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\From site\AnalyzerFramework\obj\Debug\AnalyzerFramework.dll
+C:\Users\User\Desktop\From site\AnalyzerFramework\obj\Debug\AnalyzerFramework.pdb
