@@ -7,7 +7,6 @@ using RandomGraph.Common.Model.Status;
 using CommonLibrary.Model.Attributes;
 using System.Threading;
 using Model.NonRegularHierarchicModel.Realization;
-using NonRegularHierarchicModel.Model.Realization;
 
 namespace Model.NonRegularHierarchicModel
 {
