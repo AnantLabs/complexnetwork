@@ -570,5 +570,59 @@ namespace Model.NonRegularHierarchicModel.Realization
             uint cyrcles = Get3CirclesCountWithVertex(v);
             return (cyrcles + 0.0) / (adj * (adj - 1.0) / 2);
         }
+
+        public bool[,] GetMatrix()
+        {
+            if (null == node.children)
+            {
+                bool[,] rslt = new bool[1, 1];
+                rslt[0, 0] = false;
+                return rslt;
+            }
+
+            bool[,] result = new bool[node.VertexCount, node.VertexCount];
+            bool[,] current_child;
+            uint current_child_size;
+            uint nodes_used = 0;
+            uint i, j, k, l;
+
+            /// Put information of all the children in the big matrix.
+            for (i = 0; i < node.children.Length; ++i)
+            {
+                current_child = node.children[i].GetMatrix();
+                current_child_size = node.children[i].node.VertexCount;
+                for (j = 0; j < current_child_size; ++j)
+                    for (k = 0; k < current_child_size; ++k)
+                    {
+                        result[nodes_used + j, nodes_used + k] = current_child[j, k];
+                    }
+                nodes_used += current_child_size;
+            }
+
+            uint vi = 0;
+            uint vj = 0;
+            bool are_connected;
+
+            /// Now fill connections between blocks.
+            for (i = 0; i < node.children.Length; ++i)
+            {
+                vj = 0;
+                for (j = 0; j < node.children.Length; ++j)
+                {
+                    are_connected = IsConnectedBlocks(i, j);
+
+                    /// Add information of connection between blocks i and j.
+                    for (k = 0; k < node.children[i].node.VertexCount; ++k)
+                        for (l = 0; l < node.children[i].node.VertexCount; ++l)
+                        {
+                            result[vi + k, vj + l] = are_connected;
+                        }
+                    vj += node.children[j].node.VertexCount;
+                }
+                vi += node.children[i].node.VertexCount;
+            }
+
+            return result;
+        }
     }
 }

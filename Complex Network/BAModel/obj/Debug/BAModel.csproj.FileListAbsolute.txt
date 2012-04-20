@@ -8,3 +8,8 @@ C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\RandomGra
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\BAModel\obj\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\BAModel\obj\Debug\BAModel.dll
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\BAModel\obj\Debug\BAModel.pdb
+C:\Users\User\Desktop\From site\RandomGraphLauncher\bin\Debug\Models\BAModel.dll
+C:\Users\User\Desktop\From site\RandomGraphLauncher\bin\Debug\Models\BAModel.pdb
+C:\Users\User\Desktop\From site\BAModel\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\From site\BAModel\obj\Debug\BAModel.dll
+C:\Users\User\Desktop\From site\BAModel\obj\Debug\BAModel.pdb

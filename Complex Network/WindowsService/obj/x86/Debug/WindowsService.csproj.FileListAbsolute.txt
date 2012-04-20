@@ -30,3 +30,19 @@ C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsSe
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\obj\x86\Debug\WindowsService.exe
 C:\Documents and Settings\User\Desktop\Complex Network\Complex Network\WindowsService\obj\x86\Debug\WindowsService.pdb
+C:\Users\User\Desktop\From site\WindowsService\bin\Debug\WindowsService.exe.config
+C:\Users\User\Desktop\From site\WindowsService\bin\Debug\WindowsService.exe
+C:\Users\User\Desktop\From site\WindowsService\bin\Debug\WindowsService.pdb
+C:\Users\User\Desktop\From site\WindowsService\bin\Debug\WcfService.dll
+C:\Users\User\Desktop\From site\WindowsService\bin\Debug\CommonLibrary.dll
+C:\Users\User\Desktop\From site\WindowsService\bin\Debug\NumberGeneration.dll
+C:\Users\User\Desktop\From site\WindowsService\bin\Debug\log4net.dll
+C:\Users\User\Desktop\From site\WindowsService\bin\Debug\WcfService.pdb
+C:\Users\User\Desktop\From site\WindowsService\bin\Debug\CommonLibrary.pdb
+C:\Users\User\Desktop\From site\WindowsService\bin\Debug\NumberGeneration.pdb
+C:\Users\User\Desktop\From site\WindowsService\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\From site\WindowsService\obj\x86\Debug\WindowsService.ProjectInstaller.resources
+C:\Users\User\Desktop\From site\WindowsService\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\User\Desktop\From site\WindowsService\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\User\Desktop\From site\WindowsService\obj\x86\Debug\WindowsService.exe
+C:\Users\User\Desktop\From site\WindowsService\obj\x86\Debug\WindowsService.pdb
