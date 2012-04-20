@@ -28,7 +28,8 @@ namespace Model.NonRegularHierarchicModel
     public class NonRegularHierarchicModel : AbstractGraphModel
     {
         private static readonly string MODEL_NAME = "Non-Regular Hierarchic";
-        private NonRegularHierarchicGraph graph = new NonRegularHierarchicGraph();
+        private NonRegularHierarchicGraph graph;
+        private NonRegularHierarchicGenerator graph_generator;
 
         public NonRegularHierarchicModel() { }
 
@@ -85,9 +86,10 @@ namespace Model.NonRegularHierarchicModel
 
                 InvokeProgressEvent(GraphProgress.Generating, 8);
 
-                graph.generate_with((Int16)GenerationParamValues[GenerationParam.BranchIndex],
+                graph_generator = new NonRegularHierarchicGenerator((Int16)GenerationParamValues[GenerationParam.BranchIndex],
                                                         (Int16)GenerationParamValues[GenerationParam.Level],
                                                         (Double)GenerationParamValues[GenerationParam.Mu]);
+                graph = graph_generator.Graph;
 
                 //Graph assignment is not needed for HEIRARCHIC(NOT NEEDED IF GENERATION 
                 //RULE IS SEPARATE) 
