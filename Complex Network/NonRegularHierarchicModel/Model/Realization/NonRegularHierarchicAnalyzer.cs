@@ -29,7 +29,7 @@ namespace Model.NonRegularHierarchicModel.Realization
             /// Iterate over all the vertexes and count degrees.
             uint v;
             int degree;
-            for (v = 0; v < graph.VertexCount; ++v)
+            for (v = 0; v < graph.node.VertexCount; ++v)
             {
                 degree = (int)(graph.GetDegree(v));
                 if (!result.ContainsKey(degree))

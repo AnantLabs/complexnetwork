@@ -47,7 +47,9 @@
     <Compile Include="Model\NonRegularHierarchicGraphFactory.cs" />
     <Compile Include="Model\NonRegularHierarchicModel.cs" />
     <Compile Include="Model\Realization\NonRegularHierarchicAnalyzer.cs" />
+    <Compile Include="Model\Realization\NonRegularHierarchicGenerator.cs" />
     <Compile Include="Model\Realization\NonRegularHierarchicGraph.cs" />
+    <Compile Include="Model\Realization\NonRegularHierarchicGraphNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
