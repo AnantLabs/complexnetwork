@@ -284,5 +284,11 @@ namespace RandomGraphLauncher
             TesterForm tester = new TesterForm();
             tester.Show();
         }
+
+        private void modelCheckToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelCheckWindow check = new ModelCheckWindow();
+            check.Show();
+        }
     }
 }

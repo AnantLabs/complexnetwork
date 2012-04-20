@@ -50,7 +50,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>ERb+TIdHOoqj2cEbMz1VrFntiG8=</dsig:DigestValue>
+        <dsig:DigestValue>G/eTIsY156jyAJkLmBROLs2iGVc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -206,7 +206,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>tnzVtKLyC4Z+g6qDDuqTc3XWyxI=</dsig:DigestValue>
+        <dsig:DigestValue>4uNr9d/1W7xpD0y3DbFr1yHQl2s=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -235,14 +235,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RandomGraphLauncher.exe" size="420352">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RandomGraphLauncher.exe" size="422912">
       <assemblyIdentity name="RandomGraphLauncher" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>dF8DMreImh2LbrqxL2iVlF0zayY=</dsig:DigestValue>
+        <dsig:DigestValue>Q6UqpGCgv68HgJ+TCKgLoa9cO2o=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -254,7 +254,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>2iJtOxOKrsTfD1NXD8fwp6FceFM=</dsig:DigestValue>
+        <dsig:DigestValue>ehYnOOGl0oQ4L0XLi1Lx2wL2UbA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -290,7 +290,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>692jfDZIp/beU8B0u7GtojitQLQ=</dsig:DigestValue>
+        <dsig:DigestValue>vUPepZYDhJ3mUG24XFqRMpuE3kQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

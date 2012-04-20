@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 
-namespace NonRegularHierarchicModel.Model.Realization
+namespace Model.NonRegularHierarchicModel.Realization
 {
     public class NonRegularHierarchicGraph
     {

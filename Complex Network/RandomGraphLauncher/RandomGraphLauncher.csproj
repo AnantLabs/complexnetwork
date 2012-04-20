@@ -135,6 +135,12 @@
     <Compile Include="MainWindow.designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModelCheckWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModelCheckWindow.Designer.cs">
+      <DependentUpon>ModelCheckWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModelChooserWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,6 +167,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModelCheckWindow.resx">
+      <DependentUpon>ModelCheckWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModelChooserWindow.resx">
       <DependentUpon>ModelChooserWindow.cs</DependentUpon>
