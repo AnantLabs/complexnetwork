@@ -124,17 +124,10 @@ namespace Model.ERModel
 
             try
             {
-                if (((AnalizeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
-                    || ((AnalizeOptions & AnalyseOptions.Diameter) == AnalyseOptions.Diameter))
-                {
-                    ERModelGraph.m_analyzer.count_essential_options();
-                }
-
                 if ((AnalizeOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 32, "Degree distrubution");
-                    ERModelGraph.m_analyzer.count_degree_destribution();
-                    Result.Result[AnalyseOptions.DegreeDistribution] = ERModelGraph.m_analyzer.get_average_degree();
+                    Result.Result[AnalyseOptions.DegreeDistribution] = ERModelGraph.m_analyzer.GetAverageDegree();
                     Result.VertexDegree = ERModelGraph.m_analyzer.GetDegreeDistribution();
                 }
 
@@ -154,7 +147,6 @@ namespace Model.ERModel
                 if ((AnalizeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 53, "Classtering Coefficient");
-                    ERModelGraph.m_analyzer.count_graph_clustering_coefficient();
                     Result.Result[AnalyseOptions.ClusteringCoefficient] = ERModelGraph.m_analyzer.GetAvgClusteringCoefficient();
                     Result.Coefficient = ERModelGraph.m_analyzer.GetClusteringCoefficient();
                 }
@@ -162,14 +154,12 @@ namespace Model.ERModel
                 if ((AnalizeOptions & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 67, "Cycles of order 3");
-                    ERModelGraph.m_analyzer.count_cycles_of_order3();
                     Result.Result[AnalyseOptions.Cycles3] = ERModelGraph.m_analyzer.GetCycles3();
                 }
 
                 if ((AnalizeOptions & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 75, "Cycles of order 4");
-                    ERModelGraph.m_analyzer.count_cycles_of_order4();
                     Result.Result[AnalyseOptions.Cycles4] = ERModelGraph.m_analyzer.GetCycles4();
                 }
 
