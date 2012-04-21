@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using Model.ERModel.Result;
 using Model.ERModel.Realization;
 using CommonLibrary.Model;
 using log4net;
@@ -18,8 +17,7 @@ namespace model.ERModel.Realization
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(ERAnalyzer));
 
         private ERContainer m_container;
-        private AnalyzeResult m_result;
-        private int[] m_minimal_path_list;
+        //private AnalyzeResult m_result;
         private class Node
         {
             public int n_length;
@@ -31,13 +29,36 @@ namespace model.ERModel.Realization
                 n_visited = false;
             }
         }
-        
+
+        private int[] m_minimal_path_list;
+
+        //members for storage of options value
+        public double m_avgPathLenght;
+        public double m_avgDegree;
+        public int m_diameter;
+        public double m_clusteringCoefficient;
+        public SortedDictionary<double, int> m_vertexClusteringCoefficient;
+        public SortedDictionary<int, int> m_degreeDistribution;//count the number of vertex that have i degrees
+        public SortedDictionary<int, int> m_pathDistribution;
+        public int m_cyclesOfOrder3;
+        public int m_cyclesOfOrder4;
+        public int m_maxfullsubgraph;
+        public ArrayList ArrayOfEigVal;
+
+
         public ERAnalyzer(ERContainer c)
         {
             log.Info("Creating ERAnalizer object");
             m_container = c;
-            m_result = new AnalyzeResult();
             m_minimal_path_list = new int[m_container.Size];
+
+            m_avgPathLenght = -1;
+            m_avgDegree = -1;
+            m_diameter = -1;
+            m_clusteringCoefficient = -1;
+            m_cyclesOfOrder3 = -1;
+            m_cyclesOfOrder4 = -1;
+            m_maxfullsubgraph = -1;
         }
 
         public void bfs(int s)
@@ -74,27 +95,45 @@ namespace model.ERModel.Realization
             }
         }
 
-        public double GetAveragePath()
+        public override double GetAveragePath()
         {
-            return m_result.m_avgPathLenght;
+            log.Info("GetAveragePath");
+
+            if (-1 == m_avgPathLenght)
+            {
+                CountEssentialOptions();
+            }
+            return m_avgPathLenght;
         }
 
-        public SortedDictionary<int, int> GetMinPathDist()
+        public override SortedDictionary<int, int> GetMinPathDist()
         {
-            return m_result.m_pathDistribution;
+            log.Info("GetMinPathDist");
+
+            if (0 == m_pathDistribution.Count)
+            {
+                CountEssentialOptions();
+            }
+            return m_pathDistribution;
         }
 
-        public double GetDiameter()
+        public override int GetDiameter()
         {
-            return m_result.m_diameter;
+            log.Info("GetDiameter");
+            if (-1 == m_diameter)
+            {
+                CountEssentialOptions();
+            }
+            return m_diameter;
         }
 
-        public void count_essential_options()
+        public void CountEssentialOptions()
         {
+            log.Info("CountEssentialOptions");
             int size = m_container.Size;
             int d = 0;
             int count = 0, sum = 0;
-            m_result.m_pathDistribution = new SortedDictionary<int, int>();
+            m_pathDistribution = new SortedDictionary<int, int>();
 
             for (int i = 0; i < size; ++i)
             {
@@ -106,13 +145,13 @@ namespace model.ERModel.Realization
                     int n = m_minimal_path_list[j];
                     if (n > 0) {
                         sum += n;
-                        if (m_result.m_pathDistribution.ContainsKey(n))
+                        if (m_pathDistribution.ContainsKey(n))
                         {
-                            m_result.m_pathDistribution[n]++;
+                            m_pathDistribution[n]++;
                         }
                         else
                         {
-                            m_result.m_pathDistribution.Add(n, 1);
+                            m_pathDistribution.Add(n, 1);
                         }
                         count++;
                     }
@@ -121,54 +160,63 @@ namespace model.ERModel.Realization
 
             for (int i = 0; i < size; ++i)
             {
-                if (m_result.m_pathDistribution.ContainsKey(i))
+                if (m_pathDistribution.ContainsKey(i))
                 {
-                    m_result.m_pathDistribution[i] /= 2;
+                    m_pathDistribution[i] /= 2;
                 }
             }
 
-            m_result.m_diameter = d;
-            m_result.m_avgPathLenght = Math.Round((double)sum / count, 4);
+            m_diameter = d;
+            m_avgPathLenght = Math.Round((double)sum / count, 4);
         }
 
-        public SortedDictionary<int, int> GetDegreeDistribution()
+        public override SortedDictionary<int, int> GetDegreeDistribution()
         {
-            return m_result.m_degreeDistribution;
+            log.Info("GetDegreeDistribution");
+
+            if (0 == m_degreeDistribution.Count)
+            {
+                CountDegreeDestribution();
+            }
+            return m_degreeDistribution;
         }
 
-        public double get_average_degree()
+        public double GetAverageDegree()
         {
-            return m_result.m_avgDegree;
+            log.Info("GetAverageDegree");
+
+            if (-1 == m_avgDegree)
+            {
+                CountDegreeDestribution();
+            }
+            return m_avgDegree;
         }
 
-        public void count_degree_destribution()
+        public void CountDegreeDestribution()
         {
+            log.Info("CountDegreeDestribution");
             int avg = 0;
-            m_result.m_degreeDistribution = new SortedDictionary<int, int>();
+            m_degreeDistribution = new SortedDictionary<int, int>();
 
             for (int i = 0; i < m_container.Size; ++i)
             {
                 int n = m_container.Neighbourship[i].Count;
                 avg += n;
-                if (m_result.m_degreeDistribution.ContainsKey(n))
+                if (m_degreeDistribution.ContainsKey(n))
                 {
-                    m_result.m_degreeDistribution[n]++;
+                    m_degreeDistribution[n]++;
                 }
                 else
                 {
-                    m_result.m_degreeDistribution.Add(n, 1);
+                    m_degreeDistribution.Add(n, 1);
                 }
             }
-            m_result.m_avgDegree = (double) avg / m_container.Size;
+            m_avgDegree = (double) avg / m_container.Size;
         }
 
-        public double GetCycles3()
+        public override int GetCycles3()
         {
-            return m_result.m_cyclesOfOrder3;
-        }
-
-        public void count_cycles_of_order3()
-        {
+            log.Info("GetCycles3");
             int count = 0;
             for (int i = 0; i < m_container.Size; ++i)
             {
@@ -179,17 +227,14 @@ namespace model.ERModel.Realization
                     count += nbs.Intersect(tmp).Count();
                 }
             }
+            m_cyclesOfOrder3 = count / 6;
 
-            m_result.m_cyclesOfOrder3 = count / 6;
+            return m_cyclesOfOrder3;
         }
 
-        public double GetCycles4()
+        public override int GetCycles4()
         {
-            return m_result.m_cyclesOfOrder4;
-        }
-
-        public void count_cycles_of_order4()
-        {
+            log.Info("GetCycles4");
             int count = 0;
             for (int i = 0; i < m_container.Size; ++i)
             {
@@ -209,45 +254,59 @@ namespace model.ERModel.Realization
                     }
                 }
             }
+            m_cyclesOfOrder4 = count / 8;
 
-            m_result.m_cyclesOfOrder4 = count / 8;
+            return m_cyclesOfOrder4;
         }
 
-        public SortedDictionary<double, int> GetClusteringCoefficient()
+        public override SortedDictionary<double, int> GetClusteringCoefficient()
         {
-            return m_result.m_vertexClusteringCoefficient;
+            log.Info("GetClusteringCoefficient");
+
+            if (0 == m_vertexClusteringCoefficient.Count)
+            {
+                CountGraphClusteringCoefficient();
+            }
+            return m_vertexClusteringCoefficient;
         }
 
         public double GetAvgClusteringCoefficient()
         {
-            return m_result.m_clusteringCoefficient;
+            log.Info("GetAvgClusteringCoefficient");
+
+            if (-1 == m_clusteringCoefficient)
+            {
+                CountGraphClusteringCoefficient();
+            }
+            return m_clusteringCoefficient;
         }
 
-        public void count_graph_clustering_coefficient()
+        public void CountGraphClusteringCoefficient()
         {
+            log.Info("CountGraphClusteringCoefficient");
             double r = 0.0;
             double count = 0.0;
             int size = m_container.Size;
-            m_result.m_vertexClusteringCoefficient = new SortedDictionary<double, int>();
+            m_vertexClusteringCoefficient = new SortedDictionary<double, int>();
 
             for (int i = 0; i < size; ++i)
             {
-                r = Math.Round(get_vertex_clustering_coefficient(i), 4);
-                if (m_result.m_vertexClusteringCoefficient.ContainsKey(r))
+                r = Math.Round(GetVertexClusteringCoefficient(i), 4);
+                if (m_vertexClusteringCoefficient.ContainsKey(r))
                 {
-                    m_result.m_vertexClusteringCoefficient[r]++;
+                    m_vertexClusteringCoefficient[r]++;
                 }
                 else
                 {
-                    m_result.m_vertexClusteringCoefficient.Add(r, 1);
+                    m_vertexClusteringCoefficient.Add(r, 1);
                 }
                 count += r;
             }
 
-            m_result.m_clusteringCoefficient = Math.Round(count / size, 4);
+            m_clusteringCoefficient = Math.Round(count / size, 4);
         }
 
-        public double get_vertex_clustering_coefficient(int i)
+        public double GetVertexClusteringCoefficient(int i)
         {
             int count = 0;
             List<int> neighbors = m_container.Neighbourship[i];
@@ -273,27 +332,27 @@ namespace model.ERModel.Realization
         }
 
         //Calculate distribution of connected subgraph of graph.
-        public SortedDictionary<int, int> GetConnSubGraph()
+        public override SortedDictionary<int, int> GetConnSubGraph()
         {
             return new SortedDictionary<int, int>();
         }
         //Calculate count of cycles in 3 lenght based in eigen valu of graph.
-        public double GetCycleEigen3()
+        public override int GetCycleEigen3()
         {
             return 0;
         }
 
         //Calculate count of cycles in 4 lenght based in eigen valu of graph.
-        public double GetCycleEigen4()
+        public override int GetCycleEigen4()
         {
             return 0;
         }
         //Calculate motive of graph.
-        public void GetMotif()
+        public override void GetMotif()
         {
         }
         //Calculate distribution of eigen value of graph.
-        public SortedDictionary<double, int> GetDistEigenPath()
+        public override SortedDictionary<double, int> GetDistEigenPath()
         {
             return new SortedDictionary<double, int>();
         }
@@ -302,12 +361,12 @@ namespace model.ERModel.Realization
             return 0;
         }
         //Calculate distribution of connected subgraph of graph.
-        public SortedDictionary<int, int> GetFullSubGraph()
+        public override SortedDictionary<int, int> GetFullSubGraph()
         {
             return new SortedDictionary<int, int>();
         }
         //Calculate Eigen values of graph.
-        public ArrayList GetEigenValue()
+        public override ArrayList GetEigenValue()
         {
             return new ArrayList();
         }
