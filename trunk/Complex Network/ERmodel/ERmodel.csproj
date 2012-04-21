@@ -49,10 +49,10 @@
   <ItemGroup>
     <Compile Include="Model\ERGraphFactory.cs" />
     <Compile Include="Model\ERModel.cs" />
+    <Compile Include="Model\Realization\ERGenerator.cs" />
     <Compile Include="Model\Realization\ERAnalyzer.cs" />
     <Compile Include="Model\Realization\ERContainer.cs" />
     <Compile Include="Model\Realization\ERGraph.cs" />
-    <Compile Include="Model\Result\AnalyzeResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
