@@ -13,3 +13,8 @@ C:\Users\User\Desktop\From site\RandomGraphLauncher\bin\Debug\Models\HierarchicM
 C:\Users\User\Desktop\From site\HierarchicModel\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\User\Desktop\From site\HierarchicModel\obj\Debug\HierarchicModel.dll
 C:\Users\User\Desktop\From site\HierarchicModel\obj\Debug\HierarchicModel.pdb
+C:\Users\User\Desktop\project\HierarchicModel\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\project\HierarchicModel\obj\Debug\HierarchicModel.dll
+C:\Users\User\Desktop\project\RandomGraphLauncher\bin\Debug\Models\HierarchicModel.dll
+C:\Users\User\Desktop\project\RandomGraphLauncher\bin\Debug\Models\HierarchicModel.pdb
+C:\Users\User\Desktop\project\HierarchicModel\obj\Debug\HierarchicModel.pdb

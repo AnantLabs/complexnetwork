@@ -13,3 +13,8 @@ C:\Users\User\Desktop\From site\RandomGraphLauncher\bin\Debug\Models\BAModel.pdb
 C:\Users\User\Desktop\From site\BAModel\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\User\Desktop\From site\BAModel\obj\Debug\BAModel.dll
 C:\Users\User\Desktop\From site\BAModel\obj\Debug\BAModel.pdb
+C:\Users\User\Desktop\project\RandomGraphLauncher\bin\Debug\Models\BAModel.dll
+C:\Users\User\Desktop\project\RandomGraphLauncher\bin\Debug\Models\BAModel.pdb
+C:\Users\User\Desktop\project\BAModel\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\project\BAModel\obj\Debug\BAModel.dll
+C:\Users\User\Desktop\project\BAModel\obj\Debug\BAModel.pdb

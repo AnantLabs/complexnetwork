@@ -13,3 +13,8 @@ C:\Users\User\Desktop\From site\RandomGraphLauncher\bin\Debug\Models\ERmodel.pdb
 C:\Users\User\Desktop\From site\ERmodel\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\User\Desktop\From site\ERmodel\obj\Debug\ERmodel.dll
 C:\Users\User\Desktop\From site\ERmodel\obj\Debug\ERmodel.pdb
+C:\Users\User\Desktop\project\RandomGraphLauncher\bin\Debug\Models\ERmodel.dll
+C:\Users\User\Desktop\project\RandomGraphLauncher\bin\Debug\Models\ERmodel.pdb
+C:\Users\User\Desktop\project\ERmodel\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\project\ERmodel\obj\Debug\ERmodel.dll
+C:\Users\User\Desktop\project\ERmodel\obj\Debug\ERmodel.pdb

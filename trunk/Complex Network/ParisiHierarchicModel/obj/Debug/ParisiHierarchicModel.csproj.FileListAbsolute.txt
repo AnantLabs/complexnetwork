@@ -13,3 +13,8 @@ C:\Users\User\Desktop\From site\RandomGraphLauncher\bin\Debug\Models\ParisiHiera
 C:\Users\User\Desktop\From site\ParisiHierarchicModel\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\User\Desktop\From site\ParisiHierarchicModel\obj\Debug\ParisiHierarchicModel.dll
 C:\Users\User\Desktop\From site\ParisiHierarchicModel\obj\Debug\ParisiHierarchicModel.pdb
+C:\Users\User\Desktop\project\RandomGraphLauncher\bin\Debug\Models\ParisiHierarchicModel.dll
+C:\Users\User\Desktop\project\RandomGraphLauncher\bin\Debug\Models\ParisiHierarchicModel.pdb
+C:\Users\User\Desktop\project\ParisiHierarchicModel\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\project\ParisiHierarchicModel\obj\Debug\ParisiHierarchicModel.dll
+C:\Users\User\Desktop\project\ParisiHierarchicModel\obj\Debug\ParisiHierarchicModel.pdb
