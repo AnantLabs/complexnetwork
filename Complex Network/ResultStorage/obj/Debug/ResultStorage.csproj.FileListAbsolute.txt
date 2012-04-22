@@ -79,3 +79,30 @@ C:\Users\User\Desktop\From site\ResultStorage\bin\Debug\GenericAlgorithms.pdb
 C:\Users\User\Desktop\From site\ResultStorage\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\User\Desktop\From site\ResultStorage\obj\Debug\ResultStorage.dll
 C:\Users\User\Desktop\From site\ResultStorage\obj\Debug\ResultStorage.pdb
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\ResultStorage.dll
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\ResultStorage.pdb
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\BAModel.dll
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\CommonLibrary.dll
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\ERmodel.dll
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\HierarchicModel.dll
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\log4net.dll
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\NonRegularHierarchicModel.dll
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\ParisiHierarchicModel.dll
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\StaticModel.dll
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\WSModel.dll
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\NumberGeneration.dll
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\GenericAlgorithms.dll
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\MathNet.Iridium.dll
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\BAModel.pdb
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\CommonLibrary.pdb
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\ERmodel.pdb
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\HierarchicModel.pdb
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\NonRegularHierarchicModel.pdb
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\ParisiHierarchicModel.pdb
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\StaticModel.pdb
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\WSModel.pdb
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\NumberGeneration.pdb
+C:\Users\User\Desktop\project\ResultStorage\bin\Debug\GenericAlgorithms.pdb
+C:\Users\User\Desktop\project\ResultStorage\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\project\ResultStorage\obj\Debug\ResultStorage.dll
+C:\Users\User\Desktop\project\ResultStorage\obj\Debug\ResultStorage.pdb

@@ -16,3 +16,9 @@ C:\Users\User\Desktop\From site\NumberGeneration\bin\Debug\log4net.dll
 C:\Users\User\Desktop\From site\NumberGeneration\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\User\Desktop\From site\NumberGeneration\obj\Debug\NumberGeneration.dll
 C:\Users\User\Desktop\From site\NumberGeneration\obj\Debug\NumberGeneration.pdb
+C:\Users\User\Desktop\project\NumberGeneration\bin\Debug\NumberGeneration.dll
+C:\Users\User\Desktop\project\NumberGeneration\bin\Debug\NumberGeneration.pdb
+C:\Users\User\Desktop\project\NumberGeneration\bin\Debug\log4net.dll
+C:\Users\User\Desktop\project\NumberGeneration\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\project\NumberGeneration\obj\Debug\NumberGeneration.dll
+C:\Users\User\Desktop\project\NumberGeneration\obj\Debug\NumberGeneration.pdb

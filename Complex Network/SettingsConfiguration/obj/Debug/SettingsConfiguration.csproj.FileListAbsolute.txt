@@ -52,3 +52,21 @@ C:\Users\User\Desktop\From site\SettingsConfiguration\obj\Debug\GenerateResource
 C:\Users\User\Desktop\From site\SettingsConfiguration\obj\Debug\GenerateResource.write.1.tlog
 C:\Users\User\Desktop\From site\SettingsConfiguration\obj\Debug\SettingsConfiguration.dll
 C:\Users\User\Desktop\From site\SettingsConfiguration\obj\Debug\SettingsConfiguration.pdb
+C:\Users\User\Desktop\project\SettingsConfiguration\bin\Debug\SettingsConfiguration.dll
+C:\Users\User\Desktop\project\SettingsConfiguration\bin\Debug\SettingsConfiguration.pdb
+C:\Users\User\Desktop\project\SettingsConfiguration\bin\Debug\log4net.dll
+C:\Users\User\Desktop\project\SettingsConfiguration\bin\Debug\Microsoft.Data.ConnectionUI.Dialog.dll
+C:\Users\User\Desktop\project\SettingsConfiguration\bin\Debug\Microsoft.Data.ConnectionUI.dll
+C:\Users\User\Desktop\project\SettingsConfiguration\bin\Debug\WcfService.dll
+C:\Users\User\Desktop\project\SettingsConfiguration\bin\Debug\CommonLibrary.dll
+C:\Users\User\Desktop\project\SettingsConfiguration\bin\Debug\NumberGeneration.dll
+C:\Users\User\Desktop\project\SettingsConfiguration\bin\Debug\WcfService.pdb
+C:\Users\User\Desktop\project\SettingsConfiguration\bin\Debug\CommonLibrary.pdb
+C:\Users\User\Desktop\project\SettingsConfiguration\bin\Debug\NumberGeneration.pdb
+C:\Users\User\Desktop\project\SettingsConfiguration\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\project\SettingsConfiguration\obj\Debug\SettingsConfiguration.Properties.Resources.resources
+C:\Users\User\Desktop\project\SettingsConfiguration\obj\Debug\SettingsConfiguration.StartUpWindow.resources
+C:\Users\User\Desktop\project\SettingsConfiguration\obj\Debug\GenerateResource.read.1.tlog
+C:\Users\User\Desktop\project\SettingsConfiguration\obj\Debug\GenerateResource.write.1.tlog
+C:\Users\User\Desktop\project\SettingsConfiguration\obj\Debug\SettingsConfiguration.dll
+C:\Users\User\Desktop\project\SettingsConfiguration\obj\Debug\SettingsConfiguration.pdb
