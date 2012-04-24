@@ -37,6 +37,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.comboBox_ModelType = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // inputMatrix
@@ -113,11 +114,22 @@
             this.comboBox_ModelType.Size = new System.Drawing.Size(185, 21);
             this.comboBox_ModelType.TabIndex = 7;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(34, 142);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(65, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Motel to test";
+            // 
             // TesterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(552, 486);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(421, 492);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.comboBox_ModelType);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
@@ -127,7 +139,7 @@
             this.Controls.Add(this.goldenOut);
             this.Controls.Add(this.inputMatrix);
             this.Name = "TesterForm";
-            this.Text = "TesterForm";
+            this.Text = "Tester";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -144,5 +156,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ComboBox comboBox_ModelType;
+        private System.Windows.Forms.Label label3;
     }
 }

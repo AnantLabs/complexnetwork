@@ -12,7 +12,6 @@ using RandomGraph.Common.Model;
 using System.IO;
 using ResultStorage.Storage;
 using CommonLibrary.Model.Result;
-using RandomGraph.Common.Model;
 using Model.BAModel.Realization;
 using CommonLibrary.Model;
 using Model.WSModel.Realization;
@@ -29,6 +28,8 @@ namespace RandomGraphLauncher
 
         private IDictionary<string, Tuple<Type, Type>> models = new Dictionary<string, Tuple<Type, Type>>();
         private ArrayList labels = new ArrayList();
+        ResultAssembly goldResult;
+
         public TesterForm()
         {
             InitializeComponent();
@@ -62,6 +63,7 @@ namespace RandomGraphLauncher
 
         private void inputMatrix_Click(object sender, EventArgs e)
         {
+            openFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                   inputMatrixPath.Text = openFileDialog1.FileName;
@@ -70,151 +72,430 @@ namespace RandomGraphLauncher
 
         private void goldenOut_Click(object sender, EventArgs e)
         {
+            openFileDialog1.Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 goldenOutPath.Text = openFileDialog1.FileName;
             }
         }
 
-        public void WSModelTest(WSGraph graph)
+        private void WSModelTest(WSGraph graph)
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML(goldenOutPath.Text);
             IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
-            Label label;
-            if (goldResult.Results[0].Result[AnalyseOptions.AveragePath] == analyzer.GetAveragePath())
-            {
-                label = (Label)labels[0];
-                label.Text = "Passed";
-            }
-            else
-            {
-                label = (Label)labels[0];
-                label.Text = "Feild";
-            }
-            if (goldResult.Results[0].Result[AnalyseOptions.AveragePath] == analyzer.GetAveragePath())
-            {
-
-            }
-            if (goldResult.Results[0].Result[AnalyseOptions.AveragePath] == analyzer.GetAveragePath())
-            {
-
-            }
-            if (goldResult.Results[0].Result[AnalyseOptions.AveragePath] == analyzer.GetAveragePath())
-            {
-
-            }
-            if (goldResult.Results[0].Result[AnalyseOptions.AveragePath] == analyzer.GetAveragePath())
-            {
-
-            }
         }
 
-        public void BAModelTest(BAGraph graph)
+        private void BAModelTest(BAGraph graph)
         {
-            XMLResultStorage resultStorage = new XMLResultStorage("");
-            ResultAssembly goldResult = resultStorage.LoadXML(goldenOutPath.Text);
             IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
+
+            //test tDegreeDistribution
+            testDegreeDistribution(0, analyzer);
+
+            //test AveragePath
+            testAveragePath(1, analyzer);
+
+            //test ClusteringCoefficient
+            testClusteringCoefficient(2, analyzer);
+
+            //test EigenValue
+            testEigenValue(3, analyzer);
+
+            //test Cycles of order 3
+            testCycles3(4, analyzer);
+
+            // test diameter
+            testDiameter(5, analyzer);
+
+            // test cycle of order 4
+            testCycles4(6, analyzer);
+
+            // test distance between vertexes
+            testDistanceBetweenVertices(7, analyzer);
+
+            // test distance between eigen values
+            testDistancesBetweenEigenValues(8, analyzer);
+
+            // test order of max full subgraph
+            testFullSubgraphs(9, analyzer);
+        }
+
+        private void ERModelTest(ERGraph graph)
+        {
+            XMLResultStorage resultStorage = new XMLResultStorage("");
+            goldResult = resultStorage.LoadXML(goldenOutPath.Text);
+            ERAnalyzer analyzer = new ERAnalyzer(graph.Container);
+
+            //test tDegreeDistribution
+            testDegreeDistribution(0, analyzer);
+
+            //test AveragePath
+            testAveragePath(1, analyzer);
+
+            //test ClusteringCoefficient
+            testClusteringCoefficient(2, analyzer);
+
+            //test EigenValue
+            testEigenValue(3, analyzer);
+
+            //test Cycles of order 3
+            testCycles3(4, analyzer);
+
+            // test diameter
+            testDiameter(5, analyzer);
+
+            // test cycle of order 4
+            testCycles4(6, analyzer);
+
+            // test motive
+            testMotiv(7, analyzer);
+
+            // test distance between vertexes
+            testDistanceBetweenVertices(8, analyzer);
+
+            // test distance between eigen values
+            testDistancesBetweenEigenValues(9, analyzer);
+
+            // test order of max full subgraph
+            testFullSubgraphs(10, analyzer);
+
+            testCycles(11, analyzer);
+        }
+
+        private void testDegreeDistribution(int number, IGraphAnalyzer analyzer)
+        {
             Label label;
-            if (goldResult.Results[0].Result[AnalyseOptions.AveragePath] == analyzer.GetAveragePath())
+            try
             {
-                label = (Label)labels[0];
-                label.Text = "Passed";
+                if (compare(goldResult.Results[0].VertexDegree, analyzer.GetDegreeDistribution()))
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Passed";
+                    label.ForeColor = Color.Green;
+                }
+                else
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Feild";
+                    label.ForeColor = Color.Red;
+                }
             }
-            else
+            catch (Exception)
             {
-                label = (Label)labels[0];
+                label = (Label)labels[number];
                 label.Text = "Feild";
-            }
-            if (goldResult.Results[0].Result[AnalyseOptions.AveragePath] == analyzer.GetAveragePath())
-            {
-
-            }
-            if (goldResult.Results[0].Result[AnalyseOptions.AveragePath] == analyzer.GetAveragePath())
-            {
-
-            }
-            if (goldResult.Results[0].Result[AnalyseOptions.AveragePath] == analyzer.GetAveragePath())
-            {
-
-            }
-            if (goldResult.Results[0].Result[AnalyseOptions.AveragePath] == analyzer.GetAveragePath())
-            {
-
+                label.ForeColor = Color.Red;
             }
         }
 
-        public void ERModelTest(ERGraph graph)
+        private void testAveragePath(int number, IGraphAnalyzer analyzer)
         {
-            XMLResultStorage resultStorage = new XMLResultStorage("");
-            ResultAssembly goldResult = resultStorage.LoadXML(goldenOutPath.Text);
-            IGraphAnalyzer analyzer = new ERAnalyzer(graph.Container);
             Label label;
-            if (goldResult.Results[0].Result[AnalyseOptions.DegreeDistribution] == analyzer.GetAveragePath())
+            try
             {
-                label = (Label)labels[0];
-                label.Text = "Passed";
+                if (goldResult.Results[0].Result[AnalyseOptions.AveragePath] == analyzer.GetAveragePath())
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Passed";
+                    label.ForeColor = Color.Green;
+                }
+                else
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Feild";
+                    label.ForeColor = Color.Red;
+                }
             }
-            else
+            catch (Exception e)
             {
-                label = (Label)labels[0];
+                label = (Label)labels[number];
                 label.Text = "Feild";
+                label.ForeColor = Color.Red;
             }
-            if (goldResult.Results[0].Result[AnalyseOptions.AveragePath] == analyzer.GetAveragePath())
+        }
+
+        private void testClusteringCoefficient(int number, IGraphAnalyzer analyzer)
+        {
+            Label label;
+            try
             {
-                label = (Label)labels[1];
-                label.Text = "Passed";
+                if (compare(goldResult.Results[0].Coefficient, analyzer.GetClusteringCoefficient()))
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Passed";
+                    label.ForeColor = Color.Green;
+                }
+                else
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Feild";
+                    label.ForeColor = Color.Red;
+                }
             }
-            else
+            catch (Exception)
             {
-                label = (Label)labels[1];
+                label = (Label)labels[number];
                 label.Text = "Feild";
+                label.ForeColor = Color.Red;
             }
-            if (goldResult.Results[0].Coefficient == analyzer.GetClusteringCoefficient())
+        }
+
+        private void testEigenValue(int number, IGraphAnalyzer analyzer)
+        {
+            Label label;
+            try
             {
-                label = (Label)labels[2];
-                label.Text = "Passed";
+                if (compare(goldResult.Results[0].EigenVector, analyzer.GetEigenValue()))
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Passed";
+                    label.ForeColor = Color.Green;
+                }
+                else
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Feild";
+                    label.ForeColor = Color.Red;
+                }
             }
-            else
+            catch (Exception)
             {
-                label = (Label)labels[2];
+                label = (Label)labels[number];
                 label.Text = "Feild";
+                label.ForeColor = Color.Red;
             }
-            if (goldResult.Results[0].EigenVector == analyzer.GetEigenValue())
+        }
+
+        private void testCycles3(int number, IGraphAnalyzer analyzer)
+        {
+            Label label;
+            try
             {
-                label = (Label)labels[3];
-                label.Text = "Passed";
+                if (goldResult.Results[0].Result[AnalyseOptions.Cycles3] == analyzer.GetCycles3())
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Passed";
+                    label.ForeColor = Color.Green;
+                }
+                else
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Feild";
+                    label.ForeColor = Color.Red;
+                }
             }
-            else
+            catch (Exception)
             {
-                label = (Label)labels[3];
+                label = (Label)labels[number];
                 label.Text = "Feild";
+                label.ForeColor = Color.Red;
             }
-            if (goldResult.Results[0].DistancesBetweenEigenValues == analyzer.GetDistEigenPath())
+        }
+
+        private void testDiameter(int number, IGraphAnalyzer analyzer)
+        {
+            Label label;
+            try
             {
-                label = (Label)labels[4];
-                label.Text = "Passed";
+                if (goldResult.Results[0].Result[AnalyseOptions.Diameter] == analyzer.GetDiameter())
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Passed";
+                    label.ForeColor = Color.Green;
+                }
+                else
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Feild";
+                    label.ForeColor = Color.Red;
+                }
             }
-            else
+            catch (Exception)
             {
-                label = (Label)labels[4];
+                label = (Label)labels[number];
                 label.Text = "Feild";
+                label.ForeColor = Color.Red;
             }
-            if (goldResult.Results[0].DistanceBetweenVertices == analyzer.GetDegreeDistribution())
+        }
+
+        private void testCycles4(int number, IGraphAnalyzer analyzer)
+        {
+            Label label;
+            try
             {
-                label = (Label)labels[5];
-                label.Text = "Passed";
+                if (goldResult.Results[0].Result[AnalyseOptions.Cycles4] == analyzer.GetCycles4())
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Passed";
+                    label.ForeColor = Color.Green;
+                }
+                else
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Feild";
+                    label.ForeColor = Color.Red;
+                }
             }
-            else
+            catch (Exception)
             {
-                label = (Label)labels[5];
+                label = (Label)labels[number];
                 label.Text = "Feild";
+                label.ForeColor = Color.Red;
+            }
+        }
+
+        private void testDistanceBetweenVertices(int number, IGraphAnalyzer analyzer)
+        {
+            Label label;
+            try
+            {
+                if (compare(goldResult.Results[0].DistanceBetweenVertices, analyzer.GetMinPathDist()))
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Passed";
+                    label.ForeColor = Color.Green;
+                }
+                else
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Feild";
+                    label.ForeColor = Color.Red;
+                }
+            }
+            catch (Exception)
+            {
+                label = (Label)labels[number];
+                label.Text = "Feild";
+                label.ForeColor = Color.Red;
+            }
+        }
+
+        private void testDistancesBetweenEigenValues(int number, IGraphAnalyzer analyzer)
+        {
+            Label label;
+            try
+            {
+                if (compare(goldResult.Results[0].DistancesBetweenEigenValues, analyzer.GetDistEigenPath()))
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Passed";
+                    label.ForeColor = Color.Green;
+                }
+                else
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Feild";
+                    label.ForeColor = Color.Red;
+                }
+            }
+            catch (Exception)
+            {
+                label = (Label)labels[number];
+                label.Text = "Feild";
+                label.ForeColor = Color.Red;
+            }
+        }
+
+        private void testFullSubgraphs(int number, IGraphAnalyzer analyzer)
+        {
+            Label label;
+            try
+            {
+                if (compare(goldResult.Results[0].FullSubgraphs, analyzer.GetFullSubGraph()))
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Passed";
+                    label.ForeColor = Color.Green;
+                }
+                else
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Feild";
+                    label.ForeColor = Color.Red;
+                }
+            }
+            catch (Exception)
+            {
+                label = (Label)labels[number];
+                label.Text = "Feild";
+                label.ForeColor = Color.Red;
+            }
+        }
+
+        private void testMotiv(int number, IGraphAnalyzer analyzer)
+        {
+            Label label;
+            try
+            {
+                if (true)//compare(goldResult.Results[0].MotivesCount, analyzer.GetMotif()))
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Passed";
+                    label.ForeColor = Color.Green;
+                }
+                else
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Feild";
+                    label.ForeColor = Color.Red;
+                }
+            }
+            catch (Exception)
+            {
+                label = (Label)labels[number];
+                label.Text = "Feild";
+                label.ForeColor = Color.Red;
+            }
+        }
+
+        private void testCycles(int number, IGraphAnalyzer analyzer)
+        {
+            Label label;
+            try
+            {
+                if (compare(goldResult.Results[0].Cycles, analyzer.GetCycles(4, 6)))
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Passed";
+                    label.ForeColor = Color.Green;
+                }
+                else
+                {
+                    label = (Label)labels[number];
+                    label.Text = "Feild";
+                    label.ForeColor = Color.Red;
+                }
+            }
+            catch (Exception)
+            {
+                label = (Label)labels[number];
+                label.Text = "Feild";
+                label.ForeColor = Color.Red;
             }
         }
 
         private void constructGraph(string modelName)
         {
-            ArrayList matrix = MatrixFileReader.MatrixReader(inputMatrix.Text);
+            try
+            {
+                XMLResultStorage resultStorage = new XMLResultStorage("");
+                goldResult = resultStorage.LoadXML(goldenOutPath.Text);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(this, "Unable load XML file", e.Message);
+            }
+            ArrayList matrix;
+            try
+            {
+                matrix = MatrixFileReader.MatrixReader(inputMatrixPath.Text);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(this, "Unable load convert file to Arraylist", e.Message);
+                return;
+            }
             switch (modelName)
             {
                 case "Barabasi-Albert":
@@ -237,8 +518,39 @@ namespace RandomGraphLauncher
                     break;
             }
         }
+
+        private bool compare(SortedDictionary<int, int> a, SortedDictionary<int, int> b)
+        {
+            return a.SequenceEqual(b);
+        }
+
+        private bool compare(SortedDictionary<double, int> a, SortedDictionary<double, int> b)
+        {
+            return a.SequenceEqual(b);
+        }
+
+        private bool compare(ArrayList a, ArrayList b)
+        {
+            if(a.Count != b.Count)
+            {
+                return false;
+            }
+            for (int i = 0; i < a.Count; ++i)
+            {
+                if(a[i] != b[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
+            if (!validate())
+            {
+                return;
+            }
             string modelName = comboBox_ModelType.SelectedItem.ToString();
             Type modelType = models[modelName].Item2;
             AvailableAnalyzeOptions[] optionsAttributes = (AvailableAnalyzeOptions[])modelType.GetCustomAttributes(typeof(AvailableAnalyzeOptions), false);
@@ -265,6 +577,21 @@ namespace RandomGraphLauncher
                 }
             }
             constructGraph(modelName);
+        }
+
+        private bool validate()
+        {
+            if (inputMatrixPath.Text == "")
+            {
+                MessageBox.Show(this, "Please select input file");
+                return false;
+            }
+            if (goldenOutPath.Text == "")
+            {
+                MessageBox.Show(this, "Please select golden out file");
+                return false;
+            }
+            return true;
         }
     }
 }

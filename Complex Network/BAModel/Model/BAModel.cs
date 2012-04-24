@@ -112,7 +112,7 @@ namespace Model.BAModel
         protected override void AnalizeModel()
         {
             InvokeProgressEvent(GraphProgress.StartingAnalizing);
-
+            Result.graphSize = BAModelGraph.Container.Size;
             try
             {
                 //Get degree distrubtion

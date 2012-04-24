@@ -123,7 +123,7 @@ namespace Model.ParisiHierarchicModel
         protected override void AnalizeModel()
         {
             InvokeProgressEvent(GraphProgress.StartingAnalizing);
-
+            Result.graphSize = tree.getGraphSize();
             try
             {
                 ////Place generation initialization code here

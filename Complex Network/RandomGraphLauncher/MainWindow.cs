@@ -72,7 +72,7 @@ namespace RandomGraphLauncher
 
         private void InitStorageManager()
         {
-            string provider = ConfigurationManager.AppSettings["Storage"]; ;
+            string provider = ConfigurationManager.AppSettings["Storage"];
             if (provider == "XmlProvider")
             {
                 storageManager = new XMLResultStorage(ConfigurationManager.AppSettings[provider]);
@@ -285,10 +285,14 @@ namespace RandomGraphLauncher
             tester.Show();
         }
 
-        private void modelCheckToolStripMenuItem_Click(object sender, EventArgs e)
+        private void traceingModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ModelCheckWindow check = new ModelCheckWindow();
-            check.Show();
+            ApplicationMode.IsTrainingMode = trainingModeToolStripMenuItem.Checked;
+
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings["Tracing"].Value = trainingModeToolStripMenuItem.Checked ? "yes" : "no";
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
         }
     }
 }
