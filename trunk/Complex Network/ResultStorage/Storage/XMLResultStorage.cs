@@ -73,11 +73,13 @@ namespace ResultStorage.Storage
                 writer.WriteEndElement();
 
                 writer.WriteStartElement("analyseresults");
+
                 foreach (AnalizeResult result in assembly.Results)
                 {
                     writer.WriteStartElement("instance");
 
-                    writer.WriteStartElement("motif");
+                    writer.WriteStartElement("Model");
+                    writer.WriteAttributeString("grapSize", result.graphSize.ToString());
                     writer.WriteEndElement();
 
                     writer.WriteStartElement("result");

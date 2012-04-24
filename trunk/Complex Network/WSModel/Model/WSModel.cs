@@ -122,7 +122,7 @@ namespace Model.WSModel
         protected override void AnalizeModel()
         {
             InvokeProgressEvent(GraphProgress.StartingAnalizing);
-
+            Result.graphSize = graph.Container.Size;
             try
             {
                 ////Place generation initialization code here

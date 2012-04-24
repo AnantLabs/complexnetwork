@@ -158,20 +158,20 @@ namespace Model.BAModel.Realization
         
 
         }
-        public double GetAveragePath()
+        public override double GetAveragePath()
         {
             return m_avgPath;
         }
-        public double GetDiameter()
+        public override int GetDiameter()
         {
             return m_diametr;
         }
-        public SortedDictionary<int, int> GetMinPathDist()
+        public override SortedDictionary<int, int> GetMinPathDist()
         {
             return m_pathDistribution;
                
         }
-        public  SortedDictionary<double, int> GetClusteringCoefficient()
+        public override SortedDictionary<double, int> GetClusteringCoefficient()
         {
             int iEdgeCountForFullness = 0, iNeighbourCount = 0;
             double iclusteringCoefficient = 0;
@@ -205,7 +205,7 @@ namespace Model.BAModel.Realization
             }
             return m_iclusteringCoefficient;
         }
-       public SortedDictionary<int, int> GetDegreeDistribution()
+        public override SortedDictionary<int, int> GetDegreeDistribution()
         {
             SortedDictionary<int, int> m_degreeDistribution = new SortedDictionary<int, int>();
             for (int i = 0; i < m_container.Size; ++i)
@@ -224,7 +224,7 @@ namespace Model.BAModel.Realization
         }
 
 
-       public double GetCycles3()
+        public override int GetCycles3()
         {
            double m_cyclesOfOrder3 = 0;
             for (int i = 0; i < m_container.Size; ++i)
@@ -234,7 +234,7 @@ namespace Model.BAModel.Realization
                  m_cyclesOfOrder3 = 1;
             else
                 m_cyclesOfOrder3 /= 3;
-            return m_cyclesOfOrder3;
+            return (int)m_cyclesOfOrder3;
         }
 
         private int fullSubGgraph(int u)
@@ -271,7 +271,7 @@ namespace Model.BAModel.Realization
             }
             return k;
         }
-        public  int GetMaxFullSubgraph()
+        public int GetMaxFullSubgraph()
         {
             int k = 0;
             for (int i = 0; i < m_container.Size; i++)
@@ -281,43 +281,43 @@ namespace Model.BAModel.Realization
             return k;
         }
         //Calculate distribution of connected subgraph of graph.
-        public  SortedDictionary<int, int> GetConnSubGraph()
+        public override  SortedDictionary<int, int> GetConnSubGraph()
         {
             return new SortedDictionary<int, int>();
         }
         //Calculate count of cycles in 3 lenght based in eigen valu of graph.
-        public  double GetCycleEigen3()
+        public override int GetCycleEigen3()
         {
             return 0;
         }
 
         //Calculate count of cycles in 4 lenght of graph.
-        public  double GetCycles4()
+        public override int GetCycles4()
         {
             return 0;
         }
 
         //Calculate count of cycles in 4 lenght based in eigen valu of graph.
-        public  double GetCycleEigen4()
+        public override int GetCycleEigen4()
         {
             return 0;
         }
         //Calculate motive of graph.
-        public void GetMotif()
+        public override void GetMotif()
         {
         }
         //Calculate distribution of eigen value of graph.
-        public  SortedDictionary<double, int> GetDistEigenPath()
+        public override SortedDictionary<double, int> GetDistEigenPath()
         {
             return new SortedDictionary<double, int>();
         }
         //Calculate distribution of connected subgraph of graph.
-        public  SortedDictionary<int, int> GetFullSubGraph()
+        public override SortedDictionary<int, int> GetFullSubGraph()
         {
             return new SortedDictionary<int, int>();
         }
         //Calculate Eigen values of graph.
-        public  ArrayList GetEigenValue()
+        public override ArrayList GetEigenValue()
         {
             return new ArrayList();
         }

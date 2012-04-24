@@ -128,7 +128,7 @@ namespace Model.StaticModel
         protected override void AnalizeModel()
         {
             InvokeProgressEvent(GraphProgress.StartingAnalizing);
-
+            Result.graphSize = StaticModelGraph.Container.Size;
             try
             {
                 //Get degree distrubtion

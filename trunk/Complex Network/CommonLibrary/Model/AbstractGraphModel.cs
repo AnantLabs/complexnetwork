@@ -12,6 +12,7 @@ using AnalyzerFramework.Manager.ModelRepo;
 using CommonLibrary.Model.Events;
 using CommonLibrary.Model.Util;
 using System.Collections;
+using System.Configuration;
 
 namespace RandomGraph.Common.Model
 {
@@ -153,9 +154,13 @@ namespace RandomGraph.Common.Model
         /// <summary>
         /// Dump generated graph matrix into file
         /// </summary>
-        public void StartTrace()
+        public void StartTrace(int instanceIndex, string modelName)
         {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\dump.txt"))
+            string provider = ConfigurationManager.AppSettings["Storage"];
+            string dir = ConfigurationManager.AppSettings[provider] + "\\" + modelName + "\\";
+            string filePath = dir + instanceIndex + "_dump.txt";
+            System.IO.Directory.CreateDirectory(dir);
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath))
             {
                 bool [,] matrix = GetMatrix();
                 for (int i = 0; i < matrix.GetLength(0); ++i )

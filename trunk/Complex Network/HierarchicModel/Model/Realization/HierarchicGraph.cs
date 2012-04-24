@@ -493,5 +493,10 @@ namespace Model.HierarchicModel.Realization
                 return this.maxlevel;
             }
         }
+
+        public int getGraphSize()
+        {
+            return (int)Math.Pow(primeNumber,maxlevel);
+        }
     }
 }

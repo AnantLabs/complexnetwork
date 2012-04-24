@@ -46,7 +46,6 @@ namespace RandomGraphLauncher
             this.testerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userControl11 = new MyControlLibrary.TabCtlEx();
-            this.modelCheckToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,20 +68,20 @@ namespace RandomGraphLauncher
             this.newJobToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // newJobToolStripMenuItem
             // 
             this.newJobToolStripMenuItem.Name = "newJobToolStripMenuItem";
-            this.newJobToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.newJobToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.newJobToolStripMenuItem.Text = "New Job";
             this.newJobToolStripMenuItem.Click += new System.EventHandler(this.newJobToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -94,20 +93,20 @@ namespace RandomGraphLauncher
             this.trainingModeToolStripMenuItem,
             this.traceingModeToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
             // storageToolStripMenuItem
             // 
             this.storageToolStripMenuItem.Name = "storageToolStripMenuItem";
-            this.storageToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.storageToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.storageToolStripMenuItem.Text = "Storage";
             this.storageToolStripMenuItem.Click += new System.EventHandler(this.storageToolStripMenuItem_Click);
             // 
             // distributedToolStripMenuItem
             // 
             this.distributedToolStripMenuItem.Name = "distributedToolStripMenuItem";
-            this.distributedToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.distributedToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.distributedToolStripMenuItem.Text = "Distributed";
             this.distributedToolStripMenuItem.Click += new System.EventHandler(this.distributedToolStripMenuItem_Click);
             // 
@@ -115,7 +114,7 @@ namespace RandomGraphLauncher
             // 
             this.trainingModeToolStripMenuItem.CheckOnClick = true;
             this.trainingModeToolStripMenuItem.Name = "trainingModeToolStripMenuItem";
-            this.trainingModeToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.trainingModeToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.trainingModeToolStripMenuItem.Text = "TrainingMode";
             this.trainingModeToolStripMenuItem.CheckedChanged += new System.EventHandler(this.TrainingModeChanged);
             // 
@@ -123,45 +122,45 @@ namespace RandomGraphLauncher
             // 
             this.traceingModeToolStripMenuItem.CheckOnClick = true;
             this.traceingModeToolStripMenuItem.Name = "traceingModeToolStripMenuItem";
-            this.traceingModeToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.traceingModeToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.traceingModeToolStripMenuItem.Text = "Traceing Mode";
+            this.traceingModeToolStripMenuItem.Click += new System.EventHandler(this.traceingModeToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statisticAnalyzerToolStripMenuItem,
             this.dataExportIMportToolStripMenuItem,
-            this.testerToolStripMenuItem,
-            this.modelCheckToolStripMenuItem});
+            this.testerToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // statisticAnalyzerToolStripMenuItem
             // 
             this.statisticAnalyzerToolStripMenuItem.Name = "statisticAnalyzerToolStripMenuItem";
-            this.statisticAnalyzerToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.statisticAnalyzerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.statisticAnalyzerToolStripMenuItem.Text = "Statistic Analyzer";
             this.statisticAnalyzerToolStripMenuItem.Click += new System.EventHandler(this.statisticAnalyzerToolStripMenuItem_Click);
             // 
             // dataExportIMportToolStripMenuItem
             // 
             this.dataExportIMportToolStripMenuItem.Name = "dataExportIMportToolStripMenuItem";
-            this.dataExportIMportToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.dataExportIMportToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.dataExportIMportToolStripMenuItem.Text = "Data Export/Import";
             this.dataExportIMportToolStripMenuItem.Click += new System.EventHandler(this.dataExportIMportToolStripMenuItem_Click);
             // 
             // testerToolStripMenuItem
             // 
             this.testerToolStripMenuItem.Name = "testerToolStripMenuItem";
-            this.testerToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.testerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.testerToolStripMenuItem.Text = "Tester";
             this.testerToolStripMenuItem.Click += new System.EventHandler(this.testerToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // userControl11
@@ -178,13 +177,6 @@ namespace RandomGraphLauncher
             this.userControl11.TabIndex = 0;
             this.userControl11.TabStop = false;
             this.userControl11.OnClose += new MyControlLibrary.TabCtlEx.OnHeaderCloseDelegate(this.userControl11_OnClose);
-            // 
-            // modelCheckToolStripMenuItem
-            // 
-            this.modelCheckToolStripMenuItem.Name = "modelCheckToolStripMenuItem";
-            this.modelCheckToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.modelCheckToolStripMenuItem.Text = "Model Check";
-            this.modelCheckToolStripMenuItem.Click += new System.EventHandler(this.modelCheckToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -226,7 +218,6 @@ namespace RandomGraphLauncher
         private ToolStripMenuItem trainingModeToolStripMenuItem;
         private ToolStripMenuItem testerToolStripMenuItem;
         private ToolStripMenuItem traceingModeToolStripMenuItem;
-        private ToolStripMenuItem modelCheckToolStripMenuItem;
 
     }
 }

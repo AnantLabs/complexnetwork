@@ -120,7 +120,7 @@ namespace Model.HierarchicModel
         protected override void AnalizeModel()
         {
             InvokeProgressEvent(GraphProgress.StartingAnalizing);
-
+            Result.graphSize = tree.getGraphSize();
             try
             {
                 ////Place generation initialization code here
