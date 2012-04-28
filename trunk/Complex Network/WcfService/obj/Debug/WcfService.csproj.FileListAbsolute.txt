@@ -86,3 +86,25 @@ C:\Users\User\Desktop\project\WcfService\bin\Debug\GenericAlgorithms.pdb
 C:\Users\User\Desktop\project\WcfService\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\User\Desktop\project\WcfService\obj\Debug\WcfService.dll
 C:\Users\User\Desktop\project\WcfService\obj\Debug\WcfService.pdb
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\WcfService.dll.config
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\WcfService.dll
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\WcfService.pdb
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\BAModel.dll
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\CommonLibrary.dll
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\ERmodel.dll
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\HierarchicModel.dll
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\WSModel.dll
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\NumberGeneration.dll
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\log4net.dll
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\GenericAlgorithms.dll
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\MathNet.Iridium.dll
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\BAModel.pdb
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\CommonLibrary.pdb
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\ERmodel.pdb
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\HierarchicModel.pdb
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\WSModel.pdb
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\NumberGeneration.pdb
+C:\Users\User\Desktop\New folder\WcfService\bin\Debug\GenericAlgorithms.pdb
+C:\Users\User\Desktop\New folder\WcfService\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\New folder\WcfService\obj\Debug\WcfService.dll
+C:\Users\User\Desktop\New folder\WcfService\obj\Debug\WcfService.pdb
