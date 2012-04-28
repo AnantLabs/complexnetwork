@@ -30,3 +30,11 @@ C:\Users\User\Desktop\project\CommonLibrary\bin\Debug\NumberGeneration.pdb
 C:\Users\User\Desktop\project\CommonLibrary\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\User\Desktop\project\CommonLibrary\obj\Debug\CommonLibrary.dll
 C:\Users\User\Desktop\project\CommonLibrary\obj\Debug\CommonLibrary.pdb
+C:\Users\User\Desktop\New folder\CommonLibrary\bin\Debug\CommonLibrary.dll
+C:\Users\User\Desktop\New folder\CommonLibrary\bin\Debug\CommonLibrary.pdb
+C:\Users\User\Desktop\New folder\CommonLibrary\bin\Debug\log4net.dll
+C:\Users\User\Desktop\New folder\CommonLibrary\bin\Debug\NumberGeneration.dll
+C:\Users\User\Desktop\New folder\CommonLibrary\bin\Debug\NumberGeneration.pdb
+C:\Users\User\Desktop\New folder\CommonLibrary\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\New folder\CommonLibrary\obj\Debug\CommonLibrary.dll
+C:\Users\User\Desktop\New folder\CommonLibrary\obj\Debug\CommonLibrary.pdb

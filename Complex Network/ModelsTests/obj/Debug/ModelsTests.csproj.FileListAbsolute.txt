@@ -114,3 +114,32 @@ C:\Users\User\Desktop\project\ModelsTests\bin\Debug\StaticModel.pdb
 C:\Users\User\Desktop\project\ModelsTests\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\User\Desktop\project\ModelsTests\obj\Debug\ModelsTests.dll
 C:\Users\User\Desktop\project\ModelsTests\obj\Debug\ModelsTests.pdb
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\ModelsTests.dll
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\ModelsTests.pdb
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\BAModel.dll
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\CommonLibrary.dll
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\ERmodel.dll
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\HierarchicModel.dll
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\log4net.dll
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\ResultStorage.dll
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\WSModel.dll
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\NumberGeneration.dll
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\GenericAlgorithms.dll
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\ParisiHierarchicModel.dll
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\NonRegularHierarchicModel.dll
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\StaticModel.dll
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\MathNet.Iridium.dll
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\BAModel.pdb
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\CommonLibrary.pdb
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\ERmodel.pdb
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\HierarchicModel.pdb
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\ResultStorage.pdb
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\WSModel.pdb
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\NumberGeneration.pdb
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\GenericAlgorithms.pdb
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\ParisiHierarchicModel.pdb
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\NonRegularHierarchicModel.pdb
+C:\Users\User\Desktop\New folder\ModelsTests\bin\Debug\StaticModel.pdb
+C:\Users\User\Desktop\New folder\ModelsTests\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\New folder\ModelsTests\obj\Debug\ModelsTests.dll
+C:\Users\User\Desktop\New folder\ModelsTests\obj\Debug\ModelsTests.pdb

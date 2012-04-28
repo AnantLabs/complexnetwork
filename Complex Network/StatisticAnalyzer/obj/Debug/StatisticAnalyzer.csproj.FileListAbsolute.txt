@@ -18,3 +18,8 @@ C:\Users\User\Desktop\project\RandomGraphLauncher\bin\Debug\StatisticAnalyzer.pd
 C:\Users\User\Desktop\project\StatisticAnalyzer\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\User\Desktop\project\StatisticAnalyzer\obj\Debug\StatisticAnalyzer.dll
 C:\Users\User\Desktop\project\StatisticAnalyzer\obj\Debug\StatisticAnalyzer.pdb
+C:\Users\User\Desktop\New folder\RandomGraphLauncher\bin\Debug\StatisticAnalyzer.dll
+C:\Users\User\Desktop\New folder\RandomGraphLauncher\bin\Debug\StatisticAnalyzer.pdb
+C:\Users\User\Desktop\New folder\StatisticAnalyzer\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\New folder\StatisticAnalyzer\obj\Debug\StatisticAnalyzer.dll
+C:\Users\User\Desktop\New folder\StatisticAnalyzer\obj\Debug\StatisticAnalyzer.pdb

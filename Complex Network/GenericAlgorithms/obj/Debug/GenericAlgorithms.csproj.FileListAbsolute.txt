@@ -26,3 +26,10 @@ C:\Users\User\Desktop\project\GenericAlgorithms\bin\Debug\MathNet.Iridium.dll
 C:\Users\User\Desktop\project\GenericAlgorithms\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\User\Desktop\project\GenericAlgorithms\obj\Debug\GenericAlgorithms.dll
 C:\Users\User\Desktop\project\GenericAlgorithms\obj\Debug\GenericAlgorithms.pdb
+C:\Users\User\Desktop\New folder\GenericAlgorithms\bin\Debug\GenericAlgorithms.dll
+C:\Users\User\Desktop\New folder\GenericAlgorithms\bin\Debug\GenericAlgorithms.pdb
+C:\Users\User\Desktop\New folder\GenericAlgorithms\bin\Debug\log4net.dll
+C:\Users\User\Desktop\New folder\GenericAlgorithms\bin\Debug\MathNet.Iridium.dll
+C:\Users\User\Desktop\New folder\GenericAlgorithms\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\New folder\GenericAlgorithms\obj\Debug\GenericAlgorithms.dll
+C:\Users\User\Desktop\New folder\GenericAlgorithms\obj\Debug\GenericAlgorithms.pdb
