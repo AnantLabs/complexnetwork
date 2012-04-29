@@ -294,5 +294,11 @@ namespace RandomGraphLauncher
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
         }
+
+        private void modelCheckingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelCheckWindow wnd = new ModelCheckWindow();
+            wnd.ShowDialog();
+        }
     }
 }
