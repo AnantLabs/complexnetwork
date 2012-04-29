@@ -23,7 +23,51 @@ namespace ModelCheck
             d = t;
         }
 
-        public PossibleAnswers Process(List<List<int>> k)
+        public PossibleAnswers IsHierarchic()
+        {
+            CalcParms();
+            return Process(Polynom());
+        }
+
+        private void CalcParms()
+        {
+            int k;
+
+            for (p = 2; ; p++)
+                for (t = 1; ; t++)
+                {
+                    k = (int)Math.Pow(p, t);
+
+                    if (k == d.Count)
+                        return;
+
+                    if (k > d.Count)
+                        break;
+                }
+
+        }
+
+        private List<List<int>> Polynom()
+        {
+            List<List<int>> k = new List<List<int>>();
+
+            for (int i = 0; i < d.Count; i++)
+            {
+                k.Add(new List<int>(d.Count));
+                int degree = d[i];
+                for (int j = 0; j < t; j++)
+                {
+                    k[i].Insert(j, degree % p);
+                    degree /= p;
+                }
+            }
+            k.Sort(Comparing);
+
+            return k;
+
+        }
+
+        private PossibleAnswers Process(List<List<int>> k)
         {
             List<int> subk = new List<int>();
             List<int> subk1 = new List<int>();
@@ -88,24 +132,6 @@ namespace ModelCheck
             return PossibleAnswers.Yes;
         }
 
-        private void CalcParms()
-        {
-            int k;
-
-            for (p = 2; ; p++)
-                for (t = 1; ; t++)
-                {
-                    k = (int)Math.Pow(p, t);
-
-                    if (k == d.Count)
-                        return;
-
-                    if (k > d.Count)
-                        break;
-                }
-
-        }
-
         private static int Comparing(List<int> k1, List<int> k2)
         {
             if (k1.Count != k2.Count)
@@ -116,26 +142,6 @@ namespace ModelCheck
                     return k1[i] - k2[i];
 
             return 0;
-        }
-
-        private List<List<int>> Polynom()
-        {
-            List<List<int>> k = new List<List<int>>();
-
-            for (int i = 0; i < d.Count; i++)
-            {
-                k.Add(new List<int>(d.Count));
-                int degree = d[i];
-                for (int j = 0; j < t; j++)
-                {
-                    k[i].Insert(j, degree % p);
-                    degree /= p;
-                }
-            }
-            k.Sort(Comparing);
-
-            return k;
-
         }
 
         private static List<int> HavelHakimi(List<int> d)

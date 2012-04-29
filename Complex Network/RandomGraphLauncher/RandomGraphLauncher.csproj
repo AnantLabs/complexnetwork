@@ -265,6 +265,10 @@
       <Project>{98632726-4F62-4777-9231-2A97610DD653}</Project>
       <Name>GenericAlgorithms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModelCheck\ModelCheck.csproj">
+      <Project>{148BCD23-EFCA-40A1-B4CB-1EED561AACAD}</Project>
+      <Name>ModelCheck</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ResultStorage\ResultStorage.csproj">
       <Project>{6FA3FD94-7C49-4232-810E-BCFB026C8608}</Project>
       <Name>ResultStorage</Name>
