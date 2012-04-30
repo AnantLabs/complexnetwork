@@ -90,7 +90,7 @@ class EngineForCycles
     {
         try
         {
-            if (_traceToFile && cycleLength > 2)
+            if (_traceToFile)
             {
                 _fileWriter = new StreamWriter(_fileName);
                 _fileWriter.WriteLine("Start time: " + System.DateTime.Now);
@@ -105,7 +105,7 @@ class EngineForCycles
                 branch.RemoveAt(branch.Count - 1);
                 Debug.Assert(branch.Count == 0);
             }
-            if (_traceToFile && cycleLength > 2)
+            if (_traceToFile)
             {
                 _fileWriter.WriteLine("End time: " + System.DateTime.Now);
                 _fileWriter.WriteLine("Calculation succeeded");
@@ -113,7 +113,7 @@ class EngineForCycles
         }
         catch (System.Exception e)
         {
-            if (_traceToFile && cycleLength > 2)
+            if (_traceToFile)
             {
                 _fileWriter.WriteLine("End time: " + System.DateTime.Now);
                 _fileWriter.WriteLine("Calculation failed: an exception was thrown");
@@ -122,11 +122,11 @@ class EngineForCycles
         }
         finally
         {
-            if (_traceToFile && cycleLength > 2)
+            if (_traceToFile)
             {
                 _fileWriter.WriteLine("Vertices Count: " + (long)System.Math.Pow(tree.prime, tree.degree));
                 _fileWriter.WriteLine("Cycle Count: " + (_cycles.Count / 2));
-                _fileWriter.WriteLine("Found cycles(each cycle is mentioned twice):");
+                _fileWriter.WriteLine("Found cycles(each cycle is mentioned twice - e.g 1234 1432):");
                 printSet();
                 _fileWriter.Close();
             }
