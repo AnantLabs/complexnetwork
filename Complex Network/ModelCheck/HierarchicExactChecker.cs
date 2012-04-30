@@ -10,21 +10,24 @@ namespace ModelCheck
     {
         private static readonly ILog logger = log4net.LogManager.GetLogger(typeof(HierarchicExactChecker));
 
-        private Neighbourship _container;
+        private Container _container;
         private TextWriter _fileWriter = null;
 
         public static void main()
         {
-            ArrayList matrix = Neighbourship.get_data("C:/ComplexNetwork/graph.txt");
+            ArrayList matrix = Container.get_data("C:/ComplexNetwork/graph.txt");
             HierarchicExactChecker checker = new HierarchicExactChecker();
-            checker.IsHierarchic(matrix);
+            Tree tree = null;
+            if (checker.IsHierarchic(matrix, ref tree))
+            {
+            }
         }
 
         public bool IsHierarchic(ArrayList matrix)
         {
-            _container = new Neighbourship(matrix);
-            ICollection<int> primeNumbers = getAllDegrees(_container.Size).Keys;
-            foreach (int prime in primeNumbers)
+            _container = new Container(matrix);
+            IDictionary<int, int> degrees = getAllDegrees(_container.Size);
+            foreach (int prime in degrees.Keys)
             {
                 if (isHierarchic(prime))
                 {
@@ -34,10 +37,25 @@ namespace ModelCheck
             return false;
         }
 
-        private static IDictionary<int, int> getAllDegrees(long n)
+        public bool IsHierarchic(ArrayList matrix, ref Tree tree)
+        {
+            _container = new Container(matrix);
+            IDictionary<int, int> degrees = getAllDegrees(_container.Size);
+            foreach (int prime in degrees.Keys)
+            {
+                if (isHierarchic(prime, ref tree))
+                {
+                    Debug.Assert(tree.Levels.Count == degrees[prime]);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static IDictionary<int, int> getAllDegrees(int n)
         {
             Dictionary<int, int> collection = new Dictionary<int, int>();
-            long degree = 0;
+            int degree = 0;
             for (int p = 2; (degree = p * p) <= n; ++p)
             {
                 int k = 2;
@@ -56,62 +74,84 @@ namespace ModelCheck
 
         private bool isHierarchic(int prime)
         {
-            List<List<long>> combination = generateCombination(prime, _container.Size);
-            if (combination != null)
-            {
-                return true;
-            }
-            return false;
+            Tree tree = generateTree(prime, _container.Size);
+            return tree != null;
         }
 
-        public List<List<long>> generateCombination(long p, long n)
+        private bool isHierarchic(int prime, ref Tree tree)
         {
-            List<List<long>> combination = new List<List<long>>();
+            tree = generateTree(prime, _container.Size);
+            return tree != null;
+        }
+
+        private Tree generateTree(int p, int n)
+        {
+            Tree tree = new Tree();
+            return generateTree(tree, p, n);
+        }
+
+        private Tree generateTree(Tree tree, int p, int n)
+        {
+            List<Group> combination = new List<Group>();
             try
             {
-                long pivot = 0;
-                List<long> group = getFirstGroup(pivot, p, n);
+                Group group = getFirstGroup(tree, combination, p, n);
+                if (group == null)
+                {
+                    return null;
+                }
                 combination.Add(group);
-                do
+                if (p < n)
                 {
-                    combination = getNextCombination(combination, p, n);
-                } while (combination != null && riseUp(combination) == false);
-                if (_fileWriter != null)
+                    do
+                    {
+                        combination = getNextCombination(tree, combination, p, n);
+                    } while (combination != null && riseUp(tree, combination, p, n) == false);
+                    if (combination == null)
+                    {
+                        return null;
+                    }
+                }
+                else
                 {
-                    _fileWriter.Close();
+                    riseUp(tree, combination, p, n);
                 }
             }
             catch (System.Exception e)
             {
-                logger.Error("Failed to generate combinations. The reason was: " + e.Message);
+                logger.Error("Failed to generate tree. The reason was: " + e.Message);
                 logger.Info(null, e);
                 return null;
             }
-            return combination;
+            return tree;
         }
 
-        private List<long> getFirstGroup(long pivot, long p, long n)
+        private Group getFirstGroup(Tree tree, List<Group> combination, int p, int n)
         {
-            List<long> group = new List<long>();
-            for (long i = 0; i < p; ++i)
+            Group group = new Group();
+            for (int i = 0; i < p; ++i)
             {
-                group.Add(i);
+                group.SubGroups.Add(i);
+            }
+            if (checkConnections(tree, group, p, n) == false)
+            {
+                group = getNextValidGroup(tree, combination, group, p, n);
             }
             return group;
         }
 
-        private List<List<long>> getNextCombination(List<List<long>> originalCombination, long p, long n)
+        private List<Group> getNextCombination(Tree tree, List<Group> originalCombination, int p, int n)
         {
             Debug.Assert(originalCombination.Count != 0);
-            List<List<long>> combination = new List<List<long>>(originalCombination);
+            List<Group> combination = new List<Group>(originalCombination);
             if (combination.Count == n / p)
             {
-                List<long> group = null;
+                Group group = null;
                 while (group == null && 0 < combination.Count)
                 {
                     group = combination[combination.Count - 1];
                     combination.RemoveAt(combination.Count - 1);
-                    group = getNextValidGroup(combination, group, p, n);
+                    group = getNextValidGroup(tree, combination, group, p, n);
                 }
                 if (group != null)
                 {
@@ -120,8 +160,8 @@ namespace ModelCheck
             }
             while (0 < combination.Count && combination.Count < n / p)
             {
-                List<long> group = null;
-                group = getNextValidGroup(combination, p, n);
+                Group group = null;
+                group = getNextValidGroup(tree, combination, p, n);
                 if (group != null)
                 {
                     combination.Add(group);
@@ -132,7 +172,7 @@ namespace ModelCheck
                     {
                         group = combination[combination.Count - 1];
                         combination.RemoveAt(combination.Count - 1);
-                        group = getNextValidGroup(combination, group, p, n);
+                        group = getNextValidGroup(tree, combination, group, p, n);
                     }
                     if (group != null)
                     {
@@ -148,66 +188,66 @@ namespace ModelCheck
             return null;
         }
 
-        private List<long> getNextValidGroup(List<List<long>> combination, long p, long n)
+        private Group getNextValidGroup(Tree tree, List<Group> combination, int p, int n)
         {
-            SortedSet<long> set = new SortedSet<long>();
-            foreach (List<long> group in combination)
+            SortedSet<int> set = new SortedSet<int>();
+            foreach (Group group in combination)
             {
-                foreach (long vertex in group)
+                foreach (int vertex in group.SubGroups)
                 {
                     set.Add(vertex);
                 }
             }
-            List<long> nextGroup = null;
+            Group nextGroup = null;
             do
             {
                 nextGroup = getNextGroup(combination, set, p, n);
-            } while (nextGroup != null && checkConnections(combination, nextGroup, p, n) == false);
+            } while (nextGroup != null && checkConnections(tree, nextGroup, p, n) == false);
             return nextGroup;
         }
 
-        private List<long> getNextValidGroup(List<List<long>> combination, List<long> group, long p, long n)
+        private Group getNextValidGroup(Tree tree, List<Group> combination, Group group, int p, int n)
         {
-            SortedSet<long> set = new SortedSet<long>();
-            foreach (List<long> g in combination)
+            SortedSet<int> set = new SortedSet<int>();
+            foreach (Group g in combination)
             {
-                foreach (long vertex in g)
+                foreach (int vertex in g.SubGroups)
                 {
                     set.Add(vertex);
                 }
             }
-            List<long> nextGroup = group;
+            Group nextGroup = group;
             do
             {
                 nextGroup = getNextGroup(combination, nextGroup, set, p, n);
-            } while (nextGroup != null && checkConnections(combination, nextGroup, p, n) == false);
+            } while (nextGroup != null && checkConnections(tree, nextGroup, p, n) == false);
             return nextGroup;
         }
 
-        private List<long> getNextGroup(List<List<long>> combination, SortedSet<long> set, long p, long n)
+        private Group getNextGroup(List<Group> combination, SortedSet<int> set, int p, int n)
         {
             Debug.Assert(combination.Count != 0);
-            Debug.Assert(combination[combination.Count - 1].Count == p);
-            long prevPivot = combination[combination.Count - 1][0];
-            List<long> next = new List<long>();
-            long prevVertex = -1;
-            foreach (long vertex in set)
+            Debug.Assert(combination[combination.Count - 1].SubGroups.Count == p);
+            int prevPivot = combination[combination.Count - 1].SubGroups[0];
+            Group next = new Group();
+            int prevVertex = -1;
+            foreach (int vertex in set)
             {
                 if (vertex - prevVertex > 0)
                 {
-                    long v = prevVertex;
-                    while (next.Count < p && vertex - v > 1)
+                    int v = prevVertex;
+                    while (next.SubGroups.Count < p && vertex - v > 1)
                     {
                         if (++v >= prevPivot)
                         {
-                            next.Add(v);
+                            next.SubGroups.Add(v);
                         }
                         else
                         {
                             return null;
                         }
                     }
-                    if (next.Count == p)
+                    if (next.SubGroups.Count == p)
                     {
                         return next;
                     }
@@ -218,99 +258,147 @@ namespace ModelCheck
             {
                 prevVertex = set.Max;
             }
-            while (next.Count < p)
+            while (next.SubGroups.Count < p && prevVertex < n - 1)
             {
-                next.Add(++prevVertex);
+                next.SubGroups.Add(++prevVertex);
             }
+            Debug.Assert(next.SubGroups.Count == p);
             return next;
         }
 
-        private List<long> getNextGroup(List<List<long>> combination, List<long> oldGroup, SortedSet<long> set, long p, long n)
+        private Group getNextGroup(List<Group> combination, Group oldGroup, SortedSet<int> set, int p, int n)
         {
-            //Debug.Assert(combination.Count != 0);
-            Debug.Assert(oldGroup.Count == p);
-            long vertex = -1;
-            while (vertex == -1 && 1 < oldGroup.Count)
+            Debug.Assert(oldGroup.SubGroups.Count == p);
+            int vertex = -1;
+            while (vertex == -1 && 1 < oldGroup.SubGroups.Count)
             {
-                vertex = oldGroup[oldGroup.Count - 1];
-                oldGroup.RemoveAt(oldGroup.Count - 1);
+                vertex = oldGroup.SubGroups[oldGroup.SubGroups.Count - 1];
+                oldGroup.SubGroups.RemoveAt(oldGroup.SubGroups.Count - 1);
                 vertex = getNextValidVertex(set, oldGroup, vertex, p, n);
             }
             if (vertex != -1)
             {
-                oldGroup.Add(vertex);
+                oldGroup.SubGroups.Add(vertex);
             }
-            while (1 < oldGroup.Count && oldGroup.Count < p)
+            while (1 < oldGroup.SubGroups.Count && oldGroup.SubGroups.Count < p)
             {
                 vertex = getNextValidVertex(set, oldGroup, p, n);
                 if (vertex != -1)
                 {
-                    oldGroup.Add(vertex);
+                    oldGroup.SubGroups.Add(vertex);
                 }
                 else
                 {
-                    while (vertex == -1 && 1 < oldGroup.Count)
+                    while (vertex == -1 && 1 < oldGroup.SubGroups.Count)
                     {
-                        vertex = oldGroup[oldGroup.Count - 1];
-                        oldGroup.RemoveAt(oldGroup.Count - 1);
+                        vertex = oldGroup.SubGroups[oldGroup.SubGroups.Count - 1];
+                        oldGroup.SubGroups.RemoveAt(oldGroup.SubGroups.Count - 1);
                         vertex = getNextValidVertex(set, oldGroup, vertex, p, n);
                     }
                     if (vertex != -1)
                     {
-                        oldGroup.Add(vertex);
+                        oldGroup.SubGroups.Add(vertex);
                     }
                 }
             }
-            if (oldGroup.Count == p)
+            if (oldGroup.SubGroups.Count == p)
             {
                 return oldGroup;
             }
-            Debug.Assert(oldGroup.Count == 1);
+            Debug.Assert(oldGroup.SubGroups.Count == 1);
             return null;
         }
 
-        private long getNextValidVertex(SortedSet<long> set, List<long> group, long p, long n)
+        private int getNextValidVertex(SortedSet<int> set, Group group, int p, int n)
         {
-            Debug.Assert(group.Count != 0);
-            long vertex = group[group.Count - 1] + 1;
+            Debug.Assert(group.SubGroups.Count != 0);
+            int vertex = group.SubGroups[group.SubGroups.Count - 1] + 1;
             while (set.Contains(vertex) && vertex < n)
             {
                 ++vertex;
             }
-            if (vertex < n - p + group.Count + 1)
+            if (vertex < n - p + group.SubGroups.Count + 1)
             {
                 return vertex;
             }
             return -1;
         }
 
-        private long getNextValidVertex(SortedSet<long> set, List<long> group, long oldVertex, long p, long n)
+        private int getNextValidVertex(SortedSet<int> set, Group group, int oldVertex, int p, int n)
         {
-            //Debug.Assert(group.Count != 0);
-            long vertex = oldVertex + 1;
+            Debug.Assert(group.SubGroups.Count != 0);
+            int vertex = oldVertex + 1;
             while (set.Contains(vertex) && vertex < n)
             {
                 ++vertex;
             }
-            if (vertex < n - p + group.Count + 1)
+            if (vertex < n - p + group.SubGroups.Count + 1)
             {
                 return vertex;
             }
             return -1;
         }
 
-        private bool checkConnections(List<List<long>> combination, List<long> next, long p, long n)
+        private bool checkConnections(Tree tree, Group group, int p, int n)
         {
+            HashSet<int> neighbours = new HashSet<int>();
+            List<HashSet<int>> neighboursList = new List<HashSet<int>>();
+            foreach (int vertex in group.SubGroups)
+            {
+                HashSet<int> vertexNeighbours = new HashSet<int>();
+                if (tree.Levels.Count == 0)
+                {
+                    Debug.Assert(_container.Neighbourship.ContainsKey(vertex));
+                    foreach (int v in _container.Neighbourship[vertex])
+                    {
+                        if (!group.SubGroups.Contains(v))
+                        {
+                            neighbours.Add(v);
+                            vertexNeighbours.Add(v);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (int v in tree.Levels[tree.Levels.Count - 1][vertex].NeighbourVertices)
+                    {
+                        if (!group.SubGroups.Contains(v))
+                        {
+                            neighbours.Add(v);
+                            vertexNeighbours.Add(v);
+                        }
+                    }
+                }
+                neighboursList.Add(vertexNeighbours);
+            }
+            foreach (HashSet<int> vertexNeighbours in neighboursList) 
+            {
+                HashSet<int> set = new HashSet<int>(neighbours);
+                set.ExceptWith(vertexNeighbours);
+                if (set.Count > 0)
+                {
+                    return false;
+                }
+            }
+            group.NeighbourVertices = neighbours;
             return true;
         }
 
-        private bool riseUp(List<List<long>> combination)
+        private bool riseUp(Tree tree, List<Group> combination, int p, int n)
         {
-            printCombination(combination);
-            return false;
+            tree.Levels.Add(combination);
+            if (n > p)
+            {
+                if (generateTree(tree, p, n / p) == null)
+                {
+                    tree.Levels.RemoveAt(tree.Levels.Count - 1);
+                    return false;
+                }
+            }
+            return true;
         }
 
-        public void printCombination(List<List<long>> comb)
+        public void printCombination(List<Group> comb)
         {
             if (_fileWriter == null)
             {
@@ -318,122 +406,177 @@ namespace ModelCheck
             }
             if (comb != null)
             {
-                foreach (List<long> group in comb)
+                foreach (Group group in comb)
                 {
-                    _fileWriter.Write("{ " + string.Join(", ", group) + " } ");
+                    _fileWriter.Write("{ " + string.Join(", ", group.SubGroups) + " } ");
                 }
                 _fileWriter.WriteLine();
                 _fileWriter.Flush();
             }
         }
-    }
 
-    private class Neighbourship
-    {
-        private int m_size; // number of vertices
-        private SortedDictionary<int, List<int>> m_neighbourship; // list of neighbours     
-
-        public Neighbourship(ArrayList matrix)
+        private class Container
         {
-            m_size = matrix.Count;
-            m_neighbourship = new SortedDictionary<int, List<int>>();
-            ArrayList neighbourshipOfIVertex = new ArrayList();
-            for (int i = 0; i < matrix.Count; i++)
+            private int _size; // number of vertices
+            private SortedDictionary<int, List<int>> _neighbourship; // list of neighbours     
+
+            public Container(ArrayList matrix)
             {
-                neighbourshipOfIVertex = (ArrayList)matrix[i];
-                setDataToDictionary(i, neighbourshipOfIVertex);
-            }
-        }
-
-        public int Size
-        {
-            get { return m_size; }
-        }
-
-        public SortedDictionary<int, List<int>> Neighbourship
-        {
-            get { return m_neighbourship; }
-        }
-
-        public bool areConnected(int vertex1, int vertex2)
-        {
-            return m_neighbourship[vertex1].Contains(vertex2);
-        }
-
-        public static ArrayList get_data(string filename)
-        {
-            ArrayList matrix = new ArrayList();
-            using (StreamReader streamreader = new StreamReader(filename))
-            {
-                string contents;
-                while ((contents = streamreader.ReadLine()) != null)
+                _size = matrix.Count;
+                _neighbourship = new SortedDictionary<int, List<int>>();
+                ArrayList neighbourshipOfIVertex = new ArrayList();
+                for (int i = 0; i < matrix.Count; i++)
                 {
-                    string[] split = System.Text.RegularExpressions.Regex.Split(contents, "\\s+", System.Text.RegularExpressions.RegexOptions.None);
-                    ArrayList tmp = new ArrayList();
-                    foreach (string s in split)
-                    {
-                        if (s.Equals("0"))
-                        {
-                            tmp.Add(false);
-                        }
-                        else
-                        {
-                            tmp.Add(true);
-                        }
-                    }
-                    matrix.Add(tmp);
+                    neighbourshipOfIVertex = (ArrayList)matrix[i];
+                    setDataToDictionary(i, neighbourshipOfIVertex);
                 }
             }
-            return matrix;
-        }
 
-        private void setDataToDictionary(int index, ArrayList neighbourshipOfIVertex)
-        {
-            m_neighbourship[index] = new List<int>();
-            for (int j = 0; j < m_size; j++)
-                if ((bool)neighbourshipOfIVertex[j] == true && index != j)
-                    m_neighbourship[index].Add(j);
-        }
-    }
-    
-    /*private bool check(Group newGroup, Groups groups, long prime, bool isLowestLevel)
-    {
-        Debug.Assert(newGroup.Count == prime);
-        if (groups != null)
-        {
-            foreach (Group group in groups)
+            public int Size
             {
-                Debug.Assert(group.Count == prime);
-                bool someAreConnected = false;
-                bool someAreNotConnected = false;
-                foreach (int vertex in group)
-                {
-                    foreach (int newVertex in newGroup)
-                    {
-                        if (newVertex == vertex)
-                        {
-                            return false;
-                        }
-                        bool connected = (isLowestLevel
-                                ? _container.Neighbourship[vertex].Contains(newVertex)
-                                : _generator.areConnected(vertex, newVertex));
-                        if (connected)
-                        {
-                            someAreConnected = true;
-                        }
-                        else
-                        {
-                            someAreNotConnected = true;
-                        }
+                get { return _size; }
+            }
 
-                        if (someAreConnected && someAreNotConnected)
+            public SortedDictionary<int, List<int>> Neighbourship
+            {
+                get { return _neighbourship; }
+            }
+
+            public bool areConnected(int vertex1, int vertex2)
+            {
+                return _neighbourship[vertex1].Contains(vertex2);
+            }
+
+            public static ArrayList get_data(string filename)
+            {
+                ArrayList matrix = new ArrayList();
+                using (StreamReader streamreader = new StreamReader(filename))
+                {
+                    string contents;
+                    while ((contents = streamreader.ReadLine()) != null)
+                    {
+                        string[] split = System.Text.RegularExpressions.Regex.Split(contents,
+                                "\\s+", System.Text.RegularExpressions.RegexOptions.None);
+                        ArrayList tmp = new ArrayList();
+                        foreach (string s in split)
                         {
-                            return false;
+                            if (s.Equals("0"))
+                            {
+                                tmp.Add(false);
+                            }
+                            else
+                            {
+                                tmp.Add(true);
+                            }
                         }
+                        matrix.Add(tmp);
+                    }
+                }
+                return matrix;
+            }
+
+            private void setDataToDictionary(int index, ArrayList neighbourshipOfIVertex)
+            {
+                _neighbourship[index] = new List<int>();
+                for (int j = 0; j < _size; j++)
+                {
+                    if ((bool)neighbourshipOfIVertex[j] == true && index != j)
+                    {
+                        _neighbourship[index].Add(j);
                     }
                 }
             }
         }
-        return true;
-    }*/
+    }
+
+    public class Tree
+    {
+        private readonly List<List<Group>> _levels; // contains Groups of each level starting from lowest to highest levels.
+
+        public Tree()
+        {
+            _levels = new List<List<Group>>();
+        }
+
+        public List<List<Group>> Levels
+        {
+            get
+            {
+                return _levels;
+            }
+        }
+    }
+
+    public class Group
+    {
+        private List<int> _subgroups; // a group of the previous level
+        private ISet<int> _neighbourVertices; // neighbour vertices of the group
+
+        public Group()
+        {
+            _subgroups = new List<int>();
+            _neighbourVertices = new HashSet<int>();
+        }
+
+        public Group(IEnumerable<int> collection)
+        {
+            _subgroups = new List<int>(collection);
+            _neighbourVertices = new HashSet<int>();
+        }
+
+        public Group(Group group)
+        {
+            _subgroups = new List<int>();
+            _neighbourVertices = new HashSet<int>(group.NeighbourVertices);
+        }
+
+        public List<int> SubGroups
+        {
+            get
+            {
+                return _subgroups;
+            }
+            set
+            {
+                _subgroups = value;
+            }
+        }
+
+        public ISet<int> NeighbourVertices
+        {
+            get
+            {
+                return _neighbourVertices;
+            }
+            set
+            {
+                _neighbourVertices = value;
+            }
+        }
+
+        public bool Equals(object obj)
+        {
+            if (obj != null && obj is Group)
+            {
+                if (ReferenceEquals(this, obj)) 
+                {
+                    return true;
+                }
+                Group group = (Group)obj;
+                if (this._subgroups.Count != group._subgroups.Count)
+                {
+                    return false;
+                }
+                for (int i = 0; i < this._subgroups.Count; ++i)
+                {
+                    if (this._subgroups[i] != group._subgroups[i])
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+    }
 }
