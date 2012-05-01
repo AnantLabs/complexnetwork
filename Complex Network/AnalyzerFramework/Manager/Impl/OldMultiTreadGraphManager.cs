@@ -100,7 +100,7 @@ namespace AnalyzerFramework.Manager.Impl
                 }
                 if (isTraceingMode)
                 {
-                    Models[index].StartTrace(index, Models[index].ModelName);
+                    Models[index].StartTrace(index, Models[index].ModelName, Assembly.Name);
                 }
                 if (isTrainingMode)
                 {
