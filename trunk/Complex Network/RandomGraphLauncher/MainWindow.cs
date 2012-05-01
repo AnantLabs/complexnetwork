@@ -287,12 +287,7 @@ namespace RandomGraphLauncher
 
         private void traceingModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ApplicationMode.IsTrainingMode = trainingModeToolStripMenuItem.Checked;
 
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            config.AppSettings.Settings["Tracing"].Value = trainingModeToolStripMenuItem.Checked ? "yes" : "no";
-            config.Save(ConfigurationSaveMode.Modified);
-            ConfigurationManager.RefreshSection("appSettings");
         }
 
         private void modelCheckingToolStripMenuItem_Click(object sender, EventArgs e)
