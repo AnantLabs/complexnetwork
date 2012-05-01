@@ -18,8 +18,14 @@ namespace ModelCheck
             ArrayList matrix = Container.get_data("C:/ComplexNetwork/graph.txt");
             HierarchicExactChecker checker = new HierarchicExactChecker();
             Tree tree = null;
-            if (checker.IsHierarchic(matrix, ref tree))
+            bool isHierarchic = checker.IsHierarchic(matrix, ref tree);
+            if (isHierarchic)
             {
+                Debug.WriteLine("Is Hierarchic");
+            }
+            else
+            {
+                Debug.WriteLine("Is Not Hierarchic");
             }
         }
 
@@ -198,11 +204,14 @@ namespace ModelCheck
                     set.Add(vertex);
                 }
             }
-            Group nextGroup = null;
-            do
+            Group nextGroup = getNextGroup(combination, set, p, n);
+            if (nextGroup != null && checkConnections(tree, nextGroup, p, n) == false)
             {
-                nextGroup = getNextGroup(combination, set, p, n);
-            } while (nextGroup != null && checkConnections(tree, nextGroup, p, n) == false);
+                do
+                {
+                    nextGroup = getNextGroup(combination, nextGroup, set, p, n);
+                } while (nextGroup != null && checkConnections(tree, nextGroup, p, n) == false);
+            }
             return nextGroup;
         }
 
@@ -343,6 +352,23 @@ namespace ModelCheck
         {
             HashSet<int> neighbours = new HashSet<int>();
             List<HashSet<int>> neighboursList = new List<HashSet<int>>();
+            if (tree.Levels.Count == 0)
+            {
+                group.Vertices = new HashSet<int>(group.SubGroups);
+            }
+            else 
+            {
+                group.Vertices = new HashSet<int>();
+                foreach (int vertex in group.SubGroups)
+                {
+                    Debug.Assert(tree.Levels[tree.Levels.Count - 1].Count > vertex);
+                    ISet<int> vertices = tree.Levels[tree.Levels.Count - 1][vertex].Vertices;
+                    foreach (int v in vertices)
+                    {
+                        group.Vertices.Add(v);
+                    }
+                }
+            }
             foreach (int vertex in group.SubGroups)
             {
                 HashSet<int> vertexNeighbours = new HashSet<int>();
@@ -351,7 +377,7 @@ namespace ModelCheck
                     Debug.Assert(_container.Neighbourship.ContainsKey(vertex));
                     foreach (int v in _container.Neighbourship[vertex])
                     {
-                        if (!group.SubGroups.Contains(v))
+                        if (!group.Vertices.Contains(v))
                         {
                             neighbours.Add(v);
                             vertexNeighbours.Add(v);
@@ -362,7 +388,7 @@ namespace ModelCheck
                 {
                     foreach (int v in tree.Levels[tree.Levels.Count - 1][vertex].NeighbourVertices)
                     {
-                        if (!group.SubGroups.Contains(v))
+                        if (!group.Vertices.Contains(v))
                         {
                             neighbours.Add(v);
                             vertexNeighbours.Add(v);
@@ -510,6 +536,7 @@ namespace ModelCheck
     public class Group
     {
         private List<int> _subgroups; // a group of the previous level
+        private ISet<int> _vertices; // all vertices which belong to the subtree of this group
         private ISet<int> _neighbourVertices; // neighbour vertices of the group
 
         public Group()
@@ -539,6 +566,18 @@ namespace ModelCheck
             set
             {
                 _subgroups = value;
+            }
+        }
+
+        public ISet<int> Vertices
+        {
+            get
+            {
+                return _vertices;
+            }
+            set
+            {
+                _vertices = value;
             }
         }
 
