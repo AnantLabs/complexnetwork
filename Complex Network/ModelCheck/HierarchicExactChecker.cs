@@ -6,12 +6,24 @@ using log4net;
 
 namespace ModelCheck
 {
+    /// <author>Hovhannes Antonyan</author>
+    /// <summary>
+    /// Provides an API to check whether given graph is hierarhical or not
+    /// (Whether some hierarchical tree exists or not which is isomorphous to
+    /// the given graph)
+    /// </summary>
     public class HierarchicExactChecker
     {
         private static readonly ILog logger = log4net.LogManager.GetLogger(typeof(HierarchicExactChecker));
 
-        private Container _container;
-        private TextWriter _fileWriter = null;
+        private Container _container; // container which holds the graph to check for being hierarchic.
+
+        /// <summary>
+        /// Default and the only constructor
+        /// </summary>
+        public HierarchicExactChecker()
+        {
+        }
 
         public static void main()
         {
@@ -29,6 +41,12 @@ namespace ModelCheck
             }
         }
 
+        /// <summary>
+        /// Checks whether the graph specified by the given matrix
+        /// is hierarchical or not
+        /// </summary>
+        /// <param name="matrix">Matrix which specifies the given graph</param>
+        /// <returns>True if the graph is hierarchical, otherwise false</returns>
         public bool IsHierarchic(ArrayList matrix)
         {
             _container = new Container(matrix);
@@ -43,6 +61,14 @@ namespace ModelCheck
             return false;
         }
 
+        /// <summary>
+        /// Checks whether the graph specified by the given matrix
+        /// is hierarchical or not
+        /// </summary>
+        /// <param name="matrix">Matrix which specifies the given graph</param>
+        /// <param name="tree">Tree object to hold the corresponding hierarchial tree
+        /// if the graph is hierarchical</param>
+        /// <returns>True if the graph is hierarchical, otherwise false</returns>
         public bool IsHierarchic(ArrayList matrix, ref Tree tree)
         {
             _container = new Container(matrix);
@@ -58,6 +84,8 @@ namespace ModelCheck
             return false;
         }
 
+        // Gets all possible numbers(and their degrees) if some of their 
+        // degrees is equal to n.
         private static IDictionary<int, int> getAllDegrees(int n)
         {
             Dictionary<int, int> collection = new Dictionary<int, int>();
@@ -90,12 +118,15 @@ namespace ModelCheck
             return tree != null;
         }
 
+        // Constructs the hierarchical tree of the given graph if it is hierarchcal,
+        // otherwise returns false
         private Tree generateTree(int p, int n)
         {
             Tree tree = new Tree();
             return generateTree(tree, p, n);
         }
 
+        // Constructs the next levels of the tree, and attaches into the given 'tree' object
         private Tree generateTree(Tree tree, int p, int n)
         {
             List<Group> combination = new List<Group>();
@@ -132,6 +163,8 @@ namespace ModelCheck
             return tree;
         }
 
+        // Gets the first possible valid group (i.e. vertices of which are satistfying the statement to 
+        // form a group) if there is such group, otherwise returns null
         private Group getFirstGroup(Tree tree, List<Group> combination, int p, int n)
         {
             Group group = new Group();
@@ -146,6 +179,7 @@ namespace ModelCheck
             return group;
         }
 
+        // Gets the next possible combination of groups, where each group is valid
         private List<Group> getNextCombination(Tree tree, List<Group> originalCombination, int p, int n)
         {
             Debug.Assert(originalCombination.Count != 0);
@@ -194,6 +228,8 @@ namespace ModelCheck
             return null;
         }
 
+        // Gets the next possible valid group which does not contain vertices of the
+        // given combination's groups vertices.
         private Group getNextValidGroup(Tree tree, List<Group> combination, int p, int n)
         {
             SortedSet<int> set = new SortedSet<int>();
@@ -215,6 +251,8 @@ namespace ModelCheck
             return nextGroup;
         }
 
+        // Gets the next possible valid group which succeeds the given 'group' object and 
+        // does not contain vertices of the given combination's groups vertices.
         private Group getNextValidGroup(Tree tree, List<Group> combination, Group group, int p, int n)
         {
             SortedSet<int> set = new SortedSet<int>();
@@ -233,6 +271,8 @@ namespace ModelCheck
             return nextGroup;
         }
 
+        // Gets the next possible group of vertices which is probably not valid, it has to be checked
+        // and which does not contain vertices of the given combination's groups vertices.
         private Group getNextGroup(List<Group> combination, SortedSet<int> set, int p, int n)
         {
             Debug.Assert(combination.Count != 0);
@@ -275,6 +315,9 @@ namespace ModelCheck
             return next;
         }
 
+        // Gets the next possible group of vertices which succeeds the given old group,
+        // probably is not valid, it has to be checked and which does not contain 
+        // vertices of the given combination's groups vertices.
         private Group getNextGroup(List<Group> combination, Group oldGroup, SortedSet<int> set, int p, int n)
         {
             Debug.Assert(oldGroup.SubGroups.Count == p);
@@ -348,6 +391,8 @@ namespace ModelCheck
             return -1;
         }
 
+        // Checks whether the vertices of the group simulateously have no connections with vertices
+        // out of the group, or are connected to the same vertices out of the group
         private bool checkConnections(Tree tree, Group group, int p, int n)
         {
             HashSet<int> neighbours = new HashSet<int>();
@@ -410,6 +455,9 @@ namespace ModelCheck
             return true;
         }
 
+        // Adds the current combination of groups to the tree and rises up to the next level
+        // Returns true if it was able to rise to the highest level, which means the graph
+        // is hierarchical, or otherwise returns false
         private bool riseUp(Tree tree, List<Group> combination, int p, int n)
         {
             tree.Levels.Add(combination);
@@ -424,7 +472,8 @@ namespace ModelCheck
             return true;
         }
 
-        public void printCombination(List<Group> comb)
+        //private TextWriter _fileWriter = null;
+        /*private void printCombination(List<Group> comb)
         {
             if (_fileWriter == null)
             {
@@ -439,8 +488,9 @@ namespace ModelCheck
                 _fileWriter.WriteLine();
                 _fileWriter.Flush();
             }
-        }
+        }*/
 
+        // Inner class which holds the graph for check for being hierarchical
         private class Container
         {
             private int _size; // number of vertices
@@ -591,31 +641,6 @@ namespace ModelCheck
             {
                 _neighbourVertices = value;
             }
-        }
-
-        public bool Equals(object obj)
-        {
-            if (obj != null && obj is Group)
-            {
-                if (ReferenceEquals(this, obj)) 
-                {
-                    return true;
-                }
-                Group group = (Group)obj;
-                if (this._subgroups.Count != group._subgroups.Count)
-                {
-                    return false;
-                }
-                for (int i = 0; i < this._subgroups.Count; ++i)
-                {
-                    if (this._subgroups[i] != group._subgroups[i])
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            return false;
         }
     }
 }
