@@ -70,6 +70,11 @@ namespace RandomGraphLauncher
                 }
             }
             controller.isTraceingMode = isTraceingMode;
+            GraphModel graphMetaData = controller.GetGraphModel();
+            if (graphMetaData.Name == "Static Model")
+            {
+                numericUpDown_Instances_Count.Enabled = false;
+            }
         }
 
         private void DisapleControlButtons()
