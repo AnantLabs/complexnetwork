@@ -154,11 +154,11 @@ namespace RandomGraph.Common.Model
         /// <summary>
         /// Dump generated graph matrix into file
         /// </summary>
-        public void StartTrace(int instanceIndex, string modelName)
+        public void StartTrace(int instanceIndex, string modelName, string jobName)
         {
             string provider = ConfigurationManager.AppSettings["Storage"];
             string dir = ConfigurationManager.AppSettings[provider] + "\\" + modelName + "\\";
-            string filePath = dir + instanceIndex + "_dump.txt";
+            string filePath = dir + jobName + "_" + instanceIndex + "_dump.txt";
             System.IO.Directory.CreateDirectory(dir);
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath))
             {
