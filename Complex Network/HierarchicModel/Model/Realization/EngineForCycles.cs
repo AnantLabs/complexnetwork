@@ -21,7 +21,7 @@ class EngineForCycles
     private bool _traceToFile;
     private string _fileName = null;
     private TextWriter _fileWriter = null;
-    private SortedSet<MyList> _cycles = new SortedSet<MyList>();
+    private long _cyclesCount = 0;
     private IDictionary<int/*pathLength*/, IDictionary<int/*level*/, ISet<MyList>/*paths*/>> _paths = 
             new Dictionary<int, IDictionary<int, ISet<MyList>>>();
 
@@ -51,7 +51,7 @@ class EngineForCycles
     /// If it is equal to 2, number of edges is being returned</param>
     /// <returns>Return the count of cycles with the specified length.
     /// If the length is equal to 2, number of edges is being returned</returns>
-    public long GetCycleCount(HierarchicGraph tree, long length)
+    public long GetCycleCount(HierarchicGraph tree, int length)
     {
         if (length <= 1)
         {
@@ -64,14 +64,12 @@ class EngineForCycles
             {
                 double count = tree.countEdgesAllGraph();
                 Debug.Assert(count == System.Math.Ceiling(count));
-                cycleCount = (long)count;
+                cycleCount = (int)count;
             }
             else
             {
                 getCycles(tree, length);
-                Debug.Assert(_cycles.Count % 2 == 0);
-                cycleCount = _cycles.Count / 2;
-                _cycles.Clear();
+                cycleCount = _cyclesCount / 2;
             }
         }
         catch (System.Exception e)
@@ -86,7 +84,7 @@ class EngineForCycles
     // --------------------------------------------------------------
     // Inner functions
 
-    private void getCycles(HierarchicGraph tree, long cycleLength)
+    private void getCycles(HierarchicGraph tree, int cycleLength)
     {
         try
         {
@@ -95,9 +93,10 @@ class EngineForCycles
                 _fileWriter = new StreamWriter(_fileName);
                 _fileWriter.WriteLine("Start time: " + System.DateTime.Now);
             }
-            long verticesCount = (long)System.Math.Pow(tree.prime, tree.degree);
+            int verticesCount = (int)System.Math.Pow(tree.prime, tree.degree);
             MyList branch = new MyList();
-            for (long origin = 0; origin < verticesCount; ++origin)
+            _cyclesCount = 0;
+            for (int origin = 0; origin < verticesCount; ++origin)
             {
                 branch.Add(origin);
                 getCyclesStartingWithOrigin(tree, origin, tree.degree, branch, cycleLength);
@@ -124,20 +123,18 @@ class EngineForCycles
         {
             if (_traceToFile)
             {
-                _fileWriter.WriteLine("Vertices Count: " + (long)System.Math.Pow(tree.prime, tree.degree));
-                _fileWriter.WriteLine("Cycle Count: " + (_cycles.Count / 2));
-                _fileWriter.WriteLine("Found cycles(each cycle is mentioned twice - e.g 1234 1432):");
-                printSet();
+                _fileWriter.WriteLine("Vertices Count: " + (int)System.Math.Pow(tree.prime, tree.degree));
+                _fileWriter.WriteLine("Cycle Count: " + (_cyclesCount / 2));
                 _fileWriter.Close();
             }
         }
     }
 
     // Gets all cycles which start with origin vertex (and have length equal to the cycleLength)
-    private void getCyclesStartingWithOrigin(HierarchicGraph tree, long pivot, int level, MyList branch, long cycleLength)
+    private void getCyclesStartingWithOrigin(HierarchicGraph tree, int pivot, int level, MyList branch, int cycleLength)
     {
-        long treeId = branch[branch.Count - 1];
-        long parentId = treeId / tree.prime;
+        int treeId = branch[branch.Count - 1];
+        int parentId = treeId / tree.prime;
         int start = (int)(treeId % tree.prime);
         int begining = start;
         if (level == tree.degree)
@@ -160,10 +157,10 @@ class EngineForCycles
     }
 
     // Gets all paths which start with origin vertex, in the "start" subtree and end in the "end" subtree
-    private void getOriginsPathsStartingEndingWith(HierarchicGraph tree, long pivot, int level, MyList branch,
-            long parentId, int start, int end, long pathLength)
+    private void getOriginsPathsStartingEndingWith(HierarchicGraph tree, int pivot, int level, MyList branch,
+            int parentId, int start, int end, int pathLength)
     {
-        long treeId = branch[branch.Count - 1];
+        int treeId = branch[branch.Count - 1];
         for (int innerLength = 0; innerLength <= pathLength - 1; ++innerLength)
         {
             ISet<MyList> paths = getInnerPaths(tree, pivot, level, branch, new MyList(), innerLength, pivot, start);
@@ -178,10 +175,10 @@ class EngineForCycles
                 {
                     if (tree.areAdjacent(level - 1, parentId, start, next) == 1)
                     {
-                        KeyValuePair<long, long> range = getVerticesRange(tree, treeId + next - start, level);
+                        KeyValuePair<int, int> range = getVerticesRange(tree, treeId + next - start, level);
                         if (pathLength - innerLength - 1 > 0)
                         {
-                            for (long vertex = range.Key; vertex < range.Value; ++vertex)
+                            for (int vertex = range.Key; vertex < range.Value; ++vertex)
                             {
                                 int originStart = -1;
                                 if (start == end)
@@ -191,12 +188,13 @@ class EngineForCycles
                                 ISet<MyList> continuations = getPathContinuations(tree, vertex, level,
                                         treeId + next - start, parentId, start, next, end,
                                         path, pathLength - innerLength - 1, pivot, originStart);
-                                addToSet(path, continuations);
+                                addToCycles(path, continuations);
                             }
                         }
-                        else
+                        else if (start != end && next == end)
                         {
-                            addToSet(path, range);
+                            _cyclesCount += range.Value - range.Key;
+                            //addToSet(path, range);
                         }
                     }
                 }
@@ -207,8 +205,8 @@ class EngineForCycles
 
     // Gets all possible continuations for the "pathStart" passing through "pivot" vertex and ending in the "end" subtree,
     // and have the length equal to pathLength
-    private ISet<MyList> getPathContinuations(HierarchicGraph tree, long pivot, int level, long treeId,
-            long parentId, int start, int current, int end, MyList pathStart, long pathLength, long origin, int originStart)
+    private ISet<MyList> getPathContinuations(HierarchicGraph tree, int pivot, int level, int treeId,
+            int parentId, int start, int current, int end, MyList pathStart, int pathLength, int origin, int originStart)
     {
         ISet<MyList> paths = new SortedSet<MyList>();
         MyList branch = new MyList();
@@ -220,8 +218,8 @@ class EngineForCycles
             {
                 if (tree.areAdjacent(level - 1, parentId, current, end) == 1)
                 {
-                    KeyValuePair<long, long> range = getVerticesRange(tree, treeId + end - current, level);
-                    for (long vertex = range.Key; vertex < range.Value; ++vertex)
+                    KeyValuePair<int, int> range = getVerticesRange(tree, treeId + end - current, level);
+                    for (int vertex = range.Key; vertex < range.Value; ++vertex)
                     {
                         Debug.Assert(pathStart.Count != 0);
                         if (!pathStart.Contains(vertex) && (vertex > origin) && (vertex != pivot)
@@ -260,8 +258,8 @@ class EngineForCycles
                 {
                     if (next != current && tree.areAdjacent(level - 1, parentId, current, next) == 1)
                     {
-                        KeyValuePair<long, long> range = getVerticesRange(tree, treeId + next - current, level);
-                        for (long vertex = range.Key; vertex < range.Value; ++vertex)
+                        KeyValuePair<int, int> range = getVerticesRange(tree, treeId + next - current, level);
+                        for (int vertex = range.Key; vertex < range.Value; ++vertex)
                         {
                             pathStart.AddRange(path);
                             if (vertex > origin && !pathStart.Contains(vertex))
@@ -305,8 +303,8 @@ class EngineForCycles
 
     // Gets all paths starting with the "pivot" vertex, having the length equal to pathLength by rising up to the tree
     // to the highestAllowedLayer
-    private ISet<MyList> getPaths(HierarchicGraph tree, long pivot, int highestAllowedLayer, int level,
-            MyList branch, MyList pathStart, long pathLength, long origin, bool isStartEqualToEnd, int originStart)
+    private ISet<MyList> getPaths(HierarchicGraph tree, int pivot, int highestAllowedLayer, int level,
+            MyList branch, MyList pathStart, int pathLength, int origin, bool isStartEqualToEnd, int originStart)
     {
         ISet<MyList> paths = new SortedSet<MyList>();
         if (pathLength == 0)
@@ -319,39 +317,42 @@ class EngineForCycles
             paths.Add(path);
             return paths;
         }
-        long treeId = branch[branch.Count - 1];
-        long parentId = treeId / tree.prime;
-        int start = (int)(treeId % tree.prime);
-        if (isStartEqualToEnd && level == highestAllowedLayer + 1)
+        if (level > highestAllowedLayer)
         {
-            for (int end = originStart + 1; end < tree.prime; ++end)
+            int treeId = branch[branch.Count - 1];
+            int parentId = treeId / tree.prime;
+            int start = (int)(treeId % tree.prime);
+            if (isStartEqualToEnd && level == highestAllowedLayer + 1)
             {
-                if (end != start && tree.areAdjacent(highestAllowedLayer, parentId, end, originStart) == 1)
+                for (int end = originStart + 1; end < tree.prime; ++end)
                 {
-                    ISet<MyList> crossPaths = getCrossTreePaths(tree, pivot, level, branch, parentId, start, end,
-                            pathStart, pathLength, origin, originStart);
-                    mergeSet<MyList>(paths, crossPaths);
+                    if (end != start && tree.areAdjacent(highestAllowedLayer, parentId, end, originStart) == 1)
+                    {
+                        ISet<MyList> crossPaths = getCrossTreePaths(tree, pivot, level, branch, parentId, start, end,
+                                pathStart, pathLength, origin, originStart);
+                        mergeSet<MyList>(paths, crossPaths);
+                    }
                 }
             }
-        }
-        else
-        {
-            for (int end = 0; end < tree.prime; ++end)
+            else
             {
-                if (end != start)
+                for (int end = 0; end < tree.prime; ++end)
                 {
-                    ISet<MyList> crossPaths = getCrossTreePaths(tree, pivot, level, branch, parentId, start, end,
-                            pathStart, pathLength, origin, originStart);
-                    mergeSet<MyList>(paths, crossPaths);
+                    if (end != start)
+                    {
+                        ISet<MyList> crossPaths = getCrossTreePaths(tree, pivot, level, branch, parentId, start, end,
+                                pathStart, pathLength, origin, originStart);
+                        mergeSet<MyList>(paths, crossPaths);
+                    }
                 }
             }
-        }
-        if (level > highestAllowedLayer + 1)
-        {
-            branch.Add(parentId);
-            ISet<MyList> innerPaths = getPaths(tree, pivot, highestAllowedLayer, level - 1, branch,
-                    pathStart, pathLength, origin, isStartEqualToEnd, originStart);
-            mergeSet<MyList>(paths, innerPaths);
+            if (level > highestAllowedLayer + 1)
+            {
+                branch.Add(parentId);
+                ISet<MyList> innerPaths = getPaths(tree, pivot, highestAllowedLayer, level - 1, branch,
+                        pathStart, pathLength, origin, isStartEqualToEnd, originStart);
+                mergeSet<MyList>(paths, innerPaths);
+            }
         }
         return paths;
     }
@@ -359,17 +360,17 @@ class EngineForCycles
 
     // Gets all paths starting with the "pivot" vertex, having the length equal to pathLength by crossing
     // subtrees and ending with "end" subtree
-    private ISet<MyList> getCrossTreePaths(HierarchicGraph tree, long pivot, int level, MyList branch,
-            long parentId, int start, int end, MyList pathStart, long pathLength, long origin, int originStart)
+    private ISet<MyList> getCrossTreePaths(HierarchicGraph tree, int pivot, int level, MyList branch,
+            int parentId, int start, int end, MyList pathStart, int pathLength, int origin, int originStart)
     {
         ISet<MyList> paths = new SortedSet<MyList>();
-        long treeId = branch[branch.Count - 1];
+        int treeId = branch[branch.Count - 1];
         if (pathLength == 1)
         {
             if (tree.areAdjacent(level - 1, parentId, start, end) == 1)
             {
-                KeyValuePair<long, long> range = getVerticesRange(tree, treeId + end - start, level);
-                for (long vertex = range.Key; vertex < range.Value; ++vertex)
+                KeyValuePair<int, int> range = getVerticesRange(tree, treeId + end - start, level);
+                for (int vertex = range.Key; vertex < range.Value; ++vertex)
                 {
                     if (!pathStart.Contains(vertex) && (vertex > origin) && (vertex != pivot))
                     {
@@ -392,8 +393,8 @@ class EngineForCycles
                 {
                     if (next != start && tree.areAdjacent(level - 1, parentId, start, next) == 1)
                     {
-                        KeyValuePair<long, long> range = getVerticesRange(tree, treeId + next - start, level);
-                        for (long vertex = range.Key; vertex < range.Value; ++vertex)
+                        KeyValuePair<int, int> range = getVerticesRange(tree, treeId + next - start, level);
+                        for (int vertex = range.Key; vertex < range.Value; ++vertex)
                         {
                             pathStart.AddRange(path);
                             if (vertex > origin && !pathStart.Contains(vertex))
@@ -429,15 +430,15 @@ class EngineForCycles
 
 
     // Gets all inner paths of the current subtree having the length equal to pathLength
-    private ISet<MyList> getInnerPaths(HierarchicGraph tree, long pivot, int level, MyList branch,
-            MyList pathStart, long pathLength, long origin, int originStart)
+    private ISet<MyList> getInnerPaths(HierarchicGraph tree, int pivot, int level, MyList branch,
+            MyList pathStart, int pathLength, int origin, int originStart)
     {
         ISet<MyList> paths = new SortedSet<MyList>();
         if (pathLength == 0)
         {
             Debug.Assert(!pathStart.Contains(pivot));
             Debug.Assert(pivot >= origin);
-            paths.Add(new MyList(new long[] {pivot}));
+            paths.Add(new MyList(new int[] {pivot}));
             return paths;
         }
         if (level == tree.degree)
@@ -448,8 +449,8 @@ class EngineForCycles
         {
             return _paths[(int)pathLength][level];
         }
-        long treeId = branch[branch.Count - 1];
-        long childId = branch[branch.Count - 2];
+        int treeId = branch[branch.Count - 1];
+        int childId = branch[branch.Count - 2];
         int start = (int)(childId % tree.prime);
         branch.RemoveAt(branch.Count - 1);
         for (int end = start + 1; end < tree.prime; ++end)
@@ -498,20 +499,20 @@ class EngineForCycles
 
 
     // Gets the "treeId" tree's all vertices range
-    private KeyValuePair<long/*start*/, long/*end+1*/> getVerticesRange(HierarchicGraph tree, long treeId, int level)
+    private KeyValuePair<int/*start*/, int/*end+1*/> getVerticesRange(HierarchicGraph tree, int treeId, int level)
     {
-        long branchCount = (long)System.Math.Pow(tree.prime, tree.degree - level);
-        long start = treeId * branchCount;
-        long end = start + branchCount;
-        return new KeyValuePair<long, long>(start, end);
+        int branchCount = (int)System.Math.Pow(tree.prime, tree.degree - level);
+        int start = treeId * branchCount;
+        int end = start + branchCount;
+        return new KeyValuePair<int, int>(start, end);
     }
 
 
     // Checks if two vertices (probably in the different subtrees) are connected or not
-    private bool areVerticesConnected(HierarchicGraph tree, long vertex1, long vertex2)
+    private bool areVerticesConnected(HierarchicGraph tree, int vertex1, int vertex2)
     {
-        long min = -1;
-        long max = -1;
+        int min = -1;
+        int max = -1;
         if (vertex1 < vertex2)
         {
             min = vertex1;
@@ -543,89 +544,62 @@ class EngineForCycles
         return set;
     }
 
-    private void addToSet(MyList path, KeyValuePair<long, long> range)
+    private void addToCycles(MyList path, ISet<MyList> continuations)
     {
-        for (long vertex = range.Key; vertex < range.Value; ++vertex)
+        _cyclesCount += continuations.Count;
+    }
+
+    /// <summary>
+    /// Custom class extending List and implementing IComparable, so that 
+    /// objects of this class be able to be stored in the SortedSet
+    /// </summary>
+    class MyList : List<int>, System.IComparable<MyList>
+    {
+        public MyList()
+            : base()
         {
-            MyList fullPath = new MyList(path);
-            fullPath.Add(vertex);
-            _cycles.Add(fullPath);
         }
-    }
 
-    private void addToSet(MyList path, ISet<MyList> continuations)
-    {
-        foreach (MyList continuation in continuations)
+        public MyList(IEnumerable<int> enumerable)
+            : base(enumerable)
         {
-            MyList fullPath = new MyList(path);
-            fullPath.AddRange(continuation);
-            _cycles.Add(fullPath);
         }
-    }
 
-    // Prints all found cycles in the file. Each cycle is being printed twice (e.g. 1234 and 1432)
-    private void printSet()
-    {
-        if (_traceToFile == true)
+        public int CompareTo(MyList list)
         {
-            foreach (MyList path in _cycles)
-            {
-                _fileWriter.WriteLine(string.Join(" ", path.ToArray()));
-            }
-            _fileWriter.Flush();
-        }
-    }
-}
-
-/// <summary>
-/// Custom class extending List and implementing IComparable, so that 
-/// objects of this class be able to be stored in the SortedSet
-/// </summary>
-class MyList : List<long>, System.IComparable<MyList>
-{
-    public MyList() : base()
-    {
-    }
-
-    public MyList(IEnumerable<long> enumerable)
-        : base(enumerable)
-    {
-    }
-
-    public int CompareTo(MyList list)
-    {
-        if (list == null)
-        {
-            return 1;
-        }
-        int minCount = this.Count < list.Count ? this.Count : list.Count;
-        for (int i = 0; i < minCount; ++i)
-        {
-            if (this[i] < list[i])
-            {
-                return -1;
-            }
-            else if (this[i] > list[i])
+            if (list == null)
             {
                 return 1;
             }
+            int minCount = this.Count < list.Count ? this.Count : list.Count;
+            for (int i = 0; i < minCount; ++i)
+            {
+                if (this[i] < list[i])
+                {
+                    return -1;
+                }
+                else if (this[i] > list[i])
+                {
+                    return 1;
+                }
+            }
+            if (this.Count < minCount)
+            {
+                return -1;
+            }
+            else if (this.Count > minCount)
+            {
+                return 1;
+            }
+            return 0;
         }
-        if (this.Count < minCount)
-        {
-            return -1;
-        }
-        else if (this.Count > minCount)
-        {
-            return 1;
-        }
-        return 0;
-    }
 
-    public override string ToString()
-    {
-        return string.Join(" ", this.ToArray());
-    }
+        public override string ToString()
+        {
+            return string.Join(" ", this.ToArray());
+        }
 
-} // class
+    } // MyList
+} // EngineForCycles
 
 } // namespace
