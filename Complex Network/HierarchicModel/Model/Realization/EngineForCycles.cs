@@ -129,7 +129,7 @@ class EngineForCycles
                 {
                     if (tree.areAdjacent(level - 1, parentId, start, next) == 1)
                     {
-                        KeyValuePair<int, int> range = getVerticesRange(tree, treeId + next - start, level);
+                        KeyValuePair<int, int> range = getVerticesRange(tree, treeId + next - start, level, origin);
                         if (pathLength - innerLength - 1 > 0)
                         {
                             for (int vertex = range.Key; vertex < range.Value; ++vertex)
@@ -168,7 +168,7 @@ class EngineForCycles
             {
                 if (tree.areAdjacent(level - 1, parentId, current, end) == 1)
                 {
-                    KeyValuePair<int, int> range = getVerticesRange(tree, treeId + end - current, level);
+                    KeyValuePair<int, int> range = getVerticesRange(tree, treeId + end - current, level, origin);
                     if (start != end)
                     {
                         count = range.Value - range.Key;
@@ -203,12 +203,12 @@ class EngineForCycles
                 {
                     if (next != current && tree.areAdjacent(level - 1, parentId, current, next) == 1)
                     {
-                        KeyValuePair<int, int> range = getVerticesRange(tree, treeId + next - current, level);
+                        KeyValuePair<int, int> range = getVerticesRange(tree, treeId + next - current, level, origin);
                         if (pathLength - innerLength > 1)
                         {
                             for (int vertex = range.Key; vertex < range.Value; ++vertex)
                             {
-                                if (vertex > origin && !pathStart.Contains(vertex) && !path.Contains(vertex))
+                                if (!pathStart.Contains(vertex) && !path.Contains(vertex))
                                 {
                                     pathStart.AddRange(path);
                                     count += getPathContinuationsCount(tree, vertex, level,
@@ -287,11 +287,11 @@ class EngineForCycles
             {
                 if (tree.areAdjacent(level - 1, parentId, current, end) == 1)
                 {
-                    KeyValuePair<int, int> range = getVerticesRange(tree, treeId + end - current, level);
+                    KeyValuePair<int, int> range = getVerticesRange(tree, treeId + end - current, level, origin);
                     for (int vertex = range.Key; vertex < range.Value; ++vertex)
                     {
                         Debug.Assert(pathStart.Count != 0);
-                        if (!pathStart.Contains(vertex) && (vertex > origin) && (vertex != pivot)
+                        if (!pathStart.Contains(vertex) && (vertex != pivot)
                             && (start != end || start == end && areVerticesConnected(tree, vertex, origin)))
                         {
                             Debug.Assert(!pathStart.Contains(pivot));
@@ -322,11 +322,11 @@ class EngineForCycles
                 {
                     if (next != current && tree.areAdjacent(level - 1, parentId, current, next) == 1)
                     {
-                        KeyValuePair<int, int> range = getVerticesRange(tree, treeId + next - current, level);
+                        KeyValuePair<int, int> range = getVerticesRange(tree, treeId + next - current, level, origin);
                         for (int vertex = range.Key; vertex < range.Value; ++vertex)
                         {
                             pathStart.AddRange(path);
-                            if (vertex > origin && !pathStart.Contains(vertex))
+                            if (!pathStart.Contains(vertex))
                             {
                                 if (pathLength - innerLength > 1)
                                 {
@@ -433,10 +433,10 @@ class EngineForCycles
         {
             if (tree.areAdjacent(level - 1, parentId, start, end) == 1)
             {
-                KeyValuePair<int, int> range = getVerticesRange(tree, treeId + end - start, level);
+                KeyValuePair<int, int> range = getVerticesRange(tree, treeId + end - start, level, origin);
                 for (int vertex = range.Key; vertex < range.Value; ++vertex)
                 {
-                    if (!pathStart.Contains(vertex) && (vertex > origin) && (vertex != pivot))
+                    if (!pathStart.Contains(vertex) && (vertex != pivot))
                     {
                         Debug.Assert(!pathStart.Contains(pivot));
                         MyList path = new MyList();
@@ -457,11 +457,11 @@ class EngineForCycles
                 {
                     if (next != start && tree.areAdjacent(level - 1, parentId, start, next) == 1)
                     {
-                        KeyValuePair<int, int> range = getVerticesRange(tree, treeId + next - start, level);
+                        KeyValuePair<int, int> range = getVerticesRange(tree, treeId + next - start, level, origin);
                         for (int vertex = range.Key; vertex < range.Value; ++vertex)
                         {
                             pathStart.AddRange(path);
-                            if (vertex > origin && !pathStart.Contains(vertex))
+                            if (!pathStart.Contains(vertex))
                             {
                                 if (pathLength - innerLength > 1)
                                 {
@@ -525,13 +525,16 @@ class EngineForCycles
         return paths;
     }
 
-
     // Gets the "treeId" tree's all vertices range
-    private KeyValuePair<int/*start*/, int/*end+1*/> getVerticesRange(HierarchicGraph tree, int treeId, int level)
+    private KeyValuePair<int/*start*/, int/*end+1*/> getVerticesRange(HierarchicGraph tree, int treeId, int level, int origin)
     {
         int branchCount = (int)System.Math.Pow(tree.prime, tree.degree - level);
         int start = treeId * branchCount;
         int end = start + branchCount;
+        if (start <= origin)
+        {
+            start = origin + 1;
+        }
         return new KeyValuePair<int, int>(start, end);
     }
 
