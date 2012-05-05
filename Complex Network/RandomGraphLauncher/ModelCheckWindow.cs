@@ -27,9 +27,14 @@ namespace RandomGraphLauncher
         private void ModelCheckWindow_Load(object sender, EventArgs e)
         {
             InitializeModelNameCmb();
+            this.degreesRadio.Checked = true;
+            this.filePath.Enabled = false;
+            this.filePathTxt.Enabled = false;
+            this.browse.Enabled = false;
         }
 
         // Utilities //
+
         private void InitializeModelNameCmb()
         {
             List<Type> availableModelFactoryTypes = ModelRepository.GetInstance().GetAvailableModelFactoryTypes();
@@ -67,11 +72,87 @@ namespace RandomGraphLauncher
 
         private void checkBtn_Click(object sender, EventArgs e)
         {
-            ParceDegrees();
             if (this.modelNameCmb.Text == "Block-Hierarchic")
             {
-                HierarchicChecker checker = new HierarchicChecker(degreeSequence);
-                this.resultTxt.Text = checker.IsHierarchic().ToString();
+                if (this.exactCheckRadio.Checked == true)
+                {
+                    HierarchicExactChecker checker = new HierarchicExactChecker();
+                    //checker.IsHierarchic();
+                }
+                else
+                {
+                    HierarchicChecker checker;
+                    if (this.degreesRadio.Checked == true)
+                    {
+                        ParceDegrees();
+                        checker = new HierarchicChecker(degreeSequence);
+                    }
+                    else
+                    {
+                        checker = new HierarchicChecker(this.filePathTxt.Text);
+                    }
+
+                    this.resultTxt.Text = checker.IsHierarchic().ToString();
+                }
+            }
+        }
+
+        private void degreesRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.degreesRadio.Checked == true)
+            {
+                this.degrees.Enabled = true;
+                this.degreesTxt.Enabled = true;
+            }
+            else
+            {
+                this.degrees.Enabled = false;
+                this.degreesTxt.Enabled = false;
+            }
+        }
+
+        private void fromFileRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.fromFileRadio.Checked == true)
+            {
+                this.filePath.Enabled = true;
+                this.filePathTxt.Enabled = true;
+                this.browse.Enabled = true;
+            }
+            else
+            {
+                this.filePath.Enabled = false;
+                this.filePathTxt.Enabled = false;
+                this.browse.Enabled = false;
+            }
+        }
+
+        private void modelNameCmb_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (this.modelNameCmb.Text)
+            {
+                case "Block-Hierarchic":
+                    {
+                        this.exactCheckRadio.Visible = true;
+                        this.notExactCheckRadio.Visible = true;
+                        this.exactCheckRadio.Checked = true;
+                        break;
+                    }
+                default:
+                    {
+                        this.exactCheckRadio.Visible = false;
+                        this.notExactCheckRadio.Visible = false;
+                        break;
+                    }
+            }
+        }
+
+        private void browse_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                this.filePathTxt.Text = openFileDialog1.FileName;
             }
         }
     }

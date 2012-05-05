@@ -7,8 +7,6 @@ using System.Threading;
 
 namespace ModelCheck
 {
-    namespace HierarchicExactChecker
-    {
         /// <author>Hovhannes Antonyan</author>
         /// <summary>
         /// Provides an API to check whether given graph is hierarhical or not
@@ -745,5 +743,4 @@ namespace ModelCheck
                 }
             }
         }
-    }
 }
