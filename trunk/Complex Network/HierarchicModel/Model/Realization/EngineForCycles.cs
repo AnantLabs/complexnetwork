@@ -146,7 +146,10 @@ class EngineForCycles
                         }
                         else if (start != end && next == end)
                         {
-                            count += range.Value - range.Key;
+                            if (range.Key < range.Value)
+                            {
+                                count += range.Value - range.Key;
+                            }
                         }
                     }
                 }
@@ -169,27 +172,34 @@ class EngineForCycles
                 if (tree.areAdjacent(level - 1, parentId, current, end) == 1)
                 {
                     KeyValuePair<int, int> range = getVerticesRange(tree, treeId + end - current, level, origin);
-                    if (start != end)
+                    if (range.Key < range.Value)
                     {
-                        count = range.Value - range.Key;
-                        foreach (long vertex in pathStart) 
+                        if (start != end)
                         {
-                            if (vertex >= range.Key && vertex < range.Value)
+                            count = range.Value - range.Key;
+                            foreach (long vertex in pathStart)
+                            {
+                                if (vertex >= range.Key && vertex < range.Value)
+                                {
+                                    --count;
+                                }
+                            }
+                            if (!pathStart.Contains(pivot) && pivot >= range.Key && pivot < range.Key)
                             {
                                 --count;
                             }
                         }
-                    }
-                    else 
-                    {
-                        count = getEdgesCount(tree, level, treeId, range, pathStart, origin);
+                        else  // start == end != current
+                        {
+                            count = getEdgesCount(tree, level, branch, pathStart, origin, originStart);
+                        }
                     }
                 }
             }
             else
             {
                 count = getPathsCount(tree, pivot, level, tree.degree, branch,
-                        pathStart, pathLength, origin, start == end /*is always false*/, originStart);
+                        pathStart, pathLength, origin, start == end, originStart);
             }
             return count;
         }
@@ -199,6 +209,7 @@ class EngineForCycles
             foreach (MyList path in innerPaths)
             {
                 Debug.Assert(path.Count == innerLength + 1);
+                pathStart.AddRange(path);
                 for (int next = start; next < tree.prime; ++next)
                 {
                     if (next != current && tree.areAdjacent(level - 1, parentId, current, next) == 1)
@@ -208,17 +219,15 @@ class EngineForCycles
                         {
                             for (int vertex = range.Key; vertex < range.Value; ++vertex)
                             {
-                                if (!pathStart.Contains(vertex) && !path.Contains(vertex))
+                                if (!pathStart.Contains(vertex))
                                 {
-                                    pathStart.AddRange(path);
                                     count += getPathContinuationsCount(tree, vertex, level,
                                             treeId + next - current, parentId, start, next, end, pathStart,
                                             pathLength - innerLength - 1, origin, originStart);
-                                    pathStart.RemoveRange(pathStart.Count - path.Count, path.Count);
                                 }
                             }
                         }
-                        else if (next == end)
+                        else if (next == end && range.Key < range.Value)
                         {
                             if (start != end)
                             {
@@ -231,44 +240,154 @@ class EngineForCycles
                                     }
                                 }
                             }
-                            else
+                            else // start == next == end != current
                             {
-                                count += getEdgesCount(tree, level, treeId, range, pathStart, origin);
+                                count += getEdgesCount(tree, level, branch, pathStart, origin, originStart);
                             }
                         }
                     }
                 }
+                pathStart.RemoveRange(pathStart.Count - path.Count, path.Count);
             }
         }
         if (current == end)
         {
-            count += getPathsCount(tree, pivot, level, tree.degree, branch, pathStart, pathLength, origin, start == end, originStart);
+            count += getPathsCount(tree, pivot, level, tree.degree, branch, pathStart, pathLength, origin, 
+                    start == end, originStart);
         }
         branch.RemoveAt(branch.Count - 1);
         return count;
     }
 
-    private long getEdgesCount(HierarchicGraph tree, int level, int treeId, KeyValuePair<int, int> range, 
-            MyList pathStart, int origin)
+    private long getEdgesCount(HierarchicGraph tree, int level, MyList branch, MyList pathStart, int origin, int originStart)
     {
-        // TODO change implementation to following: get paths count with length 1 in the treeId subtree and decrement 
-        // as much how many vertices in pathStart belong to the range
-        long count = 0;
-        for (int vertex = range.Key; vertex < range.Value; ++vertex)
+        branch.Add(origin);
+        long count = getPathsCount(tree, origin, level, tree.degree, branch, pathStart, 1, origin, true, originStart);
+        branch.RemoveAt(branch.Count - 1);
+        return count;
+    }
+
+    private long getPathsCount(HierarchicGraph tree, int pivot, int highestAllowedLevel, int level, MyList branch,
+            MyList pathStart, int pathLength, int origin, bool isStartEqualToEnd, int originStart)
+    {
+        if (pathLength == 0)
         {
+            Debug.Assert(!pathStart.Contains(pivot));
             Debug.Assert(pathStart.Count != 0);
-            if (!pathStart.Contains(vertex) && (vertex > origin) && areVerticesConnected(tree, vertex, origin))
+            Debug.Assert(pivot >= origin);
+            return 1;
+        }
+        long count = 0;
+        if (level > highestAllowedLevel)
+        {
+            int treeId = branch[branch.Count - 1];
+            int parentId = treeId / tree.prime;
+            int start = (int)(treeId % tree.prime);
+            if (isStartEqualToEnd && level == highestAllowedLevel + 1)
             {
-                ++count;
+                for (int end = originStart + 1; end < tree.prime; ++end)
+                {
+                    if (end != start && tree.areAdjacent(highestAllowedLevel, parentId, end, originStart) == 1)
+                    {
+                        count += getCrossTreePathsCount(tree, pivot, level, branch, parentId, start, end,
+                                pathStart, pathLength, origin, originStart);
+                    }
+                }
+            }
+            else
+            {
+                for (int end = 0; end < tree.prime; ++end)
+                {
+                    if (end != start)
+                    {
+                        count += getCrossTreePathsCount(tree, pivot, level, branch, parentId, start, end,
+                                pathStart, pathLength, origin, originStart);
+                    }
+                }
+            }
+            if (level > highestAllowedLevel + 1)
+            {
+                branch.Add(parentId);
+                count += getPathsCount(tree, pivot, highestAllowedLevel, level - 1, branch,
+                        pathStart, pathLength, origin, isStartEqualToEnd, originStart);
+                branch.RemoveAt(branch.Count - 1);
             }
         }
         return count;
     }
 
-    private long getPathsCount(HierarchicGraph tree, int pivot, int highestAllowedLevel, int level, MyList branch, MyList pathStart, int pathLength,
-            int origin, bool isStartEqualToEnd, int originStart)
+    private long getCrossTreePathsCount(HierarchicGraph tree, int pivot, int level, MyList branch, int parentId, int start, int end, 
+            MyList pathStart, int pathLength, int origin, int originStart)
     {
-        return getPaths(tree, pivot, highestAllowedLevel, level, branch, pathStart, pathLength, origin, isStartEqualToEnd, originStart).Count;
+        long count = 0;
+        int treeId = branch[branch.Count - 1];
+        if (pathLength == 1)
+        {
+            if (tree.areAdjacent(level - 1, parentId, start, end) == 1)
+            {
+                KeyValuePair<int, int> range = getVerticesRange(tree, treeId + end - start, level, origin);
+                if (range.Key < range.Value)
+                {
+                    count += range.Value - range.Key;
+                    foreach (long vertex in pathStart)
+                    {
+                        if (vertex >= range.Key && vertex < range.Value)
+                        {
+                            --count;
+                        }
+                    }
+                    if (!pathStart.Contains(pivot) && pivot >= range.Key && pivot < range.Key)
+                    {
+                        --count;
+                    }
+                }
+            }
+            return count;
+        }
+        for (int innerLength = 0; innerLength <= pathLength - 1; ++innerLength)
+        {
+            ISet<MyList> innerPaths = getInnerPaths(tree, pivot, level, branch, pathStart, innerLength, origin, originStart);
+            foreach (MyList path in innerPaths)
+            {
+                pathStart.AddRange(path);
+                for (int next = 0; next < tree.prime; ++next)
+                {
+                    if (next != start && tree.areAdjacent(level - 1, parentId, start, next) == 1)
+                    {
+                        KeyValuePair<int, int> range = getVerticesRange(tree, treeId + next - start, level, origin);
+                        if (pathLength - innerLength > 1)
+                        {
+                            for (int vertex = range.Key; vertex < range.Value; ++vertex)
+                            {
+                                if (!pathStart.Contains(vertex))
+                                {
+                                    count += getPathContinuationsCount(tree, vertex, level,
+                                            treeId + next - start, parentId, start, next, end, pathStart,
+                                            pathLength - innerLength - 1, origin, originStart);
+                                }
+                            }
+                        }
+                        else if (next == end && range.Key < range.Value)
+                        {
+                            count += range.Value - range.Key;
+                            foreach (long vertex in pathStart)
+                            {
+                                if (vertex >= range.Key && vertex < range.Value)
+                                {
+                                    --count;
+                                }
+                            }
+                            if (!pathStart.Contains(pivot) && pivot >= range.Key && pivot < range.Value)
+                            {
+                                --count;
+                            }
+                        }
+                    }
+                }
+                pathStart.RemoveRange(pathStart.Count - path.Count, path.Count);
+            }
+        }
+        return count;
     }
 
 
@@ -318,6 +437,7 @@ class EngineForCycles
 			foreach (MyList path in innerPaths)
             {
                 Debug.Assert(path.Count == innerLength + 1);
+                pathStart.AddRange(path);
                 for (int next = start; next < tree.prime; ++next)
                 {
                     if (next != current && tree.areAdjacent(level - 1, parentId, current, next) == 1)
@@ -325,7 +445,6 @@ class EngineForCycles
                         KeyValuePair<int, int> range = getVerticesRange(tree, treeId + next - current, level, origin);
                         for (int vertex = range.Key; vertex < range.Value; ++vertex)
                         {
-                            pathStart.AddRange(path);
                             if (!pathStart.Contains(vertex))
                             {
                                 if (pathLength - innerLength > 1)
@@ -349,10 +468,10 @@ class EngineForCycles
                                     paths.Add(fullPath);
                                 }
                             }
-                            pathStart.RemoveRange(pathStart.Count - path.Count, path.Count);
                         }
                     }
                 }
+                pathStart.RemoveRange(pathStart.Count - path.Count, path.Count);
             }
         }
         if (current == end)
@@ -415,6 +534,7 @@ class EngineForCycles
                 branch.Add(parentId);
                 ISet<MyList> innerPaths = getPaths(tree, pivot, highestAllowedLevel, level - 1, branch,
                         pathStart, pathLength, origin, isStartEqualToEnd, originStart);
+                branch.RemoveAt(branch.Count - 1);
                 mergeSet<MyList>(paths, innerPaths);
             }
         }
@@ -453,6 +573,7 @@ class EngineForCycles
             ISet<MyList> innerPaths = getInnerPaths(tree, pivot, level, branch, pathStart, innerLength, origin, originStart);
             foreach (MyList path in innerPaths)
             {
+                pathStart.AddRange(path);
                 for (int next = 0; next < tree.prime; ++next)
                 {
                     if (next != start && tree.areAdjacent(level - 1, parentId, start, next) == 1)
@@ -460,7 +581,6 @@ class EngineForCycles
                         KeyValuePair<int, int> range = getVerticesRange(tree, treeId + next - start, level, origin);
                         for (int vertex = range.Key; vertex < range.Value; ++vertex)
                         {
-                            pathStart.AddRange(path);
                             if (!pathStart.Contains(vertex))
                             {
                                 if (pathLength - innerLength > 1)
@@ -483,10 +603,10 @@ class EngineForCycles
                                     paths.Add(fullPath);
                                 }
                             }
-                            pathStart.RemoveRange(pathStart.Count - path.Count, path.Count);
                         }
                     }
                 }
+                pathStart.RemoveRange(pathStart.Count - path.Count, path.Count);
             }
         }
         return paths;
@@ -625,7 +745,7 @@ class EngineForCycles
             return string.Join(" ", this.ToArray());
         }
 
-    } // MyList
-} // EngineForCycles
+    } // class MyList
+} // class EngineForCycles
 
 } // namespace
