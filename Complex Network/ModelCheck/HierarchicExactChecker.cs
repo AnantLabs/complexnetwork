@@ -15,6 +15,9 @@ namespace ModelCheck
         /// </summary>
         public class HierarchicExactChecker : IThreadEvent
         {
+            private string path = "";
+            private List<int> degrees;
+
             private static readonly ILog logger = log4net.LogManager.GetLogger(typeof(HierarchicExactChecker));
 
             private Container _container; // container which holds the graph to check for being hierarchic.
@@ -30,20 +33,34 @@ namespace ModelCheck
                 _stopWorkItems = new ManualResetEvent(false);
             }
 
-            public static void main()
+            /// <summary>
+            /// Constructor with file name parameter
+            /// </summary>
+            public HierarchicExactChecker(string fileName)
             {
-                ArrayList matrix = Container.get_data("C:/ComplexNetwork/graph.txt");
-                HierarchicExactChecker checker = new HierarchicExactChecker();
-                Tree tree = null;
-                bool isHierarchic = checker.IsHierarchic(matrix, ref tree);
-                if (isHierarchic)
+                path = fileName;
+                _stopWorkItems = new ManualResetEvent(false);
+            }
+
+            /// <summary>
+            /// Constructor with degrees parameter
+            /// </summary>
+            public HierarchicExactChecker(List<int> d)
+            {
+                degrees = d;
+                _stopWorkItems = new ManualResetEvent(false);
+            }
+
+            public bool IsHierarchic()
+            {
+                if (path != null)
                 {
-                    Debug.WriteLine("Is Hierarchic");
+                    ArrayList matrix = Container.get_data(path);
+                    Tree tree = null;
+                    return IsHierarchic(matrix, ref tree);
                 }
                 else
-                {
-                    Debug.WriteLine("Is Not Hierarchic");
-                }
+                    return false;
             }
 
             /// <summary>
@@ -52,7 +69,7 @@ namespace ModelCheck
             /// </summary>
             /// <param name="matrix">Matrix which specifies the given graph</param>
             /// <returns>True if the graph is hierarchical, otherwise false</returns>
-            public bool IsHierarchic(ArrayList matrix)
+            private bool IsHierarchic(ArrayList matrix)
             {
                 _container = new Container(matrix);
                 IDictionary<int, int> degrees = getAllDegrees(_container.Size);
@@ -74,7 +91,7 @@ namespace ModelCheck
             /// <param name="tree">Tree object to hold the corresponding hierarchial tree
             /// if the graph is hierarchical</param>
             /// <returns>True if the graph is hierarchical, otherwise false</returns>
-            public bool IsHierarchic(ArrayList matrix, ref Tree tree)
+            private bool IsHierarchic(ArrayList matrix, ref Tree tree)
             {
                 _container = new Container(matrix);
                 IDictionary<int, int> degrees = getAllDegrees(_container.Size);
