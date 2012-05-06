@@ -22,9 +22,9 @@ namespace ModelCheck
         private int t;
         private string path;
 
-        public HierarchicChecker(List<int> t)
+        public HierarchicChecker(List<int> degrees)
         {
-            d = t;
+            d = degrees;
         }
 
         public HierarchicChecker(string filePath)
