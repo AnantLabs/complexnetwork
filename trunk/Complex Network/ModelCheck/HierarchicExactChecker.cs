@@ -104,18 +104,35 @@ namespace ModelCheck
             int degree = 0;
             for (int p = 2; (degree = p * p) <= n; ++p)
             {
-                int k = 2;
-                while (degree < n)
+                if (isPrime(p))
                 {
-                    degree *= p;
-                    ++k;
-                }
-                if (degree == n)
-                {
-                    collection.Add(p, k);
+                    int k = 2;
+                    while (degree < n)
+                    {
+                        degree *= p;
+                        ++k;
+                    }
+                    if (degree == n)
+                    {
+                        collection.Add(p, k);
+                    }
                 }
             }
             return collection;
+        }
+
+        private static bool isPrime(int number)
+        {
+            if (number == 1) return false;
+            if (number == 2) return true;
+            for (int i = 2; i < number; ++i)
+            {
+                if (number % i == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private bool isHierarchic(int prime)
