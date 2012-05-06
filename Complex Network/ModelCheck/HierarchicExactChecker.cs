@@ -17,7 +17,6 @@ namespace ModelCheck
     {
         private static readonly ILog logger = log4net.LogManager.GetLogger(typeof(HierarchicExactChecker));
 
-        private List<int> _degrees;
         private Container _container; // container which holds the graph to check for being hierarchic.
         private Tree _tree;
         private int _working_threads;
@@ -31,19 +30,15 @@ namespace ModelCheck
             _stopWorkItems = new ManualResetEvent(false);
         }
 
-        /// <summary>
-        /// Constructor with degrees parameter
-        /// </summary>
-        public HierarchicExactChecker(List<int> degrees)
-        {
-            _degrees = degrees;
-            _stopWorkItems = new ManualResetEvent(false);
-        }
-
         public bool IsHierarchic(string fileName)
         {
             ArrayList matrix = Container.get_data(fileName);
             return IsHierarchic(matrix);
+        }
+
+        public bool IsHierarchic(List<int> degrees)
+        {
+            return IsHierarchic(degrees);
         }
 
         /// <summary>
@@ -55,11 +50,7 @@ namespace ModelCheck
         public bool IsHierarchic(ArrayList matrix)
         {
             _container = new Container(matrix);
-            ICollection<int> degrees = _degrees;
-            if (_degrees == null)
-            {
-                degrees = getAllDegrees(_container.Size).Keys;
-            }
+            ICollection<int> degrees = getAllDegrees(_container.Size).Keys;
             foreach (int prime in degrees)
             {
                 if (isHierarchic(prime))
@@ -81,11 +72,7 @@ namespace ModelCheck
         public bool IsHierarchic(ArrayList matrix, ref Tree tree)
         {
             _container = new Container(matrix);
-            ICollection<int> degrees = _degrees;
-            if (_degrees == null)
-            {
-                degrees = getAllDegrees(_container.Size).Keys;
-            }
+            ICollection<int> degrees = getAllDegrees(_container.Size).Keys;
             foreach (int prime in degrees)
             {
                 if (isHierarchic(prime, ref tree))
