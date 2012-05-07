@@ -28,6 +28,8 @@ namespace RandomGraphLauncher
 
         private IDictionary<string, Tuple<Type, Type>> models = new Dictionary<string, Tuple<Type, Type>>();
         private ArrayList labels = new ArrayList();
+        private ArrayList algNames = new ArrayList();
+        private ArrayList checkList = new ArrayList();
         ResultAssembly goldResult;
 
         public TesterForm()
@@ -163,9 +165,24 @@ namespace RandomGraphLauncher
             testCycles(11, analyzer);
         }
 
+        private bool checkIfNeedToTest(int number)
+        {
+            Label label;
+            if (!((CheckBox)checkList[number]).Checked)
+            {
+                label = (Label)labels[number];
+                label.Text = "dismissed";
+                return false;
+            }
+            return true;
+        }
         private void testDegreeDistribution(int number, IGraphAnalyzer analyzer)
         {
             Label label;
+            if (!checkIfNeedToTest(number))
+            {
+                return;
+            }
             try
             {
                 if (compare(goldResult.Results[0].VertexDegree, analyzer.GetDegreeDistribution()))
@@ -191,7 +208,16 @@ namespace RandomGraphLauncher
 
         private void testAveragePath(int number, IGraphAnalyzer analyzer)
         {
+            if (!checkIfNeedToTest(number))
+            {
+                return;
+            }
             Label label;
+            if (!((CheckBox)checkList[number]).Checked)
+            {
+                label = (Label)labels[number];
+                label.Text = "dismissed";
+            }
             try
             {
                 if (goldResult.Results[0].Result[AnalyseOptions.AveragePath] == analyzer.GetAveragePath())
@@ -217,6 +243,10 @@ namespace RandomGraphLauncher
 
         private void testClusteringCoefficient(int number, IGraphAnalyzer analyzer)
         {
+            if (!checkIfNeedToTest(number))
+            {
+                return;
+            }
             Label label;
             try
             {
@@ -243,6 +273,10 @@ namespace RandomGraphLauncher
 
         private void testEigenValue(int number, IGraphAnalyzer analyzer)
         {
+            if (!checkIfNeedToTest(number))
+            {
+                return;
+            }
             Label label;
             try
             {
@@ -269,6 +303,10 @@ namespace RandomGraphLauncher
 
         private void testCycles3(int number, IGraphAnalyzer analyzer)
         {
+            if (!checkIfNeedToTest(number))
+            {
+                return;
+            }
             Label label;
             try
             {
@@ -295,6 +333,10 @@ namespace RandomGraphLauncher
 
         private void testDiameter(int number, IGraphAnalyzer analyzer)
         {
+            if (!checkIfNeedToTest(number))
+            {
+                return;
+            }
             Label label;
             try
             {
@@ -321,6 +363,10 @@ namespace RandomGraphLauncher
 
         private void testCycles4(int number, IGraphAnalyzer analyzer)
         {
+            if (!checkIfNeedToTest(number))
+            {
+                return;
+            }
             Label label;
             try
             {
@@ -347,6 +393,10 @@ namespace RandomGraphLauncher
 
         private void testDistanceBetweenVertices(int number, IGraphAnalyzer analyzer)
         {
+            if (!checkIfNeedToTest(number))
+            {
+                return;
+            }
             Label label;
             try
             {
@@ -373,6 +423,10 @@ namespace RandomGraphLauncher
 
         private void testDistancesBetweenEigenValues(int number, IGraphAnalyzer analyzer)
         {
+            if (!checkIfNeedToTest(number))
+            {
+                return;
+            }
             Label label;
             try
             {
@@ -399,6 +453,10 @@ namespace RandomGraphLauncher
 
         private void testFullSubgraphs(int number, IGraphAnalyzer analyzer)
         {
+            if (!checkIfNeedToTest(number))
+            {
+                return;
+            }
             Label label;
             try
             {
@@ -425,6 +483,10 @@ namespace RandomGraphLauncher
 
         private void testMotiv(int number, IGraphAnalyzer analyzer)
         {
+            if (!checkIfNeedToTest(number))
+            {
+                return;
+            }
             Label label;
             try
             {
@@ -451,6 +513,10 @@ namespace RandomGraphLauncher
 
         private void testCycles(int number, IGraphAnalyzer analyzer)
         {
+            if (!checkIfNeedToTest(number))
+            {
+                return;
+            }
             Label label;
             try
             {
@@ -552,30 +618,7 @@ namespace RandomGraphLauncher
                 return;
             }
             string modelName = comboBox_ModelType.SelectedItem.ToString();
-            Type modelType = models[modelName].Item2;
-            AvailableAnalyzeOptions[] optionsAttributes = (AvailableAnalyzeOptions[])modelType.GetCustomAttributes(typeof(AvailableAnalyzeOptions), false);
-            AnalyseOptions availableOptions = optionsAttributes[0].Options;
-            Point point = new Point(35, 200);
-            foreach (AnalyseOptions opt in Enum.GetValues(typeof(AnalyseOptions)))
-            {
-                if ((opt & availableOptions) == opt && opt != AnalyseOptions.None)
-                {
-                    AnalyzeOptionInfo optionInfo = (AnalyzeOptionInfo)(opt.GetType().GetField(Enum.GetName(typeof(AnalyseOptions), opt)).GetCustomAttributes(typeof(AnalyzeOptionInfo), false)[0]);
-                    Label label = new Label();
-                    label.Text = optionInfo.Name;
-                    label.Location = point;
-                    label.AutoSize = true;
-                    Label status = new Label();
-                    point.X += 250;
-                    status.Location = point;
-                    status.Text = "waiting";
-                    point.X -= 250;
-                    status.Parent = this;
-                    labels.Add(status);
-                    point.Y += 25;
-                    label.Parent = this;
-                }
-            }
+
             constructGraph(modelName);
         }
 
@@ -592,6 +635,51 @@ namespace RandomGraphLauncher
                 return false;
             }
             return true;
+        }
+
+        private void comboBox_ModelType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            for (int l = 0; l < labels.Count; ++l)
+            {
+                ((Label)labels[l]).Dispose();
+                ((Label)algNames[l]).Dispose();
+                ((CheckBox)checkList[l]).Dispose();
+            }
+            labels.Clear();
+            algNames.Clear();
+            checkList.Clear();
+            string modelName = comboBox_ModelType.SelectedItem.ToString();
+            Type modelType = models[modelName].Item2;
+            AvailableAnalyzeOptions[] optionsAttributes = (AvailableAnalyzeOptions[])modelType.GetCustomAttributes(typeof(AvailableAnalyzeOptions), false);
+            AnalyseOptions availableOptions = optionsAttributes[0].Options;
+            Point point = new Point(35, 200);
+            foreach (AnalyseOptions opt in Enum.GetValues(typeof(AnalyseOptions)))
+            {
+                if ((opt & availableOptions) == opt && opt != AnalyseOptions.None)
+                {
+                    AnalyzeOptionInfo optionInfo = (AnalyzeOptionInfo)(opt.GetType().GetField(Enum.GetName(typeof(AnalyseOptions), opt)).GetCustomAttributes(typeof(AnalyzeOptionInfo), false)[0]);
+                    Label label = new Label();
+                    label.Text = optionInfo.Name;
+                    label.Location = point;
+                    label.AutoSize = true;
+                    algNames.Add(label);
+                    CheckBox c = new CheckBox();
+                    point.X += 330;
+                    c.Location = point;
+                    c.Checked = true;
+                    c.Parent = this;
+                    checkList.Add(c);
+                    Label status = new Label();
+                    point.X -= 80;
+                    status.Location = point;
+                    status.Text = "waiting";
+                    status.Parent = this;
+                    labels.Add(status);
+                    label.Parent = this;
+                    point.Y += 25;
+                    point.X -= 250;
+                }
+            }
         }
     }
 }
