@@ -282,7 +282,7 @@ namespace RandomGraphLauncher
         private void testerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TesterForm tester = new TesterForm();
-            tester.Show();
+            tester.ShowDialog();
         }
 
         private void traceingModeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -294,6 +294,12 @@ namespace RandomGraphLauncher
         {
             ModelCheckWindow wnd = new ModelCheckWindow();
             wnd.ShowDialog();
+        }
+
+        private void loggerSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoggerSetingsForm settingsForm = new LoggerSetingsForm();
+            settingsForm.ShowDialog();
         }
     }
 }

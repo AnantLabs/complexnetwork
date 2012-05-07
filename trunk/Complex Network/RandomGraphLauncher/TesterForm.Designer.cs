@@ -113,6 +113,7 @@
             this.comboBox_ModelType.Name = "comboBox_ModelType";
             this.comboBox_ModelType.Size = new System.Drawing.Size(185, 21);
             this.comboBox_ModelType.TabIndex = 7;
+            this.comboBox_ModelType.SelectedIndexChanged += new System.EventHandler(this.comboBox_ModelType_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -139,6 +140,7 @@
             this.Controls.Add(this.goldenOut);
             this.Controls.Add(this.inputMatrix);
             this.Name = "TesterForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Tester";
             this.ResumeLayout(false);
             this.PerformLayout();

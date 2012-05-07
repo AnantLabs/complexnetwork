@@ -120,7 +120,7 @@ namespace AnalyzerFramework.Manager.Impl
             }
             finally
             {
-                log.Error("Error occurred, Disposing objects");
+                log.Info("Disposing objects");
                 Models[index].Dispose();
                 waitHandles[index].Set();
             }
