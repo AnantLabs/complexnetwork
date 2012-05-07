@@ -258,7 +258,18 @@ namespace Model.HierarchicModel
 
         public override bool[,] GetMatrix()
         {
-            int primeNumber = generator.prime;
+            int vertexCount = (int)Math.Pow(generator.prime, generator.degree);
+            bool[,] matrix = new bool[vertexCount, vertexCount];
+
+            for (int i = 0; i < vertexCount; ++i)
+            {
+                for (int j = 0; j < vertexCount; ++j)
+                    matrix[i, j] = (tree[i, j] == 1) ? true : false;
+            }
+            
+            return matrix;
+
+            /*int primeNumber = generator.prime;
             int maxlevel = generator.degree;
             int nodeDataLength = (primeNumber - 1) * primeNumber / 2;
             long dataLength = Convert.ToInt64(Math.Pow(primeNumber, maxlevel) * nodeDataLength);
@@ -278,7 +289,7 @@ namespace Model.HierarchicModel
                     }
                 }
             }
-            return matrix;
+            return matrix;*/
         }
     }
 }

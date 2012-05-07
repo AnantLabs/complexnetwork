@@ -75,6 +75,8 @@ namespace Model.HierarchicModel.Realization
                         if (rm1 != rm2)
                         {
                             var tempInd = this.adjacentIndex(rm1, rm2);
+                            if (tempInd < 0)    // CORRECT
+                                return 0;   // CORRECT
                             return Convert.ToInt32(this.treeNode(i - 1, prevNum)[tempInd]);
                         }
                         prevNum = rm1;
