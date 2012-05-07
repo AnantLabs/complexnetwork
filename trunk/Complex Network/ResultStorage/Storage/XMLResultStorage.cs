@@ -354,7 +354,7 @@ namespace ResultStorage.Storage
                 result = new AnalizeResult();
                 results.Add(result);
 
-                string base64Motif = paramNode.SelectNodes("motif")[0].InnerText;
+                string base64Motif = paramNode.SelectNodes("motives")[0].InnerText;
                 if (!String.IsNullOrEmpty(base64Motif))
                 {
                     //result.MotifCount = (SubgruphCount)BinaryDeserialization(Convert.FromBase64String(base64Motif));
