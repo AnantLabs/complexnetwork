@@ -15,6 +15,9 @@ class EngineForCycles
 {
     private static readonly ILog logger = log4net.LogManager.GetLogger(typeof(EngineForCycles));
 
+    private long _cycleCount = 0;
+    private int _origin = -1;
+
     // --------------------------------------------------------------
     // Constructors
 
@@ -36,36 +39,102 @@ class EngineForCycles
     /// If the length is equal to 2, number of edges is being returned</returns>
     public long GetCycleCount(HierarchicGraph tree, int length)
     {
-        if (length <= 1)
-        {
-            return 0;
-        }
-        long cycleCount = 0;
         try
         {
-            logger.Info("Started getting cycles count with length" + length + ": " + System.DateTime.Now.ToString());
+            logger.Info("GetCycleCount Started: " + System.DateTime.Now.ToString() + ". Length= " + length);
+            _cycleCount = 0;
+            if (length <= 1)
+            {
+                logger.Warn("Received incorrect parameter. Length should be greater than 1. Returning 0");
+                return 0;
+            }
             if (length == 2)
             {
                 double count = tree.countEdgesAllGraph();
                 Debug.Assert(count == System.Math.Ceiling(count));
-                cycleCount = (long)count;
+                _cycleCount = (long)count;
             }
             else
             {
-                cycleCount = getCycleCount(tree, length);
+                getCycleCount(tree, length);
             }
         }
         catch (System.Exception e)
         {
-            logger.Error("Failed to get cycle count. The reason was: " + e.Message);
-            logger.Info(null, e);
+            logger.Error("GetCycleCount Failed. The reason was: " + e.Message);
+            logger.Info("Found " + _cycleCount + " cycles at that moment");
+            if (length > 2)
+            {
+                logger.Info("Considered " + _origin + " vertices out of " + tree.getGraphSize());
+            }
             throw e;
         }
         finally
         {
-            logger.Info("Finished getting cycles count with length" + length + ": " + System.DateTime.Now.ToString());
+            logger.Info("GetCycleCount Finished: " + System.DateTime.Now.ToString());
         }
-        return cycleCount;
+        return _cycleCount;
+    }
+
+    /// <summary>
+    /// Calculates the number of cycles with the lengths from lengthStart till lengthEnd 
+    /// in the specified hierarchical tree
+    /// </summary>
+    /// <param name="tree">Tree in which cycles count should be found</param>
+    /// <param name="lengthStart">The lengths range start(inclusive)</param>
+    /// <param name="lengthEnd">The lengths range end(inclusive)</param>
+    /// <returns>Dictionary from cycle length to cycle counts of that length</returns>
+    public SortedDictionary<int, long> GetCycleCount(HierarchicGraph tree, int lengthStart, int lengthEnd)
+    {
+        logger.Info("GetCycleCount Started: " + System.DateTime.Now.ToString() 
+                + ". Length= [" + lengthStart + ", " + lengthEnd + "]");
+        SortedDictionary<int, long> result = new SortedDictionary<int, long>();
+        int length = 0;
+        try
+        {
+            if (lengthStart > lengthEnd || lengthStart <= 1)
+            {
+                logger.Error("Received incorrect parameters.");
+                return null;
+            }
+            if (lengthStart == 2)
+            {
+                double count = tree.countEdgesAllGraph();
+                Debug.Assert(count == System.Math.Ceiling(count));
+                result.Add(lengthStart, (long)count);
+            }
+            if (lengthEnd > 2)
+            {
+                int start = (lengthStart > 2 ? lengthStart : 3);
+                for (length = start; length <= lengthEnd; ++length)
+                {
+                    long count = getCycleCount(tree, length);
+                    result.Add(length, count);
+                }
+            }
+        }
+        catch (System.Exception e)
+        {
+            logger.Error("GetCycleCount Failed. The reason was: " + e.Message);
+            for (int l = lengthStart; l < length; ++length)
+            {
+                logger.Info("Found all " + result[l] + " cycles of length " + l);
+            }
+            if (length > 0)
+            {
+                logger.Info("Found " + _cycleCount + " cycles of length " + length + " at that moment");
+                if (length > 2)
+                {
+                    logger.Info("Considered " + _origin + " vertices out of " + tree.getGraphSize());
+                }
+            }
+            throw e;
+        }
+        finally
+        {
+            logger.Info("GetCycleCount Finished: " + System.DateTime.Now.ToString());
+        }
+        return result;
     }
 
     // --------------------------------------------------------------
@@ -73,20 +142,16 @@ class EngineForCycles
 
     private long getCycleCount(HierarchicGraph tree, int cycleLength)
     {
-        int verticesCount = (int)System.Math.Pow(tree.prime, tree.degree);
+        _cycleCount = 0;
         MyList branch = new MyList();
-        long count = 0;
-        for (int origin = 0; origin < verticesCount; ++origin)
+        for (_origin = 0; _origin < tree.getGraphSize(); ++_origin)
         {
-            branch.Add(origin);
-            logger.Debug(System.DateTime.Now.ToString() + " - Getting cycles for origin vertex " + origin);
-            long cycleCount = getCyclesStartingWithOrigin(tree, origin, tree.degree, branch, cycleLength) / 2;
-            logger.Debug(System.DateTime.Now.ToString() + " - Found " + cycleCount + " cycles");
-            count += cycleCount;
+            branch.Add(_origin);
+            _cycleCount += getCyclesStartingWithOrigin(tree, _origin, tree.degree, branch, cycleLength) / 2;
             branch.RemoveAt(branch.Count - 1);
             Debug.Assert(branch.Count == 0);
         }
-        return count;
+        return _cycleCount;
     }
 
     // Gets all cycles which start with origin vertex (and have length equal to the cycleLength)
