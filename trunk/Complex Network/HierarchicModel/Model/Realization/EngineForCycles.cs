@@ -43,6 +43,7 @@ class EngineForCycles
         long cycleCount = 0;
         try
         {
+            logger.Info("Started getting cycles count with length" + length + ": " + System.DateTime.Now.ToString());
             if (length == 2)
             {
                 double count = tree.countEdgesAllGraph();
@@ -58,7 +59,11 @@ class EngineForCycles
         {
             logger.Error("Failed to get cycle count. The reason was: " + e.Message);
             logger.Info(null, e);
-            cycleCount = -1;
+            throw e;
+        }
+        finally
+        {
+            logger.Info("Finished getting cycles count with length" + length + ": " + System.DateTime.Now.ToString());
         }
         return cycleCount;
     }
@@ -74,11 +79,14 @@ class EngineForCycles
         for (int origin = 0; origin < verticesCount; ++origin)
         {
             branch.Add(origin);
-            count += getCyclesStartingWithOrigin(tree, origin, tree.degree, branch, cycleLength);
+            logger.Debug(System.DateTime.Now.ToString() + " - Getting cycles for origin vertex " + origin);
+            long cycleCount = getCyclesStartingWithOrigin(tree, origin, tree.degree, branch, cycleLength) / 2;
+            logger.Debug(System.DateTime.Now.ToString() + " - Found " + cycleCount + " cycles");
+            count += cycleCount;
             branch.RemoveAt(branch.Count - 1);
             Debug.Assert(branch.Count == 0);
         }
-        return count / 2;
+        return count;
     }
 
     // Gets all cycles which start with origin vertex (and have length equal to the cycleLength)
