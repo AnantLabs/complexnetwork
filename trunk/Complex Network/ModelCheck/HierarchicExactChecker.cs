@@ -191,7 +191,7 @@ namespace ModelCheck
                 lock (this)
                 {
                     --_working_threads;
-                    if (tree != null)
+                    if (_tree == null && tree != null)
                     {
                         _tree = tree;
                         _stopWorkItems.Set();
@@ -275,8 +275,8 @@ namespace ModelCheck
                     do
                     {
                         combination = getNextCombination(tree, combination);
-                    } while (combination != null && riseUp(tree, combination) == false);
-                    if (combination == null)
+                    } while (_finishEvent.WaitOne(0) == false && combination != null && riseUp(tree, combination) == false);
+                    if (_finishEvent.WaitOne(0) == true || combination == null)
                     {
                         return null;
                     }
@@ -395,12 +395,16 @@ namespace ModelCheck
                 }
             }
             Group nextGroup = getNextGroup(combination, set);
-            if (nextGroup != null && checkConnections(tree, nextGroup) == false)
+            if (_finishEvent.WaitOne(0) == false && nextGroup != null && checkConnections(tree, nextGroup) == false)
             {
                 do
                 {
                     nextGroup = getNextGroup(combination, nextGroup, set);
-                } while (nextGroup != null && checkConnections(tree, nextGroup) == false);
+                } while (_finishEvent.WaitOne(0) == false && nextGroup != null && checkConnections(tree, nextGroup) == false);
+            }
+            if (_finishEvent.WaitOne(0) == true)
+            {
+                return null;
             }
             return nextGroup;
         }
@@ -421,7 +425,11 @@ namespace ModelCheck
             do
             {
                 nextGroup = getNextGroup(combination, nextGroup, set);
-            } while (nextGroup != null && checkConnections(tree, nextGroup) == false);
+            } while (_finishEvent.WaitOne(0) == false && nextGroup != null && checkConnections(tree, nextGroup) == false);
+            if (_finishEvent.WaitOne(0) == true)
+            {
+                return null;
+            }
             return nextGroup;
         }
 
