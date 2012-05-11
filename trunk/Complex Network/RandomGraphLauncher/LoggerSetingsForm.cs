@@ -18,14 +18,14 @@ namespace RandomGraphLauncher
         {
             InitializeComponent();
             radioButton2.Select();
-            textBox1.Text = "c:\\MyLogFile.log";
+            textBox1.Text = "c:\\randomGraphLog.txt";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
-                textBox1.Text = folderBrowserDialog1.SelectedPath + "\\MyLogFile.log";
+                textBox1.Text = folderBrowserDialog1.SelectedPath + "\\randomGraphLog.txt";
             }
         }
 
@@ -41,7 +41,7 @@ namespace RandomGraphLauncher
                 {
                     FileAppender fa = (FileAppender)a;
                     // Programmatically set this to the desired location here
-                    string logFileLocation = folderBrowserDialog1.SelectedPath + "\\MyLogFile.log";
+                    string logFileLocation = textBox1.Text;
 
                     // Uncomment the lines below if you want to retain the base file name
                     // and change the folder name...
