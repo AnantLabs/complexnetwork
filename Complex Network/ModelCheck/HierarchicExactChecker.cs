@@ -13,32 +13,29 @@ namespace ModelCheck
     /// (Whether some hierarchical tree exists or not which is isomorphous to
     /// the given graph)
     /// </summary>
-    public class HierarchicExactChecker : IThreadEvent
+    public class HierarchicExactChecker
     {
         private static readonly ILog logger = log4net.LogManager.GetLogger(typeof(HierarchicExactChecker));
 
         private Container _container; // container which holds the graph to check for being hierarchic.
-        private Tree _tree;
-        private int _working_threads;
-        private ManualResetEvent _stopWorkItems;
 
         /// <summary>
         /// Default and the only constructor
         /// </summary>
         public HierarchicExactChecker()
         {
-            _stopWorkItems = new ManualResetEvent(false);
         }
 
+        /// <summary>
+        /// Checks whether the graph specified by the file 
+        /// is hierarchical or not
+        /// </summary>
+        /// <param name="fileName">Path to the file which contains the matrix of a graph to be checked for</param>
+        /// <returns>True if the graph is hierarchical, otherwise false</returns>
         public bool IsHierarchic(string fileName)
         {
             ArrayList matrix = Container.get_data(fileName);
             return IsHierarchic(matrix);
-        }
-
-        public bool IsHierarchic(List<int> degrees)
-        {
-            return IsHierarchic(degrees);
         }
 
         /// <summary>
@@ -102,6 +99,8 @@ namespace ModelCheck
                     if (degree == n)
                     {
                         collection.Add(p, k);
+                        break; // as the p should be prime number then there will be no other number
+                        // some degree of which will be equal to n
                     }
                 }
             }
@@ -138,37 +137,75 @@ namespace ModelCheck
         // otherwise returns false
         private Tree generateTree(int p, int n)
         {
-            _tree = null;
-            int count = n - p + 1;
-            _stopWorkItems.Reset();
-            _working_threads = 0;
-            for (int i = 1; i <= count && _stopWorkItems.WaitOne(0) == false; ++i)
-            {
-                WorkItem workItem = new WorkItem(this, _stopWorkItems, p, n, i, _container);
-                ++_working_threads;
-                ThreadPool.QueueUserWorkItem(workItem.ThreadPoolCallback);
-            }
-            lock (this)
-            {
-                while (_working_threads > 0)
-                {
-                    Monitor.Wait(this);
-                }
-            }
-            return _tree;
+            ThreadManager manager = new ThreadManager(_container, p, n);
+            Thread managerThread = new Thread(manager.threadFunction);
+            managerThread.Start();
+            managerThread.Join();
+            return manager.Result;
         }
 
-        public void threadFinished(Tree tree)
+        /// <summary>
+        /// Class responsible for parallelization of the calculation
+        /// via launching multiple threads.
+        /// </summary>
+        private class ThreadManager : IThreadEvent
         {
-            lock (this)
+            private ManualResetEvent _stopWorkItems;
+            private Container _container;
+            private Tree _tree;
+            private int _working_threads;
+            private int _p;
+            private int _n;
+
+            public ThreadManager(Container container, int p, int n)
             {
-                --_working_threads;
-                if (tree != null)
+                _stopWorkItems = new ManualResetEvent(false);
+                _container = container;
+                _p = p;
+                _n = n;
+            }
+
+            public void threadFunction()
+            {
+                _tree = null;
+                _stopWorkItems.Reset();
+                _working_threads = 0;
+                int count = _n - _p + 1;
+                for (int i = 1; i <= count && _stopWorkItems.WaitOne(0) == false; ++i)
                 {
-                    _tree = tree;
-                    _stopWorkItems.Set();
+                    WorkItem workItem = new WorkItem(this, _stopWorkItems, _p, _n, i, _container);
+                    ++_working_threads;
+                    ThreadPool.QueueUserWorkItem(workItem.ThreadPoolCallback);
                 }
-                Monitor.Pulse(this);
+                lock (this)
+                {
+                    while (_working_threads > 0)
+                    {
+                        Monitor.Wait(this);
+                    }
+                }
+            }
+
+            public void threadFinished(Tree tree)
+            {
+                lock (this)
+                {
+                    --_working_threads;
+                    if (tree != null)
+                    {
+                        _tree = tree;
+                        _stopWorkItems.Set();
+                    }
+                    Monitor.Pulse(this);
+                }
+            }
+
+            public Tree Result
+            {
+                get
+                {
+                    return _tree;
+                }
             }
         }
     }
@@ -202,8 +239,15 @@ namespace ModelCheck
         // Callback which is being launched by the thread pool
         public void ThreadPoolCallback(object threadContext)
         {
-            Tree tree = generateTree();
-            _handler.threadFinished(tree);
+            if (_finishEvent.WaitOne(0) == false)
+            {
+                Tree tree = generateTree();
+                _handler.threadFinished(tree);
+            }
+            else
+            {
+                _handler.threadFinished(null);
+            }
         }
 
         // Constructs the hierarchical tree of the given graph if it is hierarchcal,
@@ -246,7 +290,7 @@ namespace ModelCheck
             {
                 logger.Error("WorkItem " + _id + " Failed to generate hierarchic tree. The reason was: " + e.Message);
                 logger.Info("WorkItem " + _id + ":", e);
-                return null;
+                throw e;
             }
             return tree;
         }
@@ -582,24 +626,6 @@ namespace ModelCheck
             }
             return true;
         }
-
-        //private TextWriter _fileWriter = null;
-        /*private void printCombination(List<Group> comb)
-        {
-            if (_fileWriter == null)
-            {
-                _fileWriter = new StreamWriter("C:/Isomorphism/combinations.txt");
-            }
-            if (comb != null)
-            {
-                foreach (Group group in comb)
-                {
-                    _fileWriter.Write("{ " + string.Join(", ", group.SubGroups) + " } ");
-                }
-                _fileWriter.WriteLine();
-                _fileWriter.Flush();
-            }
-        }*/
     }
 
     // Inner class which holds the graph for check for being hierarchical
