@@ -83,9 +83,31 @@ namespace RandomGraphLauncher
 
         private void WSModelTest(WSGraph graph)
         {
-            XMLResultStorage resultStorage = new XMLResultStorage("");
-            ResultAssembly goldResult = resultStorage.LoadXML(goldenOutPath.Text);
             IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+
+            //test tDegreeDistribution
+            testDegreeDistribution(0, analyzer);
+
+            //test AveragePath
+            testAveragePath(1, analyzer);
+
+            //test ClusteringCoefficient
+            testClusteringCoefficient(2, analyzer);
+
+            //test EigenValue
+            testEigenValue(3, analyzer);
+
+            //test Cycles of order 3
+            testCycles3(4, analyzer);
+
+            // test diameter
+            testDiameter(5, analyzer);
+           
+            // test cycle of order 4
+            testCycles4(6, analyzer);
+
+            // test order of max full subgraph
+            testFullSubgraphs(7, analyzer);
         }
 
         private void BAModelTest(BAGraph graph)
@@ -125,8 +147,8 @@ namespace RandomGraphLauncher
 
         private void ERModelTest(ERGraph graph)
         {
-            XMLResultStorage resultStorage = new XMLResultStorage("");
-            goldResult = resultStorage.LoadXML(goldenOutPath.Text);
+            //XMLResultStorage resultStorage = new XMLResultStorage("");
+            //goldResult = resultStorage.LoadXML(goldenOutPath.Text);
             ERAnalyzer analyzer = new ERAnalyzer(graph.Container);
 
             //test tDegreeDistribution
@@ -151,18 +173,18 @@ namespace RandomGraphLauncher
             testCycles4(6, analyzer);
 
             // test motive
-            testMotiv(7, analyzer);
+           // testMotiv(7, analyzer);
 
             // test distance between vertexes
-            testDistanceBetweenVertices(8, analyzer);
+            testDistanceBetweenVertices(7, analyzer);
 
             // test distance between eigen values
-            testDistancesBetweenEigenValues(9, analyzer);
+            testDistancesBetweenEigenValues(8, analyzer);
 
             // test order of max full subgraph
-            testFullSubgraphs(10, analyzer);
+            testFullSubgraphs(9, analyzer);
 
-            testCycles(11, analyzer);
+           // testCycles(11, analyzer);
         }
 
         private bool checkIfNeedToTest(int number)
