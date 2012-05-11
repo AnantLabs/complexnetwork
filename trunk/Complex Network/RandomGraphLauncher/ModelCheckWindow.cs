@@ -77,18 +77,15 @@ namespace RandomGraphLauncher
                 if (this.exactCheckRadio.Checked == true)
                 {
                     HierarchicExactChecker checker = new HierarchicExactChecker();
-                    bool result = false;
-                    if (this.degreesRadio.Checked == true)
+                    if (this.degreesRadio.Checked == false)
                     {
-                        ParceDegrees();
-                        result = checker.IsHierarchic(degreeSequence);
+                        bool result = checker.IsHierarchic(this.filePathTxt.Text);
+                        this.resultTxt.Text = result ? "Is Hierarchic" : "Is Not Hierarchic";
                     }
                     else
                     {
-                        result = checker.IsHierarchic(this.filePathTxt.Text);
+                        this.resultTxt.Text = "Cannot calculate. File path should be specified!";
                     }
-
-                    this.resultTxt.Text = result ? "Is Hierarchic" : "Is Not Hierarchic";
                 }
                 else
                 {
