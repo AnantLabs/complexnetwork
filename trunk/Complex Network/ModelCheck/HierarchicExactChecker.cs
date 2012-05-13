@@ -34,7 +34,7 @@ namespace ModelCheck
         /// <returns>True if the graph is hierarchical, otherwise false</returns>
         public bool IsHierarchic(string fileName)
         {
-            ArrayList matrix = Container.get_data(fileName);
+            List<List<bool>> matrix = Container.get_data(fileName);
             return IsHierarchic(matrix);
         }
 
@@ -44,7 +44,7 @@ namespace ModelCheck
         /// </summary>
         /// <param name="matrix">Matrix which specifies the given graph</param>
         /// <returns>True if the graph is hierarchical, otherwise false</returns>
-        public bool IsHierarchic(ArrayList matrix)
+        public bool IsHierarchic(List<List<bool>> matrix)
         {
             _container = new Container(matrix);
             ICollection<int> degrees = getAllDegrees(_container.Size).Keys;
@@ -66,7 +66,7 @@ namespace ModelCheck
         /// <param name="tree">Tree object to hold the corresponding hierarchial tree
         /// if the graph is hierarchical</param>
         /// <returns>True if the graph is hierarchical, otherwise false</returns>
-        public bool IsHierarchic(ArrayList matrix, ref Tree tree)
+        public bool IsHierarchic(List<List<bool>> matrix, ref Tree tree)
         {
             _container = new Container(matrix);
             ICollection<int> degrees = getAllDegrees(_container.Size).Keys;
@@ -137,11 +137,19 @@ namespace ModelCheck
         // otherwise returns false
         private Tree generateTree(int p, int n)
         {
-            ThreadManager manager = new ThreadManager(_container, p, n);
-            Thread managerThread = new Thread(manager.threadFunction);
-            managerThread.Start();
-            managerThread.Join();
-            return manager.Result;
+            try
+            {
+                ThreadManager manager = new ThreadManager(_container, p, n);
+                Thread managerThread = new Thread(manager.threadFunction);
+                managerThread.Start();
+                managerThread.Join();
+                return manager.Result;
+            }
+            catch (System.Exception e)
+            {
+                logger.Error("Failed to generate hierarchic tree. The reason was: " + e.Message);
+                throw e;
+            }
         }
 
         /// <summary>
@@ -254,7 +262,7 @@ namespace ModelCheck
         // otherwise returns false
         private Tree generateTree()
         {
-            Tree tree = new Tree();
+            Tree tree = new Tree(_container);
             return generateTree(tree);
         }
 
@@ -301,20 +309,20 @@ namespace ModelCheck
         {
             Group group = new Group();
             Debug.Assert(_p > 0);
-            group.SubGroups.Add(0);
+            group.Add(0);
             int start = 2;
             if (tree.Levels.Count == 0)
             {
-                group.SubGroups.Add(_id);
+                group.Add(_id);
                 start = _id + 1;
             }
             else
             {
-                group.SubGroups.Add(1);
+                group.Add(1);
             }
-            for (int i = start; group.SubGroups.Count < _p; ++i)
+            for (int i = start; group.Count < _p; ++i)
             {
-                group.SubGroups.Add(i);
+                group.Add(i);
             }
             if (checkConnections(tree, group) == false)
             {
@@ -389,7 +397,7 @@ namespace ModelCheck
             SortedSet<int> set = new SortedSet<int>();
             foreach (Group group in combination)
             {
-                foreach (int vertex in group.SubGroups)
+                foreach (int vertex in group)
                 {
                     set.Add(vertex);
                 }
@@ -416,7 +424,7 @@ namespace ModelCheck
             SortedSet<int> set = new SortedSet<int>();
             foreach (Group g in combination)
             {
-                foreach (int vertex in g.SubGroups)
+                foreach (int vertex in g)
                 {
                     set.Add(vertex);
                 }
@@ -438,8 +446,8 @@ namespace ModelCheck
         private Group getNextGroup(List<Group> combination, SortedSet<int> set)
         {
             Debug.Assert(combination.Count != 0);
-            Debug.Assert(combination[combination.Count - 1].SubGroups.Count == _p);
-            int prevPivot = combination[combination.Count - 1].SubGroups[0];
+            Debug.Assert(combination[combination.Count - 1].Count == _p);
+            int prevPivot = combination[combination.Count - 1][0];
             Group next = new Group();
             int prevVertex = -1;
             foreach (int vertex in set)
@@ -447,18 +455,18 @@ namespace ModelCheck
                 if (vertex - prevVertex > 0)
                 {
                     int v = prevVertex;
-                    while (next.SubGroups.Count < _p && vertex - v > 1)
+                    while (next.Count < _p && vertex - v > 1)
                     {
                         if (++v >= prevPivot)
                         {
-                            next.SubGroups.Add(v);
+                            next.Add(v);
                         }
                         else
                         {
                             return null;
                         }
                     }
-                    if (next.SubGroups.Count == _p)
+                    if (next.Count == _p)
                     {
                         return next;
                     }
@@ -469,11 +477,11 @@ namespace ModelCheck
             {
                 prevVertex = set.Max;
             }
-            while (next.SubGroups.Count < _p && prevVertex < _n - 1)
+            while (next.Count < _p && prevVertex < _n - 1)
             {
-                next.SubGroups.Add(++prevVertex);
+                next.Add(++prevVertex);
             }
-            Debug.Assert(next.SubGroups.Count == _p);
+            Debug.Assert(next.Count == _p);
             return next;
         }
 
@@ -482,56 +490,56 @@ namespace ModelCheck
         // vertices of the given combination's groups vertices.
         private Group getNextGroup(List<Group> combination, Group oldGroup, SortedSet<int> set)
         {
-            Debug.Assert(oldGroup.SubGroups.Count == _p);
+            Debug.Assert(oldGroup.Count == _p);
             int vertex = -1;
-            while (vertex == -1 && 1 < oldGroup.SubGroups.Count)
+            while (vertex == -1 && 1 < oldGroup.Count)
             {
-                vertex = oldGroup.SubGroups[oldGroup.SubGroups.Count - 1];
-                oldGroup.SubGroups.RemoveAt(oldGroup.SubGroups.Count - 1);
+                vertex = oldGroup[oldGroup.Count - 1];
+                oldGroup.RemoveAt(oldGroup.Count - 1);
                 vertex = getNextValidVertex(set, oldGroup, vertex);
             }
             if (vertex != -1)
             {
-                oldGroup.SubGroups.Add(vertex);
+                oldGroup.Add(vertex);
             }
-            while (1 < oldGroup.SubGroups.Count && oldGroup.SubGroups.Count < _p)
+            while (1 < oldGroup.Count && oldGroup.Count < _p)
             {
                 vertex = getNextValidVertex(set, oldGroup);
                 if (vertex != -1)
                 {
-                    oldGroup.SubGroups.Add(vertex);
+                    oldGroup.Add(vertex);
                 }
                 else
                 {
-                    while (vertex == -1 && 1 < oldGroup.SubGroups.Count)
+                    while (vertex == -1 && 1 < oldGroup.Count)
                     {
-                        vertex = oldGroup.SubGroups[oldGroup.SubGroups.Count - 1];
-                        oldGroup.SubGroups.RemoveAt(oldGroup.SubGroups.Count - 1);
+                        vertex = oldGroup[oldGroup.Count - 1];
+                        oldGroup.RemoveAt(oldGroup.Count - 1);
                         vertex = getNextValidVertex(set, oldGroup, vertex);
                     }
                     if (vertex != -1)
                     {
-                        oldGroup.SubGroups.Add(vertex);
+                        oldGroup.Add(vertex);
                     }
                 }
             }
-            if (oldGroup.SubGroups.Count == _p)
+            if (oldGroup.Count == _p)
             {
                 return oldGroup;
             }
-            Debug.Assert(oldGroup.SubGroups.Count == 1);
+            Debug.Assert(oldGroup.Count == 1);
             return null;
         }
 
         private int getNextValidVertex(SortedSet<int> set, Group group)
         {
-            Debug.Assert(group.SubGroups.Count != 0);
-            int vertex = group.SubGroups[group.SubGroups.Count - 1] + 1;
+            Debug.Assert(group.Count != 0);
+            int vertex = group[group.Count - 1] + 1;
             while (set.Contains(vertex) && vertex < _n)
             {
                 ++vertex;
             }
-            if (vertex < _n - _p + group.SubGroups.Count + 1)
+            if (vertex < _n - _p + group.Count + 1)
             {
                 return vertex;
             }
@@ -540,13 +548,13 @@ namespace ModelCheck
 
         private int getNextValidVertex(SortedSet<int> set, Group group, int oldVertex)
         {
-            Debug.Assert(group.SubGroups.Count != 0);
+            Debug.Assert(group.Count != 0);
             int vertex = oldVertex + 1;
             while (set.Contains(vertex) && vertex < _n)
             {
                 ++vertex;
             }
-            if (vertex < _n - _p + group.SubGroups.Count + 1)
+            if (vertex < _n - _p + group.Count + 1)
             {
                 return vertex;
             }
@@ -557,63 +565,26 @@ namespace ModelCheck
         // out of the group, or are connected to the same vertices out of the group
         private bool checkConnections(Tree tree, Group group)
         {
-            HashSet<int> neighbours = new HashSet<int>();
-            List<HashSet<int>> neighboursList = new List<HashSet<int>>();
-            if (tree.Levels.Count == 0)
+            Debug.Assert(group.Count == _p);
+            for (int i = 0; i < _p; ++i)
             {
-                group.Vertices = new HashSet<int>(group.SubGroups);
-            }
-            else
-            {
-                group.Vertices = new HashSet<int>();
-                foreach (int vertex in group.SubGroups)
+                int vertex = group[i];
+                Container container = tree.LastContainer;
+                Debug.Assert(container.Neighbourship.ContainsKey(vertex));
+                foreach (int neighbour in container.Neighbourship[vertex])
                 {
-                    Debug.Assert(tree.Levels[tree.Levels.Count - 1].Count > vertex);
-                    ISet<int> vertices = tree.Levels[tree.Levels.Count - 1][vertex].Vertices;
-                    foreach (int v in vertices)
+                    if (!group.Contains(neighbour))
                     {
-                        group.Vertices.Add(v);
-                    }
-                }
-            }
-            foreach (int vertex in group.SubGroups)
-            {
-                HashSet<int> vertexNeighbours = new HashSet<int>();
-                if (tree.Levels.Count == 0)
-                {
-                    Debug.Assert(_container.Neighbourship.ContainsKey(vertex));
-                    foreach (int v in _container.Neighbourship[vertex])
-                    {
-                        if (!group.Vertices.Contains(v))
+                        for (int j = 0; j < _p; ++j )
                         {
-                            neighbours.Add(v);
-                            vertexNeighbours.Add(v);
+                            if (j != i && !container.areConnected(group[j], neighbour))
+                            {
+                                return false;
+                            }
                         }
                     }
                 }
-                else
-                {
-                    foreach (int v in tree.Levels[tree.Levels.Count - 1][vertex].NeighbourVertices)
-                    {
-                        if (!group.Vertices.Contains(v))
-                        {
-                            neighbours.Add(v);
-                            vertexNeighbours.Add(v);
-                        }
-                    }
-                }
-                neighboursList.Add(vertexNeighbours);
             }
-            foreach (HashSet<int> vertexNeighbours in neighboursList)
-            {
-                HashSet<int> set = new HashSet<int>(neighbours);
-                set.ExceptWith(vertexNeighbours);
-                if (set.Count > 0)
-                {
-                    return false;
-                }
-            }
-            group.NeighbourVertices = neighbours;
             return true;
         }
 
@@ -626,31 +597,90 @@ namespace ModelCheck
             if (_n > _p)
             {
                 _n /= _p;
+                generateNextLevelContainer(tree, combination);
                 if (generateTree(tree) == null)
                 {
                     tree.Levels.RemoveAt(tree.Levels.Count - 1);
+                    tree.removeLastContainer();
+                    _n *= _p;
                     return false;
                 }
+                _n *= _p;
             }
             return true;
+        }
+
+        private void generateNextLevelContainer(Tree tree, List<Group> combination)
+        {
+            List<List<bool>> matrix = new List<List<bool>>();
+            for (int i = 0; i < combination.Count; ++i)
+            {
+                List<bool> connection = new List<bool>();
+                for (int j = 0; j < combination.Count; ++j)
+                {
+                    if (j > i)
+                    {
+                        bool connected = checkGroupsConnection(tree, combination, i, j);
+                        connection.Add(connected);
+                    }
+                    else if (i == j)
+                    {
+                        connection.Add(false);
+                    }
+                    else
+                    {
+                        connection.Add(matrix[j][i]);
+                    }
+                }
+                matrix.Add(connection);
+            }
+            tree.AddContainer(new Container(matrix));
+        }
+
+        private bool checkGroupsConnection(Tree tree, List<Group> combination, int i, int j)
+        {
+            Group g1 = combination[i];
+            Group g2 = combination[j];
+            return tree.LastContainer.areConnected(g1[0], g2[0]);
         }
     }
 
     // Inner class which holds the graph for check for being hierarchical
-    class Container
+    public class Container
     {
         private int _size; // number of vertices
-        private SortedDictionary<int, List<int>> _neighbourship; // list of neighbours     
+        private SortedDictionary<int, List<int>> _neighbourship; // list of neighbours for each vertex  
+        private List<List<bool>> _matrix;
 
-        public Container(ArrayList matrix)
+        public Container(List<List<bool>> matrix)
         {
+            validateMatrix(matrix);
+            _matrix = matrix;
             _size = matrix.Count;
             _neighbourship = new SortedDictionary<int, List<int>>();
-            ArrayList neighbourshipOfIVertex = new ArrayList();
+            List<bool> neighbourshipOfIVertex = new List<bool>();
             for (int i = 0; i < matrix.Count; i++)
             {
-                neighbourshipOfIVertex = (ArrayList)matrix[i];
+                neighbourshipOfIVertex = matrix[i];
                 setDataToDictionary(i, neighbourshipOfIVertex);
+            }
+        }
+
+        private void validateMatrix(List<List<bool>> matrix)
+        {
+            for (int i = 0; i < matrix.Count; ++i)
+            {
+                if (matrix[i].Count != matrix.Count)
+                {
+                    throw new System.Exception("Given matrix is not well formed");
+                }
+                for (int j = 0; j < matrix.Count; ++j)
+                {
+                    if (i != j && matrix[i][j] != matrix[j][i])
+                    {
+                        throw new System.Exception("Given matrix is not well formed");
+                    }
+                }
             }
         }
 
@@ -666,12 +696,12 @@ namespace ModelCheck
 
         public bool areConnected(int vertex1, int vertex2)
         {
-            return _neighbourship[vertex1].Contains(vertex2);
+            return _matrix[vertex1][vertex2];
         }
 
-        public static ArrayList get_data(string filename)
+        public static List<List<bool>> get_data(string filename)
         {
-            ArrayList matrix = new ArrayList();
+            List<List<bool>> matrix = new List<List<bool>>();
             using (StreamReader streamreader = new StreamReader(filename))
             {
                 string contents;
@@ -679,9 +709,22 @@ namespace ModelCheck
                 {
                     string[] split = System.Text.RegularExpressions.Regex.Split(contents,
                             "\\s+", System.Text.RegularExpressions.RegexOptions.None);
-                    ArrayList tmp = new ArrayList();
-                    foreach (string s in split)
+                    List<bool> tmp = new List<bool>();
+                    for (int i = 0; i < split.Length - 1; ++i)
                     {
+                        string s = split[i];
+                        if (s.Equals("0"))
+                        {
+                            tmp.Add(false);
+                        }
+                        else
+                        {
+                            tmp.Add(true);
+                        }
+                    }
+                    if (!split[split.Length - 1].Equals(""))
+                    {
+                        string s = split[split.Length - 1];
                         if (s.Equals("0"))
                         {
                             tmp.Add(false);
@@ -697,7 +740,7 @@ namespace ModelCheck
             return matrix;
         }
 
-        private void setDataToDictionary(int index, ArrayList neighbourshipOfIVertex)
+        private void setDataToDictionary(int index, List<bool> neighbourshipOfIVertex)
         {
             _neighbourship[index] = new List<int>();
             for (int j = 0; j < _size; j++)
@@ -713,10 +756,26 @@ namespace ModelCheck
     public class Tree
     {
         private readonly List<List<Group>> _levels; // contains Groups of each level starting from lowest to highest levels.
+        private readonly List<Container> _containers;
 
-        public Tree()
+        public Tree(Container container)
         {
             _levels = new List<List<Group>>();
+            _containers = new List<Container>();
+            _containers.Add(container);
+        }
+
+        public void AddContainer(Container container)
+        {
+            _containers.Add(container);
+        }
+
+        public void removeLastContainer()
+        {
+            if (_containers.Count > 0)
+            {
+                _containers.RemoveAt(_containers.Count - 1);
+            }
         }
 
         public List<List<Group>> Levels
@@ -726,66 +785,28 @@ namespace ModelCheck
                 return _levels;
             }
         }
+
+        public Container LastContainer
+        {
+            get
+            {
+                if (_containers.Count > 0)
+                {
+                    return _containers[_containers.Count - 1];
+                }
+                return null;
+            }
+        }
     }
 
-    public class Group
+    public class Group : List<int>
     {
-        private List<int> _subgroups; // a group of the previous level
-        private ISet<int> _vertices; // all vertices which belong to the subtree of this group
-        private ISet<int> _neighbourVertices; // neighbour vertices of the group
-
-        public Group()
+        public Group() : base()
         {
-            _subgroups = new List<int>();
-            _neighbourVertices = new HashSet<int>();
         }
 
-        public Group(IEnumerable<int> collection)
+        public Group(IEnumerable<int> collection) : base(collection)
         {
-            _subgroups = new List<int>(collection);
-            _neighbourVertices = new HashSet<int>();
-        }
-
-        public Group(Group group)
-        {
-            _subgroups = new List<int>();
-            _neighbourVertices = new HashSet<int>(group.NeighbourVertices);
-        }
-
-        public List<int> SubGroups
-        {
-            get
-            {
-                return _subgroups;
-            }
-            set
-            {
-                _subgroups = value;
-            }
-        }
-
-        public ISet<int> Vertices
-        {
-            get
-            {
-                return _vertices;
-            }
-            set
-            {
-                _vertices = value;
-            }
-        }
-
-        public ISet<int> NeighbourVertices
-        {
-            get
-            {
-                return _neighbourVertices;
-            }
-            set
-            {
-                _neighbourVertices = value;
-            }
         }
     }
 }
