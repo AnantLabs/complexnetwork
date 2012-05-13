@@ -107,11 +107,6 @@ namespace Model.HierarchicModel.Realization
             return result;
         }
 
-        //Calculate motive of graph.
-        public override void GetMotif()
-        {
-        }
-
         //Calculate distribution of minimum paths of graph.
         public override SortedDictionary<int, int> GetMinPathDist()
         {

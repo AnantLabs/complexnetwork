@@ -69,8 +69,9 @@ namespace CommonLibrary.Model
         }
 
         //Calculate motive of graph.
-        public virtual void GetMotif()
+        public virtual SortedDictionary<int, int> GetMotif()
         {
+            return new SortedDictionary<int, int>();
         }
 
         //Calculate distribution of minimum paths of graph.

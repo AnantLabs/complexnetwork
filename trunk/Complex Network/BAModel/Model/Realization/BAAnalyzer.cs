@@ -302,10 +302,7 @@ namespace Model.BAModel.Realization
         {
             return 0;
         }
-        //Calculate motive of graph.
-        public override void GetMotif()
-        {
-        }
+
         //Calculate distribution of eigen value of graph.
         public override SortedDictionary<double, int> GetDistEigenPath()
         {
