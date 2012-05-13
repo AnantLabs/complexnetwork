@@ -13,6 +13,7 @@ namespace RandomGraph.Common.Model.Result
     {
         public AnalizeResult()
         {
+            //FIX-ME: NEED TO REMOVE THIS, CREATE SEPERATE OBJECTS;
             Result = new SortedDictionary<AnalyseOptions, double>();
             VertexDegree = new SortedDictionary<int, int>();
             Coefficient = new SortedDictionary<double, int>();
@@ -52,6 +53,10 @@ namespace RandomGraph.Common.Model.Result
         public BitArray TreeVector { get; set; }
 
         public int  graphSize { get; set; }
+
+        public int Cycles3 { get; set; }
+
+        public int Cycles4 { get; set; }
 
     }
 }

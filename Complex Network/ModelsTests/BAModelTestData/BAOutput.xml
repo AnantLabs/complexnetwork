@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="us-ascii" standalone="yes"?>
+<assembly>
+  <id>5a2ec79a-2777-43ee-9cc4-f99a80db1aa6</id>
+  <name>jkllj</name>
+  <date>14.05.2012 1:28:03</date>
+  <graphmodel id="2" modelname="BAModel" />
+  <generationparams>
+    <generationparam id="1" parametername="Vertices" value="7" />
+    <generationparam id="5" parametername="MaxEdges" value="2" />
+  </generationparams>
+  <analyseresults>
+    <instance>
+      <Model grapSize="12" />
+      <result>
+        <item option="DegreeDistribution">1.5</item>
+        <item option="AveragePath">1.33333333333333</item>
+        <item option="Cycles3">1</item>
+        <item option="Diameter">2</item>
+      </result>
+      <vertexdegree>
+        <vd degree="0" count="8" />
+        <vd degree="1" count="1" />
+        <vd degree="2" count="2" />
+        <vd degree="3" count="1" />
+      </vertexdegree>
+      <coefficients>
+        <coeff coefficient="0" count="9" />
+        <coeff coefficient="0.333333333333333" count="1" />
+        <coeff coefficient="1" count="2" />
+      </coefficients>
+      <Connsubgraphs />
+      <Fullsubgraphs />
+      <vertexdistance />
+      <eigenvalues>
+        <ev eigenValue="-1.4812" />
+        <ev eigenValue="-1" />
+        <ev eigenValue="0" />
+        <ev eigenValue="0" />
+        <ev eigenValue="0" />
+        <ev eigenValue="0" />
+        <ev eigenValue="0" />
+        <ev eigenValue="0" />
+        <ev eigenValue="0" />
+        <ev eigenValue="0" />
+        <ev eigenValue="0.3111" />
+        <ev eigenValue="2.1701" />
+      </eigenvalues>
+      <eigenvaluesdistance>
+        <ev distance="0" count="0" />
+        <ev distance="0.3111" count="8" />
+        <ev distance="0.4812" count="1" />
+        <ev distance="1" count="1" />
+        <ev distance="1.859" count="1" />
+      </eigenvaluesdistance>
+      <cycles />
+      <motives>
+        <mt degree="5" count="10" />
+      </motives>
+      <parisiarray />
+    </instance>
+  </analyseresults>
+</assembly>

@@ -139,13 +139,6 @@ namespace Model.NonRegularHierarchicModel.Realization
             return 0;
         }
 
-        /// <summary>
-        /// Calculate motive of graph.
-        /// </summary>
-        // Not implemented
-        public override void GetMotif()
-        {
-        }
 
         //Calculate distribution of minimum paths of graph.
         public override SortedDictionary<int, int> GetMinPathDist()
