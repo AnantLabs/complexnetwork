@@ -66,6 +66,7 @@
             this.inputMatrixPath.Name = "inputMatrixPath";
             this.inputMatrixPath.Size = new System.Drawing.Size(185, 20);
             this.inputMatrixPath.TabIndex = 2;
+            this.inputMatrixPath.TextChanged += new System.EventHandler(this.inputMatrixPath_TextChanged);
             // 
             // goldenOutPath
             // 
@@ -73,6 +74,7 @@
             this.goldenOutPath.Name = "goldenOutPath";
             this.goldenOutPath.Size = new System.Drawing.Size(185, 20);
             this.goldenOutPath.TabIndex = 3;
+            this.goldenOutPath.TextChanged += new System.EventHandler(this.goldenOutPath_TextChanged);
             // 
             // label1
             // 
@@ -94,6 +96,7 @@
             // 
             // button1
             // 
+            this.button1.Enabled = false;
             this.button1.Location = new System.Drawing.Point(309, 137);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);

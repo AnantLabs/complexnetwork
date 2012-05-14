@@ -32,8 +32,24 @@ namespace ModelsTests
             return a.SequenceEqual(b);
         }
 
+        private bool compare(ArrayList a, ArrayList b)
+        {
+            if (a.Count != b.Count)
+            {
+                return false;
+            }
+            for (int i = 0; i < a.Count; ++i)
+            {
+                if (a[i] != b[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 
         [TestMethod]
+        [Timeout(100)]
         [DeploymentItem("WSModelTestData//WSOutput.xml")]
         [DeploymentItem("WSModelTestData//WSInput.txt")]
         public void AveragePathTest()
@@ -43,12 +59,14 @@ namespace ModelsTests
             ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
             WSGraph graph = new WSGraph(matrix);
             IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+
             double actualValue = analyzer.GetAveragePath();
             double expectedValue = goldResult.Results[0].Result[AnalyseOptions.AveragePath];
             Assert.AreEqual(actualValue, expectedValue);
         }
 
         [TestMethod]
+        [Timeout(100)]
         [DeploymentItem("WSModelTestData//WSOutput.xml")]
         [DeploymentItem("WSModelTestData//WSInput.txt")]
         public void ClusteringCoefficientTest()
@@ -58,65 +76,179 @@ namespace ModelsTests
             ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
             WSGraph graph = new WSGraph(matrix);
             IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+
             SortedDictionary<double, int> actualValue = analyzer.GetClusteringCoefficient();
             SortedDictionary<double, int> expectedValue = goldResult.Results[0].Coefficient;
             Assert.IsTrue(compare(actualValue, expectedValue));
         }
-       /* [TestMethod]
-        public void WSModelTest()
+
+        [TestMethod]
+        [Timeout(100)]
+        [DeploymentItem("WSModelTestData//WSOutput.xml")]
+        [DeploymentItem("WSModelTestData//WSInput.txt")]
+        public void DegreeDistributionTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
             WSGraph graph = new WSGraph(matrix);
             IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
-            //Assert.Istrue(compare(goldResult.Results[0].VertexDegree, analyzer.GetDegreeDistribution()));
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-        }*/
+
+            SortedDictionary<int, int> actualValue = analyzer.GetDegreeDistribution();
+            SortedDictionary<int, int> expectedValue = goldResult.Results[0].VertexDegree;
+            Assert.IsTrue(compare(actualValue, expectedValue));
+        }
+
         [TestMethod]
-        public void WSModelTest1()
+        [Timeout(100)]
+        [DeploymentItem("WSModelTestData//WSOutput.xml")]
+        [DeploymentItem("WSModelTestData//WSInput.txt")]
+        public void CyclesTest()
         {
-           /* XMLResultStorage resultStorage = new XMLResultStorage("C:\\ComplexNetwork");
-            ResultAssembly goldResult = resultStorage.Load(new Guid("3c1a04a6-8869-4c8b-9213-6eed61125a5c"));
-            WSGraph graph = new WSGraph(get_data("C:\\Users\\Artak\\Desktop\\Complex Network\\ModelsTests\\testData\\test.txt"));
+            XMLResultStorage resultStorage = new XMLResultStorage("");
+            ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
+            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
+            WSGraph graph = new WSGraph(matrix);
             IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());*/
-        }
 
-      /*  [TestMethod]
-        public void BAModelTest()
-        {
-            XMLResultStorage resultStorage = new XMLResultStorage("C:\\ComplexNetwork");
-            ResultAssembly goldResult = resultStorage.Load(new Guid("3c1a04a6-8869-4c8b-9213-6eed61125a5c"));
-            BAGraph graph = new BAGraph(0, 0, get_data("C:\\Users\\Artak\\Desktop\\Complex Network\\ModelsTests\\testData\\test.txt"));
-            IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
+            SortedDictionary<int, int> actualValue = analyzer.GetCycles(4, 6);
+            SortedDictionary<int, int> expectedValue = goldResult.Results[0].Cycles;
+            Assert.IsTrue(compare(actualValue, expectedValue));
         }
 
         [TestMethod]
-        public void WSModelTest()
+        [Timeout(100)]
+        [DeploymentItem("WSModelTestData//WSOutput.xml")]
+        [DeploymentItem("WSModelTestData//WSInput.txt")]
+        public void Cycles3Test()
         {
-            XMLResultStorage resultStorage = new XMLResultStorage("C:\\ComplexNetwork");
-            ResultAssembly goldResult = resultStorage.Load(new Guid("3c1a04a6-8869-4c8b-9213-6eed61125a5c"));
-            ERGraph graph = new ERGraph(get_data("C:\\Users\\Artak\\Desktop\\Complex Network\\ModelsTests\\testData\\test.txt"));
-            IGraphAnalyzer analyzer = new ERAnalyzer(graph.Container);
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-            Assert.AreEqual(goldResult.Results[0].Result[AnalyseOptions.AveragePath], analyzer.GetAveragePath());
-        }*/
+            XMLResultStorage resultStorage = new XMLResultStorage("");
+            ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
+            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
+            WSGraph graph = new WSGraph(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+
+            int actualValue = analyzer.GetCycles3();
+            int expectedValue = goldResult.Results[0].Cycles3;
+            Assert.AreEqual(actualValue, expectedValue);
+        }
+
+        [TestMethod]
+        [Timeout(100)]
+        [DeploymentItem("WSModelTestData//WSOutput.xml")]
+        [DeploymentItem("WSModelTestData//WSInput.txt")]
+        public void Cycles4Test()
+        {
+            XMLResultStorage resultStorage = new XMLResultStorage("");
+            ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
+            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
+            WSGraph graph = new WSGraph(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+
+            int actualValue = analyzer.GetCycles3();
+            int expectedValue = goldResult.Results[0].Cycles4;
+            Assert.AreEqual(actualValue, expectedValue);
+        }
+
+        [TestMethod]
+        [Timeout(100)]
+        [DeploymentItem("WSModelTestData//WSOutput.xml")]
+        [DeploymentItem("WSModelTestData//WSInput.txt")]
+        public void FullSubGraphTest()
+        {
+            XMLResultStorage resultStorage = new XMLResultStorage("");
+            ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
+            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
+            WSGraph graph = new WSGraph(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+
+            SortedDictionary<int, int> actualValue = analyzer.GetFullSubGraph();
+            SortedDictionary<int, int> expectedValue = goldResult.Results[0].FullSubgraphs;
+            Assert.IsTrue(compare(actualValue, expectedValue));
+        }
+
+        [TestMethod]
+        [Timeout(100)]
+        [DeploymentItem("WSModelTestData//WSOutput.xml")]
+        [DeploymentItem("WSModelTestData//WSInput.txt")]
+        public void MinPathDistTest()
+        {
+            XMLResultStorage resultStorage = new XMLResultStorage("");
+            ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
+            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
+            WSGraph graph = new WSGraph(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+
+            SortedDictionary<int, int> actualValue = analyzer.GetMinPathDist();
+            SortedDictionary<int, int> expectedValue = goldResult.Results[0].DistanceBetweenVertices;
+            Assert.IsTrue(compare(actualValue, expectedValue));
+        }
+
+        [TestMethod]
+        [Timeout(100)]
+        [DeploymentItem("WSModelTestData//WSOutput.xml")]
+        [DeploymentItem("WSModelTestData//WSInput.txt")]
+        public void DistEigenPathTest()
+        {
+            XMLResultStorage resultStorage = new XMLResultStorage("");
+            ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
+            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
+            WSGraph graph = new WSGraph(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+
+            SortedDictionary<double, int> actualValue = analyzer.GetDistEigenPath();
+            SortedDictionary<double, int> expectedValue = goldResult.Results[0].DistancesBetweenEigenValues;
+            Assert.IsTrue(compare(actualValue, expectedValue));
+        }
+
+        /*  Note support yet
+         *         [TestMethod]
+        [DeploymentItem("WSModelTestData//WSOutput.xml")]
+        [DeploymentItem("WSModelTestData//WSInput.txt")]
+          public void MotivesTest()
+          {
+            XMLResultStorage resultStorage = new XMLResultStorage("");
+            ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
+            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
+            WSGraph graph = new WSGraph(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+
+              SortedDictionary<int, int> actualValue = analyzer.GetMotif();
+              SortedDictionary<int, int> expectedValue = goldResult.Results[0].MotivesCount;
+              Assert.IsTrue(compare(actualValue, expectedValue));
+          }
+
+        [TestMethod]
+        [DeploymentItem("WSModelTestData//WSOutput.xml")]
+        [DeploymentItem("WSModelTestData//WSInput.txt")]
+          public void DiameterTest()
+          {
+            XMLResultStorage resultStorage = new XMLResultStorage("");
+            ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
+            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
+            WSGraph graph = new WSGraph(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+
+              double actualValue = analyzer.GetDiameter();
+              double expectedValue = goldResult.Results[0].Result[AnalyseOptions.Diameter];
+              Assert.AreEqual(actualValue, expectedValue);
+          }*/
+
+        [TestMethod]
+        [Timeout(100)]
+        [DeploymentItem("WSModelTestData//WSOutput.xml")]
+        [DeploymentItem("WSModelTestData//WSInput.txt")]
+        public void EigenValueTest()
+        {
+            XMLResultStorage resultStorage = new XMLResultStorage("");
+            ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
+            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
+            WSGraph graph = new WSGraph(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+
+            ArrayList actualValue = analyzer.GetEigenValue();
+            ArrayList expectedValue = goldResult.Results[0].EigenVector;
+            Assert.IsTrue(compare(actualValue, expectedValue));
+        }
     }
 }
