@@ -10,8 +10,6 @@ using CommonLibrary.Model.Result;
 using RandomGraph.Common.Model;
 using Model.BAModel.Realization;
 using CommonLibrary.Model;
-using Model.WSModel.Realization;
-using Model.ERModel;
 using GenericAlgorithms;
 
 namespace ModelsTests
@@ -46,6 +44,7 @@ namespace ModelsTests
         }
 
         [TestMethod]
+        [Timeout(100)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
         public void AveragePathTest()
@@ -62,6 +61,7 @@ namespace ModelsTests
         }
 
         [TestMethod]
+        [Timeout(100)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
         public void ClusteringCoefficientTest()
@@ -78,6 +78,7 @@ namespace ModelsTests
         }
 
         [TestMethod]
+        [Timeout(100)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
         public void DegreeDistributionTest()
@@ -94,6 +95,7 @@ namespace ModelsTests
         }
 
         [TestMethod]
+        [Timeout(100)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
         public void CyclesTest()
@@ -110,6 +112,7 @@ namespace ModelsTests
         }
 
         [TestMethod]
+        [Timeout(100)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
         public void Cycles3Test()
@@ -126,6 +129,7 @@ namespace ModelsTests
         }
 
         [TestMethod]
+        [Timeout(100)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
         public void Cycles4Test()
@@ -142,6 +146,7 @@ namespace ModelsTests
         }
 
         [TestMethod]
+        [Timeout(100)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
         public void FullSubGraphTest()
@@ -158,6 +163,7 @@ namespace ModelsTests
         }
 
         [TestMethod]
+        [Timeout(100)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
         public void MinPathDistTest()
@@ -174,6 +180,7 @@ namespace ModelsTests
         }
 
         [TestMethod]
+        [Timeout(100)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
         public void DistEigenPathTest()
@@ -190,6 +197,7 @@ namespace ModelsTests
         }
 
         [TestMethod]
+        [Timeout(100)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
         public void MotivesTest()
@@ -206,6 +214,7 @@ namespace ModelsTests
         }
 
         [TestMethod]
+        [Timeout(100)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
         public void DiameterTest()
@@ -222,6 +231,7 @@ namespace ModelsTests
         }
 
         [TestMethod]
+        [Timeout(100)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
         public void EigenValueTest()

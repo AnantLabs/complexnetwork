@@ -703,5 +703,29 @@ namespace RandomGraphLauncher
                 }
             }
         }
+
+        private void inputMatrixPath_TextChanged(object sender, EventArgs e)
+        {
+            if (inputMatrixPath.Text != "" && goldenOutPath.Text != "")
+            {
+                button1.Enabled = true;
+            }
+            else
+            {
+                button1.Enabled = false;
+            }
+        }
+
+        private void goldenOutPath_TextChanged(object sender, EventArgs e)
+        {
+            if (inputMatrixPath.Text != "" && goldenOutPath.Text != "")
+            {
+                button1.Enabled = true;
+            }
+            else
+            {
+                button1.Enabled = false;
+            }
+        }
     }
 }
