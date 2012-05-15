@@ -6,6 +6,7 @@ using System.Linq;
 using Model.ERModel.Realization;
 using CommonLibrary.Model;
 using log4net;
+using Algorithms;
 
 namespace model.ERModel.Realization
 {
@@ -351,7 +352,11 @@ namespace model.ERModel.Realization
         //Calculate distribution of eigen value of graph.
         public override SortedDictionary<double, int> GetDistEigenPath()
         {
-            return new SortedDictionary<double, int>();
+            Algorithms.EigenValue ev = new EigenValue();
+            ArrayList al = new ArrayList();
+            bool[,] m = m_container.GetMatrix();
+            ev.EV(m);
+            return  ev.CalcEigenValuesDist();
         }
         public int GetMaxFullSubgraph()
         {

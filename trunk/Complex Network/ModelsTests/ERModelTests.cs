@@ -126,7 +126,7 @@ namespace ModelsTests
             IGraphAnalyzer analyzer = new ERAnalyzer(graph.Container);
 
             int actualValue = analyzer.GetCycles3();
-            int expectedValue = goldResult.Results[0].Cycles3;
+            int expectedValue = (int)goldResult.Results[0].Result[AnalyseOptions.Cycles3];
             Assert.AreEqual(actualValue, expectedValue);
         }
 
@@ -143,7 +143,9 @@ namespace ModelsTests
             IGraphAnalyzer analyzer = new ERAnalyzer(graph.Container);
 
             int actualValue = analyzer.GetCycles3();
-            int expectedValue = goldResult.Results[0].Cycles4;
+            //FIXME
+            //int expectedValue = goldResult.Results[0].Cycles4;
+            int expectedValue = (int)goldResult.Results[0].Result[AnalyseOptions.Cycles4];
             Assert.AreEqual(actualValue, expectedValue);
         }
 
