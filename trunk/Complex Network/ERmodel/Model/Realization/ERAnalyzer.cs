@@ -111,7 +111,8 @@ namespace model.ERModel.Realization
         {
             log.Info("GetMinPathDist");
 
-            if (0 == m_pathDistribution.Count)
+            //if (0 == m_pathDistribution.Count)
+            if (null == m_pathDistribution)
             {
                 CountEssentialOptions();
             }
@@ -175,7 +176,7 @@ namespace model.ERModel.Realization
         {
             log.Info("GetDegreeDistribution");
 
-            if (0 == m_degreeDistribution.Count)
+            if (null == m_degreeDistribution)
             {
                 CountDegreeDestribution();
             }
@@ -264,7 +265,8 @@ namespace model.ERModel.Realization
         {
             log.Info("GetClusteringCoefficient");
 
-            if (0 == m_vertexClusteringCoefficient.Count)
+            //if (0 == m_vertexClusteringCoefficient.Count)
+            if (null == m_vertexClusteringCoefficient)
             {
                 CountGraphClusteringCoefficient();
             }
