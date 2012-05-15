@@ -355,7 +355,6 @@ namespace model.ERModel.Realization
         public override SortedDictionary<double, int> GetDistEigenPath()
         {
             Algorithms.EigenValue ev = new EigenValue();
-            ArrayList al = new ArrayList();
             bool[,] m = m_container.GetMatrix();
             ev.EV(m);
             return  ev.CalcEigenValuesDist();
@@ -372,7 +371,9 @@ namespace model.ERModel.Realization
         //Calculate Eigen values of graph.
         public override ArrayList GetEigenValue()
         {
-            return new ArrayList();
+            Algorithms.EigenValue ev = new EigenValue();
+            bool[,] m = m_container.GetMatrix();
+            return ev.EV(m);
         }
 
     }
