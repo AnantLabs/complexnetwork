@@ -37,7 +37,7 @@ namespace ModelsTests
             }
             for (int i = 0; i < a.Count; ++i)
             {
-                if (a[i] != b[i])
+                if ((double)a[i] != (double)b[i])
                 {
                     return false;
                 }
