@@ -46,10 +46,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("ERModelTestData//EROutput.xml")]
         [DeploymentItem("ERModelTestData//ERInput.txt")]
-        public void AveragePathTest()
+        public void ERAveragePathTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
@@ -63,10 +63,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("ERModelTestData//EROutput.xml")]
         [DeploymentItem("ERModelTestData//ERInput.txt")]
-        public void ClusteringCoefficientTest()
+        public void ERClusteringCoefficientTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
@@ -80,10 +80,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("ERModelTestData//EROutput.xml")]
         [DeploymentItem("ERModelTestData//ERInput.txt")]
-        public void DegreeDistributionTest()
+        public void ERDegreeDistributionTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
@@ -97,10 +97,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("ERModelTestData//EROutput.xml")]
         [DeploymentItem("ERModelTestData//ERInput.txt")]
-        public void CyclesTest()
+        public void ERCyclesTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
@@ -114,10 +114,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("ERModelTestData//EROutput.xml")]
         [DeploymentItem("ERModelTestData//ERInput.txt")]
-        public void Cycles3Test()
+        public void ERCycles3Test()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
@@ -131,10 +131,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("ERModelTestData//EROutput.xml")]
         [DeploymentItem("ERModelTestData//ERInput.txt")]
-        public void Cycles4Test()
+        public void ERCycles4Test()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
@@ -148,10 +148,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("ERModelTestData//EROutput.xml")]
         [DeploymentItem("ERModelTestData//ERInput.txt")]
-        public void FullSubGraphTest()
+        public void ERFullSubGraphTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
@@ -165,10 +165,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("ERModelTestData//EROutput.xml")]
         [DeploymentItem("ERModelTestData//ERInput.txt")]
-        public void MinPathDistTest()
+        public void ERMinPathDistTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
@@ -182,10 +182,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("ERModelTestData//EROutput.xml")]
         [DeploymentItem("ERModelTestData//ERInput.txt")]
-        public void DistEigenPathTest()
+        public void ERDistEigenPathTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
@@ -232,10 +232,10 @@ namespace ModelsTests
           }*/
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("ERModelTestData//EROutput.xml")]
         [DeploymentItem("ERModelTestData//ERInput.txt")]
-        public void EigenValueTest()
+        public void EREigenValueTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
