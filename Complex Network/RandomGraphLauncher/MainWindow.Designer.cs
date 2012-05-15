@@ -40,6 +40,7 @@ namespace RandomGraphLauncher
             this.distributedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trainingModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.traceingModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loggerSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statisticAnalyzerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataExportIMportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +48,6 @@ namespace RandomGraphLauncher
             this.modelCheckingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userControl11 = new MyControlLibrary.TabCtlEx();
-            this.loggerSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -126,8 +126,15 @@ namespace RandomGraphLauncher
             this.traceingModeToolStripMenuItem.CheckOnClick = true;
             this.traceingModeToolStripMenuItem.Name = "traceingModeToolStripMenuItem";
             this.traceingModeToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.traceingModeToolStripMenuItem.Text = "Traceing Mode";
+            this.traceingModeToolStripMenuItem.Text = "Tracing Mode";
             this.traceingModeToolStripMenuItem.Click += new System.EventHandler(this.traceingModeToolStripMenuItem_Click);
+            // 
+            // loggerSettingsToolStripMenuItem
+            // 
+            this.loggerSettingsToolStripMenuItem.Name = "loggerSettingsToolStripMenuItem";
+            this.loggerSettingsToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.loggerSettingsToolStripMenuItem.Text = "Logger Settings";
+            this.loggerSettingsToolStripMenuItem.Click += new System.EventHandler(this.loggerSettingsToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
@@ -188,13 +195,6 @@ namespace RandomGraphLauncher
             this.userControl11.TabIndex = 0;
             this.userControl11.TabStop = false;
             this.userControl11.OnClose += new MyControlLibrary.TabCtlEx.OnHeaderCloseDelegate(this.userControl11_OnClose);
-            // 
-            // loggerSettingsToolStripMenuItem
-            // 
-            this.loggerSettingsToolStripMenuItem.Name = "loggerSettingsToolStripMenuItem";
-            this.loggerSettingsToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.loggerSettingsToolStripMenuItem.Text = "Logger Settings";
-            this.loggerSettingsToolStripMenuItem.Click += new System.EventHandler(this.loggerSettingsToolStripMenuItem_Click);
             // 
             // MainWindow
             // 

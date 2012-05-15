@@ -44,10 +44,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
-        public void AveragePathTest()
+        public void BAAveragePathTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
@@ -61,10 +61,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
-        public void ClusteringCoefficientTest()
+        public void BAClusteringCoefficientTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
@@ -78,10 +78,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
-        public void DegreeDistributionTest()
+        public void BADegreeDistributionTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
@@ -95,10 +95,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
-        public void CyclesTest()
+        public void BACyclesTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
@@ -112,10 +112,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
-        public void Cycles3Test()
+        public void BACycles3Test()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
@@ -129,10 +129,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
-        public void Cycles4Test()
+        public void BACycles4Test()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
@@ -146,10 +146,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
-        public void FullSubGraphTest()
+        public void BAFullSubGraphTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
@@ -163,10 +163,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
-        public void MinPathDistTest()
+        public void BAMinPathDistTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
@@ -180,10 +180,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
-        public void DistEigenPathTest()
+        public void BADistEigenPathTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
@@ -197,10 +197,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
-        public void MotivesTest()
+        public void BAMotivesTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
@@ -214,10 +214,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
-        public void DiameterTest()
+        public void BADiameterTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
@@ -231,10 +231,10 @@ namespace ModelsTests
         }
 
         [TestMethod]
-        [Timeout(100)]
+        [Timeout(100000)]
         [DeploymentItem("BAModelTestData//BAOutput.xml")]
         [DeploymentItem("BAModelTestData//BAInput.txt")]
-        public void EigenValueTest()
+        public void BAEigenValueTest()
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");

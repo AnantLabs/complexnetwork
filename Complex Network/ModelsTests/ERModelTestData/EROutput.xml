@@ -1,152 +1,74 @@
 <?xml version="1.0" encoding="us-ascii" standalone="yes"?>
 <assembly>
-  <id>587b01c6-d9fd-4356-99f6-9b65a6d8940a</id>
-  <name>dfg</name>
-  <date>08.05.2012 2:14:54</date>
-  <graphmodel id="2" modelname="BAModel" />
+  <id>c9f00b66-bdcf-4706-b833-ff94b297bd47</id>
+  <name>jkljl</name>
+  <date>15.05.2012 23:57:35</date>
+  <graphmodel id="5" modelname="ERModel" />
   <generationparams>
-    <generationparam id="1" parametername="Vertices" value="101" />
-    <generationparam id="5" parametername="MaxEdges" value="1" />
+    <generationparam id="1" parametername="Vertices" value="10" />
+    <generationparam id="7" parametername="P" value="0.5" />
   </generationparams>
   <analyseresults>
     <instance>
-      <Model grapSize="106" />
+      <Model grapSize="0" />
       <result>
-        <item option="DegreeDistribution">1.5</item>
-        <item option="AveragePath">2.19047619047619</item>
-        <item option="Cycles3">0</item>
-        <item option="Diameter">4</item>
+        <item option="DegreeDistribution">4.4</item>
+        <item option="AveragePath">1.6</item>
+        <item option="ClusteringCoefficient">0.6764</item>
+        <item option="Cycles3">17</item>
+        <item option="Diameter">3</item>
+        <item option="Cycles4">41</item>
       </result>
       <vertexdegree>
-        <vd degree="0" count="99" />
-        <vd degree="1" count="4" />
+        <vd degree="1" count="1" />
         <vd degree="2" count="1" />
-        <vd degree="3" count="2" />
+        <vd degree="3" count="1" />
+        <vd degree="4" count="1" />
+        <vd degree="5" count="3" />
+        <vd degree="6" count="2" />
+        <vd degree="7" count="1" />
       </vertexdegree>
       <coefficients>
-        <coeff coefficient="0" count="106" />
+        <coeff coefficient="0" count="1" />
+        <coeff coefficient="0.5357" count="1" />
+        <coeff coefficient="0.7" count="1" />
+        <coeff coefficient="0.7143" count="2" />
+        <coeff coefficient="0.7333" count="2" />
+        <coeff coefficient="0.8" count="1" />
+        <coeff coefficient="0.8333" count="1" />
+        <coeff coefficient="1" count="1" />
       </coefficients>
       <Connsubgraphs />
       <Fullsubgraphs />
-      <vertexdistance />
+      <vertexdistance>
+        <vd distance="1" count="22" />
+        <vd distance="2" count="19" />
+        <vd distance="3" count="4" />
+      </vertexdistance>
       <eigenvalues>
-        <ev eigenValue="-2.0529" />
-        <ev eigenValue="-1.2086" />
-        <ev eigenValue="-0.57" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0.57" />
-        <ev eigenValue="1.2086" />
-        <ev eigenValue="2.0529" />
+        <ev eigenValue="-2.5603" />
+        <ev eigenValue="-2.2288" />
+        <ev eigenValue="-1.4831" />
+        <ev eigenValue="-1.0523" />
+        <ev eigenValue="-0.4248" />
+        <ev eigenValue="0" />
+        <ev eigenValue="0.2328" />
+        <ev eigenValue="0.824" />
+        <ev eigenValue="1.6341" />
+        <ev eigenValue="5.0583" />
       </eigenvalues>
       <eigenvaluesdistance>
-        <ev distance="0" count="99" />
-        <ev distance="0.57" count="2" />
-        <ev distance="0.6386" count="2" />
-        <ev distance="0.8443" count="2" />
+        <ev distance="0.2328" count="1" />
+        <ev distance="0.3315" count="1" />
+        <ev distance="0.4248" count="1" />
+        <ev distance="0.4308" count="1" />
+        <ev distance="0.5912" count="1" />
+        <ev distance="0.6275" count="1" />
+        <ev distance="0.7457" count="1" />
+        <ev distance="0.8101" count="1" />
       </eigenvaluesdistance>
       <cycles />
-      <motives>
-        <mt degree="5" count="10" />
-      </motives>
+      <motives />
       <parisiarray />
     </instance>
   </analyseresults>
