@@ -20,12 +20,17 @@ namespace Model.HierarchicModel.Realization
         /// <param name="numberDegree"></param>
         public HierarchicGraph(int primeNumber, int degree, BitArray[][] treeMatrix)
         {
-
             this.primeNumber = primeNumber;
             this.maxlevel = degree;
             this.treeMatrix = treeMatrix;
         }
 
+        public HierarchicGraph(int p, int k, ArrayList matrix)
+        {
+            primeNumber = p;
+            maxlevel = k;
+            CreateTreeFromMatrix(matrix);
+        }
 
         /// <summary>
         /// Print a tree with recursion
@@ -170,6 +175,7 @@ namespace Model.HierarchicModel.Realization
 
             return tempNode;
         }
+
         /// <summary>
         /// Returns tree node matrixList
         /// </summary>
@@ -196,6 +202,57 @@ namespace Model.HierarchicModel.Realization
             return matrixList;
 
         }
+
+        private void CreateTreeFromMatrix(ArrayList matrix)
+        {
+            // matricic stanal toxeri p-akner
+            Dictionary<int, ArrayList> rows = new Dictionary<int, ArrayList>();
+            int index = 0;
+            for (int i = 0; i < matrix.Count; ++i)
+            {
+                ArrayList a = new ArrayList();
+                while (i < this.prime)
+                {
+                    a.Add((ArrayList)matrix[i]);
+                }
+                rows[index].Add(a);
+                ++index;
+            }
+
+            //for every level create datas, started with root
+            for (int i = this.maxlevel; i > 0; i--)
+            {
+                //get current level data length and bitArrays count
+                int nodeDataLength = (this.primeNumber - 1) * this.primeNumber / 2;
+                long dataLength = Convert.ToInt64(Math.Pow(this.primeNumber, this.maxlevel - i) * nodeDataLength);
+                int arrCount = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(dataLength) / ARRAY_MAX_SIZE));
+
+                this.treeMatrix[this.maxlevel - i] = new BitArray[arrCount];
+                int j;
+                for (j = 0; j < arrCount - 1; j++)
+                {
+                    this.treeMatrix[this.maxlevel - i][j] = new BitArray(ARRAY_MAX_SIZE);
+                }
+                this.treeMatrix[this.maxlevel - i][j] = new BitArray(Convert.ToInt32(dataLength - (arrCount - 1) * ARRAY_MAX_SIZE));
+
+                //fill data for current level nodes
+                ArrayList levelFori = new ArrayList();
+                Dictionary<int, ArrayList>.KeyCollection keys = rows.Keys;
+                foreach (int k in keys)
+                {
+                    int firstIndex = (int)Math.Pow(this.prime, this.maxlevel - i) + 1;
+                    for (; firstIndex < rows[k].Count; ++firstIndex)
+                    {
+                        for (int c = 1; c < rows[k].Count; c += this.prime)
+                        {
+                            if (firstIndex != j)
+                                levelFori.Add(rows[k][c]);
+                        }
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Returns that vertex where this vertexes become connected
         /// </summary>
