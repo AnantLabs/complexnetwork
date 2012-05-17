@@ -162,21 +162,32 @@ namespace RandomGraph.Common.Model
             System.IO.Directory.CreateDirectory(dir);
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath))
             {
-                bool [,] matrix = GetMatrix();
-                for (int i = 0; i < matrix.GetLength(0); ++i )
+                try
                 {
-                    for (int j = 0; j < matrix.GetLength(1); ++j)
+                    bool[,] matrix = GetMatrix();
+                    for (int i = 0; i < matrix.GetLength(0); ++i)
                     {
-                        if (matrix[i, j])
+                        for (int j = 0; j < matrix.GetLength(1); ++j)
                         {
-                            file.Write(1 + " ");
+                            if (matrix[i, j])
+                            {
+                                file.Write(1 + " ");
+                            }
+                            else
+                            {
+                                file.Write(0 + " ");
+                            }
                         }
-                        else
-                        {
-                            file.Write(0 + " ");
-                        }
+                        file.WriteLine("");
                     }
-                    file.WriteLine("");
+                }
+                catch (Exception)
+                {
+
+                }
+                finally
+                {
+
                 }
             }
         }

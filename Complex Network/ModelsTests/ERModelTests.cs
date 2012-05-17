@@ -142,7 +142,7 @@ namespace ModelsTests
             ERGraph graph = new ERGraph(matrix);
             IGraphAnalyzer analyzer = new ERAnalyzer(graph.Container);
 
-            int actualValue = analyzer.GetCycles3();
+            int actualValue = analyzer.GetCycles4();
             //FIXME
             //int expectedValue = goldResult.Results[0].Cycles4;
             int expectedValue = (int)goldResult.Results[0].Result[AnalyseOptions.Cycles4];

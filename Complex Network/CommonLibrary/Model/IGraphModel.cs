@@ -24,6 +24,16 @@
         /// generation rule starting from second to the last model in the
         /// queue
         void StartGenerate(Object graphObj);
+
+        /// <summary>
+        /// Converted Graph local strucur to the adjacency matrix.
+        /// </summary>
+        bool[,] GetMatrix();
+
+        /// <summary>
+        /// Prints details information of parameters into the form.
+        /// </summary>
+        string GetParamsInfo();
     }
 }
 
