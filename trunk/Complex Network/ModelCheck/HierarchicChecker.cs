@@ -197,35 +197,71 @@ namespace ModelCheck
         {
             int sum = 0;
             List<string> lines = new List<string>();
-            char[] lines1 = new char[100];
-            int[] lines2 = new int[100];
 
             List<int> deg = new List<int>();
 
             using (TextReader r = new StreamReader(path))
             {
+
                 string line;
                 while ((line = r.ReadLine()) != null)
                 {
+
                     lines.Add(line);
                 }
             }
 
-            for (int i = 0; i < lines.Count; i++)
+
+            int l = 2 * lines.Count;
+            char[] lines1 = new char[l];
+            int[] lines2 = new int[l];
+            try
             {
-                lines1 = lines[i].ToCharArray();
 
-                for (int j = 0; j < lines1.Length; j++)
+                for (int i = 0; i < lines.Count; i++)
                 {
-                    if (lines1[j] != ' ')
-                        lines2[j] = (int)(lines1[j] - '0');
 
-                    sum += lines2[j];
+
+                    lines1 = lines[i].ToCharArray();
+                    if (lines1.Last() != ' ')
+                        if (lines1.Length != l - 1)
+                            throw new IndexOutOfRangeException("Type a squere matrix");
+                    for (int j = 0; j < l - 1; j++)
+                    {
+
+                        if (lines1[j] != ' ')
+                        {
+                            if (lines1[j] == '0' || lines1[j] == '1')
+                            {
+                                lines2[j] = (int)(lines1[j] - '0');
+
+                                sum += lines2[j];
+                            }
+                            else
+                            {
+                                lines1[j] = '1';
+                                lines2[j] = (int)(lines1[j] - '0');
+
+                                sum += lines2[j];
+                            }
+                        }
+
+                    }
+
+                    deg.Add(sum);
+                    sum = 0;
+
+
                 }
 
-                deg.Add(sum);
-                sum = 0;
+
             }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("Type a squere matrix");
+                throw new IndexOutOfRangeException();
+            }
+
 
             return deg;
         }
