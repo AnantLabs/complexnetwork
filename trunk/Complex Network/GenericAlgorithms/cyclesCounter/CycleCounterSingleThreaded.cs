@@ -1,0 +1,216 @@
+﻿/**
+ * @File CycleCounterSingleThreaded.cs
+ * 
+ * @Author Hovhannes Antonyan
+ */
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+namespace Algorithms
+{
+    /**
+     * Provides a method to calculate cycles count with a specified length
+     * in a graph. Uses a single thread to perform calculation. Use 
+     * CyclesParallelCounter class to increase perfomance if the platform
+     * supports thread pools.
+     */
+    public class CycleCounterSingleThreaded : ICycleCounter
+    {
+        // reference to the BAContainer object which contains the graph
+        private INeighbourshipContainer _container;
+
+        // The graph's vertices count
+        private int _verticesCount;
+
+        /**
+         * An array of booleans where each element respresents whether the
+         * corresponding is marked during the processing of the pivot
+         * 
+         * An array is used for constant time access to the ith element.
+         */
+        private bool[] _marked;
+
+        /**
+         * All vertices which should be considered are being pushed to this stack
+         */
+        private Stack<int> _stack;
+
+        /**
+         * Contains the current path in the DepthFirstSearch.
+         */
+        private Stack<int> _path;
+
+        private HashSet<int>[] _rolledBackNeighbours;
+
+        public CycleCounterSingleThreaded(INeighbourshipContainer container)
+        {
+            _container = container;
+            _verticesCount = _container.Size;
+            _marked = new bool[_verticesCount];
+            for (int i = 0; i < _verticesCount; ++i)
+            {
+                unmark(i);
+            }
+            _stack = new Stack<int>();
+            _path = new Stack<int>();
+        }
+
+        /**
+         * Returns cycles count in the graph which length is equal 
+         * to the specified 'cycleLength' argument
+         * @precondition cycleLength >= 3
+         */
+        public long calculateCyclesCount(int cycleLength)
+        {
+            _rolledBackNeighbours = new HashSet<int>[cycleLength];
+            for (int i = 0; i < cycleLength; ++i)
+            {
+                _rolledBackNeighbours[i] = new HashSet<int>();
+            }
+            long cyclesCount = 0;
+            for (int pivot = 0; pivot < _verticesCount; ++pivot)
+            {
+                cyclesCount += getPivotsCycles(pivot, cycleLength);
+                Debug.Assert(cyclesCount % 2 == 0);
+            }
+            return cyclesCount / 2; // each cycle is being counted twice
+        }
+
+        private bool isMarked(int vertex)
+        {
+            return _marked[vertex];
+        }
+
+        private void setMarked(int vertex)
+        {
+            _marked[vertex] = true;
+        }
+
+        private void unmark(int vertex)
+        {
+            _marked[vertex] = false;
+        }
+
+        private void addToRolledBackNeighboursPeek(int vertex)
+        {
+            _rolledBackNeighbours[_path.Count - 1].Add(vertex);
+        }
+
+        private void clearRolledBackNeighboursPeek()
+        {
+            _rolledBackNeighbours[_path.Count - 1].Clear();
+        }
+
+        private int getRolledBackNeighboursPeeksCount()
+        {
+            return _rolledBackNeighbours[_path.Count - 1].Count;
+        }
+
+        private bool isRolledBack(int vertex)
+        {
+            return _rolledBackNeighbours[_path.Count - 2].Contains(vertex);
+        }
+
+        private bool areConnected(int vertex1, int vertex2)
+        {
+            List<int> vertex1Neighbours = _container.Neighbourship[vertex1];
+            bool connected1 = vertex1Neighbours.Contains(vertex2);
+            List<int> vertex2Neighbours = _container.Neighbourship[vertex2];
+            bool connected2 = vertex2Neighbours.Contains(vertex1);
+            return connected1 && connected2;
+        }
+
+        private bool isConnectedWithPeak(int vertex)
+        {
+            if (_path.Count == 0)
+            {
+                return true;
+            }
+            return areConnected(vertex, _path.Peek());
+        }
+
+        private long getPivotsCycles(int pivot, int cycleLength)
+        {
+            long cyclesCount = 0;
+            _stack.Push(pivot);
+            while (_stack.Count != 0)
+            {
+                int curr = _stack.Pop();
+                Debug.Assert(isConnectedWithPeak(curr));
+                _path.Push(curr);
+                setMarked(curr);
+                bool newVertexPushed = considerNeighbours(curr,
+                        pivot, cycleLength, ref cyclesCount);
+                if (newVertexPushed == false)
+                {
+                    rollBack();
+                }
+            }
+            Debug.Assert(_path.Count == 0);
+            return cyclesCount;
+        }
+
+        private bool considerNeighbours(int curr, int pivot, int cycleLength,
+               ref long cyclesCount)
+        {
+            bool newVertexPushed = false;
+            List<int> neighbours = _container.Neighbourship[curr];
+            foreach (int neighbour in neighbours)
+            {
+                if (neighbour >= pivot)
+                {
+                    if (isMarked(neighbour) == false)
+                    {
+                        if (_path.Count < cycleLength)
+                        {
+                            _stack.Push(neighbour);
+                            newVertexPushed = true;
+                        }
+                    }
+                    else
+                    {
+                        addToRolledBackNeighboursPeek(neighbour);
+                        if (neighbour == pivot && _path.Count == cycleLength)
+                        {
+                            ++cyclesCount;
+                        }
+                    }
+                }
+                else
+                {
+                    addToRolledBackNeighboursPeek(neighbour);
+                }
+            }
+            return newVertexPushed;
+        }
+
+        private void rollBack()
+        {
+            if (_path.Count != 0)
+            {
+                clearRolledBackNeighboursPeek();
+            }
+            int vertex = _path.Pop();
+            unmark(vertex);
+            while (_path.Count != 0)
+            {
+                addToRolledBackNeighboursPeek(vertex);
+                vertex = _path.Peek();
+                if (hasAnUnmarkedNeighbour(vertex))
+                {
+                    break;
+                }
+                unmark(vertex);
+                clearRolledBackNeighboursPeek();
+                _path.Pop();
+            }
+        }
+
+        private bool hasAnUnmarkedNeighbour(int vertex)
+        {
+            int neighboursCount = _container.Neighbourship[vertex].Count;
+            return getRolledBackNeighboursPeeksCount() < neighboursCount;
+        }
+    }
+}

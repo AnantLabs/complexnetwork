@@ -71,6 +71,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cyclesCounter\CycleCounter.cs" />
+    <Compile Include="cyclesCounter\CycleCounterParallel.cs" />
+    <Compile Include="cyclesCounter\CycleCounterSingleThreaded.cs" />
     <Compile Include="EigenValue.cs" />
     <Compile Include="FileReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
