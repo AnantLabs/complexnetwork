@@ -13,11 +13,16 @@ using System.Text;
 
 namespace Algorithms
 {
+    public interface ICycleCounter
+    {
+        long getCycleCount(int cycleLength);
+    }
+
     /**
      * The class is responsible for calculation of the cycles count with 
      * specified length in a graph.
      */
-    public class CycleCounter
+    public class CycleCounter : ICycleCounter
     {
         private static readonly ILog logger = log4net.LogManager.GetLogger(typeof(CycleCounter));
 
@@ -39,7 +44,7 @@ namespace Algorithms
             //_counter = new CycleCounterSingleThreaded(container);
         }
 
-        public Dictionary<int, long> getCyclesCount(int startRange, int endRange)
+        public Dictionary<int, long> getCycleCount(int startRange, int endRange)
         {
             if (startRange > endRange)
             {
@@ -51,7 +56,7 @@ namespace Algorithms
             {
                 for (; i <= endRange; ++i)
                 {
-                    long count = getCyclesCount(i);
+                    long count = getCycleCount(i);
                     counts.Add(i, count);
                 }
             }
@@ -74,12 +79,12 @@ namespace Algorithms
          * to the specified 'cycleLength' argument
          * @pre cycleLength >= 3
          */
-        public long getCyclesCount(int cycleLength)
+        public long getCycleCount(int cycleLength)
         {
             long count = 0;
             try
             {
-                count = _counter.calculateCyclesCount(cycleLength);
+                count = _counter.getCycleCount(cycleLength);
             }
             catch (ThreadInterruptedException e)
             {
@@ -115,12 +120,7 @@ namespace Algorithms
         }
     }
 
-    interface ICycleCounter
-    {
-        long calculateCyclesCount(int cycleLength);
-    }
-
-    // Inner class which holds the graph for check for being hierarchical
+    // Inner class which holds the graph
     class Container : INeighbourshipContainer
     {
         private int _size; // number of vertices
