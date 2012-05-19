@@ -42,7 +42,7 @@ namespace Algorithms
          * to the specified 'cycleLength' argument
          * @precondition cycleLength >= 3
          */ 
-        public long calculateCyclesCount(int cyclesLenght)
+        public long getCycleCount(int cyclesLenght)
         {
             _cyclesCount = 0;
             _working_threads = _verticesCount;

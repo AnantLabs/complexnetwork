@@ -61,7 +61,7 @@ namespace Algorithms
          * to the specified 'cycleLength' argument
          * @precondition cycleLength >= 3
          */
-        public long calculateCyclesCount(int cycleLength)
+        public long getCycleCount(int cycleLength)
         {
             _rolledBackNeighbours = new HashSet<int>[cycleLength];
             for (int i = 0; i < cycleLength; ++i)
