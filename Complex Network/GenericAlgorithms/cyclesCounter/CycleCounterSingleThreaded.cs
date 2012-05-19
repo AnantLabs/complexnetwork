@@ -72,7 +72,6 @@ namespace Algorithms
             for (int pivot = 0; pivot < _verticesCount; ++pivot)
             {
                 cyclesCount += getPivotsCycles(pivot, cycleLength);
-                Debug.Assert(cyclesCount % 2 == 0);
             }
             return cyclesCount / 2; // each cycle is being counted twice
         }
@@ -132,6 +131,10 @@ namespace Algorithms
 
         private long getPivotsCycles(int pivot, int cycleLength)
         {
+            if (cycleLength == 2)
+            {
+                return _container.Neighbourship[pivot].Count;
+            }
             long cyclesCount = 0;
             _stack.Push(pivot);
             while (_stack.Count != 0)
