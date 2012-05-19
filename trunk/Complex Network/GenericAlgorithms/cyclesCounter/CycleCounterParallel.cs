@@ -22,7 +22,7 @@ namespace Algorithms
      * Use CyclesCounterSingleThreaded class, if the platform does not
      * support thread pools.
      */
-    public class CycleCounterParallel : ICycleCounter, IThreadEvent
+    class CycleCounterParallel : ICycleCounter, IThreadEvent
     {
         private PivotsCycleCounter[] _counters;
         private INeighbourshipContainer _container;
