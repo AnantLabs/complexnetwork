@@ -53,7 +53,7 @@ namespace Algorithms
                     Monitor.Wait(this);
                 }
             }
-            return _cyclesCount;
+            return _cyclesCount / 2;
         }
 
         public void threadFinished(long cyclesCount)
@@ -138,7 +138,7 @@ namespace Algorithms
         public void ThreadPoolCallback(Object threadContext)
         {
             initialise();
-            _cyclesCount = getPivotsCycles() / 2;
+            _cyclesCount = getPivotsCycles();
             _handler.threadFinished(_cyclesCount);
         }
 
