@@ -11,18 +11,13 @@ using System.Threading;
 
 namespace Algorithms
 {
-    interface IThreadEvent
-    {
-        void threadFinished(long result);
-    }
-
     /**
      * Provides a method to calculate cycles count with a specified length
      * in a graph. Uses multiple threads to increase calculation perfomance.
      * Use CyclesCounterSingleThreaded class, if the platform does not
      * support thread pools.
      */
-    class CycleCounterParallel : ICycleCounter, IThreadEvent
+    class CycleCounterParallel : ICycleCounterInternal, IThreadEvent
     {
         private PivotsCycleCounter[] _counters;
         private INeighbourshipContainer _container;
@@ -80,6 +75,11 @@ namespace Algorithms
                 Monitor.Pulse(this);
             }
         }
+    }
+
+    interface IThreadEvent
+    {
+        void threadFinished(long result);
     }
 
     /**
