@@ -16,6 +16,7 @@ namespace Algorithms
     public interface ICycleCounter
     {
         long getCycleCount(int cycleLength);
+        IDictionary<int, long> getCycleCount(int startRange, int endRange);
     }
 
     /**
@@ -27,7 +28,7 @@ namespace Algorithms
         private static readonly ILog logger = log4net.LogManager.GetLogger(typeof(CycleCounter));
 
         // The actual class which performs the calculation
-        private ICycleCounter _counter;
+        private ICycleCounterInternal _counter;
 
         public CycleCounter(string fileName)
         {
@@ -44,13 +45,13 @@ namespace Algorithms
             //_counter = new CycleCounterSingleThreaded(container);
         }
 
-        public Dictionary<int, long> getCycleCount(int startRange, int endRange)
+        public IDictionary<int, long> getCycleCount(int startRange, int endRange)
         {
             if (startRange > endRange)
             {
                 throw new Exception("Cannot calculate cycle count. Start range cannot be greater than endRange.");
             }
-            Dictionary<int/*length*/, long/*count*/> counts = new Dictionary<int, long>();
+            IDictionary<int/*length*/, long/*count*/> counts = new SortedDictionary<int, long>();
             int i = startRange;
             try
             {
@@ -104,6 +105,11 @@ namespace Algorithms
             }
             return count;
         }
+    }
+
+    interface ICycleCounterInternal
+    {
+        long getCycleCount(int cycleLength);
     }
 
     interface INeighbourshipContainer

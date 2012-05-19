@@ -15,7 +15,7 @@ namespace Algorithms
      * CyclesParallelCounter class to increase perfomance if the platform
      * supports thread pools.
      */
-    class CycleCounterSingleThreaded : ICycleCounter
+    class CycleCounterSingleThreaded : ICycleCounterInternal
     {
         // reference to the BAContainer object which contains the graph
         private INeighbourshipContainer _container;
