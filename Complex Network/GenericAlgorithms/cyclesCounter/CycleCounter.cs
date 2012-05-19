@@ -13,12 +13,12 @@ namespace Algorithms
     public interface INeighbourshipContainer
     {
         // Get functions //
-        public int Size
+        int Size
         {
             get;
         }
 
-        public Dictionary<int, List<int>> Neighbourship
+        Dictionary<int, List<int>> Neighbourship
         {
             get;
         }
@@ -26,7 +26,7 @@ namespace Algorithms
 
     interface ICycleCounter
     {
-        public long calculateCyclesCount(int cycleLength);
+        long calculateCyclesCount(int cycleLength);
     }
 
     /**
