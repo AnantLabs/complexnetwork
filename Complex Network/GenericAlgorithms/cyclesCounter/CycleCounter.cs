@@ -61,7 +61,7 @@ namespace Algorithms
                     counts.Add(i, count);
                 }
             }
-            finally
+            catch (Exception e)
             {
                 StringBuilder builder = new StringBuilder("Found following cycles:\n");
                 foreach (KeyValuePair<int, long> entry in counts) {
@@ -71,6 +71,7 @@ namespace Algorithms
                 {
                     logger.Info(builder.ToString());
                 }
+                throw e;
             }
             return counts;
         }
