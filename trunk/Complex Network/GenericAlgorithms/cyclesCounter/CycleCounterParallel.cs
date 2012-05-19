@@ -215,6 +215,10 @@ namespace Algorithms
 
         private long getPivotsCycles()
         {
+            if (_cycleLength == 2)
+            {
+                return _container.Neighbourship[_pivot].Count;
+            }
             long cyclesCount = 0;
             _stack.Push(_pivot);
             while (_stack.Count != 0)
