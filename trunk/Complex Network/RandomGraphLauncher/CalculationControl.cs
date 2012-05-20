@@ -325,6 +325,7 @@ namespace RandomGraphLauncher
             log.Info("Start button clicked");
             try
             {
+                controller.genParams.Clear();
                 foreach (GenerationParam paramType in genParamBoxes.Keys)
                 {
                     string a = genParamBoxes[paramType].Text;

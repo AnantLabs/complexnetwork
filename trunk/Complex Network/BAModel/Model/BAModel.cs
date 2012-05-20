@@ -30,12 +30,14 @@ namespace Model.BAModel
      AnalyseOptions.MaxFullSubgraph)]
     [RequiredGenerationParam(GenerationParam.Vertices, 2)]
     [RequiredGenerationParam(GenerationParam.MaxEdges, 3)]
+    [RequiredGenerationParam(GenerationParam.AddVertices, 10)]
 
     public class BAModel : AbstractGraphModel
     {
         private static readonly string MODEL_NAME = "BAModel";
         private BAGraph BAModelGraph;
         private BAGenerator BAModelGenerator;
+        private long BAAssambleCount;
         // private ArrayList mMatrix;
         // private Dictionary<int, List<int>> mNegList;
         bool cout = true;
@@ -79,6 +81,7 @@ namespace Model.BAModel
             List<GenerationParam> genParams = new List<GenerationParam>();
             genParams.Add(GenerationParam.Vertices);
             genParams.Add(GenerationParam.MaxEdges);
+            genParams.Add(GenerationParam.AddVertices);
             RequiredGenerationParams = genParams;
 
             //Place additional initialization code here
@@ -96,9 +99,10 @@ namespace Model.BAModel
                 BAModelGraph = new BAGraph((Int32)GenerationParamValues[GenerationParam.Vertices],
                   (Int16)GenerationParamValues[GenerationParam.MaxEdges]);
                 Graph = BAModelGraph;
+             //   BAAssambleCount = (Int32)GenerationParamValues[GenerationParam.Vertices] * 30 / 100;
                 InvokeProgressEvent(GraphProgress.Generating, 10);
                 BAModelGenerator = new BAGenerator(BAModelGraph);
-                BAModelGenerator.Generate(5);
+                BAModelGenerator.Generate((Int32)GenerationParamValues[GenerationParam.AddVertices]);
                 this.BAModelGraph = BAModelGenerator.Graph;
                 InvokeProgressEvent(GraphProgress.GenerationDone, 30);
             }
@@ -208,6 +212,7 @@ namespace Model.BAModel
                     int minvalue = Int32.Parse((String)AnalizeOptionsValues["motiveLow"]);
                     InvokeProgressEvent(GraphProgress.Analizing, 80, "Motiv of " + minvalue + "-" + maxValue + "degree");
                     //calculate motives here
+                    BAModelGraph.m_analyzer.GetMotif();
                     Result.MotivesCount = new SortedDictionary<int, int>(); //for test
                     Result.MotivesCount.Add(5, 10);
                 }
@@ -228,11 +233,25 @@ namespace Model.BAModel
         }
         public override bool CheckGenerationParams(int instances)
         {
+            int vertex = (Int32)GenerationParamValues[GenerationParam.Vertices];
+            int edges = (Int16)GenerationParamValues[GenerationParam.MaxEdges];
+            int assamblecount = (Int32)GenerationParamValues[GenerationParam.AddVertices];
+            if (vertex < edges || (vertex * 40 / 100) > assamblecount)
+                return false;
+           
             return true;
         }
         public override string GetParamsInfo()
         {
+            int edges = (Int16)GenerationParamValues[GenerationParam.MaxEdges];
+            int vertex = (Int32)GenerationParamValues[GenerationParam.Vertices];
+            int assamblecount = (Int32)GenerationParamValues[GenerationParam.AddVertices];
+            if(edges > vertex)
+                return "Initial vertex count mast be greater then edges count";
+            if ((vertex * 40 / 100) > assamblecount)
+                return "Add vertex count must be greater then 40 percent of initial vertex count";
             return "";
+
         }
         public override bool[,] GetMatrix()
         {
