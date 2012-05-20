@@ -39,5 +39,8 @@ namespace RandomGraph.Common.Model.Generation
 
         [GenerationParamInfo(Name = "File path", Type = typeof(String))]
         FilePath = 9,
+
+        [GenerationParamInfo(Name = "Add Vertices", Type = typeof(Int32))]
+        AddVertices = 10,
     }
 }

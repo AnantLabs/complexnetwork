@@ -90,6 +90,10 @@
     <Compile Include="Model\Realization\BAContainer.cs" />
     <Compile Include="Model\Realization\BAGenerator.cs" />
     <Compile Include="Model\Realization\BAGraph.cs" />
+    <Compile Include="Model\Realization\Motifs\Graph.cs" />
+    <Compile Include="Model\Realization\Motifs\Isomorphism.cs" />
+    <Compile Include="Model\Realization\Motifs\MotifFinder.cs" />
+    <Compile Include="Model\Realization\Motifs\SubgraphSampler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

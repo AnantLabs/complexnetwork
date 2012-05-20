@@ -25,7 +25,7 @@ namespace Model.BAModel.Realization
 
             return result;
         }
-        public void Generate(int countAssamble)
+        public void Generate(long countAssamble)
         {
             while (countAssamble > 0)
             {

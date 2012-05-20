@@ -26,7 +26,7 @@ namespace RandomGraph.Core.Manager.Impl
         /// </summary>
         public event StatusChangedEventHandler ExecutionStatusChange;
 
-        public bool mFileMode { get; set; }
+       // public bool mFileMode { get; set; }
 
         public bool isTraceingMode { get; set; }
 

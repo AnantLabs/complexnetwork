@@ -8,6 +8,8 @@ using MathNet.Numerics.LinearAlgebra;
 
 using RandomGraph.Common.Model;
 using CommonLibrary.Model;
+using Motifs;
+using log4net;
 
 namespace Model.BAModel.Realization
 {
@@ -24,7 +26,7 @@ namespace Model.BAModel.Realization
                 m_lenght = -1;
             }
         }
-
+        protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(BAAnalyzer));
         // Implementation members //
         private BAContainer m_container;
         private double m_avgPath;
@@ -52,6 +54,7 @@ namespace Model.BAModel.Realization
         // Utilities //
         private int MinimumWay(int i, int j)
         {
+            log.Info("Start count MinimumWay");
             if (i == j)
                 return 0;
 
@@ -60,6 +63,7 @@ namespace Model.BAModel.Realization
                 nodes[k] = new Node();
 
             BFS(i, nodes);
+            log.Info("End count MinimumWay");
             return nodes[j].m_lenght;
         }
 
@@ -173,6 +177,7 @@ namespace Model.BAModel.Realization
         }
         public override SortedDictionary<double, int> GetClusteringCoefficient()
         {
+            log.Info("Start calculate ClusteringCoefficient ");
             int iEdgeCountForFullness = 0, iNeighbourCount = 0;
             double iclusteringCoefficient = 0;
             SortedDictionary<double, int> m_iclusteringCoefficient = new SortedDictionary<double, int>();
@@ -203,10 +208,12 @@ namespace Model.BAModel.Realization
                 else
                     m_iclusteringCoefficient[iclusteringCoefficientList[i]] = 1;
             }
+            log.Info("End calculate ClusteringCoefficient ");
             return m_iclusteringCoefficient;
         }
         public override SortedDictionary<int, int> GetDegreeDistribution()
         {
+            log.Info("Start calculat DegreeDistribution");
             SortedDictionary<int, int> m_degreeDistribution = new SortedDictionary<int, int>();
             for (int i = 0; i < m_container.Size; ++i)
                    m_degreeDistribution[i] = new int();
@@ -218,6 +225,7 @@ namespace Model.BAModel.Realization
             for (int i = 0; i < m_container.Size; i++)
                 if (m_degreeDistribution[i] == 0)
                     m_degreeDistribution.Remove(i);
+            log.Info("End calculat DegreeDistribution");
             return m_degreeDistribution;
 
 
@@ -239,6 +247,7 @@ namespace Model.BAModel.Realization
 
         private int fullSubGgraph(int u)
         {
+           
             List<int> n1;
             n1 = m_container.Neighbourship[u];
             List<int> n2 = new List<int>();
@@ -273,11 +282,12 @@ namespace Model.BAModel.Realization
         }
         public int GetMaxFullSubgraph()
         {
+            log.Info("Start calculate fullSubGgraph");
             int k = 0;
             for (int i = 0; i < m_container.Size; i++)
                 if (this.fullSubGgraph(i) > k)
                     k = this.fullSubGgraph(i);
-
+            log.Info("End calculate fullSubGgraph");
             return k;
         }
         //Calculate distribution of connected subgraph of graph.
@@ -302,7 +312,13 @@ namespace Model.BAModel.Realization
         {
             return 0;
         }
-
+        //Calculate motive of graph.
+        public override SortedDictionary<int, int> GetMotif()
+        {
+            Graph graph = Graph.reformatToOurGraghFromBAContainer(m_container);
+            MotifFinder.SearchMotifs(graph, 4);
+            return new SortedDictionary<int, int>();
+        }
         //Calculate distribution of eigen value of graph.
         public override SortedDictionary<double, int> GetDistEigenPath()
         {
