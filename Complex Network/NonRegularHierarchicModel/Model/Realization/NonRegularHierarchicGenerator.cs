@@ -46,7 +46,7 @@ namespace Model.NonRegularHierarchicModel.Realization
             for (i = 0; i < length; ++i)
             {
                 double k = rnd2.NextDouble();
-                if (k <= (Math.Pow(Mu, Math.Pow(p, max_level - 1))))
+                if (k <= (Math.Pow(p, -Mu * max_level)))
                 {
                     graph.node.data[i] = true;
                 }
