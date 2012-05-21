@@ -179,6 +179,8 @@ namespace Model.ERModel
                     Result.Result[AnalyseOptions.FullSubGraph] = ERModelGraph.m_analyzer.GetMaxFullSubgraph();
                 }
 
+                Result.graphSize = ERModelGraph.Container.Size;
+
                 InvokeProgressEvent(GraphProgress.AnalizingDone, 95);
 
             }
@@ -218,5 +220,12 @@ namespace Model.ERModel
             //throw new NotImplementedException();
             return ERModelGraph.Container.GetMatrix();
         }
+
+        //public override void Dispose()
+        //{
+        //    log.Info("disposing...");
+        //    ERModelGraph = null;
+        //    base.Dispose();
+        //}
     }
 }
