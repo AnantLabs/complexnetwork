@@ -107,17 +107,22 @@ namespace ModelCheck
                 int levelElemCount = (int)Math.Pow(p, l);
                 int prevLevelElemCount = (int)Math.Pow(p, l - 1);
 
+                if (p == d.Count)
+                    return PossibleAnswers.GraphicalNotBlockHierarchic;
                 for (int h = 1; h <= localLev; h++) // qani hat p-yak ka amen makardakum
                 {
                     for (int i = l; i < t; i++)
                     {
+
                         for (int j = (h - 1) * levelElemCount; j + prevLevelElemCount < h * levelElemCount; j += prevLevelElemCount)
                         {
                             if (k[j][i] != k[j + prevLevelElemCount][i])
                             {
                                 return PossibleAnswers.GraphicalNotBlockHierarchic;
                             }
+
                         }
+
                         subk1.Add(k[(h - 1) * levelElemCount][i]);
                     }
 
@@ -147,6 +152,7 @@ namespace ModelCheck
                                 for (int i = l; i < t; i++)
                                     if (subk1[i - 1] != k[v][i])
                                         chk = false;
+
                         }
                         if (chk == false)
                             return PossibleAnswers.GraphicalNotBlockHierarchic;
