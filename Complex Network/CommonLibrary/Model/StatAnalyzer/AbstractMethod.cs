@@ -462,7 +462,8 @@ namespace RandomGraph.Common.Model.StatAnalyzer
             l.Sort();
             for (int k = 0; k < l.Count; ++k)
             {
-                r.Add((double)l[k], 1);
+                if (!r.ContainsKey((double)l[k]))
+                    r.Add((double)l[k], 1);
             }
 
             return r;
