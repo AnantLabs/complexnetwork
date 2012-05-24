@@ -62,6 +62,8 @@ namespace Model.BAModel
         {
             InvokeProgressEvent(GraphProgress.Initializing, 0);
             ModelName = MODEL_NAME;
+
+
             //Defines separate generation rule
             GenerationRule = GenerationRule.Sequential;
 
