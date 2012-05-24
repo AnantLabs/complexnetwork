@@ -36,6 +36,7 @@ namespace Model.BAModel.Realization
         private SortedDictionary<int, int> m_pathDistribution;
         private double m_clusteringCoefficient;
         private int m_cyclesOfOrder4;
+        private Algorithms.CycleCounter m_cycleCounter;
         public BAAnalyzer(BAContainer c)
         {
             m_container = c;
@@ -319,6 +320,19 @@ namespace Model.BAModel.Realization
             MotifFinder.SearchMotifs(graph, 4);
             return new SortedDictionary<int, int>();
         }
+        public override SortedDictionary<int, int> GetCycles(int minvalue, int maxValue)
+        {
+            // TODO convert m_container to regular matrix showing connections between all vertices
+            /*m_cycleCounter = new Algorithms.CycleCounter();
+            IDictionary<int, long> dict = m_cycleCounter.getCycleCount(minvalue, maxValue);
+            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
+            foreach (KeyValuePair<int, long> entry in dict)
+            {
+                result.Add(entry.Key, (int)entry.Value);
+            }
+            return result;*/
+            return new SortedDictionary<int, int>();
+        }
         //Calculate distribution of eigen value of graph.
         public override SortedDictionary<double, int> GetDistEigenPath()
         {
@@ -412,7 +426,7 @@ namespace Model.BAModel.Realization
          **/
 
 
-      
+
     }
 }
 

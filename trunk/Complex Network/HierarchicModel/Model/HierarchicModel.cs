@@ -212,7 +212,7 @@ namespace Model.HierarchicModel
                     int minvalue = Int32.Parse((String)AnalizeOptionsValues["cyclesLow"]);
                     InvokeProgressEvent(GraphProgress.Analizing, 70, "Cycles of " + minvalue + "-" + maxValue + "degree");
                     analyzer.Tree = tree;
-                    Result.CyclesCount = analyzer.GetCycles(minvalue, maxValue); 
+                    Result.Cycles = analyzer.GetCycles(minvalue, maxValue);
                 }
                 //Place analizing logic here
                 //Invoke ModelProgress event if possible to show current

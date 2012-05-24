@@ -202,7 +202,7 @@ namespace Model.BAModel
                     int minvalue = Int32.Parse((String)AnalizeOptionsValues["cyclesLow"]);
                     InvokeProgressEvent(GraphProgress.Analizing, 70, "Cycles of " + minvalue + "-" + maxValue + "degree");
                     //calculate cycles here
-                    //Result.CyclesCount = 
+                    Result.Cycles = BAModelGraph.m_analyzer.GetCycles(minvalue, maxValue);
                 }
 
 
