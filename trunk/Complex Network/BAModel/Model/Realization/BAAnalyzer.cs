@@ -29,6 +29,7 @@ namespace Model.BAModel.Realization
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(BAAnalyzer));
         // Implementation members //
         private BAContainer m_container;
+        private CyclesCounter cyclesCounter;
         private double m_avgPath;
         private bool[] Circleorder4;
         private List<double> m_edgesBetweenNeighbours;
@@ -36,7 +37,6 @@ namespace Model.BAModel.Realization
         private SortedDictionary<int, int> m_pathDistribution;
         private double m_clusteringCoefficient;
         private int m_cyclesOfOrder4;
-        private Algorithms.CycleCounter m_cycleCounter;
         public BAAnalyzer(BAContainer c)
         {
             m_container = c;
@@ -46,11 +46,12 @@ namespace Model.BAModel.Realization
                 m_edgesBetweenNeighbours.Add(-1);
             for (int i = 0; i < m_container.Size; ++i)
                 Circleorder4[i] = false;
+            cyclesCounter = new CyclesCounter(m_container);
 
 
 
         }
-      
+
 
         // Utilities //
         private int MinimumWay(int i, int j)
@@ -124,7 +125,10 @@ namespace Model.BAModel.Realization
 
             for (int i = 0; i < m_container.Size; ++i)
             {
-
+                if (i == 139)
+                {
+                    diametr = 1;
+                }
                 for (int j = i + 1; j < m_container.Size; ++j)
                 {
                     if (j == i + 2)
@@ -134,7 +138,7 @@ namespace Model.BAModel.Realization
                     if (way == -1)
                         continue;
                     if (m_pathDistribution.ContainsKey(way))
-                            m_pathDistribution[way]++;
+                        m_pathDistribution[way]++;
                     else
                         m_pathDistribution.Add(way, 1);
 
@@ -155,12 +159,12 @@ namespace Model.BAModel.Realization
 
             m_avgPath = avg;
             m_diametr = diametr;
-           
+
             if (m_cyclesOfOrder4 >= 4)
                 m_cyclesOfOrder4 /= 4;
-        //    CountClusteringCoefficient();
-          //  CountCyclesOfOrder3();
-        
+            //    CountClusteringCoefficient();
+            //  CountCyclesOfOrder3();
+
 
         }
         public override double GetAveragePath()
@@ -174,7 +178,7 @@ namespace Model.BAModel.Realization
         public override SortedDictionary<int, int> GetMinPathDist()
         {
             return m_pathDistribution;
-               
+
         }
         public override SortedDictionary<double, int> GetClusteringCoefficient()
         {
@@ -199,13 +203,13 @@ namespace Model.BAModel.Realization
 
             }
 
-           m_clusteringCoefficient /= m_container.Size;
+            m_clusteringCoefficient /= m_container.Size;
 
             for (int i = 0; i < m_container.Size; ++i)
             {
                 double result = iclusteringCoefficientList[i];
                 if (m_iclusteringCoefficient.Keys.Contains(result))
-                     m_iclusteringCoefficient[iclusteringCoefficientList[i]]++;
+                    m_iclusteringCoefficient[iclusteringCoefficientList[i]]++;
                 else
                     m_iclusteringCoefficient[iclusteringCoefficientList[i]] = 1;
             }
@@ -217,7 +221,7 @@ namespace Model.BAModel.Realization
             log.Info("Start calculat DegreeDistribution");
             SortedDictionary<int, int> m_degreeDistribution = new SortedDictionary<int, int>();
             for (int i = 0; i < m_container.Size; ++i)
-                   m_degreeDistribution[i] = new int();
+                m_degreeDistribution[i] = new int();
             for (int i = 0; i < m_container.Size; ++i)
             {
                 int degreeOfVertexI = m_container.Neighbourship[i].Count;
@@ -235,12 +239,12 @@ namespace Model.BAModel.Realization
 
         public override int GetCycles3()
         {
-           double m_cyclesOfOrder3 = 0;
+            double m_cyclesOfOrder3 = 0;
             for (int i = 0; i < m_container.Size; ++i)
                 if (m_edgesBetweenNeighbours[i] != -1)
-                      m_cyclesOfOrder3 += (int)m_edgesBetweenNeighbours[i];
+                    m_cyclesOfOrder3 += (int)m_edgesBetweenNeighbours[i];
             if (m_cyclesOfOrder3 > 0 && m_cyclesOfOrder3 < 3)
-                 m_cyclesOfOrder3 = 1;
+                m_cyclesOfOrder3 = 1;
             else
                 m_cyclesOfOrder3 /= 3;
             return (int)m_cyclesOfOrder3;
@@ -248,7 +252,7 @@ namespace Model.BAModel.Realization
 
         private int fullSubGgraph(int u)
         {
-           
+
             List<int> n1;
             n1 = m_container.Neighbourship[u];
             List<int> n2 = new List<int>();
@@ -281,6 +285,20 @@ namespace Model.BAModel.Realization
             }
             return k;
         }
+
+        public SortedDictionary<int, long> getNCyclesCount(int mincycleLenght, int maxcycleLenght)
+        {
+            int min = mincycleLenght;
+            long count = 0;
+            SortedDictionary<int, long> cyclesCount = new SortedDictionary<int, long>();
+            for (int i = mincycleLenght; i <= maxcycleLenght; i++)
+            {
+                count = cyclesCounter.getCyclesCount(i);
+                cyclesCount.Add(i, count);
+
+            }
+            return cyclesCount;
+        }
         public int GetMaxFullSubgraph()
         {
             log.Info("Start calculate fullSubGgraph");
@@ -292,7 +310,7 @@ namespace Model.BAModel.Realization
             return k;
         }
         //Calculate distribution of connected subgraph of graph.
-        public override  SortedDictionary<int, int> GetConnSubGraph()
+        public override SortedDictionary<int, int> GetConnSubGraph()
         {
             return new SortedDictionary<int, int>();
         }
@@ -318,19 +336,6 @@ namespace Model.BAModel.Realization
         {
             Graph graph = Graph.reformatToOurGraghFromBAContainer(m_container);
             MotifFinder.SearchMotifs(graph, 4);
-            return new SortedDictionary<int, int>();
-        }
-        public override SortedDictionary<int, int> GetCycles(int minvalue, int maxValue)
-        {
-            // TODO convert m_container to regular matrix showing connections between all vertices
-            /*m_cycleCounter = new Algorithms.CycleCounter();
-            IDictionary<int, long> dict = m_cycleCounter.getCycleCount(minvalue, maxValue);
-            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
-            foreach (KeyValuePair<int, long> entry in dict)
-            {
-                result.Add(entry.Key, (int)entry.Value);
-            }
-            return result;*/
             return new SortedDictionary<int, int>();
         }
         //Calculate distribution of eigen value of graph.

@@ -38,6 +38,7 @@ namespace RandomGraphLauncher.src
         public bool isTrainingMode { get; set; }
         public bool isTraceingMode { get; set; }
         public int instances { get; set; }
+        public string errorMessage { get; set; }
         public AnalyseOptions availableOptions { get; set; }
         public List<RequiredGenerationParam> reqGenParams { get; set; }
         public Dictionary<GenerationParam, object> genParams { get; set; }
@@ -111,12 +112,13 @@ namespace RandomGraphLauncher.src
             Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), typeof(AnalyseOptions), typeof(int) };
             object[] invokeParams = new object[] { genParams, selectedOptions, 0 };
             AbstractGraphModel graphModel = (AbstractGraphModel)this.modelType.GetConstructor(constructTypes).Invoke(invokeParams);
+            errorMessage = graphModel.GetParamsInfo();
             return graphModel.CheckGenerationParams(this.instances);
         }
 
         public int ResultCount()
         {
-           return manager.Assembly.Results.Count;
+            return manager.Assembly.Results.Count;
         }
 
         public void Continue()

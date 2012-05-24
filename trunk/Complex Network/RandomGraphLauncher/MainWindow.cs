@@ -274,7 +274,7 @@ namespace RandomGraphLauncher
             ApplicationMode.IsTrainingMode = trainingModeToolStripMenuItem.Checked;
 
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            config.AppSettings.Settings["Training"].Value = trainingModeToolStripMenuItem.Checked ?  "yes" : "no";
+            config.AppSettings.Settings["Training"].Value = trainingModeToolStripMenuItem.Checked ? "yes" : "no";
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
         }
