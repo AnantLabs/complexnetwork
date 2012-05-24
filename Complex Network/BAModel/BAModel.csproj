@@ -90,6 +90,9 @@
     <Compile Include="Model\Realization\BAContainer.cs" />
     <Compile Include="Model\Realization\BAGenerator.cs" />
     <Compile Include="Model\Realization\BAGraph.cs" />
+    <Compile Include="Model\Realization\CountCylces\CyclesCounter.cs" />
+    <Compile Include="Model\Realization\CountCylces\CyclesCounterSingleThreaded.cs" />
+    <Compile Include="Model\Realization\CountCylces\CyclesParrallelCounter.cs" />
     <Compile Include="Model\Realization\Motifs\Graph.cs" />
     <Compile Include="Model\Realization\Motifs\Isomorphism.cs" />
     <Compile Include="Model\Realization\Motifs\MotifFinder.cs" />

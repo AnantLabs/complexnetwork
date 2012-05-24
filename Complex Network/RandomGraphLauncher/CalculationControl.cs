@@ -86,7 +86,7 @@ namespace RandomGraphLauncher
         private void InitFlash()
         {
             log.Info("Init Flash");
-            axShockwaveFlash1.Movie =  AppDomain.CurrentDomain.BaseDirectory + @"\SWF\communication.swf";
+            axShockwaveFlash1.Movie = AppDomain.CurrentDomain.BaseDirectory + @"\SWF\communication.swf";
         }
 
         void manager_GraphsGenerated(object sender, List<GraphTable> e)
@@ -117,7 +117,7 @@ namespace RandomGraphLauncher
         }
 
         // Flash API
-        
+
         private object proxy_ExternalInterfaceCall(object sender, ExternalInterfaceCallEventArgs e)
         {
             switch (e.FunctionCall.FunctionName)
@@ -149,14 +149,14 @@ namespace RandomGraphLauncher
             Gen_Rule.Text = "Generation rule: \n" + graphMetaData.GenerationRule.ToString();
         }
 
-/*        protected void OnAnalyzeEvent(AnalyzeEventArgs args)
-        {
-            if (ExecutionStatusChange != null)
-            {
-                ExecutionStatusChange(this, args);
-            }
-        }
-*/
+        /*        protected void OnAnalyzeEvent(AnalyzeEventArgs args)
+                {
+                    if (ExecutionStatusChange != null)
+                    {
+                        ExecutionStatusChange(this, args);
+                    }
+                }
+        */
         void manager_OverallProgress(object sender, GraphProgressEventArgs e)
         {
             if (dataGridView1.InvokeRequired)
@@ -188,7 +188,7 @@ namespace RandomGraphLauncher
 
         void manager_ExecutionStatusChange(object sender, ExecutionStatusEventArgs e)
         {
-            ExecutionStatus currentStatus = e.ExecutionStatus ;
+            ExecutionStatus currentStatus = e.ExecutionStatus;
             if (currentStatus == ExecutionStatus.Success || currentStatus == ExecutionStatus.Failed || currentStatus == ExecutionStatus.Stopped)
             {
                 frozeGridButtons();
@@ -290,15 +290,15 @@ namespace RandomGraphLauncher
                 }
                 if (paramInfo.Type == typeof(String))
                 {
-                     control = new TextBox();
-                     Button brButton = new Button();
-                     brButton.Click += browseButton_Click;
-                     brButton.Location = new Point(105, position + 40);
-                     brButton.Height = 20;
-                     brButton.Width = 100;
-                     brButton.Text = "Browse";
-                     groupBox_Gen_params.Controls.Add(brButton);
-                     control.Tag = "filePath";
+                    control = new TextBox();
+                    Button brButton = new Button();
+                    brButton.Click += browseButton_Click;
+                    brButton.Location = new Point(105, position + 40);
+                    brButton.Height = 20;
+                    brButton.Width = 100;
+                    brButton.Text = "Browse";
+                    groupBox_Gen_params.Controls.Add(brButton);
+                    control.Tag = "filePath";
                 }
                 else
                 {
@@ -373,27 +373,34 @@ namespace RandomGraphLauncher
             controller.instances = Convert.ToInt32(numericUpDown_Instances_Count.Value);
             SetParamsInfo(controller.genParams, selectedOptions);
             if (controller.CheckGenerationParams(selectedOptions))
+            {
+                for (int i = 0; i < controller.instances; i++)
                 {
-                    for (int i = 0; i < controller.instances; i++)
-                    {
-                        dataGridView1.Rows.Add();
-                    }
-                    numericUpDown_Instances_Count.Enabled = false;
-                    DisableGenerationParamsInput();
-                    DisableAnalyseOptins();
+                    dataGridView1.Rows.Add();
+                }
+                numericUpDown_Instances_Count.Enabled = false;
+                DisableGenerationParamsInput();
+                DisableAnalyseOptins();
 
-                    setButtonEnabled(startButton, false);
-                    setButtonEnabled(pauseButton, true);
-                    setButtonEnabled(stopButton, true);
+                setButtonEnabled(startButton, false);
+                setButtonEnabled(pauseButton, true);
+                setButtonEnabled(stopButton, true);
 
-                    Thread.CurrentThread.Priority = ThreadPriority.Highest;
-                    Tuple<Dictionary<GenerationParam, object>, AnalyseOptions> tmp = Tuple.Create<Dictionary<GenerationParam, object>, AnalyseOptions>(controller.genParams, selectedOptions);
-                    backgroundStartWorker.RunWorkerAsync(tmp);
+                Thread.CurrentThread.Priority = ThreadPriority.Highest;
+                Tuple<Dictionary<GenerationParam, object>, AnalyseOptions> tmp = Tuple.Create<Dictionary<GenerationParam, object>, AnalyseOptions>(controller.genParams, selectedOptions);
+                backgroundStartWorker.RunWorkerAsync(tmp);
+            }
+            else
+            {
+                if (controller.errorMessage != null)
+                {
+                    MessageBox.Show(controller.errorMessage);
                 }
                 else
                 {
                     MessageBox.Show("Generation parameters are too large.");
                 }
+            }
         }
 
         private void DisableAnalyseOptins()
@@ -461,7 +468,7 @@ namespace RandomGraphLauncher
             numericUpDown_Instances_Count.Enabled = true;
             startButton.Enabled = true;
         }
- 
+
         private void browseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
@@ -475,7 +482,7 @@ namespace RandomGraphLauncher
             {
                 foreach (Control childControl in groupBox_Gen_params.Controls)
                 {
-                    if(childControl.Tag == "filePath")
+                    if (childControl.Tag == "filePath")
                     {
                         childControl.Text = openFileDialog1.FileName;
                     }
@@ -488,15 +495,15 @@ namespace RandomGraphLauncher
 
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
             Tuple<Dictionary<GenerationParam, object>, AnalyseOptions> args = (Tuple<Dictionary<GenerationParam, object>, AnalyseOptions>)e.Argument;
-            object[] invokeParams = new object[] { args.Item1, args.Item2, controller.AnalizeOptionsValues};
+            object[] invokeParams = new object[] { args.Item1, args.Item2, controller.AnalizeOptionsValues };
             controller.StartGraphModel(invokeParams);
-       }
+        }
 
         private void SetParamsInfo(Dictionary<GenerationParam, object> genParams, AnalyseOptions selectedOptions)
         {
             Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), typeof(AnalyseOptions), typeof(int) };
             object[] invokeParams = new object[] { genParams, selectedOptions, 0 };
-           //AbstractGraphModel graphModel = (AbstractGraphModel)modelType.GetConstructor(constructTypes).Invoke(invokeParams);
+            //AbstractGraphModel graphModel = (AbstractGraphModel)modelType.GetConstructor(constructTypes).Invoke(invokeParams);
         }
 
         private void PauseWork(object sender, DoWorkEventArgs e)
@@ -570,9 +577,9 @@ namespace RandomGraphLauncher
         private void frozeGridButtons()
         {
             for (int i = 0; i < dataGridView1.RowCount; i++)
-			{
-                frozeGridRow(i);	 
-			}
+            {
+                frozeGridRow(i);
+            }
         }
 
         private void setColumnButtonText(DataGridViewButtonCell button, string text)
@@ -622,10 +629,10 @@ namespace RandomGraphLauncher
 
         public void closeCalculation()
         {
-           /* if (controller.manager.CurrentExecutionStatus == ExecutionStatus.Starting)
-            {
-                controller.Stop();
-            }*/
+            /* if (controller.manager.CurrentExecutionStatus == ExecutionStatus.Starting)
+             {
+                 controller.Stop();
+             }*/
         }
 
         private void motiveLow_SelectedIndexChanged(object sender, EventArgs e)
@@ -652,7 +659,7 @@ namespace RandomGraphLauncher
         {
             if (((CheckedListBox)sender).Text == "Motives")
             {
-               // if (((CheckedListBox)sender).)
+                // if (((CheckedListBox)sender).)
             }
         }
     }

@@ -132,7 +132,7 @@ namespace ResultStorage.Storage
                     }
                     writer.WriteEndElement();
 
-                     writer.WriteStartElement("vertexdistance");
+                    writer.WriteStartElement("vertexdistance");
                     foreach (int sub in result.DistanceBetweenVertices.Keys)
                     {
                         writer.WriteStartElement("vd");
@@ -163,15 +163,23 @@ namespace ResultStorage.Storage
                     writer.WriteEndElement();
 
                     writer.WriteStartElement("cycles");
-                    foreach (int sub in result.Cycles.Keys)
+                    foreach (int sub in result.CyclesCount.Keys)
                     {
                         writer.WriteStartElement("cl");
                         writer.WriteAttributeString("degree", sub.ToString());
-                        writer.WriteAttributeString("count", result.Cycles[sub].ToString());
+                        writer.WriteAttributeString("count", result.CyclesCount[sub].ToString());
                         writer.WriteEndElement();
                     }
                     writer.WriteEndElement();
-
+                    writer.WriteStartElement("cycles");
+                    foreach (int sub in result.CyclesCountForBA.Keys)
+                    {
+                        writer.WriteStartElement("cl");
+                        writer.WriteAttributeString("degree", sub.ToString());
+                        writer.WriteAttributeString("count", result.CyclesCountForBA[sub].ToString());
+                        writer.WriteEndElement();
+                    }
+                    writer.WriteEndElement();
                     writer.WriteStartElement("motives");
                     foreach (int sub in result.MotivesCount.Keys)
                     {
@@ -294,12 +302,6 @@ namespace ResultStorage.Storage
                     count = int.Parse(item.Attributes["count"].Value);
                     result.DistanceBetweenVertices.Add(distance, count);
                 }
-                foreach (XmlNode item in paramNode.SelectNodes("cycles/cl"))
-                {
-                    distance = int.Parse(item.Attributes["degree"].Value);
-                    count = int.Parse(item.Attributes["count"].Value);
-                    result.Cycles.Add(distance, count);
-                }
                 /////////////////////////////////////////////////////////////////////////////
                 foreach (XmlNode item in paramNode.SelectNodes("subgraphs/sub"))
                 {
@@ -393,12 +395,6 @@ namespace ResultStorage.Storage
                     coefficient = double.Parse(item.Attributes["distance"].Value);
                     count = int.Parse(item.Attributes["count"].Value);
                     result.DistancesBetweenEigenValues.Add(coefficient, count);
-                }
-                foreach (XmlNode item in paramNode.SelectNodes("cycles/cl"))
-                {
-                    distance = int.Parse(item.Attributes["degree"].Value);
-                    count = int.Parse(item.Attributes["count"].Value);
-                    result.Cycles.Add(distance, count);
                 }
                 foreach (XmlNode item in paramNode.SelectNodes("vertexdistance/vd"))
                 {

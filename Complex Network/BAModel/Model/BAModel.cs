@@ -37,7 +37,6 @@ namespace Model.BAModel
         private static readonly string MODEL_NAME = "BAModel";
         private BAGraph BAModelGraph;
         private BAGenerator BAModelGenerator;
-        private long BAAssambleCount;
         // private ArrayList mMatrix;
         // private Dictionary<int, List<int>> mNegList;
         bool cout = true;
@@ -62,8 +61,6 @@ namespace Model.BAModel
         {
             InvokeProgressEvent(GraphProgress.Initializing, 0);
             ModelName = MODEL_NAME;
-
-
             //Defines separate generation rule
             GenerationRule = GenerationRule.Sequential;
 
@@ -101,7 +98,6 @@ namespace Model.BAModel
                 BAModelGraph = new BAGraph((Int32)GenerationParamValues[GenerationParam.Vertices],
                   (Int16)GenerationParamValues[GenerationParam.MaxEdges]);
                 Graph = BAModelGraph;
-             //   BAAssambleCount = (Int32)GenerationParamValues[GenerationParam.Vertices] * 30 / 100;
                 InvokeProgressEvent(GraphProgress.Generating, 10);
                 BAModelGenerator = new BAGenerator(BAModelGraph);
                 BAModelGenerator.Generate((Int32)GenerationParamValues[GenerationParam.AddVertices]);
@@ -202,9 +198,11 @@ namespace Model.BAModel
                 {
                     int maxValue = Int32.Parse((String)AnalizeOptionsValues["cyclesHi"]);
                     int minvalue = Int32.Parse((String)AnalizeOptionsValues["cyclesLow"]);
+
                     InvokeProgressEvent(GraphProgress.Analizing, 70, "Cycles of " + minvalue + "-" + maxValue + "degree");
+                    Result.CyclesCountForBA = BAModelGraph.m_analyzer.getNCyclesCount(minvalue, maxValue);
                     //calculate cycles here
-                    Result.Cycles = BAModelGraph.m_analyzer.GetCycles(minvalue, maxValue);
+                    //Result.CyclesCount = 
                 }
 
 
@@ -214,7 +212,6 @@ namespace Model.BAModel
                     int minvalue = Int32.Parse((String)AnalizeOptionsValues["motiveLow"]);
                     InvokeProgressEvent(GraphProgress.Analizing, 80, "Motiv of " + minvalue + "-" + maxValue + "degree");
                     //calculate motives here
-                    BAModelGraph.m_analyzer.GetMotif();
                     Result.MotivesCount = new SortedDictionary<int, int>(); //for test
                     Result.MotivesCount.Add(5, 10);
                 }
@@ -240,7 +237,7 @@ namespace Model.BAModel
             int assamblecount = (Int32)GenerationParamValues[GenerationParam.AddVertices];
             if (vertex < edges || (vertex * 40 / 100) > assamblecount)
                 return false;
-           
+
             return true;
         }
         public override string GetParamsInfo()
@@ -248,7 +245,7 @@ namespace Model.BAModel
             int edges = (Int16)GenerationParamValues[GenerationParam.MaxEdges];
             int vertex = (Int32)GenerationParamValues[GenerationParam.Vertices];
             int assamblecount = (Int32)GenerationParamValues[GenerationParam.AddVertices];
-            if(edges > vertex)
+            if (edges > vertex)
                 return "Initial vertex count mast be greater then edges count";
             if ((vertex * 40 / 100) > assamblecount)
                 return "Add vertex count must be greater then 40 percent of initial vertex count";
