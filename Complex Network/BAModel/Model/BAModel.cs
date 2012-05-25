@@ -162,7 +162,16 @@ namespace Model.BAModel
                         InvokeProgressEvent(GraphProgress.Analizing, 45, "Diameter");
                     }
                 }
+                if ((AnalizeOptions & AnalyseOptions.Cycles) == AnalyseOptions.Cycles)
+                {
+                    int maxValue = Int32.Parse((String)AnalizeOptionsValues["cyclesHi"]);
+                    int minvalue = Int32.Parse((String)AnalizeOptionsValues["cyclesLow"]);
 
+                    InvokeProgressEvent(GraphProgress.Analizing, 70, "Cycles of " + minvalue + "-" + maxValue + "degree");
+                    Result.CyclesCountForBA = BAModelGraph.m_analyzer.getNCyclesCount(minvalue, maxValue);
+                    //calculate cycles here
+                    //Result.CyclesCount = 
+                }
                 if ((AnalizeOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
                 {
                     SortedDictionary<int, int> degree = BAModelGraph.m_analyzer.GetDegreeDistribution();
@@ -194,16 +203,7 @@ namespace Model.BAModel
                     Result.Result[AnalyseOptions.FullSubGraph] = BAModelGraph.m_analyzer.GetMaxFullSubgraph();
                 }
 
-                if ((AnalizeOptions & AnalyseOptions.Cycles) == AnalyseOptions.Cycles)
-                {
-                    int maxValue = Int32.Parse((String)AnalizeOptionsValues["cyclesHi"]);
-                    int minvalue = Int32.Parse((String)AnalizeOptionsValues["cyclesLow"]);
-
-                    InvokeProgressEvent(GraphProgress.Analizing, 70, "Cycles of " + minvalue + "-" + maxValue + "degree");
-                    Result.CyclesCountForBA = BAModelGraph.m_analyzer.getNCyclesCount(minvalue, maxValue);
-                    //calculate cycles here
-                    //Result.CyclesCount = 
-                }
+               
 
 
                 if ((AnalizeOptions & AnalyseOptions.Motifs) == AnalyseOptions.Motifs)
