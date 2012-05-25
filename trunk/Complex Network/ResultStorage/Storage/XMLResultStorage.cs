@@ -309,6 +309,13 @@ namespace ResultStorage.Storage
                     count = int.Parse(item.Attributes["count"].Value);
                     result.Subgraphs.Add(sub, count);
                 }
+                foreach (XmlNode item in paramNode.SelectNodes("cycles/cl"))
+                {
+                    sub = int.Parse(item.Attributes["degree"].Value);
+                    count = int.Parse(item.Attributes["count"].Value);
+                    result.Cycles.Add(sub, count);
+                }
+
                 XmlNodeList XmlBits = paramNode.SelectNodes("parisiarray/par");
                 BitArray bits = new BitArray(XmlBits.Count);
                 for (int i = 0; i < XmlBits.Count; i++)
