@@ -56,7 +56,7 @@ namespace Model.BAModel.Realization
         // Utilities //
         private int MinimumWay(int i, int j)
         {
-            log.Info("Start count MinimumWay");
+            
             if (i == j)
                 return 0;
 
@@ -65,7 +65,7 @@ namespace Model.BAModel.Realization
                 nodes[k] = new Node();
 
             BFS(i, nodes);
-            log.Info("End count MinimumWay");
+         
             return nodes[j].m_lenght;
         }
 
@@ -118,6 +118,7 @@ namespace Model.BAModel.Realization
 
         public void CountAnalyzeOptions()
         {
+            log.Info("Start count Diametr");
             m_pathDistribution = new SortedDictionary<int, int>();
             m_cyclesOfOrder4 = 0;
             double avg = 0;
@@ -173,6 +174,7 @@ namespace Model.BAModel.Realization
         }
         public override int GetDiameter()
         {
+            log.Info("End count Diametr");
             return m_diametr;
         }
         public override SortedDictionary<int, int> GetMinPathDist()
@@ -353,87 +355,88 @@ namespace Model.BAModel.Realization
         {
             return new ArrayList();
         }
-        /*
-        private Matrix GetMatrixForEngineValues()
-        {
-            bool[,] matrix = m_container.GetMatrix();
-            Vector vectorRow;
-            IList<Vector> ListOfVector = new List<Vector>();
-            Matrix AdjMatrix;
-            double[] vectorEl = new double[m_container.Size];
-            for (int i = 0; i < m_container.Size; i++)
-            {
-                for (int j = 0; j < m_container.Size; j++)
-                    vectorEl[j] = Convert.ToDouble(matrix[i, j]);
-                vectorRow = new Vector(vectorEl);
-                ListOfVector.Add(vectorRow);
-            }
+    }
+}
+        //private Matrix GetMatrixForEngineValues()
+        //{
+        //    bool[,] matrix = m_container.GetMatrix();
+        //    Vector vectorRow;
+        //    IList<Vector> ListOfVector = new List<Vector>();
+        //    Matrix AdjMatrix;
+        //    double[] vectorEl = new double[m_container.Size];
+        //    for (int i = 0; i < m_container.Size; i++)
+        //    {
+        //        for (int j = 0; j < m_container.Size; j++)
+        //            vectorEl[j] = Convert.ToDouble(matrix[i, j]);
+        //        vectorRow = new Vector(vectorEl);
+        //        ListOfVector.Add(vectorRow);
+        //    }
 
-            AdjMatrix = Matrix.CreateFromRows(ListOfVector);
-            return AdjMatrix;
-        }
+        //    AdjMatrix = Matrix.CreateFromRows(ListOfVector);
+        //    return AdjMatrix;
+        //}
 
-        private int isInArray(double[] array, double element)
-        {
-            for (int i = 0; i < array.Length; ++i)
-            {
-                if (array[i] == element)
-                    return i;
-            }
-            return -1;
-        }
-        private void CalculateEngineValues()
-        {
-            Matrix AdjMatrix = GetMatrixForEngineValues();
-            EigenvalueDecomposition values = new EigenvalueDecomposition(AdjMatrix);
-            ComplexVector EigVal = values.EigenValues;
+        //private int isInArray(double[] array, double element)
+        //{
+        //    for (int i = 0; i < array.Length; ++i)
+        //    {
+        //        if (array[i] == element)
+        //            return i;
+        //    }
+        //    return -1;
+        //}
+        //public void CalculateEngineValues()
+        //{
+        //    Matrix AdjMatrix = GetMatrixForEngineValues();
+        //    EigenvalueDecomposition values = new EigenvalueDecomposition(AdjMatrix);
+        //    ComplexVector EigVal = values.EigenValues;
 
-            double[] ArrayOfEigVal = new double[EigVal.Length];
+        //    double[] ArrayOfEigVal = new double[EigVal.Length];
 
-            for (int i = 0; i < ArrayOfEigVal.Length; ++i)
-            {
-                ArrayOfEigVal[i] = EigVal[i].Real;
-            }
+        //    for (int i = 0; i < ArrayOfEigVal.Length; ++i)
+        //    {
+        //        ArrayOfEigVal[i] = EigVal[i].Real;
+        //    }
 
-            Array.Sort(ArrayOfEigVal);
-            m_result.ArrayOfEigVal = new ArrayList();
-            for (int i = 0; i < ArrayOfEigVal.Length; i++)
-                m_result.ArrayOfEigVal.Add ((Object)ArrayOfEigVal[i]);
-            /*
-            double[] dist = new double[ArrayOfEigVal.Length - 1];
+        //    Array.Sort(ArrayOfEigVal);
+            //m_result.ArrayOfEigVal = new ArrayList();
+            //for (int i = 0; i < ArrayOfEigVal.Length; i++)
+            //    m_result.ArrayOfEigVal.Add ((Object)ArrayOfEigVal[i]);
+       
+            //double[] dist = new double[ArrayOfEigVal.Length - 1];
 
-            for (int i = 0; i < dist.Length; ++i)
-            {
-                dist[i] = ArrayOfEigVal[i + 1] - ArrayOfEigVal[i];
-                dist[i] = Math.Round(dist[i], 4);
-            }
+            //for (int i = 0; i < dist.Length; ++i)
+            //{
+            //    dist[i] = ArrayOfEigVal[i + 1] - ArrayOfEigVal[i];
+            //    dist[i] = Math.Round(dist[i], 4);
+            //}
 
-            double[] array1 = new double[dist.Length];
-            int[] count = new int[dist.Length];
+            //double[] array1 = new double[dist.Length];
+            //int[] count = new int[dist.Length];
 
-            for (int i = 0, j = 0; i < dist.Length; ++i, ++j)
-            {
-                if (isInArray(array1, dist[i]) == -1)
-                {
-                    array1[j] = dist[i];
-                    count[j]++;
-                }
-                else
-                {
-                    count[isInArray(array1, dist[i])]++;
-                    j--;
-                }
-            }
+            //for (int i = 0, j = 0; i < dist.Length; ++i, ++j)
+            //{
+            //    if (isInArray(array1, dist[i]) == -1)
+            //    {
+            //        array1[j] = dist[i];
+            //        count[j]++;
+            //    }
+            //    else
+            //    {
+            //        count[isInArray(array1, dist[i])]++;
+            //        j--;
+            //    }
+            //}
 
            
 
-        }
-         **/
+//        }
+         
 
 
 
-    }
-}
+//    }
+//}
 
 /*using System;
 using System.Collections.Generic;

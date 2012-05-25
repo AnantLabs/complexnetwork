@@ -26,30 +26,45 @@ namespace Algorithms
 
         public  Vector CalcEigenValues(Matrix AdjMatrix)
         {
-            EigenvalueDecomposition v = null;
-            v = new EigenvalueDecomposition(AdjMatrix);
-            return v.RealEigenvalues;
+        
+                var v = new EigenvalueDecomposition(AdjMatrix);
+                return v.RealEigenvalues;
+           
+           
         }
 
         public  Matrix GetDMatrix(bool[,] m)
         {
             int size = m.GetLength(1);
-            double[,] dm = new double[size, size];
-            for (int j = 0; j < size; j++)
+            Vector vectorRow;
+            IList<Vector> ListOfVector = new List<Vector>();
+            double[] vectorEl = new double[size];
+            for (int i = 0; i < size; i++)
             {
-                for (int i = 0; i < size; i++)
-                {
-                    if (i == j)
-                    {
-                        dm[j, i] = 0;
-                    }
-                    else
-                    {
-                        dm[j, i] = Convert.ToDouble(m[j, i]);
-                    }
-                }
+                for (int j = 0; j < size; j++)
+                    vectorEl[j] = Convert.ToDouble(m[i, j]);
+                vectorRow = new Vector(vectorEl);
+                ListOfVector.Add(vectorRow);
             }
-            return Matrix.Create(dm);
+
+            return Matrix.CreateFromRows(ListOfVector);
+            
+            //double[,] dm = new double[size, size];
+            //for (int j = 0; j < size; j++)
+            //{
+            //    for (int i = 0; i < size; i++)
+            //    {
+            //        if (i == j)
+            //        {
+            //            dm[j, i] = 0;
+            //        }
+            //        else
+            //        {
+            //            dm[j, i] = Convert.ToDouble(m[j, i]);
+            //        }
+            //    }
+            //}
+            //return Matrix.Create(dm);
         }
 
         public ArrayList EV(bool[,] ar)
