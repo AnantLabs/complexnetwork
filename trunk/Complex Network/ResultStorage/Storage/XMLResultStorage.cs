@@ -163,15 +163,7 @@ namespace ResultStorage.Storage
                     writer.WriteEndElement();
 
                     writer.WriteStartElement("cycles");
-                    foreach (int sub in result.CyclesCount.Keys)
-                    {
-                        writer.WriteStartElement("cl");
-                        writer.WriteAttributeString("degree", sub.ToString());
-                        writer.WriteAttributeString("count", result.CyclesCount[sub].ToString());
-                        writer.WriteEndElement();
-                    }
-                    writer.WriteEndElement();
-                    writer.WriteStartElement("cycles");
+
                     foreach (int sub in result.CyclesCountForBA.Keys)
                     {
                         writer.WriteStartElement("cl");
@@ -179,7 +171,16 @@ namespace ResultStorage.Storage
                         writer.WriteAttributeString("count", result.CyclesCountForBA[sub].ToString());
                         writer.WriteEndElement();
                     }
+                    foreach (int sub in result.CyclesCount.Keys)
+                    {
+                        writer.WriteStartElement("cl");
+                        writer.WriteAttributeString("degree", sub.ToString());
+                        writer.WriteAttributeString("count", result.CyclesCount[sub].ToString());
+                        writer.WriteEndElement();
+                    }
+                   
                     writer.WriteEndElement();
+
                     writer.WriteStartElement("motives");
                     foreach (int sub in result.MotivesCount.Keys)
                     {
