@@ -81,7 +81,10 @@ namespace Algorithms
            ArrayList a = new ArrayList();
            for (int i = 0; i < mArrayOfEigVal.Length; ++i)
            {
-               a.Add(mArrayOfEigVal[i]);
+               if (mArrayOfEigVal[i] != 0)
+               {
+                   a.Add(mArrayOfEigVal[i]);
+               }
            }
            return a;
         }
