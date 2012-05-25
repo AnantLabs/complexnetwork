@@ -20,7 +20,7 @@ namespace ModelCheck
         private List<int> d;
         private int p;
         private int t;
-        private string path;
+        private string path = "";
 
         public HierarchicChecker(List<int> degrees)
         {
