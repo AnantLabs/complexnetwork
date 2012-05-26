@@ -168,7 +168,8 @@ namespace Model.BAModel
                     int minvalue = Int32.Parse((String)AnalizeOptionsValues["cyclesLow"]);
 
                     InvokeProgressEvent(GraphProgress.Analizing, 70, "Cycles of " + minvalue + "-" + maxValue + "degree");
-                    Result.CyclesCountForBA = BAModelGraph.m_analyzer.getNCyclesCount(minvalue, maxValue);
+                    // CORRECT ME!! //
+                    //Result.Cycles = BAModelGraph.m_analyzer.getNCyclesCount(minvalue, maxValue);
                     //calculate cycles here
                     //Result.CyclesCount = 
                 }
