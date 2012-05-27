@@ -169,7 +169,7 @@ namespace Model.BAModel
 
                     InvokeProgressEvent(GraphProgress.Analizing, 70, "Cycles of " + minvalue + "-" + maxValue + "degree");
                     // CORRECT ME!! //
-                    //Result.Cycles = BAModelGraph.m_analyzer.getNCyclesCount(minvalue, maxValue);
+                    Result.Cycles = BAModelGraph.m_analyzer.getNCyclesCount(minvalue, maxValue);
                     //calculate cycles here
                     //Result.CyclesCount = 
                 }

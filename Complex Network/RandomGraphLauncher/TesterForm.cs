@@ -81,6 +81,11 @@ namespace RandomGraphLauncher
             }
         }
 
+        private bool compare(SortedDictionary<int, long> a, SortedDictionary<int, long> b)
+        {
+            return a.SequenceEqual(b);
+        }
+
         private void WSModelTest(WSGraph graph)
         {
             IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);

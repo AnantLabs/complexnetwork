@@ -128,9 +128,9 @@ namespace Model.HierarchicModel.Realization
             return result;
         }
 
-        public override SortedDictionary<int, int> GetCycles(int lowBound, int hightBound)
+        public override SortedDictionary<int, long> GetCycles(int lowBound, int hightBound)
         {
-            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
+            SortedDictionary<int, long> result = new SortedDictionary<int, long>();
             for (int l = lowBound; l <= hightBound; ++l)
             {
                 result.Add(l, (int)engForCycles.GetCycleCount(this.mTree, l));
