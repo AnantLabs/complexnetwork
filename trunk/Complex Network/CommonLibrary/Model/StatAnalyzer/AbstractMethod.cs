@@ -508,6 +508,7 @@ namespace RandomGraph.Common.Model.StatAnalyzer
         {
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
             SortedDictionary<int, int> tempDictionary = new SortedDictionary<int, int>();
+            SortedDictionary<int, long> tempDictionaryCycles = new SortedDictionary<int, long>();
 
             switch (option)
             {
@@ -527,8 +528,8 @@ namespace RandomGraph.Common.Model.StatAnalyzer
                         break;
                     }
                 case AnalyseOptions.Cycles:
-                    {
-                        tempDictionary = result.Results[i - initialInstance].Cycles;
+                    {   //TODO: fix this case
+                        //tempDictionaryCycles = result.Results[i - initialInstance].Cycles;
                         break;
                     }
                 default:

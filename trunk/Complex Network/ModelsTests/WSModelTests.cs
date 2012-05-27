@@ -32,6 +32,11 @@ namespace ModelsTests
             return a.SequenceEqual(b);
         }
 
+        private bool compare(SortedDictionary<int, long> a, SortedDictionary<int, long> b)
+        {
+            return a.SequenceEqual(b);
+        }
+
         private bool compare(ArrayList a, ArrayList b)
         {
             if (a.Count != b.Count)
@@ -111,8 +116,8 @@ namespace ModelsTests
             WSGraph graph = new WSGraph(matrix);
             IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
 
-            SortedDictionary<int, int> actualValue = analyzer.GetCycles(4, 6);
-            SortedDictionary<int, int> expectedValue = goldResult.Results[0].Cycles;
+            SortedDictionary<int, long> actualValue = analyzer.GetCycles(4, 6);
+            SortedDictionary<int, long> expectedValue = goldResult.Results[0].Cycles;
             Assert.IsTrue(compare(actualValue, expectedValue));
         }
 

@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BAModelTests.cs" />
+    <Compile Include="HierarchicalModelTest.cs" />
     <Compile Include="ERModelTests.cs" />
     <Compile Include="WSModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

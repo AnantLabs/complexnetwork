@@ -109,17 +109,17 @@ namespace CommonLibrary.Model
         }
 
         //Calculate distribution of cycles of graph.
-        public virtual SortedDictionary<int, int> GetCycles(int lowBound, int hightBound)
+        public virtual SortedDictionary<int, long> GetCycles(int lowBound, int hightBound)
         {
             log.Error("This model did not support GetCycles algorithm");
-            return new SortedDictionary<int, int>();
+            return new SortedDictionary<int, long>();
         }
 
         //Calculate distribution of motives subgraph of graph.
-        public virtual SortedDictionary<int, int> GetMotivs(int lowBound, int hightBound)
+        public virtual SortedDictionary<int, double> GetMotivs(int lowBound, int hightBound)
         {
             log.Error("This model did not support GetMotivs algorithm");
-            return new SortedDictionary<int, int>();
+            return new SortedDictionary<int, double>();
         }
     }
 }

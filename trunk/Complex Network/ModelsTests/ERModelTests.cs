@@ -24,6 +24,11 @@ namespace ModelsTests
             return a.SequenceEqual(b);
         }
 
+        private bool compare(SortedDictionary<int, long> a, SortedDictionary<int, long> b)
+        {
+            return a.SequenceEqual(b);
+        }
+
         private bool compare(SortedDictionary<double, int> a, SortedDictionary<double, int> b)
         {
             return a.SequenceEqual(b);
@@ -108,8 +113,8 @@ namespace ModelsTests
             ERGraph graph = new ERGraph(matrix);
             IGraphAnalyzer analyzer = new ERAnalyzer(graph.Container);
 
-            SortedDictionary<int, int> actualValue = analyzer.GetCycles(4, 6);
-            SortedDictionary<int, int> expectedValue = goldResult.Results[0].Cycles;
+            SortedDictionary<int, long> actualValue = analyzer.GetCycles(4, 6);
+            SortedDictionary<int, long> expectedValue = goldResult.Results[0].Cycles;
             Assert.IsTrue(compare(actualValue, expectedValue));
         }
 

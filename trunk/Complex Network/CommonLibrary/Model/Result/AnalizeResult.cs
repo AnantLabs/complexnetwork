@@ -22,7 +22,7 @@ namespace RandomGraph.Common.Model.Result
             FullSubgraphs = new SortedDictionary<int, int>();
             EigenVector = new ArrayList();
             DistancesBetweenEigenValues = new SortedDictionary<double, int>();
-            Cycles = new SortedDictionary<int, int>();
+            Cycles = new SortedDictionary<int, long>();
             //CyclesCount = new SortedDictionary<int, int>();
             MotivesCount = new SortedDictionary<int, int>();
             //CyclesCountForBA = new SortedDictionary<int, long>();
@@ -50,7 +50,7 @@ namespace RandomGraph.Common.Model.Result
 
         public SortedDictionary<int, int> MotivesCount { get; set; }
 
-        public SortedDictionary<int, int> Cycles { get; set; }
+        public SortedDictionary<int, long> Cycles { get; set; }
 
         public ArrayList EigenVector { get; set; }
 
