@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using log4net;
+using NumberGeneration;
 
 namespace Model.ERModel.Realization
 {
@@ -12,7 +13,7 @@ namespace Model.ERModel.Realization
         /// </summary>
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(ERContainer));
 
-        protected static Random r = new Random();
+        private RNGCrypto r = new RNGCrypto();
         private int m_size;                                            // number of vertices
         private SortedDictionary<int, List<int>> m_neighbourship;      // list of neighbours     
 
