@@ -26,45 +26,30 @@ namespace Algorithms
 
         public  Vector CalcEigenValues(Matrix AdjMatrix)
         {
-        
-                var v = new EigenvalueDecomposition(AdjMatrix);
-                return v.RealEigenvalues;
-           
-           
+            EigenvalueDecomposition v = null;
+            v = new EigenvalueDecomposition(AdjMatrix);
+            return v.RealEigenvalues;
         }
 
         public  Matrix GetDMatrix(bool[,] m)
         {
             int size = m.GetLength(1);
-            Vector vectorRow;
-            IList<Vector> ListOfVector = new List<Vector>();
-            double[] vectorEl = new double[size];
-            for (int i = 0; i < size; i++)
+            double[,] dm = new double[size, size];
+            for (int j = 0; j < size; j++)
             {
-                for (int j = 0; j < size; j++)
-                    vectorEl[j] = Convert.ToDouble(m[i, j]);
-                vectorRow = new Vector(vectorEl);
-                ListOfVector.Add(vectorRow);
+                for (int i = 0; i < size; i++)
+                {
+                    if (i == j)
+                    {
+                        dm[j, i] = 0;
+                    }
+                    else
+                    {
+                        dm[j, i] = Convert.ToDouble(m[j, i]);
+                    }
+                }
             }
-
-            return Matrix.CreateFromRows(ListOfVector);
-            
-            //double[,] dm = new double[size, size];
-            //for (int j = 0; j < size; j++)
-            //{
-            //    for (int i = 0; i < size; i++)
-            //    {
-            //        if (i == j)
-            //        {
-            //            dm[j, i] = 0;
-            //        }
-            //        else
-            //        {
-            //            dm[j, i] = Convert.ToDouble(m[j, i]);
-            //        }
-            //    }
-            //}
-            //return Matrix.Create(dm);
+            return Matrix.Create(dm);
         }
 
         public ArrayList EV(bool[,] ar)
@@ -81,10 +66,7 @@ namespace Algorithms
            ArrayList a = new ArrayList();
            for (int i = 0; i < mArrayOfEigVal.Length; ++i)
            {
-               if (mArrayOfEigVal[i] != 0)
-               {
-                   a.Add(mArrayOfEigVal[i]);
-               }
+               a.Add(mArrayOfEigVal[i]);
            }
            return a;
         }
