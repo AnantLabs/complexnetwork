@@ -22,6 +22,11 @@ namespace ModelsTests
             return a.SequenceEqual(b);
         }
 
+        private bool compare(SortedDictionary<int, float> a, SortedDictionary<int, float> b)
+        {
+            return a.SequenceEqual(b);
+        }
+
         private bool compare(SortedDictionary<int, long> a, SortedDictionary<int, long> b)
         {
             return a.SequenceEqual(b);
@@ -213,8 +218,8 @@ namespace ModelsTests
             BAGraph graph = new BAGraph(matrix);
             IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
 
-            SortedDictionary<int, int> actualValue = analyzer.GetMotif();
-            SortedDictionary<int, int> expectedValue = goldResult.Results[0].MotivesCount;
+            SortedDictionary<int, float> actualValue = analyzer.GetMotif(2, 4);
+            SortedDictionary<int, float> expectedValue = goldResult.Results[0].MotivesCount;
             Assert.IsTrue(compare(actualValue, expectedValue));
         }
 
