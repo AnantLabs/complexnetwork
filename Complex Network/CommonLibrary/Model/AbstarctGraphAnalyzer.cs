@@ -81,10 +81,10 @@ namespace CommonLibrary.Model
         }
 
         //Calculate motive of graph.
-        public virtual SortedDictionary<int, int> GetMotif()
+        public virtual SortedDictionary<int, float> GetMotif(int minMotiv, int maxMotiv)
         {
             log.Error("This model did not support GetMotif algorithm");
-            return new SortedDictionary<int, int>();
+            return new SortedDictionary<int, float>();
         }
 
         //Calculate distribution of minimum paths of graph.

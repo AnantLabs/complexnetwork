@@ -174,7 +174,7 @@ namespace Model.StaticModel
                     {
                         StaticModelGraph.Analyze(AnalizeOptions & AnalyseOptions.Cycles4);
                         InvokeProgressEvent(GraphProgress.Analizing, 75, "Diameter");
-                        Result.Result[AnalyseOptions.Cycles4] = StaticModelGraph.Result.m_cyclesOfOrder4;
+                        Result.Result[AnalyseOptions.Cycles4] = StaticModelGraph.Result.m_cyclesOfOrder4/4;
 
                     }
                 }

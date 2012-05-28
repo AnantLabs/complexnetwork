@@ -31,21 +31,20 @@ namespace Model.BAModel.Realization
         private BAContainer m_container;
         private CyclesCounter cyclesCounter;
         private double m_avgPath;
-        private bool[] Circleorder4;
+        private bool Circleorder4;
         private List<double> m_edgesBetweenNeighbours;
         private int m_diametr;
         private SortedDictionary<int, int> m_pathDistribution;
         private double m_clusteringCoefficient;
         private int m_cyclesOfOrder4;
+        private int startCountAnalyzeOptions; 
         public BAAnalyzer(BAContainer c)
         {
             m_container = c;
-            Circleorder4 = new bool[m_container.Size];
+            
             m_edgesBetweenNeighbours = new List<double>();
             for (int i = 0; i < m_container.Size; ++i)
                 m_edgesBetweenNeighbours.Add(-1);
-            for (int i = 0; i < m_container.Size; ++i)
-                Circleorder4[i] = false;
             cyclesCounter = new CyclesCounter(m_container);
 
 
@@ -103,11 +102,12 @@ namespace Model.BAModel.Realization
                             ++m_edgesBetweenNeighbours[i];
                         }
                         else
-                            if (Circleorder4[i] == false)
+                            if (Circleorder4)
                             {
                                 if (nodes[u].m_lenght == 2 && nodes[l[j]].m_lenght == 1 && nodes[u].m_ancestor != l[j])
                                     m_cyclesOfOrder4++;
                             }
+                            
                     }
 
 
@@ -119,6 +119,7 @@ namespace Model.BAModel.Realization
         public void CountAnalyzeOptions()
         {
             log.Info("Start count Diametr");
+            startCountAnalyzeOptions = 1;
             m_pathDistribution = new SortedDictionary<int, int>();
             m_cyclesOfOrder4 = 0;
             double avg = 0;
@@ -126,16 +127,11 @@ namespace Model.BAModel.Realization
 
             for (int i = 0; i < m_container.Size; ++i)
             {
-                if (i == 139)
-                {
-                    diametr = 1;
-                }
+                Circleorder4 = true;
                 for (int j = i + 1; j < m_container.Size; ++j)
                 {
-                    if (j == i + 2)
-                        Circleorder4[i] = true;
                     int way = MinimumWay(i, j);
-
+                    Circleorder4 = false;
                     if (way == -1)
                         continue;
                     if (m_pathDistribution.ContainsKey(way))
@@ -153,7 +149,7 @@ namespace Model.BAModel.Realization
             Node[] nodes = new Node[m_container.Size];
             for (int t = 0; t < m_container.Size; ++t)
                 nodes[t] = new Node();
-            Circleorder4[m_container.Size - 1] = true;
+            Circleorder4 = true;
 
             BFS(m_container.Size - 1, nodes);
             avg /= k;
@@ -163,27 +159,70 @@ namespace Model.BAModel.Realization
 
             if (m_cyclesOfOrder4 >= 4)
                 m_cyclesOfOrder4 /= 4;
-            //    CountClusteringCoefficient();
-            //  CountCyclesOfOrder3();
 
 
         }
+
+        private int CalculatCycles4(int i, Node[] nodes)
+        {
+            int cyclesOfOrderi4 = 0;
+            nodes[i].m_lenght = 0;
+            nodes[i].m_ancestor = 0;
+            bool b = true;
+            Queue<int> q = new Queue<int>();
+            q.Enqueue(i);
+            int u;
+
+
+            while (q.Count != 0)
+            {
+                u = q.Dequeue();
+                List<int> l = m_container.Neighbourship[u];
+                for (int j = 0; j < l.Count; ++j)
+                    if (nodes[l[j]].m_lenght == -1)
+                    {
+                        nodes[l[j]].m_lenght = nodes[u].m_lenght + 1;
+                        nodes[l[j]].m_ancestor = u;
+                        q.Enqueue(l[j]);
+                    }
+                    else
+                    {
+                        
+                        if (nodes[u].m_lenght == 2 && nodes[l[j]].m_lenght == 1 && nodes[u].m_ancestor != l[j])
+                            cyclesOfOrderi4++;
+                            
+
+                    }
+
+
+            }
+            return cyclesOfOrderi4;
+    
+        }
         public override double GetAveragePath()
         {
-            return m_avgPath;
+            if (startCountAnalyzeOptions != 1)
+                CountAnalyzeOptions();
+               return Math.Round(m_avgPath,14);
         }
         public override int GetDiameter()
         {
             log.Info("End count Diametr");
+            if (startCountAnalyzeOptions != 1)
+                CountAnalyzeOptions();
             return m_diametr;
         }
         public override SortedDictionary<int, int> GetMinPathDist()
         {
+            if (startCountAnalyzeOptions != 1)
+                CountAnalyzeOptions();
             return m_pathDistribution;
 
         }
         public override SortedDictionary<double, int> GetClusteringCoefficient()
         {
+            if (startCountAnalyzeOptions != 1)
+                CountAnalyzeOptions();
             log.Info("Start calculate ClusteringCoefficient ");
             int iEdgeCountForFullness = 0, iNeighbourCount = 0;
             double iclusteringCoefficient = 0;
@@ -197,7 +236,7 @@ namespace Model.BAModel.Realization
                 {
                     iEdgeCountForFullness = (iNeighbourCount == 1) ? 1 : iNeighbourCount * (iNeighbourCount - 1) / 2;
                     iclusteringCoefficient = (m_edgesBetweenNeighbours[i]) / iEdgeCountForFullness;
-                    iclusteringCoefficientList[i] = iclusteringCoefficient;
+                    iclusteringCoefficientList[i] = Math.Round(iclusteringCoefficient,14);
                     m_clusteringCoefficient += iclusteringCoefficient;
                 }
                 else
@@ -241,6 +280,8 @@ namespace Model.BAModel.Realization
 
         public override int GetCycles3()
         {
+            if (startCountAnalyzeOptions != 1)
+                CountAnalyzeOptions();
             double m_cyclesOfOrder3 = 0;
             for (int i = 0; i < m_container.Size; ++i)
                 if (m_edgesBetweenNeighbours[i] != -1)
@@ -325,7 +366,14 @@ namespace Model.BAModel.Realization
         //Calculate count of cycles in 4 lenght of graph.
         public override int GetCycles4()
         {
-            return 0;
+            int count = 0;
+            //Node[] nodes = new Node[m_container.Size];
+            //for (int k = 0; k < m_container.Size; ++k)
+            //    nodes[k] = new Node();
+            //for(int i = 0 ;i<m_container.Size;i++)
+            //    count+=CalculatCycles4(i, nodes);
+            //int nmn =count;
+            return count/4;
         }
 
         //Calculate count of cycles in 4 lenght based in eigen valu of graph.
@@ -334,11 +382,11 @@ namespace Model.BAModel.Realization
             return 0;
         }
         //Calculate motive of graph.
-        public override SortedDictionary<int, int> GetMotif()
+        public override SortedDictionary<int, float> GetMotif(int minMotiv,int maxMotiv)
         {
             Graph graph = Graph.reformatToOurGraghFromBAContainer(m_container);
-            MotifFinder.SearchMotifs(graph, 4);
-            return new SortedDictionary<int, int>();
+            MotifFinder.SearchMotifs(graph, minMotiv);
+            return MotifFinder.dictionaryIdsValues();
         }
         //Calculate distribution of eigen value of graph.
         public override SortedDictionary<double, int> GetDistEigenPath()

@@ -41,7 +41,7 @@ namespace CommonLibrary.Model
         int GetCycleEigen4();
 
         //Calculate motive of graph.
-        SortedDictionary<int, int> GetMotif();
+        SortedDictionary<int, float> GetMotif(int minMotiv, int maxMotiv);
 
         //Calculate distribution of minimum paths of graph.
         SortedDictionary<int, int> GetMinPathDist();

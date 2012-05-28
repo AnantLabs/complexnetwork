@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
- namespace Motifs
+    namespace Motifs
 {
         /// <summary>
         /// helper class for isomorfis,
@@ -390,7 +390,7 @@ using System.Text;
             int[,] BFrequencyMatrix = GetFrequencyMatrix(BSignMatrix);
             if (AFrequencyMatrix.Length != BFrequencyMatrix.Length)
                 return false;
-
+            bool breakFor = false;
             for (int i = 0; i < AFrequencyMatrix.GetLength(0); i++)
             {
                 for (int j = 0; j < AFrequencyMatrix.GetLength(1); j++)
@@ -398,7 +398,7 @@ using System.Text;
                     if (AFrequencyMatrix[i,j] != BFrequencyMatrix[i,j])
                     {
                         mismatchCount++;
-
+                        breakFor = false;
                         for (int i1 = i; i1 < AFrequencyMatrix.GetLength(0); i1++)
                         {
                             for (int j1 = j + 1; j1 < AFrequencyMatrix.GetLength(1); j1++)
@@ -407,7 +407,13 @@ using System.Text;
                                     SwitchRowsInFrequencyMatrix(ref BFrequencyMatrix, i, i1);
                                     SwitchColumnsInFrequencyMatrix(ref BFrequencyMatrix, j1, j);
                                     mismatchCount--;
+                                    breakFor = true;
+                                    break;
                                 }
+                            if (breakFor)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
