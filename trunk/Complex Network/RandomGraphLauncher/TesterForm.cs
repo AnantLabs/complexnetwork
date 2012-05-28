@@ -68,7 +68,7 @@ namespace RandomGraphLauncher
             openFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                  inputMatrixPath.Text = openFileDialog1.FileName;
+                inputMatrixPath.Text = openFileDialog1.FileName;
             }
         }
 
@@ -107,7 +107,7 @@ namespace RandomGraphLauncher
 
             // test diameter
             testDiameter(5, analyzer);
-           
+
             // test cycle of order 4
             testCycles4(6, analyzer);
 
@@ -178,7 +178,7 @@ namespace RandomGraphLauncher
             testCycles4(6, analyzer);
 
             // test motive
-           // testMotiv(7, analyzer);
+            // testMotiv(7, analyzer);
 
             // test distance between vertexes
             testDistanceBetweenVertices(7, analyzer);
@@ -189,7 +189,7 @@ namespace RandomGraphLauncher
             // test order of max full subgraph
             testFullSubgraphs(9, analyzer);
 
-           // testCycles(11, analyzer);
+            // testCycles(11, analyzer);
         }
 
         private bool checkIfNeedToTest(int number)
@@ -221,14 +221,14 @@ namespace RandomGraphLauncher
                 else
                 {
                     label = (Label)labels[number];
-                    label.Text = "Feild";
+                    label.Text = "failed";
                     label.ForeColor = Color.Red;
                 }
             }
             catch (Exception)
             {
                 label = (Label)labels[number];
-                label.Text = "Feild";
+                label.Text = "failed";
                 label.ForeColor = Color.Red;
             }
         }
@@ -256,14 +256,14 @@ namespace RandomGraphLauncher
                 else
                 {
                     label = (Label)labels[number];
-                    label.Text = "Feild";
+                    label.Text = "failed";
                     label.ForeColor = Color.Red;
                 }
             }
             catch (Exception e)
             {
                 label = (Label)labels[number];
-                label.Text = "Feild";
+                label.Text = "failed";
                 label.ForeColor = Color.Red;
             }
         }
@@ -286,14 +286,14 @@ namespace RandomGraphLauncher
                 else
                 {
                     label = (Label)labels[number];
-                    label.Text = "Feild";
+                    label.Text = "failed";
                     label.ForeColor = Color.Red;
                 }
             }
             catch (Exception)
             {
                 label = (Label)labels[number];
-                label.Text = "Feild";
+                label.Text = "failed";
                 label.ForeColor = Color.Red;
             }
         }
@@ -316,14 +316,14 @@ namespace RandomGraphLauncher
                 else
                 {
                     label = (Label)labels[number];
-                    label.Text = "Feild";
+                    label.Text = "failed";
                     label.ForeColor = Color.Red;
                 }
             }
             catch (Exception)
             {
                 label = (Label)labels[number];
-                label.Text = "Feild";
+                label.Text = "failed";
                 label.ForeColor = Color.Red;
             }
         }
@@ -346,14 +346,14 @@ namespace RandomGraphLauncher
                 else
                 {
                     label = (Label)labels[number];
-                    label.Text = "Feild";
+                    label.Text = "failed";
                     label.ForeColor = Color.Red;
                 }
             }
             catch (Exception)
             {
                 label = (Label)labels[number];
-                label.Text = "Feild";
+                label.Text = "failed";
                 label.ForeColor = Color.Red;
             }
         }
@@ -376,14 +376,14 @@ namespace RandomGraphLauncher
                 else
                 {
                     label = (Label)labels[number];
-                    label.Text = "Feild";
+                    label.Text = "failed";
                     label.ForeColor = Color.Red;
                 }
             }
             catch (Exception)
             {
                 label = (Label)labels[number];
-                label.Text = "Feild";
+                label.Text = "failed";
                 label.ForeColor = Color.Red;
             }
         }
@@ -406,14 +406,14 @@ namespace RandomGraphLauncher
                 else
                 {
                     label = (Label)labels[number];
-                    label.Text = "Feild";
+                    label.Text = "failed";
                     label.ForeColor = Color.Red;
                 }
             }
             catch (Exception)
             {
                 label = (Label)labels[number];
-                label.Text = "Feild";
+                label.Text = "failed";
                 label.ForeColor = Color.Red;
             }
         }
@@ -436,14 +436,14 @@ namespace RandomGraphLauncher
                 else
                 {
                     label = (Label)labels[number];
-                    label.Text = "Feild";
+                    label.Text = "failed";
                     label.ForeColor = Color.Red;
                 }
             }
             catch (Exception)
             {
                 label = (Label)labels[number];
-                label.Text = "Feild";
+                label.Text = "failed";
                 label.ForeColor = Color.Red;
             }
         }
@@ -466,14 +466,14 @@ namespace RandomGraphLauncher
                 else
                 {
                     label = (Label)labels[number];
-                    label.Text = "Feild";
+                    label.Text = "failed";
                     label.ForeColor = Color.Red;
                 }
             }
             catch (Exception)
             {
                 label = (Label)labels[number];
-                label.Text = "Feild";
+                label.Text = "failed";
                 label.ForeColor = Color.Red;
             }
         }
@@ -496,14 +496,14 @@ namespace RandomGraphLauncher
                 else
                 {
                     label = (Label)labels[number];
-                    label.Text = "Feild";
+                    label.Text = "failed";
                     label.ForeColor = Color.Red;
                 }
             }
             catch (Exception)
             {
                 label = (Label)labels[number];
-                label.Text = "Feild";
+                label.Text = "failed";
                 label.ForeColor = Color.Red;
             }
         }
@@ -526,14 +526,14 @@ namespace RandomGraphLauncher
                 else
                 {
                     label = (Label)labels[number];
-                    label.Text = "Feild";
+                    label.Text = "failed";
                     label.ForeColor = Color.Red;
                 }
             }
             catch (Exception)
             {
                 label = (Label)labels[number];
-                label.Text = "Feild";
+                label.Text = "failed";
                 label.ForeColor = Color.Red;
             }
         }
@@ -556,14 +556,14 @@ namespace RandomGraphLauncher
                 else
                 {
                     label = (Label)labels[number];
-                    label.Text = "Feild";
+                    label.Text = "failed";
                     label.ForeColor = Color.Red;
                 }
             }
             catch (Exception)
             {
                 label = (Label)labels[number];
-                label.Text = "Feild";
+                label.Text = "failed";
                 label.ForeColor = Color.Red;
             }
         }
@@ -624,13 +624,13 @@ namespace RandomGraphLauncher
 
         private bool compare(ArrayList a, ArrayList b)
         {
-            if(a.Count != b.Count)
+            if (a.Count != b.Count)
             {
                 return false;
             }
             for (int i = 0; i < a.Count; ++i)
             {
-                if(a[i] != b[i])
+                if ((double)a[i] != (double)b[i])
                 {
                     return false;
                 }
