@@ -1,61 +1,51 @@
 <?xml version="1.0" encoding="us-ascii" standalone="yes"?>
 <assembly>
-  <id>5a2ec79a-2777-43ee-9cc4-f99a80db1aa6</id>
-  <name>jkllj</name>
-  <date>14.05.2012 1:28:03</date>
+  <id>37fa3208-0379-4ff3-a2a2-c7f75f20fe39</id>
+  <name />
+  <date>28.05.2012 16:01:05</date>
   <graphmodel id="2" modelname="BAModel" />
   <generationparams>
-    <generationparam id="1" parametername="Vertices" value="7" />
-    <generationparam id="5" parametername="MaxEdges" value="2" />
+    <generationparam id="1" parametername="Vertices" value="20" />
+    <generationparam id="5" parametername="MaxEdges" value="5" />
+    <generationparam id="10" parametername="AddVertices" value="15" />
   </generationparams>
   <analyseresults>
     <instance>
-      <Model grapSize="12" />
+      <Model grapSize="35" />
       <result>
-        <item option="DegreeDistribution">1.5</item>
-        <item option="AveragePath">1.33333333333333</item>
-        <item option="Cycles3">1</item>
-        <item option="Diameter">2</item>
+        <item option="DegreeDistribution">3.28571428571429</item>
+        <item option="AveragePath">2</item>
+        <item option="Cycles3">4</item>
+        <item option="Diameter">4</item>
+        <item option="Cycles4">0</item>
       </result>
       <vertexdegree>
-        <vd degree="0" count="8" />
-        <vd degree="1" count="1" />
+        <vd degree="0" count="23" />
+        <vd degree="1" count="5" />
         <vd degree="2" count="2" />
-        <vd degree="3" count="1" />
+        <vd degree="3" count="2" />
+        <vd degree="4" count="1" />
+        <vd degree="5" count="1" />
+        <vd degree="8" count="1" />
       </vertexdegree>
       <coefficients>
-        <coeff coefficient="0" count="9" />
-        <coeff coefficient="0.333333333333333" count="1" />
-        <coeff coefficient="1" count="2" />
+        <coeff coefficient="0" count="29" />
+        <coeff coefficient="0.14285714285714" count="1" />
+        <coeff coefficient="0.2" count="1" />
+        <coeff coefficient="0.33333333333333" count="2" />
+        <coeff coefficient="0.66666666666667" count="1" />
+        <coeff coefficient="1" count="1" />
       </coefficients>
       <Connsubgraphs />
       <Fullsubgraphs />
       <vertexdistance />
-      <eigenvalues>
-        <ev eigenValue="-1.4812" />
-        <ev eigenValue="-1" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0" />
-        <ev eigenValue="0.3111" />
-        <ev eigenValue="2.1701" />
-      </eigenvalues>
-      <eigenvaluesdistance>
-        <ev distance="0" count="0" />
-        <ev distance="0.3111" count="8" />
-        <ev distance="0.4812" count="1" />
-        <ev distance="1" count="1" />
-        <ev distance="1.859" count="1" />
-      </eigenvaluesdistance>
-      <cycles />
-      <motives>
-        <mt degree="5" count="10" />
-      </motives>
+      <eigenvalues />
+      <eigenvaluesdistance />
+      <cycles>
+        <cl degree="3" count="4" />
+        <cl degree="4" count="4" />
+      </cycles>
+      <motives />
       <parisiarray />
     </instance>
   </analyseresults>
