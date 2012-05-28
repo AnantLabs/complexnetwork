@@ -149,6 +149,10 @@ namespace Model.BAModel.Realization.CycleCounting
         
         private long getPivotsCycles(int pivot, int cycleLength)
         {
+            if (cycleLength == 2)
+            {
+                return _container.Neighbourship[pivot].Count;
+            }
             long cyclesCount = 0;
             _stack.Push(pivot);
             while (_stack.Count != 0)
