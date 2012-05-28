@@ -528,8 +528,8 @@ namespace RandomGraph.Common.Model.StatAnalyzer
                         break;
                     }
                 case AnalyseOptions.Cycles:
-                    {   //TODO: fix this case
-                        //tempDictionaryCycles = result.Results[i - initialInstance].Cycles;
+                    {   
+                        tempDictionaryCycles = result.Results[i - initialInstance].Cycles;
                         break;
                     }
                 default:
@@ -538,15 +538,31 @@ namespace RandomGraph.Common.Model.StatAnalyzer
                     }
             }
 
-            SortedDictionary<int, int>.KeyCollection keyColl = tempDictionary.Keys;
-            int div = (option == AnalyseOptions.MinPathDist) ? (m_size * (m_size - 1) / 2) : m_size;
-
-            foreach (int key in keyColl)
+            if (option == AnalyseOptions.Cycles)
             {
-                if (r.Keys.Contains(key))
-                    r[key] += (double)tempDictionary[key] / div;
-                else
-                    r.Add(key, (double)tempDictionary[key] / div);
+                SortedDictionary<int, long>.KeyCollection keyColl = tempDictionaryCycles.Keys;
+                int div = (option == AnalyseOptions.MinPathDist) ? (m_size * (m_size - 1) / 2) : m_size;
+
+                foreach (int key in keyColl)
+                {
+                    if (r.Keys.Contains(key))
+                        r[key] += (double)tempDictionaryCycles[key] / div;
+                    else
+                        r.Add(key, (double)tempDictionaryCycles[key] / div);
+                }
+            }
+            else
+            {
+                SortedDictionary<int, int>.KeyCollection keyColl = tempDictionary.Keys;
+                int div = (option == AnalyseOptions.MinPathDist) ? (m_size * (m_size - 1) / 2) : m_size;
+
+                foreach (int key in keyColl)
+                {
+                    if (r.Keys.Contains(key))
+                        r[key] += (double)tempDictionary[key] / div;
+                    else
+                        r.Add(key, (double)tempDictionary[key] / div);
+                }
             }
 
             return r;
