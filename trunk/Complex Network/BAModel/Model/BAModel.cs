@@ -150,6 +150,7 @@ namespace Model.BAModel
                     if ((AnalizeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
                     {
                         InvokeProgressEvent(GraphProgress.Analizing, 35, "Classtering Coefficient");
+                     //   Result.Result[AnalyseOptions.ClusteringCoefficient] = BAModelGraph.m_analyzer.
                         Result.Coefficient = BAModelGraph.m_analyzer.GetClusteringCoefficient();
                     }
                     if ((AnalizeOptions & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3)
@@ -160,6 +161,8 @@ namespace Model.BAModel
                     if ((AnalizeOptions & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4)
                     {
                         InvokeProgressEvent(GraphProgress.Analizing, 45, "Diameter");
+                        Result.Result[AnalyseOptions.Cycles4] = BAModelGraph.m_analyzer.GetCycles4();
+
                     }
                 }
                 if ((AnalizeOptions & AnalyseOptions.Cycles) == AnalyseOptions.Cycles)
@@ -212,8 +215,9 @@ namespace Model.BAModel
                     int minvalue = Int32.Parse((String)AnalizeOptionsValues["motiveLow"]);
                     InvokeProgressEvent(GraphProgress.Analizing, 80, "Motiv of " + minvalue + "-" + maxValue + "degree");
                     //calculate motives here
-                    Result.MotivesCount = new SortedDictionary<int, int>(); //for test
-                    Result.MotivesCount.Add(5, 10);
+                    
+                    Result.MotivesCount = BAModelGraph.m_analyzer.GetMotif(minvalue, maxValue);//for test
+                  //Result.MotivesCount.Add(5, 10);
                 }
 
                 InvokeProgressEvent(GraphProgress.AnalizingDone, 95);

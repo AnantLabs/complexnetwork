@@ -29,19 +29,17 @@ namespace Model.StaticModel.Realization
         // Implementation members //
         private StaticContainer m_container;
         private AnalyzeResult m_result;
-        private bool[] Circleorder4;
+        private bool Circleorder4;
         private List<double> m_edgesBetweenNeighbours;
         public StaticAnalyzer(StaticContainer c)
         {
             m_container = c;
             m_result = new AnalyzeResult();
-            Circleorder4 = new bool[m_container.Size];
+          
             m_edgesBetweenNeighbours = new List<double>();
             for (int i = 0; i < m_container.Size; ++i)
                 m_edgesBetweenNeighbours.Add(-1);
-            for (int i = 0; i < m_container.Size; ++i)
-                Circleorder4[i] = false;
-
+           
 
 
         }
@@ -126,7 +124,7 @@ namespace Model.StaticModel.Realization
                             ++m_edgesBetweenNeighbours[i];
                         }
                         else
-                            if (Circleorder4[i] == false)
+                            if (Circleorder4)
                             {
                                 if (nodes[u].m_lenght == 2 && nodes[l[j]].m_lenght == 1 && nodes[u].m_ancestor != l[j])
                                     ++m_result.m_cyclesOfOrder4;
@@ -139,28 +137,28 @@ namespace Model.StaticModel.Realization
                 m_edgesBetweenNeighbours[i] /= 2;
         }
 
-        private void CountAnalyzeOptions()
+        public void CountAnalyzeOptions()
         {
-            m_result.m_pathDistribution = new SortedDictionary<int, int>();
-            m_result.m_cyclesOfOrder4 = 0;
+          //  log.Info("Start count Diametr");
+           
+         //   m_pathDistribution = new SortedDictionary<int, int>();
+           
             double avg = 0;
             int diametr = 0, k = 0;
 
             for (int i = 0; i < m_container.Size; ++i)
             {
-
+                Circleorder4 = true;
                 for (int j = i + 1; j < m_container.Size; ++j)
                 {
-                    if (j == i + 2)
-                        Circleorder4[i] = true;
                     int way = MinimumWay(i, j);
-
+                    Circleorder4 = false;
                     if (way == -1)
                         continue;
-                    if (m_result.m_pathDistribution.ContainsKey(way))
-                        m_result.m_pathDistribution[way]++;
-                    else
-                        m_result.m_pathDistribution.Add(way, 1);
+                  //  if (m_pathDistribution.ContainsKey(way))
+                  //      m_pathDistribution[way]++;
+                 //   else
+                 //       m_pathDistribution.Add(way, 1);
 
                     if (way > diametr)
                         diametr = way;
@@ -172,17 +170,15 @@ namespace Model.StaticModel.Realization
             Node[] nodes = new Node[m_container.Size];
             for (int t = 0; t < m_container.Size; ++t)
                 nodes[t] = new Node();
-            Circleorder4[m_container.Size - 1] = true;
+            Circleorder4 = true;
 
             BFS(m_container.Size - 1, nodes);
             avg /= k;
 
-            m_result.m_avgPathLenght = avg;
-            m_result.m_diametr = diametr;
-            if (m_result.m_cyclesOfOrder4 >= 4)
-                m_result.m_cyclesOfOrder4 /= 4;
-            CountClusteringCoefficient();
-            CountCyclesOfOrder3();
+            
+
+           
+
 
         }
         private void CountClusteringCoefficient()

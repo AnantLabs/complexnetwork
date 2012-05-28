@@ -262,7 +262,6 @@
             this.motiveHi.FormatString = "N2";
             this.motiveHi.FormattingEnabled = true;
             this.motiveHi.Items.AddRange(new object[] {
-            "2",
             "3",
             "4",
             "5",
@@ -282,7 +281,6 @@
             this.motiveLow.FormatString = "N2";
             this.motiveLow.FormattingEnabled = true;
             this.motiveLow.Items.AddRange(new object[] {
-            "2",
             "3",
             "4",
             "5",

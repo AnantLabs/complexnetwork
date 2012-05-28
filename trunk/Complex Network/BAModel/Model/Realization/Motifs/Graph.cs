@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-
 using Model.BAModel.Realization;
 
 namespace Motifs
@@ -125,18 +124,62 @@ namespace Motifs
             this.Edges.Add(e);            
         }
         /// <summary>
-        /// returns sub graph neighbors in super graph
+        /// add vertice to our graph
+        /// </summary>
+        /// <param name="e"></param>
+        public void AddVertice(Vertice v)
+        {
+            if (this.Contains(v))
+                return;
+
+            this.Vertices.Add(v);
+        }
+        /// <summary>
+        /// returns vertice by given index
+        /// </summary>
+        /// <param name="e"></param>
+        public Vertice getVerticeByIndex(int index)
+        {
+            foreach (Vertice v in Vertices)
+            {
+                if (v.index == index)
+                    return v;
+            }
+            return null;
+        }
+        /// <summary>
+        /// returns sub graph neighbors edges in super graph
         /// </summary>
         /// <param name="super"></param>
         /// <param name="sub"></param>
         /// <returns></returns>
-        public static List<Edge> GetNeighborhood(Graph super, Graph sub)
+        public static List<Edge> GetEdgesNeighborhood(Graph super, Graph sub)
         {
             List<Edge> nhood = new List<Edge>();
             foreach (Vertice v in sub.Vertices)
                 foreach (Edge e in super.Edges)
                     if (e.v1 == v.index || e.v2 == v.index && !sub.Contains(e))
                         nhood.Add(e);
+            return nhood;
+        }
+        /// <summary>
+        /// returns sub graph neighbors vertices in super graph
+        /// </summary>
+        /// <param name="super"></param>
+        /// <param name="sub"></param>
+        /// <returns></returns>
+        public static List<Vertice> GetVerticesNeighborhood(Graph super, Graph sub,Vertice subVertice)
+        {
+            List<Vertice> nhood = new List<Vertice>();
+            foreach (Edge e in super.Edges)
+                    if (subVertice.index == e.v1 && !sub.Contains(e))
+                    {
+                        nhood.Add(new Vertice(e.v2));
+                    }
+                    else if (subVertice.index == e.v2 && !sub.Contains(e))
+                    {
+                        nhood.Add(new Vertice(e.v1));
+                    }
             return nhood;
         }
         /// <summary>
@@ -214,7 +257,8 @@ namespace Motifs
             FileStream stream = null;
             try
             {
-                stream = new FileStream(filename, FileMode.Open);
+                stream = File.OpenRead(filename);
+               // stream = new FileStream(filename, FileMode.Open);
             }
             catch (IOException ex)
             {
@@ -306,6 +350,38 @@ namespace Motifs
 
             }
             return matrix;
+        }
+
+        public static Graph createGraphFromFile()
+        {
+            //Protein-Protein Network
+            Graph graph = new Graph();
+
+            for (int i = 0; i < 2114; i++)
+            {
+                graph.AddVertice(new Vertice(i));
+            }
+
+            StreamReader reader = new StreamReader("NDYeast.net");
+            string line = reader.ReadLine();
+            while (line != null)
+            {
+                if (line[0] == '*')
+                {
+                    line = reader.ReadLine();
+                    continue;
+                }
+
+                string[] tokens = line.Split(' ');
+                int edge1Index = Convert.ToInt32(tokens[0]);
+                for (int i = 1; i < tokens.Length; i++)
+                {
+                    graph.AddEdge(new Edge(edge1Index - 1, Convert.ToInt32(tokens[i]) - 1));
+                }
+                line = reader.ReadLine();
+            }
+            reader.Close();
+            return graph;
         }
     }
     
