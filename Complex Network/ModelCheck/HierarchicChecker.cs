@@ -37,9 +37,86 @@ namespace ModelCheck
             if (path != "")
                 d = FromMatrixToDegrees();
             CalcParams();
-            return Process(Polynom());
+            List<List<int>> p = Polynom();
+            PossibleAnswers answer = Process(p);
+            if (answer == PossibleAnswers.GraphicalBlockHierarchic)
+                MatrixToFile(BlockHierarchicMatrix(p));
+            return answer;
         }
 
+        public List<int> FromMatrixToDegrees() // matricic stanum e hajordakanutyun@
+        {
+            int sum = 0;
+            List<string> lines = new List<string>();
+
+            List<int> deg = new List<int>();
+
+            using (TextReader r = new StreamReader(path))
+            {
+
+                string line;
+                while ((line = r.ReadLine()) != null)
+                {
+
+                    lines.Add(line);
+                }
+            }
+
+
+            int l = 2 * lines.Count;
+            char[] lines1 = new char[l];
+            int[] lines2 = new int[l];
+            try
+            {
+
+                for (int i = 0; i < lines.Count; i++)
+                {
+
+
+                    lines1 = lines[i].ToCharArray();
+                    if (lines1.Last() != ' ')
+                        if (lines1.Length != l - 1)
+                            throw new IndexOutOfRangeException("Type a squere matrix");
+                    for (int j = 0; j < l - 1; j++)
+                    {
+
+                        if (lines1[j] != ' ')
+                        {
+                            if (lines1[j] == '0' || lines1[j] == '1')
+                            {
+                                lines2[j] = (int)(lines1[j] - '0');
+
+                                sum += lines2[j];
+                            }
+                            else
+                            {
+                                lines1[j] = '1';
+                                lines2[j] = (int)(lines1[j] - '0');
+
+                                sum += lines2[j];
+                            }
+                        }
+
+                    }
+
+                    deg.Add(sum);
+                    sum = 0;
+
+
+                }
+
+
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("Type a squere matrix");
+                throw new IndexOutOfRangeException();
+            }
+
+
+            return deg;
+        }
+        
         // Utilities //
 
         private void CalcParams()
@@ -58,18 +135,6 @@ namespace ModelCheck
                         break;
                 }
 
-        }
-
-        private static int Comparing(List<int> k1, List<int> k2)
-        {
-            if (k1.Count != k2.Count)
-                throw new SystemException();
-
-            for (int i = k1.Count - 1; i >= 0; i--)
-                if (k1[i] != k2[i])
-                    return k1[i] - k2[i];
-
-            return 0;
         }
 
         private List<List<int>> Polynom()
@@ -93,6 +158,34 @@ namespace ModelCheck
 
             return k;
 
+        }
+
+        private void MatrixToFile(List<List<int>> Matrix)
+        {
+            using (TextWriter tw = new StreamWriter("C:\\ComplexNetwork\\output.txt"))
+            {
+                for (int j = 0; j < Matrix.Count; j++)
+                {
+                    for (int i = 0; i < Matrix.Count; i++)
+                    {
+                        tw.Write(Matrix[i][j] + " ");
+                    }
+                    tw.WriteLine();
+                }
+            }
+        }
+
+
+        private static int Comparing(List<int> k1, List<int> k2)
+        {
+            if (k1.Count != k2.Count)
+                throw new SystemException();
+
+            for (int i = k1.Count - 1; i >= 0; i--)
+                if (k1[i] != k2[i])
+                    return k1[i] - k2[i];
+
+            return 0;
         }
 
         private static List<int> HavelHakimi(List<int> d)
@@ -194,80 +287,8 @@ namespace ModelCheck
             }
         }
 
-        public List<int> AdjMat_DegSeq()
-        {
-            int sum = 0;
-            List<string> lines = new List<string>();
-
-            List<int> deg = new List<int>();
-
-            using (TextReader r = new StreamReader(path))
-            {
-
-                string line;
-                while ((line = r.ReadLine()) != null)
-                {
-
-                    lines.Add(line);
-                }
-            }
-
-
-            int l = 2 * lines.Count;
-            char[] lines1 = new char[l];
-            int[] lines2 = new int[l];
-            try
-            {
-
-                for (int i = 0; i < lines.Count; i++)
-                {
-
-
-                    lines1 = lines[i].ToCharArray();
-                    if (lines1.Last() != ' ')
-                        if (lines1.Length != l - 1)
-                            throw new IndexOutOfRangeException("Type a squere matrix");
-                    for (int j = 0; j < l - 1; j++)
-                    {
-
-                        if (lines1[j] != ' ')
-                        {
-                            if (lines1[j] == '0' || lines1[j] == '1')
-                            {
-                                lines2[j] = (int)(lines1[j] - '0');
-
-                                sum += lines2[j];
-                            }
-                            else
-                            {
-                                lines1[j] = '1';
-                                lines2[j] = (int)(lines1[j] - '0');
-
-                                sum += lines2[j];
-                            }
-                        }
-
-                    }
-
-                    deg.Add(sum);
-                    sum = 0;
-
-
-                }
-
-
-            }
-            catch (IndexOutOfRangeException)
-            {
-                Console.WriteLine("Type a squere matrix");
-                throw new IndexOutOfRangeException();
-            }
-
-
-            return deg;
-        }
-
-        public List<List<int>> BlockHierarchicMatrix(List<List<int>> k, List<int> d)
+        
+        public List<List<int>> BlockHierarchicMatrix(List<List<int>> k)
         {
             List<List<int>> Matrix = new List<List<int>>();
 
@@ -373,23 +394,6 @@ namespace ModelCheck
         }
 
 
-        public void Exec(List<List<int>> Matrix)
-        {
-            using (TextWriter tw = new StreamWriter("C:\\Users\\s.khchoyan\\Desktop\\output.txt"))
-            {
-                for (int j = 0; j < Matrix.Count; j++)
-                {
-                    for (int i = 0; i < Matrix.Count; i++)
-                    {
-                        tw.Write(Matrix[i][j] + " ");
-                    }
-                    tw.WriteLine();
-                }
-            }
-
-        }
-
-
         public PossibleAnswers Process(List<List<int>> k)
         {
             if (!HavelHakimiCheck(d))
@@ -468,79 +472,6 @@ namespace ModelCheck
             }
 
             return PossibleAnswers.GraphicalBlockHierarchic;
-        }
-
-        private List<int> FromMatrixToDegrees() // matricic stanum e hajordakanutyun@
-        {
-            int sum = 0;
-            List<string> lines = new List<string>();
-
-            List<int> deg = new List<int>();
-
-            using (TextReader r = new StreamReader(path))
-            {
-
-                string line;
-                while ((line = r.ReadLine()) != null)
-                {
-
-                    lines.Add(line);
-                }
-            }
-
-
-            int l = 2 * lines.Count;
-            char[] lines1 = new char[l];
-            int[] lines2 = new int[l];
-            try
-            {
-
-                for (int i = 0; i < lines.Count; i++)
-                {
-
-
-                    lines1 = lines[i].ToCharArray();
-                    if (lines1.Last() != ' ')
-                        if (lines1.Length != l - 1)
-                            throw new IndexOutOfRangeException("Type a squere matrix");
-                    for (int j = 0; j < l - 1; j++)
-                    {
-
-                        if (lines1[j] != ' ')
-                        {
-                            if (lines1[j] == '0' || lines1[j] == '1')
-                            {
-                                lines2[j] = (int)(lines1[j] - '0');
-
-                                sum += lines2[j];
-                            }
-                            else
-                            {
-                                lines1[j] = '1';
-                                lines2[j] = (int)(lines1[j] - '0');
-
-                                sum += lines2[j];
-                            }
-                        }
-
-                    }
-
-                    deg.Add(sum);
-                    sum = 0;
-
-
-                }
-
-
-            }
-            catch (IndexOutOfRangeException)
-            {
-                Console.WriteLine("Type a squere matrix");
-                throw new IndexOutOfRangeException();
-            }
-
-
-            return deg;
         }
     }
 

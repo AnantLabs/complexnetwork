@@ -98,11 +98,22 @@ namespace RandomGraphLauncher
                     else
                     {
                         checker = new HierarchicChecker(this.filePathTxt.Text);
+                        FillDegrees(checker.FromMatrixToDegrees());
                     }
 
                     this.resultTxt.Text = checker.IsHierarchic().ToString();
                 }
             }
+        }
+
+        private void FillDegrees(List<int> degrees)
+        {
+            string d = "";
+            for (int i = 0; i < degrees.Count; ++i)
+            {
+                d += degrees[i].ToString() + ",";
+            }
+            this.degreesTxt.Text = d;
         }
 
         private void degreesRadio_CheckedChanged(object sender, EventArgs e)
