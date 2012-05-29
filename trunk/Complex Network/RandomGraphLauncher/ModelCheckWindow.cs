@@ -55,6 +55,7 @@ namespace RandomGraphLauncher
 
         private void ParceDegrees()
         {
+            degreeSequence.Clear();
             string degrees = this.degreesTxt.Text.ToString();
             string d = "";
             for (int i = 0; i < degrees.Length; ++i)
