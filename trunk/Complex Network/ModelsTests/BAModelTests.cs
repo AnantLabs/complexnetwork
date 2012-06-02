@@ -134,7 +134,7 @@ namespace ModelsTests
             IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
 
             int actualValue = analyzer.GetCycles3();
-            int expectedValue = goldResult.Results[0].Cycles3;
+            double expectedValue = goldResult.Results[0].Result[AnalyseOptions.Cycles3];
             Assert.AreEqual(actualValue, expectedValue);
         }
 
@@ -150,8 +150,8 @@ namespace ModelsTests
             BAGraph graph = new BAGraph(matrix);
             IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
 
-            int actualValue = analyzer.GetCycles3();
-            int expectedValue = goldResult.Results[0].Cycles4;
+            int actualValue = analyzer.GetCycles4();
+            double expectedValue = goldResult.Results[0].Result[AnalyseOptions.Cycles4];
             Assert.AreEqual(actualValue, expectedValue);
         }
 
