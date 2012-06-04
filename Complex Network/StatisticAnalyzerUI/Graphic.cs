@@ -10,7 +10,7 @@ using ZedGraph;
 using RandomGraph.Common.Model;
 using CommonLibrary.Model.Attributes;
 using RandomGraph.Common.Model.Generation;
-using RandomGraph.Common.Model.StatAnalyzer;
+using StatisticAnalyzer;
 
 namespace StatisticAnalyzerUI
 {

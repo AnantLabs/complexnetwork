@@ -9,29 +9,20 @@ using System.Configuration;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
+using StatisticAnalyzer;
+
 using SettingsConfiguration;
 using RandomGraph.Common.Model;
-using RandomGraph.Common.Model.Generation;
-using RandomGraph.Common.Model.StatAnalyzer;
-using RandomGraph.Common.Storage;
 using CommonLibrary.Model.Attributes;
 using CommonLibrary.Model.Result;
-using ResultStorage.Storage;
 using ZedGraph;
-using AnalyzerFramework.Manager.ModelRepo;
-using StatisticAnalyzer.Model;
-
-using System.Xml;
 
 namespace StatisticAnalyzerUI
 {
     public partial class StatisticAnalyzer : Form
     {
         // Implementation members //
-        private ModelStatisticAnalyzer m_analyzer;
-
-        // Configuration members //
-        private IResultStorage m_resultStorage;
+        private StLoader loader;
 
         // GUI members //
         private ApproximationTypes m_localApproximationType;
@@ -51,16 +42,15 @@ namespace StatisticAnalyzerUI
             this.ByJobsRadio.Checked = true;
             this.ApproximationTypeCmb.SelectedIndex = 0;
 
-            InitializeModelNameCmb();
             InitializeCurveLineCmb();
+            InitializeModelNameCmb();
         }
 
         private void ModelNameSelChange(object sender, EventArgs e)
         {
-            m_analyzer = new ModelStatisticAnalyzer(this.ModelNameCmb.Text);
-            InitializeParameters();
-
-            m_analyzer.LoadAssemblies(m_resultStorage);
+            loader.ModelName = this.ModelNameCmb.Text;
+            loader.InitAssemblies();
+            InitializeGenerationParameters();
             FillJobs();
         }
 
@@ -69,7 +59,6 @@ namespace StatisticAnalyzerUI
         {
             this.JobsCmb.Enabled = true;
             this.DeleteJob.Enabled = true;
-            this.RealizationsTxt.Enabled = true;
             this.RefreshBtn.Enabled = false;
             this.Param1Cmb.Enabled = false;
             this.Param2Cmb.Enabled = false;
@@ -84,7 +73,7 @@ namespace StatisticAnalyzerUI
             string name = (string)this.JobsCmb.SelectedItem;
             if (name != null)
             {
-                m_analyzer.DeleteJob(name, m_resultStorage);
+                loader.DeleteJob(name);
                 FillJobs();
             }
         }
@@ -99,7 +88,6 @@ namespace StatisticAnalyzerUI
         {
             this.JobsCmb.Enabled = false;
             this.DeleteJob.Enabled = false;
-            this.RealizationsTxt.Enabled = false;
             this.RefreshBtn.Enabled = true;
             this.Param1Cmb.Enabled = true;
             this.Param2Cmb.Enabled = true;
@@ -107,7 +95,6 @@ namespace StatisticAnalyzerUI
             this.ByAllJobsCheck.Enabled = true;
 
             this.Param1Cmb.Text = this.Param2Cmb.Text = this.Param3Cmb.Text = "";
-            this.RealizationsTxt.Text = "0";
         }
 
         private void Refresh_Click(object sender, EventArgs e)
@@ -198,7 +185,7 @@ namespace StatisticAnalyzerUI
         // Analyzers //
         private void GlobalDrawGraphics_Click(object sender, EventArgs e)
         {
-            GlobalAnalyze();
+            /*GlobalAnalyze();
 
             Dictionary<AnalyseOptions,
                 SortedDictionary<double, double>>.KeyCollection keys = m_analyzer.GlobalResults.Keys;
@@ -220,12 +207,12 @@ namespace StatisticAnalyzerUI
 
                 m_existingGraphics[inform].RefreshGraphic();
                 m_existingGraphics[inform].Show();
-            }
+            }*/
         }
 
         private void GetGlobalResult_Click(object sender, EventArgs e)
         {
-            GlobalAnalyze();
+            /*GlobalAnalyze();
 
             Information inform = new Information(m_analyzer.GlobalAverages);
             //inform.m_parameterLine = m_analyzer.GetParameterLine();
@@ -234,12 +221,12 @@ namespace StatisticAnalyzerUI
             //    inform.m_parameterLine += " Realization Count = " + this.RealizationsTxt.Text;
 
             inform.RefreshInformation();
-            inform.Show();
+            inform.Show();*/
         }
 
         private void LocalDrawGraphics_Click(object sender, EventArgs e)
         {
-            m_analyzer.m_localParams = AnalyseOptions.None;
+            /*m_analyzer.m_localParams = AnalyseOptions.None;
             m_analyzer.JobName = "";
 
             if (this.ByJobsRadio.Checked)
@@ -288,7 +275,7 @@ namespace StatisticAnalyzerUI
 
                 m_existingGraphics[inform].RefreshGraphic();
                 m_existingGraphics[inform].Show();
-            }
+            }*/
         }
 
         private void MotifDrawGraphics_Click(object sender, EventArgs e)
@@ -326,15 +313,11 @@ namespace StatisticAnalyzerUI
                 {
                     config.AppSettings.Settings["Storage"].Value = "XmlProvider";
                     config.AppSettings.Settings["XmlProvider"].Value = window.StorageDirectory;
-
-                    m_resultStorage = new XMLResultStorage(window.StorageDirectory);
                 }
                 else
                 {
                     config.AppSettings.Settings["Storage"].Value = "SQLProvider";
                     config.ConnectionStrings.ConnectionStrings[config.AppSettings.Settings["SQLProvider"].Value].ConnectionString = window.ConnectionString;
-
-                    m_resultStorage = new SQLResultStorage(ConfigurationManager.ConnectionStrings[ConfigurationManager.AppSettings["SQLProvider"]]);
                 }
 
                 config.Save(ConfigurationSaveMode.Modified);
@@ -342,10 +325,11 @@ namespace StatisticAnalyzerUI
                 ConfigurationManager.RefreshSection("connectionStrings");
             }
 
-            m_analyzer.LoadAssemblies(m_resultStorage);
+            loader.InitStorage();
+            loader.InitAssemblies();
             FillJobs();
         }
-        
+
         // Utilities //
 
         private void InitializeGUIMembers()
@@ -378,29 +362,12 @@ namespace StatisticAnalyzerUI
 
         private void InitializeConfigurationMembers()
         {
-            // Result Storage Initialization //
-            string provider = ConfigurationManager.AppSettings["Storage"];
-            if (provider == "XmlProvider")
-                m_resultStorage = new XMLResultStorage(ConfigurationManager.AppSettings[provider]);
-            else
-                m_resultStorage = new SQLResultStorage(ConfigurationManager.ConnectionStrings[ConfigurationManager.AppSettings[provider]]);
+            loader = new StLoader();
         }
 
         private void InitializeModelNameCmb()
         {
-            List<Type> availableModelFactoryTypes = ModelRepository.GetInstance().GetAvailableModelFactoryTypes();
-            foreach (Type modelFactoryType in availableModelFactoryTypes)
-            {
-                object[] attr = modelFactoryType.GetCustomAttributes(typeof(TargetGraphModel), false);
-                TargetGraphModel targetGraphMetadata = (TargetGraphModel)attr[0];
-                Type modelType = targetGraphMetadata.GraphModelType;
-
-                attr = modelType.GetCustomAttributes(typeof(GraphModel), false);
-                string modelName = ((GraphModel)attr[0]).Name;
-
-                this.ModelNameCmb.Items.Add(modelName);
-            }
-
+            this.ModelNameCmb.Items.AddRange(StLoader.GetAvailableModelNames());
             this.ModelNameCmb.SelectedIndex = 0;
         }
 
@@ -420,17 +387,12 @@ namespace StatisticAnalyzerUI
             this.CurveLineCmb.SelectedIndex = 0;
         }
 
-        private void InitializeParameters()
-        {
-            InitializeGenerationParameters();
-        }
-
         private void InitializeGenerationParameters()
         {
-            this.Param1.Text = m_analyzer.m_statisticParameters.m_param1;
-            this.Param2.Text = m_analyzer.m_statisticParameters.m_param2;
-            this.Param3.Text = m_analyzer.m_statisticParameters.m_param3;
-            this.ByAllJobsCheck.Visible = m_analyzer.ByAllJobsOptionValidation;
+            this.Param1.Text = loader.StatAnalyzeParameters.m_param1;
+            this.Param2.Text = loader.StatAnalyzeParameters.m_param2;
+            this.Param3.Text = loader.StatAnalyzeParameters.m_param3;
+            //this.ByAllJobsCheck.Visible = m_analyzer.ByAllJobsOptionValidation;
 
             if (this.Param3.Text == "")
             {
@@ -447,11 +409,9 @@ namespace StatisticAnalyzerUI
         private void FillJobs()
         {
             this.JobsCmb.Text = "";
-            this.RealizationsTxt.Text = "0";
 
             this.JobsCmb.Items.Clear();
-            foreach (ResultAssembly result in m_analyzer.Assemblies)
-                this.JobsCmb.Items.Add(result.Name);
+            this.JobsCmb.Items.AddRange(loader.GetAvailableJobs());
             if (this.JobsCmb.Items.Count != 0)
                 this.JobsCmb.SelectedIndex = 0;
         }
@@ -461,16 +421,16 @@ namespace StatisticAnalyzerUI
             string name = (string)this.JobsCmb.SelectedItem;
             if (name != null)
             {
-                this.Param1Cmb.Text = m_analyzer.GetParameterValue(name, 1);
-                this.Param2Cmb.Text = m_analyzer.GetParameterValue(name, 2);
-                this.Param3Cmb.Text = m_analyzer.GetParameterValue(name, 3);
-                this.RealizationsTxt.Text = m_analyzer.GetRealizationsCount(name);
+                this.Param1Cmb.Text = loader.GetParameterValue(name, 1);
+                this.Param2Cmb.Text = loader.GetParameterValue(name, 2);
+                this.Param3Cmb.Text = loader.GetParameterValue(name, 3);
+                //this.RealizationsTxt.Text = m_analyzer.GetRealizationsCount(name);
             }
         }
 
         private void RefreshAssemblies()
         {
-            m_analyzer.LoadAssemblies(m_resultStorage);
+            loader.InitAssemblies();
             FillParam1();
         }
 
@@ -479,7 +439,7 @@ namespace StatisticAnalyzerUI
             this.Param1Cmb.Text = "";
 
             this.Param1Cmb.Items.Clear();
-            List<string> valuesStr = m_analyzer.GetParameterValues();
+            List<string> valuesStr = loader.GetParameterValues();
             foreach (string v in valuesStr)
                 this.Param1Cmb.Items.Add(v);
             if (this.Param1Cmb.Items.Count != 0)
@@ -491,7 +451,7 @@ namespace StatisticAnalyzerUI
             this.Param2Cmb.Text = "";
 
             this.Param2Cmb.Items.Clear();
-            List<string> valuesStr = m_analyzer.GetParameterValues(this.Param1Cmb.Text);
+            List<string> valuesStr = loader.GetParameterValues(this.Param1Cmb.Text);
             foreach (string v in valuesStr)
                 this.Param2Cmb.Items.Add(v);
             if (this.Param2Cmb.Items.Count != 0)
@@ -503,7 +463,7 @@ namespace StatisticAnalyzerUI
             this.Param3Cmb.Text = "";
 
             this.Param3Cmb.Items.Clear();
-            List<string> valuesStr = m_analyzer.GetParameterValues(this.Param1Cmb.Text, this.Param2Cmb.Text);
+            List<string> valuesStr = loader.GetParameterValues(this.Param1Cmb.Text, this.Param2Cmb.Text);
             foreach (string v in valuesStr)
                 this.Param3Cmb.Items.Add(v);
             if (this.Param3Cmb.Items.Count != 0)
@@ -512,46 +472,53 @@ namespace StatisticAnalyzerUI
 
         private void GlobalAnalyze()
         {
-            m_analyzer.m_globalParams = AnalyseOptions.None;
-            m_analyzer.JobName = "";
+            //m_analyzer.m_globalParams = AnalyseOptions.None;
+            //m_analyzer.JobName = "";
 
+            ResultAssembly res = new ResultAssembly();
             if (this.ByJobsRadio.Checked)
             {
-                m_analyzer.JobName = (string)this.JobsCmb.SelectedItem;
+                res = loader.SelectAssemblyByJob(this.JobsCmb.Text);
+                //m_analyzer.JobName = (string)this.JobsCmb.SelectedItem;
             }
+            else
+            {
+                res = loader.SelectAssemblyByParameters();
+            }
+            StAnalyzer analyzer = new StAnalyzer(res);
 
-            m_analyzer.SetGenerationParameters(this.Param1Cmb.Text, this.Param2Cmb.Text, this.Param3Cmb.Text);
-            m_analyzer.m_approximationType = ApproximationTypes.None;
+            //m_analyzer.SetGenerationParameters(this.Param1Cmb.Text, this.Param2Cmb.Text, this.Param3Cmb.Text);
+            //m_analyzer.m_approximationType = ApproximationTypes.None;
 
             if (this.GlobalPropertiesList.GetItemChecked(0))
-                m_analyzer.m_globalParams |= AnalyseOptions.AveragePath;
+                analyzer.globalOptions |= AnalyseOptions.AveragePath;
             if (this.GlobalPropertiesList.GetItemChecked(1))
-                m_analyzer.m_globalParams |= AnalyseOptions.Diameter;
+                analyzer.globalOptions |= AnalyseOptions.Diameter;
             if (this.GlobalPropertiesList.GetItemChecked(2))
-                m_analyzer.m_globalParams |= AnalyseOptions.ClusteringCoefficient;
+                analyzer.globalOptions |= AnalyseOptions.ClusteringCoefficient;
             if (this.GlobalPropertiesList.GetItemChecked(3))
-                m_analyzer.m_globalParams |= AnalyseOptions.DegreeDistribution;
+                analyzer.globalOptions |= AnalyseOptions.DegreeDistribution;
             if (this.GlobalPropertiesList.GetItemChecked(4))
-                m_analyzer.m_globalParams |= AnalyseOptions.Cycles3;
+                analyzer.globalOptions |= AnalyseOptions.Cycles3;
             if (this.GlobalPropertiesList.GetItemChecked(5))
-                m_analyzer.m_globalParams |= AnalyseOptions.Cycles4;
+                analyzer.globalOptions |= AnalyseOptions.Cycles4;
             if (this.GlobalPropertiesList.GetItemChecked(6))
-                m_analyzer.m_globalParams |= AnalyseOptions.MaxFullSubgraph;
+                analyzer.globalOptions |= AnalyseOptions.MaxFullSubgraph;
             if (this.GlobalPropertiesList.GetItemChecked(7))
-                m_analyzer.m_globalParams |= AnalyseOptions.LargestConnectedComponent;
+                analyzer.globalOptions |= AnalyseOptions.LargestConnectedComponent;
             if (this.GlobalPropertiesList.GetItemChecked(8))
-                m_analyzer.m_globalParams |= AnalyseOptions.MinEigenValue;
+                analyzer.globalOptions |= AnalyseOptions.MinEigenValue;
             if (this.GlobalPropertiesList.GetItemChecked(9))
-                m_analyzer.m_globalParams |= AnalyseOptions.MaxEigenValue;
+                analyzer.globalOptions |= AnalyseOptions.MaxEigenValue;
 
             MakeParameters();
 
-            m_analyzer.GlobalAnalyze();
+            analyzer.GlobalAnalyze();
         }
 
         private void MakeParameters()
         {
-            Dictionary<AnalyseOptions, StatAnalyzeOptions> localOptions =
+            /*Dictionary<AnalyseOptions, StatAnalyzeOptions> localOptions =
                 new Dictionary<AnalyseOptions, StatAnalyzeOptions>();
             int index = 0;
             for (int i = 0; i < this.LocalPropertiesList.Items.Count; ++i)
@@ -597,11 +564,6 @@ namespace StatisticAnalyzerUI
                                 param = AnalyseOptions.DistEigenPath;
                                 break;
                             }
-                        case 6:
-                            {
-                                param = AnalyseOptions.Cycles;
-                                break;
-                            }
                         default:
                             {
                                 break;
@@ -610,9 +572,9 @@ namespace StatisticAnalyzerUI
 
                     localOptions[param] = new StatAnalyzeOptions(useDelta, value);
                 }
-            }
+            }*/
 
-            m_analyzer.SetAnalyzeParameters(this.ByAllJobsCheck.Checked, localOptions);
+            //m_analyzer.SetAnalyzeParameters(this.ByAllJobsCheck.Checked, localOptions);
         }
 
         private int FindIndexByPropertyName(string name)

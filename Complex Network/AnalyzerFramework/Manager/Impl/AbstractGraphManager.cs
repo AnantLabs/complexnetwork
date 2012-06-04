@@ -8,7 +8,7 @@ using RandomGraph.Core.Events;
 using RandomGraph.Core.Manager.Status;
 using RandomGraph.Common.Model.Status;
 using CommonLibrary.Model.Result;
-using RandomGraph.Common.Model.StatAnalyzer;
+//using RandomGraph.Common.Model.StatAnalyzer;
 using CommonLibrary.Model.Util;
 using AnalyzerFramework.Manager.Impl;
 using CommonLibrary.Model.Events;
