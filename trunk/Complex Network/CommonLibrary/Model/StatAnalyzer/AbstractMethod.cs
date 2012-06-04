@@ -582,11 +582,17 @@ namespace RandomGraph.Common.Model.StatAnalyzer
 
             int thickening = 0;
             if (m_parameters.m_localAnalyzeOptions[option].m_useDelta)
+            {
                 thickening = (int)m_parameters.m_localAnalyzeOptions[option].m_optionValue;
+                return UseDelta(r, thickening);
+            }
             else
-                thickening = (int)Math.Ceiling(((m_parameters.m_localAnalyzeOptions[option].m_optionValue * r.Count()) / 100)); ;
+            {
+                thickening = (int)Math.Ceiling(((m_parameters.m_localAnalyzeOptions[option].m_optionValue * r.Count()) / 100));
+                return UseThickening(r, thickening);
+            }
 
-            return UseThickening(r, thickening);
+            //return UseThickening(r, thickening);
         }
 
         private SortedDictionary<double, double> UseDelta(SortedDictionary<double, double> r, double delta)
