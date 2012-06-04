@@ -90,7 +90,6 @@
     <Compile Include="Model\Attributes\GenerationParamInfo.cs" />
     <Compile Include="Model\Attributes\GraphModel.cs" />
     <Compile Include="Model\Attributes\RequiredGenerationParam.cs" />
-    <Compile Include="Model\Attributes\StatAnalyzeParametersInfo.cs" />
     <Compile Include="Model\Attributes\TargetGraphModel.cs" />
     <Compile Include="Model\Events\EventHandlerDelegates.cs" />
     <Compile Include="Model\Events\GraphGeneratedArgs.cs" />
@@ -109,9 +108,6 @@
     <Compile Include="Model\Result\AnalizeResult.cs" />
     <Compile Include="Model\Result\ResultAssembly.cs" />
     <Compile Include="Model\Settings\ApplicationMode.cs" />
-    <Compile Include="Model\StatAnalyzer\AbstractMethod.cs" />
-    <Compile Include="Model\StatAnalyzer\StatAnalyzeParameters.cs" />
-    <Compile Include="Model\StatAnalyzer\StatisticResult.cs" />
     <Compile Include="Model\Status\GraphProgress.cs" />
     <Compile Include="Model\Status\GraphProgressStatus.cs" />
     <Compile Include="Model\Util\GraphTable.cs" />

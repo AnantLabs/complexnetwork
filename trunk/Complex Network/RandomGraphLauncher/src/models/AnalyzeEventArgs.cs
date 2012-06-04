@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CommonLibrary.Model.Result;
-using RandomGraph.Common.Model.StatAnalyzer;
+//using RandomGraph.Common.Model.StatAnalyzer;
 
 namespace RandomGraphLauncher.models
 {
