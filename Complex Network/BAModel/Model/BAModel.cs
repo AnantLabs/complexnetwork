@@ -188,27 +188,16 @@ namespace Model.BAModel
                     Result.VertexDegree = degree;
 
                 }
-                if ((AnalizeOptions & AnalyseOptions.EigenValue) == AnalyseOptions.EigenValue)
-                {
-                    InvokeProgressEvent(GraphProgress.Analizing, 55, "Calculating EigenValue");
-                    //  BAModelGraph.Analyze(AnalizeOptions & AnalyseOptions.EigenValue);
-                    //   Result.EigenVector = BAModelGraph.Result.ArrayOfEigVal;
-                    Algorithms.EigenValue ev = new EigenValue();
-                    ArrayList al = new ArrayList();
-                    bool[,] m = GetMatrix();
-                    Result.EigenVector = ev.EV(m);
-                    Result.DistancesBetweenEigenValues = ev.CalcEigenValuesDist();
-                }
-
                 if ((AnalizeOptions & AnalyseOptions.FullSubGraph) == AnalyseOptions.FullSubGraph)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 60, "Full Subgraphs");
                     Result.Result[AnalyseOptions.FullSubGraph] = BAModelGraph.m_analyzer.GetMaxFullSubgraph();
                 }
-
-               
-
-
+                if ((AnalizeOptions & AnalyseOptions.MinPathDist) == AnalyseOptions.MinPathDist)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 70, "Full Subgraphs");
+                    Result.DistanceBetweenVertices = BAModelGraph.m_analyzer.GetMinPathDist();
+                }
                 if ((AnalizeOptions & AnalyseOptions.Motifs) == AnalyseOptions.Motifs)
                 {
                     int maxValue = Int32.Parse((String)AnalizeOptionsValues["motiveHi"]);
@@ -219,7 +208,15 @@ namespace Model.BAModel
                     Result.MotivesCount = BAModelGraph.m_analyzer.GetMotif(minvalue, maxValue);//for test
                   //Result.MotivesCount.Add(5, 10);
                 }
-
+                if ((AnalizeOptions & AnalyseOptions.EigenValue) == AnalyseOptions.EigenValue)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 55, "Calculating EigenValue");
+                    Algorithms.EigenValue ev = new EigenValue();
+                    ArrayList al = new ArrayList();
+                    bool[,] m = GetMatrix();
+                    Result.EigenVector = ev.EV(m);
+                    Result.DistancesBetweenEigenValues = ev.CalcEigenValuesDist();
+                }
                 InvokeProgressEvent(GraphProgress.AnalizingDone, 95);
 
             }
