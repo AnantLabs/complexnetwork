@@ -7,6 +7,7 @@ using RandomGraph.Common.Model;
 using Model.WSModel.Realization;
 using Model.WSModel.Result;
 using CommonLibrary.Model;
+using Algorithms;
 
 namespace Model.WSModel.Realization
 {
@@ -256,7 +257,9 @@ namespace Model.WSModel.Realization
         //Calculate Eigen values of graph.
         public override ArrayList GetEigenValue()
         {
-            return new ArrayList();
+            Algorithms.EigenValue ev = new EigenValue();
+            bool[,] m = m_container.GetMatrix();
+            return ev.EV(m);
         }
         //Calculate count of cycles in 3 lenght of graph.
         public override int GetCycles3()

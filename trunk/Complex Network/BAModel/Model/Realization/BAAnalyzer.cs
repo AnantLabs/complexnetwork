@@ -10,6 +10,7 @@ using RandomGraph.Common.Model;
 using CommonLibrary.Model;
 using Motifs;
 using log4net;
+using Algorithms;
 
 namespace Model.BAModel.Realization
 {
@@ -401,7 +402,9 @@ namespace Model.BAModel.Realization
         //Calculate Eigen values of graph.
         public override ArrayList GetEigenValue()
         {
-            return new ArrayList();
+            Algorithms.EigenValue ev = new EigenValue();
+            bool[,] m = m_container.GetMatrix();
+            return ev.EV(m);
         }
     }
 }
