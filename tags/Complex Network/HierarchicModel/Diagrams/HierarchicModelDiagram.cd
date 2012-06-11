@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Model.HierarchicModel.HierarchicGraphFactory">
+    <Position X="0.5" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\HierarchicGraphFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.HierarchicModel.HierarchicModel">
+    <Position X="3" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAACBAAACAAAAAAkAAAGAAAAAAAgAAAAAIAgAAIAAA=</HashCode>
+      <FileName>Model\HierarchicModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="tree" />
+      <Field Name="generator" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Model.HierarchicModel.Realization.Engine">
+    <Position X="13.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Model\Realization\Engine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.HierarchicModel.Realization.EngineForConnectedComp">
+    <Position X="13.5" Y="3.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAIAQAAEQAAAAgCAAAAAAAACUAQABABCAAAA=</HashCode>
+      <FileName>Model\Realization\EngineForConnectedComp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.HierarchicModel.Realization.HierarchicAnalyzer">
+    <Position X="9.25" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAgABAABECBAEAAAYgAgDiIAAAAAAQoBBAAALYkAAA=</HashCode>
+      <FileName>Model\Realization\HierarchicAnalyzer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="engine" />
+      <Field Name="engForConnectedComponent" />
+      <Field Name="mTree" />
+      <Field Name="engForCycles" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Model.HierarchicModel.Realization.HierarchicGenerator">
+    <Position X="5" Y="10.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAAAAA=</HashCode>
+      <FileName>Model\Realization\HierarchicGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.HierarchicModel.Realization.HierarchicGeneratorPerLevel">
+    <Position X="7.5" Y="10.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAAAAA=</HashCode>
+      <FileName>Model\Realization\HierarchicGeneratorPerLevel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.HierarchicModel.Realization.HierarchicGraph">
+    <Position X="6.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AEAAAACAAQAgQgACGAIAIAEAAAAUFCQAAACAAAAAAEQ=</HashCode>
+      <FileName>Model\Realization\HierarchicGraph.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="treeMatrix" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Model.HierarchicModel.Realization.HierarchicGraphGenerator">
+    <Position X="6.25" Y="6.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AEAAAIAIAAAAAAAAAAAAAAEAAAAAFAAAAACAAEAAAEA=</HashCode>
+      <FileName>Model\Realization\HierarchicGraphGenerator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Model.HierarchicModel.Realization.node">
+    <Position X="10" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Model\Realization\HierarchicGraphNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraph.Common.Model.AbstractGraphFactory">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="RandomGraph.Common.Model.AbstractGraphModel">
+    <Position X="3" Y="4.25" Width="1.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="System.Collections.BitArray" Collapsed="true">
+    <Position X="9.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Model.HierarchicModel.Realization.EngineForCycles">
+    <Position X="13.5" Y="7.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQABAAAAIAAAAAAIBCAAgAAAASAIAEAAIAIAAAAAA=</HashCode>
+      <FileName>Model\Realization\EngineForCycles.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

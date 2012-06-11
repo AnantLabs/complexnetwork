@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://ComplexNetwork.Ysu" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ComplexNetwork.Ysu" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://ComplexNetwork.Ysu/Imports">
+      <xsd:import namespace="http://ComplexNetwork.Ysu" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RandomGraph.Common.Model" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RandomGraph.Common.Model.Generation" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Model.BAModel" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/HeirarchicModel.Model" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Model.ERModel" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Model.WSModel" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RandomGraph.Common.Model.Status" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RandomGraph.Common.Model.Result" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/System.Collections" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/HeirarchicModel" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RandomGraph.Core.Events" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/System" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IComplexNetworkWorkerService_StopAll_InputMessage">
+    <wsdl:part name="parameters" element="tns:StopAll" />
+  </wsdl:message>
+  <wsdl:message name="IComplexNetworkWorkerService_StopInstance_InputMessage">
+    <wsdl:part name="parameters" element="tns:StopInstance" />
+  </wsdl:message>
+  <wsdl:message name="IComplexNetworkWorkerService_StopInstance_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StopInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IComplexNetworkWorkerService_PauseAll_InputMessage">
+    <wsdl:part name="parameters" element="tns:PauseAll" />
+  </wsdl:message>
+  <wsdl:message name="IComplexNetworkWorkerService_PauseAll_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PauseAllResponse" />
+  </wsdl:message>
+  <wsdl:message name="IComplexNetworkWorkerService_PauseInstance_InputMessage">
+    <wsdl:part name="parameters" element="tns:PauseInstance" />
+  </wsdl:message>
+  <wsdl:message name="IComplexNetworkWorkerService_PauseInstance_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PauseInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IComplexNetworkWorkerService_ContinueAll_InputMessage">
+    <wsdl:part name="parameters" element="tns:ContinueAll" />
+  </wsdl:message>
+  <wsdl:message name="IComplexNetworkWorkerService_ContinueAll_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ContinueAllResponse" />
+  </wsdl:message>
+  <wsdl:message name="IComplexNetworkWorkerService_ContinueInstance_InputMessage">
+    <wsdl:part name="parameters" element="tns:ContinueInstance" />
+  </wsdl:message>
+  <wsdl:message name="IComplexNetworkWorkerService_ContinueInstance_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ContinueInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IComplexNetworkWorkerService_Start_InputMessage">
+    <wsdl:part name="parameters" element="tns:Start" />
+  </wsdl:message>
+  <wsdl:message name="IComplexNetworkWorkerService_Start_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StartResponse" />
+  </wsdl:message>
+  <wsdl:message name="IComplexNetworkWorkerService_ProgressReport_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:ProgressReport" />
+  </wsdl:message>
+  <wsdl:portType msc:usingSession="true" name="IComplexNetworkWorkerService">
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="StopAll">
+      <wsdl:input wsam:Action="http://ComplexNetwork.Ysu/IComplexNetworkWorkerService/StopAll" message="tns:IComplexNetworkWorkerService_StopAll_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="StopInstance">
+      <wsdl:input wsam:Action="http://ComplexNetwork.Ysu/IComplexNetworkWorkerService/StopInstance" message="tns:IComplexNetworkWorkerService_StopInstance_InputMessage" />
+      <wsdl:output wsam:Action="http://ComplexNetwork.Ysu/IComplexNetworkWorkerService/StopInstanceResponse" message="tns:IComplexNetworkWorkerService_StopInstance_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="PauseAll">
+      <wsdl:input wsam:Action="http://ComplexNetwork.Ysu/IComplexNetworkWorkerService/PauseAll" message="tns:IComplexNetworkWorkerService_PauseAll_InputMessage" />
+      <wsdl:output wsam:Action="http://ComplexNetwork.Ysu/IComplexNetworkWorkerService/PauseAllResponse" message="tns:IComplexNetworkWorkerService_PauseAll_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="PauseInstance">
+      <wsdl:input wsam:Action="http://ComplexNetwork.Ysu/IComplexNetworkWorkerService/PauseInstance" message="tns:IComplexNetworkWorkerService_PauseInstance_InputMessage" />
+      <wsdl:output wsam:Action="http://ComplexNetwork.Ysu/IComplexNetworkWorkerService/PauseInstanceResponse" message="tns:IComplexNetworkWorkerService_PauseInstance_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="ContinueAll">
+      <wsdl:input wsam:Action="http://ComplexNetwork.Ysu/IComplexNetworkWorkerService/ContinueAll" message="tns:IComplexNetworkWorkerService_ContinueAll_InputMessage" />
+      <wsdl:output wsam:Action="http://ComplexNetwork.Ysu/IComplexNetworkWorkerService/ContinueAllResponse" message="tns:IComplexNetworkWorkerService_ContinueAll_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="ContinueInstance">
+      <wsdl:input wsam:Action="http://ComplexNetwork.Ysu/IComplexNetworkWorkerService/ContinueInstance" message="tns:IComplexNetworkWorkerService_ContinueInstance_InputMessage" />
+      <wsdl:output wsam:Action="http://ComplexNetwork.Ysu/IComplexNetworkWorkerService/ContinueInstanceResponse" message="tns:IComplexNetworkWorkerService_ContinueInstance_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Start">
+      <wsdl:input wsam:Action="http://ComplexNetwork.Ysu/IComplexNetworkWorkerService/Start" message="tns:IComplexNetworkWorkerService_Start_InputMessage" />
+      <wsdl:output wsam:Action="http://ComplexNetwork.Ysu/IComplexNetworkWorkerService/StartResponse" message="tns:IComplexNetworkWorkerService_Start_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="ProgressReport">
+      <wsdl:output wsam:Action="http://ComplexNetwork.Ysu/IComplexNetworkWorkerService/ProgressReport" message="tns:IComplexNetworkWorkerService_ProgressReport_OutputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

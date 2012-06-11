@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="RandomGraphLauncher.MainWindow">
+    <Position X="9" Y="6" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>FJCAAAAAACIcAACACACUAQAWAAgAMAAAAiABAAQMUCA=</HashCode>
+      <FileName>MainWindow.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="manager" />
+      <Field Name="storageManager" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="RandomGraphLauncher.ModelChooserWindow">
+    <Position X="5.75" Y="6" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAACAQBBAAAACAkAMCAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>ModelChooserWindow.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="iResultStorage" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="RandomGraphLauncher.ServiceManager">
+    <Position X="0.5" Y="6" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQBACAAABAAAACABAACAAAIAAAIIEAAAIEAAAA=</HashCode>
+      <FileName>ServiceManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flash.External.ExternalInterfaceProxy">
+    <Position X="4" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAQAAAAAAAAAAAAAAAAIAAAAAAAAAEAAAAEAA=</HashCode>
+      <FileName>FlashAPI\ExternalInterfaceProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraphLauncher.Properties.Settings">
+    <Position X="6.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraphLauncher.events.ModelChooserEventArgs">
+    <Position X="3" Y="6" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\events\ModelChooserEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraphLauncher.src.ViewController">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AEAgCIQAAAAFDIgAJAQAEAUEAABAAEAAIpACAAAAAAA=</HashCode>
+      <FileName>src\ViewController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="availableOptions" />
+      <Property Name="manager" />
+      <Property Name="proxy" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="RandomGraph.Core.Manager.Impl.AbstractGraphManager" Collapsed="true">
+    <Position X="4" Y="2" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="RandomGraph.Common.Storage.IResultStorage" Collapsed="true">
+    <Position X="5.75" Y="10.25" Width="2" />
+    <TypeIdentifier />
+  </Interface>
+  <Enum Name="RandomGraph.Common.Model.AnalyseOptions" Collapsed="true">
+    <Position X="4" Y="0.5" Width="2" />
+    <TypeIdentifier />
+  </Enum>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

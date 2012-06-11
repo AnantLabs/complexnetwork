@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="182d54bf-26b2-4ef7-8284-34dc3d5427da" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://sis2w019:8010/myComplexNetworkMex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ComplexNetwork.Ysu.wsdl" MetadataType="Wsdl" ID="505aa8cf-4c22-40c7-a66a-7b9cff822e44" SourceId="1" SourceUrl="net.tcp://sis2w019:8010/myComplexNetworkMex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="1a7d52d5-8eb1-4db7-8580-807c972e5947" SourceId="1" SourceUrl="net.tcp://sis2w019:8010/myComplexNetworkMex" />
+    <MetadataFile FileName="ComplexNetwork.Ysu.xsd" MetadataType="Schema" ID="121fde74-d299-4ebc-88ef-4dd85f5fce5b" SourceId="1" SourceUrl="net.tcp://sis2w019:8010/myComplexNetworkMex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="0a80cf83-426f-4245-9221-69041cdd7c05" SourceId="1" SourceUrl="net.tcp://sis2w019:8010/myComplexNetworkMex" />
+    <MetadataFile FileName="RandomGraph.Common.Model.xsd" MetadataType="Schema" ID="320bea08-1a8c-4843-8c05-6aac2d7e0ea7" SourceId="1" SourceUrl="net.tcp://sis2w019:8010/myComplexNetworkMex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="4062819e-44a5-466e-a396-1ea0e2957ebb" SourceId="1" SourceUrl="net.tcp://sis2w019:8010/myComplexNetworkMex" />
+    <MetadataFile FileName="RandomGraph.Common.Model.Generation.xsd" MetadataType="Schema" ID="ffbccf9f-9b13-4f8c-81ad-efff573af436" SourceId="1" SourceUrl="net.tcp://sis2w019:8010/myComplexNetworkMex" />
+    <MetadataFile FileName="Model.BAModel.xsd" MetadataType="Schema" ID="94ef6867-6596-4a60-99e8-7cf1f568fdf6" SourceId="1" SourceUrl="net.tcp://sis2w019:8010/myComplexNetworkMex" />
+    <MetadataFile FileName="HeirarchicModel.Model.xsd" MetadataType="Schema" ID="eba3b9fc-f6da-4347-b0ac-3cf1f95425fc" SourceId="1" SourceUrl="net.tcp://sis2w019:8010/myComplexNetworkMex" />
+    <MetadataFile FileName="Model.ERModel.xsd" MetadataType="Schema" ID="ed6dca7c-2895-49c7-b692-177c6309ca3c" SourceId="1" SourceUrl="net.tcp://sis2w019:8010/myComplexNetworkMex" />
+    <MetadataFile FileName="Model.WSModel.xsd" MetadataType="Schema" ID="9012574c-205b-486b-ad8a-adfd9e31fd70" SourceId="1" SourceUrl="net.tcp://sis2w019:8010/myComplexNetworkMex" />
+    <MetadataFile FileName="RandomGraph.Common.Model.Status.xsd" MetadataType="Schema" ID="278dd904-4f0d-483b-ae8b-ce000449b3a1" SourceId="1" SourceUrl="net.tcp://sis2w019:8010/myComplexNetworkMex" />
+    <MetadataFile FileName="RandomGraph.Common.Model.Result.xsd" MetadataType="Schema" ID="025154f2-9389-4ee6-ba72-708ff0f3f1e6" SourceId="1" SourceUrl="net.tcp://sis2w019:8010/myComplexNetworkMex" />
+    <MetadataFile FileName="System.Collections.xsd" MetadataType="Schema" ID="1c449ff2-333b-4892-b0bc-8ca1fea818e0" SourceId="1" SourceUrl="net.tcp://sis2w019:8010/myComplexNetworkMex" />
+    <MetadataFile FileName="HeirarchicModel.xsd" MetadataType="Schema" ID="d60cc040-c8b5-48bc-b4a4-7ee1133517a2" SourceId="1" SourceUrl="net.tcp://sis2w019:8010/myComplexNetworkMex" />
+    <MetadataFile FileName="RandomGraph.Core.Events.xsd" MetadataType="Schema" ID="3126025f-3ff1-4cff-9402-01fb7fd5b950" SourceId="1" SourceUrl="net.tcp://sis2w019:8010/myComplexNetworkMex" />
+    <MetadataFile FileName="System.xsd" MetadataType="Schema" ID="8305db1d-5599-401f-a0a6-422e7bff9362" SourceId="1" SourceUrl="net.tcp://sis2w019:8010/myComplexNetworkMex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

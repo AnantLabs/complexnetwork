@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="us-ascii" standalone="yes"?>
+<assembly>
+  <id>013ee3da-e535-43e6-a491-33298f57216c</id>
+  <name>1</name>
+  <date>6/3/2012 2:17:07 PM</date>
+  <graphmodel id="2" modelname="BAModel" />
+  <generationparams>
+    <generationparam id="1" parametername="Vertices" value="20" />
+    <generationparam id="5" parametername="MaxEdges" value="10" />
+    <generationparam id="10" parametername="AddVertices" value="15" />
+  </generationparams>
+  <analyseresults>
+    <instance>
+      <Model grapSize="35" />
+      <result>
+        <item option="DegreeDistribution">3</item>
+        <item option="AveragePath">2.35164835164835</item>
+        <item option="Cycles3">1</item>
+        <item option="Diameter">4</item>
+        <item option="Cycles4">0</item>
+      </result>
+      <vertexdegree>
+        <vd degree="0" count="21" />
+        <vd degree="1" count="7" />
+        <vd degree="2" count="4" />
+        <vd degree="3" count="1" />
+        <vd degree="4" count="1" />
+        <vd degree="8" count="1" />
+      </vertexdegree>
+      <coefficients>
+        <coeff coefficient="0" count="32" />
+        <coeff coefficient="0.03571428571429" count="1" />
+        <coeff coefficient="0.33333333333333" count="1" />
+        <coeff coefficient="1" count="1" />
+      </coefficients>
+      <Connsubgraphs />
+      <Fullsubgraphs />
+      <vertexdistance>
+        <vd distance="1" count="15" />
+        <vd distance="2" count="36" />
+        <vd distance="3" count="33" />
+        <vd distance="4" count="7" />
+      </vertexdistance>
+      <eigenvalues />
+      <eigenvaluesdistance />
+      <cycles>
+        <cl degree="3" count="1" />
+        <cl degree="4" count="1" />
+      </cycles>
+      <motives />
+      <parisiarray />
+    </instance>
+  </analyseresults>
+</assembly>

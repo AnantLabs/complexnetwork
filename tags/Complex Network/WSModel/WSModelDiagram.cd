@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Model.WSModel.Realization.WSAnalyzer">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <NestedTypes>
+      <Class Name="Model.WSModel.Realization.WSAnalyzer.Node" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Model\Realization\WSAnalyzer.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAgCAAAAgABBIAAAAhoABwIBAAAAAQgABABADAkAAA=</HashCode>
+      <FileName>Model\Realization\WSAnalyzer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_container" />
+      <Field Name="m_result" />
+      <Property Name="Result" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Model.WSModel.Realization.WSContainer">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABQAEAIAAAAAggAIAAAAmIAAAAAAgAAAABAEAAIAAAA=</HashCode>
+      <FileName>Model\Realization\WSContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.WSModel.Realization.WSGenerator">
+    <Position X="9" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAgAAAAAAAACACAAAAAAAAAAAAAABIAAAA=</HashCode>
+      <FileName>Model\Realization\WSGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.WSModel.Realization.WSGraph">
+    <Position X="11.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQABAAAAAAAAAAAAAAAAAAAAAQAAAAIAFIAAAA=</HashCode>
+      <FileName>Model\Realization\WSGraph.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_container" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Model.WSModel.WSGraphFactory">
+    <Position X="6.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAEEAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\WSGraphFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.WSModel.WSModel">
+    <Position X="9" Y="4" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAGAAAAAAEAAAGAAACAAAgAAAAAIAgAAIAAA=</HashCode>
+      <FileName>Model\WSModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="graph" />
+    </ShowAsAssociation>
+  </Class>
+  <Struct Name="Model.WSModel.Result.AnalyzeResult">
+    <Position X="6.25" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIgmAAABCAAACAAAAAAAAEIAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Result\AnalyzeResult.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

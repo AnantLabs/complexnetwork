@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/HeirarchicModel" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/HeirarchicModel" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/RandomGraph.Common.Model" />
+  <xs:complexType name="HierarchicModelParizi">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/RandomGraph.Common.Model" base="q1:AbstractGraphModel">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="HierarchicModelParizi" nillable="true" type="tns:HierarchicModelParizi" />
+  <xs:complexType name="HierarchicModel">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q2="http://schemas.datacontract.org/2004/07/RandomGraph.Common.Model" base="q2:AbstractGraphModel">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="HierarchicModel" nillable="true" type="tns:HierarchicModel" />
+</xs:schema>

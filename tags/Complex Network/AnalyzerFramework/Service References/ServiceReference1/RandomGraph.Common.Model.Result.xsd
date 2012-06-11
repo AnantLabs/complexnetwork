@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/RandomGraph.Common.Model.Result" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/RandomGraph.Common.Model.Result" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/System.Collections" />
+  <xs:complexType name="AnalizeResult">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Coefficient" nillable="true" type="q1:ArrayOfKeyValueOfdoubleint" />
+      <xs:element minOccurs="0" name="InstanceID" type="xs:int" />
+      <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Result" nillable="true" type="q2:ArrayOfKeyValueOfAnalyseOptionsdoubleSBcBIabp" />
+      <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Subgraphs" nillable="true" type="q3:ArrayOfKeyValueOfintint" />
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/System.Collections" minOccurs="0" name="TreeVector" nillable="true" type="q4:BitArray" />
+      <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="VertexDegree" nillable="true" type="q5:ArrayOfKeyValueOfintint" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AnalizeResult" nillable="true" type="tns:AnalizeResult" />
+</xs:schema>
