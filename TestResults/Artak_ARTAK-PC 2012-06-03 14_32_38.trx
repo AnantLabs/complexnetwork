@@ -1,0 +1,415 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="35651891-7267-47f7-8e0f-1a87681b7696" name="Artak@ARTAK-PC 2012-06-03 14:32:38" runUser="Artak-PC\Artak" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Local" id="06365d4d-a667-4a97-a950-eae68da8409b">
+    <Description>These are default test settings for a local test run.</Description>
+    <Deployment runDeploymentRoot="Artak_ARTAK-PC 2012-06-03 14_32_38">
+      <DeploymentItem filename="C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\ResultStorage\bin\Debug\ResultStorage.dll" />
+      <DeploymentItem filename="C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\WSModel.dll" />
+      <DeploymentItem filename="C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\ERmodel.dll" />
+      <DeploymentItem filename="C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\CommonLibrary\bin\Debug\CommonLibrary.dll" />
+      <DeploymentItem filename="C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\GenericAlgorithms\bin\Debug\GenericAlgorithms.dll" />
+      <DeploymentItem filename="C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\BAModel.dll" />
+      <DeploymentItem filename="C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\libs\log4net.dll" />
+      <DeploymentItem filename="C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\RandomGraphLauncher\bin\Debug\Models\HierarchicModel.dll" />
+    </Deployment>
+    <Execution>
+      <TestTypeSpecific>
+        <UnitTestRunConfig testTypeId="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b">
+          <AssemblyResolution>
+            <TestDirectory useLoadContext="true" />
+          </AssemblyResolution>
+        </UnitTestRunConfig>
+        <WebTestRunConfiguration testTypeId="4e7599fa-5ecb-43e9-a887-cd63cf72d207">
+          <Browser name="Internet Explorer 7.0">
+            <Headers>
+              <Header name="User-Agent" value="Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)" />
+              <Header name="Accept" value="*/*" />
+              <Header name="Accept-Language" value="{{$IEAcceptLanguage}}" />
+              <Header name="Accept-Encoding" value="GZIP" />
+            </Headers>
+          </Browser>
+        </WebTestRunConfiguration>
+      </TestTypeSpecific>
+      <AgentRule name="LocalMachineDefaultRole">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2012-06-03T14:32:38.8558506+05:00" queuing="2012-06-03T14:32:39.3608761+05:00" start="2012-06-03T14:32:39.4588817+05:00" finish="2012-06-03T14:33:59.8443236+05:00" />
+  <ResultSummary outcome="Error">
+    <Counters total="32" executed="8" passed="6" error="0" failed="1" timeout="0" aborted="1" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="24" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <RunInfos>
+      <RunInfo computerName="ARTAK-PC" outcome="Error" timestamp="2012-06-03T14:33:59.8403233+05:00">
+        <Text>Test host process exited unexpectedly.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="EigenValueTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="3f6ee0d3-3570-2b7e-4bab-37a89495a94e">
+      <Execution timeOut="100" id="40db5060-75fb-4646-8e34-74970bffbad7" />
+      <DeploymentItems>
+        <DeploymentItem filename="WSModelTestData//WSInput.txt" />
+        <DeploymentItem filename="WSModelTestData//WSOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.WSModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="EigenValueTest" />
+    </UnitTest>
+    <UnitTest name="BAAveragePathTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="529ca51b-424a-1e19-e041-295f6fe62ce4">
+      <Execution timeOut="100000" id="c46c38f2-dd9c-43d2-b0ad-1abe39dc8c72" />
+      <DeploymentItems>
+        <DeploymentItem filename="BAModelTestData//BAInput.txt" />
+        <DeploymentItem filename="BAModelTestData//BAOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.BAModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="BAAveragePathTest" />
+    </UnitTest>
+    <UnitTest name="Cycles4Test" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="4d5520e0-f64f-3d1c-bed2-44b4d9347d22">
+      <Execution timeOut="100" id="891199b7-4062-423d-98e4-7c6bb4313c80" />
+      <DeploymentItems>
+        <DeploymentItem filename="WSModelTestData//WSInput.txt" />
+        <DeploymentItem filename="WSModelTestData//WSOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.WSModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Cycles4Test" />
+    </UnitTest>
+    <UnitTest name="BACycles3Test" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="9d7ce3ef-7f17-a6cd-3048-24c367acdc29">
+      <Execution timeOut="100000" id="9372b12c-8265-48d2-ac73-3b6f08be9381" />
+      <DeploymentItems>
+        <DeploymentItem filename="BAModelTestData//BAInput.txt" />
+        <DeploymentItem filename="BAModelTestData//BAOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.BAModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="BACycles3Test" />
+    </UnitTest>
+    <UnitTest name="AveragePathTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="10236cba-9b57-dfe0-f372-5bdd2158aba9">
+      <Execution timeOut="100" id="24f94125-9494-48dd-bb26-0558084ebe19" />
+      <DeploymentItems>
+        <DeploymentItem filename="WSModelTestData//WSInput.txt" />
+        <DeploymentItem filename="WSModelTestData//WSOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.WSModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="AveragePathTest" />
+    </UnitTest>
+    <UnitTest name="ERFullSubGraphTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="769547a9-708d-428b-1b69-59e0a34bd815">
+      <Execution timeOut="100000" id="f2b3cd27-f19d-4b1b-9b2d-ff3b54e199b9" />
+      <DeploymentItems>
+        <DeploymentItem filename="ERModelTestData//ERInput.txt" />
+        <DeploymentItem filename="ERModelTestData//EROutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.ERModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ERFullSubGraphTest" />
+    </UnitTest>
+    <UnitTest name="CyclesTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="95fc77d0-b4fa-d331-f0c6-2df324ff163a">
+      <Execution timeOut="100" id="502aec9d-b67d-41fc-b4f4-fc5ac26a7715" />
+      <DeploymentItems>
+        <DeploymentItem filename="WSModelTestData//WSInput.txt" />
+        <DeploymentItem filename="WSModelTestData//WSOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.WSModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="CyclesTest" />
+    </UnitTest>
+    <UnitTest name="BACycles4Test" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="be7bcd70-a5bf-1762-761b-affe1cc141a1">
+      <Execution timeOut="100000" id="2b5331d2-b3cb-436c-a1c0-ac2e15bee4cb" />
+      <DeploymentItems>
+        <DeploymentItem filename="BAModelTestData//BAInput.txt" />
+        <DeploymentItem filename="BAModelTestData//BAOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.BAModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="BACycles4Test" />
+    </UnitTest>
+    <UnitTest name="BAFullSubGraphTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="78ca188d-ecbf-30aa-4302-e4849a978d18">
+      <Execution timeOut="100000" id="9ddef61e-8400-4518-82e0-bd5bfece0cb0" />
+      <DeploymentItems>
+        <DeploymentItem filename="BAModelTestData//BAInput.txt" />
+        <DeploymentItem filename="BAModelTestData//BAOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.BAModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="BAFullSubGraphTest" />
+    </UnitTest>
+    <UnitTest name="ClusteringCoefficientTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="aa3a78ac-0648-f256-c670-e431f6385b6f">
+      <Execution timeOut="100" id="01f31a60-cb9b-47a8-926f-cf85340ad8f3" />
+      <DeploymentItems>
+        <DeploymentItem filename="WSModelTestData//WSInput.txt" />
+        <DeploymentItem filename="WSModelTestData//WSOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.WSModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ClusteringCoefficientTest" />
+    </UnitTest>
+    <UnitTest name="BADistEigenPathTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="36cc869a-4de0-8973-837e-295f29c8dc78">
+      <Execution timeOut="100000" id="8320567e-a7e4-4bab-a2b3-7fddaf7a8753" />
+      <DeploymentItems>
+        <DeploymentItem filename="BAModelTestData//BAInput.txt" />
+        <DeploymentItem filename="BAModelTestData//BAOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.BAModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="BADistEigenPathTest" />
+    </UnitTest>
+    <UnitTest name="MinPathDistTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="895a8e04-2717-39d0-137f-e866ab032d58">
+      <Execution timeOut="100" id="e079c0d9-4432-4180-8342-6f64e360cfc0" />
+      <DeploymentItems>
+        <DeploymentItem filename="WSModelTestData//WSInput.txt" />
+        <DeploymentItem filename="WSModelTestData//WSOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.WSModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="MinPathDistTest" />
+    </UnitTest>
+    <UnitTest name="BAMotivesTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="ec1ad126-00b5-99f5-d9cf-d01acf6f658d">
+      <Execution timeOut="100000" id="13c522dc-fdab-4f3a-99c9-9b33669270e4" />
+      <DeploymentItems>
+        <DeploymentItem filename="BAModelTestData//BAInput.txt" />
+        <DeploymentItem filename="BAModelTestData//BAOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.BAModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="BAMotivesTest" />
+    </UnitTest>
+    <UnitTest name="BADegreeDistributionTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="de3eba91-9142-ae92-71e7-a0b12b643760">
+      <Execution timeOut="100000" id="0f649cf2-f7ba-4bef-9947-70fcba897004" />
+      <DeploymentItems>
+        <DeploymentItem filename="BAModelTestData//BAInput.txt" />
+        <DeploymentItem filename="BAModelTestData//BAOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.BAModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="BADegreeDistributionTest" />
+    </UnitTest>
+    <UnitTest name="BAEigenValueTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="8afb1dd9-d132-f512-1490-26f7fc0202e0">
+      <Execution timeOut="100000" id="fdd0ef47-fddc-4c89-a07a-4560f86229e0" />
+      <DeploymentItems>
+        <DeploymentItem filename="BAModelTestData//BAInput.txt" />
+        <DeploymentItem filename="BAModelTestData//BAOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.BAModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="BAEigenValueTest" />
+    </UnitTest>
+    <UnitTest name="ERDegreeDistributionTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="bc7c2973-70c2-7d8e-2a94-e3623ae0f217">
+      <Execution timeOut="100000" id="8857005c-a9f7-45c7-9989-b907c75ff61a" />
+      <DeploymentItems>
+        <DeploymentItem filename="ERModelTestData//EROutput.xml" />
+        <DeploymentItem filename="ERModelTestData//ERInput.txt" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.ERModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ERDegreeDistributionTest" />
+    </UnitTest>
+    <UnitTest name="ERMinPathDistTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="241c850e-1767-20c7-3823-7cdb3a877002">
+      <Execution timeOut="100000" id="1b7e35f7-9997-4a4d-81b8-87aadb317544" />
+      <DeploymentItems>
+        <DeploymentItem filename="ERModelTestData//ERInput.txt" />
+        <DeploymentItem filename="ERModelTestData//EROutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.ERModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ERMinPathDistTest" />
+    </UnitTest>
+    <UnitTest name="BAMinPathDistTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="4f18a51e-7135-51c7-cdfd-e029c9ebd5a5">
+      <Execution timeOut="100000" id="462dfc1c-fc1d-4854-b4c8-d15f3dffca1a" />
+      <DeploymentItems>
+        <DeploymentItem filename="BAModelTestData//BAInput.txt" />
+        <DeploymentItem filename="BAModelTestData//BAOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.BAModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="BAMinPathDistTest" />
+    </UnitTest>
+    <UnitTest name="ERClusteringCoefficientTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="b3187619-d33c-cf03-a63b-f80f761ae2cc">
+      <Execution timeOut="100000" id="860d5e4b-07e9-4a1c-b9e8-f657a85ad051" />
+      <DeploymentItems>
+        <DeploymentItem filename="ERModelTestData//ERInput.txt" />
+        <DeploymentItem filename="ERModelTestData//EROutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.ERModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ERClusteringCoefficientTest" />
+    </UnitTest>
+    <UnitTest name="FullSubGraphTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="279e726c-ee8d-0c66-4427-5552d22e7a5f">
+      <Execution timeOut="100" id="9419e17b-aee5-4091-9e59-7bf5e0c046f0" />
+      <DeploymentItems>
+        <DeploymentItem filename="WSModelTestData//WSInput.txt" />
+        <DeploymentItem filename="WSModelTestData//WSOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.WSModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="FullSubGraphTest" />
+    </UnitTest>
+    <UnitTest name="BADiameterTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="e836ab81-dd67-5300-249c-d7748cc04eb3">
+      <Execution timeOut="100000" id="2b682746-038f-427b-b45e-208156c1c317" />
+      <DeploymentItems>
+        <DeploymentItem filename="BAModelTestData//BAInput.txt" />
+        <DeploymentItem filename="BAModelTestData//BAOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.BAModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="BADiameterTest" />
+    </UnitTest>
+    <UnitTest name="ERCyclesTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="490b5308-3b85-07ed-c42b-c14e2d465265">
+      <Execution timeOut="100000" id="559efbad-7e84-475e-ab1f-c58d74796e20" />
+      <DeploymentItems>
+        <DeploymentItem filename="ERModelTestData//ERInput.txt" />
+        <DeploymentItem filename="ERModelTestData//EROutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.ERModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ERCyclesTest" />
+    </UnitTest>
+    <UnitTest name="Cycles3Test" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="09e4d43b-2f83-86ac-6f1b-70381c9c9a71">
+      <Execution timeOut="100" id="65e4707a-f147-4fd5-b308-4dc9b054b961" />
+      <DeploymentItems>
+        <DeploymentItem filename="WSModelTestData//WSInput.txt" />
+        <DeploymentItem filename="WSModelTestData//WSOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.WSModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Cycles3Test" />
+    </UnitTest>
+    <UnitTest name="EREigenValueTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="da08eff5-3c25-929c-4b85-c7f90857ef0a">
+      <Execution timeOut="100000" id="5fe5e86e-72ae-43db-be59-3f11f65e9908" />
+      <DeploymentItems>
+        <DeploymentItem filename="ERModelTestData//ERInput.txt" />
+        <DeploymentItem filename="ERModelTestData//EROutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.ERModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="EREigenValueTest" />
+    </UnitTest>
+    <UnitTest name="ERAveragePathTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="8c043ffa-8e32-7c78-0198-205244a44069">
+      <Execution timeOut="100000" id="ed3d3cd5-6f85-496d-ae4b-c1675ec00e32" />
+      <DeploymentItems>
+        <DeploymentItem filename="ERModelTestData//EROutput.xml" />
+        <DeploymentItem filename="ERModelTestData//ERInput.txt" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.ERModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ERAveragePathTest" />
+    </UnitTest>
+    <UnitTest name="ERDistEigenPathTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="9be689a9-7c18-e9b4-6583-fd2d175e0827">
+      <Execution timeOut="100000" id="3f0e65a5-54f8-492c-9c8b-3ae89dc23b30" />
+      <DeploymentItems>
+        <DeploymentItem filename="ERModelTestData//ERInput.txt" />
+        <DeploymentItem filename="ERModelTestData//EROutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.ERModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ERDistEigenPathTest" />
+    </UnitTest>
+    <UnitTest name="ERCycles4Test" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="4786793d-692a-fc8b-6e30-86a5570e82b7">
+      <Execution timeOut="100000" id="4edd0df3-1f71-4f37-b951-c4c49f34b113" />
+      <DeploymentItems>
+        <DeploymentItem filename="ERModelTestData//ERInput.txt" />
+        <DeploymentItem filename="ERModelTestData//EROutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.ERModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ERCycles4Test" />
+    </UnitTest>
+    <UnitTest name="ERCycles3Test" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="3f376ebd-9216-9dd2-7561-8164ec7518ba">
+      <Execution timeOut="100000" id="811aea7c-6a82-4de1-9256-5cae313d99c7" />
+      <DeploymentItems>
+        <DeploymentItem filename="ERModelTestData//EROutput.xml" />
+        <DeploymentItem filename="ERModelTestData//ERInput.txt" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.ERModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ERCycles3Test" />
+    </UnitTest>
+    <UnitTest name="DegreeDistributionTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="f1a0d255-0c61-cfee-ec58-91993a16ce5b">
+      <Execution timeOut="100" id="c11ee122-ba9c-4294-aa97-60dc06b3aa5e" />
+      <DeploymentItems>
+        <DeploymentItem filename="WSModelTestData//WSInput.txt" />
+        <DeploymentItem filename="WSModelTestData//WSOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.WSModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="DegreeDistributionTest" />
+    </UnitTest>
+    <UnitTest name="BAClusteringCoefficientTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="c56016bf-aecb-c4e5-dff8-64ee84a7a2fc">
+      <Execution timeOut="100000" id="2d7c5fac-3544-43cb-ba4e-60b0d4bd02cd" />
+      <DeploymentItems>
+        <DeploymentItem filename="BAModelTestData//BAInput.txt" />
+        <DeploymentItem filename="BAModelTestData//BAOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.BAModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="BAClusteringCoefficientTest" />
+    </UnitTest>
+    <UnitTest name="BACyclesTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="1d3d5e79-fa88-2af3-4d68-29ce0a970817">
+      <Execution timeOut="100000" id="082260ff-19ee-4cdc-aa5e-9b70193b6543" />
+      <DeploymentItems>
+        <DeploymentItem filename="BAModelTestData//BAInput.txt" />
+        <DeploymentItem filename="BAModelTestData//BAOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.BAModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="BACyclesTest" />
+    </UnitTest>
+    <UnitTest name="DistEigenPathTest" storage="c:\users\artak\desktop\complexnetwork\trunk\complex network\modelstests\bin\debug\modelstests.dll" id="b4a11777-b4fb-ab62-177f-71796b5cfcb5">
+      <Execution timeOut="100" id="756cc9de-1cdb-4dcb-8642-5468b0f673d8" />
+      <DeploymentItems>
+        <DeploymentItem filename="WSModelTestData//WSInput.txt" />
+        <DeploymentItem filename="WSModelTestData//WSOutput.xml" />
+      </DeploymentItems>
+      <TestMethod codeBase="C:/Users/Artak/Desktop/complexnetwork/trunk/Complex Network/ModelsTests/bin/Debug/ModelsTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="ModelsTests.WSModelTest, ModelsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="DistEigenPathTest" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="09e4d43b-2f83-86ac-6f1b-70381c9c9a71" executionId="65e4707a-f147-4fd5-b308-4dc9b054b961" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="10236cba-9b57-dfe0-f372-5bdd2158aba9" executionId="24f94125-9494-48dd-bb26-0558084ebe19" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1d3d5e79-fa88-2af3-4d68-29ce0a970817" executionId="082260ff-19ee-4cdc-aa5e-9b70193b6543" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="241c850e-1767-20c7-3823-7cdb3a877002" executionId="1b7e35f7-9997-4a4d-81b8-87aadb317544" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="279e726c-ee8d-0c66-4427-5552d22e7a5f" executionId="9419e17b-aee5-4091-9e59-7bf5e0c046f0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="36cc869a-4de0-8973-837e-295f29c8dc78" executionId="8320567e-a7e4-4bab-a2b3-7fddaf7a8753" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3f376ebd-9216-9dd2-7561-8164ec7518ba" executionId="811aea7c-6a82-4de1-9256-5cae313d99c7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3f6ee0d3-3570-2b7e-4bab-37a89495a94e" executionId="40db5060-75fb-4646-8e34-74970bffbad7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4786793d-692a-fc8b-6e30-86a5570e82b7" executionId="4edd0df3-1f71-4f37-b951-c4c49f34b113" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="490b5308-3b85-07ed-c42b-c14e2d465265" executionId="559efbad-7e84-475e-ab1f-c58d74796e20" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4d5520e0-f64f-3d1c-bed2-44b4d9347d22" executionId="891199b7-4062-423d-98e4-7c6bb4313c80" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4f18a51e-7135-51c7-cdfd-e029c9ebd5a5" executionId="462dfc1c-fc1d-4854-b4c8-d15f3dffca1a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="529ca51b-424a-1e19-e041-295f6fe62ce4" executionId="c46c38f2-dd9c-43d2-b0ad-1abe39dc8c72" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="769547a9-708d-428b-1b69-59e0a34bd815" executionId="f2b3cd27-f19d-4b1b-9b2d-ff3b54e199b9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="78ca188d-ecbf-30aa-4302-e4849a978d18" executionId="9ddef61e-8400-4518-82e0-bd5bfece0cb0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="895a8e04-2717-39d0-137f-e866ab032d58" executionId="e079c0d9-4432-4180-8342-6f64e360cfc0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8afb1dd9-d132-f512-1490-26f7fc0202e0" executionId="fdd0ef47-fddc-4c89-a07a-4560f86229e0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8c043ffa-8e32-7c78-0198-205244a44069" executionId="ed3d3cd5-6f85-496d-ae4b-c1675ec00e32" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="95fc77d0-b4fa-d331-f0c6-2df324ff163a" executionId="502aec9d-b67d-41fc-b4f4-fc5ac26a7715" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9be689a9-7c18-e9b4-6583-fd2d175e0827" executionId="3f0e65a5-54f8-492c-9c8b-3ae89dc23b30" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9d7ce3ef-7f17-a6cd-3048-24c367acdc29" executionId="9372b12c-8265-48d2-ac73-3b6f08be9381" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="aa3a78ac-0648-f256-c670-e431f6385b6f" executionId="01f31a60-cb9b-47a8-926f-cf85340ad8f3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b3187619-d33c-cf03-a63b-f80f761ae2cc" executionId="860d5e4b-07e9-4a1c-b9e8-f657a85ad051" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b4a11777-b4fb-ab62-177f-71796b5cfcb5" executionId="756cc9de-1cdb-4dcb-8642-5468b0f673d8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bc7c2973-70c2-7d8e-2a94-e3623ae0f217" executionId="8857005c-a9f7-45c7-9989-b907c75ff61a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="be7bcd70-a5bf-1762-761b-affe1cc141a1" executionId="2b5331d2-b3cb-436c-a1c0-ac2e15bee4cb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c56016bf-aecb-c4e5-dff8-64ee84a7a2fc" executionId="2d7c5fac-3544-43cb-ba4e-60b0d4bd02cd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="da08eff5-3c25-929c-4b85-c7f90857ef0a" executionId="5fe5e86e-72ae-43db-be59-3f11f65e9908" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="de3eba91-9142-ae92-71e7-a0b12b643760" executionId="0f649cf2-f7ba-4bef-9947-70fcba897004" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e836ab81-dd67-5300-249c-d7748cc04eb3" executionId="2b682746-038f-427b-b45e-208156c1c317" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ec1ad126-00b5-99f5-d9cf-d01acf6f658d" executionId="13c522dc-fdab-4f3a-99c9-9b33669270e4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f1a0d255-0c61-cfee-ec58-91993a16ce5b" executionId="c11ee122-ba9c-4294-aa97-60dc06b3aa5e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="65e4707a-f147-4fd5-b308-4dc9b054b961" testId="09e4d43b-2f83-86ac-6f1b-70381c9c9a71" testName="Cycles3Test" computerName="ARTAK-PC" duration="00:00:00.1088901" startTime="2012-06-03T14:32:39.5368862+05:00" endTime="2012-06-03T14:32:40.1919203+05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="65e4707a-f147-4fd5-b308-4dc9b054b961">
+    </UnitTestResult>
+    <UnitTestResult executionId="24f94125-9494-48dd-bb26-0558084ebe19" testId="10236cba-9b57-dfe0-f372-5bdd2158aba9" testName="AveragePathTest" computerName="ARTAK-PC" duration="00:01:10.2285736" startTime="2012-06-03T14:32:40.1949205+05:00" endTime="2012-06-03T14:33:50.5468186+05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="24f94125-9494-48dd-bb26-0558084ebe19">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.AreEqual failed. Expected:&lt;1.5238&gt;. Actual:&lt;2.19047619047619&gt;. </Message>
+          <StackTrace>   at ModelsTests.WSModelTest.AveragePathTest() in C:\Users\Artak\Desktop\complexnetwork\trunk\Complex Network\ModelsTests\WSModelTests.cs:line 70
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="082260ff-19ee-4cdc-aa5e-9b70193b6543" testId="1d3d5e79-fa88-2af3-4d68-29ce0a970817" testName="BACyclesTest" computerName="ARTAK-PC" duration="00:00:00.0121051" startTime="2012-06-03T14:33:50.5748202+05:00" endTime="2012-06-03T14:33:50.5948213+05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="082260ff-19ee-4cdc-aa5e-9b70193b6543">
+    </UnitTestResult>
+    <UnitTestResult executionId="1b7e35f7-9997-4a4d-81b8-87aadb317544" testId="241c850e-1767-20c7-3823-7cdb3a877002" testName="ERMinPathDistTest" computerName="ARTAK-PC" duration="00:00:00.0125823" startTime="2012-06-03T14:33:50.5978215+05:00" endTime="2012-06-03T14:33:50.6178226+05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1b7e35f7-9997-4a4d-81b8-87aadb317544">
+    </UnitTestResult>
+    <UnitTestResult executionId="9419e17b-aee5-4091-9e59-7bf5e0c046f0" testId="279e726c-ee8d-0c66-4427-5552d22e7a5f" testName="FullSubGraphTest" computerName="ARTAK-PC" duration="00:00:00.0010780" startTime="2012-06-03T14:33:50.6218228+05:00" endTime="2012-06-03T14:33:50.6278232+05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9419e17b-aee5-4091-9e59-7bf5e0c046f0">
+    </UnitTestResult>
+    <UnitTestResult executionId="8320567e-a7e4-4bab-a2b3-7fddaf7a8753" testId="36cc869a-4de0-8973-837e-295f29c8dc78" testName="BADistEigenPathTest" computerName="ARTAK-PC" duration="00:00:00.0046431" startTime="2012-06-03T14:33:50.6368237+05:00" endTime="2012-06-03T14:33:50.6688255+05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8320567e-a7e4-4bab-a2b3-7fddaf7a8753">
+    </UnitTestResult>
+    <UnitTestResult executionId="811aea7c-6a82-4de1-9256-5cae313d99c7" testId="3f376ebd-9216-9dd2-7561-8164ec7518ba" testName="ERCycles3Test" computerName="ARTAK-PC" duration="00:00:00.0047063" startTime="2012-06-03T14:33:50.6728258+05:00" endTime="2012-06-03T14:33:50.6838264+05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="811aea7c-6a82-4de1-9256-5cae313d99c7">
+    </UnitTestResult>
+    <UnitTestResult executionId="40db5060-75fb-4646-8e34-74970bffbad7" testId="3f6ee0d3-3570-2b7e-4bab-37a89495a94e" testName="EigenValueTest" computerName="ARTAK-PC" duration="00:00:09.1544968" startTime="2012-06-03T14:33:50.6868266+05:00" endTime="2012-06-03T14:33:59.8413234+05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Aborted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="40db5060-75fb-4646-8e34-74970bffbad7">
+    </UnitTestResult>
+    <UnitTestResult executionId="4edd0df3-1f71-4f37-b951-c4c49f34b113" testId="4786793d-692a-fc8b-6e30-86a5570e82b7" testName="ERCycles4Test" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4edd0df3-1f71-4f37-b951-c4c49f34b113">
+    </UnitTestResult>
+    <UnitTestResult executionId="559efbad-7e84-475e-ab1f-c58d74796e20" testId="490b5308-3b85-07ed-c42b-c14e2d465265" testName="ERCyclesTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="559efbad-7e84-475e-ab1f-c58d74796e20">
+    </UnitTestResult>
+    <UnitTestResult executionId="891199b7-4062-423d-98e4-7c6bb4313c80" testId="4d5520e0-f64f-3d1c-bed2-44b4d9347d22" testName="Cycles4Test" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="891199b7-4062-423d-98e4-7c6bb4313c80">
+    </UnitTestResult>
+    <UnitTestResult executionId="462dfc1c-fc1d-4854-b4c8-d15f3dffca1a" testId="4f18a51e-7135-51c7-cdfd-e029c9ebd5a5" testName="BAMinPathDistTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="462dfc1c-fc1d-4854-b4c8-d15f3dffca1a">
+    </UnitTestResult>
+    <UnitTestResult executionId="c46c38f2-dd9c-43d2-b0ad-1abe39dc8c72" testId="529ca51b-424a-1e19-e041-295f6fe62ce4" testName="BAAveragePathTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c46c38f2-dd9c-43d2-b0ad-1abe39dc8c72">
+    </UnitTestResult>
+    <UnitTestResult executionId="f2b3cd27-f19d-4b1b-9b2d-ff3b54e199b9" testId="769547a9-708d-428b-1b69-59e0a34bd815" testName="ERFullSubGraphTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f2b3cd27-f19d-4b1b-9b2d-ff3b54e199b9">
+    </UnitTestResult>
+    <UnitTestResult executionId="9ddef61e-8400-4518-82e0-bd5bfece0cb0" testId="78ca188d-ecbf-30aa-4302-e4849a978d18" testName="BAFullSubGraphTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9ddef61e-8400-4518-82e0-bd5bfece0cb0">
+    </UnitTestResult>
+    <UnitTestResult executionId="e079c0d9-4432-4180-8342-6f64e360cfc0" testId="895a8e04-2717-39d0-137f-e866ab032d58" testName="MinPathDistTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e079c0d9-4432-4180-8342-6f64e360cfc0">
+    </UnitTestResult>
+    <UnitTestResult executionId="fdd0ef47-fddc-4c89-a07a-4560f86229e0" testId="8afb1dd9-d132-f512-1490-26f7fc0202e0" testName="BAEigenValueTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fdd0ef47-fddc-4c89-a07a-4560f86229e0">
+    </UnitTestResult>
+    <UnitTestResult executionId="ed3d3cd5-6f85-496d-ae4b-c1675ec00e32" testId="8c043ffa-8e32-7c78-0198-205244a44069" testName="ERAveragePathTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ed3d3cd5-6f85-496d-ae4b-c1675ec00e32">
+    </UnitTestResult>
+    <UnitTestResult executionId="502aec9d-b67d-41fc-b4f4-fc5ac26a7715" testId="95fc77d0-b4fa-d331-f0c6-2df324ff163a" testName="CyclesTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="502aec9d-b67d-41fc-b4f4-fc5ac26a7715">
+    </UnitTestResult>
+    <UnitTestResult executionId="3f0e65a5-54f8-492c-9c8b-3ae89dc23b30" testId="9be689a9-7c18-e9b4-6583-fd2d175e0827" testName="ERDistEigenPathTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3f0e65a5-54f8-492c-9c8b-3ae89dc23b30">
+    </UnitTestResult>
+    <UnitTestResult executionId="9372b12c-8265-48d2-ac73-3b6f08be9381" testId="9d7ce3ef-7f17-a6cd-3048-24c367acdc29" testName="BACycles3Test" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9372b12c-8265-48d2-ac73-3b6f08be9381">
+    </UnitTestResult>
+    <UnitTestResult executionId="01f31a60-cb9b-47a8-926f-cf85340ad8f3" testId="aa3a78ac-0648-f256-c670-e431f6385b6f" testName="ClusteringCoefficientTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="01f31a60-cb9b-47a8-926f-cf85340ad8f3">
+    </UnitTestResult>
+    <UnitTestResult executionId="860d5e4b-07e9-4a1c-b9e8-f657a85ad051" testId="b3187619-d33c-cf03-a63b-f80f761ae2cc" testName="ERClusteringCoefficientTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="860d5e4b-07e9-4a1c-b9e8-f657a85ad051">
+    </UnitTestResult>
+    <UnitTestResult executionId="756cc9de-1cdb-4dcb-8642-5468b0f673d8" testId="b4a11777-b4fb-ab62-177f-71796b5cfcb5" testName="DistEigenPathTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="756cc9de-1cdb-4dcb-8642-5468b0f673d8">
+    </UnitTestResult>
+    <UnitTestResult executionId="8857005c-a9f7-45c7-9989-b907c75ff61a" testId="bc7c2973-70c2-7d8e-2a94-e3623ae0f217" testName="ERDegreeDistributionTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8857005c-a9f7-45c7-9989-b907c75ff61a">
+    </UnitTestResult>
+    <UnitTestResult executionId="2b5331d2-b3cb-436c-a1c0-ac2e15bee4cb" testId="be7bcd70-a5bf-1762-761b-affe1cc141a1" testName="BACycles4Test" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2b5331d2-b3cb-436c-a1c0-ac2e15bee4cb">
+    </UnitTestResult>
+    <UnitTestResult executionId="2d7c5fac-3544-43cb-ba4e-60b0d4bd02cd" testId="c56016bf-aecb-c4e5-dff8-64ee84a7a2fc" testName="BAClusteringCoefficientTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2d7c5fac-3544-43cb-ba4e-60b0d4bd02cd">
+    </UnitTestResult>
+    <UnitTestResult executionId="5fe5e86e-72ae-43db-be59-3f11f65e9908" testId="da08eff5-3c25-929c-4b85-c7f90857ef0a" testName="EREigenValueTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5fe5e86e-72ae-43db-be59-3f11f65e9908">
+    </UnitTestResult>
+    <UnitTestResult executionId="0f649cf2-f7ba-4bef-9947-70fcba897004" testId="de3eba91-9142-ae92-71e7-a0b12b643760" testName="BADegreeDistributionTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0f649cf2-f7ba-4bef-9947-70fcba897004">
+    </UnitTestResult>
+    <UnitTestResult executionId="2b682746-038f-427b-b45e-208156c1c317" testId="e836ab81-dd67-5300-249c-d7748cc04eb3" testName="BADiameterTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2b682746-038f-427b-b45e-208156c1c317">
+    </UnitTestResult>
+    <UnitTestResult executionId="13c522dc-fdab-4f3a-99c9-9b33669270e4" testId="ec1ad126-00b5-99f5-d9cf-d01acf6f658d" testName="BAMotivesTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="13c522dc-fdab-4f3a-99c9-9b33669270e4">
+    </UnitTestResult>
+    <UnitTestResult executionId="c11ee122-ba9c-4294-aa97-60dc06b3aa5e" testId="f1a0d255-0c61-cfee-ec58-91993a16ce5b" testName="DegreeDistributionTest" computerName="ARTAK-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c11ee122-ba9c-4294-aa97-60dc06b3aa5e">
+    </UnitTestResult>
+  </Results>
+</TestRun>
