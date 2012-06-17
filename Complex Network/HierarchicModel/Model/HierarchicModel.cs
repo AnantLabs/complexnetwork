@@ -291,5 +291,10 @@ namespace Model.HierarchicModel
             }
             return matrix;*/
         }
+
+        protected override void StaticGenerateModel()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -41,14 +41,14 @@ namespace RandomGraphLauncher
         private Dictionary<string, AnalyseOptions> analizeOptionBoxes;
         private Dictionary<GenerationParam, Control> genParamBoxes;
 
-        public CalculationControl(Type arg_modelFactoryType, Type arg_modelType, string jobName, AbstractGraphManager manager, bool isDistributed, bool isTrainingMode, bool isTraceingMode)
+        public CalculationControl(Type arg_modelFactoryType, Type arg_modelType, string jobName, AbstractGraphManager manager, bool isDistributed, bool isTrainingMode, bool isTraceingMode,bool randomGeneration)
         {
             log.Info("Started constructing UI");
             controller.Init(arg_modelFactoryType, arg_modelType, jobName, manager, isDistributed, isTrainingMode);
             controller.SetStatusChangedEventHandler(manager_ExecutionStatusChange);
             InitializeComponent();
             InitModelLabels();
-            InitSelectionPanels();
+            InitSelectionPanels(randomGeneration);
 
             if (isTrainingMode)
             {
@@ -71,10 +71,10 @@ namespace RandomGraphLauncher
             }
             controller.isTraceingMode = isTraceingMode;
             GraphModel graphMetaData = controller.GetGraphModel();
-            if (graphMetaData.Name == "Static Model")
-            {
-                numericUpDown_Instances_Count.Enabled = false;
-            }
+            //if (graphMetaData.Name == "Static Model")
+            //{
+                numericUpDown_Instances_Count.Enabled = randomGeneration;
+          ///  }
         }
 
         private void DisapleControlButtons()
@@ -241,7 +241,7 @@ namespace RandomGraphLauncher
 
         private delegate void BtnEnabled(Button btn, bool val);
 
-        private void InitSelectionPanels()
+        private void InitSelectionPanels(bool randomGeneration)
         {
             log.Info("Starting initialization of selection panels");
             analizeOptionBoxes = new Dictionary<string, AnalyseOptions>();
@@ -284,11 +284,12 @@ namespace RandomGraphLauncher
                 GenerationParam param = requiredGenerationParam.GenParam;
                 GenerationParamInfo paramInfo = (GenerationParamInfo)(param.GetType().GetField(param.ToString()).GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);
                 Control control = null;
+                Label textBoxLabel;
                 if (paramInfo.Type == typeof(bool))
                 {
                     control = new CheckBox();
                 }
-                if (paramInfo.Type == typeof(String))
+                if (!randomGeneration && paramInfo.Type == typeof(String))
                 {
                     control = new TextBox();
                     Button brButton = new Button();
@@ -299,24 +300,41 @@ namespace RandomGraphLauncher
                     brButton.Text = "Browse";
                     groupBox_Gen_params.Controls.Add(brButton);
                     control.Tag = "filePath";
+                    control.Width = 100;
+                    control.Location = new Point(105, position);
+
+                     textBoxLabel = new Label() { Width = 100 };
+                    textBoxLabel.Location = new Point(15, position);
+
+                    textBoxLabel.Text = paramInfo.Name;
+                    genParamBoxes.Add(param, control);
+
+                    groupBox_Gen_params.Controls.Add(control);
+                    groupBox_Gen_params.Controls.Add(textBoxLabel);
+                    position += 25;
+                    break;
                 }
                 else
                 {
-                    control = new TextBox();
+                    if (paramInfo.Type!=typeof(String))
+                    {
+                        control = new TextBox();
+                        control.Width = 100;
+                        control.Location = new Point(105, position);
+
+                        textBoxLabel = new Label() { Width = 100 };
+                        textBoxLabel.Location = new Point(15, position);
+
+                        textBoxLabel.Text = paramInfo.Name;
+                        genParamBoxes.Add(param, control);
+
+                        groupBox_Gen_params.Controls.Add(control);
+                        groupBox_Gen_params.Controls.Add(textBoxLabel);
+                        position += 25;
+                    }
                 }
 
-                control.Width = 100;
-                control.Location = new Point(105, position);
-
-                Label textBoxLabel = new Label() { Width = 100 };
-                textBoxLabel.Location = new Point(15, position);
-
-                textBoxLabel.Text = paramInfo.Name;
-                genParamBoxes.Add(param, control);
-
-                groupBox_Gen_params.Controls.Add(control);
-                groupBox_Gen_params.Controls.Add(textBoxLabel);
-                position += 25;
+              
             }
         }
 
@@ -661,6 +679,36 @@ namespace RandomGraphLauncher
             {
                 // if (((CheckedListBox)sender).)
             }
+        }
+
+        private void selectallcheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (selectallcheckBox.Checked)
+            {
+                deselectallcheckBox.Checked = false;
+                for (int i = 0; i < checkedListBox_Options.Items.Count; i++)
+                {
+                    checkedListBox_Options.SetItemChecked(i, true);
+                }
+                selectallcheckBox.Enabled = false;
+                deselectallcheckBox.Enabled = true;
+            }
+         
+        }
+
+        private void deselectallcheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (deselectallcheckBox.Checked)
+            {
+                selectallcheckBox.Checked = false;
+                for (int i = 0; i < checkedListBox_Options.Items.Count; i++)
+                {
+                    checkedListBox_Options.SetItemChecked(i, false);
+                }
+                deselectallcheckBox.Enabled = false;
+                selectallcheckBox.Enabled = true;
+            }
+
         }
     }
 }

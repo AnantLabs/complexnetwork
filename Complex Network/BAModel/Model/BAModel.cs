@@ -11,6 +11,7 @@ using CommonLibrary.Model.Attributes;
 using Model.BAModel.Realization;
 using System.Threading;
 using Algorithms;
+using GenericAlgorithms;
 
 namespace Model.BAModel
 {
@@ -28,6 +29,7 @@ namespace Model.BAModel
      AnalyseOptions.Cycles |
      AnalyseOptions.Motifs |
      AnalyseOptions.MaxFullSubgraph)]
+    [RequiredGenerationParam(GenerationParam.FilePath, 1)]
     [RequiredGenerationParam(GenerationParam.Vertices, 2)]
     [RequiredGenerationParam(GenerationParam.MaxEdges, 3)]
     [RequiredGenerationParam(GenerationParam.AddVertices, 10)]
@@ -103,6 +105,8 @@ namespace Model.BAModel
                 BAModelGenerator.Generate((Int32)GenerationParamValues[GenerationParam.AddVertices]);
                 this.BAModelGraph = BAModelGenerator.Graph;
                 InvokeProgressEvent(GraphProgress.GenerationDone, 30);
+            
+              
             }
             catch (ThreadAbortException) { }
             catch (Exception)
@@ -117,6 +121,32 @@ namespace Model.BAModel
 
         }
 
+        protected override void StaticGenerateModel()
+        {
+            InvokeProgressEvent(GraphProgress.StartingGeneration, 5);
+
+            try
+            {
+                InvokeProgressEvent(GraphProgress.Generating, 10);
+                String filePath = (String)GenerationParamValues[GenerationParam.FilePath];
+                ArrayList matrix = MatrixFileReader.MatrixReader(filePath);
+                BAModelGraph = new BAGraph(matrix);
+                Graph = BAModelGraph;
+                InvokeProgressEvent(GraphProgress.GenerationDone, 30);
+
+            }
+            catch (ThreadAbortException) { }
+            catch (Exception)
+            {
+                InvokeFailureProgressEvent(GraphProgress.GenerationFailed, "ENTER FAIL REASON HERE");
+                //RETHROW EXCEPTION 
+            }
+            finally
+            {
+                //Place clean up code here
+            }
+
+        }
 
         protected override void AnalizeModel()
         {
@@ -216,7 +246,9 @@ namespace Model.BAModel
                     bool[,] m = GetMatrix();
                     Result.EigenVector = ev.EV(m);
                     Result.DistancesBetweenEigenValues = ev.CalcEigenValuesDist();
+                   
                 }
+                
                 InvokeProgressEvent(GraphProgress.AnalizingDone, 95);
 
             }
@@ -233,6 +265,8 @@ namespace Model.BAModel
         }
         public override bool CheckGenerationParams(int instances)
         {
+            if (GenerationParamValues.ContainsKey(GenerationParam.FilePath))
+                return true;
             int vertex = (Int32)GenerationParamValues[GenerationParam.Vertices];
             int edges = (Int16)GenerationParamValues[GenerationParam.MaxEdges];
             int assamblecount = (Int32)GenerationParamValues[GenerationParam.AddVertices];
@@ -243,6 +277,8 @@ namespace Model.BAModel
         }
         public override string GetParamsInfo()
         {
+            if (GenerationParamValues.ContainsKey(GenerationParam.FilePath))
+                return "";
             int edges = (Int16)GenerationParamValues[GenerationParam.MaxEdges];
             int vertex = (Int32)GenerationParamValues[GenerationParam.Vertices];
             int assamblecount = (Int32)GenerationParamValues[GenerationParam.AddVertices];

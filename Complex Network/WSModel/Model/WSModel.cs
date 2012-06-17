@@ -279,5 +279,10 @@ namespace Model.WSModel
 
             return result;
         }
+
+        protected override void StaticGenerateModel()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

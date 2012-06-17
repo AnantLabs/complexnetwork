@@ -1,5 +1,6 @@
 ﻿using MyControlLibrary;
 using System.Windows.Forms;
+using System.Drawing;
 namespace RandomGraphLauncher
 {
     partial class MainWindow
@@ -48,6 +49,8 @@ namespace RandomGraphLauncher
             this.modelCheckingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userControl11 = new MyControlLibrary.TabCtlEx();
+            this.staticGenerationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.randomGenerationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,15 +78,17 @@ namespace RandomGraphLauncher
             // 
             // newJobToolStripMenuItem
             // 
+            this.newJobToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.staticGenerationToolStripMenuItem,
+            this.randomGenerationToolStripMenuItem});
             this.newJobToolStripMenuItem.Name = "newJobToolStripMenuItem";
-            this.newJobToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.newJobToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newJobToolStripMenuItem.Text = "New Job";
-            this.newJobToolStripMenuItem.Click += new System.EventHandler(this.newJobToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -196,6 +201,20 @@ namespace RandomGraphLauncher
             this.userControl11.TabStop = false;
             this.userControl11.OnClose += new MyControlLibrary.TabCtlEx.OnHeaderCloseDelegate(this.userControl11_OnClose);
             // 
+            // staticGenerationToolStripMenuItem
+            // 
+            this.staticGenerationToolStripMenuItem.Name = "staticGenerationToolStripMenuItem";
+            this.staticGenerationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.staticGenerationToolStripMenuItem.Text = "Static Generation";
+            this.staticGenerationToolStripMenuItem.Click += new System.EventHandler(this.staticGenerationToolStripMenuItem_Click);
+            // 
+            // randomGenerationToolStripMenuItem
+            // 
+            this.randomGenerationToolStripMenuItem.Name = "randomGenerationToolStripMenuItem";
+            this.randomGenerationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.randomGenerationToolStripMenuItem.Text = "Random Generation";
+            this.randomGenerationToolStripMenuItem.Click += new System.EventHandler(this.randomGenerationToolStripMenuItem_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -238,6 +257,8 @@ namespace RandomGraphLauncher
         private ToolStripMenuItem traceingModeToolStripMenuItem;
         private ToolStripMenuItem modelCheckingToolStripMenuItem;
         private ToolStripMenuItem loggerSettingsToolStripMenuItem;
+        private ToolStripMenuItem staticGenerationToolStripMenuItem;
+        private ToolStripMenuItem randomGenerationToolStripMenuItem;
 
     }
 }

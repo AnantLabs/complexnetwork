@@ -42,6 +42,8 @@
             this.groupBox_Gen_params = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox_Options = new System.Windows.Forms.GroupBox();
+            this.deselectallcheckBox = new System.Windows.Forms.CheckBox();
+            this.selectallcheckBox = new System.Windows.Forms.CheckBox();
             this.cycles = new System.Windows.Forms.Label();
             this.motives = new System.Windows.Forms.Label();
             this.cyclesHi = new System.Windows.Forms.ComboBox();
@@ -185,6 +187,8 @@
             // groupBox_Options
             // 
             this.groupBox_Options.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox_Options.Controls.Add(this.deselectallcheckBox);
+            this.groupBox_Options.Controls.Add(this.selectallcheckBox);
             this.groupBox_Options.Controls.Add(this.cycles);
             this.groupBox_Options.Controls.Add(this.motives);
             this.groupBox_Options.Controls.Add(this.cyclesHi);
@@ -198,6 +202,31 @@
             this.groupBox_Options.TabIndex = 4;
             this.groupBox_Options.TabStop = false;
             this.groupBox_Options.Text = "Analize options";
+            // 
+            // deselectallcheckBox
+            // 
+            this.deselectallcheckBox.AutoSize = true;
+            this.deselectallcheckBox.Location = new System.Drawing.Point(82, 18);
+            this.deselectallcheckBox.Name = "deselectallcheckBox";
+            this.deselectallcheckBox.Size = new System.Drawing.Size(84, 17);
+            this.deselectallcheckBox.TabIndex = 8;
+            this.deselectallcheckBox.Text = "DeSelect All";
+            this.deselectallcheckBox.UseVisualStyleBackColor = true;
+            this.deselectallcheckBox.CheckedChanged += new System.EventHandler(this.deselectallcheckBox_CheckedChanged);
+            // 
+            // selectallcheckBox
+            // 
+            this.selectallcheckBox.AutoSize = true;
+            this.selectallcheckBox.Checked = true;
+            this.selectallcheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.selectallcheckBox.Enabled = false;
+            this.selectallcheckBox.Location = new System.Drawing.Point(6, 18);
+            this.selectallcheckBox.Name = "selectallcheckBox";
+            this.selectallcheckBox.Size = new System.Drawing.Size(70, 17);
+            this.selectallcheckBox.TabIndex = 7;
+            this.selectallcheckBox.Text = "Select All";
+            this.selectallcheckBox.UseVisualStyleBackColor = true;
+            this.selectallcheckBox.CheckedChanged += new System.EventHandler(this.selectallcheckBox_CheckedChanged);
             // 
             // cycles
             // 
@@ -300,7 +329,7 @@
             this.checkedListBox_Options.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.checkedListBox_Options.CheckOnClick = true;
             this.checkedListBox_Options.FormattingEnabled = true;
-            this.checkedListBox_Options.Location = new System.Drawing.Point(7, 20);
+            this.checkedListBox_Options.Location = new System.Drawing.Point(6, 41);
             this.checkedListBox_Options.Name = "checkedListBox_Options";
             this.checkedListBox_Options.Size = new System.Drawing.Size(191, 150);
             this.checkedListBox_Options.Sorted = true;
@@ -672,5 +701,7 @@
         private System.Windows.Forms.ComboBox motiveLow;
         private System.Windows.Forms.Label cycles;
         private System.Windows.Forms.Label motives;
+        private System.Windows.Forms.CheckBox selectallcheckBox;
+        private System.Windows.Forms.CheckBox deselectallcheckBox;
     }
 }

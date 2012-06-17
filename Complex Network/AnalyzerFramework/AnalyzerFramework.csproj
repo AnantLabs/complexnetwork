@@ -87,6 +87,7 @@
     <Compile Include="Manager\Impl\AbstractGraphManager.cs" />
     <Compile Include="Manager\Impl\DistributedGraphManager.cs" />
     <Compile Include="Manager\Impl\OldMultiTreadGraphManager.cs" />
+    <Compile Include="Manager\Impl\OneThreadGraphManager.cs" />
     <Compile Include="Manager\Interface\IGraphManager.cs" />
     <Compile Include="Manager\util\EventHandlerDelegates.cs" />
     <Compile Include="Manager\util\ExecutionStatus.cs" />
