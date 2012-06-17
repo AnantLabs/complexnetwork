@@ -8,7 +8,7 @@ namespace Motifs
     /// <summary>
     /// in this class are sampling methods implementation
     /// </summary>
-    public static class SubgraphSampler
+    public  class SubgraphSampler
     {
         /// <summary>
         /// returns graph sample from super graph whith k size
@@ -16,7 +16,7 @@ namespace Motifs
         /// <param name="super"></param>
         /// <param name="k"></param>
         /// <returns></returns>
-        public static Graph GetRandomSubgraphESA(Graph super, int k)
+        public Graph GetRandomSubgraphESA(Graph super, int k)
         {
             if (k <= 2)
                 throw new ArgumentOutOfRangeException();
@@ -66,7 +66,7 @@ namespace Motifs
         /// <param name="super"></param>
         /// <param name="k"></param>
         /// <returns></returns>
-        public static Graph GetRandomSubgraphESU(Graph super, int k)
+        public Graph GetRandomSubgraphESU(Graph super, int k)
         {
             if (k <= 2)
                 throw new ArgumentOutOfRangeException();

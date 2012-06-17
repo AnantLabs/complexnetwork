@@ -227,5 +227,10 @@ namespace Model.ERModel
         //    ERModelGraph = null;
         //    base.Dispose();
         //}
+
+        protected override void StaticGenerateModel()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -8,28 +8,29 @@ using log4net;
 
 namespace Motifs
 {
-    public static class MotifFinder
+    public class MotifFinder
     {
 
         public static readonly ILog log = log4net.LogManager.GetLogger(typeof(MotifFinder));
-        public static Dictionary<Graph, float> MotifDictionary = new Dictionary<Graph,float>();
-        public static Dictionary<Graph, int> MotifDictionaryIds = new Dictionary<Graph, int>();
+        public  Dictionary<Graph, float> MotifDictionary;
+        public  Dictionary<Graph, int> MotifDictionaryIds;
         /// <summary>
         /// creat given size graphs,by loading data in files from given path 
         /// create and puts in MotifDictionary keys creating graphs
         /// </summary>
         /// <param name="path"></param>
         /// <param name="size"></param>
-        public static void PreloadMotifSamples(string path, int size)
+        public  void PreloadMotifSamples(string path, int size)
         {
-           // string subpath = @"motifs\";
-            DirectoryInfo dir = new DirectoryInfo(path);
+            MotifDictionaryIds = new Dictionary<Graph, int>();
+            MotifDictionary = new Dictionary<Graph, float>();
+            String currentDirectory = Directory.GetCurrentDirectory();
+            DirectoryInfo dir = new DirectoryInfo(currentDirectory.Substring(0, currentDirectory.Length - 10)+'\\'+ path);
             if (!dir.Exists)
             {
                 log.Info("The directory you are trying to access does not exist");
                 throw new Exception("The directory you are trying to access does not exist");
             }
-
             FileInfo[] motifFiles = dir.GetFiles();
             foreach (FileInfo info in motifFiles)
             {
@@ -37,7 +38,8 @@ namespace Motifs
                 {
                     Graph graph = Graph.ReadFromFile(info.FullName, size, size);
                     MotifDictionary.Add(graph, 0);
-                    MotifDictionaryIds.Add(graph, Convert.ToInt32(info.FullName.Substring(info.FullName.Length - 6, 2)));
+        
+                    MotifDictionaryIds.Add(graph, Convert.ToInt32(info.Name.Substring(0,3)));
 
                 }
             }
@@ -47,28 +49,23 @@ namespace Motifs
         /// </summary>
         /// <param name="network"></param>
         /// <param name="motifSize"></param>
-        public static void SearchMotifs(Graph network, int motifSize)
+        public  void SearchMotifs(Graph network, int motifSize)
         {
             String pathName = "graph" + motifSize;
-            MotifFinder.PreloadMotifSamples(pathName, motifSize);
+            PreloadMotifSamples(pathName, motifSize);
             int sampleingCount = 0;
             int edgeCount = network.Edges.Count;
-            //int sampleingCountForGivenMotif = edgeCount * edgeCount;
-        //  int sampleingCountForGivenMotif = edgeCount * motifSize;
-       //     int sampleingCountForGivenMotif = edgeCount;
             int sampleingCountForGivenMotif = 5000;
             int subGraphsCount = 0;
             log.Info("Sampling start");
             using (StreamWriter outfile = new StreamWriter("D:\\test.txt"))
             {
                 while (sampleingCount < sampleingCountForGivenMotif)
-                //           while (sampleingCount < edgeCount)
                 {
+                    SubgraphSampler subgraphSampler = new SubgraphSampler();
                     ICollection<Graph> graphs;
                     graphs = MotifDictionary.Keys;
-                    //  Graph graph = SubgraphSampler.GetRandomSubgraphESA(network, motifSize);
-
-                    Graph graph = SubgraphSampler.GetRandomSubgraphESU(network, motifSize);
+                    Graph graph = subgraphSampler.GetRandomSubgraphESU(network, motifSize);
                     if (graph != null)
                     {
                         bool isIsomorf = false;
@@ -85,15 +82,12 @@ namespace Motifs
                         }
                         if (!isIsomorf)
                         {
-                            //  Console.WriteLine("bad graph");
-                            //   MotifFinder.PrintGraphToConsole(graph);
                             StringBuilder str = new StringBuilder();
                             foreach (Edge e in graph.Edges)
                             {
                                 str.Append(e.v1 + "-" + e.v2);
                             }
                             log.Info("this graph don»t have isomorf" + str);
-                            //Console.WriteLine("bad graph");
                             outfile.WriteLine("bad graph");
                             MotifFinder.PrintGraphToConsole(graph, outfile);
                         }
@@ -118,9 +112,7 @@ namespace Motifs
                 log.Info("Sampling end");
                 try
                 {
-                    //log.Info("Write in xml");
-                    //XmlDocument res = MotifFinder.createDocument(motifSize);
-                    //res.Save("D:\\result.xml");
+                    
                 }
                 catch (Exception ex)
                 {
@@ -135,7 +127,7 @@ namespace Motifs
         /// prinnt graph edges indexes in console
         /// </summary>
         /// <param name="graph"></param>
-        public static void PrintGraphToConsole(Graph graph)
+        public  void PrintGraphToConsole(Graph graph)
         {
             Console.WriteLine();
 
@@ -150,10 +142,10 @@ namespace Motifs
             Console.WriteLine();
         }
 
-        public static SortedDictionary<int, float> dictionaryIdsValues()
+        public  SortedDictionary<int, float> dictionaryIdsValues()
         {
             SortedDictionary<int, float> motifsInfo = new SortedDictionary<int, float>();
-            ICollection<Graph> graphs = MotifFinder.MotifDictionary.Keys.ToList();
+            ICollection<Graph> graphs =MotifDictionary.Keys.ToList();
             foreach(Graph keyGraph in graphs)
             {
                 motifsInfo.Add(MotifDictionaryIds[keyGraph], MotifDictionary[keyGraph]);

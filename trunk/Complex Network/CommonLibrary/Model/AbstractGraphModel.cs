@@ -31,6 +31,7 @@ namespace RandomGraph.Common.Model
     {
         public event GraphProgressEventHandler Progress;
         public event GraphGeneratedDelegate GraphGenerated;
+        public  static bool staticGeneration;
 
         public AbstractGraphModel() { }
 
@@ -128,7 +129,7 @@ namespace RandomGraph.Common.Model
         /// and failed argument otherwise.
         /// </summary>
         protected abstract void GenerateModel();
-
+        protected abstract void StaticGenerateModel();
         /// <summary>
         /// Should be implemented by inhereted class. Called in StartAnalize method in separate thread. 
         /// For selected analize options refer AnalizeOptions flag enumeration.
@@ -277,7 +278,10 @@ namespace RandomGraph.Common.Model
             {
                 return;
             }
-            GenerateModel();
+            if(AbstractGraphModel.staticGeneration)
+                 GenerateModel();
+            else
+                StaticGenerateModel();
         }
 
         public void StartGenerate(Object graphObj)

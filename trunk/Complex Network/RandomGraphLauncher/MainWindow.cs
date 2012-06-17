@@ -54,6 +54,9 @@ namespace RandomGraphLauncher
 
                 models.Add(modelName, Tuple.Create<Type, Type>(modelFactoryType, modelType));
             }
+            
+          
+
         }
 
         private void InitMode()
@@ -97,12 +100,9 @@ namespace RandomGraphLauncher
             }
         }
 
-        private void newJobToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NewJob();
-        }
+     
 
-        private void NewJob()
+        private void NewJob(bool staticGeneration)
         {
             ModelChooserWindow modelChooser = new ModelChooserWindow(models.Keys, storageManager, runningJobs);
 
@@ -115,11 +115,11 @@ namespace RandomGraphLauncher
                 {
                     jobName = modelChooser.textBox_JobName.Text;
                 }
-                modelChoosed(models[modelName], jobName);
+                modelChoosed(models[modelName], jobName, staticGeneration);
             }
         }
 
-        private void modelChoosed(Tuple<Type, Type> modelType, string jobName)
+        private void modelChoosed(Tuple<Type, Type> modelType, string jobName,bool staticGeneration )
         {
             if (isDistributed)
             {
@@ -139,7 +139,7 @@ namespace RandomGraphLauncher
             // 
             // calculationControl
             // 
-            CalculationControl calculationControl = new CalculationControl(modelType.Item1, modelType.Item2, jobName, manager, isDistributed, ApplicationMode.IsTrainingMode, traceingModeToolStripMenuItem.Checked);
+            CalculationControl calculationControl = new CalculationControl(modelType.Item1, modelType.Item2, jobName, manager, isDistributed, ApplicationMode.IsTrainingMode, traceingModeToolStripMenuItem.Checked, staticGeneration);
             calculationControl.Dock = System.Windows.Forms.DockStyle.Fill;
             calculationControl.Location = new System.Drawing.Point(0, 0);
             calculationControl.Name = "calculationControl";
@@ -300,6 +300,19 @@ namespace RandomGraphLauncher
         {
             LoggerSetingsForm settingsForm = new LoggerSetingsForm();
             settingsForm.ShowDialog();
+        }
+
+        private void staticGenerationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbstractGraphModel.staticGeneration = false;
+            NewJob(false);
+            
+        }
+
+        private void randomGenerationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbstractGraphModel.staticGeneration = true;
+            NewJob(true);
         }
     }
 }

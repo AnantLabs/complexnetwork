@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
-
 using RandomGraph.Common.Model;
 using CommonLibrary.Model;
 using Motifs;
@@ -28,16 +27,15 @@ namespace Model.BAModel.Realization
             }
         }
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(BAAnalyzer));
+        List<SortedList<int,int>> cycles4 = new List<SortedList<int,int>>();
         // Implementation members //
         private BAContainer m_container;
         private CyclesCounter cyclesCounter;
         private double m_avgPath;
-        private bool Circleorder4;
         private List<double> m_edgesBetweenNeighbours;
         private int m_diametr;
         private SortedDictionary<int, int> m_pathDistribution;
         private double m_clusteringCoefficient;
-        private int m_cyclesOfOrder4;
         private int startCountAnalyzeOptions; 
         public BAAnalyzer(BAContainer c)
         {
@@ -102,12 +100,8 @@ namespace Model.BAModel.Realization
 
                             ++m_edgesBetweenNeighbours[i];
                         }
-                        else
-                            if (Circleorder4)
-                            {
-                                if (nodes[u].m_lenght == 2 && nodes[l[j]].m_lenght == 1 && nodes[u].m_ancestor != l[j])
-                                    m_cyclesOfOrder4++;
-                            }
+                      
+                            
                             
                     }
 
@@ -122,17 +116,14 @@ namespace Model.BAModel.Realization
             log.Info("Start count Diametr");
             startCountAnalyzeOptions = 1;
             m_pathDistribution = new SortedDictionary<int, int>();
-            m_cyclesOfOrder4 = 0;
             double avg = 0;
             int diametr = 0, k = 0;
 
             for (int i = 0; i < m_container.Size; ++i)
             {
-                Circleorder4 = true;
                 for (int j = i + 1; j < m_container.Size; ++j)
                 {
                     int way = MinimumWay(i, j);
-                    Circleorder4 = false;
                     if (way == -1)
                         continue;
                     if (m_pathDistribution.ContainsKey(way))
@@ -150,7 +141,6 @@ namespace Model.BAModel.Realization
             Node[] nodes = new Node[m_container.Size];
             for (int t = 0; t < m_container.Size; ++t)
                 nodes[t] = new Node();
-            Circleorder4 = true;
 
             BFS(m_container.Size - 1, nodes);
             avg /= k;
@@ -158,18 +148,19 @@ namespace Model.BAModel.Realization
             m_avgPath = avg;
             m_diametr = diametr;
 
-            if (m_cyclesOfOrder4 >= 4)
-                m_cyclesOfOrder4 /= 4;
+            
 
 
         }
 
-        private int CalculatCycles4(int i, Node[] nodes)
+        private int CalculatCycles4(int i)
         {
+            Node[] nodes = new Node[m_container.Size];
+            for (int k = 0; k < m_container.Size; ++k)
+                nodes[k] = new Node();
             int cyclesOfOrderi4 = 0;
             nodes[i].m_lenght = 0;
             nodes[i].m_ancestor = 0;
-            bool b = true;
             Queue<int> q = new Queue<int>();
             q.Enqueue(i);
             int u;
@@ -188,15 +179,34 @@ namespace Model.BAModel.Realization
                     }
                     else
                     {
-                        
                         if (nodes[u].m_lenght == 2 && nodes[l[j]].m_lenght == 1 && nodes[u].m_ancestor != l[j])
+                        {
+                            SortedList<int,int> cycles4I = new SortedList<int,int>();
+                            //cycles4I.Add(i);
+                            //cycles4I.Add(u);
+                            //cycles4I.Add(l[j]);
+                            //cycles4I.Add(nodes[u].m_ancestor);
                             cyclesOfOrderi4++;
+                          //  cycles4.Add(cycles4I);
+                            ////cycles4I.Add(1,1);
+                            ////cycles4I.Add(2,2);
+                            ////cycles4I.Add(3,3);
+                            ////cycles4I.Add(4,4);
+                            ////cycles4.Add(cycles4I);
                             
+                            ////SortedList<int, int> cycles4I1 = new  SortedList<int,int>();
+                            ////cycles4I1.Add(2,2);
+                            ////cycles4I1.Add(3,3);
+                            ////cycles4I1.Add(1,1);
+                            ////cycles4I1.Add(4,4);
+                            ////if (cycles4.Contains(cycles4I1,))
+                            ////{
+                            ////}
 
+                        }
                     }
-
-
             }
+ 
             return cyclesOfOrderi4;
     
         }
@@ -368,12 +378,9 @@ namespace Model.BAModel.Realization
         public override int GetCycles4()
         {
             int count = 0;
-            //Node[] nodes = new Node[m_container.Size];
-            //for (int k = 0; k < m_container.Size; ++k)
-            //    nodes[k] = new Node();
-            //for(int i = 0 ;i<m_container.Size;i++)
-            //    count+=CalculatCycles4(i, nodes);
-            //int nmn =count;
+            for (int i = 0; i < m_container.Size; i++)
+                count += CalculatCycles4(i);
+            int nmn = count;
             return count/4;
         }
 
@@ -385,9 +392,18 @@ namespace Model.BAModel.Realization
         //Calculate motive of graph.
         public override SortedDictionary<int, float> GetMotif(int minMotiv,int maxMotiv)
         {
+            var motivfinder = new MotifFinder();
+            var motifisCount = new SortedDictionary<int, float>();
+            var motifisCountResult = new SortedDictionary<int, float>();
             Graph graph = Graph.reformatToOurGraghFromBAContainer(m_container);
-            MotifFinder.SearchMotifs(graph, minMotiv);
-            return MotifFinder.dictionaryIdsValues();
+            for (int motifDegree = minMotiv; motifDegree <= maxMotiv; motifDegree++)
+            {
+                motivfinder.SearchMotifs(graph, motifDegree);
+                motifisCount = motivfinder.dictionaryIdsValues();
+                foreach (var key in motifisCount.Keys)
+                    motifisCountResult.Add(key, motifisCount[key]);
+            }
+            return motifisCountResult;
         }
         //Calculate distribution of eigen value of graph.
         public override SortedDictionary<double, int> GetDistEigenPath()
