@@ -20,14 +20,14 @@ namespace StatisticAnalyzerUI
         public string[] m_optionNames;
         public string[] m_averageValues;
 
-        public Information(Dictionary<AnalyseOptions, double> results)
+        public Information(SortedDictionary<AnalyseOptions, double> results)
         {
             InitializeComponent();
 
             m_optionNames = new string[results.Count];
             m_averageValues = new string[results.Count];
 
-            Dictionary<AnalyseOptions, double>.KeyCollection keys = results.Keys;
+            SortedDictionary<AnalyseOptions, double>.KeyCollection keys = results.Keys;
             int index = 0;
             foreach (AnalyseOptions key in keys)
             {

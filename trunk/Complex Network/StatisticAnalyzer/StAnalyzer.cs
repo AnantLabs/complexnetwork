@@ -16,10 +16,9 @@ namespace StatisticAnalyzer
         private Dictionary<AnalyseOptions, StAnalyzeOptions> analyzeOptions;
         private StAnalyzeResult result;
 
-        public AnalyseOptions globalOptions = AnalyseOptions.None;
-        public AnalyseOptions localOptions = AnalyseOptions.None;
+        public AnalyseOptions options = AnalyseOptions.None;
 
-        public StAnalyzer(ResultAssembly assembly)//, StAnalyzeOptions options)
+        public StAnalyzer(ResultAssembly assembly)
         {
             assemblyToAnalyze = assembly;
             analyzeOptions = new Dictionary<AnalyseOptions,StAnalyzeOptions>();
@@ -31,107 +30,109 @@ namespace StatisticAnalyzer
             set { analyzeOptions = value; }
         }
 
+        public StAnalyzeResult Result
+        {
+            get { return result; }
+        }
+
         public void GlobalAnalyze()
         {
-            if ((globalOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
+            if ((options & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
                 GlobalAnalyzeByOption(AnalyseOptions.AveragePath);
-            if ((globalOptions & AnalyseOptions.Diameter) == AnalyseOptions.Diameter)
+            if ((options & AnalyseOptions.Diameter) == AnalyseOptions.Diameter)
                 GlobalAnalyzeByOption(AnalyseOptions.Diameter);
-            if ((globalOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
+            if ((options & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
                 GlobalAnalyzeByOption(AnalyseOptions.ClusteringCoefficient);
-            if ((globalOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
+            if ((options & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
                 GlobalAnalyzeByOption(AnalyseOptions.DegreeDistribution);
-            if ((globalOptions & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3)
+            if ((options & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3)
                 GlobalAnalyzeByOption(AnalyseOptions.Cycles3);
-            if ((globalOptions & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4)
+            if ((options & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4)
                 GlobalAnalyzeByOption(AnalyseOptions.Cycles4);
-            if ((globalOptions & AnalyseOptions.MaxFullSubgraph) == AnalyseOptions.MaxFullSubgraph)
+            if ((options & AnalyseOptions.MaxFullSubgraph) == AnalyseOptions.MaxFullSubgraph)
                 GlobalAnalyzeByOption(AnalyseOptions.MaxFullSubgraph);
-            if ((globalOptions & AnalyseOptions.LargestConnectedComponent) == AnalyseOptions.LargestConnectedComponent)
+            if ((options & AnalyseOptions.LargestConnectedComponent) == AnalyseOptions.LargestConnectedComponent)
                 GlobalAnalyzeByOption(AnalyseOptions.LargestConnectedComponent);
-            if ((globalOptions & AnalyseOptions.MinEigenValue) == AnalyseOptions.MinEigenValue)
+            if ((options & AnalyseOptions.MinEigenValue) == AnalyseOptions.MinEigenValue)
                 GlobalAnalyzeByOption(AnalyseOptions.MinEigenValue);
-            if ((globalOptions & AnalyseOptions.MaxEigenValue) == AnalyseOptions.MaxEigenValue)
+            if ((options & AnalyseOptions.MaxEigenValue) == AnalyseOptions.MaxEigenValue)
                 GlobalAnalyzeByOption(AnalyseOptions.MaxEigenValue);
         }
 
         public void LocalAnalyze()
         {
-            if ((localOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
+            if ((options & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
                 LocalAnalyzeByOption(AnalyseOptions.ClusteringCoefficient);
-            if ((localOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
+            if ((options & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
                 LocalAnalyzeByOption(AnalyseOptions.DegreeDistribution);
-            if ((localOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
+            if ((options & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
                 LocalAnalyzeByOption(AnalyseOptions.ClusteringCoefficient);
-            if ((localOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
+            if ((options & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
                 LocalAnalyzeByOption(AnalyseOptions.DegreeDistribution);
-            if ((localOptions & AnalyseOptions.ConnSubGraph) == AnalyseOptions.ConnSubGraph)
+            if ((options & AnalyseOptions.ConnSubGraph) == AnalyseOptions.ConnSubGraph)
                 LocalAnalyzeByOption(AnalyseOptions.ConnSubGraph);
-            if ((localOptions & AnalyseOptions.MinPathDist) == AnalyseOptions.MinPathDist)
+            if ((options & AnalyseOptions.MinPathDist) == AnalyseOptions.MinPathDist)
                 LocalAnalyzeByOption(AnalyseOptions.MinPathDist);
-            if ((localOptions & AnalyseOptions.EigenValue) == AnalyseOptions.EigenValue)
+            if ((options & AnalyseOptions.EigenValue) == AnalyseOptions.EigenValue)
                 LocalAnalyzeByOption(AnalyseOptions.EigenValue);
-            if ((localOptions & AnalyseOptions.DistEigenPath) == AnalyseOptions.DistEigenPath)
+            if ((options & AnalyseOptions.DistEigenPath) == AnalyseOptions.DistEigenPath)
                 LocalAnalyzeByOption(AnalyseOptions.DistEigenPath);
-            if ((localOptions & AnalyseOptions.Cycles) == AnalyseOptions.Cycles)
+            if ((options & AnalyseOptions.Cycles) == AnalyseOptions.Cycles)
                 LocalAnalyzeByOption(AnalyseOptions.Cycles);
         }
 
-        // Global Analyze //
+        // Utilities //
 
         private void GlobalAnalyzeByOption(AnalyseOptions option)
         {
-            KeyValuePair<SortedDictionary<double, double>, double> resultPair;
-
-            SortedDictionary<double, double> resultDictionary = new SortedDictionary<double, double>();
-            int instanceCount = assemblyToAnalyze.Results.Count, deltaI = 10, I = deltaI;
-            resultDictionary = GlobalCases(option, I, deltaI, instanceCount, 0);
-
-            resultPair = new KeyValuePair<SortedDictionary<double, double>, double>(resultDictionary,
-                GetGlobalAverage(instanceCount, resultDictionary));
+            if (ContainsOption(option))
+            {
+                SortedDictionary<double, double> resultDictionary = new SortedDictionary<double, double>();
+                int instanceCount = assemblyToAnalyze.Results.Count, deltaI = 10, I = deltaI;
+                resultDictionary = GlobalCases(option, I, deltaI, instanceCount, 0);
+                result.result.Add(option, resultDictionary);
+                result.resultAvgValues.Add(option, GetGlobalAverage(instanceCount, resultDictionary));
+            }
         }
-
-        // Local Analyze //
-
+        
         private void LocalAnalyzeByOption(AnalyseOptions option)
         {
-            SortedDictionary<double, double> resultDictionary = new SortedDictionary<double, double>();
-            SortedDictionary<double, double> tempResult = new SortedDictionary<double, double>();
-            int instanceCount = assemblyToAnalyze.Results.Count;
-            for (int i = 0; i < instanceCount; ++i)
+            if (ContainsOption(option))
             {
-                tempResult = LocalCases(option, i, 0);
+                SortedDictionary<double, double> resultDictionary = new SortedDictionary<double, double>();
+                SortedDictionary<double, double> tempResult = new SortedDictionary<double, double>();
+                int instanceCount = assemblyToAnalyze.Results.Count;
+                for (int i = 0; i < instanceCount; ++i)
+                {
+                    tempResult = LocalCases(option, i, 0);
+                }
+
+                result.result.Add(option, GetLocalResult(option, tempResult, instanceCount));
             }
-
-            GetLocalResult(option, tempResult, instanceCount);
         }
-
-        // Common methods //
-
-        protected bool ContainsOption(ResultAssembly assembly, AnalyseOptions option)
+        
+        private bool ContainsOption(AnalyseOptions option)
         {
             switch (option)
             {
                 case AnalyseOptions.ClusteringCoefficient:
-                    return assembly.Results[0].Coefficient.Keys.Count != 0;
+                    return assemblyToAnalyze.Results[0].Coefficient.Keys.Count != 0;
                 case AnalyseOptions.DegreeDistribution:
-                    return assembly.Results[0].VertexDegree.Keys.Count != 0;
+                    return assemblyToAnalyze.Results[0].VertexDegree.Keys.Count != 0;
                 case AnalyseOptions.ConnSubGraph:
-                    return assembly.Results[0].Subgraphs.Keys.Count != 0;
+                    return assemblyToAnalyze.Results[0].Subgraphs.Keys.Count != 0;
                 case AnalyseOptions.MinPathDist:
-                    return assembly.Results[0].DistanceBetweenVertices.Count != 0;
+                    return assemblyToAnalyze.Results[0].DistanceBetweenVertices.Count != 0;
                 case AnalyseOptions.EigenValue:
-                    return assembly.Results[0].EigenVector.Count != 0;
+                    return assemblyToAnalyze.Results[0].EigenVector.Count != 0;
                 case AnalyseOptions.DistEigenPath:
-                    return assembly.Results[0].DistancesBetweenEigenValues.Count != 0;
+                    return assemblyToAnalyze.Results[0].DistancesBetweenEigenValues.Count != 0;
                 case AnalyseOptions.Cycles:
-                    return assembly.Results[0].Cycles.Count != 0;
+                    return assemblyToAnalyze.Results[0].Cycles.Count != 0;
                 default:
-                    return assembly.Results[0].Result.Keys.Contains(option);
+                    return assemblyToAnalyze.Results[0].Result.Keys.Contains(option);
             }
         }
-
-        // Utilities //
 
         private SortedDictionary<double, double> GlobalCases(AnalyseOptions option, int I,
             int deltaI, int instanceCount, int previousInstanceCount)
@@ -518,8 +519,8 @@ namespace StatisticAnalyzer
                 mathWaitingSquare += Math.Pow(key, 2) * r[key];
             }
 
-            //m_localMathWaitings[option] = mathWaiting;
-            //m_localDispersions[option] = mathWaitingSquare - Math.Pow(mathWaiting, 2);
+            //result.resultMathWaitings.Add(option, mathWaiting);
+            //result.resultDispersions.Add(option, (mathWaitingSquare - Math.Pow(mathWaiting, 2)));
         }
     }
 }

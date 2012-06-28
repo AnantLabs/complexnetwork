@@ -41,12 +41,6 @@
             this.ModelNameCmb = new System.Windows.Forms.ComboBox();
             this.GenerationParametersGrp = new System.Windows.Forms.GroupBox();
             this.ByAllJobsCheck = new System.Windows.Forms.CheckBox();
-            this.Param3Cmb = new System.Windows.Forms.ComboBox();
-            this.Param3 = new System.Windows.Forms.Label();
-            this.Param2Cmb = new System.Windows.Forms.ComboBox();
-            this.Param2 = new System.Windows.Forms.Label();
-            this.Param1Cmb = new System.Windows.Forms.ComboBox();
-            this.Param1 = new System.Windows.Forms.Label();
             this.RealizationsTxt = new System.Windows.Forms.TextBox();
             this.JobsCmb = new System.Windows.Forms.ComboBox();
             this.Jobs = new System.Windows.Forms.Label();
@@ -79,7 +73,6 @@
             this.GraphicsGrp = new System.Windows.Forms.GroupBox();
             this.GroupByOptionCheck = new System.Windows.Forms.CheckBox();
             this.MenuStrip.SuspendLayout();
-            this.GenerationParametersGrp.SuspendLayout();
             this.LocalAnalyzeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalAnalyzeOptionsGrd)).BeginInit();
             this.GlobalAnalyzeTab.SuspendLayout();
@@ -150,16 +143,9 @@
             // 
             // GenerationParametersGrp
             // 
-            this.GenerationParametersGrp.Controls.Add(this.ByAllJobsCheck);
-            this.GenerationParametersGrp.Controls.Add(this.Param3Cmb);
-            this.GenerationParametersGrp.Controls.Add(this.Param3);
-            this.GenerationParametersGrp.Controls.Add(this.Param2Cmb);
-            this.GenerationParametersGrp.Controls.Add(this.Param2);
-            this.GenerationParametersGrp.Controls.Add(this.Param1Cmb);
-            this.GenerationParametersGrp.Controls.Add(this.Param1);
-            this.GenerationParametersGrp.Location = new System.Drawing.Point(325, 94);
+            this.GenerationParametersGrp.Location = new System.Drawing.Point(325, 51);
             this.GenerationParametersGrp.Name = "GenerationParametersGrp";
-            this.GenerationParametersGrp.Size = new System.Drawing.Size(473, 124);
+            this.GenerationParametersGrp.Size = new System.Drawing.Size(374, 167);
             this.GenerationParametersGrp.TabIndex = 4;
             this.GenerationParametersGrp.TabStop = false;
             this.GenerationParametersGrp.Text = "Generation Parameters";
@@ -167,69 +153,13 @@
             // ByAllJobsCheck
             // 
             this.ByAllJobsCheck.AutoSize = true;
-            this.ByAllJobsCheck.Location = new System.Drawing.Point(368, 88);
+            this.ByAllJobsCheck.Location = new System.Drawing.Point(717, 201);
             this.ByAllJobsCheck.Name = "ByAllJobsCheck";
             this.ByAllJobsCheck.Size = new System.Drawing.Size(77, 17);
             this.ByAllJobsCheck.TabIndex = 7;
             this.ByAllJobsCheck.Text = "By All Jobs";
             this.CommonToolTip.SetToolTip(this.ByAllJobsCheck, "Specifies if analyze is by all jobs defined with generation parameters.");
             this.ByAllJobsCheck.UseVisualStyleBackColor = true;
-            // 
-            // Param3Cmb
-            // 
-            this.Param3Cmb.FormattingEnabled = true;
-            this.Param3Cmb.Location = new System.Drawing.Point(324, 42);
-            this.Param3Cmb.Name = "Param3Cmb";
-            this.Param3Cmb.Size = new System.Drawing.Size(121, 21);
-            this.Param3Cmb.TabIndex = 5;
-            this.CommonToolTip.SetToolTip(this.Param3Cmb, "Choose parameter value.");
-            // 
-            // Param3
-            // 
-            this.Param3.AutoSize = true;
-            this.Param3.Location = new System.Drawing.Point(321, 26);
-            this.Param3.Name = "Param3";
-            this.Param3.Size = new System.Drawing.Size(43, 13);
-            this.Param3.TabIndex = 4;
-            this.Param3.Text = "Param3";
-            // 
-            // Param2Cmb
-            // 
-            this.Param2Cmb.FormattingEnabled = true;
-            this.Param2Cmb.Location = new System.Drawing.Point(179, 42);
-            this.Param2Cmb.Name = "Param2Cmb";
-            this.Param2Cmb.Size = new System.Drawing.Size(121, 21);
-            this.Param2Cmb.TabIndex = 3;
-            this.CommonToolTip.SetToolTip(this.Param2Cmb, "Choose parameter value");
-            this.Param2Cmb.SelectedIndexChanged += new System.EventHandler(this.Param2Cmb_SelectedIndexChanged);
-            // 
-            // Param2
-            // 
-            this.Param2.AutoSize = true;
-            this.Param2.Location = new System.Drawing.Point(176, 26);
-            this.Param2.Name = "Param2";
-            this.Param2.Size = new System.Drawing.Size(43, 13);
-            this.Param2.TabIndex = 2;
-            this.Param2.Text = "Param2";
-            // 
-            // Param1Cmb
-            // 
-            this.Param1Cmb.FormattingEnabled = true;
-            this.Param1Cmb.Location = new System.Drawing.Point(32, 42);
-            this.Param1Cmb.Name = "Param1Cmb";
-            this.Param1Cmb.Size = new System.Drawing.Size(121, 21);
-            this.Param1Cmb.TabIndex = 1;
-            this.CommonToolTip.SetToolTip(this.Param1Cmb, "Choose parameter value.");
-            this.Param1Cmb.SelectedIndexChanged += new System.EventHandler(this.Param1Cmb_SelectedIndexChanged);
-            // 
-            // Param1
-            // 
-            this.Param1.AutoSize = true;
-            this.Param1.Location = new System.Drawing.Point(29, 26);
-            this.Param1.Name = "Param1";
-            this.Param1.Size = new System.Drawing.Size(43, 13);
-            this.Param1.TabIndex = 0;
-            this.Param1.Text = "Param1";
             // 
             // RealizationsTxt
             // 
@@ -291,7 +221,7 @@
             // 
             // RefreshBtn
             // 
-            this.RefreshBtn.Location = new System.Drawing.Point(325, 51);
+            this.RefreshBtn.Location = new System.Drawing.Point(182, 120);
             this.RefreshBtn.Name = "RefreshBtn";
             this.RefreshBtn.Size = new System.Drawing.Size(121, 37);
             this.RefreshBtn.TabIndex = 10;
@@ -589,6 +519,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(828, 613);
+            this.Controls.Add(this.ByAllJobsCheck);
             this.Controls.Add(this.GraphicsGrp);
             this.Controls.Add(this.RealizationsTxt);
             this.Controls.Add(this.DeleteJob);
@@ -612,8 +543,6 @@
             this.Load += new System.EventHandler(this.OnLoad);
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
-            this.GenerationParametersGrp.ResumeLayout(false);
-            this.GenerationParametersGrp.PerformLayout();
             this.LocalAnalyzeTab.ResumeLayout(false);
             this.LocalAnalyzeTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalAnalyzeOptionsGrd)).EndInit();
@@ -637,12 +566,6 @@
         private System.Windows.Forms.ComboBox CurveLineCmb;
         private System.Windows.Forms.Label CurveLine;
         private System.Windows.Forms.ToolStripMenuItem MenuSetProvider;
-        private System.Windows.Forms.ComboBox Param1Cmb;
-        private System.Windows.Forms.Label Param1;
-        private System.Windows.Forms.ComboBox Param3Cmb;
-        private System.Windows.Forms.Label Param3;
-        private System.Windows.Forms.ComboBox Param2Cmb;
-        private System.Windows.Forms.Label Param2;
         private System.Windows.Forms.TextBox RealizationsTxt;
         private System.Windows.Forms.Label Realizations;
         private System.Windows.Forms.ComboBox JobsCmb;
