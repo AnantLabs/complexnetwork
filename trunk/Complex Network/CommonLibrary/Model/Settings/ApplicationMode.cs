@@ -8,6 +8,13 @@ namespace CommonLibrary.Model.Settings
     public class ApplicationMode
     {
         public static bool IsTrainingMode { get; set; }
-        public static bool IsTraceingMode { get; set; }
+        public static bool IsTracingMode { get; set; }
     }
+    // <Mikayel Samvelyan>
+    public enum GenerationMode
+    {
+        randomGeneration,
+        staticGeneration
+    }
+    // </Mikayel Samvelyan>
 }
