@@ -49,10 +49,11 @@
             this.distributedTabPage = new System.Windows.Forms.TabPage();
             this.RefreshButton = new System.Windows.Forms.Button();
             this.distributedCheckBox = new System.Windows.Forms.CheckBox();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.DiscoveredServices = new System.Windows.Forms.CheckedListBox();
             this.distributedLabel = new System.Windows.Forms.Label();
             this.LoggerSettingsTabPage = new System.Windows.Forms.TabPage();
             this.loggerSettingsGroupBox = new System.Windows.Forms.GroupBox();
+            this.debugCheckBox = new System.Windows.Forms.CheckBox();
             this.pathLabel = new System.Windows.Forms.Label();
             this.loggerPathTextBox = new System.Windows.Forms.TextBox();
             this.savingButton = new System.Windows.Forms.Button();
@@ -65,7 +66,7 @@
             this.BrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.LoggerBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.tracingBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.debugCheckBox = new System.Windows.Forms.CheckBox();
+            this.distributedGroupBox = new System.Windows.Forms.GroupBox();
             this.generationModeGroupBox.SuspendLayout();
             this.OptionsTabControl.SuspendLayout();
             this.storageTabPage.SuspendLayout();
@@ -76,6 +77,7 @@
             this.tracingModetabPage.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.generationTabPage.SuspendLayout();
+            this.distributedGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // cancelButton
@@ -273,10 +275,7 @@
             // 
             // distributedTabPage
             // 
-            this.distributedTabPage.Controls.Add(this.RefreshButton);
-            this.distributedTabPage.Controls.Add(this.distributedCheckBox);
-            this.distributedTabPage.Controls.Add(this.checkedListBox1);
-            this.distributedTabPage.Controls.Add(this.distributedLabel);
+            this.distributedTabPage.Controls.Add(this.distributedGroupBox);
             this.distributedTabPage.Location = new System.Drawing.Point(4, 22);
             this.distributedTabPage.Name = "distributedTabPage";
             this.distributedTabPage.Padding = new System.Windows.Forms.Padding(3);
@@ -287,7 +286,7 @@
             // 
             // RefreshButton
             // 
-            this.RefreshButton.Location = new System.Drawing.Point(33, 93);
+            this.RefreshButton.Location = new System.Drawing.Point(23, 111);
             this.RefreshButton.Name = "RefreshButton";
             this.RefreshButton.Size = new System.Drawing.Size(75, 23);
             this.RefreshButton.TabIndex = 10;
@@ -298,7 +297,7 @@
             // distributedCheckBox
             // 
             this.distributedCheckBox.AutoSize = true;
-            this.distributedCheckBox.Location = new System.Drawing.Point(33, 18);
+            this.distributedCheckBox.Location = new System.Drawing.Point(23, 30);
             this.distributedCheckBox.Name = "distributedCheckBox";
             this.distributedCheckBox.Size = new System.Drawing.Size(156, 17);
             this.distributedCheckBox.TabIndex = 9;
@@ -306,22 +305,21 @@
             this.distributedCheckBox.UseVisualStyleBackColor = true;
             this.distributedCheckBox.CheckedChanged += new System.EventHandler(this.distributedCheckBox_CheckedChanged);
             // 
-            // checkedListBox1
+            // DiscoveredServices
             // 
-            this.checkedListBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.checkedListBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(33, 131);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(205, 75);
-            this.checkedListBox1.TabIndex = 8;
+            this.DiscoveredServices.BackColor = System.Drawing.SystemColors.Control;
+            this.DiscoveredServices.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.DiscoveredServices.FormattingEnabled = true;
+            this.DiscoveredServices.Location = new System.Drawing.Point(267, 20);
+            this.DiscoveredServices.Name = "DiscoveredServices";
+            this.DiscoveredServices.Size = new System.Drawing.Size(137, 135);
+            this.DiscoveredServices.TabIndex = 8;
             // 
             // distributedLabel
             // 
-            this.distributedLabel.AutoSize = true;
-            this.distributedLabel.Location = new System.Drawing.Point(30, 49);
+            this.distributedLabel.Location = new System.Drawing.Point(20, 62);
             this.distributedLabel.Name = "distributedLabel";
-            this.distributedLabel.Size = new System.Drawing.Size(246, 26);
+            this.distributedLabel.Size = new System.Drawing.Size(250, 31);
             this.distributedLabel.TabIndex = 7;
             this.distributedLabel.Text = "Please select computers which will be used during \ndistributed calculation.";
             // 
@@ -348,6 +346,17 @@
             this.loggerSettingsGroupBox.TabIndex = 1;
             this.loggerSettingsGroupBox.TabStop = false;
             this.loggerSettingsGroupBox.Text = "Set logger settings";
+            // 
+            // debugCheckBox
+            // 
+            this.debugCheckBox.AutoSize = true;
+            this.debugCheckBox.Location = new System.Drawing.Point(25, 98);
+            this.debugCheckBox.Name = "debugCheckBox";
+            this.debugCheckBox.Size = new System.Drawing.Size(101, 17);
+            this.debugCheckBox.TabIndex = 12;
+            this.debugCheckBox.Text = "Only debug files";
+            this.debugCheckBox.UseVisualStyleBackColor = true;
+            this.debugCheckBox.CheckedChanged += new System.EventHandler(this.debugCheckBox_CheckedChanged);
             // 
             // pathLabel
             // 
@@ -437,16 +446,18 @@
             this.generationTabPage.Text = "Generation";
             this.generationTabPage.UseVisualStyleBackColor = true;
             // 
-            // debugCheckBox
+            // distributedGroupBox
             // 
-            this.debugCheckBox.AutoSize = true;
-            this.debugCheckBox.Location = new System.Drawing.Point(25, 98);
-            this.debugCheckBox.Name = "debugCheckBox";
-            this.debugCheckBox.Size = new System.Drawing.Size(101, 17);
-            this.debugCheckBox.TabIndex = 12;
-            this.debugCheckBox.Text = "Only debug files";
-            this.debugCheckBox.UseVisualStyleBackColor = true;
-            this.debugCheckBox.CheckedChanged += new System.EventHandler(this.debugCheckBox_CheckedChanged);
+            this.distributedGroupBox.Controls.Add(this.distributedLabel);
+            this.distributedGroupBox.Controls.Add(this.RefreshButton);
+            this.distributedGroupBox.Controls.Add(this.DiscoveredServices);
+            this.distributedGroupBox.Controls.Add(this.distributedCheckBox);
+            this.distributedGroupBox.Location = new System.Drawing.Point(39, 24);
+            this.distributedGroupBox.Name = "distributedGroupBox";
+            this.distributedGroupBox.Size = new System.Drawing.Size(421, 171);
+            this.distributedGroupBox.TabIndex = 11;
+            this.distributedGroupBox.TabStop = false;
+            this.distributedGroupBox.Text = "Set distributed mode settings";
             // 
             // SettingsOptionsWindow
             // 
@@ -461,6 +472,7 @@
             this.Name = "SettingsOptionsWindow";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Options";
+            this.Load += new System.EventHandler(this.SettingsOptionsWindow_Load);
             this.generationModeGroupBox.ResumeLayout(false);
             this.generationModeGroupBox.PerformLayout();
             this.OptionsTabControl.ResumeLayout(false);
@@ -468,7 +480,6 @@
             this.storageGroupBox.ResumeLayout(false);
             this.storageGroupBox.PerformLayout();
             this.distributedTabPage.ResumeLayout(false);
-            this.distributedTabPage.PerformLayout();
             this.LoggerSettingsTabPage.ResumeLayout(false);
             this.loggerSettingsGroupBox.ResumeLayout(false);
             this.loggerSettingsGroupBox.PerformLayout();
@@ -476,6 +487,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.generationTabPage.ResumeLayout(false);
+            this.distributedGroupBox.ResumeLayout(false);
+            this.distributedGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -503,7 +516,7 @@
         private System.Windows.Forms.TabPage distributedTabPage;
         private System.Windows.Forms.Button RefreshButton;
         public System.Windows.Forms.CheckBox distributedCheckBox;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.CheckedListBox DiscoveredServices;
         private System.Windows.Forms.Label distributedLabel;
         private System.Windows.Forms.TabPage LoggerSettingsTabPage;
         private System.Windows.Forms.GroupBox loggerSettingsGroupBox;
@@ -520,5 +533,6 @@
         private System.Windows.Forms.FolderBrowserDialog tracingBrowserDialog;
         private System.Windows.Forms.TabPage generationTabPage;
         private System.Windows.Forms.CheckBox debugCheckBox;
+        private System.Windows.Forms.GroupBox distributedGroupBox;
     }
 }

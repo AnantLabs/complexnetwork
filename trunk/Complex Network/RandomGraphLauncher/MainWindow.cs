@@ -320,65 +320,30 @@ namespace RandomGraphLauncher
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-            StorageProvider storageProvider;
-            if (config.AppSettings.Settings["Storage"].Value == "XmlProvider")
-            {
-                storageProvider = StorageProvider.XMLProvider;
-            }
-            else
-            {
-                storageProvider = StorageProvider.SQLProvider;
-            }
+            StorageProvider storageProvider = (config.AppSettings.Settings["Storage"].Value == "XmlProvider")?
+                StorageProvider.XMLProvider : storageProvider = StorageProvider.SQLProvider;
+
             string storageDirectory = config.AppSettings.Settings["XmlProvider"].Value;
             string connection = config.AppSettings.Settings["SQLProvider"].Value;
             string connectionString = config.ConnectionStrings.ConnectionStrings[connection].ConnectionString;
 
+            ApplicationMode.IsTrainingMode = (config.AppSettings.Settings["Training"].Value == "yes") ?
+                true : false;
 
-            if (config.AppSettings.Settings["Training"].Value == "yes")
-            {
-                ApplicationMode.IsTrainingMode = true;
-            }
-            else
-            {
-                ApplicationMode.IsTrainingMode = false;
-            }
-
-            if (config.AppSettings.Settings["Tracing"].Value == "yes")
-            {
-                ApplicationMode.IsTracingMode = true;
-            }
-            else
-            {
-                ApplicationMode.IsTracingMode = false;
-            }
+            ApplicationMode.IsTracingMode = (config.AppSettings.Settings["Tracing"].Value == "yes") ?
+                true : false;
 
             string tracingDirectory = config.AppSettings.Settings["TracingDirectory"].Value;
 
-            GenerationMode generationMode;
-            if (config.AppSettings.Settings["Generation"].Value == "random")
-            {
-                generationMode = GenerationMode.randomGeneration;
-            }
-            else
-            {
-                generationMode = GenerationMode.staticGeneration;
-            }
+            GenerationMode generationMode = (config.AppSettings.Settings["Generation"].Value == "random") ?
+                GenerationMode.randomGeneration : GenerationMode.staticGeneration;
 
-            bool distributedMode;
-            if (config.AppSettings.Settings["Distributed"].Value == "yes")
-            {
-                distributedMode = true;
-            }
-            else
-            {
-                distributedMode = false;
-            }
+            bool distributedMode = (config.AppSettings.Settings["Distributed"].Value == "yes") ?
+                true : false;
 
-            bool isInfo; // changable
-            if (config.AppSettings.Settings["LoggerFiles"].Value == "info")
-                isInfo = true;
-            else
-                isInfo = false;
+            bool isInfo = (config.AppSettings.Settings["LoggerFiles"].Value == "info") ?
+                true : false;
+
             string loggerDir = config.AppSettings.Settings["LoggerDirectory"].Value;
 
             SettingsOptionsWindow window = new SettingsOptionsWindow(storageProvider, storageDirectory, connectionString,
@@ -402,17 +367,10 @@ namespace RandomGraphLauncher
                 config.AppSettings.Settings["Tracing"].Value = window.TracingMode ? "yes" : "no";
                 config.AppSettings.Settings["TracingDirectory"].Value = window.TracingDirectory;
 
-                if (window.generationMode == GenerationMode.randomGeneration)
-                {
-                    config.AppSettings.Settings["Generation"].Value = "random";
-                }
-                else
-                {
-                    config.AppSettings.Settings["Generation"].Value = "static";
-                }
+                config.AppSettings.Settings["Generation"].Value =
+                    (window.generationMode == GenerationMode.randomGeneration) ? "random" : "static";
 
                 config.AppSettings.Settings["Distributed"].Value = window.DistributedMode ? "yes" : "no";
-
                 config.AppSettings.Settings["LoggerFiles"].Value = window.LoggerMode ? "info" : "debug";
                 config.AppSettings.Settings["LoggerDirectory"].Value = window.LoggerDirectory;
 
@@ -421,12 +379,8 @@ namespace RandomGraphLauncher
                 ConfigurationManager.RefreshSection("connectionStrings");
 
                 InitStorageManager();
-            }
-
-            
-        }
-
-        
+            } 
+        }     
         // </Mikayel Samvelyan>
     }
 }

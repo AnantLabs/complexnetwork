@@ -22,8 +22,8 @@ namespace RandomGraphLauncher
 {
     public partial class SettingsOptionsWindow : Form
     {
-        private DataConnectionDialog dcd = new DataConnectionDialog();
 
+        // public members that indicate current settings.
         public StorageProvider Storage { get; set; }
         public string StorageDirectory { get; set; }
         public string ConnectionString { get; set; }
@@ -32,9 +32,12 @@ namespace RandomGraphLauncher
         public string TracingDirectory { get; set; }
         public GenerationMode generationMode { get; set; }
         public bool DistributedMode { get; set; }
-        private Dictionary<string, EndpointDiscoveryMetadata> services = new Dictionary<string, EndpointDiscoveryMetadata>();
         public bool LoggerMode { get; set; } // 1 if Info. 0 if Debug.
         public string LoggerDirectory { get; set; }
+
+        // private members used by Distributed Mode.
+        private DataConnectionDialog dcd = new DataConnectionDialog();
+        private Dictionary<string, EndpointDiscoveryMetadata> services = new Dictionary<string, EndpointDiscoveryMetadata>();
 
         public SettingsOptionsWindow(StorageProvider storage,
                              string storageDirectory,
@@ -49,78 +52,19 @@ namespace RandomGraphLauncher
         {
             this.Storage = storage;
             this.StorageDirectory = storageDirectory;
-            this.ConnectionString = connectionString;
-
-            InitializeComponent();
-
-            if (Storage == StorageProvider.XMLProvider)
-            {
-                this.XMLRadioButton.Checked = true;
-                XMLChecked();
-            }
-            else
-            {
-                this.SQLRadioButton.Checked = true;
-                SQLChecked();
-            }
-            this.LocationTxt.Text = StorageDirectory;
-            this.textBoxConnStr.Text = ConnectionString;
-
+            this.ConnectionString = connectionString;        
             this.TrainingMode = trainingMode;
-            if (TrainingMode == true)
-            {
-                this.trainingModeCheckBox.Checked = true;
-            }
-            else
-            {
-                this.trainingModeCheckBox.Checked = false;
-            }
-
             this.TracingMode = tracingMode;
             this.TracingDirectory = tracingDirectory;
-            tracingPathTxtBox.Text = this.TracingDirectory;
-            if (this.TracingMode == true)
-            {
-                TracingModeOn();
-            }
-            else
-            {
-                TracingModeOff();
-            }
-
             this.generationMode = generation;
-            if (generationMode == GenerationMode.randomGeneration)
-            {
-                randomGenerationRadioButton.Checked = true;
-            }
-            else
-            {
-                staticGenerationRadioButton.Checked = true;
-            }
-
             this.DistributedMode = distributedMode;
-            if (DistributedMode == true)
-            {
-                distributedCheckBox.Checked = true;
-            }
-            else
-            {
-                distributedCheckBox.Checked = false;
-            }
-
-            LoggerMode = loggerSettingsMode;
-            LoggerDirectory = loggerDirectory;
-            if (LoggerMode == true)
-            {
-                debugCheckBox.Checked = false;
-            }
-            else
-            {
-                debugCheckBox.Checked = true;
-            }
-
-            loggerPathTextBox.Text = LoggerDirectory;
+            this.LoggerMode = loggerSettingsMode;
+            this.LoggerDirectory = loggerDirectory;
+            
+            InitializeComponent();
         }
+
+        // Member Functions
 
         private void TracingModeOn()
         {
@@ -163,6 +107,72 @@ namespace RandomGraphLauncher
             this.Browse.Enabled = false;
             Storage = StorageProvider.SQLProvider;
         }
+
+        private void DiscoverServices()
+        {
+            DiscoveredServices.Items.Clear();
+            IList<EndpointDiscoveryMetadata> endpoints = ServiceDiscoveryManager.SearchServices();
+            services.Clear();
+            if (endpoints.Count == 0)
+                if (DiscoveredServices.CheckedItems.Count == 0)
+                {
+                    MessageBox.Show("There is no any computer in local area network");
+                    return;
+                }
+            foreach (EndpointDiscoveryMetadata item in endpoints)
+            {
+                services.Add(item.Address.Uri.Host, item);
+                DiscoveredServices.Items.Add(item.Address.Uri.Host);
+            }
+        }
+
+        // Event Handlers
+
+        private void SettingsOptionsWindow_Load(object sender, EventArgs e)
+        {
+            if (Storage == StorageProvider.XMLProvider)
+            {
+                this.XMLRadioButton.Checked = true;
+                XMLChecked();
+            }
+            else
+            {
+                this.SQLRadioButton.Checked = true;
+                SQLChecked();
+            }
+            this.LocationTxt.Text = StorageDirectory;
+            this.textBoxConnStr.Text = ConnectionString;
+
+
+            this.trainingModeCheckBox.Checked = (TrainingMode == true) ? true : false;
+           
+            tracingPathTxtBox.Text = this.TracingDirectory;
+            if (this.TracingMode == true)
+            {
+                TracingModeOn();
+            }
+            else
+            {
+                TracingModeOff();
+            }
+
+            if (generationMode == GenerationMode.randomGeneration)
+            {
+                randomGenerationRadioButton.Checked = true;
+                staticGenerationRadioButton.Checked = false;
+            }
+            else
+            {
+                randomGenerationRadioButton.Checked = false;
+                staticGenerationRadioButton.Checked = true;
+            }
+
+            distributedCheckBox.Checked = (DistributedMode == true) ? true : false;
+
+            debugCheckBox.Checked = (LoggerMode == true) ? false : true;
+            loggerPathTextBox.Text = LoggerDirectory;
+        } 
+
 
         private void XMLRadioButton_CheckedChanged(object sender, EventArgs e)
         {
@@ -208,13 +218,13 @@ namespace RandomGraphLauncher
 
             if (this.DistributedMode == true)
             {
-                if (checkedListBox1.CheckedItems.Count == 0)
+                if (DiscoveredServices.CheckedItems.Count == 0)
                 {
                     MessageBox.Show("Please select at list one computer.");
                     return;
                 }
                 IList<EndpointDiscoveryMetadata> selectedEndpoints = new List<EndpointDiscoveryMetadata>();
-                foreach (var item in checkedListBox1.CheckedItems)
+                foreach (var item in DiscoveredServices.CheckedItems)
                 {
                     selectedEndpoints.Add(services[(string)item]);
                 }
@@ -227,14 +237,7 @@ namespace RandomGraphLauncher
 
         private void trainingModeCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (trainingModeCheckBox.Checked == true)
-            {
-                TrainingMode = true;
-            }
-            else
-            {
-                TrainingMode = false;
-            }
+            TrainingMode = (trainingModeCheckBox.Checked == true) ? true : false;
         }
         
         private void tracingModeCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -265,24 +268,6 @@ namespace RandomGraphLauncher
             }
         }
 
-        private void DiscoverServices()
-        {
-            checkedListBox1.Items.Clear();
-            IList<EndpointDiscoveryMetadata> endpoints = ServiceDiscoveryManager.SearchServices();
-            services.Clear();
-            if (endpoints.Count == 0)
-                if (checkedListBox1.CheckedItems.Count == 0)
-                {
-                    MessageBox.Show("There is no any computer in local area network");
-                    return;
-                }
-            foreach (EndpointDiscoveryMetadata item in endpoints)
-            {
-                services.Add(item.Address.Uri.Host, item);
-                checkedListBox1.Items.Add(item.Address.Uri.Host);
-            }
-        }
-
         private void RefreshButton_Click(object sender, EventArgs e)
         {
             DiscoverServices();
@@ -290,14 +275,7 @@ namespace RandomGraphLauncher
 
         private void distributedCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (distributedCheckBox.Checked == true)
-            {
-                this.DistributedMode = true;
-            }
-            else
-            {
-                this.DistributedMode = false;
-            }
+            this.DistributedMode = (distributedCheckBox.Checked == true) ? true : false;
         }
 
         private void savingButton_Click(object sender, EventArgs e)
@@ -318,15 +296,8 @@ namespace RandomGraphLauncher
 
         private void debugCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (debugCheckBox.Checked == false)
-            {
-                this.LoggerMode = true;
-            }
-            else
-            {
-                this.LoggerMode = false;
-            }
-        }   
+            this.LoggerMode = (debugCheckBox.Checked == false) ? true : false;  
+        }  
     }
     public enum StorageProvider
     {
