@@ -120,7 +120,6 @@
             this.trainingModeCheckBox.TabIndex = 1;
             this.trainingModeCheckBox.Text = "Training mode";
             this.trainingModeCheckBox.UseVisualStyleBackColor = true;
-            this.trainingModeCheckBox.CheckedChanged += new System.EventHandler(this.trainingModeCheckBox_CheckedChanged);
             // 
             // generationModeGroupBox
             // 
@@ -142,7 +141,6 @@
             this.randomGenerationRadioButton.TabIndex = 4;
             this.randomGenerationRadioButton.Text = "Random generation";
             this.randomGenerationRadioButton.UseVisualStyleBackColor = true;
-            this.randomGenerationRadioButton.CheckedChanged += new System.EventHandler(this.randomGenerationRadioButton_CheckedChanged);
             // 
             // staticGenerationRadioButton
             // 
@@ -153,7 +151,6 @@
             this.staticGenerationRadioButton.TabIndex = 3;
             this.staticGenerationRadioButton.Text = "Static generation";
             this.staticGenerationRadioButton.UseVisualStyleBackColor = true;
-            this.staticGenerationRadioButton.CheckedChanged += new System.EventHandler(this.staticGenerationRadioButton_CheckedChanged);
             // 
             // OptionsTabControl
             // 
@@ -303,7 +300,6 @@
             this.distributedCheckBox.TabIndex = 9;
             this.distributedCheckBox.Text = "Use distributed calculation?";
             this.distributedCheckBox.UseVisualStyleBackColor = true;
-            this.distributedCheckBox.CheckedChanged += new System.EventHandler(this.distributedCheckBox_CheckedChanged);
             // 
             // DiscoveredServices
             // 
@@ -356,7 +352,6 @@
             this.debugCheckBox.TabIndex = 12;
             this.debugCheckBox.Text = "Only debug files";
             this.debugCheckBox.UseVisualStyleBackColor = true;
-            this.debugCheckBox.CheckedChanged += new System.EventHandler(this.debugCheckBox_CheckedChanged);
             // 
             // pathLabel
             // 
