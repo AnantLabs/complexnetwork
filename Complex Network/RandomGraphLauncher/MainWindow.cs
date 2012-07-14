@@ -318,68 +318,8 @@ namespace RandomGraphLauncher
         // <Mikayel Samvelyan>
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-
-            StorageProvider storageProvider = (config.AppSettings.Settings["Storage"].Value == "XmlProvider")?
-                StorageProvider.XMLProvider : storageProvider = StorageProvider.SQLProvider;
-
-            string storageDirectory = config.AppSettings.Settings["XmlProvider"].Value;
-            string connection = config.AppSettings.Settings["SQLProvider"].Value;
-            string connectionString = config.ConnectionStrings.ConnectionStrings[connection].ConnectionString;
-
-            ApplicationMode.IsTrainingMode = (config.AppSettings.Settings["Training"].Value == "yes") ?
-                true : false;
-
-            ApplicationMode.IsTracingMode = (config.AppSettings.Settings["Tracing"].Value == "yes") ?
-                true : false;
-
-            string tracingDirectory = config.AppSettings.Settings["TracingDirectory"].Value;
-
-            GenerationMode generationMode = (config.AppSettings.Settings["Generation"].Value == "random") ?
-                GenerationMode.randomGeneration : GenerationMode.staticGeneration;
-
-            bool distributedMode = (config.AppSettings.Settings["Distributed"].Value == "yes") ?
-                true : false;
-
-            bool isInfo = (config.AppSettings.Settings["LoggerFiles"].Value == "info") ?
-                true : false;
-
-            string loggerDir = config.AppSettings.Settings["LoggerDirectory"].Value;
-
-            SettingsOptionsWindow window = new SettingsOptionsWindow(storageProvider, storageDirectory, connectionString,
-                ApplicationMode.IsTrainingMode, ApplicationMode.IsTracingMode, tracingDirectory, 
-                generationMode, distributedMode, isInfo, loggerDir);
-
-            if (window.ShowDialog() == DialogResult.OK)
-            {
-                if (window.Storage == StorageProvider.XMLProvider)
-                {
-                    config.AppSettings.Settings["Storage"].Value = "XmlProvider";
-                    config.AppSettings.Settings["XmlProvider"].Value = window.StorageDirectory;
-                }
-                else
-                {
-                    config.AppSettings.Settings["Storage"].Value = "SQLProvider";
-                    config.ConnectionStrings.ConnectionStrings[config.AppSettings.Settings["SQLProvider"].Value].ConnectionString = window.ConnectionString;
-                }
-
-                config.AppSettings.Settings["Training"].Value = window.TrainingMode ? "yes" : "no";
-                config.AppSettings.Settings["Tracing"].Value = window.TracingMode ? "yes" : "no";
-                config.AppSettings.Settings["TracingDirectory"].Value = window.TracingDirectory;
-
-                config.AppSettings.Settings["Generation"].Value =
-                    (window.generationMode == GenerationMode.randomGeneration) ? "random" : "static";
-
-                config.AppSettings.Settings["Distributed"].Value = window.DistributedMode ? "yes" : "no";
-                config.AppSettings.Settings["LoggerFiles"].Value = window.LoggerMode ? "info" : "debug";
-                config.AppSettings.Settings["LoggerDirectory"].Value = window.LoggerDirectory;
-
-                config.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection("appSettings");
-                ConfigurationManager.RefreshSection("connectionStrings");
-
-                InitStorageManager();
-            } 
+            SettingsOptionsWindow window = new SettingsOptionsWindow();
+            window.ShowDialog();    
         }     
         // </Mikayel Samvelyan>
     }

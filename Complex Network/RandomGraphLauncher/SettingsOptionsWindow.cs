@@ -22,45 +22,12 @@ namespace RandomGraphLauncher
 {
     public partial class SettingsOptionsWindow : Form
     {
-
-        // public members that indicate current settings.
-        public StorageProvider Storage { get; set; }
-        public string StorageDirectory { get; set; }
-        public string ConnectionString { get; set; }
-        public bool TrainingMode { get; set; }
-        public bool TracingMode { get; set; }
-        public string TracingDirectory { get; set; }
-        public GenerationMode generationMode { get; set; }
-        public bool DistributedMode { get; set; }
-        public bool LoggerMode { get; set; } // 1 if Info. 0 if Debug.
-        public string LoggerDirectory { get; set; }
-
         // private members used by Distributed Mode.
         private DataConnectionDialog dcd = new DataConnectionDialog();
         private Dictionary<string, EndpointDiscoveryMetadata> services = new Dictionary<string, EndpointDiscoveryMetadata>();
 
-        public SettingsOptionsWindow(StorageProvider storage,
-                             string storageDirectory,
-                             string connectionString,
-                             bool trainingMode,
-                             bool tracingMode,
-                             string tracingDirectory,
-                             GenerationMode generation,
-                             bool distributedMode,
-                             bool loggerSettingsMode,
-                             string loggerDirectory)
+        public SettingsOptionsWindow()
         {
-            this.Storage = storage;
-            this.StorageDirectory = storageDirectory;
-            this.ConnectionString = connectionString;        
-            this.TrainingMode = trainingMode;
-            this.TracingMode = tracingMode;
-            this.TracingDirectory = tracingDirectory;
-            this.generationMode = generation;
-            this.DistributedMode = distributedMode;
-            this.LoggerMode = loggerSettingsMode;
-            this.LoggerDirectory = loggerDirectory;
-            
             InitializeComponent();
         }
 
@@ -68,7 +35,6 @@ namespace RandomGraphLauncher
 
         private void TracingModeOn()
         {
-            this.TracingMode = true;
             tracingModeCheckBox.Checked = true;
             tracingPathTxtBox.Enabled = true;
             tracingBrowseButton.Enabled = true;
@@ -77,7 +43,6 @@ namespace RandomGraphLauncher
 
         private void TracingModeOff()
         {
-            this.TracingMode = false;
             tracingModeCheckBox.Checked = false;
             tracingPathTxtBox.Enabled = false;
             tracingBrowseButton.Enabled = false;
@@ -93,7 +58,6 @@ namespace RandomGraphLauncher
             this.LabelConnStr.Enabled = false;
             this.textBoxConnStr.Enabled = false;
             this.AddConnection.Enabled = false;
-            Storage = StorageProvider.XMLProvider;
         }
 
         private void SQLChecked()
@@ -105,7 +69,6 @@ namespace RandomGraphLauncher
             this.Location.Enabled = false;
             this.LocationTxt.Enabled = false;
             this.Browse.Enabled = false;
-            Storage = StorageProvider.SQLProvider;
         }
 
         private void DiscoverServices()
@@ -130,7 +93,7 @@ namespace RandomGraphLauncher
 
         private void SettingsOptionsWindow_Load(object sender, EventArgs e)
         {
-            if (Storage == StorageProvider.XMLProvider)
+            if (Options.Storage == Options.StorageProvider.XMLProvider)
             {
                 this.XMLRadioButton.Checked = true;
                 XMLChecked();
@@ -140,14 +103,14 @@ namespace RandomGraphLauncher
                 this.SQLRadioButton.Checked = true;
                 SQLChecked();
             }
-            this.LocationTxt.Text = StorageDirectory;
-            this.textBoxConnStr.Text = ConnectionString;
-
-
-            this.trainingModeCheckBox.Checked = (TrainingMode == true) ? true : false;
-           
-            tracingPathTxtBox.Text = this.TracingDirectory;
-            if (this.TracingMode == true)
+            
+            this.LocationTxt.Text = Options.StorageDirectory;
+            this.textBoxConnStr.Text = Options.ConnectionString;
+            
+            this.trainingModeCheckBox.Checked = (Options.TrainingMode == true) ? true : false;
+            
+            tracingPathTxtBox.Text = Options.TracingDirectory;
+            if (Options.TracingMode == true)
             {
                 TracingModeOn();
             }
@@ -155,8 +118,8 @@ namespace RandomGraphLauncher
             {
                 TracingModeOff();
             }
-
-            if (generationMode == GenerationMode.randomGeneration)
+            
+            if (Options.Generation == Options.GenerationMode.randomGeneration)
             {
                 randomGenerationRadioButton.Checked = true;
                 staticGenerationRadioButton.Checked = false;
@@ -167,10 +130,10 @@ namespace RandomGraphLauncher
                 staticGenerationRadioButton.Checked = true;
             }
 
-            distributedCheckBox.Checked = (DistributedMode == true) ? true : false;
-
-            debugCheckBox.Checked = (LoggerMode == true) ? false : true;
-            loggerPathTextBox.Text = LoggerDirectory;
+            distributedCheckBox.Checked = Options.DistributedMode ? true : false;  
+        
+            debugCheckBox.Checked = (Options.Logger == Options.LoggerMode.debug) ? true : false; 
+            loggerPathTextBox.Text = Options.LoggerDirectory;
         } 
 
 
@@ -200,7 +163,7 @@ namespace RandomGraphLauncher
 
             if (dcd.SelectedDataProvider != null && dcd.SelectedDataSource != null)
             {
-                dcd.ConnectionString = ConnectionString;
+                dcd.ConnectionString = this.textBoxConnStr.Text;
             }
             if (DataConnectionDialog.Show(dcd) == DialogResult.OK)
             {
@@ -211,16 +174,11 @@ namespace RandomGraphLauncher
 
         private void Ok_Click(object sender, EventArgs e)
         {
-            this.StorageDirectory = LocationTxt.Text;
-            this.ConnectionString = textBoxConnStr.Text;
-            this.TracingDirectory = tracingPathTxtBox.Text;
-            this.LoggerDirectory = loggerPathTextBox.Text;
-
-            if (this.DistributedMode == true)
+            if (distributedCheckBox.Checked == true)
             {
                 if (DiscoveredServices.CheckedItems.Count == 0)
                 {
-                    MessageBox.Show("Please select at list one computer.");
+                    MessageBox.Show("Please select at least one computer.");
                     return;
                 }
                 IList<EndpointDiscoveryMetadata> selectedEndpoints = new List<EndpointDiscoveryMetadata>();
@@ -230,14 +188,22 @@ namespace RandomGraphLauncher
                 }
                 ServiceDiscoveryManager.SelectedServices = selectedEndpoints;
             }
-            this.DialogResult = DialogResult.OK;
+            
+            Options.Storage = (XMLRadioButton.Checked == true) ? Options.StorageProvider.XMLProvider :
+                Options.StorageProvider.SQLProvider;
+            Options.StorageDirectory = LocationTxt.Text;
+            Options.ConnectionString = textBoxConnStr.Text;
+            Options.TrainingMode = trainingModeCheckBox.Checked;
+            Options.TracingMode = tracingModeCheckBox.Checked;
+            Options.TracingDirectory = tracingPathTxtBox.Text;
+            Options.Generation = (randomGenerationRadioButton.Checked) ? Options.GenerationMode.randomGeneration :
+                Options.GenerationMode.staticGeneration;
+            Options.DistributedMode = distributedCheckBox.Checked;
+            Options.Logger = debugCheckBox.Checked ? Options.LoggerMode.debug : Options.LoggerMode.info;
+            Options.LoggerDirectory = loggerPathTextBox.Text;
+            Options.Refresh();
             this.Close();
 
-        }
-
-        private void trainingModeCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            TrainingMode = (trainingModeCheckBox.Checked == true) ? true : false;
         }
         
         private void tracingModeCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -251,33 +217,12 @@ namespace RandomGraphLauncher
                 TracingModeOff();
             }
         }
-
-        private void randomGenerationRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            if (randomGenerationRadioButton.Checked == true)
-            {
-                generationMode = GenerationMode.randomGeneration;
-            }
-        }
-
-        private void staticGenerationRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            if (staticGenerationRadioButton.Checked == true)
-            {
-                generationMode = GenerationMode.staticGeneration;
-            }
-        }
-
+        
         private void RefreshButton_Click(object sender, EventArgs e)
         {
             DiscoverServices();
         }
-
-        private void distributedCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            this.DistributedMode = (distributedCheckBox.Checked == true) ? true : false;
-        }
-
+        
         private void savingButton_Click(object sender, EventArgs e)
         {
             if (LoggerBrowserDialog.ShowDialog() == DialogResult.OK)
@@ -293,16 +238,6 @@ namespace RandomGraphLauncher
                 this.tracingPathTxtBox.Text = tracingBrowserDialog.SelectedPath;
             }
         }
-
-        private void debugCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            this.LoggerMode = (debugCheckBox.Checked == false) ? true : false;  
-        }  
-    }
-    public enum StorageProvider
-    {
-        XMLProvider,
-        SQLProvider
     }
 }
 // </Mikayel Samvelyan>
