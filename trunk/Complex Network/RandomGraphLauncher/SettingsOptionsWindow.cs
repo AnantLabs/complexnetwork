@@ -11,12 +11,13 @@ using System.Windows.Forms;
 using System.IO;
 using System.Configuration;
 using System.Data.SqlClient;
-using CommonLibrary.Model.Settings;
 using System.ServiceModel.Discovery;
 using AnalyzerFramework.Manager.WcfClient;
 using log4net.Config;
 using log4net.Appender;
 using log4net;
+
+using RandomGraph.Common.Model.Settings;
 
 namespace RandomGraphLauncher
 {

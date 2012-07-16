@@ -37,11 +37,6 @@ namespace RandomGraphLauncher
             this.newJobToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.storageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.distributedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.trainingModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.traceingModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loggerSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statisticAnalyzerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,71 +73,29 @@ namespace RandomGraphLauncher
             // newJobToolStripMenuItem
             // 
             this.newJobToolStripMenuItem.Name = "newJobToolStripMenuItem";
-            this.newJobToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newJobToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.newJobToolStripMenuItem.Text = "New Job";
             this.newJobToolStripMenuItem.Click += new System.EventHandler(this.newJobToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.storageToolStripMenuItem,
-            this.distributedToolStripMenuItem,
-            this.trainingModeToolStripMenuItem,
-            this.traceingModeToolStripMenuItem,
-            this.loggerSettingsToolStripMenuItem,
             this.optionToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
-            // storageToolStripMenuItem
-            // 
-            this.storageToolStripMenuItem.Name = "storageToolStripMenuItem";
-            this.storageToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.storageToolStripMenuItem.Text = "Storage";
-            this.storageToolStripMenuItem.Click += new System.EventHandler(this.storageToolStripMenuItem_Click);
-            // 
-            // distributedToolStripMenuItem
-            // 
-            this.distributedToolStripMenuItem.Name = "distributedToolStripMenuItem";
-            this.distributedToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.distributedToolStripMenuItem.Text = "Distributed";
-            this.distributedToolStripMenuItem.Click += new System.EventHandler(this.distributedToolStripMenuItem_Click);
-            // 
-            // trainingModeToolStripMenuItem
-            // 
-            this.trainingModeToolStripMenuItem.CheckOnClick = true;
-            this.trainingModeToolStripMenuItem.Name = "trainingModeToolStripMenuItem";
-            this.trainingModeToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.trainingModeToolStripMenuItem.Text = "TrainingMode";
-            this.trainingModeToolStripMenuItem.CheckedChanged += new System.EventHandler(this.TrainingModeChanged);
-            // 
-            // traceingModeToolStripMenuItem
-            // 
-            this.traceingModeToolStripMenuItem.CheckOnClick = true;
-            this.traceingModeToolStripMenuItem.Name = "traceingModeToolStripMenuItem";
-            this.traceingModeToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.traceingModeToolStripMenuItem.Text = "Tracing Mode";
-            this.traceingModeToolStripMenuItem.Click += new System.EventHandler(this.traceingModeToolStripMenuItem_Click);
-            // 
-            // loggerSettingsToolStripMenuItem
-            // 
-            this.loggerSettingsToolStripMenuItem.Name = "loggerSettingsToolStripMenuItem";
-            this.loggerSettingsToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.loggerSettingsToolStripMenuItem.Text = "Logger Settings";
-            this.loggerSettingsToolStripMenuItem.Click += new System.EventHandler(this.loggerSettingsToolStripMenuItem_Click);
-            // 
             // optionToolStripMenuItem
             // 
             this.optionToolStripMenuItem.Name = "optionToolStripMenuItem";
-            this.optionToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.optionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.optionToolStripMenuItem.Text = "Options";
             this.optionToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -220,7 +173,6 @@ namespace RandomGraphLauncher
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Complex Network";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormClosing_Event);
-            this.Shown += new System.EventHandler(this.Form_Shown);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             this.ResumeLayout(false);
@@ -235,19 +187,14 @@ namespace RandomGraphLauncher
         private System.Windows.Forms.ToolStripMenuItem newJobToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem storageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 
         private MyControlLibrary.TabCtlEx userControl11;
         private ToolStripMenuItem toolsToolStripMenuItem;
         private ToolStripMenuItem statisticAnalyzerToolStripMenuItem;
         private ToolStripMenuItem dataExportIMportToolStripMenuItem;
-        private ToolStripMenuItem distributedToolStripMenuItem;
-        private ToolStripMenuItem trainingModeToolStripMenuItem;
         private ToolStripMenuItem testerToolStripMenuItem;
-        private ToolStripMenuItem traceingModeToolStripMenuItem;
         private ToolStripMenuItem modelCheckingToolStripMenuItem;
-        private ToolStripMenuItem loggerSettingsToolStripMenuItem;
         private ToolStripMenuItem optionToolStripMenuItem;
 
     }

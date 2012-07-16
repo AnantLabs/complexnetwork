@@ -18,33 +18,31 @@ using SettingsConfiguration;
 using AnalyzerFramework.Manager.ModelRepo;
 using AnalyzerFramework.Manager.Impl;
 using System.Diagnostics;
-using CommonLibrary.Model.Settings;
 using log4net;
+
+using RandomGraph.Common.Model.Settings;
 
 namespace RandomGraphLauncher
 {
     public partial class MainWindow : Form
     {
-        /// <summary>
-        /// The logger static object for monitoring.
-        /// </summary>
+        // Организация работы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(MainWindow));
+
         // model name, model factory, model
         private IDictionary<string, Tuple<Type, Type>> models = new Dictionary<string, Tuple<Type, Type>>();
         private AbstractGraphManager manager;
         private IResultStorage storageManager;
-        private bool isDistributed;
         private List<string> runningJobs = new List<string>();
 
         public MainWindow()
         {
             InitializeComponent();
             InitStorageManager();
-            InitMode();
+
             List<Type> availableModelFactoryTypes = ModelRepository.GetInstance().GetAvailableModelFactoryTypes();
             foreach (Type modelFactoryType in availableModelFactoryTypes)
             {
-
                 object[] attr = modelFactoryType.GetCustomAttributes(typeof(TargetGraphModel), false);
                 TargetGraphModel targetGraphMetadata = (TargetGraphModel)attr[0];
                 Type modelType = targetGraphMetadata.GraphModelType;
@@ -54,23 +52,6 @@ namespace RandomGraphLauncher
 
                 models.Add(modelName, Tuple.Create<Type, Type>(modelFactoryType, modelType));
             }
-            
-          
-
-        }
-
-        private void InitMode()
-        {
-            string training = ConfigurationManager.AppSettings["Training"]; ;
-            if (training == "yes")
-            {
-                ApplicationMode.IsTrainingMode = true;
-            }
-            else
-            {
-                ApplicationMode.IsTrainingMode = false;
-            }
-            trainingModeToolStripMenuItem.Checked = ApplicationMode.IsTrainingMode;
         }
 
         private void InitStorageManager()
@@ -100,8 +81,6 @@ namespace RandomGraphLauncher
             }
         }
 
-     
-
         private void NewJob()
         {
             ModelChooserWindow modelChooser = new ModelChooserWindow(models.Keys, storageManager, runningJobs);
@@ -121,7 +100,7 @@ namespace RandomGraphLauncher
 
         private void modelChoosed(Tuple<Type, Type> modelType, string jobName)
         {
-            if (isDistributed)
+            if (Options.DistributedMode)
             {
                 manager = new DistributedGraphManager(storageManager);
             }
@@ -129,7 +108,6 @@ namespace RandomGraphLauncher
             {
                 manager = new MultiTreadGraphManager(storageManager);
             }
-            manager.isTrainingMode = ApplicationMode.IsTrainingMode;
             runningJobs.Add(jobName);
             TabPageEx tabPage = new MyControlLibrary.TabPageEx(new System.ComponentModel.Container());
 
@@ -141,11 +119,7 @@ namespace RandomGraphLauncher
             // 
             CalculationControl calculationControl = new CalculationControl(modelType.Item1, 
                 modelType.Item2, 
-                jobName, manager, 
-                isDistributed, 
-                ApplicationMode.IsTrainingMode, 
-                traceingModeToolStripMenuItem.Checked, 
-                false);
+                jobName, manager);
             calculationControl.Dock = System.Windows.Forms.DockStyle.Fill;
             calculationControl.Location = new System.Drawing.Point(0, 0);
             calculationControl.Name = "calculationControl";
@@ -169,45 +143,12 @@ namespace RandomGraphLauncher
             Width++;
         }
 
-        /*
-        private void graphWindow_ExecutionStatusChange(object sender, AnalyzeEventArgs args)
-        {
-            if (this.InvokeRequired)
-            {
-                InvokingDelegate d = new InvokingDelegate(InvokingMethod);
-                this.Invoke(d, new object[] { args });
-            }
-            else
-            {
-                InvokingMethod(args);
-            }
-        }
-
-        private delegate void InvokingDelegate(AnalyzeEventArgs args);
-
-        private void InvokingMethod(AnalyzeEventArgs args)
-        {
-            MessageBox.Show("WOW!!!");
-            storageManager.Save(manager.Assembly);
-        }
-        */
-
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Environment.Exit(0);
         }
 
-        private void distributedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ServiceManager window = new ServiceManager(isDistributed);
-
-            if (window.ShowDialog() == DialogResult.OK)
-            {
-                isDistributed = window.checkBox1.Checked;
-            }
-        }
-
-        private void storageToolStripMenuItem_Click(object sender, EventArgs e)
+        /*private void storageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
@@ -245,12 +186,7 @@ namespace RandomGraphLauncher
 
                 InitStorageManager();
             }
-        }
-
-        private void Form_Shown(object sender, EventArgs e)
-        {
-            //NewJob();
-        }
+        }*/
 
         private void statisticAnalyzerToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -275,37 +211,16 @@ namespace RandomGraphLauncher
             Environment.Exit(0);
         }
 
-        private void TrainingModeChanged(object sender, EventArgs e)
-        {
-            ApplicationMode.IsTrainingMode = trainingModeToolStripMenuItem.Checked;
-
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            config.AppSettings.Settings["Training"].Value = trainingModeToolStripMenuItem.Checked ? "yes" : "no";
-            config.Save(ConfigurationSaveMode.Modified);
-            ConfigurationManager.RefreshSection("appSettings");
-        }
-
         private void testerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TesterForm tester = new TesterForm();
             tester.ShowDialog();
         }
 
-        private void traceingModeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void modelCheckingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ModelCheckWindow wnd = new ModelCheckWindow();
             wnd.ShowDialog();
-        }
-
-        private void loggerSettingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            LoggerSetingsForm settingsForm = new LoggerSetingsForm();
-            settingsForm.ShowDialog();
         }
 
         private void newJobToolStripMenuItem_Click(object sender, EventArgs e)

@@ -14,6 +14,7 @@ using CommonLibrary.Model.Attributes;
 using CommonLibrary.Model.Util;
 using Flash.External;
 using Newtonsoft.Json;
+using RandomGraph.Common.Model.Settings;
 using RandomGraph.Common.Model;
 using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model.Status;
@@ -41,16 +42,19 @@ namespace RandomGraphLauncher
         private Dictionary<string, AnalyseOptions> analizeOptionBoxes;
         private Dictionary<GenerationParam, Control> genParamBoxes;
 
-        public CalculationControl(Type arg_modelFactoryType, Type arg_modelType, string jobName, AbstractGraphManager manager, bool isDistributed, bool isTrainingMode, bool isTraceingMode,bool randomGeneration)
+        public CalculationControl(Type arg_modelFactoryType, 
+            Type arg_modelType, 
+            string jobName, 
+            AbstractGraphManager manager)
         {
             log.Info("Started constructing UI");
-            controller.Init(arg_modelFactoryType, arg_modelType, jobName, manager, isDistributed, isTrainingMode);
+            controller.Init(arg_modelFactoryType, arg_modelType, jobName, manager);
             controller.SetStatusChangedEventHandler(manager_ExecutionStatusChange);
             InitializeComponent();
             InitModelLabels();
-            InitSelectionPanels(randomGeneration);
+            InitSelectionPanels();
 
-            if (isTrainingMode)
+            if (Options.TrainingMode)
             {
                 controller.SetGraphsGeneratedEventHandler(manager_GraphsGenerated);
                 axShockwaveFlash1.Visible = true;
@@ -69,12 +73,10 @@ namespace RandomGraphLauncher
                     dataGridView1.Columns[4].Visible = true;
                 }
             }
-            controller.isTraceingMode = isTraceingMode;
+            
             GraphModel graphMetaData = controller.GetGraphModel();
-            //if (graphMetaData.Name == "Static Model")
-            //{
-                numericUpDown_Instances_Count.Enabled = randomGeneration;
-          ///  }
+
+            numericUpDown_Instances_Count.Enabled = (Options.Generation == Options.GenerationMode.randomGeneration) ? true : false;
         }
 
         private void DisapleControlButtons()
@@ -241,9 +243,11 @@ namespace RandomGraphLauncher
 
         private delegate void BtnEnabled(Button btn, bool val);
 
-        private void InitSelectionPanels(bool randomGeneration)
+        private void InitSelectionPanels()
         {
             log.Info("Starting initialization of selection panels");
+
+            bool randomGeneration = (Options.Generation == Options.GenerationMode.randomGeneration) ? true : false;
             analizeOptionBoxes = new Dictionary<string, AnalyseOptions>();
             foreach (AnalyseOptions opt in Enum.GetValues(typeof(AnalyseOptions)))
             {
@@ -289,7 +293,7 @@ namespace RandomGraphLauncher
                 {
                     control = new CheckBox();
                 }
-                if (!randomGeneration && paramInfo.Type == typeof(String))
+                if (!randomGeneration)// && paramInfo.Type == typeof(String))
                 {
                     control = new TextBox();
                     Button brButton = new Button();
@@ -303,10 +307,10 @@ namespace RandomGraphLauncher
                     control.Width = 100;
                     control.Location = new Point(105, position);
 
-                     textBoxLabel = new Label() { Width = 100 };
+                    textBoxLabel = new Label() { Width = 100 };
                     textBoxLabel.Location = new Point(15, position);
 
-                    textBoxLabel.Text = paramInfo.Name;
+                    textBoxLabel.Text = "File Path";
                     genParamBoxes.Add(param, control);
 
                     groupBox_Gen_params.Controls.Add(control);
@@ -333,8 +337,6 @@ namespace RandomGraphLauncher
                         position += 25;
                     }
                 }
-
-              
             }
         }
 

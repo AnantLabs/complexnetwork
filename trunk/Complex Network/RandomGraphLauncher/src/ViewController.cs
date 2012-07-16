@@ -14,6 +14,7 @@ using CommonLibrary.Model.Attributes;
 using CommonLibrary.Model.Util;
 using Flash.External;
 using Newtonsoft.Json;
+using RandomGraph.Common.Model.Settings;
 using RandomGraph.Common.Model;
 using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model.Status;
@@ -49,14 +50,19 @@ namespace RandomGraphLauncher.src
         private Type modelType { get; set; }
         private string jobName { get; set; }
 
-        public void Init(Type arg_modelFactoryType, Type arg_modelType, string jobName, AbstractGraphManager manager, bool isDistributed, bool isTrainingMode)
+        public void Init(Type arg_modelFactoryType, 
+            Type arg_modelType, 
+            string jobName, 
+            AbstractGraphManager manager)
         {
-            this.manager = manager;
-            this.isTrainingMode = isTrainingMode;
+            this.manager = manager;            
             this.jobName = jobName;
             this.factoryType = arg_modelFactoryType;
             this.modelType = arg_modelType;
-            this.isDistributed = isDistributed;
+
+            this.isTrainingMode = Options.TracingMode;
+            this.isTraceingMode = Options.TracingMode;
+            this.isDistributed = Options.DistributedMode;
             reqGenParams = new List<RequiredGenerationParam>((RequiredGenerationParam[])this.modelType.GetCustomAttributes(typeof(RequiredGenerationParam), false));
             AvailableAnalyzeOptions[] optionsAttributes = (AvailableAnalyzeOptions[])this.modelType.GetCustomAttributes(typeof(AvailableAnalyzeOptions), false);
             this.availableOptions = optionsAttributes[0].Options;
@@ -103,7 +109,6 @@ namespace RandomGraphLauncher.src
         {
             Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), typeof(AnalyseOptions), typeof(Dictionary<String, Object>) };
             AbstractGraphFactory graphFactory = (AbstractGraphFactory)this.factoryType.GetConstructor(constructTypes).Invoke(invokeParams);
-            this.manager.isTraceingMode = isTraceingMode;
             this.manager.Start(graphFactory, this.instances, this.jobName);
         }
 
