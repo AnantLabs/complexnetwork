@@ -109,7 +109,7 @@
     <Compile Include="Model\RandomVector\VectorGeneratorFactory.cs" />
     <Compile Include="Model\Result\AnalizeResult.cs" />
     <Compile Include="Model\Result\ResultAssembly.cs" />
-    <Compile Include="Model\Settings\ApplicationMode.cs" />
+    <Compile Include="Model\Settings\Options.cs" />
     <Compile Include="Model\Status\GraphProgress.cs" />
     <Compile Include="Model\Status\GraphProgressStatus.cs" />
     <Compile Include="Model\Util\GraphTable.cs" />

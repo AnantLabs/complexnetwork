@@ -6,6 +6,7 @@ using RandomGraph.Core.Manager.Impl;
 using RandomGraph.Common.Model;
 using System.Threading;
 using CommonLibrary.Model.Attributes;
+using RandomGraph.Common.Model.Settings;
 using RandomGraph.Core.Exceptions;
 using RandomGraph.Core.Manager.Status;
 using RandomGraph.Core.Events;
@@ -94,15 +95,15 @@ namespace AnalyzerFramework.Manager.Impl
             int index = (int)obj;
             try
             {
-                if (generationMode == 0)
+                if (Options.Generation == Options.GenerationMode.randomGeneration)
                 {
                     Models[index].StartGenerate();
                 }
-                if (isTraceingMode)
+                if (Options.TracingMode)
                 {
                     Models[index].StartTrace(index, Models[index].ModelName, Assembly.Name);
                 }
-                if (isTrainingMode)
+                if (Options.TrainingMode)
                 {
                     Models[index].UpdateGeneratedMatrix();
                 }

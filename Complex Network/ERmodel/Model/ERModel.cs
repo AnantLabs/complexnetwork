@@ -31,7 +31,7 @@ namespace Model.ERModel
     // Реализация модели (ER).
     public class ERModel : AbstractGraphModel
     {
-        // Организация Работы с лог файлом.
+        // Организация работы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(ERModel));
 
         private static readonly string MODEL_NAME = "ERModel";

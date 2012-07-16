@@ -26,10 +26,6 @@ namespace RandomGraph.Core.Manager.Impl
         /// </summary>
         public event StatusChangedEventHandler ExecutionStatusChange;
 
-       // public bool mFileMode { get; set; }
-
-        public bool isTraceingMode { get; set; }
-
         public event GraphsAreGenerated GraphsGenerated;
 
         /// <summary>
@@ -54,11 +50,6 @@ namespace RandomGraph.Core.Manager.Impl
 
         #region Properties
 
-        /// <summary>
-        /// Graph generation mode. From file or Random.
-        /// </summary>
-        public int generationMode { get; set; }
-
         public ResultAssembly Assembly { get; protected set; }
 
         /// <summary>
@@ -73,8 +64,6 @@ namespace RandomGraph.Core.Manager.Impl
         /// Reference to result storage object
         /// </summary>
         public IResultStorage DataStorage { get; protected set; }
-
-        public bool isTrainingMode { get; set; }
 
         /// <summary>
         /// Current status of execution, e.g. Stopped, Running, Paused.
