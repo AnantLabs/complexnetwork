@@ -81,6 +81,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\IGraphContainer.cs" />
+    <Compile Include="Model\IGraphGenerator.cs" />
     <Compile Include="Model\AbstarctGraphAnalyzer.cs" />
     <Compile Include="Model\AbstractGraphFactory.cs" />
     <Compile Include="Model\AbstractGraphModel.cs" />

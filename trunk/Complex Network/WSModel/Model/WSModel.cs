@@ -7,29 +7,32 @@ using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model.Status;
 using CommonLibrary.Model.Attributes;
 using Model.WSModel.Realization;
-using Model.WSModel.Result;
 using Algorithms;
 
 namespace Model.WSModel
 {
+    // Атрибуты модели (WS).
     [GraphModel("Watts-Strogatz", GenerationRule.Sequential, "Watts-Strogatz graph model")]
     [AvailableAnalyzeOptions(
-        AnalyseOptions.DegreeDistribution |
         AnalyseOptions.AveragePath |
-        AnalyseOptions.EigenValue | 
-        AnalyseOptions.ClusteringCoefficient |
+        AnalyseOptions.Diameter |
         AnalyseOptions.Cycles3 |
         AnalyseOptions.Cycles4 |
-        AnalyseOptions.Diameter |
+        AnalyseOptions.EigenValue | 
+        AnalyseOptions.DegreeDistribution |        
+        AnalyseOptions.ClusteringCoefficient |        
         AnalyseOptions.ConnSubGraph)]
     [RequiredGenerationParam(GenerationParam.P, 10)]
     [RequiredGenerationParam(GenerationParam.Vertices, 2)]
     [RequiredGenerationParam(GenerationParam.Edges, 3)]
 
+    // Реализация модели (WS).
     public class WSModel : AbstractGraphModel
     {
+        // !Организация Работы с лог файлом!
+
         private static readonly string MODEL_NAME = "Watts-Strogatz";
-        private WSGraph graph;
+
         public WSModel() { }
 
         public WSModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, int sequenceNumber)
@@ -39,42 +42,46 @@ namespace Model.WSModel
             InitModel();
         }
 
+        public WSModel(ArrayList matrix, AnalyseOptions options, int sequenceNumber)
+            : base(matrix, options, sequenceNumber)
+        {
+            ValidateModelParams();
+            InitModel();
+        }
+
         private void ValidateModelParams()
         {
-            //TODO Put input params validation here
-            //and throw WrongModelParamsException
-
+            // !Добавить проверку параметров!
         }
 
         private void InitModel()
         {
             InvokeProgressEvent(GraphProgress.Initializing, 0);
             ModelName = MODEL_NAME;
-            //Defines separate generation rule
+
+            // Проверить правильность
             GenerationRule = GenerationRule.Sequential;
 
-            //Defines available options for analizer
-            AvailableOptions = AnalyseOptions.DegreeDistribution |
-                                AnalyseOptions.AveragePath |
-                                AnalyseOptions.Diameter |
-                                AnalyseOptions.ClusteringCoefficient |
-                                AnalyseOptions.Cycles3 |
-                                AnalyseOptions.Cycles4 |
-                                AnalyseOptions.EigenValue |
-                                AnalyseOptions.ConnSubGraph;
-
-            //Defines required input parameters for generation
+            // Определение параметров генерации. !Добавить число шагов!
             List<GenerationParam> genParams = new List<GenerationParam>();
             genParams.Add(GenerationParam.Edges);
             genParams.Add(GenerationParam.Vertices);
             genParams.Add(GenerationParam.P);
             RequiredGenerationParams = genParams;
 
-            graph = new WSGraph((int)GenerationParamValues[GenerationParam.Vertices],
-                                            (int)GenerationParamValues[GenerationParam.Edges],
-                                            (double)GenerationParamValues[GenerationParam.P]);
+            // Определение доступных опций для анализа (вычисляемые характеристики для данной модели (WS)).
+            AvailableOptions = AnalyseOptions.AveragePath |
+                AnalyseOptions.Diameter |
+                AnalyseOptions.Cycles3 |
+                AnalyseOptions.Cycles4 |
+                AnalyseOptions.EigenValue |
+                AnalyseOptions.DegreeDistribution |
+                AnalyseOptions.ClusteringCoefficient |
+                AnalyseOptions.ConnSubGraph;
 
-            //Place additional initialization code here
+            // Определение генератора и анализатора для данной модели (WS).
+            generator = new WSGenerator();
+            analyzer = new WSAnalyzer((WSContainer)generator.Container);
 
             InvokeProgressEvent(GraphProgress.Ready);
         }
@@ -85,28 +92,21 @@ namespace Model.WSModel
             InvokeProgressEvent(GraphProgress.StartingGeneration, 5);
             try
             {
-                //Place generation initialization code here
-                if (graph == null)
+                if (true)    // Динамическая генерация
+                    generator.RandomGeneration(GenerationParamValues);
+                else    // Статическая генерация
+                    generator.StaticGeneration(NeighbourshipMatrix);
+
+                InvokeProgressEvent(GraphProgress.Generating, 30);
+
+                /*if (graph == null)
                 {
 
                     graph = new WSGraph((int)GenerationParamValues[GenerationParam.Vertices],
                                             (int)GenerationParamValues[GenerationParam.Edges],
                                             (double)GenerationParamValues[GenerationParam.P]);
-                }
-
-
-                InvokeProgressEvent(GraphProgress.Generating, 10);
-
-                //Place generating logic here
-                //Invoke ModelProgress event if possible to show current
-                //state with use of Percent and TargetItem properties
-
-                //graph.Generate();
-                //Dictionary<int, List<int>> matrix = graph.Container.getMatrix();
-                InvokeProgressEvent(GraphProgress.GenerationDone, 30);
-
+                }*/
             }
-
             catch (Exception ex)
             {
                 InvokeFailureProgressEvent(GraphProgress.GenerationFailed, ex.Message);
@@ -122,104 +122,68 @@ namespace Model.WSModel
         protected override void AnalizeModel()
         {
             InvokeProgressEvent(GraphProgress.StartingAnalizing);
-            Result.graphSize = graph.Container.Size;
+            
             try
             {
-                ////Place generation initialization code here
-                WSAnalyzer analizer = new WSAnalyzer(graph.Container);
-
-                //Get degree distrubtion
-
-                if ((AnalizeOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
+                if ((AnalizeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 35, "Degree distrubution");
-                    analizer.DegreeDistribution();
-                    Result.VertexDegree = analizer.Result.m_degreeDistribution;
-                    Result.Result[AnalyseOptions.DegreeDistribution] = 1;
-
-                }
-                //Get average path and diameter
-
-                if ((AnalizeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath 
-                    || (AnalizeOptions & AnalyseOptions.Diameter) == AnalyseOptions.Diameter
-                    || (AnalizeOptions & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4)
-                {
-                    analizer.CountAvgPathAndDiametr();
-                    if ((AnalizeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
-                    {
-                        InvokeProgressEvent(GraphProgress.Analizing, 50, "Average path distrubution");
-                        Result.Result[AnalyseOptions.AveragePath] = analizer.Result.m_avgPathLenght;
-                        Result.DistanceBetweenVertices = analizer.Result.m_vertexDistances;
-                    }
-                    if ((AnalizeOptions & AnalyseOptions.Diameter) == AnalyseOptions.Diameter)
-                    {
-                        InvokeProgressEvent(GraphProgress.Analizing, 65, "Diameter");
-                        Result.Result[AnalyseOptions.Diameter] = analizer.Result.m_diametr;
-                    }
-                    if ((AnalizeOptions & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4)
-                    {
-                        InvokeProgressEvent(GraphProgress.Analizing, 70, "Cycles4");
-                        Result.Result[AnalyseOptions.Cycles4] = analizer.Result.m_cyclesOfOrder4;
-                    }
-
+                    InvokeProgressEvent(GraphProgress.Analizing, 10, "Average Path");
+                    Result.Result[AnalyseOptions.AveragePath] = analyzer.GetAveragePath();
                 }
 
-
-                if ((AnalizeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient ||
-                    (AnalizeOptions & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3 ||
-                    (AnalizeOptions & AnalyseOptions.FullSubGraph) == AnalyseOptions.FullSubGraph)
+                if ((AnalizeOptions & AnalyseOptions.Diameter) == AnalyseOptions.Diameter)
                 {
-                    analizer.ClusteringCoefficient();
-                    if ((AnalizeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
-                    {
-                        InvokeProgressEvent(GraphProgress.Analizing, 75, "Clustering Coefficient");
-                        Result.Result[AnalyseOptions.ClusteringCoefficient] = analizer.Result.m_clusteringCoefficient;
-                        Result.Coefficient = analizer.Result.m_coefficient;
-                    }
-
-                    if ((AnalizeOptions & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3)
-                    {
-                        InvokeProgressEvent(GraphProgress.Analizing, 80, "Cycles3");
-                        Result.Result[AnalyseOptions.Cycles3] = analizer.CyclesOfOrder3();
-                    }
-
-                    if ((AnalizeOptions & AnalyseOptions.ConnSubGraph) == AnalyseOptions.ConnSubGraph)
-                    {
-                        InvokeProgressEvent(GraphProgress.Analizing, 85, "Full Subgraph");
-                        Result.Result[AnalyseOptions.ConnSubGraph] = analizer.MaxFullSubGraph();
-                        Result.Subgraphs = analizer.Result.m_fullSubgraphs;
-                    }
-
+                    InvokeProgressEvent(GraphProgress.Analizing, 20, "Diameter");
+                    Result.Result[AnalyseOptions.Diameter] = analyzer.GetDiameter();
                 }
+
+                if ((AnalizeOptions & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 30, "Cycles of order 3");
+                    Result.Result[AnalyseOptions.Cycles3] = analyzer.GetCycles3();
+                }
+
+                if ((AnalizeOptions & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 40, "Cycles of order 4");
+                    Result.Result[AnalyseOptions.Cycles4] = analyzer.GetCycles4();
+                }
+
                 if ((AnalizeOptions & AnalyseOptions.EigenValue) == AnalyseOptions.EigenValue)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 90, "Calculating EigenValue");
+                    InvokeProgressEvent(GraphProgress.Analizing, 50, "Calculating EigenValue");
+
+                    // !Плохо написано!
                     Algorithms.EigenValue ev = new EigenValue();
+                    ArrayList al = new ArrayList();
                     bool[,] m = GetMatrix();
                     Result.EigenVector = ev.EV(m);
                     Result.DistancesBetweenEigenValues = ev.CalcEigenValuesDist();
                 }
-                /*
-                if ((AnalizeOptions & AnalyseOptions.FullSubGraph) == AnalyseOptions.FullSubGraph)
+
+                if ((AnalizeOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 80, "Connected Subgraph");
-                    Result.Subgraphs = analizer.getConnectedSubGraphs(this.tree);
-                    Result.Result[AnalyseOptions.FullSubGraph] = 1;
+                    InvokeProgressEvent(GraphProgress.Analizing, 60, "Degree Distribution");
+                    Result.VertexDegree = analyzer.GetDegreeDistribution();
+                    Result.Result[AnalyseOptions.DegreeDistribution] = 1;
                 }
 
-                if ((AnalizeOptions & AnalyseOptions.CycleEigen3) == AnalyseOptions.CycleEigen3)
+                if ((AnalizeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 85, "Cycle Count By Eigen Value");
-                    Result.Result[AnalyseOptions.CycleEigen3] = analizer.CalcCiclesCount(this.tree, 3);
+                    InvokeProgressEvent(GraphProgress.Analizing, 70, "Classtering Coefficient");
+                    Result.Coefficient = analyzer.GetClusteringCoefficient();
                 }
-                */
-                //Place analizing logic here
-                //Invoke ModelProgress event if possible to show current
-                //state with use of Percent and TargetItem properties
+
+                if ((AnalizeOptions & AnalyseOptions.MinPathDist) == AnalyseOptions.MinPathDist)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 80, "Minimal Path Distance Distribution");
+                    Result.DistanceBetweenVertices = analyzer.GetMinPathDist();
+                }
+
+                Result.graphSize = analyzer.Container.Size;
 
                 InvokeProgressEvent(GraphProgress.AnalizingDone, 95);
                 InvokeProgressEvent(GraphProgress.Done, 100);
-
             }
 
             catch (Exception ex)
@@ -241,8 +205,6 @@ namespace Model.WSModel
             if (e % 2 == 0 && e > Math.Log((double)v) && e < v)
                 return true;
             return false;
-            //&& (int)GenerationParam.Edges > Math.Log((double)GenerationParam.Vertices);
-            // (Int16)GenerationParamValues[GenerationParam.BranchIndex] < 18;
         }
 
         public override string GetParamsInfo()
@@ -256,33 +218,15 @@ namespace Model.WSModel
 
         public override void Dispose()
         {
-            //generator = null;
-            //tree = null;
+            //log.Info("disposing...");
+            generator = null;
+            analyzer = null;
+            base.Dispose();
         }
 
         public override bool[,] GetMatrix()
         {
-            //throw new NotImplementedException();
-            return graph.Container.GetMatrix();
-        }
-
-        public bool[,] MatrixToBool(ArrayList matrix)
-        {
-            bool[,] result = new bool[matrix.Count, matrix.Count];
-            ArrayList lst;
-            for (int i = 0; i < matrix.Count; ++i)
-            {
-                lst = (ArrayList)matrix[i];
-                for (int j = 0; j < matrix.Count; ++j)
-                    result[i,j] = (bool)lst[j];
-            }
-
-            return result;
-        }
-
-        protected override void StaticGenerateModel()
-        {
-            throw new NotImplementedException();
+            return analyzer.Container.GetMatrix();
         }
     }
 }

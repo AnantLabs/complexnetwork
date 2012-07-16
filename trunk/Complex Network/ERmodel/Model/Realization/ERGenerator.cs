@@ -1,26 +1,45 @@
-﻿using log4net;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using log4net;
+
+using RandomGraph.Common.Model.Generation;
+using CommonLibrary.Model;
 
 namespace Model.ERModel.Realization
 {
-    public class ERGenerator
-    {        
-        /// <summary>
-        /// The logger static object for monitoring.
-        /// </summary>
-        protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(ERGenerator));
+    public class ERGenerator : IGraphGenerator
+    {
+        // Контейнер, в котором содержится граф конкретной модели (ER).
+        private ERContainer container;
 
-        private ERContainer m_container;
-
-        public ERGenerator(ERContainer c)
+        // Конструктор по умолчанию, в котором создается пустой контейнер графа.
+        public ERGenerator()
         {
-            log.Info("Creating ERGenerator object");
-            m_container = c;
+            container = new ERContainer();
         }
 
-        public void Generate(double p)
+        // Контейнер, в котором содержится сгенерированный граф.
+        public IGraphContainer Container
         {
-            log.Info("Generating ERGraph with given probability");
-            m_container.FillContainerByProbability(p);
+            get { return container; }
+            set { container = (ERContainer)value; }
+        }
+
+        // Случайным образом генерируется граф, на основе параметров генерации.
+        public void RandomGeneration(Dictionary<GenerationParam, object> genParam)
+        {
+            int numberOfVertices = (Int32)genParam[GenerationParam.Vertices];
+            double probability = (Double)genParam[GenerationParam.P];
+
+            container.Size = numberOfVertices;
+            //container.Fill(probability);
+        }
+
+        // Строится граф, на основе матрицы смежности.
+        public void StaticGeneration(ArrayList matrix)
+        {
+            container.SetMatrix(matrix);
         }
     }
 }

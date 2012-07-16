@@ -10,17 +10,70 @@ namespace Model.NonRegularHierarchicModel.Realization
 {
     public class NonRegularHierarchicAnalyzer : AbstarctGraphAnalyzer
     {
-        private NonRegularHierarchicGraph graph;
+        // !Организовать логирование!
+
+        IGraphContainer container;  // пересмотреть!
 
         public NonRegularHierarchicAnalyzer(NonRegularHierarchicGraph g)
         {
             graph = g;
         }
 
-        /// <summary>
-        /// Counts degree distribution of graph.
-        /// </summary>
-        /// <returns></returns>
+        // Контейнер, в котором содержится сгенерированный граф (полученный от генератора).
+        public override IGraphContainer Container
+        {
+            get { return container; }
+            set { container = value; }
+        }
+
+        // Возвращается средняя длина пути в графе. Реализовано.
+        public override double GetAveragePath()
+        {
+            SortedDictionary<int, int> dist = GetMinPathDist();
+
+            double result = 0.0;
+            double count = 0.0;
+
+            foreach (KeyValuePair<int, int> k in dist)
+            {
+                count += k.Value;
+                result += k.Key * k.Value;
+            }
+
+            result /= count;
+
+            return result;
+        }
+
+        // Возвращается диаметр графа. Реализовано.
+        public override int GetDiameter()
+        {
+            SortedDictionary<int, int> dist = GetMinPathDist();
+
+            int result = 0;
+
+            foreach (KeyValuePair<int, int> k in dist)
+            {
+                if (k.Key > result)
+                    result = k.Key;
+            }
+
+            return result;
+        }
+
+        // Возвращается число циклов длиной 3 в графе. Реализовано.
+        public override int GetCycles3()
+        {
+            return (int)(graph.Get3CirclesCount());
+        }
+
+        // Возвращается число циклов длиной 4 в графе. Реализовано.
+        public override int GetCycles4()
+        {
+            return (int)graph.Get4CirclesCount();
+        }
+
+        // Возвращается степенное распределение графа. Реализовано.
         public override SortedDictionary<int, int> GetDegreeDistribution()
         {
             SortedDictionary<int, int> result = new SortedDictionary<int, int>();
@@ -43,129 +96,20 @@ namespace Model.NonRegularHierarchicModel.Realization
             return result;
         }
 
-        /// <summary>
-        /// Calculates average path of graph.
-        /// </summary>
-        /// <returns></returns>
-        public override double GetAveragePath()
-        {
-            SortedDictionary<int, int> dist = GetMinPathDist();
-
-            double result = 0.0;
-            double count = 0.0;
-
-            foreach (KeyValuePair<int, int> k in dist)
-            {
-                count += k.Value;
-                result += k.Key * k.Value;
-            }
-
-            result /= count;
-
-            return result;
-        }
-
-        /// <summary>
-        /// Calculates clustering coefficient of graph.
-        /// </summary>
-        /// <returns></returns>
+        // Возвращается распределение коэффициентов кластеризации графа. Реализовано.
         public override SortedDictionary<double, int> GetClusteringCoefficient()
         {
             return graph.GetClusteringCoefficient();
         }
 
-        //Calculate Eigen values of graph.
-        // Not implemented
-        public override ArrayList GetEigenValue()
-        {
-            ArrayList result = new ArrayList();
-            return result;
-        }
-
-        //Calculate count of cycles in 3 lenght of graph.
-        public override int GetCycles3()
-        {
-            return (int)(graph.Get3CirclesCount());
-        }
-
-        //Calculate diameter of graph.
-        public override int GetDiameter()
-        {
-            SortedDictionary<int, int> dist = GetMinPathDist();
-
-            int result = 0;
-
-            foreach (KeyValuePair<int, int> k in dist)
-            {
-                if (k.Key > result)
-                    result = k.Key;
-            }
-
-            return result;
-        }
-
-        //Calculate distribution of connected subgraph of graph.
-        // Not implemented
-        public override SortedDictionary<int, int> GetConnSubGraph()
-        {
-            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
-            return result;
-        }
-
-        /// <summary>
-        /// Calculate count of cycles in 3 lenght based in eigen valu of graph. WILL NEVER BE IMPLEMENTED.
-        /// </summary>
-        /// <returns></returns>
-        public override int GetCycleEigen3()
-        {
-            return -1;
-        }
-
-        /// <summary>
-        /// Calculate count of cycles in 4 lenght of graph.
-        /// </summary>
-        /// <returns></returns>
-        public override int GetCycles4()
-        {
-            return (int)graph.Get4CirclesCount();
-        }
-
-        /// <summary>
-        /// Calculate count of cycles in 4 lenght based in eigen valu of graph. WILL NEVER BE IMPLEMENTED.
-        /// </summary>
-        /// <returns></returns>
-        public override int GetCycleEigen4()
-        {
-            return 0;
-        }
-
-
-        //Calculate distribution of minimum paths of graph.
+        // Возвращается распределение длин минимальных путей в графе. Реализовано.
         public override SortedDictionary<int, int> GetMinPathDist()
         {
             return graph.GetMinPathDistribution();
         }
 
-        /// <summary>
-        /// Calculate distribution of eigen value of graph. WILL NEVER BE IMPLEMENTED.
-        /// </summary>
-        /// <returns></returns>
-        // Not implemented
-        public override SortedDictionary<double, int> GetDistEigenPath()
-        {
-            SortedDictionary<double, int> result = new SortedDictionary<double, int>();
-            return result;
-        }
 
-        /// <summary>
-        /// Calculate distribution of connected subgraph of graph.  WILL NEVER BE IMPLEMENTED.
-        /// </summary>
-        /// <returns></returns>
-        // Not implemented
-        public override SortedDictionary<int, int> GetFullSubGraph()
-        {
-            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
-            return result;
-        }
+        // Закрытая часть класса (не из общего интерфейса). //
+        private NonRegularHierarchicGraph graph;
     }
 }

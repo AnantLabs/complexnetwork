@@ -62,8 +62,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
-            WSGraph graph = new WSGraph(matrix);
-            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+            WSContainer container = new WSContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             double actualValue = analyzer.GetAveragePath();
             double expectedValue = goldResult.Results[0].Result[AnalyseOptions.AveragePath];
@@ -79,8 +80,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
-            WSGraph graph = new WSGraph(matrix);
-            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+            WSContainer container = new WSContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             SortedDictionary<double, int> actualValue = analyzer.GetClusteringCoefficient();
             SortedDictionary<double, int> expectedValue = goldResult.Results[0].Coefficient;
@@ -96,8 +98,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
-            WSGraph graph = new WSGraph(matrix);
-            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+            WSContainer container = new WSContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetDegreeDistribution();
             SortedDictionary<int, int> expectedValue = goldResult.Results[0].VertexDegree;
@@ -113,8 +116,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
-            WSGraph graph = new WSGraph(matrix);
-            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+            WSContainer container = new WSContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             SortedDictionary<int, long> actualValue = analyzer.GetCycles(4, 6);
             SortedDictionary<int, long> expectedValue = goldResult.Results[0].Cycles;
@@ -130,8 +134,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
-            WSGraph graph = new WSGraph(matrix);
-            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+            WSContainer container = new WSContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             int actualValue = analyzer.GetCycles3();
             int expectedValue = goldResult.Results[0].Cycles3;
@@ -147,8 +152,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
-            WSGraph graph = new WSGraph(matrix);
-            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+            WSContainer container = new WSContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             int actualValue = analyzer.GetCycles3();
             int expectedValue = goldResult.Results[0].Cycles4;
@@ -164,8 +170,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
-            WSGraph graph = new WSGraph(matrix);
-            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+            WSContainer container = new WSContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetFullSubGraph();
             SortedDictionary<int, int> expectedValue = goldResult.Results[0].FullSubgraphs;
@@ -181,8 +188,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
-            WSGraph graph = new WSGraph(matrix);
-            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+            WSContainer container = new WSContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetMinPathDist();
             SortedDictionary<int, int> expectedValue = goldResult.Results[0].DistanceBetweenVertices;
@@ -198,8 +206,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
-            WSGraph graph = new WSGraph(matrix);
-            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+            WSContainer container = new WSContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             SortedDictionary<double, int> actualValue = analyzer.GetDistEigenPath();
             SortedDictionary<double, int> expectedValue = goldResult.Results[0].DistancesBetweenEigenValues;
@@ -248,10 +257,11 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
-            WSGraph graph = new WSGraph(matrix);
-            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+            WSContainer container = new WSContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new WSAnalyzer(container);
 
-            ArrayList actualValue = analyzer.GetEigenValue();
+            ArrayList actualValue = analyzer.GetEigenValues();
             ArrayList expectedValue = goldResult.Results[0].EigenVector;
             Assert.IsTrue(compare(actualValue, expectedValue));
         }

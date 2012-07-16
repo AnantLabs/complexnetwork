@@ -62,8 +62,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
-            BAGraph graph = new BAGraph(matrix);
-            IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
+            BAContainer container = new BAContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             double actualValue = analyzer.GetAveragePath();
             double expectedValue = goldResult.Results[0].Result[AnalyseOptions.AveragePath];
@@ -79,8 +80,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
-            BAGraph graph = new BAGraph(matrix);
-            IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
+            BAContainer container = new BAContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             SortedDictionary<double, int> actualValue = analyzer.GetClusteringCoefficient();
             SortedDictionary<double, int> expectedValue = goldResult.Results[0].Coefficient;
@@ -96,8 +98,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
-            BAGraph graph = new BAGraph(matrix);
-            IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
+            BAContainer container = new BAContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetDegreeDistribution();
             SortedDictionary<int, int> expectedValue = goldResult.Results[0].VertexDegree;
@@ -113,8 +116,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
-            BAGraph graph = new BAGraph(matrix);
-            IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
+            BAContainer container = new BAContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             SortedDictionary<int, long> actualValue = analyzer.GetCycles(4, 6);
             SortedDictionary<int, long> expectedValue = goldResult.Results[0].Cycles;
@@ -130,8 +134,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
-            BAGraph graph = new BAGraph(matrix);
-            IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
+            BAContainer container = new BAContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             int actualValue = analyzer.GetCycles3();
             double expectedValue = goldResult.Results[0].Result[AnalyseOptions.Cycles3];
@@ -147,8 +152,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
-            BAGraph graph = new BAGraph(matrix);
-            IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
+            BAContainer container = new BAContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             int actualValue = analyzer.GetCycles4();
             double expectedValue = goldResult.Results[0].Result[AnalyseOptions.Cycles4];
@@ -164,8 +170,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
-            BAGraph graph = new BAGraph(matrix);
-            IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
+            BAContainer container = new BAContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetFullSubGraph();
             SortedDictionary<int, int> expectedValue = goldResult.Results[0].FullSubgraphs;
@@ -181,8 +188,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
-            BAGraph graph = new BAGraph(matrix);
-            IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
+            BAContainer container = new BAContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetMinPathDist();
             SortedDictionary<int, int> expectedValue = goldResult.Results[0].DistanceBetweenVertices;
@@ -198,8 +206,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
-            BAGraph graph = new BAGraph(matrix);
-            IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
+            BAContainer container = new BAContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             SortedDictionary<double, int> actualValue = analyzer.GetDistEigenPath();
             SortedDictionary<double, int> expectedValue = goldResult.Results[0].DistancesBetweenEigenValues;
@@ -215,10 +224,11 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
-            BAGraph graph = new BAGraph(matrix);
-            IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
+            BAContainer container = new BAContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new BAAnalyzer(container);
 
-            SortedDictionary<int, float> actualValue = analyzer.GetMotif(2, 4);
+            SortedDictionary<int, float> actualValue = analyzer.GetMotivs(2, 4);
             SortedDictionary<int, float> expectedValue = goldResult.Results[0].MotivesCount;
             Assert.IsTrue(compare(actualValue, expectedValue));
         }
@@ -232,8 +242,9 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
-            BAGraph graph = new BAGraph(matrix);
-            IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
+            BAContainer container = new BAContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             double actualValue = analyzer.GetDiameter();
             double expectedValue = goldResult.Results[0].Result[AnalyseOptions.Diameter];
@@ -249,10 +260,11 @@ namespace ModelsTests
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
             ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
-            BAGraph graph = new BAGraph(matrix);
-            IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
+            BAContainer container = new BAContainer();
+            container.SetMatrix(matrix);
+            IGraphAnalyzer analyzer = new BAAnalyzer(container);
 
-            ArrayList actualValue = analyzer.GetEigenValue();
+            ArrayList actualValue = analyzer.GetEigenValues();
             ArrayList expectedValue = goldResult.Results[0].EigenVector;
             Assert.IsTrue(compare(actualValue, expectedValue));
         }

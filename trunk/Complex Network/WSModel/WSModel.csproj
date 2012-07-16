@@ -74,13 +74,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Realization\WSAnalyzer.cs" />
-    <Compile Include="Model\Realization\WSGraph.cs">
-      <SubType>
-      </SubType>
-    </Compile>
     <Compile Include="Model\Realization\WSContainer.cs" />
     <Compile Include="Model\Realization\WSGenerator.cs" />
-    <Compile Include="Model\Result\AnalyzeResult.cs" />
     <Compile Include="Model\WSGraphFactory.cs" />
     <Compile Include="Model\WSModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

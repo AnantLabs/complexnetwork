@@ -11,8 +11,9 @@ using System.Runtime.Serialization;
 using AnalyzerFramework.Manager.ModelRepo;
 using CommonLibrary.Model.Events;
 using CommonLibrary.Model.Util;
-using System.Collections;
 using System.Configuration;
+
+using CommonLibrary.Model;
 
 namespace RandomGraph.Common.Model
 {
@@ -31,12 +32,16 @@ namespace RandomGraph.Common.Model
     {
         public event GraphProgressEventHandler Progress;
         public event GraphGeneratedDelegate GraphGenerated;
-        public  static bool staticGeneration;
+
+        // Генератор графа.
+        protected IGraphGenerator generator;
+        // Анализатор графа.
+        protected IGraphAnalyzer analyzer;
 
         public AbstractGraphModel() { }
 
         /// <summary>
-        /// only constructor of Graph model base class, so
+        /// Constructor of Graph model base class, so
         /// it's mandatory that input parameters are passed from child constructor to this
         /// during objetc creation process
         /// </summary>
@@ -47,6 +52,21 @@ namespace RandomGraph.Common.Model
         {
             ID = sequenceNumber;
             GenerationParamValues = genParam;
+            AnalizeOptions = options;
+            Result = new AnalizeResult()
+            {
+                InstanceID = ID
+            };
+
+            CurrentStatus = new GraphProgressStatus();
+            CurrentStatus.GraphProgress = GraphProgress.Initializing;
+        }
+
+        // Конструктор, который получает матрицу смежности как параметр
+        public AbstractGraphModel(ArrayList matrix, AnalyseOptions options, int sequenceNumber)
+        {
+            ID = sequenceNumber;
+            NeighbourshipMatrix = matrix;
             AnalizeOptions = options;
             Result = new AnalizeResult()
             {
@@ -68,6 +88,10 @@ namespace RandomGraph.Common.Model
         /// params.
         /// </summary>
         public Dictionary<GenerationParam, object> GenerationParamValues { get; set; }
+
+        // Матрица смежности
+        public ArrayList NeighbourshipMatrix { get; set; }
+
         #region Properties
 
         /// <summary>
@@ -129,7 +153,6 @@ namespace RandomGraph.Common.Model
         /// and failed argument otherwise.
         /// </summary>
         protected abstract void GenerateModel();
-        protected abstract void StaticGenerateModel();
         /// <summary>
         /// Should be implemented by inhereted class. Called in StartAnalize method in separate thread. 
         /// For selected analize options refer AnalizeOptions flag enumeration.
@@ -278,10 +301,10 @@ namespace RandomGraph.Common.Model
             {
                 return;
             }
-            if(AbstractGraphModel.staticGeneration)
+            //if(AbstractGraphModel.staticGeneration)
                  GenerateModel();
-            else
-                StaticGenerateModel();
+            //else
+            //    StaticGenerateModel();
         }
 
         public void StartGenerate(Object graphObj)

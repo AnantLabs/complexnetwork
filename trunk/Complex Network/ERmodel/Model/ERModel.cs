@@ -13,30 +13,28 @@ using log4net;
 
 namespace Model.ERModel
 {
+    // Атрибуты модели (ER).
     [GraphModel("ERModel", GenerationRule.Sequential, "ERModel graph model")]
     [AvailableAnalyzeOptions(
-         AnalyseOptions.DegreeDistribution |
          AnalyseOptions.AveragePath |
+         AnalyseOptions.Diameter |
          AnalyseOptions.Cycles3 |
          AnalyseOptions.Cycles4 |
-         AnalyseOptions.ClusteringCoefficient |
-         AnalyseOptions.Diameter |
-         AnalyseOptions.MinPathDist |
-         AnalyseOptions.DistEigenPath |
          AnalyseOptions.EigenValue |
-         AnalyseOptions.MaxFullSubgraph)]
+         AnalyseOptions.DistEigenPath |
+         AnalyseOptions.DegreeDistribution |
+         AnalyseOptions.ClusteringCoefficient |
+         AnalyseOptions.MinPathDist)]
     [RequiredGenerationParam(GenerationParam.Vertices, 2)]
     [RequiredGenerationParam(GenerationParam.P, 3)]
 
+    // Реализация модели (ER).
     public class ERModel : AbstractGraphModel
     {
-        /// <summary>
-        /// The logger static object for monitoring.
-        /// </summary>
+        // Организация Работы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(ERModel));
 
         private static readonly string MODEL_NAME = "ERModel";
-        private ERGraph ERModelGraph;
 
         public ERModel() { }
 
@@ -48,10 +46,17 @@ namespace Model.ERModel
             InitModel();
         }
 
+        public ERModel(ArrayList matrix, AnalyseOptions options, int sequenceNumber)
+            :base(matrix, options, sequenceNumber)
+        {
+            log.Info("Creating ERModel object");
+            ValidateModelParams();
+            InitModel();
+        }
+
         private void ValidateModelParams()
         {
-            //TODO Put input params validation here
-            //and throw WrongModelParamsException
+            // !Добавить проверку параметров!
         }
 
         private void InitModel()
@@ -59,31 +64,32 @@ namespace Model.ERModel
             log.Info("Started model initialization");
             InvokeProgressEvent(GraphProgress.Initializing, 0);
             ModelName = MODEL_NAME;
-            //Defines separate generation rule
+
+            // Проверить правильность
             GenerationRule = GenerationRule.Sequential;
 
-            //Defines available options for analizer
-            AvailableOptions = AnalyseOptions.DegreeDistribution |
-                                AnalyseOptions.AveragePath |
-                                AnalyseOptions.Diameter |
-                                AnalyseOptions.Cycles3 |
-                                AnalyseOptions.Cycles4 |
-                                AnalyseOptions.FullSubGraph |
-                                AnalyseOptions.MinPathDist |
-                                AnalyseOptions.DistEigenPath |
-                                AnalyseOptions.EigenValue |
-                                AnalyseOptions.ClusteringCoefficient;
-
-            //Defines required input parameters for generation
+            // Определение параметров генерации. !Добавить число шагов!
             List<GenerationParam> genParams = new List<GenerationParam>();
             genParams.Add(GenerationParam.Vertices);
             genParams.Add(GenerationParam.P);
             RequiredGenerationParams = genParams;
 
-            //Place additional initialization code here
-
+            // Определение доступных опций для анализа (вычисляемые характеристики для данной модели (ER)).
+            AvailableOptions = AnalyseOptions.AveragePath |
+                AnalyseOptions.Diameter |
+                AnalyseOptions.Cycles3 |
+                AnalyseOptions.Cycles4 |
+                AnalyseOptions.EigenValue |
+                AnalyseOptions.DistEigenPath |
+                AnalyseOptions.DegreeDistribution |
+                AnalyseOptions.ClusteringCoefficient |
+                AnalyseOptions.MinPathDist;   
+         
+            // Определение генератора и анализатора для данной модели (ER).
+            generator = new ERGenerator();
+            analyzer = new ERAnalyzer((ERContainer)generator.Container);
+          
             InvokeProgressEvent(GraphProgress.Ready);
-
             log.Info("Finished model initialization");
         }
 
@@ -95,10 +101,11 @@ namespace Model.ERModel
 
             try
             {
-                ERModelGraph = new ERGraph((Int32)GenerationParamValues[GenerationParam.Vertices]);
-                Graph = ERModelGraph;
-                InvokeProgressEvent(GraphProgress.Generating, 10);
-                ERModelGraph.Generate((double)GenerationParamValues[GenerationParam.P]);
+                if (true)    // Динамическая генерация
+                    generator.RandomGeneration(GenerationParamValues);
+                else    // Статическая генерация
+                    generator.StaticGeneration(NeighbourshipMatrix);
+
                 InvokeProgressEvent(GraphProgress.GenerationDone, 30);
             }
             catch (ThreadAbortException) { }
@@ -124,48 +131,35 @@ namespace Model.ERModel
 
             try
             {
-                if ((AnalizeOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
-                {
-                    InvokeProgressEvent(GraphProgress.Analizing, 32, "Degree distrubution");
-                    Result.Result[AnalyseOptions.DegreeDistribution] = ERModelGraph.m_analyzer.GetAverageDegree();
-                    Result.VertexDegree = ERModelGraph.m_analyzer.GetDegreeDistribution();
-                }
-
                 if ((AnalizeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 39, "Average path distrubution");
-                    Result.Result[AnalyseOptions.AveragePath] = ERModelGraph.m_analyzer.GetAveragePath();
-                    Result.DistanceBetweenVertices = ERModelGraph.m_analyzer.GetMinPathDist();
+                    InvokeProgressEvent(GraphProgress.Analizing, 10, "Average Path");
+                    Result.Result[AnalyseOptions.AveragePath] = analyzer.GetAveragePath();
                 }
 
                 if ((AnalizeOptions & AnalyseOptions.Diameter) == AnalyseOptions.Diameter)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 46, "Diameter");
-                    Result.Result[AnalyseOptions.Diameter] = ERModelGraph.m_analyzer.GetDiameter();
-                }
-
-                if ((AnalizeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
-                {
-                    InvokeProgressEvent(GraphProgress.Analizing, 53, "Classtering Coefficient");
-                    Result.Result[AnalyseOptions.ClusteringCoefficient] = ERModelGraph.m_analyzer.GetAvgClusteringCoefficient();
-                    Result.Coefficient = ERModelGraph.m_analyzer.GetClusteringCoefficient();
+                    InvokeProgressEvent(GraphProgress.Analizing, 20, "Diameter");
+                    Result.Result[AnalyseOptions.Diameter] = analyzer.GetDiameter();
                 }
 
                 if ((AnalizeOptions & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 67, "Cycles of order 3");
-                    Result.Result[AnalyseOptions.Cycles3] = ERModelGraph.m_analyzer.GetCycles3();
+                    InvokeProgressEvent(GraphProgress.Analizing, 30, "Cycles of order 3");
+                    Result.Result[AnalyseOptions.Cycles3] = analyzer.GetCycles3();
                 }
 
                 if ((AnalizeOptions & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 75, "Cycles of order 4");
-                    Result.Result[AnalyseOptions.Cycles4] = ERModelGraph.m_analyzer.GetCycles4();
+                    InvokeProgressEvent(GraphProgress.Analizing, 40, "Cycles of order 4");
+                    Result.Result[AnalyseOptions.Cycles4] = analyzer.GetCycles4();
                 }
 
                 if ((AnalizeOptions & AnalyseOptions.EigenValue) == AnalyseOptions.EigenValue)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 90, "Calculating EigenValue");
+                    InvokeProgressEvent(GraphProgress.Analizing, 50, "Calculating EigenValue");
+
+                    // !Плохо написано!
                     Algorithms.EigenValue ev = new EigenValue();
                     ArrayList al = new ArrayList();
                     bool[,] m = GetMatrix();
@@ -173,13 +167,25 @@ namespace Model.ERModel
                     Result.DistancesBetweenEigenValues = ev.CalcEigenValuesDist();
                 }
 
-                if ((AnalizeOptions & AnalyseOptions.FullSubGraph) == AnalyseOptions.FullSubGraph)
+                if ((AnalizeOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 60, "Full Subgraphs");
-                    Result.Result[AnalyseOptions.FullSubGraph] = ERModelGraph.m_analyzer.GetMaxFullSubgraph();
+                    InvokeProgressEvent(GraphProgress.Analizing, 60, "Degree Distribution");
+                    Result.VertexDegree = analyzer.GetDegreeDistribution();
+                }                
+
+                if ((AnalizeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 70, "Classtering Coefficient");
+                    Result.Coefficient = analyzer.GetClusteringCoefficient();
                 }
 
-                Result.graphSize = ERModelGraph.Container.Size;
+                if ((AnalizeOptions & AnalyseOptions.MinPathDist) == AnalyseOptions.MinPathDist)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 80, "Minimal Path Distance Distribution");
+                    Result.DistanceBetweenVertices = analyzer.GetMinPathDist();
+                }
+
+                Result.graphSize = analyzer.Container.Size;
 
                 InvokeProgressEvent(GraphProgress.AnalizingDone, 95);
 
@@ -217,20 +223,15 @@ namespace Model.ERModel
 
         public override bool[,] GetMatrix()
         {
-            //throw new NotImplementedException();
-            return ERModelGraph.Container.GetMatrix();
+            return analyzer.Container.GetMatrix();
         }
 
-        //public override void Dispose()
-        //{
-        //    log.Info("disposing...");
-        //    ERModelGraph = null;
-        //    base.Dispose();
-        //}
-
-        protected override void StaticGenerateModel()
+        public override void Dispose()
         {
-            throw new NotImplementedException();
+            log.Info("disposing...");
+            generator = null;
+            analyzer = null;
+            base.Dispose();
         }
     }
 }

@@ -4,81 +4,95 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using CommonLibrary.Model;
+
 namespace Model.WSModel.Realization
 {
-    public class WSContainer
+    public class WSContainer : IGraphContainer
     {
-        // Implementation members //
-        private int m_size;                                     // number of vertices
-        private int m_param;                                    // number of edges 
+        // !Организация Работы с лог файлом!
 
-        private Dictionary<int, ArrayList> m_indexes;
+        // Число вершин графа.
+        private int size = 0;
+        // Число ребер.
+        private int edges = 0;
+        // ??
+        private Dictionary<int, ArrayList> indexes;
 
+        // Конструктор по умолчанию для контейнера.
+        public WSContainer()
+        {
+            //log.Info("Creating WSContainer default object.");
+            indexes = new Dictionary<int, ArrayList>();
+        }
+
+        // Размер контейнера (число вершин в графе).
         public int Size
         {
-            get { return m_size; }
+            get { return size; }
+            set { }
         }
 
-        public Dictionary<int, ArrayList> GetMap
+        public int Edges
         {
-            get { return m_indexes; }
+            get { return edges; }
         }
 
-
-        public int Param
+        public Dictionary<int, ArrayList> NeighbourshipMap
         {
-            get { return m_param; }
+            get { return indexes; }
         }
 
-        public WSContainer(int size, int param)
+        public void SetParameters(int s, int e)
         {
-            m_size = size;
-            m_param = param;
-            m_indexes = new Dictionary<int, ArrayList>(size);
-            m_indexes.Add(0, new ArrayList(2));
-            m_indexes[0].Add(true);
-            m_indexes[0].Add(new List<int>());
+            size = s;
+            edges = e;
+            //indexes = new Dictionary<int, ArrayList>(size);
+            indexes.Add(0, new ArrayList(2));
+            indexes[0].Add(true);
+            indexes[0].Add(new List<int>());
 
-            for (int i = 1; i <= param; ++i)
+            for (int i = 1; i <= edges; ++i)
             {
-                m_indexes.Add(i, new ArrayList(2));
-                m_indexes[i].Add(true);
-                m_indexes[i].Add(new List<int>());
-                List<int> ls = (List<int>)m_indexes[i][1];
+                indexes.Add(i, new ArrayList(2));
+                indexes[i].Add(true);
+                indexes[i].Add(new List<int>());
+                List<int> ls = (List<int>)indexes[i][1];
                 ls.Add(0);
             }
 
-            for (int i = param + 1; i < m_size - param; ++i)
+            for (int i = edges + 1; i < size - edges; ++i)
             {
-                m_indexes.Add(i, new ArrayList(2));
-                m_indexes[i].Add(false);
-                m_indexes[i].Add(new List<int>());
-                List<int> ls = (List<int>)m_indexes[i][1];
+                indexes.Add(i, new ArrayList(2));
+                indexes[i].Add(false);
+                indexes[i].Add(new List<int>());
+                List<int> ls = (List<int>)indexes[i][1];
                 ls.Add(0);
-                ls.Add(i - param);
+                ls.Add(i - edges);
             }
 
-            for (int i = m_size - param, k = 1; i < m_size; ++i, ++k)
+            for (int i = size - edges, k = 1; i < size; ++i, ++k)
             {
-                m_indexes.Add(i, new ArrayList(2));
-                m_indexes[i].Add(true);
-                m_indexes[i].Add(new List<int>());
-                List<int> ls = (List<int>)m_indexes[i][1];
+                indexes.Add(i, new ArrayList(2));
+                indexes[i].Add(true);
+                indexes[i].Add(new List<int>());
+                List<int> ls = (List<int>)indexes[i][1];
                 ls.Add(0);
                 ls.Add(k);
-                ls.Add(i - param);
+                ls.Add(i - edges);
             }
         }
 
-        public WSContainer(ArrayList matrix)
+        // Строится граф на основе матрицы смежности.
+        public void SetMatrix(ArrayList matrix)
         {
-            m_size = matrix.Count;
-            m_indexes = new Dictionary<int, ArrayList>(m_size);
+            size = matrix.Count;
+            indexes = new Dictionary<int, ArrayList>(size);
             for (int i = 1; i < matrix.Count; ++i)
             {
                 ArrayList data = (ArrayList)matrix[i];
-                m_indexes.Add(i , new ArrayList(2));
-                m_indexes[i].Add((bool)data[0]);
+                indexes.Add(i, new ArrayList(2));
+                indexes[i].Add((bool)data[0]);
                 List<int> lst = new List<int>();
                 lst.Add(0);
                 bool var = (bool)data[0];
@@ -90,22 +104,49 @@ namespace Model.WSModel.Realization
                         var = !var;
                     }
                 }
-                m_indexes[i].Add(lst);
+                indexes[i].Add(lst);
             }
         }
 
+        // Возвращается матрица смежности, соответсвующая графу.
+        public bool[,] GetMatrix()
+        {
+            Dictionary<int, List<int>> matrixDict = GetMatrixDict();
+            bool[,] matrix = new bool[size, size];
+            for (int i = 0; i < size; ++i)
+            {
+                List<int> lst = matrixDict[i];
+                matrix[i, i] = true;
+                for (int j = 0; j < i; ++j)
+                {
+                    if (i == j)
+                    {
+                        matrix[i, j] = false;
+                        continue;
+                    }
+                    matrix[i, j] = (lst[j] == 0) ? false : true;
+                    matrix[j, i] = matrix[i, j];
+                }
+            }
+
+            return matrix;
+        }
+
+
+        // 
         public int CountDegree(int i)
         {
             int nCount = 0;
-            for (int j = 0; j < m_size; ++j)
+            for (int j = 0; j < size; ++j)
                 if (AreNeighbours(i, j))
                     nCount++;
 
             return nCount;
         }
+
         public void Neighbours(int i, List<int> neighbours)
         {
-            for (int j = 0; j < m_size; ++j)
+            for (int j = 0; j < size; ++j)
                 if (AreNeighbours(i, j))
                     neighbours.Add(j);
         }
@@ -120,17 +161,18 @@ namespace Model.WSModel.Realization
             List<int> data = new List<int>(i);
             RestoreData(i, data);
 
-            return convertIntToBool(data[j]);
+            return ConvertIntToBool(data[j]);
         }
+
         public void RestoreData(int i, List<int> data, bool fromOldMap = false)
         {
-            Dictionary<int, ArrayList> t_indexes = m_indexes;
-            List<int> indexes = (List<int>)t_indexes[i][1];
+            Dictionary<int, ArrayList> t_indexes = indexes;
+            List<int> ind = (List<int>)t_indexes[i][1];
             int var = (bool)t_indexes[i][0] ? 1 : 0;
-            for (int k = 0; k < (int)indexes.Count; ++k)
+            for (int k = 0; k < (int)ind.Count; ++k)
             {
-                int endIndex = (k + 1 >= (int)indexes.Count) ? i - 1 : indexes[k + 1] - 1;
-                for (int j = indexes[k]; j <= endIndex; ++j)
+                int endIndex = (k + 1 >= (int)indexes.Count) ? i - 1 : ind[k + 1] - 1;
+                for (int j = ind[k]; j <= endIndex; ++j)
                     data.Insert(j, var);
                 var = var == 1 ? 0 : 1;
             }
@@ -167,9 +209,10 @@ namespace Model.WSModel.Realization
             data[j] = 0;
             PressData(i, data);
         }
+
         public void PressData(int i, List<int> data)
         {
-            m_indexes[i][0] = convertIntToBool(data[0]);
+            indexes[i][0] = ConvertIntToBool(data[0]);
             List<int> lst = new List<int>();
             lst.Add(0);
             int var = data[0] > 0 ? 1 : 0;
@@ -181,13 +224,15 @@ namespace Model.WSModel.Realization
                     var = var > 0 ? 0 : 1;
                 }
             }
-            m_indexes[i][1] = lst;
+            indexes[i][1] = lst;
         }
-        private bool convertIntToBool(int number)
+
+        private bool ConvertIntToBool(int number)
         {
             return (number == 0) ? false : true;
         }
-        public Dictionary<int, List<int>> getMatrixDict()
+
+        public Dictionary<int, List<int>> GetMatrixDict()
         {
             Dictionary<int, List<int>> matrix = new Dictionary<int, List<int>>();
             int size = Size;
@@ -198,30 +243,5 @@ namespace Model.WSModel.Realization
             }
             return matrix;
         }
-
-        public bool[,] GetMatrix()
-        {
-            Dictionary<int, List<int>> matrixDict = getMatrixDict();
-            bool[,] matrix = new bool[m_size, m_size];
-            for (int i = 0; i < m_size; ++i)
-            {
-                List<int> lst = matrixDict[i];
-                matrix[i, i] = true;
-                for (int j = 0; j < i; ++j)
-                {
-                    if (i == j)
-                    {
-                        matrix[i, j] = false;
-                        continue;
-                    }
-                    matrix[i, j] = (lst[j] == 0) ? false : true;
-                    matrix[j, i] = matrix[i, j];
-                }
-            }
-
-            return matrix;
-        }
-
-
     }
 }

@@ -254,10 +254,5 @@ namespace Model.StaticModel
         {
             return StaticModelGraph.Container.GetMatrix();
         }
-
-        protected override void StaticGenerateModel()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

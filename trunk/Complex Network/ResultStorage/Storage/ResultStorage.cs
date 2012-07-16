@@ -10,7 +10,6 @@ using Model.NonRegularHierarchicModel;
 using Model.BAModel;
 using Model.ERModel;
 using Model.WSModel;
-using Model.StaticModel;
 
 namespace ResultStorage.Storage
 {
@@ -57,8 +56,6 @@ namespace ResultStorage.Storage
                     return typeof(WSModel);
                 case 6:
                     return typeof(Model.NonRegularHierarchicModel.NonRegularHierarchicModel);
-                case 7:
-                    return typeof(StaticModel);
                 default:
                     return null;
             }

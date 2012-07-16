@@ -6,58 +6,45 @@ using System.Collections;
 
 namespace CommonLibrary.Model
 {
-    /* Common interface which provide interface of algorithms.
-        Each method is returned result of the appropriate  algorithm. */
+    // Общий интерфейс для анализатора графа (вычислений статистических характеристик).
+    // Каждий анализатор графа любой модели должен реализовать этот интерфейс.
     public interface IGraphAnalyzer
     {
-        //Calculate degree distribution of graph.
-        SortedDictionary<int, int> GetDegreeDistribution();
+        // Контейнер, в котором содержится сгенерированный граф (полученный от генератора).
+        IGraphContainer Container { get; set; }
 
-        //Calculate average parth of graph.
+        // Возвращается средняя длина пути в графе.
         double GetAveragePath();
-
-        //Calculate clustering coefficient of graph.
-        SortedDictionary<double, int> GetClusteringCoefficient();
-
-        //Calculate Eigen values of graph.
-        ArrayList GetEigenValue();
-
-        //Calculate count of cycles in 3 lenght of graph.
-        int GetCycles3();
-
-        //Calculate diameter of graph.
+        // Возвращается диаметр графа.
         int GetDiameter();
-
-        //Calculate distribution of connected subgraph of graph.
-        SortedDictionary<int, int> GetConnSubGraph();
-
-        //Calculate count of cycles in 3 lenght based in eigen valu of graph.
-        int GetCycleEigen3();
-
-        //Calculate count of cycles in 4 lenght of graph.
+        // Возвращается число циклов длиной 3 в графе.
+        int GetCycles3();
+        // Возвращается число циклов длиной 4 в графе.
         int GetCycles4();
+        // Возвращается число циклов длиной 3 в графе (вычисление с помощью собственных значений).
+        int GetCyclesEigen3();
+        // Возвращается число циклов длиной 4 в графе(вычисление с помощью собственных значений).
+        int GetCyclesEigen4();
 
-        //Calculate count of cycles in 4 lenght based in eigen valu of graph.
-        int GetCycleEigen4();
-
-        //Calculate motive of graph.
-        SortedDictionary<int, float> GetMotif(int minMotiv, int maxMotiv);
-
-        //Calculate distribution of minimum paths of graph.
-        SortedDictionary<int, int> GetMinPathDist();
-
-        //Calculate distribution of eigen value of graph.
+        // Возвращается массив собственных значений матрицы смежности.
+        ArrayList GetEigenValues();
+        // Возвращается распределение длин между собственными значениями.
         SortedDictionary<double, int> GetDistEigenPath();
-        
-        //Calculate distribution of connected subgraph of graph.
+
+        // Возвращается степенное распределение графа.
+        SortedDictionary<int, int> GetDegreeDistribution();
+        // Возвращается распределение коэффициентов кластеризации графа.
+        SortedDictionary<double, int> GetClusteringCoefficient();
+        // Возвращается распределение чисел связанных подграфов в графе.
+        SortedDictionary<int, int> GetConnSubGraph();
+        // Возвращается распределение чисел полных подграфов в графе.
         SortedDictionary<int, int> GetFullSubGraph();
+        // Возвращается распределение длин минимальных путей в графе.
+        SortedDictionary<int, int> GetMinPathDist();
+        // Возвращается распределение чисел циклов (lowBound - минимальная длина, highBound - максимальная длина циклов).
+        SortedDictionary<int, long> GetCycles(int lowBound, int highBound);
 
-        //Calculate distribution of cycles of graph.
-        SortedDictionary<int, long> GetCycles(int lowBound, int hightBound);
-
-        //Calculate distribution of motives subgraph of graph.
-        SortedDictionary<int, double> GetMotivs(int lowBound, int hightBound);
-        //
+        // Возвращается распределение чисел мотивов (lowBound - минимальный порядок, highBound - максимальный порядок мативов).
+        SortedDictionary<int, float> GetMotivs(int lowBound, int highBound);
     }
-
 }

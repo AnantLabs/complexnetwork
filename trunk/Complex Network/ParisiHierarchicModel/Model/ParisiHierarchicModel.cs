@@ -274,10 +274,5 @@ namespace Model.ParisiHierarchicModel
             }
             return matrix;
         }
-
-        protected override void StaticGenerateModel()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

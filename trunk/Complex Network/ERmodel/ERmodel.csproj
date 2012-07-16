@@ -73,7 +73,6 @@
     <Compile Include="Model\Realization\ERGenerator.cs" />
     <Compile Include="Model\Realization\ERAnalyzer.cs" />
     <Compile Include="Model\Realization\ERContainer.cs" />
-    <Compile Include="Model\Realization\ERGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
