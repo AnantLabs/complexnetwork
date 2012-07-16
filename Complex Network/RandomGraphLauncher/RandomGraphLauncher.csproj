@@ -299,10 +299,6 @@
       <Project>{5BA843EE-8960-4255-8FB0-62B71260F793}</Project>
       <Name>SettingsConfiguration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StaticModel\StaticModel.csproj">
-      <Project>{48BB3A60-F508-45F7-9A92-37E218867C55}</Project>
-      <Name>StaticModel</Name>
-    </ProjectReference>
     <ProjectReference Include="..\StatisticAnalyzer\StatisticAnalyzer.csproj">
       <Project>{71B1E21C-71A1-4A06-BEB7-B88FC93AAFCC}</Project>
       <Name>StatisticAnalyzer</Name>
