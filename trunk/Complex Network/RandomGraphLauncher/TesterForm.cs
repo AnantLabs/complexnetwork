@@ -16,7 +16,6 @@ using Model.BAModel.Realization;
 using CommonLibrary.Model;
 using Model.WSModel.Realization;
 using Model.ERModel.Realization;
-using Model.StaticModel.Realization;
 using GenericAlgorithms;
 using System.Collections;
 using Model.ERModel.Realization;

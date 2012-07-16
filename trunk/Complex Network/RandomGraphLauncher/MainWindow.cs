@@ -102,7 +102,7 @@ namespace RandomGraphLauncher
 
      
 
-        private void NewJob(bool staticGeneration)
+        private void NewJob()
         {
             ModelChooserWindow modelChooser = new ModelChooserWindow(models.Keys, storageManager, runningJobs);
 
@@ -115,11 +115,11 @@ namespace RandomGraphLauncher
                 {
                     jobName = modelChooser.textBox_JobName.Text;
                 }
-                modelChoosed(models[modelName], jobName, staticGeneration);
+                modelChoosed(models[modelName], jobName);
             }
         }
 
-        private void modelChoosed(Tuple<Type, Type> modelType, string jobName,bool staticGeneration )
+        private void modelChoosed(Tuple<Type, Type> modelType, string jobName)
         {
             if (isDistributed)
             {
@@ -139,7 +139,13 @@ namespace RandomGraphLauncher
             // 
             // calculationControl
             // 
-            CalculationControl calculationControl = new CalculationControl(modelType.Item1, modelType.Item2, jobName, manager, isDistributed, ApplicationMode.IsTrainingMode, traceingModeToolStripMenuItem.Checked, staticGeneration);
+            CalculationControl calculationControl = new CalculationControl(modelType.Item1, 
+                modelType.Item2, 
+                jobName, manager, 
+                isDistributed, 
+                ApplicationMode.IsTrainingMode, 
+                traceingModeToolStripMenuItem.Checked, 
+                false);
             calculationControl.Dock = System.Windows.Forms.DockStyle.Fill;
             calculationControl.Location = new System.Drawing.Point(0, 0);
             calculationControl.Name = "calculationControl";
@@ -302,18 +308,10 @@ namespace RandomGraphLauncher
             settingsForm.ShowDialog();
         }
 
-        private void staticGenerationToolStripMenuItem_Click(object sender, EventArgs e)
+        private void newJobToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AbstractGraphModel.staticGeneration = false;
-            NewJob(false); 
+            NewJob(); 
         }
-
-        private void randomGenerationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AbstractGraphModel.staticGeneration = true;
-            NewJob(true);
-        }
-
         
         // <Mikayel Samvelyan>
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
