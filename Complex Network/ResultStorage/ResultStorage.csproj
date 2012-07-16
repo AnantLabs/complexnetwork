@@ -110,10 +110,6 @@
       <Project>{629A0B22-DF97-4E6E-BE4E-1991B1B1AC4F}</Project>
       <Name>ParisiHierarchicModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StaticModel\StaticModel.csproj">
-      <Project>{48BB3A60-F508-45F7-9A92-37E218867C55}</Project>
-      <Name>StaticModel</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WSModel\WSModel.csproj">
       <Project>{8F726BFA-8644-43BE-9E13-49E2E3FF04B2}</Project>
       <Name>WSModel</Name>

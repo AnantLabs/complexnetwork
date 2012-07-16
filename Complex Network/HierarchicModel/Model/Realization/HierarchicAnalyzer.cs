@@ -9,10 +9,9 @@ namespace Model.HierarchicModel.Realization
 {
     public class HierarchicAnalyzer : AbstarctGraphAnalyzer
     {
-        private Engine engine;
-        private EngineForConnectedComp engForConnectedComponent;
-        private EngineForCycles engForCycles;
-        private HierarchicGraph mTree;
+        // !надо включить логирование //
+
+        IGraphContainer container;  // пересмотреть!
 
         public HierarchicAnalyzer(HierarchicGraph tree)
         {
@@ -22,19 +21,14 @@ namespace Model.HierarchicModel.Realization
             this.mTree = tree;
         }
 
-        public HierarchicGraph Tree
+        // Контейнер, в котором содержится сгенерированный граф (полученный от генератора).
+        public override IGraphContainer Container
         {
-            get { return mTree; }
-            set { mTree = value; }
+            get { return container; }
+            set { container = value; }
         }
 
-        //Calculate degree distribution of graph.
-        public override SortedDictionary<int, int> GetDegreeDistribution()
-        {
-            return ArrayCntAdjacentCntVertexes(0, 0);
-        }
-
-        //Calculate average path of graph.
+        // Возвращается средняя длина пути в графе. Реализовано.
         public override double GetAveragePath()
         {
             long[] pathsInfo = GetSubgraphsPathInfo(0, 0);
@@ -42,7 +36,25 @@ namespace Model.HierarchicModel.Realization
                 (Math.Pow(mTree.prime, mTree.degree) - 1));
         }
 
-        //Calculate clustering coefficient of graph.
+        // Возвращается число циклов длиной 3 в графе. Реализовано.
+        public override int GetCycles3()
+        {
+            return (int)Count3Cycle(0, 0)[1];
+        }
+
+        // Возвращается число циклов длиной 4 в графе. Реализовано.
+        public override int GetCycles4()
+        {
+            return (int)Count4Cycle(0, 0)[0];
+        }
+
+        // Возвращается степенное распределение графа. Реализовано.
+        public override SortedDictionary<int, int> GetDegreeDistribution()
+        {
+            return ArrayCntAdjacentCntVertexes(0, 0);
+        }
+
+        // Возвращается распределение коэффициентов кластеризации графа. Реализовано.
         public override SortedDictionary<double, int> GetClusteringCoefficient()
         {
             SortedDictionary<double, int> result = new SortedDictionary<double, int>();
@@ -62,72 +74,13 @@ namespace Model.HierarchicModel.Realization
             return result;
         }
 
-        //Calculate Eigen values of graph.
-        public override ArrayList GetEigenValue()
-        {
-            return new ArrayList();
-        }
-
-        //Calculate count of cycles in 3 lenght of graph.
-        public override int GetCycles3()
-        {
-            return (int)Count3Cycle(0, 0)[1];
-        }
-
-        //Calculate diameter of graph.
-        public override int GetDiameter()
-        {
-            int result = 0;
-            return result;
-        }
-
-        //Calculate distribution of connected subgraph of graph.
+        // Возвращается распределение чисел связанных подграфов в графе. Реализовано.
         public override SortedDictionary<int, int> GetConnSubGraph()
         {
             return AmountConnectedSubGraphs(0, 0);
         }
 
-        //Calculate count of cycles in 3 lenght based in eigen valu of graph.
-        public override int GetCycleEigen3()
-        {
-            int result = 0;
-            return result;
-        }
-
-        //Calculate count of cycles in 4 lenght of graph.
-        public override int GetCycles4()
-        {
-            return (int)Count4Cycle(0, 0)[0];
-        }
-
-        //Calculate count of cycles in 4 lenght based in eigen valu of graph.
-        public override int GetCycleEigen4()
-        {
-            int result = 0;
-            return result;
-        }
-
-        //Calculate distribution of minimum paths of graph.
-        public override SortedDictionary<int, int> GetMinPathDist()
-        {
-            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
-            return result;
-        }
-
-        //Calculate distribution of eigen value of graph.
-        public override SortedDictionary<double, int> GetDistEigenPath()
-        {
-            SortedDictionary<double, int> result = new SortedDictionary<double, int>();
-            return result;
-        }
-
-        //Calculate distribution of connected subgraph of graph.
-        public override SortedDictionary<int, int> GetFullSubGraph()
-        {
-            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
-            return result;
-        }
-
+        // Возвращается распределение чисел циклов. Реализовано.
         public override SortedDictionary<int, long> GetCycles(int lowBound, int hightBound)
         {
             SortedDictionary<int, long> result = new SortedDictionary<int, long>();
@@ -135,12 +88,22 @@ namespace Model.HierarchicModel.Realization
             {
                 result.Add(l, (int)engForCycles.GetCycleCount(this.mTree, l));
             }
-            /*SortedDictionary<int, long> cycles = engForCycles.GetCycleCount(this.mTree, lowBound, hightBound);
-            foreach (int length in cycles.Keys) 
-            {
-                result.Add(length, (int)cycles[length]);
-            }*/
+
             return result;
+        }
+
+
+        // Закрытая часть класса (не из общего интерфейса). //
+
+        private Engine engine;
+        private EngineForConnectedComp engForConnectedComponent;
+        private EngineForCycles engForCycles;
+        private HierarchicGraph mTree;
+
+        public HierarchicGraph Tree // пересмотреть!
+        {
+            get { return mTree; }
+            set { mTree = value; }
         }
 
         // Not used

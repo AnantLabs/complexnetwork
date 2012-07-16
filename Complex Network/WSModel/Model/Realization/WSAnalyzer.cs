@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using RandomGraph.Common.Model;
 using Model.WSModel.Realization;
-using Model.WSModel.Result;
 using CommonLibrary.Model;
 using Algorithms;
 
@@ -13,6 +12,83 @@ namespace Model.WSModel.Realization
 {
     public class WSAnalyzer : AbstarctGraphAnalyzer
     {
+        // !Организовать лофгирование!
+        
+        IGraphContainer container;  // пересмотреть!
+
+        public WSAnalyzer(WSContainer container)
+        {
+            m_container = container;
+            CountNeighbourships();
+        }
+
+        // Контейнер, в котором содержится сгенерированный граф (полученный от генератора).
+        public override IGraphContainer Container
+        {
+            get { return container; }
+            set { container = value; }
+        }
+
+        // Возвращается средняя длина пути в графе. Реализовано.
+        public override double GetAveragePath()
+        {
+            CountAvgPathAndDiametr();
+            return m_avgPathLenght;
+        }
+
+        // Возвращается диаметр графа. Реализовано.
+        public override int GetDiameter()
+        {
+            return m_diametr;
+        }
+
+        // Возвращается число циклов длиной 3 в графе. Реализовано.
+        public override int GetCycles3()
+        {
+            return m_cyclesOfOrder3;
+        }
+
+        // Возвращается число циклов длиной 4 в графе. Реализовано.
+        public override int GetCycles4()
+        {
+            return m_cyclesOfOrder4;
+        }
+
+        // Возвращается массив собственных значений матрицы смежности. Реализовано.
+        public override ArrayList GetEigenValues()
+        {
+            Algorithms.EigenValue ev = new EigenValue();
+            bool[,] m = m_container.GetMatrix();
+            return ev.EV(m);
+        }
+
+        // Возвращается степенное распределение графа. Реализовано.
+        public override SortedDictionary<int, int> GetDegreeDistribution()
+        {
+            return m_degreeDistribution;
+        }
+
+        // Возвращается распределение коэффициентов кластеризации графа. Реализовано.
+        public override SortedDictionary<double, int> GetClusteringCoefficient()
+        {
+            return m_coefficient;
+        }
+
+        // Возвращается распределение чисел связанных подграфов в графе. Реализовано.
+        public override SortedDictionary<int, int> GetConnSubGraph()
+        {
+            return m_fullSubgraphs;
+        }
+
+        // Возвращается распределение длин минимальных путей в графе. Реализовано.
+        public override SortedDictionary<int, int> GetMinPathDist()
+        {
+            return m_vertexDistances;
+        }
+
+
+        // Закрытая часть класса (не из общего интерфейса). //
+
         // Type definitions //
         private class Node
         {
@@ -28,23 +104,18 @@ namespace Model.WSModel.Realization
 
         // Implementation members //
         private WSContainer m_container;
-        private AnalyzeResult m_result;
-        protected List<int> m_neighbourship;
+        private List<int> m_neighbourship;
 
-        public AnalyzeResult Result
-        {
-
-            get { return m_result; }
-        }
-
-        public WSAnalyzer(WSContainer container)
-        {
-            m_container = container;
-            m_result = new AnalyzeResult();
-            m_result.m_cyclesOfOrder3 = 0;
-            m_result.m_cyclesOfOrder4 = 0;
-            CountNeighbourships();
-        }
+        private double m_avgPathLenght = 0;
+        private int m_diametr = 0;
+        private int m_cyclesOfOrder3 = 0;
+        private int m_cyclesOfOrder4 = 0;
+        private SortedDictionary<int, int> m_degreeDistribution = new SortedDictionary<int,int>();
+        private SortedDictionary<double, int> m_coefficient = new SortedDictionary<double,int>();
+        private SortedDictionary<int, int> m_fullSubgraphs = new SortedDictionary<int,int>();
+        private SortedDictionary<int, int> m_vertexDistances = new SortedDictionary<int,int>();
+        private double m_clusteringCoefficient = 0;
+        
         private void CountNeighbourships()
         {
             int size = m_container.Size;
@@ -59,9 +130,9 @@ namespace Model.WSModel.Realization
             }
         }
 
-        public void CountAvgPathAndDiametr()
+        private void CountAvgPathAndDiametr()
         {
-            m_result.m_vertexDistances = new SortedDictionary<int, int>();
+            m_vertexDistances = new SortedDictionary<int, int>();
             double avg = 0;
             int diametr = 0;
             int k = 0;
@@ -87,10 +158,10 @@ namespace Model.WSModel.Realization
                         avg += way;
                         ++k;
 
-                        if (m_result.m_vertexDistances.ContainsKey(way))
-                            m_result.m_vertexDistances[way]++;
+                        if (m_vertexDistances.ContainsKey(way))
+                            m_vertexDistances[way]++;
                         else
-                            m_result.m_vertexDistances.Add(way, 1);
+                            m_vertexDistances.Add(way, 1);
                     }
                 }
             }
@@ -98,11 +169,10 @@ namespace Model.WSModel.Realization
             avg /= k;
             double avgD = avg * 10000;
             int avgI = Convert.ToInt32(avgD);
-            m_result.m_avgPathLenght = (double)avgI / 10000;
-            m_result.m_diametr = diametr;
-            m_result.m_cyclesOfOrder4 /= 4;
+            m_avgPathLenght = (double)avgI / 10000;
+            m_diametr = diametr;
+            m_cyclesOfOrder4 /= 4;
         }
-
 
         private void BFS(int i, List<Node> nodes)
         {
@@ -127,17 +197,17 @@ namespace Model.WSModel.Realization
                     else
                     {
                         if (nodes[u].m_lenght == 2 && nodes[l[j]].m_lenght == 1 && nodes[u].m_ancestor != l[j])
-                            ++m_result.m_cyclesOfOrder4;
+                            ++m_cyclesOfOrder4;
                     }
                 }
 
             }
         }
 
-        public void DegreeDistribution()
+        private void DegreeDistribution()
         {
             int size = m_container.Size;
-            m_result.m_degreeDistribution = new SortedDictionary<int, int>();
+            m_degreeDistribution = new SortedDictionary<int, int>();
             int degreeCount = 0;
 
             for (int i = 0; i < size; ++i)
@@ -145,31 +215,30 @@ namespace Model.WSModel.Realization
                 degreeCount = ReturnNeighboursCount(i);
                 if (degreeCount != 0)
                 {
-                    if (m_result.m_degreeDistribution.ContainsKey(degreeCount))
-                        m_result.m_degreeDistribution[degreeCount]++;
+                    if (m_degreeDistribution.ContainsKey(degreeCount))
+                        m_degreeDistribution[degreeCount]++;
                     else
-                        m_result.m_degreeDistribution.Add(degreeCount, 1);
+                        m_degreeDistribution.Add(degreeCount, 1);
                 }
             }
         }
 
-        int ReturnNeighboursCount(int i)
+        private int ReturnNeighboursCount(int i)
         {
             return m_container.CountDegree(i);
         }
 
-
-        public void ClusteringCoefficient()
+        private void ClusteringCoefficient()
         {
             // no multythreading in current realization
             int size = m_container.Size;
-            m_result.m_fullSubgraphs = new SortedDictionary<int, int>();
-            m_result.m_coefficient = new SortedDictionary<double, int>();
+            m_fullSubgraphs = new SortedDictionary<int, int>();
+            m_coefficient = new SortedDictionary<double, int>();
 
             for (int i = 0; i < size; ++i)
                 ClusteringCoeffForVertex(i);
 
-            m_result.m_clusteringCoefficient /= size;
+            m_clusteringCoefficient /= size;
         }
 
         private void ClusteringCoeffForVertex(int index)
@@ -196,122 +265,47 @@ namespace Model.WSModel.Realization
                 E += counter;
             }
 
-            m_result.m_cyclesOfOrder3 += E;
+            m_cyclesOfOrder3 += E;
 
             //System::Threading::Monitor::Enter(this);
             //{
             double clusteringCoefI = (double)E / K;
 
-            if (m_result.m_coefficient.ContainsKey(clusteringCoefI))
-                m_result.m_coefficient[clusteringCoefI]++;
+            if (m_coefficient.ContainsKey(clusteringCoefI))
+                m_coefficient[clusteringCoefI]++;
             else
-                m_result.m_coefficient.Add(clusteringCoefI, 1);
+                m_coefficient.Add(clusteringCoefI, 1);
 
-            m_result.m_clusteringCoefficient += clusteringCoefI;	// sincronization
+            m_clusteringCoefficient += clusteringCoefI;	// sincronization
             if (E / K == 1)
             {
-                if (m_result.m_fullSubgraphs.ContainsKey(neighbours + 1))
-                    m_result.m_fullSubgraphs[neighbours + 1]++;
+                if (m_fullSubgraphs.ContainsKey(neighbours + 1))
+                    m_fullSubgraphs[neighbours + 1]++;
                 else
-                    m_result.m_fullSubgraphs.Add(neighbours + 1, 1);
+                    m_fullSubgraphs.Add(neighbours + 1, 1);
             }
             //}
             //System::Threading::Monitor::Exit(this);
         }
 
-        public int CyclesOfOrder3()
+        private int CyclesOfOrder3()
         {
-            m_result.m_cyclesOfOrder3 /= 3;
-            return m_result.m_cyclesOfOrder3;
+            m_cyclesOfOrder3 /= 3;
+            return m_cyclesOfOrder3;
         }
 
-        public int MaxFullSubGraph()
+        private int MaxFullSubGraph()
         {
-            int size = m_result.m_fullSubgraphs.Count;
+            int size = m_fullSubgraphs.Count;
             int max = 0;
             for (int i = 0; i < size; ++i)
             {
-                int element = m_result.m_fullSubgraphs.ElementAt(i).Key;
+                int element = m_fullSubgraphs.ElementAt(i).Key;
                 if (max < element)
                     max = element;
             }
 
             return max;
-        }
-
-        public override SortedDictionary<int, int> GetDegreeDistribution()
-        {
-            return m_result.m_degreeDistribution;
-        }
-        //Calculate average parth of graph.
-        public override double GetAveragePath()
-        {
-            CountAvgPathAndDiametr();
-            return m_result.m_avgPathLenght;
-        }
-        //Calculate clustering coefficient of graph.
-        public override SortedDictionary<double, int> GetClusteringCoefficient()
-        {
-            return m_result.m_coefficient;
-        }
-        //Calculate Eigen values of graph.
-        public override ArrayList GetEigenValue()
-        {
-            Algorithms.EigenValue ev = new EigenValue();
-            bool[,] m = m_container.GetMatrix();
-            return ev.EV(m);
-        }
-        //Calculate count of cycles in 3 lenght of graph.
-        public override int GetCycles3()
-        {
-            return m_result.m_cyclesOfOrder3;
-        }
-
-        //Calculate diameter of graph.
-        public override int GetDiameter()
-        {
-            return m_result.m_diametr;
-        }
-
-        //Calculate distribution of connected subgraph of graph.
-        public override SortedDictionary<int, int> GetConnSubGraph()
-        {
-            return m_result.m_fullSubgraphs;
-        }
-        //Calculate count of cycles in 3 lenght based in eigen valu of graph.
-        public override int GetCycleEigen3()
-        {
-            return 0;
-        }
-
-        //Calculate count of cycles in 4 lenght of graph.
-        public override int GetCycles4()
-        {
-            return m_result.m_cyclesOfOrder4;
-        }
-
-        //Calculate count of cycles in 4 lenght based in eigen valu of graph.
-        public override int GetCycleEigen4()
-        {
-            return 0;
-        }
-
-        //Calculate distribution of minimum paths of graph.
-        public override SortedDictionary<int, int> GetMinPathDist()
-        {
-            return m_result.m_vertexDistances;
-        }
-        //Calculate distribution of eigen value of graph.
-        public override SortedDictionary<double, int> GetDistEigenPath()
-        {
-            return new SortedDictionary<double, int>();
-        }
-        //Calculate distribution of connected subgraph of graph.
-        public override SortedDictionary<int, int> GetFullSubGraph()
-        {
-            return new SortedDictionary<int, int>();
-        }
-
+        } 
     }
-
 }

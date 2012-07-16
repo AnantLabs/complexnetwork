@@ -19,7 +19,7 @@ using Model.ERModel.Realization;
 using Model.StaticModel.Realization;
 using GenericAlgorithms;
 using System.Collections;
-using model.ERModel.Realization;
+using Model.ERModel.Realization;
 
 namespace RandomGraphLauncher
 {
@@ -86,9 +86,9 @@ namespace RandomGraphLauncher
             return a.SequenceEqual(b);
         }
 
-        private void WSModelTest(WSGraph graph)
+        private void WSModelTest(WSContainer container)
         {
-            IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
+            IGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             //test tDegreeDistribution
             testDegreeDistribution(0, analyzer);
@@ -115,9 +115,9 @@ namespace RandomGraphLauncher
             testFullSubgraphs(7, analyzer);
         }
 
-        private void BAModelTest(BAGraph graph)
+        private void BAModelTest(BAContainer container)
         {
-            IGraphAnalyzer analyzer = new BAAnalyzer(graph.Container);
+            IGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             //test tDegreeDistribution
             testDegreeDistribution(0, analyzer);
@@ -150,11 +150,11 @@ namespace RandomGraphLauncher
             testFullSubgraphs(9, analyzer);
         }
 
-        private void ERModelTest(ERGraph graph)
+        private void ERModelTest(ERContainer container)
         {
             //XMLResultStorage resultStorage = new XMLResultStorage("");
             //goldResult = resultStorage.LoadXML(goldenOutPath.Text);
-            ERAnalyzer analyzer = new ERAnalyzer(graph.Container);
+            ERAnalyzer analyzer = new ERAnalyzer(container);
 
             //test tDegreeDistribution
             testDegreeDistribution(0, analyzer);
@@ -307,7 +307,7 @@ namespace RandomGraphLauncher
             Label label;
             try
             {
-                if (compare(goldResult.Results[0].EigenVector, analyzer.GetEigenValue()))
+                if (compare(goldResult.Results[0].EigenVector, analyzer.GetEigenValues()))
                 {
                     label = (Label)labels[number];
                     label.Text = "Passed";
@@ -592,19 +592,19 @@ namespace RandomGraphLauncher
             switch (modelName)
             {
                 case "Barabasi-Albert":
-                    BAGraph BAGraph = new BAGraph(matrix);
-                    BAModelTest(BAGraph);
+                    BAContainer baContainer = new BAContainer();
+                    baContainer.SetMatrix(matrix);
+                    BAModelTest(baContainer);
                     break;
                 case "ERModel":
-                    ERGraph ERGraph = new ERGraph(matrix);
-                    ERModelTest(ERGraph);
+                    ERContainer erContainer = new ERContainer();
+                    erContainer.SetMatrix(matrix);
+                    ERModelTest(erContainer);
                     break;
                 case "Watts-Strogatz":
-                    WSGraph WSGraph = new WSGraph(matrix);
-                    WSModelTest(WSGraph);
-                    break;
-                case "Static Model":
-                    StaticGraph STGraph = new StaticGraph(matrix);
+                    WSContainer wsContainer = new WSContainer();
+                    wsContainer.SetMatrix(matrix);
+                    WSModelTest(wsContainer);
                     break;
                 default:
                     Console.WriteLine("Default case");

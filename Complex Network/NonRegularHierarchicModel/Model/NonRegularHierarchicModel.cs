@@ -223,10 +223,5 @@ namespace Model.NonRegularHierarchicModel
         {
             return graph.GetMatrix();
         }
-
-        protected override void StaticGenerateModel()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

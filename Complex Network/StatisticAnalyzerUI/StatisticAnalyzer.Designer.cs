@@ -35,7 +35,6 @@
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.MenuSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuSetProvider = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveExcelPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.ModelName = new System.Windows.Forms.Label();
             this.ModelNameCmb = new System.Windows.Forms.ComboBox();
@@ -96,8 +95,7 @@
             // MenuSettings
             // 
             this.MenuSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuSetProvider,
-            this.saveExcelPageToolStripMenuItem});
+            this.MenuSetProvider});
             this.MenuSettings.Name = "MenuSettings";
             this.MenuSettings.Size = new System.Drawing.Size(57, 20);
             this.MenuSettings.Text = "Settings";
@@ -108,13 +106,6 @@
             this.MenuSetProvider.Size = new System.Drawing.Size(223, 22);
             this.MenuSetProvider.Text = "Set/Change Storage Provider...";
             this.MenuSetProvider.Click += new System.EventHandler(this.MenuSetProvider_Click);
-            // 
-            // saveExcelPageToolStripMenuItem
-            // 
-            this.saveExcelPageToolStripMenuItem.Enabled = false;
-            this.saveExcelPageToolStripMenuItem.Name = "saveExcelPageToolStripMenuItem";
-            this.saveExcelPageToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.saveExcelPageToolStripMenuItem.Text = "Excel Page";
             // 
             // MenuHelp
             // 
@@ -574,7 +565,6 @@
         private System.Windows.Forms.RadioButton ByJobsRadio;
         private System.Windows.Forms.RadioButton ByParametersRadio;
         private System.Windows.Forms.Button DeleteJob;
-        private System.Windows.Forms.ToolStripMenuItem saveExcelPageToolStripMenuItem;
         private System.Windows.Forms.CheckBox ByAllJobsCheck;
         private System.Windows.Forms.TabPage LocalAnalyzeTab;
         private System.Windows.Forms.Button LocalDrawGraphics;
