@@ -204,7 +204,6 @@ namespace RandomGraphLauncher
             Options.LoggerDirectory = loggerPathTextBox.Text;
             Options.Refresh();
             this.Close();
-
         }
         
         private void tracingModeCheckBox_CheckedChanged(object sender, EventArgs e)

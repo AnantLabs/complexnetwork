@@ -32,8 +32,9 @@ namespace RandomGraphLauncher
         // model name, model factory, model
         private IDictionary<string, Tuple<Type, Type>> models = new Dictionary<string, Tuple<Type, Type>>();
         private AbstractGraphManager manager;
-        private IResultStorage storageManager;
         private List<string> runningJobs = new List<string>();
+
+        private IResultStorage storageManager;
 
         public MainWindow()
         {
@@ -148,46 +149,6 @@ namespace RandomGraphLauncher
             Environment.Exit(0);
         }
 
-        /*private void storageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-
-            StorgeProvider storgeProvider;
-            if (config.AppSettings.Settings["Storage"].Value == "XmlProvider")
-            {
-                storgeProvider = StorgeProvider.XMLProvider;
-            }
-            else
-            {
-                storgeProvider = StorgeProvider.SQLProvider;
-            }
-            string storageDirectory = config.AppSettings.Settings["XmlProvider"].Value;
-            string connection = config.AppSettings.Settings["SQLProvider"].Value;
-            string connectionString = config.ConnectionStrings.ConnectionStrings[connection].ConnectionString;
-
-            StartUpWindow window = new StartUpWindow(storgeProvider, storageDirectory, connectionString);
-
-            if (window.ShowDialog() == DialogResult.OK)
-            {
-                if (window.Storge == StorgeProvider.XMLProvider)
-                {
-                    config.AppSettings.Settings["Storage"].Value = "XmlProvider";
-                    config.AppSettings.Settings["XmlProvider"].Value = window.StorageDirectory;
-                }
-                else
-                {
-                    config.AppSettings.Settings["Storage"].Value = "SQLProvider";
-                    config.ConnectionStrings.ConnectionStrings[config.AppSettings.Settings["SQLProvider"].Value].ConnectionString = window.ConnectionString;
-                }
-
-                config.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection("appSettings");
-                ConfigurationManager.RefreshSection("connectionStrings");
-
-                InitStorageManager();
-            }
-        }*/
-
         private void statisticAnalyzerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Process.Start("StatisticAnalyzerUI.exe");
@@ -195,14 +156,7 @@ namespace RandomGraphLauncher
 
         private void dataExportIMportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-
-            string storageDirectory = config.AppSettings.Settings["XmlProvider"].Value;
-            string connection = config.AppSettings.Settings["SQLProvider"].Value;
-            string connectionString = config.ConnectionStrings.ConnectionStrings[connection].ConnectionString;
-
-            DataExportImport window = new DataExportImport(storageManager, storageDirectory, connectionString);
-
+            DataExportImport window = new DataExportImport(storageManager);
             window.ShowDialog();
         }
 

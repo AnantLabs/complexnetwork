@@ -10,6 +10,9 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 using StatisticAnalyzer;
+using StatisticAnalyzer.Loader;
+using StatisticAnalyzer.Analyzer;
+using StatisticAnalyzer.Viewer;
 
 using SettingsConfiguration;
 using RandomGraph.Common.Model;
@@ -27,8 +30,7 @@ namespace StatisticAnalyzerUI
 
         // GUI members //
         private List<ComboBox> generationParametersComboBoxes = new List<ComboBox>();
-        private ApproximationTypes approximationType;
-        private Dictionary<GraphicalInformation, Graphic> existingGraphics;
+        private Dictionary<AnalyseOptions, Graphic> existingGraphics;
 
         public StatisticAnalyzer()
         {
@@ -143,45 +145,15 @@ namespace StatisticAnalyzerUI
             }
         }
 
-        private void ApproximationTypeCmb_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            switch (this.ApproximationTypeCmb.SelectedIndex)
-            {
-                case 0:
-                    {
-                        approximationType = ApproximationTypes.None;
-                        break;
-                    }
-                case 1:
-                    {
-                        approximationType = ApproximationTypes.Degree;
-                        break;
-                    }
-                case 2:
-                    {
-                        approximationType = ApproximationTypes.Exponential;
-                        break;
-                    }
-                case 3:
-                    {
-                        approximationType = ApproximationTypes.Gaus;
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
-
         // Analyzers //
         private void GlobalDrawGraphics_Click(object sender, EventArgs e)
         {
-            ResultAssembly res = null;
+            List<ResultAssembly> res = new List<ResultAssembly>(); ;
             if (this.ByJobsRadio.Checked)
-                res = loader.SelectAssemblyByJob(this.JobsCmb.Text);
+                res.Add(loader.SelectAssemblyByJob(this.JobsCmb.Text));
             else
-                res = loader.SelectAssemblyByParameters(Values(0, generationParametersComboBoxes.Count));
+                res = loader.SelectAssemblyByParameters(Values(0, generationParametersComboBoxes.Count), 
+                    this.ByAllJobsCheck.Checked);
             StAnalyzer analyzer = new StAnalyzer(res);
 
             if (this.GlobalPropertiesList.GetItemChecked(0))
@@ -207,15 +179,21 @@ namespace StatisticAnalyzerUI
 
             analyzer.GlobalAnalyze();
             StAnalyzeResult result = analyzer.Result;
+
+            // Запуск тестового графика.
+            Graphic g = new Graphic((Color)this.CurveLineCmb.SelectedItem,
+                this.PointsCheck.Checked,
+                result.result[AnalyseOptions.AveragePath]);
         }
 
         private void GetGlobalResult_Click(object sender, EventArgs e)
         {
-            ResultAssembly res = null;
+            List<ResultAssembly> res = new List<ResultAssembly>(); ;
             if (this.ByJobsRadio.Checked)
-                res = loader.SelectAssemblyByJob(this.JobsCmb.Text);
+                res.Add(loader.SelectAssemblyByJob(this.JobsCmb.Text));
             else
-                res = loader.SelectAssemblyByParameters(Values(0, generationParametersComboBoxes.Count));
+                res = loader.SelectAssemblyByParameters(Values(0, generationParametersComboBoxes.Count),
+                    this.ByAllJobsCheck.Checked);
             StAnalyzer analyzer = new StAnalyzer(res);
 
             if (this.GlobalPropertiesList.GetItemChecked(0))
@@ -248,11 +226,12 @@ namespace StatisticAnalyzerUI
 
         private void LocalDrawGraphics_Click(object sender, EventArgs e)
         {
-            ResultAssembly res = null;
+            List<ResultAssembly> res = new List<ResultAssembly>(); ;
             if (this.ByJobsRadio.Checked)
-                res = loader.SelectAssemblyByJob(this.JobsCmb.Text);
+                res.Add(loader.SelectAssemblyByJob(this.JobsCmb.Text));
             else
-                res = loader.SelectAssemblyByParameters(Values(0, generationParametersComboBoxes.Count));
+                res = loader.SelectAssemblyByParameters(Values(0, generationParametersComboBoxes.Count),
+                    this.ByAllJobsCheck.Checked);
             StAnalyzer analyzer = new StAnalyzer(res);
             
             if (this.LocalPropertiesList.GetItemChecked(0))
@@ -274,13 +253,15 @@ namespace StatisticAnalyzerUI
             analyzer.LocalAnalyze();
 
             StAnalyzeResult result = analyzer.Result;
+            result.approximationType = (ApproximationTypes)Enum.Parse(typeof(ApproximationTypes),
+                this.ApproximationTypeCmb.SelectedItem.ToString());
         }
 
         private void MotifDrawGraphics_Click(object sender, EventArgs e)
         {
         }
 
-        public void DestroyGraphic(GraphicalInformation gr)
+        public void DestroyGraphic(AnalyseOptions gr)
         {
             existingGraphics[gr] = null;
         }
@@ -332,30 +313,10 @@ namespace StatisticAnalyzerUI
 
         private void InitializeGUIMembers()
         {
-            existingGraphics = new Dictionary<GraphicalInformation, Graphic>();
+            // Список доступных типов аппроксимаций.
+            this.ApproximationTypeCmb.Items.AddRange(Enum.GetNames(typeof(ApproximationTypes)));
 
-            // Global Graphics //
-            existingGraphics[new GraphicalInformation(AnalyseOptions.AveragePath, StatAnalyzeMode.GlobalMode)] = null;
-            existingGraphics[new GraphicalInformation(AnalyseOptions.ClusteringCoefficient, StatAnalyzeMode.GlobalMode)] = null;
-            existingGraphics[new GraphicalInformation(AnalyseOptions.CycleEigen3, StatAnalyzeMode.GlobalMode)] = null;
-            existingGraphics[new GraphicalInformation(AnalyseOptions.CycleEigen4, StatAnalyzeMode.GlobalMode)] = null;
-            existingGraphics[new GraphicalInformation(AnalyseOptions.DegreeDistribution, StatAnalyzeMode.GlobalMode)] = null;
-            existingGraphics[new GraphicalInformation(AnalyseOptions.Diameter, StatAnalyzeMode.GlobalMode)] = null;
-            existingGraphics[new GraphicalInformation(AnalyseOptions.LargestConnectedComponent, StatAnalyzeMode.GlobalMode)] = null;
-            existingGraphics[new GraphicalInformation(AnalyseOptions.MaxEigenValue, StatAnalyzeMode.GlobalMode)] = null;
-            existingGraphics[new GraphicalInformation(AnalyseOptions.MinEigenValue, StatAnalyzeMode.GlobalMode)] = null;
-
-            // Local Graphics //
-            existingGraphics[new GraphicalInformation(AnalyseOptions.ClusteringCoefficient, StatAnalyzeMode.LocalMode)] = null;
-            existingGraphics[new GraphicalInformation(AnalyseOptions.ConnSubGraph, StatAnalyzeMode.LocalMode)] = null;
-            existingGraphics[new GraphicalInformation(AnalyseOptions.Cycles, StatAnalyzeMode.LocalMode)] = null;
-            existingGraphics[new GraphicalInformation(AnalyseOptions.DegreeDistribution, StatAnalyzeMode.LocalMode)] = null;
-            existingGraphics[new GraphicalInformation(AnalyseOptions.DistEigenPath, StatAnalyzeMode.LocalMode)] = null;
-            existingGraphics[new GraphicalInformation(AnalyseOptions.EigenValue, StatAnalyzeMode.LocalMode)] = null;
-            existingGraphics[new GraphicalInformation(AnalyseOptions.FullSubGraph, StatAnalyzeMode.LocalMode)] = null;
-            existingGraphics[new GraphicalInformation(AnalyseOptions.MinPathDist, StatAnalyzeMode.LocalMode)] = null;
-
-            // Motif Graphics //
+            existingGraphics = new Dictionary<AnalyseOptions, Graphic>();
         }
 
         private void InitializeConfigurationMembers()
@@ -419,8 +380,6 @@ namespace StatisticAnalyzerUI
                 this.GenerationParametersGrp.Controls.Add(comboBoxLabel);
                 position += 30;
             }
-
-            //this.ByAllJobsCheck.Visible = m_analyzer.ByAllJobsOptionValidation;
         }
 
         private void FillJobs()
@@ -572,8 +531,6 @@ namespace StatisticAnalyzerUI
                 }
             }
             analyzer.AnalyzeOptions = localOptions;
-
-            //m_analyzer.SetAnalyzeParameters(this.ByAllJobsCheck.Checked, localOptions);
         }
 
         private int FindIndexByPropertyName(string name)

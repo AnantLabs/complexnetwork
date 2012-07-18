@@ -323,16 +323,10 @@
             // ApproximationTypeCmb
             // 
             this.ApproximationTypeCmb.FormattingEnabled = true;
-            this.ApproximationTypeCmb.Items.AddRange(new object[] {
-            "None",
-            "Degree",
-            "Exponential",
-            "Gaus"});
             this.ApproximationTypeCmb.Location = new System.Drawing.Point(613, 42);
             this.ApproximationTypeCmb.Name = "ApproximationTypeCmb";
             this.ApproximationTypeCmb.Size = new System.Drawing.Size(121, 21);
             this.ApproximationTypeCmb.TabIndex = 37;
-            this.ApproximationTypeCmb.SelectedIndexChanged += new System.EventHandler(this.ApproximationTypeCmb_SelectedIndexChanged);
             // 
             // LocalPropertiesList
             // 

@@ -10,7 +10,6 @@ using System.IO;
 
 using RandomGraph.Common.Model;
 using CommonLibrary.Model.Attributes;
-using StatisticAnalyzer;
 
 namespace StatisticAnalyzerUI
 {

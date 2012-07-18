@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 
+using RandomGraph.Common.Model.Settings;
 using RandomGraph.Common.Model;
 using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model.Status;
@@ -92,127 +93,6 @@ namespace Model.BAModel
             analyzer = new BAAnalyzer((BAContainer)generator.Container);
           
             InvokeProgressEvent(GraphProgress.Ready);
-        }
-
-        protected override void GenerateModel()
-        {
-            InvokeProgressEvent(GraphProgress.StartingGeneration, 5);
-
-            try
-            {
-                if (true)    // Динамическая генерация
-                    generator.RandomGeneration(GenerationParamValues);
-                else    // Статическая генерация
-                    generator.StaticGeneration(NeighbourshipMatrix);
-
-                InvokeProgressEvent(GraphProgress.GenerationDone, 30);
-            }
-            catch (ThreadAbortException) { }
-            catch (Exception)
-            {
-                InvokeFailureProgressEvent(GraphProgress.GenerationFailed, "ENTER FAIL REASON HERE");
-                //RETHROW EXCEPTION 
-            }
-            finally
-            {
-                //Place clean up code here
-            }
-
-        }
-
-        protected override void AnalizeModel()
-        {
-            InvokeProgressEvent(GraphProgress.StartingAnalizing);
-            
-            try
-            {
-                if ((AnalizeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
-                {
-                    InvokeProgressEvent(GraphProgress.Analizing, 10, "Average Path");
-                    Result.Result[AnalyseOptions.AveragePath] = analyzer.GetAveragePath();
-                }
-
-                if ((AnalizeOptions & AnalyseOptions.Diameter) == AnalyseOptions.Diameter)
-                {
-                    InvokeProgressEvent(GraphProgress.Analizing, 20, "Diameter");
-                    Result.Result[AnalyseOptions.Diameter] = analyzer.GetDiameter();
-                }
-
-                if ((AnalizeOptions & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3)
-                {
-                    InvokeProgressEvent(GraphProgress.Analizing, 30, "Cycles of order 3");
-                    Result.Result[AnalyseOptions.Cycles3] = analyzer.GetCycles3();
-                }
-
-                if ((AnalizeOptions & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4)
-                {
-                    InvokeProgressEvent(GraphProgress.Analizing, 40, "Cycles of order 4");
-                    Result.Result[AnalyseOptions.Cycles4] = analyzer.GetCycles4();
-                }
-
-                if ((AnalizeOptions & AnalyseOptions.EigenValue) == AnalyseOptions.EigenValue)
-                {
-                    InvokeProgressEvent(GraphProgress.Analizing, 50, "Calculating EigenValue");
-
-                    // !Плохо написано!
-                    Algorithms.EigenValue ev = new EigenValue();
-                    ArrayList al = new ArrayList();
-                    bool[,] m = GetMatrix();
-                    Result.EigenVector = ev.EV(m);
-                    Result.DistancesBetweenEigenValues = ev.CalcEigenValuesDist();
-                }
-
-                if ((AnalizeOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
-                {
-                    InvokeProgressEvent(GraphProgress.Analizing, 60, "Degree Distribution");
-                    Result.VertexDegree = analyzer.GetDegreeDistribution();
-                }
-
-                if ((AnalizeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
-                {
-                    InvokeProgressEvent(GraphProgress.Analizing, 70, "Classtering Coefficient");
-                    Result.Coefficient = analyzer.GetClusteringCoefficient();
-                }
-
-                if ((AnalizeOptions & AnalyseOptions.MinPathDist) == AnalyseOptions.MinPathDist)
-                {
-                    InvokeProgressEvent(GraphProgress.Analizing, 80, "Minimal Path Distance Distribution");
-                    Result.DistanceBetweenVertices = analyzer.GetMinPathDist();
-                }
-
-                if ((AnalizeOptions & AnalyseOptions.Cycles) == AnalyseOptions.Cycles)
-                {
-                    int maxValue = Int32.Parse((String)AnalizeOptionsValues["cyclesHi"]);
-                    int minvalue = Int32.Parse((String)AnalizeOptionsValues["cyclesLow"]);
-
-                    InvokeProgressEvent(GraphProgress.Analizing, 85, "Cycles of " + minvalue + "-" + maxValue + "degree");
-                    //Result.Cycles = BAModelGraph.m_analyzer.getNCyclesCount(minvalue, maxValue); !Исправить!
-                    //calculate cycles here
-                    //Result.CyclesCount = 
-                }
-
-                if ((AnalizeOptions & AnalyseOptions.Motifs) == AnalyseOptions.Motifs)
-                {
-                    int maxValue = Int32.Parse((String)AnalizeOptionsValues["motiveHi"]);
-                    int minvalue = Int32.Parse((String)AnalizeOptionsValues["motiveLow"]);
-                    InvokeProgressEvent(GraphProgress.Analizing, 90, "Motiv of " + minvalue + "-" + maxValue + "degree");
-                    Result.MotivesCount = analyzer.GetMotivs(minvalue, maxValue);
-                }
-
-                Result.graphSize = analyzer.Container.Size;
-
-                InvokeProgressEvent(GraphProgress.AnalizingDone, 95);
-
-            }
-            catch (Exception ex)
-            {
-                InvokeFailureProgressEvent(GraphProgress.AnalizingFailed, "ENTER FAIL REASON HERE");
-                //RETHROW EXCEPTION
-            }
-            finally
-            {
-                InvokeProgressEvent(GraphProgress.Done, 100);
-            }
         }
 
         public override bool CheckGenerationParams(int instances)
