@@ -81,12 +81,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StAnalyzeParameters.cs" />
-    <Compile Include="StAnalyzer.cs" />
-    <Compile Include="StAnalyzeResult.cs" />
-    <Compile Include="StApproximation.cs" />
-    <Compile Include="StatAnalyzeParameters.cs" />
-    <Compile Include="StLoader.cs" />
+    <Compile Include="Analyzer\StAnalyzeParameters.cs" />
+    <Compile Include="Analyzer\StAnalyzer.cs" />
+    <Compile Include="Analyzer\StAnalyzeResult.cs" />
+    <Compile Include="Viewer\StApproximation.cs" />
+    <Compile Include="Loader\StLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLibrary\CommonLibrary.csproj">
@@ -122,6 +121,10 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Diagrams\ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

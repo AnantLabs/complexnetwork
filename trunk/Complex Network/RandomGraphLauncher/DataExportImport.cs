@@ -13,6 +13,8 @@ using System.Configuration;
 using CommonLibrary.Model.Result;
 using log4net;
 
+using RandomGraph.Common.Model.Settings;
+
 namespace RandomGraphLauncher
 {
     public partial class DataExportImport : Form
@@ -27,13 +29,11 @@ namespace RandomGraphLauncher
         public string StorageDirectory { get; set; }
         public string ConnectionString { get; set; }
 
-        public DataExportImport(IResultStorage storageManager,
-                                string storageDirectory,
-                                string connectionString)
+        public DataExportImport(IResultStorage storageManager)
         {
             this.storageManager = storageManager;
-            this.StorageDirectory = storageDirectory;
-            this.ConnectionString = connectionString;
+            this.StorageDirectory = Options.StorageDirectory;
+            this.ConnectionString = Options.ConnectionString;
 
             InitializeComponent();
 

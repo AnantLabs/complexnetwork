@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="StatisticAnalyzer.StAnalyzer" Collapsed="true">
+    <Position X="10.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QEAIBAAFCAACAAAABAEAAQwAEQAAiAAECQAAAEgAAAE=</HashCode>
+      <FileName>StAnalyzer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StatisticAnalyzer.StAnalyzeResult" Collapsed="true">
+    <Position X="8.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAgABAQAAAEgAAAABAAACAAAAAAAAEA=</HashCode>
+      <FileName>StAnalyzeResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StatisticAnalyzer.ApproximationTypeInfo" Collapsed="true">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAABAAAAgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>StApproximation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StatisticAnalyzer.StLoader">
+    <Position X="0.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAABAAgAAABQAwAAQgAAAAAAACAGAAAAAgIAAk=</HashCode>
+      <FileName>StLoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="StatisticAnalyzer.StAnalyzeOptions" Collapsed="true">
+    <Position X="10.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>StAnalyzeParameters.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StatisticAnalyzer.GraphicalInformation" Collapsed="true">
+    <Position X="8.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAgAAAAAAAAAAA=</HashCode>
+      <FileName>StatAnalyzeParameters.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="StatisticAnalyzer.ApproximationTypes" Collapsed="true">
+    <Position X="8.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAQAAAgAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>StApproximation.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="StatisticAnalyzer.StatAnalyzeMode" Collapsed="true">
+    <Position X="10.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAACIAAA=</HashCode>
+      <FileName>StatAnalyzeParameters.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

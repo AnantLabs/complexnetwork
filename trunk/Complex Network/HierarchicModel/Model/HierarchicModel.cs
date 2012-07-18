@@ -79,7 +79,7 @@ namespace Model.HierarchicModel
             InvokeProgressEvent(GraphProgress.Ready);
         }
 
-        protected override void GenerateModel()
+        /*protected override void GenerateModel()
         {
             InvokeProgressEvent(GraphProgress.StartingGeneration, 0, "Generating");
             try
@@ -233,7 +233,7 @@ namespace Model.HierarchicModel
             {
                 //Place clean up code here
             }
-        }
+        }*/
 
         public override bool CheckGenerationParams(int instances)
         {

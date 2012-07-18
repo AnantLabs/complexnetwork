@@ -14,6 +14,7 @@ using CommonLibrary.Model.Util;
 using System.Configuration;
 
 using CommonLibrary.Model;
+using RandomGraph.Common.Model.Settings;
 
 namespace RandomGraph.Common.Model
 {
@@ -146,19 +147,163 @@ namespace RandomGraph.Common.Model
         #endregion
 
         /// <summary>
-        /// Should be implemented by inhereted class. Called in StartGenerate method in separate thread. 
-        /// For generation params refer GenerationParamValues dictionary.
-        /// This method is required to initialize graph object after generation and
-        /// invoke OnModelProgress() with generation done if generation is complete successfuly
-        /// and failed argument otherwise.
+        /// Функция вызывается в методе StartGenerate в отдельном потоке.
+        /// Для получения параметров генерации (динамическая генерация) используется GenerationParamValues dictionary.
+        /// Для получения матрицы смежности (статическая генерация) используется NeighbourshipMatrix ArrayList.
         /// </summary>
-        protected abstract void GenerateModel();
+        protected void GenerateModel()
+        {
+            InvokeProgressEvent(GraphProgress.StartingGeneration, 5);
+
+            try
+            {
+                if (Options.GenerationMode.randomGeneration == Options.Generation)    // Динамическая генерация
+                    generator.RandomGeneration(GenerationParamValues);
+                else    // Статическая генерация
+                    generator.StaticGeneration(NeighbourshipMatrix);
+
+                InvokeProgressEvent(GraphProgress.GenerationDone, 30);
+            }
+            catch (ThreadAbortException) { }
+            catch (Exception)
+            {
+                InvokeFailureProgressEvent(GraphProgress.GenerationFailed, "ENTER FAIL REASON HERE");
+                //RETHROW EXCEPTION 
+            }
+            finally
+            {
+                //Place clean up code here
+            }
+        }
+
         /// <summary>
-        /// Should be implemented by inhereted class. Called in StartAnalize method in separate thread. 
-        /// For selected analize options refer AnalizeOptions flag enumeration.
-        /// Should set Result object after completion
+        /// Функция вызывается в методе StartAnalize в отдельном потоке. 
+        /// Для получения выбранных опций анализа используется флаг перечисления AnalizeOptions.
+        /// После окончания анализа обьект Result должен иметь значение.
         /// </summary>
-        protected abstract void AnalizeModel();
+        protected void AnalyzeModel()
+        {
+            InvokeProgressEvent(GraphProgress.StartingAnalizing);
+
+            try
+            {
+                if ((AnalizeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 10, "Average Path");
+                    Result.Result[AnalyseOptions.AveragePath] = analyzer.GetAveragePath();
+                }
+
+                if ((AnalizeOptions & AnalyseOptions.Diameter) == AnalyseOptions.Diameter)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 20, "Diameter");
+                    Result.Result[AnalyseOptions.Diameter] = analyzer.GetDiameter();
+                }
+
+                if ((AnalizeOptions & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 30, "Cycles of order 3");
+                    Result.Result[AnalyseOptions.Cycles3] = analyzer.GetCycles3();
+                }
+
+                if ((AnalizeOptions & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 40, "Cycles of order 4");
+                    Result.Result[AnalyseOptions.Cycles4] = analyzer.GetCycles4();
+                }
+
+                if ((AnalizeOptions & AnalyseOptions.CycleEigen3) == AnalyseOptions.CycleEigen3)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 40, "Cycles of order 3 (Eigen)");
+                    Result.Result[AnalyseOptions.CycleEigen3] = analyzer.GetCyclesEigen3();
+                }
+
+                if ((AnalizeOptions & AnalyseOptions.CycleEigen4) == AnalyseOptions.CycleEigen4)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 40, "Cycles of order 4 (Eigen)");
+                    Result.Result[AnalyseOptions.CycleEigen4] = analyzer.GetCyclesEigen4();
+                }
+
+                if ((AnalizeOptions & AnalyseOptions.EigenValue) == AnalyseOptions.EigenValue)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 50, "Calculating EigenValues");
+                    Result.EigenVector = new ArrayList();
+
+                    // !Плохо написано!
+                    /*Algorithms.EigenValue ev = new EigenValue();
+                    ArrayList al = new ArrayList();
+                    bool[,] m = GetMatrix();
+                    Result.EigenVector = ev.EV(m);
+                    Result.DistancesBetweenEigenValues = ev.CalcEigenValuesDist();*/
+                }
+
+                if ((AnalizeOptions & AnalyseOptions.DistEigenPath) == AnalyseOptions.DistEigenPath)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 60, "Distances between Eigen Values");
+                    Result.DistancesBetweenEigenValues = analyzer.GetDistEigenPath();
+                }
+
+                if ((AnalizeOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 60, "Degree Distribution");
+                    Result.VertexDegree = analyzer.GetDegreeDistribution();
+                }
+
+                if ((AnalizeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 70, "Clustering Coefficient");
+                    Result.Coefficient = analyzer.GetClusteringCoefficient();
+                }
+
+                if ((AnalizeOptions & AnalyseOptions.ConnSubGraph) == AnalyseOptions.ConnSubGraph)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 70, "Connected Subgraphs Orders");
+                    Result.Subgraphs = analyzer.GetConnSubGraph();
+                }
+
+                if ((AnalizeOptions & AnalyseOptions.FullSubGraph) == AnalyseOptions.FullSubGraph)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 70, "Full Subgraphs Orders");
+                    Result.FullSubgraphs = analyzer.GetFullSubGraph();
+                }
+
+                if ((AnalizeOptions & AnalyseOptions.MinPathDist) == AnalyseOptions.MinPathDist)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 80, "Minimal Path Distance Distribution");
+                    Result.DistanceBetweenVertices = analyzer.GetMinPathDist();
+                }
+
+                if ((AnalizeOptions & AnalyseOptions.Cycles) == AnalyseOptions.Cycles)
+                {
+                    int maxValue = Int32.Parse((String)AnalizeOptionsValues["cyclesHi"]);
+                    int minvalue = Int32.Parse((String)AnalizeOptionsValues["cyclesLow"]);
+
+                    InvokeProgressEvent(GraphProgress.Analizing, 85, "Cycles of " + minvalue + "-" + maxValue + "degree");
+                    Result.Cycles = analyzer.GetCycles(minvalue, maxValue);
+                }
+
+                if ((AnalizeOptions & AnalyseOptions.Motifs) == AnalyseOptions.Motifs)
+                {
+                    int maxValue = Int32.Parse((String)AnalizeOptionsValues["motiveHi"]);
+                    int minvalue = Int32.Parse((String)AnalizeOptionsValues["motiveLow"]);
+                    InvokeProgressEvent(GraphProgress.Analizing, 90, "Motiv of " + minvalue + "-" + maxValue + "degree");
+                    Result.MotivesCount = analyzer.GetMotivs(minvalue, maxValue);
+                }
+
+                Result.graphSize = analyzer.Container.Size;
+
+                InvokeProgressEvent(GraphProgress.AnalizingDone, 95);
+
+            }
+            catch (Exception ex)
+            {
+                InvokeFailureProgressEvent(GraphProgress.AnalizingFailed, "ENTER FAIL REASON HERE");
+                //RETHROW EXCEPTION
+            }
+            finally
+            {
+                InvokeProgressEvent(GraphProgress.Done, 100);
+            }
+        }
 
         /// <summary>
         /// Check input generation parameters. 
@@ -289,7 +434,7 @@ namespace RandomGraph.Common.Model
             {
                 return;
             }
-            AnalizeModel();
+            AnalyzeModel();
         }
 
         /// <summary>

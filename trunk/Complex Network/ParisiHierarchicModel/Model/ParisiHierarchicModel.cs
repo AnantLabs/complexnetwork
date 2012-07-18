@@ -82,7 +82,7 @@ namespace Model.ParisiHierarchicModel
             InvokeProgressEvent(GraphProgress.Ready);
         }
 
-        protected override void GenerateModel()
+        /*protected override void GenerateModel()
         {
             InvokeProgressEvent(GraphProgress.StartingGeneration, 5);
             try
@@ -238,7 +238,7 @@ namespace Model.ParisiHierarchicModel
             {
                 //Place clean up code here
             }
-        }
+        }*/
 
         public override bool CheckGenerationParams(int instances)
         {
