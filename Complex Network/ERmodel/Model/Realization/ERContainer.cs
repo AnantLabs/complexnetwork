@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using log4net;
-using NumberGeneration;
 
 using CommonLibrary.Model;
+using log4net;
 
 namespace Model.ERModel.Realization
 {
+    // Реализация контейнера (ER).
     public class ERContainer : IGraphContainer
     {
         // Организация Работы с лог файлом.
@@ -19,9 +19,6 @@ namespace Model.ERModel.Realization
         private SortedDictionary<int, List<int>> neighbourship;
         // Список степеней вершин графа.
         private List<int> degrees;
-
-        // !Исправить!
-        private RNGCrypto r = new RNGCrypto();
 
         // Конструктор по умолчанию для контейнера.
         public ERContainer()
@@ -37,7 +34,7 @@ namespace Model.ERModel.Realization
             get { return size; }
             set 
             {
-                log.Info("Creating ERContainer object with given size");
+                log.Info("Creating ERContainer object with given size.");
                 size = value;                
                 for (int i = 0; i < size; ++i)
                 {
@@ -60,7 +57,7 @@ namespace Model.ERModel.Realization
         // Строится граф на основе матрицы смежности.
         public void SetMatrix(ArrayList matrix)
         {
-            log.Info("Creating ERContainer object from given matrix");
+            log.Info("Creating ERContainer object from given matrix.");
             size = matrix.Count;
             neighbourship = new SortedDictionary<int, List<int>>();
             ArrayList neighbourshipOfIVertex = new ArrayList();
@@ -74,6 +71,7 @@ namespace Model.ERModel.Realization
         // Возвращается матрица смежности, соответсвующая графу.
         public bool[,] GetMatrix()
         {
+            log.Info("Getting matrix from ERContainer object.");
             bool[,] matrix = new bool[neighbourship.Count, neighbourship.Count];
 
             for (int i = 0; i < neighbourship.Count; i++)
@@ -98,8 +96,18 @@ namespace Model.ERModel.Realization
             return matrix;
         }
 
+        // Методы не из общего интерфейса.
 
-        // Закрытая часть класса (не из общего интерфейса). // 
+        // Добавление ребра между данными вершинами.
+        public void AddEdge(int i, int j)
+        {
+            neighbourship[i].Add(j);
+            neighbourship[j].Add(i);
+            ++degrees[i];
+            ++degrees[j];
+        }
+
+        // Закрытая часть класса (не из общего интерфейса).
 
         private void SetDataToDictionary(int index, ArrayList neighbourshipOfIVertex)
         {
@@ -113,6 +121,7 @@ namespace Model.ERModel.Realization
             }
         }
 
+        // Добавление вершины (не имеющий соседей). Не используется.
         private void AddVertex()
         {
             neighbourship.Add(size, new List<int>());
@@ -120,44 +129,13 @@ namespace Model.ERModel.Realization
             degrees.Add(0);
         }
 
-        private int CountVertexDegree(int i)
-        {
-            return neighbourship[i].Count;
-        }
-
-        private void FillContainerByProbability(double p)
-        {
-            for (int i = 0; i < size; ++i)
-            {
-                for (int j = i + 1; j < size; ++j)
-                {
-                    double a = r.NextDouble();
-                    if (a < p)
-                    {
-                        AddEdge(i, j);
-                        ++degrees[i];
-                        ++degrees[j];
-                    }
-                }
-            }
-        }
-
-        private int GetDegree(int i)
-        {
-            return degrees[i];
-        }        
-
-        private void AddEdge(int i, int j)
-        {
-            neighbourship[i].Add(j);
-            neighbourship[j].Add(i);
-        }
-
+        // Проверяет являются ли данные вершины соседями (true - если да). Не используется.
         private bool AreNeighbours(int i, int j)
         {
             return neighbourship[i].Contains(j);
         }
 
+        // Возвращает степень графа (сумма всеь степеней вершин). Не используется.
         private int CountGraphDegree()
         {
             int sum = 0;
@@ -165,6 +143,12 @@ namespace Model.ERModel.Realization
                 sum += CountVertexDegree(i);
 
             return sum;
+        }
+
+        // Возвращает число соседей данной вершины.
+        private int CountVertexDegree(int i)
+        {
+            return neighbourship[i].Count;
         }
     }
 }

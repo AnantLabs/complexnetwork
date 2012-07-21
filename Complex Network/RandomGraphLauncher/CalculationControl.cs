@@ -345,32 +345,34 @@ namespace RandomGraphLauncher
             log.Info("Start button clicked");
             try
             {
-                controller.genParams.Clear();
-                foreach (GenerationParam paramType in genParamBoxes.Keys)
+                if (Options.GenerationMode.randomGeneration == Options.Generation)
                 {
-                    string a = genParamBoxes[paramType].Text;
-                    GenerationParamInfo paramInfo = (GenerationParamInfo)(paramType.GetType().GetField(paramType.ToString()).GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);
-                    if (paramInfo.Type.Equals(typeof(Double)))
+                    controller.genParams.Clear();
+                    foreach (GenerationParam paramType in genParamBoxes.Keys)
                     {
-                        controller.genParams.Add(paramType, Convert.ToDouble(a, CultureInfo.InvariantCulture));
+                        string a = genParamBoxes[paramType].Text;
+                        GenerationParamInfo paramInfo = (GenerationParamInfo)(paramType.GetType().GetField(paramType.ToString()).GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);
+                        if (paramInfo.Type.Equals(typeof(Double)))
+                        {
+                            controller.genParams.Add(paramType, Convert.ToDouble(a, CultureInfo.InvariantCulture));
+                        }
+                        else if (paramInfo.Type.Equals(typeof(Int16)))
+                        {
+                            controller.genParams.Add(paramType, Convert.ToInt16(a));
+                        }
+                        else if (paramInfo.Type.Equals(typeof(Int32)))
+                        {
+                            controller.genParams.Add(paramType, Convert.ToInt32(a));
+                        }
+                        else if (paramInfo.Type.Equals(typeof(String)))
+                        {
+                            controller.genParams.Add(paramType, a);
+                        }
+                        else if (paramInfo.Type.Equals(typeof(bool)))
+                        {
+                            controller.genParams.Add(paramType, Convert.ToBoolean(((CheckBox)genParamBoxes[paramType]).Checked));
+                        }
                     }
-                    else if (paramInfo.Type.Equals(typeof(Int16)))
-                    {
-                        controller.genParams.Add(paramType, Convert.ToInt16(a));
-                    }
-                    else if (paramInfo.Type.Equals(typeof(Int32)))
-                    {
-                        controller.genParams.Add(paramType, Convert.ToInt32(a));
-                    }
-                    else if (paramInfo.Type.Equals(typeof(String)))
-                    {
-                        controller.genParams.Add(paramType, a);
-                    }
-                    else if (paramInfo.Type.Equals(typeof(bool)))
-                    {
-                        controller.genParams.Add(paramType, Convert.ToBoolean(((CheckBox)genParamBoxes[paramType]).Checked));
-                    }
-
                 }
             }
             catch (FormatException ex)
@@ -407,7 +409,8 @@ namespace RandomGraphLauncher
                 setButtonEnabled(stopButton, true);
 
                 Thread.CurrentThread.Priority = ThreadPriority.Highest;
-                Tuple<Dictionary<GenerationParam, object>, AnalyseOptions> tmp = Tuple.Create<Dictionary<GenerationParam, object>, AnalyseOptions>(controller.genParams, selectedOptions);
+                Tuple<Dictionary<GenerationParam, object>, AnalyseOptions> tmp = 
+                    Tuple.Create<Dictionary<GenerationParam, object>, AnalyseOptions>(controller.genParams, selectedOptions);
                 backgroundStartWorker.RunWorkerAsync(tmp);
             }
             else
