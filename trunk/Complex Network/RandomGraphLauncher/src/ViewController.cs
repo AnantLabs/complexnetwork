@@ -114,11 +114,16 @@ namespace RandomGraphLauncher.src
 
         public bool CheckGenerationParams(AnalyseOptions selectedOptions)
         {
-            Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), typeof(AnalyseOptions), typeof(int) };
-            object[] invokeParams = new object[] { genParams, selectedOptions, 0 };
-            AbstractGraphModel graphModel = (AbstractGraphModel)this.modelType.GetConstructor(constructTypes).Invoke(invokeParams);
-            errorMessage = graphModel.GetParamsInfo();
-            return graphModel.CheckGenerationParams(this.instances);
+            if (Options.GenerationMode.randomGeneration == Options.Generation)
+            {
+                Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), typeof(AnalyseOptions), typeof(int) };
+                object[] invokeParams = new object[] { genParams, selectedOptions, 0 };
+                AbstractGraphModel graphModel = (AbstractGraphModel)this.modelType.GetConstructor(constructTypes).Invoke(invokeParams);
+                errorMessage = graphModel.GetParamsInfo();
+                return graphModel.CheckGenerationParams(this.instances);
+            }
+            else
+                return true;    // !Исправить!
         }
 
         public int ResultCount()

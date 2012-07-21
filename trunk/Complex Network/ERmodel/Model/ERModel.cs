@@ -7,14 +7,12 @@ using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model.Status;
 using CommonLibrary.Model.Attributes;
 using Model.ERModel.Realization;
-using System.Threading;
-using Algorithms;
 using log4net;
 
 namespace Model.ERModel
 {
     // Атрибуты модели (ER).
-    [GraphModel("ERModel", GenerationRule.Sequential, "ERModel graph model")]
+    [GraphModel("ERModel", GenerationRule.Sequential, "Erdos-Renyi Model")]
     [AvailableAnalyzeOptions(
          AnalyseOptions.AveragePath |
          AnalyseOptions.Diameter |
@@ -41,27 +39,20 @@ namespace Model.ERModel
         public ERModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, int sequenceNumber)
             : base(genParam, options, sequenceNumber)
         {
-            log.Info("Creating ERModel object");
-            ValidateModelParams();
+            log.Info("Creating ERModel object with generation parameters.");
             InitModel();
         }
 
         public ERModel(ArrayList matrix, AnalyseOptions options, int sequenceNumber)
             :base(matrix, options, sequenceNumber)
         {
-            log.Info("Creating ERModel object");
-            ValidateModelParams();
+            log.Info("Creating ERModel object from matrix.");
             InitModel();
-        }
-
-        private void ValidateModelParams()
-        {
-            // !Добавить проверку параметров!
         }
 
         private void InitModel()
         {
-            log.Info("Started model initialization");
+            log.Info("Started model initialization.");
             InvokeProgressEvent(GraphProgress.Initializing, 0);
             ModelName = MODEL_NAME;
 
@@ -86,6 +77,7 @@ namespace Model.ERModel
                 AnalyseOptions.MinPathDist;   
          
             // Определение генератора и анализатора для данной модели (ER).
+            log.Info("Creating generator and analyzer for model.");
             generator = new ERGenerator();
             analyzer = new ERAnalyzer((ERContainer)generator.Container);
           
@@ -93,6 +85,7 @@ namespace Model.ERModel
             log.Info("Finished model initialization");
         }
         
+        // Проверка параметров генерации.
         public override bool CheckGenerationParams(int instances)
         {
             System.Diagnostics.PerformanceCounter ramCounter = new System.Diagnostics.PerformanceCounter("Memory", "Available Bytes");
@@ -103,11 +96,14 @@ namespace Model.ERModel
                    && (int)GenerationParamValues[GenerationParam.Vertices] < 32000;
         }
 
+        // Получение дополнительной информации о параметраь генерации.
+        // Для данной модели (ER) таковых нет.
         public override string GetParamsInfo()
         {
             return "";
         }
 
+        // Получение матрицы смежности из контейнера.
         public override bool[,] GetMatrix()
         {
             return analyzer.Container.GetMatrix();

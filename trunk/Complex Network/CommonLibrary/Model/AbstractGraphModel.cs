@@ -185,6 +185,8 @@ namespace RandomGraph.Common.Model
         {
             InvokeProgressEvent(GraphProgress.StartingAnalizing);
 
+            analyzer.Container = generator.Container;
+
             try
             {
                 if ((AnalizeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
@@ -226,14 +228,7 @@ namespace RandomGraph.Common.Model
                 if ((AnalizeOptions & AnalyseOptions.EigenValue) == AnalyseOptions.EigenValue)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 50, "Calculating EigenValues");
-                    Result.EigenVector = new ArrayList();
-
-                    // !Плохо написано!
-                    /*Algorithms.EigenValue ev = new EigenValue();
-                    ArrayList al = new ArrayList();
-                    bool[,] m = GetMatrix();
-                    Result.EigenVector = ev.EV(m);
-                    Result.DistancesBetweenEigenValues = ev.CalcEigenValuesDist();*/
+                    Result.EigenVector = analyzer.GetEigenValues();
                 }
 
                 if ((AnalizeOptions & AnalyseOptions.DistEigenPath) == AnalyseOptions.DistEigenPath)

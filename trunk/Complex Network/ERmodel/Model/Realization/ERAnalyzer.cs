@@ -5,123 +5,118 @@ using System.Linq;
 
 using Model.ERModel.Realization;
 using CommonLibrary.Model;
-using log4net;
 using Algorithms;
+using log4net;
 
 namespace Model.ERModel.Realization
 {
+    // Реализация анализатора (ER).
     public class ERAnalyzer : AbstarctGraphAnalyzer
     {
-        // Организация Работы с лог файлом. !Использовать ключевое слово new!
-        protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(ERAnalyzer));
+        // Организация работы с лог файлом.
+        protected static readonly new ILog log = log4net.LogManager.GetLogger(typeof(ERAnalyzer));
 
-        IGraphContainer container;  // пересмотреть!
+        // Контейнер, в котором содержится граф конкретной модели (ER).
+        private ERContainer container;
 
+        // Конструктор, получающий контейнер графа.
         public ERAnalyzer(ERContainer c)
         {
-            log.Info("Creating ERAnalizer object");
-            m_container = c;
-            m_minimal_path_list = new int[m_container.Size];
-
-            m_avgPathLenght = -1;
-            m_avgDegree = -1;
-            m_diameter = -1;
-            m_clusteringCoefficient = -1;
-            m_cyclesOfOrder3 = -1;
-            m_cyclesOfOrder4 = -1;
-            m_maxfullsubgraph = -1;
+            log.Info("Creating ERAnalizer object.");
+            container = c;
         }
 
         // Контейнер, в котором содержится сгенерированный граф (полученный от генератора).
         public override IGraphContainer Container
         {
             get { return container; }
-            set { container = value; }
+            set { container = (ERContainer)value; }
         }
 
         // Возвращается средняя длина пути в графе. Реализовано.
         public override double GetAveragePath()
         {
-            log.Info("GetAveragePath");
+            log.Info("Getting average path length.");
 
-            if (-1 == m_avgPathLenght)
+            if (-1 == avgPathLenght)
             {
                 CountEssentialOptions();
             }
-            return m_avgPathLenght;
+            return avgPathLenght;
         }
 
         // Возвращается диаметр графа. Реализовано.
         public override int GetDiameter()
         {
-            log.Info("GetDiameter");
-            if (-1 == m_diameter)
+            log.Info("Getting diameter.");
+
+            if (-1 == diameter)
             {
                 CountEssentialOptions();
             }
-            return m_diameter;
+            return diameter;
         }
 
         // Возвращается число циклов длиной 3 в графе. Реализовано.
         public override int GetCycles3()
         {
-            log.Info("GetCycles3");
+            log.Info("Getting count of cycles - order 3.");
             int count = 0;
-            for (int i = 0; i < m_container.Size; ++i)
+            for (int i = 0; i < container.Size; ++i)
             {
-                List<int> nbs = m_container.Neighbourship[i];
+                List<int> nbs = container.Neighbourship[i];
                 for (int j = 0; j < nbs.Count; ++j)
                 {
-                    List<int> tmp = m_container.Neighbourship[nbs[j]];
+                    List<int> tmp = container.Neighbourship[nbs[j]];
                     count += nbs.Intersect(tmp).Count();
                 }
             }
-            m_cyclesOfOrder3 = count / 6;
 
-            return m_cyclesOfOrder3;
+            return count / 6;
         }
 
         // Возвращается число циклов длиной 4 в графе. Реализовано.
         public override int GetCycles4()
         {
-            log.Info("GetCycles4");
+            log.Info("Getting count of cycles - order 4.");
             int count = 0;
-            for (int i = 0; i < m_container.Size; ++i)
+            for (int i = 0; i < container.Size; ++i)
             {
-                List<int> nbs = m_container.Neighbourship[i];
+                List<int> nbs = container.Neighbourship[i];
 
                 for (int j = 0; j < nbs.Count; ++j)
                 {
-                    List<int> lj = m_container.Neighbourship[nbs[j]];
+                    List<int> lj = container.Neighbourship[nbs[j]];
 
                     for (int k = 0; k < nbs.Count; ++k)
                     {
                         if (k != j)
                         {
-                            List<int> lk = m_container.Neighbourship[nbs[k]];
+                            List<int> lk = container.Neighbourship[nbs[k]];
                             count += (lj.Intersect(lk).Count() - 1);
                         }
                     }
                 }
             }
-            m_cyclesOfOrder4 = count / 8;
 
-            return m_cyclesOfOrder4;
+            return count / 8;
         }
 
         // Возвращается массив собственных значений матрицы смежности. Реализовано.
         public override ArrayList GetEigenValues()
         {
+            log.Info("Getting eigen values array.");
             Algorithms.EigenValue ev = new EigenValue();
-            bool[,] m = m_container.GetMatrix();
+            bool[,] m = container.GetMatrix();
             return ev.EV(m);
         }
 
         // Возвращается распределение длин между собственными значениями. Реализовано.
         public override SortedDictionary<double, int> GetDistEigenPath()
         {
+            log.Info("Getting distances between eigen values.");
             Algorithms.EigenValue ev = new EigenValue();
-            bool[,] m = m_container.GetMatrix();
+            bool[,] m = container.GetMatrix();
             ev.EV(m);
             return ev.CalcEigenValuesDist();
         }
@@ -129,140 +124,109 @@ namespace Model.ERModel.Realization
         // Возвращается степенное распределение графа. Реализовано.
         public override SortedDictionary<int, int> GetDegreeDistribution()
         {
-            log.Info("GetDegreeDistribution");
-
-            if (null == m_degreeDistribution)
-            {
-                CountDegreeDestribution();
-            }
-            return m_degreeDistribution;
+            log.Info("Getting degree distribution.");
+            return CountDegreeDestribution();
         }
 
         // Возвращается распределение коэффициентов кластеризации графа. Реализовано.
         public override SortedDictionary<double, int> GetClusteringCoefficient()
         {
-            log.Info("GetClusteringCoefficient");
-
-            if (null == m_vertexClusteringCoefficient)
-            {
-                CountGraphClusteringCoefficient();
-            }
-            return m_vertexClusteringCoefficient;
+            log.Info("Getting clustering coefficients.");
+            return CountGraphClusteringCoefficient();
         }
 
         // Возвращается распределение длин минимальных путей в графе. Реализовано.
         public override SortedDictionary<int, int> GetMinPathDist()
         {
-            log.Info("GetMinPathDist");
+            log.Info("Getting minimal distances between vertices.");
 
-            if (null == m_pathDistribution)
+            if (-1 == avgPathLenght)
             {
                 CountEssentialOptions();
             }
-            return m_pathDistribution;
+
+            return pathDistribution;
         }
 
 
         // Закрытая часть класса (не из общего интерфейса). //
 
-        private ERContainer m_container;
+        private int[] minimalPathList;
+        private double avgPathLenght = -1;
+        private int diameter = -1;
+        private SortedDictionary<int, int> pathDistribution = new SortedDictionary<int,int>();
+
+        // Внутренный тип для работы BFS алгоритма.
         private class Node
         {
-            public int n_length;
-            public bool n_visited;
+            public int length = -1;
+            public bool visited = false;
 
-            public Node()
-            {
-                n_length = -1;
-                n_visited = false;
-            }
+            public Node() { }
         }
 
-        private int[] m_minimal_path_list;
-
-        //members for storage of options value
-        private double m_avgPathLenght;
-        private double m_avgDegree;
-        private int m_diameter;
-        private double m_clusteringCoefficient;
-        private SortedDictionary<double, int> m_vertexClusteringCoefficient;
-        private SortedDictionary<int, int> m_degreeDistribution;//count the number of vertex that have i degrees
-        private SortedDictionary<int, int> m_pathDistribution;
-        private int m_cyclesOfOrder3;
-        private int m_cyclesOfOrder4;
-        private int m_maxfullsubgraph;
-        private ArrayList ArrayOfEigVal;
-
+        // Реализация BFS алгоритма.
         private void bfs(int s)
         {
+            minimalPathList = new int[container.Size];
             Queue<int> queue = new Queue<int>();
-            Node[] nodes = new Node[m_container.Size];
-            for (int i = 0; i < m_container.Size; ++i)
+            Node[] nodes = new Node[container.Size];
+            for (int i = 0; i < container.Size; ++i)
             {
-                m_minimal_path_list[i] = -1;
+                minimalPathList[i] = -1;
                 nodes[i] = new Node();
             }
 
-            nodes[s].n_length = 0;
-            nodes[s].n_visited = true;
+            nodes[s].length = 0;
+            nodes[s].visited = true;
 
-            m_minimal_path_list[s] = 0;
+            minimalPathList[s] = 0;
 
             queue.Enqueue(s);
             while (queue.Count != 0)
             {
                 int t = queue.Dequeue();
-                List<int> tmp = m_container.Neighbourship[t];
+                List<int> tmp = container.Neighbourship[t];
                 for (int i = 0; i < tmp.Count; ++i)
                 {
                     int e = tmp[i];
-                    if (nodes[e].n_visited == false)
+                    if (nodes[e].visited == false)
                     {
-                        nodes[e].n_visited = true;
-                        nodes[e].n_length = nodes[t].n_length + 1;
+                        nodes[e].visited = true;
+                        nodes[e].length = nodes[t].length + 1;
                         queue.Enqueue(e);
-                        m_minimal_path_list[e] = nodes[e].n_length;
+                        minimalPathList[e] = nodes[e].length;
                     }
                 }
             }
         }
 
-        private double GetAverageDegree()
-        {
-            log.Info("GetAverageDegree");
-
-            if (-1 == m_avgDegree)
-            {
-                CountDegreeDestribution();
-            }
-            return m_avgDegree;
-        }
-
+        // Выполняет подсчет сразу 3 свойств - средняя длина пути, диаметр и пути между вершинами.
+        // Нужно вызвать перед получением этих свойств не изнутри.
         private void CountEssentialOptions()
         {
-            log.Info("CountEssentialOptions");
-            int size = m_container.Size;
+            log.Info("Counting essential options.");
+            int size = container.Size;
             int d = 0;
             int count = 0, sum = 0;
-            m_pathDistribution = new SortedDictionary<int, int>();
 
             for (int i = 0; i < size; ++i)
             {
                 bfs(i);
-                d = Math.Max(d, m_minimal_path_list.Max());
+                d = Math.Max(d, minimalPathList.Max());
 
                 for (int j = 0; j < size; ++j)
                 {
-                    int n = m_minimal_path_list[j];
+                    int n = minimalPathList[j];
                     if (n > 0) {
                         sum += n;
-                        if (m_pathDistribution.ContainsKey(n))
+                        if (pathDistribution.ContainsKey(n))
                         {
-                            m_pathDistribution[n]++;
+                            pathDistribution[n]++;
                         }
                         else
                         {
-                            m_pathDistribution.Add(n, 1);
+                            pathDistribution.Add(n, 1);
                         }
                         count++;
                     }
@@ -271,78 +235,70 @@ namespace Model.ERModel.Realization
 
             for (int i = 0; i < size; ++i)
             {
-                if (m_pathDistribution.ContainsKey(i))
+                if (pathDistribution.ContainsKey(i))
                 {
-                    m_pathDistribution[i] /= 2;
+                    pathDistribution[i] /= 2;
                 }
             }
 
-            m_diameter = d;
-            m_avgPathLenght = Math.Round((double)sum / count, 4);
+            diameter = d;
+            avgPathLenght = Math.Round((double)sum / count, 4);
         }
 
-        private void CountDegreeDestribution()
+        // Возвращает распределение степеней.
+        private SortedDictionary<int, int> CountDegreeDestribution()
         {
-            log.Info("CountDegreeDestribution");
+            SortedDictionary<int, int> degreeDistribution = new SortedDictionary<int,int>();
             int avg = 0;
-            m_degreeDistribution = new SortedDictionary<int, int>();
 
-            for (int i = 0; i < m_container.Size; ++i)
+            for (int i = 0; i < container.Size; ++i)
             {
-                int n = m_container.Neighbourship[i].Count;
+                int n = container.Neighbourship[i].Count;
                 avg += n;
-                if (m_degreeDistribution.ContainsKey(n))
+                if (degreeDistribution.ContainsKey(n))
                 {
-                    m_degreeDistribution[n]++;
+                    degreeDistribution[n]++;
                 }
                 else
                 {
-                    m_degreeDistribution.Add(n, 1);
+                    degreeDistribution.Add(n, 1);
                 }
             }
-            m_avgDegree = (double) avg / m_container.Size;
+
+            return degreeDistribution;
         }
 
-        private double GetAvgClusteringCoefficient()
+        // Возвращает коэффициент кластеризации.
+        private SortedDictionary<double, int> CountGraphClusteringCoefficient()
         {
-            log.Info("GetAvgClusteringCoefficient");
-
-            if (-1 == m_clusteringCoefficient)
-            {
-                CountGraphClusteringCoefficient();
-            }
-            return m_clusteringCoefficient;
-        }
-
-        private void CountGraphClusteringCoefficient()
-        {
-            log.Info("CountGraphClusteringCoefficient");
+            log.Info("Counting graph clustering coefficient.");
+            SortedDictionary<double, int> vertexClusteringCoefficient = new SortedDictionary<double, int>();
             double r = 0.0;
             double count = 0.0;
-            int size = m_container.Size;
-            m_vertexClusteringCoefficient = new SortedDictionary<double, int>();
+            int size = container.Size;
 
             for (int i = 0; i < size; ++i)
             {
                 r = Math.Round(GetVertexClusteringCoefficient(i), 4);
-                if (m_vertexClusteringCoefficient.ContainsKey(r))
+                if (vertexClusteringCoefficient.ContainsKey(r))
                 {
-                    m_vertexClusteringCoefficient[r]++;
+                    vertexClusteringCoefficient[r]++;
                 }
                 else
                 {
-                    m_vertexClusteringCoefficient.Add(r, 1);
+                    vertexClusteringCoefficient.Add(r, 1);
                 }
                 count += r;
             }
 
-            m_clusteringCoefficient = Math.Round(count / size, 4);
+            return vertexClusteringCoefficient;
         }
 
+        // Возвращает коэффициент кластеризации данной вершины.
         private double GetVertexClusteringCoefficient(int i)
         {
             int count = 0;
-            List<int> neighbors = m_container.Neighbourship[i];
+            List<int> neighbors = container.Neighbourship[i];
             int neighbor_count = neighbors.Count;
             if (neighbor_count < 2)
             {
@@ -351,7 +307,7 @@ namespace Model.ERModel.Realization
 
             for (int j = 0; j < neighbor_count; ++j)
             {
-                List<int> tmp = m_container.Neighbourship[neighbors[j]];
+                List<int> tmp = container.Neighbourship[neighbors[j]];
                 for (int k = 0; k < neighbor_count; ++k)
                 {
                     if (tmp.Contains(neighbors[k]))

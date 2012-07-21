@@ -95,10 +95,7 @@ namespace AnalyzerFramework.Manager.Impl
             int index = (int)obj;
             try
             {
-                if (Options.Generation == Options.GenerationMode.randomGeneration)
-                {
-                    Models[index].StartGenerate();
-                }
+                Models[index].StartGenerate();
                 if (Options.TracingMode)
                 {
                     Models[index].StartTrace(index, Models[index].ModelName, Assembly.Name);

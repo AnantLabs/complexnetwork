@@ -1,11 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using RandomGraph.Common.Model.Generation;
 using System.Runtime.Serialization;
 using AnalyzerFramework.Manager.ModelRepo;
-using System.Collections;
-
 
 namespace RandomGraph.Common.Model
 {
@@ -24,7 +23,9 @@ namespace RandomGraph.Common.Model
         /// <param name="genParam">Generation params, that should be than passed to models</param>
         /// <param name="analizeOptions">Analyze options selected by user, again should
         /// be passed to model</param>
-        public AbstractGraphFactory(Dictionary<GenerationParam, object> genParam, AnalyseOptions analizeOptions, Dictionary<String, Object> analizeOptionsValues)
+        public AbstractGraphFactory(Dictionary<GenerationParam, object> genParam, 
+            AnalyseOptions analizeOptions, 
+            Dictionary<String, Object> analizeOptionsValues)
         {
             GenerationParamValues = genParam;
             AnalizeOptions = analizeOptions;
