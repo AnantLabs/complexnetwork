@@ -96,22 +96,16 @@ namespace Model.ERModel
                    && (int)GenerationParamValues[GenerationParam.Vertices] < 32000;
         }
 
-        // Получение дополнительной информации о параметраь генерации.
+        // Получение дополнительной информации о параметрах генерации.
         // Для данной модели (ER) таковых нет.
         public override string GetParamsInfo()
         {
             return "";
         }
 
-        // Получение матрицы смежности из контейнера.
-        public override bool[,] GetMatrix()
-        {
-            return analyzer.Container.GetMatrix();
-        }
-
         public override void Dispose()
         {
-            log.Info("disposing...");
+            log.Info("Disposing...");
             generator = null;
             analyzer = null;
             base.Dispose();

@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-using NumberGeneration;
 using RandomGraph.Common.Model.Generation;
 using CommonLibrary.Model;
+using NumberGeneration;
+using log4net;
 
 namespace Model.WSModel.Realization
 {
+    // Реализация генератор (WS).
     public class WSGenerator : IGraphGenerator
     {
-        // Контейнер, в котором содержится граф конкретной модели (ER).
+        // Организация работы с лог файлом.
+        protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(WSGenerator));
+
+        // Контейнер, в котором содержится граф конкретной модели (WS).
         private WSContainer container;
 
         // Конструктор по умолчанию, в котором создается пустой контейнер графа.
@@ -31,17 +34,49 @@ namespace Model.WSModel.Realization
         // Случайным образом генерируется граф, на основе параметров генерации.
         public void RandomGeneration(Dictionary<GenerationParam, object> genParam)
         {
-            /*m_container = new WSContainer(size, param / 2);
-            m_generator = new WSGenerator(prob, size);*/
+            log.Info("Random generation step started.");
+            int numberOfVertices = (Int32)genParam[GenerationParam.Vertices];
+            int numberOfEdges = (Int32)genParam[GenerationParam.Edges];
+            double probability = (Double)genParam[GenerationParam.P];
 
-            int size = container.Size;
+            container.SetParameters(numberOfVertices, numberOfEdges / 2);
             Randomize();
+            FillValuesByProbability(probability);
+            log.Info("Random generation step finished.");
+        }
 
-            for (int i = 1; i < size; ++i)
+        // Строится граф, на основе матрицы смежности.
+        public void StaticGeneration(ArrayList matrix)
+        {
+            log.Info("Static generation started.");
+            container.SetMatrix(matrix);
+            log.Info("Static generation finished.");
+        }
+
+        // Закрытая часть класса (не из общего интерфейса).
+
+        private int currentId = 0;
+        private List<int> collectRandoms = new List<int>();
+
+        public void Randomize()
+        {
+            Random rand = new Random();
+            collectRandoms.Clear();
+
+            for (int i = 0; i < container.Size; ++i)
+            {
+                double rand_number = rand.Next(0, container.Size);
+                collectRandoms.Add((int)rand_number);
+            }
+        }
+
+        private void FillValuesByProbability(double probability)
+        {
+            for (int i = 1; i < container.Size; ++i)
             {
                 List<int> neighbours = new List<int>();
                 List<int> nonNeighbours = new List<int>();
-                for (int k = 0; k < size && k < i; ++k)
+                for (int k = 0; k < container.Size && k < i; ++k)
                 {
                     if (container.AreNeighbours(i, k))
                         neighbours.Add(k);
@@ -54,7 +89,7 @@ namespace Model.WSModel.Realization
                     int size_neighbours = neighbours.Count;
                     for (int j = 0; j < size_neighbours; ++j)
                     {
-                        int r = WSStep(nonNeighbours, neighbours[j]);
+                        int r = WSStep(probability, nonNeighbours, neighbours[j]);
                         if (r != neighbours[j])
                         {
                             container.Disconnect(i, neighbours[j]);
@@ -65,45 +100,12 @@ namespace Model.WSModel.Realization
             }
         }
 
-        // Строится граф, на основе матрицы смежности.
-        public void StaticGeneration(ArrayList matrix)
-        {
-            container.SetMatrix(matrix);
-        }
-
-
-        // Утилиты
-
-        private int currentId = 0;
-        private int size;
-        private double probability;
-        private List<int> collectRandoms;
-
-        /*public WSGenerator(double prob, int size)
-        {
-            m_probability = prob;
-            m_size = size;
-            m_collectRandoms = new List<int>(m_size);
-        }*/
-
-        public void Randomize()
-        {
-            Random rand = new Random();
-            collectRandoms.Clear();
-
-            for (int i = 0; i < size; ++i)
-            {
-                double rand_number = rand.Next(0, size);
-                collectRandoms.Add((int)rand_number);
-            }
-        }
-
-        public int WSStep(List<int> indexes, int index)
+        public int WSStep(double probability, List<int> indexes, int index)
         {
             // select a number from indices with m_prob probability 
             // or return index with 1 - m_prob probability
 
-            if (probability * size > collectRandoms[currentId])
+            if (probability * container.Size > collectRandoms[currentId])
             {
                 int cycleCount = 0;
                 while (collectRandoms[currentId] > indexes.Count - 1)
@@ -113,7 +115,7 @@ namespace Model.WSModel.Realization
                         currentId = 0;
                     else
                         ++currentId;
-                    if (cycleCount > size)
+                    if (cycleCount > container.Size)
                         return index;
                 }
 

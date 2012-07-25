@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-using NumberGeneration;
 using RandomGraph.Common.Model.Generation;
 using CommonLibrary.Model;
+using NumberGeneration;
+using log4net;
 
 namespace Model.BAModel.Realization
 {
+    // Реализация генератор (BA).
     public class BAGenerator : IGraphGenerator
     {
-        private RNGCrypto rand = new RNGCrypto();
-
-        // Контейнер, в котором содержится граф конкретной модели (ER).
+        // Организация работы с лог файлом.
+        protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(BAGenerator));
+        
+        // Контейнер, в котором содержится граф конкретной модели (BA).
         private BAContainer container;
 
         // Конструктор по умолчанию, в котором создается пустой контейнер графа.
@@ -33,28 +34,37 @@ namespace Model.BAModel.Realization
         // Случайным образом генерируется граф, на основе параметров генерации.
         public void RandomGeneration(Dictionary<GenerationParam, object> genParam)
         {
+            log.Info("Random generation step started.");
             int numberOfVertices = (Int32)genParam[GenerationParam.Vertices];
             int edges = (Int16)genParam[GenerationParam.MaxEdges];
-            int addVertices = (Int32)genParam[GenerationParam.AddVertices];
+            int stepCount = (Int32)genParam[GenerationParam.StepCount];
 
-            Generate(addVertices);                
+            container.Size = numberOfVertices;
+            Generate(stepCount);
+            log.Info("Random generation step finished.");
         }
 
         // Строится граф, на основе матрицы смежности.
         public void StaticGeneration(ArrayList matrix)
         {
+            log.Info("Static generation started.");
             container.SetMatrix(matrix);
+            log.Info("Static generation finished.");
         }
 
-        // Утилиты.
-        private void Generate(long countAssamble)
+        // Закрытая часть класса (не из общего интерфейса).
+
+        // Генератор случайного числа.
+        private RNGCrypto rand = new RNGCrypto();
+
+        private void Generate(long stepCount)
         {
-            while (countAssamble > 0)
+            while (stepCount > 0)
             {
                 double[] probabilyArray = container.CountProbabilities();
                 container.AddVertex();
                 container.RefreshNeighbourships(MakeGenerationStep(probabilyArray));
-                countAssamble--;
+                --stepCount;
             }
         }
 

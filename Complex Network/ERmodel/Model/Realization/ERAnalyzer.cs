@@ -106,6 +106,7 @@ namespace Model.ERModel.Realization
         public override ArrayList GetEigenValues()
         {
             log.Info("Getting eigen values array.");
+
             Algorithms.EigenValue ev = new EigenValue();
             bool[,] m = container.GetMatrix();
             return ev.EV(m);
@@ -115,6 +116,7 @@ namespace Model.ERModel.Realization
         public override SortedDictionary<double, int> GetDistEigenPath()
         {
             log.Info("Getting distances between eigen values.");
+
             Algorithms.EigenValue ev = new EigenValue();
             bool[,] m = container.GetMatrix();
             ev.EV(m);
@@ -125,6 +127,7 @@ namespace Model.ERModel.Realization
         public override SortedDictionary<int, int> GetDegreeDistribution()
         {
             log.Info("Getting degree distribution.");
+
             return CountDegreeDestribution();
         }
 
@@ -132,6 +135,7 @@ namespace Model.ERModel.Realization
         public override SortedDictionary<double, int> GetClusteringCoefficient()
         {
             log.Info("Getting clustering coefficients.");
+
             return CountGraphClusteringCoefficient();
         }
 

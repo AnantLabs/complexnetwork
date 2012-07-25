@@ -1,36 +1,33 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using CommonLibrary.Model;
+using log4net;
 
 namespace Model.WSModel.Realization
 {
+    // Реализация контейнера (WS).
     public class WSContainer : IGraphContainer
     {
-        // !Организация Работы с лог файлом!
+        // Организация Работы с лог файлом.
+        protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(WSContainer));
 
         // Число вершин графа.
         private int size = 0;
-        // Число ребер.
+        // Число ребер графа.
         private int edges = 0;
         // ??
         private Dictionary<int, ArrayList> indexes;
 
         // Конструктор по умолчанию для контейнера.
-        public WSContainer()
-        {
-            //log.Info("Creating WSContainer default object.");
-            indexes = new Dictionary<int, ArrayList>();
-        }
+        public WSContainer() { }
 
         // Размер контейнера (число вершин в графе).
         public int Size
         {
             get { return size; }
-            set { }
+            set { } // ??
         }
 
         public int Edges
@@ -43,11 +40,12 @@ namespace Model.WSModel.Realization
             get { return indexes; }
         }
 
+        // Инициализируются поля контейнера, соответствующим для данной модели образом.
         public void SetParameters(int s, int e)
         {
             size = s;
             edges = e;
-            //indexes = new Dictionary<int, ArrayList>(size);
+            indexes = new Dictionary<int, ArrayList>(size);
             indexes.Add(0, new ArrayList(2));
             indexes[0].Add(true);
             indexes[0].Add(new List<int>());
@@ -132,8 +130,9 @@ namespace Model.WSModel.Realization
             return matrix;
         }
 
+        // Методы не из общего интерфейса.
 
-        // 
+        // Возвращается степень данной вершины.
         public int CountDegree(int i)
         {
             int nCount = 0;
@@ -144,13 +143,17 @@ namespace Model.WSModel.Realization
             return nCount;
         }
 
-        public void Neighbours(int i, List<int> neighbours)
+        // Возвращает список соседей данной вершины.
+        public List<int> Neighbours(int i)
         {
+            List<int> neighbours = new List<int>();
             for (int j = 0; j < size; ++j)
                 if (AreNeighbours(i, j))
                     neighbours.Add(j);
+            return neighbours;
         }
 
+        // Проверяет являются ли данные вершины соседями (true - если да).
         public bool AreNeighbours(int i, int j)
         {
             if (i < j)
@@ -161,23 +164,10 @@ namespace Model.WSModel.Realization
             List<int> data = new List<int>(i);
             RestoreData(i, data);
 
-            return ConvertIntToBool(data[j]);
+            return Convert.ToBoolean(data[j]);
         }
 
-        public void RestoreData(int i, List<int> data, bool fromOldMap = false)
-        {
-            Dictionary<int, ArrayList> t_indexes = indexes;
-            List<int> ind = (List<int>)t_indexes[i][1];
-            int var = (bool)t_indexes[i][0] ? 1 : 0;
-            for (int k = 0; k < (int)ind.Count; ++k)
-            {
-                int endIndex = (k + 1 >= (int)indexes.Count) ? i - 1 : ind[k + 1] - 1;
-                for (int j = ind[k]; j <= endIndex; ++j)
-                    data.Insert(j, var);
-                var = var == 1 ? 0 : 1;
-            }
-        }
-
+        // Добавление ребра между данными вершинами.
         public void Connect(int i, int j)
         {
             if (i < j)
@@ -194,6 +184,7 @@ namespace Model.WSModel.Realization
             PressData(i, data);
         }
 
+        // Удаление ребра между данными вершинами.
         public void Disconnect(int i, int j)
         {
             if (i < j)
@@ -212,7 +203,7 @@ namespace Model.WSModel.Realization
 
         public void PressData(int i, List<int> data)
         {
-            indexes[i][0] = ConvertIntToBool(data[0]);
+            indexes[i][0] = Convert.ToBoolean(data[0]);
             List<int> lst = new List<int>();
             lst.Add(0);
             int var = data[0] > 0 ? 1 : 0;
@@ -227,9 +218,18 @@ namespace Model.WSModel.Realization
             indexes[i][1] = lst;
         }
 
-        private bool ConvertIntToBool(int number)
+        public void RestoreData(int i, List<int> data, bool fromOldMap = false)
         {
-            return (number == 0) ? false : true;
+            Dictionary<int, ArrayList> t_indexes = indexes;
+            List<int> ind = (List<int>)t_indexes[i][1];
+            int var = (bool)t_indexes[i][0] ? 1 : 0;
+            for (int k = 0; k < (int)ind.Count; ++k)
+            {
+                int endIndex = (k + 1 >= (int)indexes.Count) ? i - 1 : ind[k + 1] - 1;
+                for (int j = ind[k]; j <= endIndex; ++j)
+                    data.Insert(j, var);
+                var = var == 1 ? 0 : 1;
+            }
         }
 
         public Dictionary<int, List<int>> GetMatrixDict()

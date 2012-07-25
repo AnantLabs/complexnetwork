@@ -25,6 +25,12 @@ namespace StatisticAnalyzer.Analyzer
                 assemblyToAnalyze = assembly;
                 analyzeOptions = new Dictionary<AnalyseOptions, StAnalyzeOptions>();
                 result = new StAnalyzeResult();
+
+                /*GenerationParamInfo paramInfo =
+                    (GenerationParamInfo)(requiredGenerationParam.GenParam.GetType().GetField(
+                    requiredGenerationParam.GenParam.ToString()).GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);*/
+                result.modelName = assemblyToAnalyze[0].ModelType.Name;
+                result.networkSize = assemblyToAnalyze[0].Results[0].graphSize;
             }
             else
                 throw new SystemException("There are no assemblies.");

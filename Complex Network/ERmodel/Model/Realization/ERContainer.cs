@@ -10,7 +10,7 @@ namespace Model.ERModel.Realization
     // Реализация контейнера (ER).
     public class ERContainer : IGraphContainer
     {
-        // Организация Работы с лог файлом.
+        // Организация pаботы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(ERContainer));
 
         // Число вершин графа.
