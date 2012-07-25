@@ -10,32 +10,135 @@ using ZedGraph;
 using RandomGraph.Common.Model;
 using CommonLibrary.Model.Attributes;
 using RandomGraph.Common.Model.Generation;
+using StatisticAnalyzer.Viewer;
+using StatisticAnalyzer.Analyzer;
 
 namespace StatisticAnalyzerUI
 {
     public partial class Graphic : Form
     {
-        private Color m_curveColor;
-        private bool m_points;
-        private PointPairList m_pointPair;
-        public StatisticAnalyzer m_parent;
+        private List<StAnalyzeResult> resultsList; // Contains all StAnalyzeResults
 
-        public Graphic(Color c, bool p, SortedDictionary<double, double> d)
+        private Color currentColor; // Color of last graph line
+        private bool currentPointView; // When true, points of the line are linked
+
+ //     public StatisticAnalyzer m_parent; // Don't have an idea what is this about
+
+        private SortedDictionary<AnalyseOptions, ZedGraphControl> graphs; // Contains all ZedGraphsControls 
+        private SortedDictionary<AnalyseOptions, TabPage> pages; // Contains all tabs
+
+        // Constructor and Load event handler
+
+        public Graphic(StAnalyzeResult stAnalyzeResult, Color color, bool pointView)
         {
+            resultsList = new List<StAnalyzeResult>();
+            resultsList.Add(stAnalyzeResult);
+            currentColor = color; 
+            currentPointView = pointView;
+
+            graphs = new SortedDictionary<AnalyseOptions, ZedGraphControl>();
+            pages = new SortedDictionary<AnalyseOptions, TabPage>();
+
             InitializeComponent();
-            Initialization(c, p, d);
+        }
+
+        private void Graphic_Load(object sender, EventArgs e)
+        {
+            Initialization();
+        }
+
+        // Member Functions
+
+        public void Add(StAnalyzeResult stAnalyzeResult, Color color, bool pointView) 
+        {
+            resultsList.Add(stAnalyzeResult);
+            currentColor = color;
+            currentPointView = pointView;
+
+            Initialization();
+        }
+
+        private void Initialization() // Creates tabs if neccesary. Each tab contains a ZedGraphController.
+        {
+            foreach (KeyValuePair<AnalyseOptions, SortedDictionary<double, double>> option
+                in this.resultsList[resultsList.Count - 1].result)
+            {
+                if (!pages.ContainsKey(option.Key))
+                {
+                    TabPage tabPage = new TabPage();
+                    tabPage.Text = option.Key.ToString();
+
+                    ZedGraphControl ZedGraph = new ZedGraphControl();
+                    ZedGraph.Dock = DockStyle.Fill;
+                    tabPage.Controls.Add(ZedGraph);
+
+                    this.optionTabs.Controls.Add(tabPage);
+                    this.pages.Add(option.Key, tabPage);
+                    this.graphs.Add(option.Key, ZedGraph);
+                }
+
+                HandleZedGraph(option.Key);
+            }
+        }
+                    
+        private void HandleZedGraph(AnalyseOptions option) //Draws Graph on each tab
+        {
+            ZedGraphControl zedGraph;
+            this.graphs.TryGetValue(option, out zedGraph);
+
+            if (this.resultsList.Count == 1)
+            {
+                zedGraph.GraphPane.Title.Text = option.ToString();
+            }
+
+            PointPairList points = new PointPairList();
+            SortedDictionary<double, double> pointsDictionary;
+
+            this.resultsList[this.resultsList.Count - 1].result.TryGetValue(option, out pointsDictionary);
+            foreach (KeyValuePair<double, double> point in pointsDictionary)
+            {
+                points.Add(point.Key, point.Value);
+            }
+
+            zedGraph.GraphPane.AddCurve("Mika"/*Name of job or whatever*/, points, this.currentColor, SymbolType.Circle);
+            zedGraph.GraphPane.CurveList[zedGraph.GraphPane.CurveList.Count - 1].IsVisible = this.currentPointView;
+
+            zedGraph.AxisChange();
+            zedGraph.Invalidate();
+            zedGraph.Refresh();
         }
 
         // Event Handlers
 
-        private void Graphic_Load(object sender, EventArgs e)
+        private void optionTabs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (m_pointPair.Count == 0) // если нет точек для рисования графика
+            AnalyseOptions currentOption;
+            currentOption = (AnalyseOptions)Enum.Parse(typeof(AnalyseOptions), optionTabs.SelectedTab.Text);
+
+            int index = 0;
+            for (int i = resultsList.Count - 1; i >= 0; --i)
             {
-                MessageBox.Show("There are no points.");
-                this.Close();
+                if (resultsList[i].result.ContainsKey(currentOption))
+                {
+                    index = i;
+                }
             }
+
+            this.ModelName.Text = this.resultsList[index].modelName;
+            this.NetworkSizeTxt.Text = this.resultsList[index].networkSize.ToString();
+            this.ApproximationTxt.Text = this.resultsList[index].approximationType.ToString();
+            this.PropertyTxt.Text = this.resultsList[index].parameterLine;
+
+            double temp;
+            this.resultsList[index].resultAvgValues.TryGetValue(currentOption, out temp);
+            this.AverageTxt.Text = temp.ToString();
+            this.resultsList[index].resultMathWaitings.TryGetValue(currentOption, out temp);
+            this.MathWaitingTxt.Text = temp.ToString();
+            this.resultsList[index].resultDispersions.TryGetValue(currentOption, out temp);
+            this.DispertionTxt.Text = temp.ToString();
         }
+
+        // Other Event Handlers - not implemented
 
         private void ValueTable_Click(object sender, EventArgs e)
         {
@@ -43,57 +146,20 @@ namespace StatisticAnalyzerUI
 
         private void Save_Click(object sender, EventArgs e)
         {
-            this.ZedGraph.SaveAs();
         }
 
         private void Clear_Click(object sender, EventArgs e)
         {
-            this.ZedGraph.GraphPane.CurveList.Clear();
-            this.ZedGraph.Visible = false;
-            this.ZedGraph.Visible = true;
         }
 
         private void OnClose(object sender, FormClosingEventArgs e)
         {
         }
 
-        // Member Functions //
-
-        public void RefreshGraphic()
-        {
-            GraphPane graphPane = this.ZedGraph.GraphPane;
-            graphPane.Title.Text = "Graphic Name";
-            LineItem line = graphPane.AddCurve("A line information", 
-                this.m_pointPair, 
-                this.m_curveColor, 
-                SymbolType.Circle);
-
-            if (m_points)
-                line.Line.IsVisible = false;
-
-            this.ZedGraph.AxisChange();
-        }
-
         public void TableClosed()
         {
-            this.ValueTable.Enabled = true;
+//            this.ValueTable.Enabled = true;
         }
-
-        // Utilities //
-
-        private void Initialization(Color c, bool p, SortedDictionary<double, double> d)
-        {
-            m_curveColor = c;
-            m_points = p;
-            SetPointPairList(d);
-        }
-
-        private void SetPointPairList(SortedDictionary<double, double> d)
-        {
-            m_pointPair = new PointPairList();
-            SortedDictionary<double, double>.KeyCollection keys = d.Keys;
-            foreach (double key in keys)
-                m_pointPair.Add(key, d[key]);
-        }
+        
     }
 }

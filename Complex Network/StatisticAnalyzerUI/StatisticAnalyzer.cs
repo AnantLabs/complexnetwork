@@ -148,7 +148,7 @@ namespace StatisticAnalyzerUI
         // Analyzers //
         private void GlobalDrawGraphics_Click(object sender, EventArgs e)
         {
-            List<ResultAssembly> res = new List<ResultAssembly>(); ;
+            List<ResultAssembly> res = new List<ResultAssembly>();
             if (this.ByJobsRadio.Checked)
                 res.Add(loader.SelectAssemblyByJob(this.JobsCmb.Text));
             else
@@ -181,6 +181,11 @@ namespace StatisticAnalyzerUI
             StAnalyzeResult result = analyzer.Result;
 
             // Запуск тестового графика.
+
+            Color color;
+            color = (Color)Enum.Parse(typeof(Color), CurveLineCmb.Text);
+            Graphic graphic = new Graphic(result, color, !PointsCheck.Checked);
+            graphic.Show();
         }
 
         private void GetGlobalResult_Click(object sender, EventArgs e)
