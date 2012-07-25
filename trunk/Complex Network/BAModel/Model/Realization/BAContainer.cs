@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using CommonLibrary.Model;
+using log4net;
 
 namespace Model.BAModel.Realization
 {
+    // Реализация контейнера (BA).
     public class BAContainer : IGraphContainer
     {
-        // !Организация Работы с лог файлом!        
+        // Организация pаботы с лог файлом.
+        protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(BAContainer));        
 
         // Число вершин графа.
         private int size = 0;
@@ -22,7 +23,7 @@ namespace Model.BAModel.Realization
         // Конструктор по умолчанию для контейнера.
         public BAContainer()
         {
-            //log.Info("Creating BAContainer default object.");
+            log.Info("Creating BAContainer default object.");
             neighbourship = new SortedDictionary<int, List<int>>();
             degrees = new List<int>();
         }
@@ -33,7 +34,7 @@ namespace Model.BAModel.Realization
             get { return size; }
             set
             {
-                //log.Info("Creating BAContainer object with given size");
+                log.Info("Creating BAContainer object with given size.");
                 size = value;
                 for (int i = 0; i < size; ++i)
                 {
@@ -57,7 +58,7 @@ namespace Model.BAModel.Realization
         // Строится граф на основе матрицы смежности.
         public void SetMatrix(ArrayList matrix)
         {
-            //log.Info("Creating BAContainer object from given matrix");
+            log.Info("Creating BAContainer object from given matrix.");
             size = matrix.Count;
             neighbourship = new SortedDictionary<int, List<int>>();
             ArrayList neighbourshipOfIVertex = new ArrayList();
@@ -71,6 +72,7 @@ namespace Model.BAModel.Realization
         // Возвращается матрица смежности, соответсвующая графу.
         public bool[,] GetMatrix()
         {
+            log.Info("Getting matrix from BAContainer object.");
             bool[,] matrix = new bool[neighbourship.Count, neighbourship.Count];
 
             for (int i = 0; i < neighbourship.Count; i++)
@@ -87,9 +89,11 @@ namespace Model.BAModel.Realization
             }
 
             return matrix;
-
         }
 
+        // Методы не из общего интерфейса.
+
+        // Добавление вершины (не имеющий соседей).
         public void AddVertex()
         {
             neighbourship.Add(size, new List<int>());
@@ -97,20 +101,19 @@ namespace Model.BAModel.Realization
             degrees.Add(0);
         }
 
-        // Закрытая часть класса (не из общего интерфейса). //
-        private void SetDataToDictionary(int index, ArrayList neighbourshipOfIVertex)
-        {
-            neighbourship[index] = new List<int>();
-            for (int j = 0; j < size; j++)
-                if ((bool)neighbourshipOfIVertex[j] == true && index != j)
-                    neighbourship[index].Add(j);
-        }
-
+        // Возвращает число соседей данной вершины.
         public int CountVertexDegree(int i)
         {
             return neighbourship[i].Count;
         }
 
+        // Проверяет являются ли данные вершины соседями (true - если да).
+        public bool AreNeighbours(int i, int j)
+        {
+            return neighbourship[i].Contains(j);
+        }
+
+        // Возвращает массив вероятностей для данного состояния графа.
         public double[] CountProbabilities()
         {
             double[] result = new double[this.size];
@@ -130,6 +133,7 @@ namespace Model.BAModel.Realization
             return result;
         }
 
+        // Обновляет сявзи в графе по сгенерированному вектору.
         public void RefreshNeighbourships(bool[] generatedVector)
         {
             int newVertexDegree = 0, iVertexDegree = 0;
@@ -149,23 +153,24 @@ namespace Model.BAModel.Realization
             ++degrees[newVertexDegree];
         }
 
-        private int GetDegree(int i)
+        // Закрытая часть класса (не из общего интерфейса). //
+
+        private void SetDataToDictionary(int index, ArrayList neighbourshipOfIVertex)
         {
-            return degrees[i];
+            neighbourship[index] = new List<int>();
+            for (int j = 0; j < size; j++)
+                if ((bool)neighbourshipOfIVertex[j] == true && index != j)
+                    neighbourship[index].Add(j);
         }
 
-        // Utilities //
+        // Добавление ребра между данными вершинами.
         private void AddEdge(int i, int j)
         {
             neighbourship[i].Add(j);
             neighbourship[j].Add(i);
         }
 
-        public bool AreNeighbours(int i, int j)
-        {
-            return neighbourship[i].Contains(j);
-        }
-
+        // Возвращает суммарное число степеней в графе.
         private int CountGraphDegree()
         {
             int sum = 0;

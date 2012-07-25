@@ -35,9 +35,6 @@ namespace RandomGraph.Common.Model.Generation
         P = 7,
 
         [GenerationParamInfo(Name = "Step count", Type = typeof(Int32))]
-        StepCount = 8,
-
-        [GenerationParamInfo(Name = "Add Vertices", Type = typeof(Int32))]
-        AddVertices = 9,
+        StepCount = 8
     }
 }

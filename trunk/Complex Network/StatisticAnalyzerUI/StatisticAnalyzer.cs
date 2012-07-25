@@ -181,9 +181,6 @@ namespace StatisticAnalyzerUI
             StAnalyzeResult result = analyzer.Result;
 
             // Запуск тестового графика.
-            Graphic g = new Graphic((Color)this.CurveLineCmb.SelectedItem,
-                this.PointsCheck.Checked,
-                result.result[AnalyseOptions.AveragePath]);
         }
 
         private void GetGlobalResult_Click(object sender, EventArgs e)

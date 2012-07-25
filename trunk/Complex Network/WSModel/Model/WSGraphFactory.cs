@@ -10,7 +10,6 @@ using System.Collections;
 
 namespace Model.WSModel
 {
-
     [TargetGraphModel(typeof(WSModel))]
     public class WSGraphFactory : AbstractGraphFactory
     {

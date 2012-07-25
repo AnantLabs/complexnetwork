@@ -306,9 +306,12 @@ namespace RandomGraph.Common.Model
         public abstract bool CheckGenerationParams(int instances);
 
         /// <summary>
-        /// Converted Graph local strucur to the adjacency matrix.
+        /// Получение матрицы смежности из контейнера.
         /// </summary>
-        public abstract bool[,] GetMatrix();
+        public bool[,] GetMatrix()
+        {
+            return analyzer.Container.GetMatrix();
+        }
 
         /// <summary>
         /// Prints details information of parameters into the form.

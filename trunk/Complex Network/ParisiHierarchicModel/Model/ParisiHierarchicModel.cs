@@ -261,7 +261,7 @@ namespace Model.ParisiHierarchicModel
             return "";
         }
 
-        public override bool[,] GetMatrix()
+        /*public override bool[,] GetMatrix()
         {
             Random random = new Random();
             bool[,] matrix = new bool[3, 3];
@@ -273,6 +273,6 @@ namespace Model.ParisiHierarchicModel
                 }
             }
             return matrix;
-        }
+        }*/
     }
 }

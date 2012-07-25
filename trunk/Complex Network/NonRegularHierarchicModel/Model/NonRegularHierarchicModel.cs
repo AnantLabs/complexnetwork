@@ -219,9 +219,9 @@ namespace Model.NonRegularHierarchicModel
             return "";
         }
 
-        public override bool[,] GetMatrix()
+        /*public override bool[,] GetMatrix()
         {
             return graph.GetMatrix();
-        }
+        }*/
     }
 }

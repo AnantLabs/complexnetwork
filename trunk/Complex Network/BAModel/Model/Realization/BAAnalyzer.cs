@@ -2,45 +2,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+
+using CommonLibrary.Model;
+using Algorithms;
+using Motifs;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
-using RandomGraph.Common.Model;
-using CommonLibrary.Model;
-using Motifs;
 using log4net;
-using Algorithms;
 
 namespace Model.BAModel.Realization
 {
     public class BAAnalyzer : AbstarctGraphAnalyzer
     {
-        // Организация Работы с лог файлом. !Использовать ключевое слово new!
-        protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(BAAnalyzer));
+        // Организация работы с лог файлом.
+        protected static readonly new ILog log = log4net.LogManager.GetLogger(typeof(BAAnalyzer));
 
-        IGraphContainer container;  // пересмотреть!
+        // Контейнер, в котором содержится граф конкретной модели (BA).
+        private BAContainer container;
 
+        // Конструктор, получающий контейнер графа.
         public BAAnalyzer(BAContainer c)
         {
-            m_container = c;
-
-            m_edgesBetweenNeighbours = new List<double>();
-            for (int i = 0; i < m_container.Size; ++i)
-                m_edgesBetweenNeighbours.Add(-1);
-            cyclesCounter = new CyclesCounter(m_container);
+            log.Info("Creating ERAnalizer object.");
+            container = c;
+            Initialization();
         }
 
         // Контейнер, в котором содержится сгенерированный граф (полученный от генератора).
         public override IGraphContainer Container 
         {
             get { return container; }
-            set { container = value; } 
+            set { container = (BAContainer)value; } 
         }
 
         // Возвращается средняя длина пути в графе. Реализовано.
         public override double GetAveragePath()
         {
-            if (startCountAnalyzeOptions != 1)
+            log.Info("Getting average path length.");
+
+            if (1 != startCountAnalyzeOptions)
                 CountAnalyzeOptions();
             return Math.Round(m_avgPath, 14);
         }
@@ -48,7 +48,8 @@ namespace Model.BAModel.Realization
         // Возвращается диаметр графа. Реализовано.
         public override int GetDiameter()
         {
-            log.Info("End count Diametr");
+            log.Info("Getting diameter.");
+
             if (startCountAnalyzeOptions != 1)
                 CountAnalyzeOptions();
             return m_diametr;
@@ -57,6 +58,8 @@ namespace Model.BAModel.Realization
         // Возвращается число циклов длиной 3 в графе. Реализовано.
         public override int GetCycles3()
         {
+            log.Info("Getting count of cycles - order 3.");
+
             if (startCountAnalyzeOptions != 1)
                 CountAnalyzeOptions();
             double m_cyclesOfOrder3 = 0;
@@ -73,6 +76,8 @@ namespace Model.BAModel.Realization
         // Возвращается число циклов длиной 4 в графе. Реализовано.
         public override int GetCycles4()
         {
+            log.Info("Getting count of cycles - order 4.");
+
             int count = 0;
             for (int i = 0; i < m_container.Size; i++)
                 count += CalculatCycles4(i);
@@ -83,6 +88,8 @@ namespace Model.BAModel.Realization
         // Возвращается массив собственных значений матрицы смежности. Реализовано.
         public override ArrayList GetEigenValues()
         {
+            log.Info("Getting eigen values array.");
+
             Algorithms.EigenValue ev = new EigenValue();
             bool[,] m = m_container.GetMatrix();
             return ev.EV(m);
@@ -91,7 +98,8 @@ namespace Model.BAModel.Realization
         // Возвращается степенное распределение графа. Реализовано.
         public override SortedDictionary<int, int> GetDegreeDistribution()
         {
-            log.Info("Start calculat DegreeDistribution");
+            log.Info("Getting degree distribution.");
+
             SortedDictionary<int, int> m_degreeDistribution = new SortedDictionary<int, int>();
             for (int i = 0; i < m_container.Size; ++i)
                 m_degreeDistribution[i] = new int();
@@ -110,9 +118,10 @@ namespace Model.BAModel.Realization
         // Возвращается распределение коэффициентов кластеризации графа. Реализовано.
         public override SortedDictionary<double, int> GetClusteringCoefficient()
         {
+            log.Info("Getting clustering coefficients.");
+
             if (startCountAnalyzeOptions != 1)
                 CountAnalyzeOptions();
-            log.Info("Start calculate ClusteringCoefficient ");
             int iEdgeCountForFullness = 0, iNeighbourCount = 0;
             double iclusteringCoefficient = 0;
             SortedDictionary<double, int> m_iclusteringCoefficient = new SortedDictionary<double, int>();
@@ -142,13 +151,14 @@ namespace Model.BAModel.Realization
                 else
                     m_iclusteringCoefficient[iclusteringCoefficientList[i]] = 1;
             }
-            log.Info("End calculate ClusteringCoefficient ");
             return m_iclusteringCoefficient;
         }
 
         // Возвращается распределение длин минимальных путей в графе. Реализовано.
         public override SortedDictionary<int, int> GetMinPathDist()
         {
+            log.Info("Getting minimal distances between vertices.");
+
             if (startCountAnalyzeOptions != 1)
                 CountAnalyzeOptions();
             return m_pathDistribution;
@@ -157,6 +167,8 @@ namespace Model.BAModel.Realization
         // Возвращается распределение чисел мотивов. Реализовано.
         public override SortedDictionary<int, float> GetMotivs(int lowBound, int hightBound)
         {
+            log.Info("Getting motifs.");
+
             var motivfinder = new MotifFinder();
             var motifisCount = new SortedDictionary<int, float>();
             var motifisCountResult = new SortedDictionary<int, float>();
@@ -173,6 +185,14 @@ namespace Model.BAModel.Realization
 
 
         // Закрытая часть класса (не из общего интерфейса). //
+
+        private void Initialization()
+        {
+            m_edgesBetweenNeighbours = new List<double>();
+            for (int i = 0; i < m_container.Size; ++i)
+                m_edgesBetweenNeighbours.Add(-1);
+            cyclesCounter = new CyclesCounter(m_container);
+        }
 
         // Type definitions //
         private class Node

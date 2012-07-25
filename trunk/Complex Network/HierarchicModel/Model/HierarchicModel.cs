@@ -256,7 +256,7 @@ namespace Model.HierarchicModel
             return "";
         }
 
-        public override bool[,] GetMatrix()
+        /*public override bool[,] GetMatrix()
         {
             int vertexCount = (int)Math.Pow(generator.prime, generator.degree);
             bool[,] matrix = new bool[vertexCount, vertexCount];
@@ -289,7 +289,7 @@ namespace Model.HierarchicModel
                     }
                 }
             }
-            return matrix;*/
-        }
+            return matrix;
+        }*/
     }
 }
