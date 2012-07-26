@@ -7,13 +7,22 @@ using StatisticAnalyzer.Viewer;
 
 namespace StatisticAnalyzer.Analyzer
 {
+    public enum StAnalyzeType
+    {
+        Global,
+        Local,
+        Motif
+    }
+
     public class StAnalyzeResult
     {
+        public StAnalyzeType type;
         public string modelName;
         public string parameterLine;
         public int networkSize;
+        public int realizationsCount;
         public Viewer.ApproximationTypes approximationType;
-        public StAnalyzeOptions options;
+        public SortedDictionary<AnalyseOptions, StAnalyzeOptions> options;
         public SortedDictionary<AnalyseOptions, SortedDictionary<double, double>> result;
         public SortedDictionary<AnalyseOptions, double> resultAvgValues;
         public SortedDictionary<AnalyseOptions, double> resultMathWaitings;
@@ -21,11 +30,13 @@ namespace StatisticAnalyzer.Analyzer
 
         public StAnalyzeResult()
         {
+            type = StAnalyzeType.Global;
             modelName = "";
             parameterLine = "";
             networkSize = 0;
+            realizationsCount = 0;
             approximationType = ApproximationTypes.None;
-            options = new StAnalyzeOptions();
+            options = new SortedDictionary<AnalyseOptions,StAnalyzeOptions>();
 
             result = new SortedDictionary<AnalyseOptions, SortedDictionary<double, double>>();
             resultAvgValues = new SortedDictionary<AnalyseOptions, double>();

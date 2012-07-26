@@ -263,10 +263,13 @@ namespace ResultStorage.Storage
                     resultAssembly.GenerationParams.Add(param, Convert.ToBoolean(paramNode.Attributes["value"].Value));
                 }
             }
+            
             int degree, count, sub, distance;
             double coefficient;
             foreach (XmlNode paramNode in xml.SelectNodes("/assembly/analyseresults/instance"))
             {
+                resultAssembly.Size = Convert.ToInt32(paramNode.SelectSingleNode("Model").Attributes["grapSize"].Value);
+
                 result = new AnalizeResult();
                 results.Add(result);
 
@@ -374,6 +377,8 @@ namespace ResultStorage.Storage
             double coefficient;
             foreach (XmlNode paramNode in xml.SelectNodes("/assembly/analyseresults/instance"))
             {
+                resultAssembly.Size = Convert.ToInt32(paramNode.SelectSingleNode("Model").Attributes["grapSize"].Value);
+
                 result = new AnalizeResult();
                 results.Add(result);
 
