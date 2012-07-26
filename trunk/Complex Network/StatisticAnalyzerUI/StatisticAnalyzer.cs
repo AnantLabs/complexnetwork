@@ -180,11 +180,7 @@ namespace StatisticAnalyzerUI
             analyzer.GlobalAnalyze();
             StAnalyzeResult result = analyzer.Result;
 
-            // Запуск тестового графика.
-
-            Color color;
-            color = (Color)Enum.Parse(typeof(Color), CurveLineCmb.Text);
-            Graphic graphic = new Graphic(result, color, !PointsCheck.Checked);
+            Graphic graphic = new Graphic(result, (Color)this.CurveLineCmb.SelectedItem, !PointsCheck.Checked);
             graphic.Show();
         }
 
@@ -255,6 +251,7 @@ namespace StatisticAnalyzerUI
             analyzer.LocalAnalyze();
 
             StAnalyzeResult result = analyzer.Result;
+            result.type = StAnalyzeType.Local;
             result.approximationType = (ApproximationTypes)Enum.Parse(typeof(ApproximationTypes),
                 this.ApproximationTypeCmb.SelectedItem.ToString());
         }
@@ -477,8 +474,8 @@ namespace StatisticAnalyzerUI
                 
         private void MakeParameters(StAnalyzer analyzer)
         {
-            Dictionary<AnalyseOptions, StAnalyzeOptions> localOptions =
-                new Dictionary<AnalyseOptions, StAnalyzeOptions>();
+            SortedDictionary<AnalyseOptions, StAnalyzeOptions> localOptions =
+                new SortedDictionary<AnalyseOptions, StAnalyzeOptions>();
             int index = 0;
             for (int i = 0; i < this.LocalPropertiesList.Items.Count; ++i)
             {

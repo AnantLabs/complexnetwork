@@ -13,7 +13,7 @@ namespace StatisticAnalyzer.Analyzer
     public class StAnalyzer
     {
         private List<ResultAssembly> assemblyToAnalyze;
-        private Dictionary<AnalyseOptions, StAnalyzeOptions> analyzeOptions;
+        private SortedDictionary<AnalyseOptions, StAnalyzeOptions> analyzeOptions;
         private StAnalyzeResult result;
 
         public AnalyseOptions options = AnalyseOptions.None;
@@ -23,22 +23,25 @@ namespace StatisticAnalyzer.Analyzer
             if (assembly.Count != 0)
             {
                 assemblyToAnalyze = assembly;
-                analyzeOptions = new Dictionary<AnalyseOptions, StAnalyzeOptions>();
+                analyzeOptions = new SortedDictionary<AnalyseOptions, StAnalyzeOptions>();
                 result = new StAnalyzeResult();
 
-                /*GenerationParamInfo paramInfo =
-                    (GenerationParamInfo)(requiredGenerationParam.GenParam.GetType().GetField(
-                    requiredGenerationParam.GenParam.ToString()).GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);*/
                 result.modelName = assemblyToAnalyze[0].ModelType.Name;
-                result.networkSize = assemblyToAnalyze[0].Results[0].graphSize;
+                result.networkSize = assemblyToAnalyze[0].Size;
+                result.parameterLine = GetParameterLine();
+                result.realizationsCount = GetRealizationsCount();
             }
             else
                 throw new SystemException("There are no assemblies.");
         }
 
-        public Dictionary<AnalyseOptions, StAnalyzeOptions> AnalyzeOptions
+        public SortedDictionary<AnalyseOptions, StAnalyzeOptions> AnalyzeOptions
         {
-            set { analyzeOptions = value; }
+            set 
+            { 
+                analyzeOptions = value;
+                result.options = value;
+            }
         }
 
         public StAnalyzeResult Result
@@ -93,6 +96,22 @@ namespace StatisticAnalyzer.Analyzer
         }
 
         // Utilities //
+
+        private string GetParameterLine()
+        {
+            return "Line";
+        }
+
+        private int GetRealizationsCount()
+        {
+            int sum = 0;
+            for (int i = 0; i < assemblyToAnalyze.Count; ++i)
+            {
+                sum += assemblyToAnalyze[i].Results.Count;
+            }
+            
+            return sum;
+        }
 
         private void GlobalAnalyzeByOption(AnalyseOptions option)
         {
