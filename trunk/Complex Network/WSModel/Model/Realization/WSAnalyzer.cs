@@ -31,7 +31,11 @@ namespace Model.WSModel.Realization
         public override IGraphContainer Container
         {
             get { return container; }
-            set { container = (WSContainer)value; }
+            set 
+            { 
+                container = (WSContainer)value;
+                CountNeighbourships();
+            }
         }
 
         // Возвращается средняя длина пути в графе. Реализовано.
@@ -41,7 +45,7 @@ namespace Model.WSModel.Realization
 
             if (-1 == avgPathLenght)
             {
-                CountAvgPathAndDiametr();
+                CountEssentialOptions();
             }
 
             return avgPathLenght;
@@ -54,7 +58,7 @@ namespace Model.WSModel.Realization
 
             if (-1 == diameter)
             {
-                CountAvgPathAndDiametr();
+                CountEssentialOptions();
             }
 
             return diameter;
@@ -81,7 +85,7 @@ namespace Model.WSModel.Realization
 
             if (-1 == cyclesOfOrder4)
             {
-                CountAvgPathAndDiametr();
+                CountEssentialOptions();
             }
 
             return cyclesOfOrder4;
@@ -124,7 +128,7 @@ namespace Model.WSModel.Realization
             {
                 ClusteringCoefficient();
             }
-            return fullSubgraphs;
+            return conSubgraphs;
         }
 
         // Возвращается распределение длин минимальных путей в графе. Реализовано.
@@ -134,7 +138,7 @@ namespace Model.WSModel.Realization
 
             if (-1 == avgPathLenght)
             {
-                CountAvgPathAndDiametr();
+                CountEssentialOptions();
             }
 
             return vertexDistances;
@@ -150,7 +154,7 @@ namespace Model.WSModel.Realization
         private int cyclesOfOrder3 = -1;
         private int cyclesOfOrder4 = -1;
         private SortedDictionary<double, int> coefficients = new SortedDictionary<double, int>();
-        private SortedDictionary<int, int> fullSubgraphs = new SortedDictionary<int, int>();
+        private SortedDictionary<int, int> conSubgraphs = new SortedDictionary<int, int>();
         private SortedDictionary<int, int> vertexDistances = new SortedDictionary<int, int>();
 
         // Внутренный тип для работы BFS алгоритма.
@@ -165,8 +169,6 @@ namespace Model.WSModel.Realization
         // Реализация BFS алгоритма.
         private void BFS(int i, List<Node> nodes)
         {
-            cyclesOfOrder4 = 0;
-
             nodes[i].lenght = 0;
             nodes[i].ancestor = 0;
             Queue<int> q = new Queue<int>();
@@ -208,8 +210,10 @@ namespace Model.WSModel.Realization
 
         // Выполняет подсчет сразу 4 свойств - средняя длина пути, диаметр, циклов 4 и пути между вершинами.
         // Нужно вызвать перед получением этих свойств не изнутри.
-        private void CountAvgPathAndDiametr()
+        private void CountEssentialOptions()
         {
+            cyclesOfOrder4 = 0;
+
             double avg = 0;
             int diametr = 0, k = 0;
             for (int i = 0; i < container.Size; ++i)
@@ -249,6 +253,7 @@ namespace Model.WSModel.Realization
             cyclesOfOrder4 /= 4;
         }
 
+        // Возвращает распределение степеней
         private SortedDictionary<int, int> DegreeDistribution()
         {
             SortedDictionary<int, int>  degreeDistribution = new SortedDictionary<int, int>();
@@ -269,17 +274,23 @@ namespace Model.WSModel.Realization
             return degreeDistribution;
         }
 
+        // Возвращает число соседей для данной вершины.
         private int ReturnNeighboursCount(int i)
         {
             return container.CountDegree(i);
         }
 
+        // Вычисление коэффициента кластеризации для графа.
         private void ClusteringCoefficient()
         {
+            cyclesOfOrder3 = 0;
+
             for (int i = 0; i < container.Size; ++i)
                 ClusteringCoeffForVertex(i);
         }
 
+        // Вычисление коэффициента кластеризации для данной вршины.
+        // Паралелльно вычисляются циклы 3, распределение чисел соединенных подграфов.
         private void ClusteringCoeffForVertex(int index)
         {
             int i = index;
@@ -314,26 +325,27 @@ namespace Model.WSModel.Realization
 
             if (E / K == 1)
             {
-                if (fullSubgraphs.ContainsKey(neighbours + 1))
-                    fullSubgraphs[neighbours + 1]++;
+                if (conSubgraphs.ContainsKey(neighbours + 1))
+                    conSubgraphs[neighbours + 1]++;
                 else
-                    fullSubgraphs.Add(neighbours + 1, 1);
+                    conSubgraphs.Add(neighbours + 1, 1);
             }
         }
 
-        private int CyclesOfOrder3()
+        // Возвращает число циклов 3.
+        private void CyclesOfOrder3()
         {
             cyclesOfOrder3 /= 3;
-            return cyclesOfOrder3;
         }
 
-        private int MaxFullSubGraph()
+        // Возвращает степень максимального соединенного подграфа.
+        private int MaxConSubGraph()
         {
-            int size = fullSubgraphs.Count;
+            int size = conSubgraphs.Count;
             int max = 0;
             for (int i = 0; i < size; ++i)
             {
-                int element = fullSubgraphs.ElementAt(i).Key;
+                int element = conSubgraphs.ElementAt(i).Key;
                 if (max < element)
                     max = element;
             }

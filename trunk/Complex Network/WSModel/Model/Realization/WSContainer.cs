@@ -17,7 +17,7 @@ namespace Model.WSModel.Realization
         private int size = 0;
         // Число ребер графа.
         private int edges = 0;
-        // ??
+        // Список индексов соседей (специализированный для данной модели).
         private Dictionary<int, ArrayList> indexes;
 
         // Конструктор по умолчанию для контейнера.
@@ -201,6 +201,7 @@ namespace Model.WSModel.Realization
             PressData(i, data);
         }
 
+        // Превращение списка соседей в специализированный список индексов.
         public void PressData(int i, List<int> data)
         {
             indexes[i][0] = Convert.ToBoolean(data[0]);
@@ -218,6 +219,7 @@ namespace Model.WSModel.Realization
             indexes[i][1] = lst;
         }
 
+        // Превращение специализированного списка индексов в список соседей.
         public void RestoreData(int i, List<int> data, bool fromOldMap = false)
         {
             Dictionary<int, ArrayList> t_indexes = indexes;
