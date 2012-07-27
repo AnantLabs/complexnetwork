@@ -58,7 +58,7 @@ namespace Model.WSModel.Realization
         private int currentId = 0;
         private List<int> collectRandoms = new List<int>();
 
-        public void Randomize()
+        private void Randomize()
         {
             Random rand = new Random();
             collectRandoms.Clear();
