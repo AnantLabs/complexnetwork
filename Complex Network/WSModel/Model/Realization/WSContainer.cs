@@ -227,7 +227,7 @@ namespace Model.WSModel.Realization
             int var = (bool)t_indexes[i][0] ? 1 : 0;
             for (int k = 0; k < (int)ind.Count; ++k)
             {
-                int endIndex = (k + 1 >= (int)indexes.Count) ? i - 1 : ind[k + 1] - 1;
+                int endIndex = (k + 1 >= (int)ind.Count) ? i - 1 : ind[k + 1] - 1;
                 for (int j = ind[k]; j <= endIndex; ++j)
                     data.Insert(j, var);
                 var = var == 1 ? 0 : 1;
