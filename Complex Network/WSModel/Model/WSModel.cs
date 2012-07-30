@@ -19,10 +19,10 @@ namespace Model.WSModel
         AnalyseOptions.Diameter |
         AnalyseOptions.Cycles3 |
         AnalyseOptions.Cycles4 |
-        AnalyseOptions.EigenValue | 
-        AnalyseOptions.DegreeDistribution |        
-        AnalyseOptions.ClusteringCoefficient |        
-        AnalyseOptions.ConnSubGraph)]    
+        AnalyseOptions.EigenValue |
+        AnalyseOptions.DegreeDistribution |
+        AnalyseOptions.ClusteringCoefficient |
+        AnalyseOptions.ConnSubGraph)]
     [RequiredGenerationParam(GenerationParam.Vertices, 1)]
     [RequiredGenerationParam(GenerationParam.Edges, 2)]
     [RequiredGenerationParam(GenerationParam.P, 7)]

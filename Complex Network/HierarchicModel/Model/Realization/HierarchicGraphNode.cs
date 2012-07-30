@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Model.HierarchicModel.Realization
 {
-    public class node
+    class node
     {
         public BitArray data; // Tree node data
         public node[] childrenPointers; // Pointer array of node children

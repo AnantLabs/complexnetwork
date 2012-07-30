@@ -82,15 +82,14 @@
   <ItemGroup>
     <Compile Include="Model\Realization\EngineForCycles.cs" />
     <Compile Include="Model\Realization\HierarchicAnalyzer.cs" />
-    <Compile Include="Model\Realization\HierarchicGraphGenerator.cs" />
+    <Compile Include="Model\Realization\HierarchicGenerator.cs" />
     <Compile Include="Model\Realization\Engine.cs" />
     <Compile Include="Model\Realization\EngineForConnectedComp.cs" />
-    <Compile Include="Model\Realization\HierarchicGenerator.cs" />
     <Compile Include="Model\Realization\HierarchicGeneratorPerLevel.cs" />
     <Compile Include="Model\HierarchicGraphFactory.cs" />
     <Compile Include="Model\Realization\HierarchicGraphNode.cs" />
     <Compile Include="Model\HierarchicModel.cs" />
-    <Compile Include="Model\Realization\HierarchicGraph.cs" />
+    <Compile Include="Model\Realization\HierarchicContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

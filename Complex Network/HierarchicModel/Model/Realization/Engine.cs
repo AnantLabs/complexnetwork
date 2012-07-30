@@ -1,25 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Model.HierarchicModel.Realization
 {
-    public class Engine
+    // Вспомогательный класс-инженер (для реализации алгоритма Флойда).
+    class Engine
     {
-        public Engine()
-        {
-        }
-
         /// <summary>
-        /// The Floyd Algorithm for geting graphs all vertex pairs min paths lengths
+        /// Статическая функция, реализующая алгоритм Флойда, для вычисления минимальных путей между всеми вершинами графа.
         /// </summary>
         /// <param name="graphMatrix"></param>
         /// <returns></returns>
-        public long[] FloydMinPath(int[,] graphMatrix)
+        static public long[] FloydMinPath(int[,] graphMatrix)
         {
             int n = Convert.ToInt32(Math.Sqrt(graphMatrix.Length));
             int[,] distance = new int[n, n];
+
             //set all 0 elements an infinity values
             for (int v = 0; v < n; ++v)
             {
@@ -35,11 +31,6 @@ namespace Model.HierarchicModel.Realization
                     }
                 }
             }
-
-            /*foreach (Edge e in g.Edges)
-            {
-                distance[e.V0.Number, e.V1.Number] = (int)e.Weight;
-            }*/
 
             for (int i = 0; i < n; ++i)
             {
@@ -61,9 +52,6 @@ namespace Model.HierarchicModel.Realization
 
             int[] info = {0, 0, 0};
             long[] retInfo = {0, 0, 0};
-         /*   Digraph result = new DigraphAsMatrix(n);
-            for (int v = 0; v < n; ++v)
-                result.AddVertex(v);*/
             for (int v = 0; v < n; ++v)
             {
                 for (int w = 0; w < n; ++w)
@@ -92,7 +80,5 @@ namespace Model.HierarchicModel.Realization
 
             return retInfo;
         }
-
-
     }
 }

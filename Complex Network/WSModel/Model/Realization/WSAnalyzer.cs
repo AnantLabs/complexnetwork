@@ -31,8 +31,8 @@ namespace Model.WSModel.Realization
         public override IGraphContainer Container
         {
             get { return container; }
-            set 
-            { 
+            set
+            {
                 container = (WSContainer)value;
                 CountNeighbourships();
             }
@@ -194,7 +194,7 @@ namespace Model.WSModel.Realization
                 }
             }
         }
-        
+
         private void CountNeighbourships()
         {
             neighbourship = new List<int>(container.Size);
@@ -256,7 +256,7 @@ namespace Model.WSModel.Realization
         // Возвращает распределение степеней
         private SortedDictionary<int, int> DegreeDistribution()
         {
-            SortedDictionary<int, int>  degreeDistribution = new SortedDictionary<int, int>();
+            SortedDictionary<int, int> degreeDistribution = new SortedDictionary<int, int>();
             int degreeCount = 0;
 
             for (int i = 0; i < container.Size; ++i)
@@ -351,6 +351,6 @@ namespace Model.WSModel.Realization
             }
 
             return max;
-        } 
+        }
     }
 }
