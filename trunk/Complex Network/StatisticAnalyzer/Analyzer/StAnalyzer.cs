@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 
 using CommonLibrary.Model.Result;
-
+using RandomGraph.Common.Model.Generation;
+using CommonLibrary.Model.Attributes;
 using RandomGraph.Common.Model;
 
 namespace StatisticAnalyzer.Analyzer
@@ -99,7 +100,20 @@ namespace StatisticAnalyzer.Analyzer
 
         private string GetParameterLine()
         {
-            return "Line";
+            string line = "";
+
+            Dictionary<GenerationParam, object> genParams = assemblyToAnalyze[0].GenerationParams;
+            Dictionary<GenerationParam, object>.KeyCollection keys = genParams.Keys;
+            foreach (GenerationParam g in keys)
+            {
+                GenerationParamInfo paramInfo =
+                    (GenerationParamInfo)(g.GetType().GetField(g.ToString()).
+                    GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);
+                line += paramInfo.Name += " = ";
+                line += genParams[g].ToString() + "; ";
+            }
+
+            return line;
         }
 
         private int GetRealizationsCount()

@@ -1,65 +1,86 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections;
-using System.Linq;
-using System.Text;
+using System.Collections.Generic;
+
 using Model.HierarchicModel.Realization;
+using RandomGraph.Common.Model.Generation;
+using CommonLibrary.Model;
+using NumberGeneration;
+using log4net;
 
 namespace Model.ParisiHierarchicModel.Realization
 {
-    class ParisiHierarchicGenerator : HierarchicGraphGenerator
+    // Реализация генератор (Block-Hierarchic Parisi).
+    class ParisiHierarchicGenerator : IGraphGenerator
     {
-        public ParisiHierarchicGenerator(int primeNumber, int degree, double lambda)
-            : base(primeNumber, degree, lambda)
+        // Организация работы с лог файлом.
+        protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(ParisiHierarchicGenerator));
+
+        // Контейнер, в котором содержится граф конкретной модели (Block-Hierarchic Parisi).
+        private HierarchicContainer container;
+
+        // Конструктор по умолчанию, в котором создается пустой контейнер графа.
+        public ParisiHierarchicGenerator()
         {
+            container = new HierarchicContainer();
         }
 
+        // Контейнер, в котором содержится сгенерированный граф.
+        public IGraphContainer Container
+        {
+            get { return container; }
+            set { container = (HierarchicContainer)value; }
+        }
+
+        // Случайным образом генерируется граф, на основе параметров генерации.
+        public void RandomGeneration(Dictionary<GenerationParam, object> genParam)
+        {
+            log.Info("Random generation step started.");
+            Int16 branchIndex = (Int16)genParam[GenerationParam.BranchIndex];
+            Int16 level = (Int16)genParam[GenerationParam.Level];
+            double mu = (Double)genParam[GenerationParam.Mu];
+
+            container.BranchIndex = branchIndex;
+            container.Level = level;
+            container.TreeMatrix = GenerateTree(branchIndex, level, mu);
+            log.Info("Random generation step finished.");
+        }
+
+        // Строится граф, на основе матрицы смежности.
+        public void StaticGeneration(ArrayList matrix)
+        {
+            log.Info("Static generation started.");
+            container.SetMatrix(matrix);
+            log.Info("Static generation finished.");
+        }
+
+        // Закрытая часть класса (не из общего интерфейса).
+
+        // Генератор случайного числа.
+        private RNGCrypto rand = new RNGCrypto();
+        private const int ARRAY_MAX_SIZE = 2000000000;
+
         /// <summary>
-        /// Generates a data of tree level 
+        /// Создает дерево (рекурсивно).
         /// </summary>
         /// <param name="level"></param>
         /// <returns></returns>
-        private void generateData(int level)
+        private BitArray[][] GenerateTree(int b, int d, double m)
         {
-            //loop over all elements of given level and generate him values
-            for (int i = 0; i < this.treeMatrix[this.maxlevel - level].Length; i++)
-            {
-                double k = rand.NextDouble();
-                Boolean val;
-                if (k <= (1 / Math.Pow(this.primeNumber, level * this.lambda)))
-                {
-                    val = true;
-                }
-                else
-                {
-                    val = false;
-                }
-                for (int j = 0; j < this.treeMatrix[this.maxlevel - level][i].Length; j++)
-                {
-                    this.treeMatrix[this.maxlevel - level][i][j] = val;
-                }
-            }
-        }
+            BitArray[][] treeMatrix = new BitArray[d][];
 
-        /// <summary>
-        /// Creates a tree with recursion
-        /// </summary>
-        /// <param name="level"></param>
-        /// <returns></returns>
-        protected override void createTree()
-        {
             //for every level create datas, started with root
-            for (int i = this.maxlevel; i > 0; i--)
+            for (int i = d; i > 0; i--)
             {
                 //get current level data length and bitArrays count
-                int nodeDataLength = (this.primeNumber - 1) * this.primeNumber / 2;
-                long dataLength = Convert.ToInt64(Math.Pow(this.primeNumber, this.maxlevel - i) * nodeDataLength);
+                int nodeDataLength = (b - 1) * b / 2;
+                long dataLength = Convert.ToInt64(Math.Pow(b, d - i) * nodeDataLength);
                 int arrCount = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(dataLength) / ARRAY_MAX_SIZE));
-                this.treeMatrix[this.maxlevel - i] = new BitArray[arrCount];
+                treeMatrix[d - i] = new BitArray[arrCount];
                 int j;
                 double k = rand.NextDouble();
                 Boolean val;
-                if (k <= (1 / Math.Pow(this.primeNumber, i * this.lambda)))
+                if (k <= (1 / Math.Pow(d, i * m)))
                 {
                     val = true;
                 }
@@ -69,10 +90,39 @@ namespace Model.ParisiHierarchicModel.Realization
                 }
                 for (j = 0; j < arrCount - 1; j++)
                 {
-                    this.treeMatrix[this.maxlevel - i][j] = new BitArray(ARRAY_MAX_SIZE, val);
+                    treeMatrix[d - i][j] = new BitArray(ARRAY_MAX_SIZE, val);
                 }
-                this.treeMatrix[this.maxlevel - i][j] = new BitArray(Convert.ToInt32(dataLength - (arrCount - 1) * ARRAY_MAX_SIZE), val);
+                treeMatrix[d - i][j] = new BitArray(Convert.ToInt32(dataLength - (arrCount - 1) * ARRAY_MAX_SIZE), val);
             }
+
+            return treeMatrix;
         }
+
+        /*/// <summary>
+        /// Generates a data of tree level 
+        /// </summary>
+        /// <param name="level"></param>
+        /// <returns></returns>
+        private void GenerateData(BitArray[][] treeMatrix, int level, int b, int d, double m)
+        {
+            //loop over all elements of given level and generate him values
+            for (int i = 0; i < treeMatrix[d - level].Length; i++)
+            {
+                double k = rand.NextDouble();
+                Boolean val;
+                if (k <= (1 / Math.Pow(b, level * m)))
+                {
+                    val = true;
+                }
+                else
+                {
+                    val = false;
+                }
+                for (int j = 0; j < treeMatrix[d - level][i].Length; j++)
+                {
+                    treeMatrix[d - level][i][j] = val;
+                }
+            }
+        }*/
     }
 }

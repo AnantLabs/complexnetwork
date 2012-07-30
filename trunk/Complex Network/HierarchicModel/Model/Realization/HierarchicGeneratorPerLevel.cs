@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Model.HierarchicModel.Realization
 {
-    public class HierarchicGeneratorPerLevel : HierarchicGraphGenerator
+    /*public class HierarchicGeneratorPerLevel : HierarchicGraphGenerator
     {
         public HierarchicGeneratorPerLevel(int primeNumber, int degree, double lambda)
             : base(primeNumber, degree, lambda)
@@ -69,5 +69,5 @@ namespace Model.HierarchicModel.Realization
 
             }
         }
-    }
+    }*/
 }
