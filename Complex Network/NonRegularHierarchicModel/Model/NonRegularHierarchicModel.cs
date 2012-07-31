@@ -1,207 +1,94 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Collections;
+
 using RandomGraph.Common.Model;
 using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model.Status;
 using CommonLibrary.Model.Attributes;
-using System.Threading;
 using Model.NonRegularHierarchicModel.Realization;
+using log4net;
 
 namespace Model.NonRegularHierarchicModel
 {
-    [GraphModel("Non Regular Block-Hierarchic", GenerationRule.Separate, "Non regular block-hierarchic graph model")]
-    [AvailableAnalyzeOptions(AnalyseOptions.DegreeDistribution |
+    // Атрибуты модели (Block-Hierarchic Non Regular).
+    [GraphModel("Block-Hierarchic Non Regular", GenerationRule.Separate, "Block-Hierarchic Non Regular Model")]
+    [AvailableAnalyzeOptions(
         AnalyseOptions.AveragePath |
+        AnalyseOptions.Diameter |
         AnalyseOptions.Cycles3 |
-        AnalyseOptions.FullSubGraph |
         AnalyseOptions.Cycles4 |
-        AnalyseOptions.MinPathDist |
-        AnalyseOptions.DistEigenPath |
-        AnalyseOptions.EigenValue |
-    AnalyseOptions.ClusteringCoefficient)]
-    [RequiredGenerationParam(GenerationParam.BranchIndex, 1)]
-    [RequiredGenerationParam(GenerationParam.Level, 2)]
-    [RequiredGenerationParam(GenerationParam.Mu, 3)]
+        AnalyseOptions.DegreeDistribution |
+        AnalyseOptions.ClusteringCoefficient |
+        AnalyseOptions.DistEigenPath)]
+    [RequiredGenerationParam(GenerationParam.BranchIndex, 3)]
+    [RequiredGenerationParam(GenerationParam.Level, 4)]
+    [RequiredGenerationParam(GenerationParam.Mu, 6)]
 
+    // Реализация модели (Block-Hierarchic Non Regular).
     public class NonRegularHierarchicModel : AbstractGraphModel
     {
+        // Организация работы с лог файлом.
+        protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(NonRegularHierarchicModel));
+
         private static readonly string MODEL_NAME = "Non-Regular Hierarchic";
-        private NonRegularHierarchicGraph graph;
-        private NonRegularHierarchicGenerator graph_generator;
 
         public NonRegularHierarchicModel() { }
 
         public NonRegularHierarchicModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, int sequenceNumber)
             : base(genParam, options, sequenceNumber)
         {
-            ValidateModelParams();
+            log.Info("Creating Block-Hierarchic Non Regular model object from matrix.");
             InitModel();
         }
 
-        private void ValidateModelParams()
+        public NonRegularHierarchicModel(ArrayList matrix, AnalyseOptions options, int sequenceNumber)
+            :base(matrix, options, sequenceNumber)
         {
-            //TODO Put input params validation here
-            //and throw WrongModelParamsException
-
+            log.Info("Creating Block-Hierarchic Non Regular model object from matrix.");
+            InitModel();
         }
 
         private void InitModel()
         {
+            log.Info("Started model initialization.");
             InvokeProgressEvent(GraphProgress.Initializing, 0);
             ModelName = MODEL_NAME;
-            //Defines separate generation rule
+
+            // Проверить правильность
             GenerationRule = GenerationRule.Separate;
 
-            //Defines available options for analizer
-            AvailableOptions = AnalyseOptions.DegreeDistribution |
-                                AnalyseOptions.AveragePath |
-                                AnalyseOptions.Cycles3 |
-                                AnalyseOptions.ClusteringCoefficient |
-                                AnalyseOptions.FullSubGraph |
-                                AnalyseOptions.MinPathDist |
-                                AnalyseOptions.DistEigenPath |
-                                AnalyseOptions.EigenValue |
-                                AnalyseOptions.Cycles4;
-
-            //Defines required input parameters for generation
+            // Определение параметров генерации.
             List<GenerationParam> genParams = new List<GenerationParam>();
-            genParams.Add(GenerationParam.Level);
             genParams.Add(GenerationParam.BranchIndex);
+            genParams.Add(GenerationParam.Level);
             genParams.Add(GenerationParam.Mu);
             RequiredGenerationParams = genParams;
 
-            //Place additional initialization code here
+            // Определение доступных опций для анализа 
+            // (вычисляемые характеристики для данной модели (Block-Hierarchic Non Regular)).
+            AvailableOptions = AnalyseOptions.AveragePath |
+                AnalyseOptions.Diameter |
+                AnalyseOptions.Cycles3 |
+                AnalyseOptions.Cycles4 |
+                AnalyseOptions.DegreeDistribution |
+                AnalyseOptions.ClusteringCoefficient |
+                AnalyseOptions.DistEigenPath;
+
+            // Определение генератора и анализатора для данной модели (Block-Hierarchic Non Regular).
+            log.Info("Creating generator and analyzer for model.");
+            //generator = new NonRegularHierarchicGenerator();
+            //analyzer = new NonRegularHierarchicAnalyzer((NonRegularHierarchicContainer)generator.Container);
 
             InvokeProgressEvent(GraphProgress.Ready);
+            log.Info("Finished model initialization");
         }
 
-        /*protected override void GenerateModel()
-        {
-            InvokeProgressEvent(GraphProgress.StartingGeneration, 0, "Generating");
-            try
-            {
-                //Place generation initialization code here
-
-                InvokeProgressEvent(GraphProgress.Generating, 8);
-
-                graph_generator = new NonRegularHierarchicGenerator((Int16)GenerationParamValues[GenerationParam.BranchIndex],
-                                                        (Int16)GenerationParamValues[GenerationParam.Level],
-                                                        (Double)GenerationParamValues[GenerationParam.Mu]);
-                graph = graph_generator.Graph;
-
-                //Graph assignment is not needed for HEIRARCHIC(NOT NEEDED IF GENERATION 
-                //RULE IS SEPARATE) 
-                InvokeProgressEvent(GraphProgress.GenerationDone, 8);
-
-            }
-            catch (Exception ex)
-            {
-                InvokeFailureProgressEvent(GraphProgress.GenerationFailed, ex.Message);
-                //RETHROW EXCEPTION 
-                throw ex;
-            }
-            finally
-            {
-                //Place clean up code here
-            }
-        }
-
-        protected override void AnalizeModel()
-        {
-            InvokeProgressEvent(GraphProgress.StartingAnalizing);
-
-            try
-            {
-                NonRegularHierarchicAnalyzer analizer = new NonRegularHierarchicAnalyzer(graph);
-                int tasksTimes = 8;
-                tasksTimes += ((AnalizeOptions & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4) ? 150 : 0;
-                tasksTimes += ((AnalizeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient) ? 20 : 0;
-                tasksTimes += ((AnalizeOptions & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3) ? 55 : 0;
-                tasksTimes += ((AnalizeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath) ? 30 : 0;
-                tasksTimes += ((AnalizeOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution) ? 20 : 0;
-                tasksTimes += ((AnalizeOptions & AnalyseOptions.FullSubGraph) == AnalyseOptions.FullSubGraph) ? 5 : 0;
-                int timer = 8;
-
-                if ((AnalizeOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
-                {
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "Degree distrubution");
-                    timer += 100 * 20 / tasksTimes;
-                    Result.VertexDegree = analizer.GetDegreeDistribution();
-                    Result.Result[AnalyseOptions.DegreeDistribution] = 1;
-                    Result.Result[AnalyseOptions.MinPathDist] = 1;
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "");
-                }
-                //Get average path
-
-                if ((AnalizeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
-                {
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "Average path distrubution");
-                    timer += 100 * 30 / tasksTimes;
-
-                    /// KM TODO, create separate block for average path distribution.
-                    Result.DistanceBetweenVertices = analizer.GetMinPathDist();
-
-                    Result.Result[AnalyseOptions.AveragePath] = analizer.GetAveragePath();
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "");
-                }
-                if ((AnalizeOptions & AnalyseOptions.FullSubGraph) == AnalyseOptions.FullSubGraph)
-                {
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "Connected Subgraph");
-                    timer += 100 * 5 / tasksTimes;
-                    Result.FullSubgraphs = analizer.GetConnSubGraph();
-                    Result.Result[AnalyseOptions.FullSubGraph] = 1;
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "");
-                }
-                if ((AnalizeOptions & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3)
-                {
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "Cycles count");
-                    timer += 100 * 55 / tasksTimes;
-                    Result.Result[AnalyseOptions.Cycles3] = analizer.GetCycles3();
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "");
-                }
-                if ((AnalizeOptions & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4)
-                {
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "Count cycles with 4 length");
-                    timer += 100 * 150 / tasksTimes;
-                    Result.Result[AnalyseOptions.Cycles4] = analizer.GetCycles4();
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "");
-                }
-
-                if ((AnalizeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
-                {
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "Clustering Coefficient");
-                    timer += 100 * 20 / tasksTimes;
-                    Result.Coefficient = analizer.GetClusteringCoefficient();
-                    InvokeProgressEvent(GraphProgress.Analizing, timer, "");
-                }
-                if ((AnalizeOptions & AnalyseOptions.EigenValue) == AnalyseOptions.EigenValue)
-                {
-                }
-                //Place analizing logic here
-                //Invoke ModelProgress event if possible to show current
-                //state with use of Percent and TargetItem properties
-
-                //InvokeProgressEvent(GraphProgress.AnalizingDone, 95);
-                InvokeProgressEvent(GraphProgress.Done, 100);
-
-            }
-            catch (ThreadAbortException) { }
-            catch (Exception ex)
-            {
-                InvokeFailureProgressEvent(GraphProgress.AnalizingFailed, ex.Message);
-                //RETHROW EXCEPTION
-                throw ex;
-            }
-            finally
-            {
-                //Place clean up code here
-            }
-        }*/
-
+        // Проверка параметров генерации.
         public override bool CheckGenerationParams(int instances)
         {
-            System.Diagnostics.PerformanceCounter ramCounter = new System.Diagnostics.PerformanceCounter("Memory", "Available Bytes");
+            System.Diagnostics.PerformanceCounter ramCounter = new System.Diagnostics.PerformanceCounter("Memory", 
+                "Available Bytes");
             int branch = (Int16)GenerationParamValues[GenerationParam.BranchIndex];
             int level = (Int16)GenerationParamValues[GenerationParam.Level];
             UInt32 vertexcount = (UInt32)(System.Math.Pow(branch, level));
@@ -209,19 +96,19 @@ namespace Model.NonRegularHierarchicModel
             return processorcount * vertexcount < ramCounter.NextValue();
         }
 
-        public override void Dispose()
-        {
-            // KM TODO
-        }
-
+        // Получение дополнительной информации о параметрах генерации.
+        // Для данной модели (Block-Hierarchic Non Regular) таковых нет.
         public override string GetParamsInfo()
         {
             return "";
         }
 
-        /*public override bool[,] GetMatrix()
+        public override void Dispose()
         {
-            return graph.GetMatrix();
-        }*/
+            log.Info("Disposing...");
+            generator = null;
+            analyzer = null;
+            base.Dispose();
+        }
     }
 }
