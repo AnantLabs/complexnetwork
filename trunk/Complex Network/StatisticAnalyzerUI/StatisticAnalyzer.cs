@@ -216,10 +216,6 @@ namespace StatisticAnalyzerUI
                 analyzer.options |= AnalyseOptions.MaxEigenValue;
 
             analyzer.GlobalAnalyze();
-            
-            StAnalyzeResult result = analyzer.Result;           
-            Information inform = new Information(result.resultAvgValues);
-            inform.Show();
         }
 
         private void LocalDrawGraphics_Click(object sender, EventArgs e)
@@ -474,8 +470,8 @@ namespace StatisticAnalyzerUI
                 
         private void MakeParameters(StAnalyzer analyzer)
         {
-            SortedDictionary<AnalyseOptions, StAnalyzeOptions> localOptions =
-                new SortedDictionary<AnalyseOptions, StAnalyzeOptions>();
+            Dictionary<AnalyseOptions, StAnalyzeOptions> localOptions =
+                new Dictionary<AnalyseOptions, StAnalyzeOptions>();
             int index = 0;
             for (int i = 0; i < this.LocalPropertiesList.Items.Count; ++i)
             {

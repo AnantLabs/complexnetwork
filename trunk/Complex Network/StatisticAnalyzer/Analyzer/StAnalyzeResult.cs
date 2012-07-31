@@ -22,11 +22,11 @@ namespace StatisticAnalyzer.Analyzer
         public int networkSize;
         public int realizationsCount;
         public Viewer.ApproximationTypes approximationType;
-        public SortedDictionary<AnalyseOptions, StAnalyzeOptions> options;
-        public SortedDictionary<AnalyseOptions, SortedDictionary<double, double>> result;
-        public SortedDictionary<AnalyseOptions, double> resultAvgValues;
-        public SortedDictionary<AnalyseOptions, double> resultMathWaitings;
-        public SortedDictionary<AnalyseOptions, double> resultDispersions;
+        public Dictionary<AnalyseOptions, StAnalyzeOptions> options;
+        public Dictionary<AnalyseOptions, SortedDictionary<double, double>> result;
+        public Dictionary<AnalyseOptions, double> resultAvgValues;
+        public Dictionary<AnalyseOptions, double> resultMathWaitings;
+        public Dictionary<AnalyseOptions, double> resultDispersions;
 
         public StAnalyzeResult()
         {
@@ -36,12 +36,12 @@ namespace StatisticAnalyzer.Analyzer
             networkSize = 0;
             realizationsCount = 0;
             approximationType = ApproximationTypes.None;
-            options = new SortedDictionary<AnalyseOptions,StAnalyzeOptions>();
+            options = new Dictionary<AnalyseOptions,StAnalyzeOptions>();
 
-            result = new SortedDictionary<AnalyseOptions, SortedDictionary<double, double>>();
-            resultAvgValues = new SortedDictionary<AnalyseOptions, double>();
-            resultMathWaitings = new SortedDictionary<AnalyseOptions, double>();
-            resultDispersions = new SortedDictionary<AnalyseOptions, double>();
+            result = new Dictionary<AnalyseOptions, SortedDictionary<double, double>>();
+            resultAvgValues = new Dictionary<AnalyseOptions, double>();
+            resultMathWaitings = new Dictionary<AnalyseOptions, double>();
+            resultDispersions = new Dictionary<AnalyseOptions, double>();
         }
     }
 }

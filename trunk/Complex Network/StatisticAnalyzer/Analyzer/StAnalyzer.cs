@@ -14,7 +14,7 @@ namespace StatisticAnalyzer.Analyzer
     public class StAnalyzer
     {
         private List<ResultAssembly> assemblyToAnalyze;
-        private SortedDictionary<AnalyseOptions, StAnalyzeOptions> analyzeOptions;
+        private Dictionary<AnalyseOptions, StAnalyzeOptions> analyzeOptions;
         private StAnalyzeResult result;
 
         public AnalyseOptions options = AnalyseOptions.None;
@@ -24,7 +24,7 @@ namespace StatisticAnalyzer.Analyzer
             if (assembly.Count != 0)
             {
                 assemblyToAnalyze = assembly;
-                analyzeOptions = new SortedDictionary<AnalyseOptions, StAnalyzeOptions>();
+                analyzeOptions = new Dictionary<AnalyseOptions, StAnalyzeOptions>();
                 result = new StAnalyzeResult();
 
                 result.modelName = assemblyToAnalyze[0].ModelType.Name;
@@ -36,7 +36,7 @@ namespace StatisticAnalyzer.Analyzer
                 throw new SystemException("There are no assemblies.");
         }
 
-        public SortedDictionary<AnalyseOptions, StAnalyzeOptions> AnalyzeOptions
+        public Dictionary<AnalyseOptions, StAnalyzeOptions> AnalyzeOptions
         {
             set 
             { 
