@@ -80,10 +80,6 @@ namespace StatisticAnalyzer.Analyzer
                 LocalAnalyzeByOption(AnalyseOptions.ClusteringCoefficient);
             if ((options & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
                 LocalAnalyzeByOption(AnalyseOptions.DegreeDistribution);
-            if ((options & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
-                LocalAnalyzeByOption(AnalyseOptions.ClusteringCoefficient);
-            if ((options & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
-                LocalAnalyzeByOption(AnalyseOptions.DegreeDistribution);
             if ((options & AnalyseOptions.ConnSubGraph) == AnalyseOptions.ConnSubGraph)
                 LocalAnalyzeByOption(AnalyseOptions.ConnSubGraph);
             if ((options & AnalyseOptions.MinPathDist) == AnalyseOptions.MinPathDist)

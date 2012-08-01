@@ -250,6 +250,9 @@ namespace StatisticAnalyzerUI
             result.type = StAnalyzeType.Local;
             result.approximationType = (ApproximationTypes)Enum.Parse(typeof(ApproximationTypes),
                 this.ApproximationTypeCmb.SelectedItem.ToString());
+
+            Graphic graphic = new Graphic(result, (Color)this.CurveLineCmb.SelectedItem, !PointsCheck.Checked);
+            graphic.Show();
         }
 
         private void MotifDrawGraphics_Click(object sender, EventArgs e)
