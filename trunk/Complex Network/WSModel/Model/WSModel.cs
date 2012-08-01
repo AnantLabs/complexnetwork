@@ -65,6 +65,7 @@ namespace Model.WSModel
             genParams.Add(GenerationParam.Vertices);
             genParams.Add(GenerationParam.Edges);
             genParams.Add(GenerationParam.P);
+            genParams.Add(GenerationParam.StepCount);
             RequiredGenerationParams = genParams;
 
             // Определение доступных опций для анализа (вычисляемые характеристики для данной модели (WS)).

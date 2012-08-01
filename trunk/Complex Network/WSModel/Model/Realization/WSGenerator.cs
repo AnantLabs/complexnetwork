@@ -38,10 +38,11 @@ namespace Model.WSModel.Realization
             int numberOfVertices = (Int32)genParam[GenerationParam.Vertices];
             int numberOfEdges = (Int32)genParam[GenerationParam.Edges];
             double probability = (Double)genParam[GenerationParam.P];
+            int stepCount = (Int32)genParam[GenerationParam.StepCount];
 
             container.SetParameters(numberOfVertices, numberOfEdges / 2);
             Randomize();
-            FillValuesByProbability(probability);
+            FillValuesByProbability(probability, stepCount);
             log.Info("Random generation step finished.");
         }
 
@@ -70,33 +71,37 @@ namespace Model.WSModel.Realization
             }
         }
 
-        private void FillValuesByProbability(double probability)
+        private void FillValuesByProbability(double probability, int stepCount)
         {
-            for (int i = 1; i < container.Size; ++i)
+            while (stepCount > 0)
             {
-                List<int> neighbours = new List<int>();
-                List<int> nonNeighbours = new List<int>();
-                for (int k = 0; k < container.Size && k < i; ++k)
+                for (int i = 1; i < container.Size; ++i)
                 {
-                    if (container.AreNeighbours(i, k))
-                        neighbours.Add(k);
-                    else
-                        nonNeighbours.Add(k);
-                }
-
-                if (nonNeighbours.Count > 0)
-                {
-                    int size_neighbours = neighbours.Count;
-                    for (int j = 0; j < size_neighbours; ++j)
+                    List<int> neighbours = new List<int>();
+                    List<int> nonNeighbours = new List<int>();
+                    for (int k = 0; k < container.Size && k < i; ++k)
                     {
-                        int r = WSStep(probability, nonNeighbours, neighbours[j]);
-                        if (r != neighbours[j])
+                        if (container.AreNeighbours(i, k))
+                            neighbours.Add(k);
+                        else
+                            nonNeighbours.Add(k);
+                    }
+
+                    if (nonNeighbours.Count > 0)
+                    {
+                        int size_neighbours = neighbours.Count;
+                        for (int j = 0; j < size_neighbours; ++j)
                         {
-                            container.Disconnect(i, neighbours[j]);
-                            container.Connect(i, r);
+                            int r = WSStep(probability, nonNeighbours, neighbours[j]);
+                            if (r != neighbours[j])
+                            {
+                                container.Disconnect(i, neighbours[j]);
+                                container.Connect(i, r);
+                            }
                         }
                     }
                 }
+                --stepCount;
             }
         }
 
