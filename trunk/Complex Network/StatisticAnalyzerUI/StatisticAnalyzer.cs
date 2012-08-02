@@ -681,9 +681,15 @@ namespace StatisticAnalyzerUI
 
     }
 
-    public struct GraphicCondition
+    public class GraphicCondition
     {
         public bool isOpen;
         public Graphic graphic;
+
+        public GraphicCondition()
+        {
+            isOpen = false;
+            graphic = null;
+        }
     }
 }
