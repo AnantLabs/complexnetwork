@@ -176,7 +176,7 @@ namespace Model.BAModel.Realization
         public override SortedDictionary<int, long> GetCycles(int lowBound, int hightBound)
         {
             log.Info("Getting cycles.");
-
+            cyclesCounter = new CyclesCounter(container);
             SortedDictionary<int, long> cyclesCount = new SortedDictionary<int, long>();
             long count = 0;
             for (int i = lowBound; i <= hightBound; i++)
@@ -277,6 +277,11 @@ namespace Model.BAModel.Realization
         // Нужно вызвать перед получением этих свойств не изнутри.
         private void CountEssentialOptions()
         {
+            if (edgesBetweenNeighbours.Count == 0)
+            {
+                for (int i = 0; i < container.Size; ++i)
+                    edgesBetweenNeighbours.Add(-1);
+            }
             double avg = 0;
             int diametr = 0, k = 0;
 
