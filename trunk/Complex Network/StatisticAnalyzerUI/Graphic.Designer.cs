@@ -29,9 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.Splitter = new System.Windows.Forms.Splitter();
-            this.Clear = new System.Windows.Forms.Button();
-            this.Save = new System.Windows.Forms.Button();
             this.MathWaiting = new System.Windows.Forms.Label();
             this.MathWaitingTxt = new System.Windows.Forms.TextBox();
             this.DispertionTxt = new System.Windows.Forms.TextBox();
@@ -39,6 +36,8 @@
             this.CommonToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.ValueTable = new System.Windows.Forms.Button();
             this.InformationGrp = new System.Windows.Forms.GroupBox();
+            this.realCoutTxt = new System.Windows.Forms.TextBox();
+            this.realCount = new System.Windows.Forms.Label();
             this.PropertyTxt = new System.Windows.Forms.TextBox();
             this.Property = new System.Windows.Forms.Label();
             this.ApproximationTxt = new System.Windows.Forms.TextBox();
@@ -51,46 +50,22 @@
             this.AverageTxt = new System.Windows.Forms.TextBox();
             this.Average = new System.Windows.Forms.Label();
             this.optionTabs = new System.Windows.Forms.TabControl();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.saveButton = new System.Windows.Forms.Button();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.InformationGrp.SuspendLayout();
             this.ResultsGrp.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // Splitter
-            // 
-            this.Splitter.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.Splitter.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Splitter.Location = new System.Drawing.Point(689, 0);
-            this.Splitter.Name = "Splitter";
-            this.Splitter.Size = new System.Drawing.Size(164, 511);
-            this.Splitter.TabIndex = 0;
-            this.Splitter.TabStop = false;
-            // 
-            // Clear
-            // 
-            this.Clear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Clear.Location = new System.Drawing.Point(776, 429);
-            this.Clear.Name = "Clear";
-            this.Clear.Size = new System.Drawing.Size(65, 23);
-            this.Clear.TabIndex = 2;
-            this.Clear.Text = "Clear";
-            this.Clear.UseVisualStyleBackColor = true;
-            this.Clear.Click += new System.EventHandler(this.Clear_Click);
-            // 
-            // Save
-            // 
-            this.Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Save.Location = new System.Drawing.Point(701, 429);
-            this.Save.Name = "Save";
-            this.Save.Size = new System.Drawing.Size(65, 23);
-            this.Save.TabIndex = 3;
-            this.Save.Text = "Save";
-            this.Save.UseVisualStyleBackColor = true;
-            this.Save.Click += new System.EventHandler(this.Save_Click);
             // 
             // MathWaiting
             // 
             this.MathWaiting.AutoSize = true;
-            this.MathWaiting.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.MathWaiting.BackColor = System.Drawing.Color.LightSlateGray;
             this.MathWaiting.Location = new System.Drawing.Point(6, 55);
             this.MathWaiting.Name = "MathWaiting";
             this.MathWaiting.Size = new System.Drawing.Size(70, 13);
@@ -124,7 +99,7 @@
             // Dispersion
             // 
             this.Dispersion.AutoSize = true;
-            this.Dispersion.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.Dispersion.BackColor = System.Drawing.Color.LightSlateGray;
             this.Dispersion.Location = new System.Drawing.Point(6, 94);
             this.Dispersion.Name = "Dispersion";
             this.Dispersion.Size = new System.Drawing.Size(56, 13);
@@ -138,17 +113,19 @@
             // 
             // ValueTable
             // 
-            this.ValueTable.Location = new System.Drawing.Point(701, 386);
+            this.ValueTable.Location = new System.Drawing.Point(84, 442);
             this.ValueTable.Name = "ValueTable";
-            this.ValueTable.Size = new System.Drawing.Size(140, 23);
+            this.ValueTable.Size = new System.Drawing.Size(65, 23);
             this.ValueTable.TabIndex = 8;
-            this.ValueTable.Text = "Table of Values";
+            this.ValueTable.Text = "Values";
             this.ValueTable.UseVisualStyleBackColor = true;
             this.ValueTable.Click += new System.EventHandler(this.ValueTable_Click);
             // 
             // InformationGrp
             // 
-            this.InformationGrp.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.InformationGrp.BackColor = System.Drawing.Color.LightSlateGray;
+            this.InformationGrp.Controls.Add(this.realCoutTxt);
+            this.InformationGrp.Controls.Add(this.realCount);
             this.InformationGrp.Controls.Add(this.PropertyTxt);
             this.InformationGrp.Controls.Add(this.Property);
             this.InformationGrp.Controls.Add(this.ApproximationTxt);
@@ -157,16 +134,34 @@
             this.InformationGrp.Controls.Add(this.NetworkSize);
             this.InformationGrp.Controls.Add(this.ModelNameTxt);
             this.InformationGrp.Controls.Add(this.ModelName);
-            this.InformationGrp.Location = new System.Drawing.Point(701, 24);
+            this.InformationGrp.Location = new System.Drawing.Point(9, 31);
             this.InformationGrp.Name = "InformationGrp";
-            this.InformationGrp.Size = new System.Drawing.Size(140, 181);
+            this.InformationGrp.Size = new System.Drawing.Size(140, 223);
             this.InformationGrp.TabIndex = 9;
             this.InformationGrp.TabStop = false;
             this.InformationGrp.Text = "Information";
             // 
+            // realCoutTxt
+            // 
+            this.realCoutTxt.Location = new System.Drawing.Point(9, 109);
+            this.realCoutTxt.Name = "realCoutTxt";
+            this.realCoutTxt.ReadOnly = true;
+            this.realCoutTxt.Size = new System.Drawing.Size(125, 20);
+            this.realCoutTxt.TabIndex = 9;
+            this.realCoutTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // realCount
+            // 
+            this.realCount.AutoSize = true;
+            this.realCount.Location = new System.Drawing.Point(6, 93);
+            this.realCount.Name = "realCount";
+            this.realCount.Size = new System.Drawing.Size(95, 13);
+            this.realCount.TabIndex = 8;
+            this.realCount.Text = "Realizations Count";
+            // 
             // PropertyTxt
             // 
-            this.PropertyTxt.Location = new System.Drawing.Point(9, 149);
+            this.PropertyTxt.Location = new System.Drawing.Point(9, 187);
             this.PropertyTxt.Name = "PropertyTxt";
             this.PropertyTxt.ReadOnly = true;
             this.PropertyTxt.Size = new System.Drawing.Size(125, 20);
@@ -177,7 +172,7 @@
             // Property
             // 
             this.Property.AutoSize = true;
-            this.Property.Location = new System.Drawing.Point(6, 133);
+            this.Property.Location = new System.Drawing.Point(6, 171);
             this.Property.Name = "Property";
             this.Property.Size = new System.Drawing.Size(46, 13);
             this.Property.TabIndex = 6;
@@ -185,7 +180,7 @@
             // 
             // ApproximationTxt
             // 
-            this.ApproximationTxt.Location = new System.Drawing.Point(9, 110);
+            this.ApproximationTxt.Location = new System.Drawing.Point(9, 148);
             this.ApproximationTxt.Name = "ApproximationTxt";
             this.ApproximationTxt.ReadOnly = true;
             this.ApproximationTxt.Size = new System.Drawing.Size(125, 20);
@@ -196,7 +191,7 @@
             // Approximation
             // 
             this.Approximation.AutoSize = true;
-            this.Approximation.Location = new System.Drawing.Point(6, 94);
+            this.Approximation.Location = new System.Drawing.Point(6, 132);
             this.Approximation.Name = "Approximation";
             this.Approximation.Size = new System.Drawing.Size(73, 13);
             this.Approximation.TabIndex = 4;
@@ -241,14 +236,14 @@
             // 
             // ResultsGrp
             // 
-            this.ResultsGrp.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.ResultsGrp.BackColor = System.Drawing.Color.LightSlateGray;
             this.ResultsGrp.Controls.Add(this.AverageTxt);
             this.ResultsGrp.Controls.Add(this.Average);
             this.ResultsGrp.Controls.Add(this.MathWaiting);
             this.ResultsGrp.Controls.Add(this.DispertionTxt);
             this.ResultsGrp.Controls.Add(this.MathWaitingTxt);
             this.ResultsGrp.Controls.Add(this.Dispersion);
-            this.ResultsGrp.Location = new System.Drawing.Point(701, 222);
+            this.ResultsGrp.Location = new System.Drawing.Point(9, 277);
             this.ResultsGrp.Name = "ResultsGrp";
             this.ResultsGrp.Size = new System.Drawing.Size(140, 142);
             this.ResultsGrp.TabIndex = 10;
@@ -280,39 +275,78 @@
             this.optionTabs.Location = new System.Drawing.Point(0, 0);
             this.optionTabs.Name = "optionTabs";
             this.optionTabs.SelectedIndex = 0;
-            this.optionTabs.Size = new System.Drawing.Size(689, 511);
+            this.optionTabs.Size = new System.Drawing.Size(693, 511);
             this.optionTabs.TabIndex = 11;
             this.optionTabs.SelectedIndexChanged += new System.EventHandler(this.optionTabs_SelectedIndexChanged);
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.LightSlateGray;
+            this.panel1.Controls.Add(this.saveButton);
+            this.panel1.Controls.Add(this.InformationGrp);
+            this.panel1.Controls.Add(this.ResultsGrp);
+            this.panel1.Controls.Add(this.ValueTable);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(156, 511);
+            this.panel1.TabIndex = 10;
+            // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point(9, 442);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(65, 23);
+            this.saveButton.TabIndex = 11;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.Save_Click);
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer1.IsSplitterFixed = true;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.optionTabs);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.panel1);
+            this.splitContainer1.Size = new System.Drawing.Size(853, 511);
+            this.splitContainer1.SplitterDistance = 693;
+            this.splitContainer1.TabIndex = 12;
             // 
             // Graphic
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(853, 511);
-            this.Controls.Add(this.optionTabs);
-            this.Controls.Add(this.ResultsGrp);
-            this.Controls.Add(this.InformationGrp);
-            this.Controls.Add(this.ValueTable);
-            this.Controls.Add(this.Save);
-            this.Controls.Add(this.Clear);
-            this.Controls.Add(this.Splitter);
+            this.Controls.Add(this.splitContainer1);
+            this.MaximizeBox = false;
             this.Name = "Graphic";
             this.Text = "Graphic";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnClose);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Graphic_FormClosing);
             this.Load += new System.EventHandler(this.Graphic_Load);
             this.InformationGrp.ResumeLayout(false);
             this.InformationGrp.PerformLayout();
             this.ResultsGrp.ResumeLayout(false);
             this.ResultsGrp.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Splitter Splitter;
-        private System.Windows.Forms.Button Clear;
-        private System.Windows.Forms.Button Save;
         private System.Windows.Forms.Label MathWaiting;
         private System.Windows.Forms.TextBox MathWaitingTxt;
         private System.Windows.Forms.TextBox DispertionTxt;
@@ -332,6 +366,11 @@
         private System.Windows.Forms.TextBox AverageTxt;
         private System.Windows.Forms.Label Average;
         private System.Windows.Forms.TabControl optionTabs;
+        private System.Windows.Forms.TextBox realCoutTxt;
+        private System.Windows.Forms.Label realCount;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.SplitContainer splitContainer1;
 
 
     }
