@@ -174,19 +174,19 @@ namespace StatisticAnalyzerUI
             {
                 case ApproximationTypes.Degree:
                     {
-                        x = "ln (" + x + ")";
-                        y = "ln (" + y + ")";
+                        x = "Ln (" + x + ")";
+                        y = "Ln (" + y + ")";
                         break;
                     }
                 case ApproximationTypes.Exponential:
                     {
-                        y = "ln (" + y + ")";
+                        y = "Ln (" + y + ")";
                         break;
                     }
                 case ApproximationTypes.Gaus:
                     {
-                        x = "(" + x + ") ^ 2";
-                        y = "ln (" + y + ")";
+                        x = x  + " ^ 2";
+                        y = "Ln (" + y + ")";
                         break;
                     }
                 default:
@@ -295,6 +295,6 @@ namespace StatisticAnalyzerUI
         private void Graphic_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.parent.isOpen = false;
-        }            
+        }        
      }
 }
