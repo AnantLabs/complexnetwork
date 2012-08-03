@@ -215,6 +215,7 @@ namespace StatisticAnalyzerUI
 
             this.ModelNameTxt.Text = this.resultsList[index].modelName;
             this.NetworkSizeTxt.Text = this.resultsList[index].networkSize.ToString();
+            this.realCoutTxt.Text = this.resultsList[0].realizationsCount.ToString();
 
             if (this.resultsList[0].type == StAnalyzeType.Local)
             {
