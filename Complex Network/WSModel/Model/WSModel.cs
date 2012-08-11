@@ -26,6 +26,7 @@ namespace Model.WSModel
     [RequiredGenerationParam(GenerationParam.Vertices, 1)]
     [RequiredGenerationParam(GenerationParam.Edges, 2)]
     [RequiredGenerationParam(GenerationParam.P, 7)]
+    [RequiredGenerationParam(GenerationParam.StepCount, 8)]
 
     // Реализация модели (WS).
     public class WSModel : AbstractGraphModel
