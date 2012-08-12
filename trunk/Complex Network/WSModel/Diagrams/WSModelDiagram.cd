@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Model.WSModel.Realization.WSAnalyzer">
-    <Position X="8.5" Y="0.5" Width="1.75" />
+    <Position X="10.75" Y="5.75" Width="1.75" />
     <NestedTypes>
       <Class Name="Model.WSModel.Realization.WSAnalyzer.Node" Collapsed="true">
         <TypeIdentifier>
@@ -10,38 +10,31 @@
       </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAgCAAAAgABBIAAAAhoABwIBAAAAAQgABABADAkAAA=</HashCode>
+      <HashCode>BAAgSAQAAgAAAogACABpSBgIQAAAAAEAKBAAADAEAAA=</HashCode>
       <FileName>Model\Realization\WSAnalyzer.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="m_container" />
-      <Field Name="m_result" />
+      <Field Name="container" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Model.WSModel.Realization.WSContainer">
-    <Position X="11.5" Y="0.5" Width="1.5" />
+    <Position X="8.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABQAEAIAAAAAggAIAAAAmIAAAAAAgAAAABAEAAIAAAA=</HashCode>
+      <HashCode>AAQAkAABAIAAggAAAIAAmICAAAAAAAAAABAAAAAADAI=</HashCode>
       <FileName>Model\Realization\WSContainer.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Model.WSModel.Realization.WSGenerator">
-    <Position X="8.5" Y="9.25" Width="2" />
+    <Position X="5.5" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AEAAAAAAAAAgAAAAAAAACACAAAAAAAAAAAAAABIAAAA=</HashCode>
+      <HashCode>BBAQAAQAAAAAAEAAAAECCACAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\Realization\WSGenerator.cs</FileName>
     </TypeIdentifier>
-  </Class>
-  <Class Name="Model.WSModel.Realization.WSGraph">
-    <Position X="5.75" Y="7.75" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAQAAAAIAEAAAAA=</HashCode>
-      <FileName>Model\Realization\WSGraph.cs</FileName>
-    </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="m_container" />
-      <Field Name="m_generator" />
+      <Field Name="container" />
     </ShowAsAssociation>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Model.WSModel.WSGraphFactory">
     <Position X="0.5" Y="3" Width="1.75" />
@@ -51,14 +44,11 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Model.WSModel.WSModel">
-    <Position X="3" Y="7.5" Width="1.75" />
+    <Position X="3" Y="8.25" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAACAAAAGAAAAAAEAAAGAAACAAAgAAAAAIAgAAIAAA=</HashCode>
+      <HashCode>AAAAAAAAACAAAAAAAAAAGAAAAAAAAAAAAAIAgAAIAAA=</HashCode>
       <FileName>Model\WSModel.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="graph" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="RandomGraph.Common.Model.AbstractGraphFactory">
     <Position X="0.5" Y="0.5" Width="1.75" />
@@ -70,16 +60,9 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="CommonLibrary.Model.AbstarctGraphAnalyzer">
-    <Position X="5.75" Y="0.5" Width="1.75" />
+    <Position X="10.75" Y="0.5" Width="1.75" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
-  <Struct Name="Model.WSModel.Result.AnalyzeResult">
-    <Position X="5.75" Y="4.5" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAIgmAAABCAAACAAAAAAAAEIAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\Result\AnalyzeResult.cs</FileName>
-    </TypeIdentifier>
-  </Struct>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

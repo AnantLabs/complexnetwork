@@ -8,22 +8,22 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Model.ParisiHierarchicModel.ParisiHierarchicModel">
-    <Position X="7" Y="0.5" Width="2.5" />
+    <Position X="3.5" Y="7.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAACBAAACAAAAAAkAAAGAAAAAAAgAAAAAIAgAAIAAA=</HashCode>
+      <HashCode>AAAAAAAAACAAAAAAAAAAGAAAAAAAAAAAAAIAgAAIAAA=</HashCode>
       <FileName>Model\ParisiHierarchicModel.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="generator" />
-      <Field Name="tree" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="Model.ParisiHierarchicModel.Realization.ParisiHierarchicGenerator">
-    <Position X="10.75" Y="4.25" Width="2" />
+    <Position X="7" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <HashCode>BAAQAIQAAAAAAAAAAAEACAAAAAAABAAAAAAACAAAAAA=</HashCode>
       <FileName>Model\Realization\ParisiHierarchicGenerator.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="container" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="RandomGraph.Common.Model.AbstractGraphFactory">
     <Position X="0.5" Y="0.5" Width="2.25" />
@@ -34,19 +34,16 @@
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Model.HierarchicModel.Realization.HierarchicGraphGenerator">
-    <Position X="10.75" Y="0.5" Width="2" />
+  <Class Name="Model.HierarchicModel.Realization.HierarchicContainer">
+    <Position X="10" Y="0.5" Width="1.75" />
     <TypeIdentifier />
     <ShowAsAssociation>
-      <Field Name="treeMatrix" />
+      <Property Name="TreeMatrix" />
     </ShowAsAssociation>
-  </Class>
-  <Class Name="Model.HierarchicModel.Realization.HierarchicGraph">
-    <Position X="7" Y="4.25" Width="2.5" />
-    <TypeIdentifier />
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="System.Collections.BitArray" Collapsed="true">
-    <Position X="13.75" Y="0.5" Width="1.5" />
+    <Position X="12.75" Y="0.5" Width="1.5" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>

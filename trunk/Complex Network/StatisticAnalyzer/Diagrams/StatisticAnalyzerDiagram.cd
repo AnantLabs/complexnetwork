@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="StatisticAnalyzer.Analyzer.StAnalyzer">
+    <Position X="2.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>QEAIBAAFCAACAAQABAEAAQwAEQABiAAECQAAAEgAAAE=</HashCode>
+      <FileName>Analyzer\StAnalyzer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="options" />
+      <Field Name="result" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="StatisticAnalyzer.Analyzer.StAnalyzeResult">
+    <Position X="5.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAEAAAAAAAgABAQAAAEgAAABBAAACAAAAAAAAEA=</HashCode>
+      <FileName>Analyzer\StAnalyzeResult.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="approximationType" />
+      <Field Name="type" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="StatisticAnalyzer.Loader.StLoader">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAABAAgAAABQAwAAQgAAAAAAACAGAAAAAgIAAk=</HashCode>
+      <FileName>Loader\StLoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StatisticAnalyzer.Viewer.ApproximationTypeInfo" Collapsed="true">
+    <Position X="8.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAABAAAAgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Viewer\StApproximation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="StatisticAnalyzer.Analyzer.StAnalyzeOptions">
+    <Position X="8.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Analyzer\StAnalyzeParameters.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="StatisticAnalyzer.Analyzer.StAnalyzeType">
+    <Position X="8.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Analyzer\StAnalyzeResult.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="StatisticAnalyzer.Viewer.ApproximationTypes">
+    <Position X="8.5" Y="1.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAQAAAgAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Viewer\StApproximation.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="RandomGraph.Common.Model.AnalyseOptions" Collapsed="true">
+    <Position X="5.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
