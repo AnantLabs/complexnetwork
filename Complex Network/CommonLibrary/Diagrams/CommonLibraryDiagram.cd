@@ -1,130 +1,246 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="CommonLibrary.Model.AbstarctGraphAnalyzer" BaseTypeListCollapsed="true">
-    <Position X="7.25" Y="0.5" Width="2" />
+  <Class Name="CommonLibrary.Model.AbstarctGraphAnalyzer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAABAAAAAAgAABgIAAAAAAQgABAAADAkAAA=</HashCode>
+      <HashCode>AAAgQAQQAAABAAAAAAgACBgIACAAAAAAABAAALAEAAA=</HashCode>
       <FileName>Model\AbstarctGraphAnalyzer.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="RandomGraph.Common.Model.AbstractGraphFactory">
-    <Position X="10" Y="0.5" Width="2.5" />
+  <Class Name="RandomGraph.Common.Model.AbstractGraphFactory" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAEAAAAAEAAEAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAEAAAAAEAAEAAAAQAAAAAAAAAAAACAAAAA=</HashCode>
       <FileName>Model\AbstractGraphFactory.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="AnalizeOptions" />
-    </ShowAsAssociation>
   </Class>
-  <Class Name="RandomGraph.Common.Model.AbstractGraphModel" BaseTypeListCollapsed="true">
-    <Position X="0.5" Y="0.5" Width="2.5" />
+  <Class Name="RandomGraph.Common.Model.AbstractGraphModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAiIAAACAAkEADACAEHAQAQBAAgAgAAABAgAigAAI=</HashCode>
+      <HashCode>AAAAgJAAACAAkEADgCAEHAQAYBAAoAgAAABAgCygAAI=</HashCode>
       <FileName>Model\AbstractGraphModel.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="CurrentStatus" />
-      <Property Name="AvailableOptions" />
-      <Property Name="GenerationRule" />
-      <Property Name="Result" />
-      <Property Name="AnalizeOptions" />
-    </ShowAsAssociation>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="CommonLibrary.Model.Random.NativeVectorGenerator" BaseTypeListCollapsed="true">
-    <Position X="0.5" Y="13.75" Width="1.5" />
+  <Class Name="CommonLibrary.Model.Attributes.AnalyzeOptionInfo" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABgCAAgBAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Attributes\AnalyzeOptionInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommonLibrary.Model.Attributes.AvailableAnalyzeOptions" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Model\Attributes\AvailableAnalyzeOptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommonLibrary.Model.Attributes.GenerationParamInfo" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Model\Attributes\GenerationParamInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommonLibrary.Model.Attributes.GraphModel" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Model\Attributes\GraphModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommonLibrary.Model.Attributes.RequiredGenerationParam" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAgAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Model\Attributes\RequiredGenerationParam.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommonLibrary.Model.Attributes.TargetGraphModel" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Model\Attributes\TargetGraphModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomGraph.Core.Events.GraphProgressEventArgs" Collapsed="true">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Model\Events\GraphProgressEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommonLibrary.Model.Events.GraphGeneratedArgs" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Model\Events\GraphGeneratedArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AnalyzerFramework.Manager.ModelRepo.ModelRepository" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAACAACAAAAAAACAAABAhAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\ModelRepo\ModelRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommonLibrary.Model.Random.NativeVectorGenerator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAiAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\RandomVector\NativeVectorGenerator.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="CommonLibrary.Model.Random.VectorGenerator" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="2.5" Y="13.75" Width="1.5" />
+    <Position X="5.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAEAAAAAAiAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\RandomVector\VectorGenerator.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="CommonLibrary.Model.Random.VectorGeneratorFactory">
-    <Position X="4.5" Y="13.75" Width="2" />
+  <Class Name="CommonLibrary.Model.Random.VectorGeneratorFactory" Collapsed="true">
+    <Position X="7.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAABAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\RandomVector\VectorGeneratorFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RandomGraph.Common.Model.Result.AnalizeResult">
-    <Position X="0.5" Y="6.25" Width="2.5" />
+  <Class Name="RandomGraph.Common.Model.Result.AnalizeResult" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AARAAAAAAACAAAAAAAAAAAQAAGAAgAAAIAAEAABACAA=</HashCode>
+      <HashCode>AARAAAAAAACAAAAAAAAAABQAEGAAgEAIIAAEAABACAA=</HashCode>
       <FileName>Model\Result\AnalizeResult.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CommonLibrary.Model.Result.ResultAssembly">
-    <Position X="7.25" Y="4.75" Width="1.5" />
+  <Class Name="CommonLibrary.Model.Result.ResultAssembly" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAEgAAAAEAAAAQASAAAAAAAAAAAAAgAAAA=</HashCode>
       <FileName>Model\Result\ResultAssembly.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CommonLibrary.Model.Settings.ApplicationMode">
-    <Position X="6.5" Y="9.75" Width="1.5" />
+  <Class Name="RandomGraph.Common.Model.Settings.Options" Collapsed="true">
+    <Position X="7.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
-      <FileName>Model\Settings\ApplicationMode.cs</FileName>
+      <HashCode>AAACgAAAAAJAIBgCQAAQAEAAAAgAEAAIADACEAAgApA=</HashCode>
+      <FileName>Model\Settings\Options.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RandomGraph.Common.Model.Status.GraphProgressStatus">
-    <Position X="4.5" Y="4.75" Width="2.25" />
+  <Class Name="RandomGraph.Common.Model.Status.GraphProgressStatus" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAAAAAAAAAAAgAACAAAAAAAAAAAAAAAgAAAACAAAQAA=</HashCode>
       <FileName>Model\Status\GraphProgressStatus.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CommonLibrary.Model.Util.GraphTable">
-    <Position X="9.25" Y="4.75" Width="2" />
+  <Class Name="CommonLibrary.Model.Util.GraphTable" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\Util\GraphTable.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Enum Name="RandomGraph.Common.Model.AnalyseOptions">
-    <Position X="4.5" Y="0.5" Width="2.25" />
+  <Interface Name="CommonLibrary.Model.IGraphAnalyzer" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgQAQQAAABAAAAAAgAABgIACAAAAAAABAAALAEAAA=</HashCode>
+      <FileName>Model\IGraphAnalyzer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CommonLibrary.Model.IGraphContainer" Collapsed="true">
+    <Position X="2.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAACACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\IGraphContainer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CommonLibrary.Model.IGraphGenerator" Collapsed="true">
+    <Position X="4" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAQAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\IGraphGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="RandomGraph.Common.Model.IGraphModel" Collapsed="true">
+    <Position X="5.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAACAAAAAAAAAAAAAAAgAAAAAI=</HashCode>
+      <FileName>Model\IGraphModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CommonLibrary.Model.Random.IVectorGenerator" Collapsed="true">
+    <Position X="0.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAiAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\RandomVector\IVectorGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="RandomGraph.Common.Storage.IResultStorage" Collapsed="true">
+    <Position X="7.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgIAAAAAAAAAAAAAAAAAAAIEAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Storage\IResultStorage.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="RandomGraph.Common.Model.AnalyseOptions" Collapsed="true">
+    <Position X="0.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAIIASAAKAAEKAAIAlABAIAAAAAEAIAAABAAEAAAA=</HashCode>
       <FileName>Model\AnalyseOptions\AnalyseOptions.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="RandomGraph.Common.Model.Generation.GenerationParam">
-    <Position X="0.5" Y="9.75" Width="1.5" />
+  <Enum Name="RandomGraph.Common.Model.Generation.GenerationParam" Collapsed="true">
+    <Position X="2.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAEAgAAAAAAAAAAAAAAAAAIAAAAAgAABEABAAIBAAAA=</HashCode>
+      <HashCode>AAEAgAAAAAAAAAAAAAAAAAIAAAAAgAABEAAAAIBAAAA=</HashCode>
       <FileName>Model\Generation\GenerationParam.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="RandomGraph.Common.Model.Generation.GenerationRule">
-    <Position X="4.5" Y="7" Width="2.25" />
+  <Enum Name="RandomGraph.Common.Model.Generation.GenerationRule" Collapsed="true">
+    <Position X="4" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\Generation\GenerationRule.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="CommonLibrary.Model.Random.RandomGenerator">
-    <Position X="4.5" Y="9.75" Width="1.5" />
+  <Enum Name="CommonLibrary.Model.Random.RandomGenerator" Collapsed="true">
+    <Position X="7.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAABABAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
       <FileName>Model\RandomVector\VectorGeneratorFactory.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="RandomGraph.Common.Model.Status.GraphProgress">
-    <Position X="2.5" Y="9.75" Width="1.5" />
+  <Enum Name="RandomGraph.Common.Model.Status.GraphProgress" Collapsed="true">
+    <Position X="5.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IABgAAQAQAIACAECAAAAIAAAAAAAAAgIABASAAAAAAA=</HashCode>
       <FileName>Model\Status\GraphProgress.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Font Name="Tahoma" Size="8.25" />
+  <Delegate Name="RandomGraph.Core.Events.GraphProgressEventHandler" Collapsed="true">
+    <Position X="2.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Events\EventHandlerDelegates.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="CommonLibrary.Model.Events.GraphGeneratedDelegate" Collapsed="true">
+    <Position X="0.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Model\Events\GraphGeneratedDelegate.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="CommonLibrary.Model.Events.GraphsAreGenerated" Collapsed="true">
+    <Position X="4" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Model\Events\GraphsAreGenerated.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
