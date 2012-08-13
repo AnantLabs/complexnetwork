@@ -19,7 +19,7 @@ namespace Model.HierarchicModel.Realization
 
         public HierarchicAnalyzer(HierarchicContainer c)
         {
-            log.Info("Creating ERAnalizer object.");
+            log.Info("Creating HierarchicAnalyzer object.");
             container = c;
         }
 

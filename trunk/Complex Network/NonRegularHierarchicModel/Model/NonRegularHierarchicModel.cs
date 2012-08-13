@@ -77,8 +77,8 @@ namespace Model.NonRegularHierarchicModel
 
             // Определение генератора и анализатора для данной модели (Block-Hierarchic Non Regular).
             log.Info("Creating generator and analyzer for model.");
-            //generator = new NonRegularHierarchicGenerator();
-            //analyzer = new NonRegularHierarchicAnalyzer((NonRegularHierarchicContainer)generator.Container);
+            generator = new NonRegularHierarchicGenerator();
+            analyzer = new NonRegularHierarchicAnalyzer((NonRegularHierarchicContainer)generator.Container);
 
             InvokeProgressEvent(GraphProgress.Ready);
             log.Info("Finished model initialization");
