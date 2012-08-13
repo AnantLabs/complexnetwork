@@ -2,37 +2,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using RandomGraph.Common.Model;
+
 using CommonLibrary.Model;
+using log4net;
 
 namespace Model.NonRegularHierarchicModel.Realization
 {
+    // Реализация анализатора (Block-Hierarchic Non Regular).
     public class NonRegularHierarchicAnalyzer : AbstarctGraphAnalyzer
     {
-        // !Организовать логирование!
+        // Организация работы с лог файлом.
+        protected static readonly new ILog log = log4net.LogManager.GetLogger(typeof(NonRegularHierarchicAnalyzer));
 
-        IGraphContainer container;  // пересмотреть!
+        // Контейнер, в котором содержится граф конкретной модели (Block-Hierarchic Non Regular).
+        private NonRegularHierarchicContainer container;
 
-        public NonRegularHierarchicAnalyzer(NonRegularHierarchicGraph g)
+        public NonRegularHierarchicAnalyzer(NonRegularHierarchicContainer c)
         {
-            graph = g;
+            log.Info("Creating NonRegularHierarchicAnalyzer object.");
+            container = c;
         }
 
         // Контейнер, в котором содержится сгенерированный граф (полученный от генератора).
         public override IGraphContainer Container
         {
             get { return container; }
-            set { container = value; }
+            set { container = (NonRegularHierarchicContainer)value; }
         }
 
         // Возвращается средняя длина пути в графе. Реализовано.
         public override double GetAveragePath()
         {
-            SortedDictionary<int, int> dist = GetMinPathDist();
+            log.Info("Getting average path length.");
 
-            double result = 0.0;
-            double count = 0.0;
+            SortedDictionary<int, int> dist = GetMinPathDist();
+            double result = 0.0, count = 0.0;
 
             foreach (KeyValuePair<int, int> k in dist)
             {
@@ -48,8 +52,9 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Возвращается диаметр графа. Реализовано.
         public override int GetDiameter()
         {
-            SortedDictionary<int, int> dist = GetMinPathDist();
+            log.Info("Getting diameter.");
 
+            SortedDictionary<int, int> dist = GetMinPathDist();
             int result = 0;
 
             foreach (KeyValuePair<int, int> k in dist)
@@ -64,26 +69,29 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Возвращается число циклов длиной 3 в графе. Реализовано.
         public override int GetCycles3()
         {
-            return (int)(graph.Get3CirclesCount());
+            log.Info("Getting count of cycles - order 3.");
+            return (int)(container.Get3CirclesCount());
         }
 
         // Возвращается число циклов длиной 4 в графе. Реализовано.
         public override int GetCycles4()
         {
-            return (int)graph.Get4CirclesCount();
+            log.Info("Getting count of cycles - order 4.");
+            return (int)container.Get4CirclesCount();
         }
 
         // Возвращается степенное распределение графа. Реализовано.
         public override SortedDictionary<int, int> GetDegreeDistribution()
         {
-            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
+            log.Info("Getting degree distribution.");
 
+            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
             /// Iterate over all the vertexes and count degrees.
             uint v;
             int degree;
-            for (v = 0; v < graph.node.VertexCount; ++v)
+            for (v = 0; v < container.node.VertexCount; ++v)
             {
-                degree = (int)(graph.GetDegree(v));
+                degree = (int)(container.GetDegree(v));
                 if (!result.ContainsKey(degree))
                 {
                     result.Add(degree, 1);
@@ -99,17 +107,15 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Возвращается распределение коэффициентов кластеризации графа. Реализовано.
         public override SortedDictionary<double, int> GetClusteringCoefficient()
         {
-            return graph.GetClusteringCoefficient();
+            log.Info("Getting clustering coefficients.");
+            return container.GetClusteringCoefficient();
         }
 
         // Возвращается распределение длин минимальных путей в графе. Реализовано.
         public override SortedDictionary<int, int> GetMinPathDist()
         {
-            return graph.GetMinPathDistribution();
+            log.Info("Getting minimal distances between vertices.");
+            return container.GetMinPathDistribution();
         }
-
-
-        // Закрытая часть класса (не из общего интерфейса). //
-        private NonRegularHierarchicGraph graph;
     }
 }

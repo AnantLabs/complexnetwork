@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections;
 
 namespace Model.NonRegularHierarchicModel.Realization
@@ -18,7 +16,7 @@ namespace Model.NonRegularHierarchicModel.Realization
         public uint vertexCount;
 
         // Children blocks stored here.
-        public NonRegularHierarchicGraph[] children;
+        public NonRegularHierarchicContainer[] children;
 
         // Tree connectivity data. Information about connectivity of subblocks of this graph.
         public BitArray data;

@@ -1,15 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Model.NonRegularHierarchicModel.NonRegularHierarchicModel">
-    <Position X="3" Y="6.75" Width="2.25" />
+    <Position X="3" Y="7.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAACIAAACAAAAAAEAAAGAAACAAAgAAAAAIAgAAIAAA=</HashCode>
+      <HashCode>AAAAAAAAACAAAAAAAAAAGAAAAAAAAAAAAAIAgAAIAAA=</HashCode>
       <FileName>Model\NonRegularHierarchicModel.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="graph" />
-      <Field Name="graph_generator" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="Model.NonRegularHierarchicModel.NonRegularHierarchicGraphFactory">
     <Position X="0.5" Y="2.75" Width="2" />
@@ -19,13 +15,13 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Model.NonRegularHierarchicModel.Realization.NonRegularHierarchicAnalyzer">
-    <Position X="5.75" Y="4.75" Width="2" />
+    <Position X="12.5" Y="5.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAABAAAAAAgAABgICAAAAAQgABAAADAkAAA=</HashCode>
+      <HashCode>BAAgAAQAAAAAAAAAAAAACBAIAAAAAAAAABAAADAEAAA=</HashCode>
       <FileName>Model\Realization\NonRegularHierarchicAnalyzer.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="graph" />
+      <Field Name="container" />
     </ShowAsAssociation>
   </Class>
   <Class Name="RandomGraph.Common.Model.AbstractGraphModel">
@@ -38,36 +34,38 @@
     <TypeIdentifier />
   </Class>
   <Class Name="CommonLibrary.Model.AbstarctGraphAnalyzer">
-    <Position X="5.75" Y="0.5" Width="2" />
+    <Position X="12.5" Y="0.5" Width="2.25" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="NonRegularHierarchicModel.Model.Realization.NonRegularHierarchicGenerator">
-    <Position X="11.25" Y="4" Width="2.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAACAAAAAgAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\Realization\NonRegularHierarchicGenerator.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="graph" />
-    </ShowAsAssociation>
-  </Class>
-  <Class Name="NonRegularHierarchicModel.Model.Realization.NonRegularHierarchicGraph">
-    <Position X="8.5" Y="0.5" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AQgoIAAAQAAABEAAAQEACAAACAAACAABACAAAQAAEAA=</HashCode>
-      <FileName>Model\Realization\NonRegularHierarchicGraph.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="node" />
-    </ShowAsAssociation>
-  </Class>
-  <Class Name="NonRegularHierarchicModel.Model.Realization.NonRegularHierarchicGraphNode">
-    <Position X="11.25" Y="0.5" Width="2.5" />
+  <Class Name="Model.NonRegularHierarchicModel.Realization.NonRegularHierarchicGraphNode">
+    <Position X="5.75" Y="3.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAQAAQAAAgkACQAAAAAAAAAQAAAAAAA=</HashCode>
       <FileName>Model\Realization\NonRegularHierarchicGraphNode.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Model.NonRegularHierarchicModel.Realization.NonRegularHierarchicContainer">
+    <Position X="9.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AQgoIAAAQAAAhEAAAQEACACACAAACAABACAAAQAAEAA=</HashCode>
+      <FileName>Model\Realization\NonRegularHierarchicContainer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="node" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Model.NonRegularHierarchicModel.Realization.NonRegularHierarchicGenerator">
+    <Position X="5.75" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>BAAUAAQAAAAAAAAAAAEACAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Model\Realization\NonRegularHierarchicGenerator.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="container" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
   </Class>
   <Font Name="Tahoma" Size="8.25" />
 </ClassDiagram>

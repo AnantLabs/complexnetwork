@@ -1,67 +1,99 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections;
-using System.Linq;
-using System.Text;
+using System.Collections.Generic;
+
+using RandomGraph.Common.Model.Generation;
+using CommonLibrary.Model;
 using NumberGeneration;
+using log4net;
 
 namespace Model.NonRegularHierarchicModel.Realization
 {
-    public class NonRegularHierarchicGenerator
+    // Реализация генератор (Block-Hierarchic Non Regular).
+    public class NonRegularHierarchicGenerator : IGraphGenerator
     {
-        private NonRegularHierarchicGraph graph = new NonRegularHierarchicGraph();
+        // Организация работы с лог файлом.
+        protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(NonRegularHierarchicGenerator));
 
-        /// K.Martun TODO change to RGNCRYPTO.
-        //RNGCrypto rnd2 = new RNGCrypto();
-        Random rnd2 = new Random();
+        // Контейнер, в котором содержится граф конкретной модели (Block-Hierarchic Non Regular).
+        private NonRegularHierarchicContainer container;
 
-        /// <summary>
-        /// Generates graph with given parameters.
-        /// </summary>
-        /// <param name="p"> Maximal number of blocks in a single level of graph.</param>
-        /// <param name="max_level"> Number of levels in graph.</param>
-        /// <param name="Mu"> Double value which determines the connectivity of graph. 1 will create a full connected graph.</param>
-        public NonRegularHierarchicGenerator(Int16 p, Int16 max_level, Double Mu)
+        // Конструктор по умолчанию, в котором создается пустой контейнер графа.
+        public NonRegularHierarchicGenerator()
         {
-            /// If this is to be a leave, just return.
-            if (0 == max_level)
+            container = new NonRegularHierarchicContainer();
+        }
+
+        // Контейнер, в котором содержится сгенерированный граф.
+        public IGraphContainer Container
+        {
+            get { return container; }
+            set { container = (NonRegularHierarchicContainer)value; }
+        }
+
+        // Случайным образом генерируется граф, на основе параметров генерации.
+        public void RandomGeneration(Dictionary<GenerationParam, object> genParam)
+        {
+            log.Info("Random generation step started.");
+            Int16 branchIndex = (Int16)genParam[GenerationParam.BranchIndex];
+            Int16 level = (Int16)genParam[GenerationParam.Level];
+            double mu = (Double)genParam[GenerationParam.Mu];
+
+            Generate(branchIndex, level, mu);
+            log.Info("Random generation step finished.");
+        }
+
+        // Строится граф, на основе матрицы смежности.
+        public void StaticGeneration(ArrayList matrix)
+        {
+            log.Info("Static generation started.");
+            container.SetMatrix(matrix);
+            log.Info("Static generation finished.");
+        }
+
+        // Закрытая часть класса (не из общего интерфейса).
+
+        // Генератор случайного числа.
+        private Random rnd = new Random();
+
+        // Генерирует граф с данными параметрами. Сгенеририванный граф находится в контейнере.
+        private void Generate(Int16 branchIndex, Int16 level, Double mu)
+        {
+            // If this is to be a leave, just return.
+            if (0 == level)
             {
-                graph.Post_generate();
+                container.Post_generate();
                 return;
             }
 
-            graph.node.children = new NonRegularHierarchicGraph[rnd2.Next(2, p + 1)];
+            container.node.children = new NonRegularHierarchicContainer[rnd.Next(2, branchIndex + 1)];
             int i;
-            for (i = 0; i < graph.node.children.Length; ++i)
+            for (i = 0; i < container.node.children.Length; ++i)
             {
-                graph.node.children[i] = new NonRegularHierarchicGraph();
+                container.node.children[i] = new NonRegularHierarchicContainer();
 
                 /// generate further tree of graph.
-                NonRegularHierarchicGenerator sub_generator = new NonRegularHierarchicGenerator(p, (Int16)(max_level - 1), Mu);
-                graph.node.children[i] = sub_generator.Graph;
+                NonRegularHierarchicGenerator sub_generator = new NonRegularHierarchicGenerator();
+                sub_generator.Generate(branchIndex, (Int16)(level - 1), mu);
+                container.node.children[i] = sub_generator.container;
             }
 
-            int length = (graph.node.children.Length - 1) * graph.node.children.Length / 2;
-            graph.node.data = new BitArray(length, false);
+            int length = (container.node.children.Length - 1) * container.node.children.Length / 2;
+            container.node.data = new BitArray(length, false);
             for (i = 0; i < length; ++i)
             {
-                double k = rnd2.NextDouble();
-                if (k <= (Math.Pow(p, -Mu * max_level)))
+                double k = rnd.NextDouble();
+                if (k <= (Math.Pow(branchIndex, -mu * level)))
                 {
-                    graph.node.data[i] = true;
+                    container.node.data[i] = true;
                 }
                 else
                 {
-                    graph.node.data[i] = false;
+                    container.node.data[i] = false;
                 }
             }
 
-            graph.Post_generate();
-        }
-
-        public NonRegularHierarchicGraph Graph
-        {
-            get { return graph; }
+            container.Post_generate();
         }
     }
 }
