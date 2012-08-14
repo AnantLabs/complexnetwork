@@ -38,7 +38,7 @@
             // 
             // button_OK
             // 
-            this.button_OK.Location = new System.Drawing.Point(24, 112);
+            this.button_OK.Location = new System.Drawing.Point(19, 112);
             this.button_OK.Name = "button_OK";
             this.button_OK.Size = new System.Drawing.Size(75, 23);
             this.button_OK.TabIndex = 0;
@@ -50,7 +50,7 @@
             // 
             this.button_Cancel.CausesValidation = false;
             this.button_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button_Cancel.Location = new System.Drawing.Point(145, 111);
+            this.button_Cancel.Location = new System.Drawing.Point(180, 112);
             this.button_Cancel.Name = "button_Cancel";
             this.button_Cancel.Size = new System.Drawing.Size(75, 23);
             this.button_Cancel.TabIndex = 1;
@@ -82,14 +82,14 @@
             this.comboBox_ModelType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_ModelType.Location = new System.Drawing.Point(75, 60);
             this.comboBox_ModelType.Name = "comboBox_ModelType";
-            this.comboBox_ModelType.Size = new System.Drawing.Size(121, 21);
+            this.comboBox_ModelType.Size = new System.Drawing.Size(180, 21);
             this.comboBox_ModelType.TabIndex = 4;
             // 
             // textBox_JobName
             // 
             this.textBox_JobName.Location = new System.Drawing.Point(75, 22);
             this.textBox_JobName.Name = "textBox_JobName";
-            this.textBox_JobName.Size = new System.Drawing.Size(121, 20);
+            this.textBox_JobName.Size = new System.Drawing.Size(180, 20);
             this.textBox_JobName.TabIndex = 1;
             // 
             // ModelChooserWindow
@@ -99,7 +99,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this.button_Cancel;
-            this.ClientSize = new System.Drawing.Size(244, 148);
+            this.ClientSize = new System.Drawing.Size(304, 148);
             this.Controls.Add(this.textBox_JobName);
             this.Controls.Add(this.comboBox_ModelType);
             this.Controls.Add(this.label2);
