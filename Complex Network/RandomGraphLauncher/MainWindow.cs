@@ -30,7 +30,7 @@ namespace RandomGraphLauncher
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(MainWindow));
 
         // model name, model factory, model
-        private IDictionary<string, Tuple<Type, Type>> models = new Dictionary<string, Tuple<Type, Type>>();
+        private IDictionary<string, Type> models = new Dictionary<string, Type>();
         private AbstractGraphManager manager;
         private List<string> runningJobs = new List<string>();
 
@@ -41,17 +41,11 @@ namespace RandomGraphLauncher
             InitializeComponent();
             InitStorageManager();
 
-            List<Type> availableModelFactoryTypes = ModelRepository.GetInstance().GetAvailableModelFactoryTypes();
-            foreach (Type modelFactoryType in availableModelFactoryTypes)
+            List<Type> availableModelTypes = ModelRepository.GetInstance().GetAvailableModelTypes();
+            foreach (Type modelType in availableModelTypes)
             {
-                object[] attr = modelFactoryType.GetCustomAttributes(typeof(TargetGraphModel), false);
-                TargetGraphModel targetGraphMetadata = (TargetGraphModel)attr[0];
-                Type modelType = targetGraphMetadata.GraphModelType;
-
-                attr = modelType.GetCustomAttributes(typeof(GraphModel), false);
-                string modelName = ((GraphModel)attr[0]).Name;
-
-                models.Add(modelName, Tuple.Create<Type, Type>(modelFactoryType, modelType));
+                string modelName = modelType.Name;
+                models.Add(modelName, modelType);
             }
         }
 
@@ -99,7 +93,7 @@ namespace RandomGraphLauncher
             }
         }
 
-        private void modelChoosed(Tuple<Type, Type> modelType, string jobName)
+        private void modelChoosed(Type modelType, string jobName)
         {
             if (Options.DistributedMode)
             {
@@ -118,8 +112,7 @@ namespace RandomGraphLauncher
             // 
             // calculationControl
             // 
-            CalculationControl calculationControl = new CalculationControl(modelType.Item1, 
-                modelType.Item2, 
+            CalculationControl calculationControl = new CalculationControl(modelType, 
                 jobName, manager);
             calculationControl.Dock = System.Windows.Forms.DockStyle.Fill;
             calculationControl.Location = new System.Drawing.Point(0, 0);

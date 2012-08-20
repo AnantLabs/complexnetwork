@@ -33,7 +33,7 @@ namespace AnalyzerFramework.Manager.Impl
             log.Info("Called constructor of MultiTreadGraphManager");
         }
 
-        public override void Start(AbstractGraphFactory modelFactory, int iterations, string name)
+        public override void Start(AbstractGraphModel origineModel, int iterations, string name)
         {
             log.Info("Started multi threaded calculation");
             if (CurrentExecutionStatus != ExecutionStatus.Stopped)
@@ -43,13 +43,10 @@ namespace AnalyzerFramework.Manager.Impl
                 throw new WrongExecutionStatusException("should be stopped before new start");
             }
             this.iterations = iterations;
-            TargetGraphModel targetModelMetaData = (TargetGraphModel)(modelFactory.GetType().GetCustomAttributes(typeof(TargetGraphModel), false)[0]);
-            GraphModel modelMetaData = (GraphModel)(targetModelMetaData.GraphModelType.GetCustomAttributes(typeof(GraphModel), false)[0]);
 
-            Assembly.AnalizeOptions = modelFactory.AnalizeOptions;
-            Assembly.GenerationParams = modelFactory.GenerationParamValues;
-            Assembly.ModelType = targetModelMetaData.GraphModelType;
-            Assembly.ModelName = modelMetaData.Name;
+            Assembly.AnalizeOptions = origineModel.AnalizeOptions;
+            Assembly.GenerationParams = origineModel.GenerationParamValues;
+            Assembly.ModelType = origineModel.GetType();
             Assembly.Name = name;
 
             OnExecutionStatusChange(new ExecutionStatusEventArgs(ExecutionStatus.Starting));
@@ -61,7 +58,8 @@ namespace AnalyzerFramework.Manager.Impl
             log.Info("Started creating thread for each instance");
             for (int i = 0; i < iterations; i++)
             {
-                AbstractGraphModel model = modelFactory.CreateGraphModel(i);
+                AbstractGraphModel model = origineModel.Clone();
+                model.setID(i);
                 model.Progress += new GraphProgressEventHandler(OnSeparateModelProgress);
                 model.GraphGenerated += new CommonLibrary.Model.Events.GraphGeneratedDelegate(model_GraphGenerated);
                 Models.Add(model);

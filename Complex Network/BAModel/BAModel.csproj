@@ -84,7 +84,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\BAGraphFactory.cs" />
     <Compile Include="Model\BAModel.cs" />
     <Compile Include="Model\Realization\BAAnalyzer.cs" />
     <Compile Include="Model\Realization\BAContainer.cs" />

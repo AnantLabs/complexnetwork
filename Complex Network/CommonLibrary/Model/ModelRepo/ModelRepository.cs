@@ -17,8 +17,7 @@ namespace AnalyzerFramework.Manager.ModelRepo
         /// The logger static object for monitoring.
         /// </summary>
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(ModelRepository));
-        private static ModelRepository instance = null;
-        private List<Type> modelFactoryTypes = new List<Type>();
+        private static ModelRepository instance = new ModelRepository();
         private List<Type> modelTypes = new List<Type>();
 
         private ModelRepository()
@@ -31,16 +30,9 @@ namespace AnalyzerFramework.Manager.ModelRepo
                 Type[] types = asm.GetTypes();
                 foreach (Type type in types)
                 {
-                    if (type.IsSubclassOf(typeof(AbstractGraphFactory)))
+                    if (type.IsSubclassOf(typeof(AbstractGraphModel)))
                     {
-                        object[] attr = type.GetCustomAttributes(typeof(TargetGraphModel), false);
-                        if(attr.Length == 1)
-                        {
-                            modelFactoryTypes.Add(type);
-                            object[] attributes = type.GetCustomAttributes(typeof(TargetGraphModel), false);
-                            TargetGraphModel targetGraphMetadata = (TargetGraphModel)attr[0];
-                            modelTypes.Add(targetGraphMetadata.GraphModelType);
-                        }
+                            modelTypes.Add(type);
                     }
                 }
 	        }
@@ -48,16 +40,7 @@ namespace AnalyzerFramework.Manager.ModelRepo
 
         public static ModelRepository GetInstance()
         {
-            if (instance != null)
-            {
                 return instance;
-            }
-            return new ModelRepository();
-        }
-
-        public List<Type> GetAvailableModelFactoryTypes()
-        {
-            return modelFactoryTypes;
         }
 
         public List<Type> GetAvailableModelTypes()

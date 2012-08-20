@@ -61,12 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\NonRegularHierarchicGraphFactory.cs" />
     <Compile Include="Model\NonRegularHierarchicModel.cs" />
     <Compile Include="Model\Realization\NonRegularHierarchicAnalyzer.cs" />
     <Compile Include="Model\Realization\NonRegularHierarchicGenerator.cs" />
-    <Compile Include="Model\Realization\NonRegularHierarchicContainer.cs" />
+    <Compile Include="Model\Realization\NonRegularHierarchicGraph.cs" />
     <Compile Include="Model\Realization\NonRegularHierarchicGraphNode.cs" />
+    <Compile Include="NonRegularHierarchicContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

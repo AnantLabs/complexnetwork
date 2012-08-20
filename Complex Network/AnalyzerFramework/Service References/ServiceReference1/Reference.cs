@@ -34,13 +34,7 @@ namespace AnalyzerFramework.ServiceReference1 {
         void ContinueInstance(int index);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ComplexNetwork.Ysu/IComplexNetworkWorkerService/Start", ReplyAction="http://ComplexNetwork.Ysu/IComplexNetworkWorkerService/StartResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.BAModel.BAGraphFactory))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.NonRegularHierarchicModel.NonRegularHierarchicGraphFactory))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.ParisiHierarchicModel.ParisiHierarchicGraphFactory))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.HierarchicModel.HierarchicGraphFactory))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.ERModel.ERGraphFactory))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.WSModel.WSGraphFactory))]
-        void Start(RandomGraph.Common.Model.AbstractGraphFactory modelFactory, int startIndex, int endIndex);
+        void Start(RandomGraph.Common.Model.AbstractGraphModel model, int startIndex, int endIndex);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -53,7 +47,6 @@ namespace AnalyzerFramework.ServiceReference1 {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.ParisiHierarchicModel.ParisiHierarchicModel))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.NonRegularHierarchicModel.NonRegularHierarchicModel))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.HierarchicModel.HierarchicModel))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RandomGraph.Common.Model.AbstractGraphFactory))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RandomGraph.Common.Model.AnalyseOptions))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Collections.Generic.Dictionary<RandomGraph.Common.Model.Generation.GenerationParam, object>))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Collections.Generic.Dictionary<double, int>))]
@@ -63,12 +56,6 @@ namespace AnalyzerFramework.ServiceReference1 {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RandomGraph.Common.Model.Generation.GenerationParam))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RandomGraph.Common.Model.Generation.GenerationRule))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RandomGraph.Common.Model.Generation.GenerationParam[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.BAModel.BAGraphFactory))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.NonRegularHierarchicModel.NonRegularHierarchicGraphFactory))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.ParisiHierarchicModel.ParisiHierarchicGraphFactory))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.HierarchicModel.HierarchicGraphFactory))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.ERModel.ERGraphFactory))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.WSModel.WSGraphFactory))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RandomGraph.Common.Model.Status.GraphProgressStatus))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RandomGraph.Common.Model.Status.GraphProgress))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RandomGraph.Common.Model.Result.AnalizeResult))]
@@ -130,8 +117,8 @@ namespace AnalyzerFramework.ServiceReference1 {
             base.Channel.ContinueInstance(index);
         }
         
-        public void Start(RandomGraph.Common.Model.AbstractGraphFactory modelFactory, int startIndex, int endIndex) {
-            base.Channel.Start(modelFactory, startIndex, endIndex);
+        public void Start(RandomGraph.Common.Model.AbstractGraphModel model, int startIndex, int endIndex) {
+            base.Channel.Start(model, startIndex, endIndex);
         }
     }
 }

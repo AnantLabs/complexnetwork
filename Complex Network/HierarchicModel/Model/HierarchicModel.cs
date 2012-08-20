@@ -38,15 +38,19 @@ namespace Model.HierarchicModel
 
         public HierarchicModel() { }
 
-        public HierarchicModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, int sequenceNumber)
-            : base(genParam, options, sequenceNumber)
+        public HierarchicModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+            : base(genParam, options, analizeOptionsValues)
         {
             log.Info("Creating Block-Hierarchic model object from matrix.");
             InitModel();
         }
 
-        public HierarchicModel(ArrayList matrix, AnalyseOptions options, int sequenceNumber)
-            :base(matrix, options, sequenceNumber)
+        public override AbstractGraphModel Clone()
+        {
+            return new HierarchicModel(this.GenerationParamValues, this.AnalizeOptions, this.AnalizeOptionsValues);
+        }
+
+        private void ValidateModelParams()
         {
             log.Info("Creating Block-Hierarchic model object from matrix.");
             InitModel();

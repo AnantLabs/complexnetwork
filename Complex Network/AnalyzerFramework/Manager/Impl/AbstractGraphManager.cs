@@ -84,7 +84,7 @@ namespace RandomGraph.Core.Manager.Impl
 
         public abstract void Continue(int instanceID);
 
-        public abstract void Start(AbstractGraphFactory model, int iterations, string name);
+        public abstract void Start(AbstractGraphModel model, int iterations, string name);
 
         protected void OnExecutionStatusChange(ExecutionStatusEventArgs args)
         {

@@ -81,16 +81,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Attributes\GraphModel.cs" />
     <Compile Include="Model\IGraphContainer.cs" />
     <Compile Include="Model\IGraphGenerator.cs" />
     <Compile Include="Model\AbstarctGraphAnalyzer.cs" />
-    <Compile Include="Model\AbstractGraphFactory.cs" />
     <Compile Include="Model\AbstractGraphModel.cs" />
     <Compile Include="Model\AnalyseOptions\AnalyseOptions.cs" />
     <Compile Include="Model\Attributes\AnalyzeOptionInfo.cs" />
     <Compile Include="Model\Attributes\AvailableAnalyzeOptions.cs" />
     <Compile Include="Model\Attributes\GenerationParamInfo.cs" />
-    <Compile Include="Model\Attributes\GraphModel.cs" />
     <Compile Include="Model\Attributes\RequiredGenerationParam.cs" />
     <Compile Include="Model\Attributes\TargetGraphModel.cs" />
     <Compile Include="Model\Events\EventHandlerDelegates.cs" />
@@ -141,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Diagrams\CommonLibraryDiagram.cd" />
+    <None Include="Diagrams\CommonLibraryDiagramST.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

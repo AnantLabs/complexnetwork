@@ -59,7 +59,7 @@ namespace RandomGraph.Core.Manager.Interface
         /// </param>
         /// <param name="iterations">Number of times that graph manager should create 
         /// instances of graph model</param>
-        void Start(AbstractGraphFactory graphFactory, int iterations, string name);
+        void Start(AbstractGraphModel graphModel, int iterations, string name);
     }
 }
 

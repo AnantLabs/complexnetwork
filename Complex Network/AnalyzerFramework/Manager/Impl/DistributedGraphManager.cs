@@ -144,20 +144,18 @@ namespace AnalyzerFramework.Manager.Impl
             service.ContinueInstance(instanceID);
         }
 
-        public override void Start(AbstractGraphFactory modelFactory, int iterations, string name)
+        public override void Start(AbstractGraphModel model, int iterations, string name)
         {
             if (CurrentExecutionStatus != ExecutionStatus.Stopped)
             {
                 throw new WrongExecutionStatusException("should be stopped before new start");
             }
             this.iterations = iterations;
-            TargetGraphModel targetModelMetaData = (TargetGraphModel)(modelFactory.GetType().GetCustomAttributes(typeof(TargetGraphModel), false)[0]);
-            GraphModel modelMetaData = (GraphModel)(targetModelMetaData.GraphModelType.GetCustomAttributes(typeof(GraphModel), false)[0]);
 
-            Assembly.AnalizeOptions = modelFactory.AnalizeOptions;
-            Assembly.GenerationParams = modelFactory.GenerationParamValues;
-            Assembly.ModelType = targetModelMetaData.GraphModelType;
-            Assembly.ModelName = modelMetaData.Name;
+            Assembly.AnalizeOptions = model.AnalizeOptions;
+            Assembly.GenerationParams = model.GenerationParamValues;
+            Assembly.ModelType = model.GetType();
+            Assembly.ModelName = Assembly.ModelType.Name;
             Assembly.Name = name;
 
             OnExecutionStatusChange(new ExecutionStatusEventArgs(ExecutionStatus.Starting));
@@ -172,7 +170,7 @@ namespace AnalyzerFramework.Manager.Impl
 			{
                 int startIndex = i * modelsCountInEachService;
                 int endIndex = (i + 1) * modelsCountInEachService;
-                services[i].Start(modelFactory, startIndex, endIndex > iterations ? iterations : endIndex);
+                services[i].Start(model, startIndex, endIndex > iterations ? iterations : endIndex);
 			}
         }
 

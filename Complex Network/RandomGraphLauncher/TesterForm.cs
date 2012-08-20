@@ -25,7 +25,7 @@ namespace RandomGraphLauncher
     public partial class TesterForm : Form
     {
 
-        private IDictionary<string, Tuple<Type, Type>> models = new Dictionary<string, Tuple<Type, Type>>();
+        private IDictionary<string, Type> models = new Dictionary<string, Type>();
         private ArrayList labels = new ArrayList();
         private ArrayList algNames = new ArrayList();
         private ArrayList checkList = new ArrayList();
@@ -34,18 +34,11 @@ namespace RandomGraphLauncher
         public TesterForm()
         {
             InitializeComponent();
-            List<Type> availableModelFactoryTypes = ModelRepository.GetInstance().GetAvailableModelFactoryTypes();
-            foreach (Type modelFactoryType in availableModelFactoryTypes)
+            List<Type> availableModelTypes = ModelRepository.GetInstance().GetAvailableModelTypes();
+            foreach (Type modelType in availableModelTypes)
             {
-
-                object[] attr = modelFactoryType.GetCustomAttributes(typeof(TargetGraphModel), false);
-                TargetGraphModel targetGraphMetadata = (TargetGraphModel)attr[0];
-                Type modelType = targetGraphMetadata.GraphModelType;
-
-                attr = modelType.GetCustomAttributes(typeof(GraphModel), false);
-                string modelName = ((GraphModel)attr[0]).Name;
-
-                models.Add(modelName, Tuple.Create<Type, Type>(modelFactoryType, modelType));
+                string modelName = modelType.Name;
+                models.Add(modelName, modelType);
             }
             InitCompoBox(models.Keys);
         }
@@ -675,7 +668,7 @@ namespace RandomGraphLauncher
             algNames.Clear();
             checkList.Clear();
             string modelName = comboBox_ModelType.SelectedItem.ToString();
-            Type modelType = models[modelName].Item2;
+            Type modelType = models[modelName];
             AvailableAnalyzeOptions[] optionsAttributes = (AvailableAnalyzeOptions[])modelType.GetCustomAttributes(typeof(AvailableAnalyzeOptions), false);
             AnalyseOptions availableOptions = optionsAttributes[0].Options;
             Point point = new Point(35, 200);

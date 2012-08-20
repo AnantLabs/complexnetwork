@@ -121,7 +121,7 @@ namespace WcfService
             }
         }
 
-        public void Start(AbstractGraphFactory modelFactory, int startIndex, int endIndex)
+        public void Start(AbstractGraphModel origineModel, int startIndex, int endIndex)
         {
             context = OperationContext.Current;
             context.Channel.OperationTimeout = TimeSpan.FromSeconds(1000);
@@ -134,7 +134,7 @@ namespace WcfService
 
             for (int i = startIndex; i < endIndex; i++)
             {
-                AbstractGraphModel model = modelFactory.CreateGraphModel(i);
+                AbstractGraphModel model = origineModel.Clone();
                 model.Progress += new GraphProgressEventHandler(OnSeparateModelProgress);
                 Models.Add(i, model);
 
