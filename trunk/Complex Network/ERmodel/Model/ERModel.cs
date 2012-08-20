@@ -36,18 +36,23 @@ namespace Model.ERModel
 
         public ERModel() { }
 
-        public ERModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, int sequenceNumber)
-            : base(genParam, options, sequenceNumber)
+        public ERModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+            : base(genParam, options, analizeOptionsValues)
         {
             log.Info("Creating ERModel object with generation parameters.");
             InitModel();
         }
 
-        public ERModel(ArrayList matrix, AnalyseOptions options, int sequenceNumber)
-            :base(matrix, options, sequenceNumber)
+        public ERModel(ArrayList matrix, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+            : base(matrix, options, analizeOptionsValues)
         {
             log.Info("Creating ERModel object from matrix.");
             InitModel();
+        }
+
+        public override AbstractGraphModel Clone()
+        {
+            return new ERModel(this.GenerationParamValues, this.AnalizeOptions, this.AnalizeOptionsValues);
         }
 
         private void InitModel()

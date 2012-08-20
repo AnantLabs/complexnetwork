@@ -35,18 +35,23 @@ namespace Model.NonRegularHierarchicModel
 
         public NonRegularHierarchicModel() { }
 
-        public NonRegularHierarchicModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, int sequenceNumber)
-            : base(genParam, options, sequenceNumber)
+        public NonRegularHierarchicModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+            : base(genParam, options, analizeOptionsValues)
         {
             log.Info("Creating Block-Hierarchic Non Regular model object from matrix.");
             InitModel();
         }
 
-        public NonRegularHierarchicModel(ArrayList matrix, AnalyseOptions options, int sequenceNumber)
-            :base(matrix, options, sequenceNumber)
+        public NonRegularHierarchicModel(ArrayList matrix, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+            : base(matrix, options, analizeOptionsValues)
         {
             log.Info("Creating Block-Hierarchic Non Regular model object from matrix.");
             InitModel();
+        }
+
+        public override AbstractGraphModel Clone()
+        {
+            return new NonRegularHierarchicModel(this.GenerationParamValues, this.AnalizeOptions, this.AnalizeOptionsValues);
         }
 
         private void InitModel()

@@ -41,6 +41,7 @@ namespace RandomGraph.Common.Model
 
         public AbstractGraphModel() { }
 
+
         /// <summary>
         /// Constructor of Graph model base class, so
         /// it's mandatory that input parameters are passed from child constructor to this
@@ -49,33 +50,35 @@ namespace RandomGraph.Common.Model
         /// <param name="genParam">Generation parameteres map</param>
         /// <param name="options">selected analyze options</param>
         /// <param name="sequenceNumber">number in sequence for identifieng results</param>
-        public AbstractGraphModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, int sequenceNumber)
+        public AbstractGraphModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
         {
-            ID = sequenceNumber;
+            //ID = sequenceNumber;
             GenerationParamValues = genParam;
             AnalizeOptions = options;
-            Result = new AnalizeResult()
-            {
-                InstanceID = ID
-            };
+            AnalizeOptionsValues = analizeOptionsValues;
 
             CurrentStatus = new GraphProgressStatus();
             CurrentStatus.GraphProgress = GraphProgress.Initializing;
         }
 
-        // Конструктор, который получает матрицу смежности как параметр
-        public AbstractGraphModel(ArrayList matrix, AnalyseOptions options, int sequenceNumber)
+        public AbstractGraphModel(ArrayList matrix, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
         {
-            ID = sequenceNumber;
-            NeighbourshipMatrix = matrix;
+            
+            //GenerationParamValues = genParam;
             AnalizeOptions = options;
+            AnalizeOptionsValues = analizeOptionsValues;
+
+            CurrentStatus = new GraphProgressStatus();
+            CurrentStatus.GraphProgress = GraphProgress.Initializing;
+        }
+
+        public void setID(int ID) 
+        {
+            this.ID = ID;
             Result = new AnalizeResult()
             {
                 InstanceID = ID
             };
-
-            CurrentStatus = new GraphProgressStatus();
-            CurrentStatus.GraphProgress = GraphProgress.Initializing;
         }
 
         /// <summary>
@@ -317,6 +320,11 @@ namespace RandomGraph.Common.Model
         /// Prints details information of parameters into the form.
         /// </summary>
         public abstract string GetParamsInfo();
+
+        /// <summary>
+        /// Create and return object of specific type
+        /// </summary>
+        public abstract AbstractGraphModel Clone();
 
         /// <summary>
         /// Dump generated graph matrix into file

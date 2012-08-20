@@ -19,22 +19,16 @@ namespace StatisticAnalyzer.Loader
     {
         // Статическая часть
         // Dictionary имен доступных моделей и их описаний.
-        public static Dictionary<string, Tuple<Type, Type>> models;
+        public static Dictionary<string, Type> models;
         // Возвращает массив имен доступных моделей.
         public static object[] GetAvailableModelNames()
         {
-            models = new Dictionary<string, Tuple<Type, Type>>();
-            List<Type> availableModelFactoryTypes = ModelRepository.GetInstance().GetAvailableModelFactoryTypes();
-            foreach (Type modelFactoryType in availableModelFactoryTypes)
+            models = new Dictionary<string, Type>();
+            List<Type> availableModelFactoryTypes = ModelRepository.GetInstance().GetAvailableModelTypes();
+            foreach (Type modelType in availableModelFactoryTypes)
             {
-                object[] attr = modelFactoryType.GetCustomAttributes(typeof(TargetGraphModel), false);
-                TargetGraphModel targetGraphMetadata = (TargetGraphModel)attr[0];
-                Type modelType = targetGraphMetadata.GraphModelType;
-
-                attr = modelType.GetCustomAttributes(typeof(GraphModel), false);
-                string modelName = ((GraphModel)attr[0]).Name;
-
-                models.Add(modelName, Tuple.Create<Type, Type>(modelFactoryType, modelType));
+                string modelName = modelType.Name;
+                models.Add(modelName, modelType);
             }
 
             return models.Keys.ToArray();
@@ -71,7 +65,7 @@ namespace StatisticAnalyzer.Loader
         {
             set
             {
-                modelName = models[value].Item2.Name;
+                modelName = models[value].Name;
             }
         }
 

@@ -26,6 +26,7 @@ using RandomGraphLauncher.controls;
 using RandomGraphLauncher.models;
 using RandomGraphLauncher.Properties;
 using log4net;
+using GenericAlgorithms;
 
 namespace RandomGraphLauncher.src
 {
@@ -46,18 +47,15 @@ namespace RandomGraphLauncher.src
         public Dictionary<String, Object> AnalizeOptionsValues = new Dictionary<string, object>();
         private ExternalInterfaceProxy proxy { get; set; }
         private AbstractGraphManager manager { get; set; }
-        private Type factoryType { get; set; }
         private Type modelType { get; set; }
         private string jobName { get; set; }
 
-        public void Init(Type arg_modelFactoryType, 
-            Type arg_modelType, 
+        public void Init(Type arg_modelType, 
             string jobName, 
             AbstractGraphManager manager)
         {
             this.manager = manager;            
             this.jobName = jobName;
-            this.factoryType = arg_modelFactoryType;
             this.modelType = arg_modelType;
 
             this.isTrainingMode = Options.TracingMode;
@@ -107,17 +105,28 @@ namespace RandomGraphLauncher.src
 
         public void StartGraphModel(object[] invokeParams)
         {
-            Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), typeof(AnalyseOptions), typeof(Dictionary<String, Object>) };
-            AbstractGraphFactory graphFactory = (AbstractGraphFactory)this.factoryType.GetConstructor(constructTypes).Invoke(invokeParams);
-            this.manager.Start(graphFactory, this.instances, this.jobName);
+            if (Options.GenerationMode.randomGeneration == Options.Generation)
+            {
+                Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), typeof(AnalyseOptions), typeof(Dictionary<String, Object>) };
+                AbstractGraphModel graphModel = (AbstractGraphModel)this.modelType.GetConstructor(constructTypes).Invoke(invokeParams);
+                this.manager.Start(graphModel, this.instances, this.jobName);
+            }
+            else if (Options.GenerationMode.staticGeneration == Options.Generation)
+            {
+                Type[] constructTypes = new Type[] { typeof(ArrayList), typeof(AnalyseOptions), typeof(Dictionary<String, Object>) };
+                String path = (String)((Dictionary<GenerationParam, object>)invokeParams[0])[GenerationParam.Vertices];
+                invokeParams[0] = MatrixFileReader.MatrixReader(path);
+                AbstractGraphModel graphModel = (AbstractGraphModel)this.modelType.GetConstructor(constructTypes).Invoke(invokeParams);
+                this.manager.Start(graphModel, this.instances, this.jobName);
+            }
         }
 
         public bool CheckGenerationParams(AnalyseOptions selectedOptions)
         {
             if (Options.GenerationMode.randomGeneration == Options.Generation)
             {
-                Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), typeof(AnalyseOptions), typeof(int) };
-                object[] invokeParams = new object[] { genParams, selectedOptions, 0 };
+                Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), typeof(AnalyseOptions), typeof(Dictionary<String, Object>) };
+                object[] invokeParams = new object[] { genParams, selectedOptions, null };
                 AbstractGraphModel graphModel = (AbstractGraphModel)this.modelType.GetConstructor(constructTypes).Invoke(invokeParams);
                 errorMessage = graphModel.GetParamsInfo();
                 return graphModel.CheckGenerationParams(this.instances);

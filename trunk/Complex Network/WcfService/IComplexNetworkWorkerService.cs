@@ -35,7 +35,7 @@ namespace WcfService
         void ContinueInstance(int index);
 
         [OperationContract]
-        void Start(AbstractGraphFactory modelFactory, int startIndex, int endIndex);
+        void Start(AbstractGraphModel model, int startIndex, int endIndex);
     }
 
     public interface IDuplexCallback

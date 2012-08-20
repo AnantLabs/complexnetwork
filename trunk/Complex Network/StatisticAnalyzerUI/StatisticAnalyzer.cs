@@ -465,7 +465,7 @@ namespace StatisticAnalyzerUI
             generationParametersComboBoxes.Clear();
             this.GenerationParametersGrp.Controls.Clear();
 
-            Type modelType = StLoader.models[this.ModelNameCmb.Text].Item2;
+            Type modelType = StLoader.models[this.ModelNameCmb.Text];
             List<RequiredGenerationParam> generationParameters = 
                 new List<RequiredGenerationParam>((RequiredGenerationParam[])modelType.
                 GetCustomAttributes(typeof(RequiredGenerationParam), false));
@@ -511,7 +511,7 @@ namespace StatisticAnalyzerUI
             string name = (string)this.JobsCmb.SelectedItem;
             if (name != null)
             {
-                Type modelType = StLoader.models[this.ModelNameCmb.Text].Item2;
+                Type modelType = StLoader.models[this.ModelNameCmb.Text];
                 List<RequiredGenerationParam> generationParameters =
                     new List<RequiredGenerationParam>((RequiredGenerationParam[])modelType.
                     GetCustomAttributes(typeof(RequiredGenerationParam), false));
@@ -540,7 +540,7 @@ namespace StatisticAnalyzerUI
                 generationParametersComboBoxes[0].Text = "";
 
                 generationParametersComboBoxes[0].Items.Clear();
-                Type modelType = StLoader.models[this.ModelNameCmb.Text].Item2;
+                Type modelType = StLoader.models[this.ModelNameCmb.Text];
                 List<RequiredGenerationParam> generationParameters =
                     new List<RequiredGenerationParam>((RequiredGenerationParam[])modelType.
                     GetCustomAttributes(typeof(RequiredGenerationParam), false));
@@ -559,7 +559,7 @@ namespace StatisticAnalyzerUI
                 generationParametersComboBoxes[i].Text = "";
 
                 generationParametersComboBoxes[i].Items.Clear();
-                Type modelType = StLoader.models[this.ModelNameCmb.Text].Item2;
+                Type modelType = StLoader.models[this.ModelNameCmb.Text];
                 List<RequiredGenerationParam> generationParameters =
                     new List<RequiredGenerationParam>((RequiredGenerationParam[])modelType.
                     GetCustomAttributes(typeof(RequiredGenerationParam), false));
@@ -577,7 +577,7 @@ namespace StatisticAnalyzerUI
             Dictionary<GenerationParam, string> values = new Dictionary<GenerationParam, string>();
             for (int i = firstIndex; i < lastIndex; ++i)
             {
-                Type modelType = StLoader.models[this.ModelNameCmb.Text].Item2;
+                Type modelType = StLoader.models[this.ModelNameCmb.Text];
                 List<RequiredGenerationParam> generationParameters =
                     new List<RequiredGenerationParam>((RequiredGenerationParam[])modelType.
                     GetCustomAttributes(typeof(RequiredGenerationParam), false));

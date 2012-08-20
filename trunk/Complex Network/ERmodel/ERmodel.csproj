@@ -68,7 +68,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\ERGraphFactory.cs" />
     <Compile Include="Model\ERModel.cs" />
     <Compile Include="Model\Realization\ERGenerator.cs" />
     <Compile Include="Model\Realization\ERAnalyzer.cs" />

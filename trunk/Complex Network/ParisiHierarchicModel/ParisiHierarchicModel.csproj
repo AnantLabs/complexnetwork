@@ -61,7 +61,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\ParisiHierarchicGraphFactory.cs" />
     <Compile Include="Model\ParisiHierarchicModel.cs" />
     <Compile Include="Model\Realization\ParisiHierarchicGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -43,6 +43,7 @@ namespace Model.NonRegularHierarchicModel.Realization
             log.Info("Random generation step finished.");
         }
 
+
         // Строится граф, на основе матрицы смежности.
         public void StaticGeneration(ArrayList matrix)
         {

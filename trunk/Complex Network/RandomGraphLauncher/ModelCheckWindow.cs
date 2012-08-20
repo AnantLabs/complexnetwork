@@ -37,16 +37,10 @@ namespace RandomGraphLauncher
 
         private void InitializeModelNameCmb()
         {
-            List<Type> availableModelFactoryTypes = ModelRepository.GetInstance().GetAvailableModelFactoryTypes();
-            foreach (Type modelFactoryType in availableModelFactoryTypes)
+            List<Type> availableModelTypes = ModelRepository.GetInstance().GetAvailableModelTypes();
+            foreach (Type modelType in availableModelTypes)
             {
-                object[] attr = modelFactoryType.GetCustomAttributes(typeof(TargetGraphModel), false);
-                TargetGraphModel targetGraphMetadata = (TargetGraphModel)attr[0];
-                Type modelType = targetGraphMetadata.GraphModelType;
-
-                attr = modelType.GetCustomAttributes(typeof(GraphModel), false);
-                string modelName = ((GraphModel)attr[0]).Name;
-
+                string modelName = modelType.Name;
                 this.modelNameCmb.Items.Add(modelName);
             }
 

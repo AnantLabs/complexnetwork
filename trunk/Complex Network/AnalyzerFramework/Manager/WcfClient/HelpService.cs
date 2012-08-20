@@ -74,9 +74,9 @@ namespace WcfClient
             catch (TimeoutException) { }
         }
 
-        public void Start(AbstractGraphFactory modelFactory, int startIndex, int endIndex)
+        public void Start(AbstractGraphModel model, int startIndex, int endIndex)
         {
-           service.Start(modelFactory, startIndex, endIndex);
+            service.Start(model, startIndex, endIndex);
         }
     }
 }

@@ -42,13 +42,13 @@ namespace RandomGraphLauncher
         private Dictionary<string, AnalyseOptions> analizeOptionBoxes;
         private Dictionary<GenerationParam, Control> genParamBoxes;
 
-        public CalculationControl(Type arg_modelFactoryType, 
+        public CalculationControl( 
             Type arg_modelType, 
             string jobName, 
             AbstractGraphManager manager)
         {
             log.Info("Started constructing UI");
-            controller.Init(arg_modelFactoryType, arg_modelType, jobName, manager);
+            controller.Init(arg_modelType, jobName, manager);
             controller.SetStatusChangedEventHandler(manager_ExecutionStatusChange);
             InitializeComponent();
             InitModelLabels();
@@ -372,6 +372,15 @@ namespace RandomGraphLauncher
                         {
                             controller.genParams.Add(paramType, Convert.ToBoolean(((CheckBox)genParamBoxes[paramType]).Checked));
                         }
+                    }
+                }
+                else if (Options.GenerationMode.staticGeneration == Options.Generation)
+                {
+                    controller.genParams.Clear();
+                    foreach (GenerationParam paramType in genParamBoxes.Keys)
+                    {
+                        string path = genParamBoxes[paramType].Text;
+                        controller.genParams.Add(paramType, path);
                     }
                 }
             }
