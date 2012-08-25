@@ -80,9 +80,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HierarchicContainer.cs" />
     <Compile Include="Model\Realization\EngineForCycles.cs" />
     <Compile Include="Model\Realization\HierarchicAnalyzer.cs" />
+    <Compile Include="Model\Realization\HierarchicContainer.cs" />
     <Compile Include="Model\Realization\HierarchicGraphGenerator.cs" />
     <Compile Include="Model\Realization\Engine.cs" />
     <Compile Include="Model\Realization\EngineForConnectedComp.cs" />
