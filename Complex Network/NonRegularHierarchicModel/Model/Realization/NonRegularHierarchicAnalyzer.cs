@@ -12,7 +12,7 @@ namespace Model.NonRegularHierarchicModel.Realization
     public class NonRegularHierarchicAnalyzer : AbstarctGraphAnalyzer
     {
         // Организация работы с лог файлом.
-        private static readonly ILog log = log4net.LogManager.GetLogger(typeof(NonRegularHierarchicAnalyzer));
+        protected static readonly new ILog log = log4net.LogManager.GetLogger(typeof(NonRegularHierarchicAnalyzer));
 
         // Контейнер, в котором содержится граф конкретной модели (Block-Hierarchic Non Regular).
         private NonRegularHierarchicContainer container;
