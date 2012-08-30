@@ -17,12 +17,11 @@ namespace StatisticAnalyzerUI
 {
     public partial class Graphic : Form
     {
-        private List<StAnalyzeResult> resultsList; // Contains all StAnalyzeResults
+        public List<StAnalyzeResult> resultsList; // Contains all StAnalyzeResults
 
         private Color currentColor; // Color of last graph line
         private bool currentPointView; // When true, points of the line are linked
         private GraphicCondition parent;
-
 
         private Dictionary<AnalyseOptions, ZedGraphControl> graphs; // Contains all ZedGraphsControls 
         private Dictionary<AnalyseOptions, TabPage> pages; // Contains all tabs
@@ -59,12 +58,12 @@ namespace StatisticAnalyzerUI
             this.MaximizeBox = false; 
 
             Initialization();
-            foreach (KeyValuePair<AnalyseOptions, SortedDictionary<double, double>> option
-                in this.resultsList[0].result)
-            {
-                ShowInfo(option.Key);
-                break; // Bad style. I'll work on this later.
-            }
+            foreach (KeyValuePair<AnalyseOptions, SortedDictionary<double, double>> option in 
+                this.resultsList[0].result)
+                {
+                    ShowInfo(option.Key);
+                    break; // Bad style. I'll work on this later.
+                }
         }
 
         // Member Functions
@@ -168,7 +167,7 @@ namespace StatisticAnalyzerUI
             
         }
 
-        private void GetApproximationAxisNames(ApproximationTypes type, ref string x, ref string y)
+        static public void GetApproximationAxisNames(ApproximationTypes type, ref string x, ref string y)
         {
             switch (type)
             {
@@ -235,7 +234,7 @@ namespace StatisticAnalyzerUI
             
         }
 
-        private void HandleApproximation(ApproximationTypes type, ref double x, ref double y)
+        static public void HandleApproximation(ApproximationTypes type, ref double x, ref double y)
         {
             switch (type)
             {
@@ -267,7 +266,7 @@ namespace StatisticAnalyzerUI
 
         public void TableClosed()
         {
-            //this.ValueTable.Enabled = true;
+            this.valueTableButton.Enabled = true;
         }
 
         private void optionTabs_SelectedIndexChanged(object sender, EventArgs e)
@@ -291,6 +290,11 @@ namespace StatisticAnalyzerUI
 
         private void ValueTable_Click(object sender, EventArgs e)
         {
+            this.valueTableButton.Enabled = false;
+            AnalyseOptions currentOption;
+            currentOption = (AnalyseOptions)Enum.Parse(typeof(AnalyseOptions), optionTabs.SelectedTab.Text);
+            ValueTable valueTable = new ValueTable(currentOption, this);
+            valueTable.Show();
         }
 
         private void Graphic_FormClosing(object sender, FormClosingEventArgs e)

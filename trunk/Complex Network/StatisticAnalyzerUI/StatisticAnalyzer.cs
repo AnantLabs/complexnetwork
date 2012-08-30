@@ -157,7 +157,7 @@ namespace StatisticAnalyzerUI
         {
             if (this.ByJobsRadio.Checked == true && this.JobsCmb.Text == string.Empty)
             {
-                MessageBox.Show("Choose a job");
+                MessageBox.Show("Choose a job", "Error");
                 return;
             }
 
@@ -247,6 +247,90 @@ namespace StatisticAnalyzerUI
             }
         }
 
+        private void valueButton_Click(object sender, EventArgs e)
+        {
+            if (this.ByJobsRadio.Checked == true && this.JobsCmb.Text == string.Empty)
+            {
+                MessageBox.Show("Choose a job", "Error");
+                return;
+            }
+
+            List<ResultAssembly> res = new List<ResultAssembly>();
+            if (this.ByJobsRadio.Checked)
+                res.Add(loader.SelectAssemblyByJob(this.JobsCmb.Text));
+            else
+                res = loader.SelectAssemblyByParameters(Values(0, generationParametersComboBoxes.Count),
+                    this.ByAllJobsCheck.Checked);
+            StAnalyzer analyzer = new StAnalyzer(res);
+
+            List<AnalyseOptions> checkedOptions = new List<AnalyseOptions>();
+
+            if (this.GlobalPropertiesList.GetItemChecked(0))
+            {
+                analyzer.options |= AnalyseOptions.AveragePath;
+                checkedOptions.Add(AnalyseOptions.AveragePath);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(1))
+            {
+                analyzer.options |= AnalyseOptions.Diameter;
+                checkedOptions.Add(AnalyseOptions.Diameter);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(2))
+            {
+                analyzer.options |= AnalyseOptions.ClusteringCoefficient;
+                checkedOptions.Add(AnalyseOptions.ClusteringCoefficient);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(3))
+            {
+                analyzer.options |= AnalyseOptions.DegreeDistribution;
+                checkedOptions.Add(AnalyseOptions.DegreeDistribution);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(4))
+            {
+                analyzer.options |= AnalyseOptions.Cycles3;
+                checkedOptions.Add(AnalyseOptions.Cycles3);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(5))
+            {
+                analyzer.options |= AnalyseOptions.Cycles4;
+                checkedOptions.Add(AnalyseOptions.Cycles4);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(6))
+            {
+                analyzer.options |= AnalyseOptions.MaxFullSubgraph;
+                checkedOptions.Add(AnalyseOptions.MaxFullSubgraph);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(7))
+            {
+                analyzer.options |= AnalyseOptions.LargestConnectedComponent;
+                checkedOptions.Add(AnalyseOptions.LargestConnectedComponent);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(8))
+            {
+                analyzer.options |= AnalyseOptions.MinEigenValue;
+                checkedOptions.Add(AnalyseOptions.MinEigenValue);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(9))
+            {
+                analyzer.options |= AnalyseOptions.MaxEigenValue;
+                checkedOptions.Add(AnalyseOptions.MaxEigenValue);
+            }
+
+            analyzer.GlobalAnalyze();
+            StAnalyzeResult result = analyzer.Result;
+            result.type = StAnalyzeType.Global;
+
+            ShowWarning(checkedOptions, result);
+
+            if (result.result.Keys.Count == 0)
+            {
+                return;
+            }
+
+            ValueTable valueTable = new ValueTable(result);
+            valueTable.ShowDialog();
+        }
+
         private void GetGlobalResult_Click(object sender, EventArgs e)
         {
             List<ResultAssembly> res = new List<ResultAssembly>(); ;
@@ -285,7 +369,7 @@ namespace StatisticAnalyzerUI
         {
             if (this.ByJobsRadio.Checked == true && this.JobsCmb.Text == string.Empty)
             {
-                MessageBox.Show("Choose a job");
+                MessageBox.Show("Choose a job", "Error");
                 return;
             }
 
@@ -346,7 +430,7 @@ namespace StatisticAnalyzerUI
 
             ShowWarning(checkedOptions, result);
 
-            if (result.options.Keys.Count == 0)
+            if (result.result.Keys.Count == 0)
             {
                 return;
             }
@@ -355,7 +439,7 @@ namespace StatisticAnalyzerUI
             {
                 if (result.approximationType != this.localGraphic.graphic.GetApproximation())
                 {
-                    MessageBox.Show("Approximations don't match");
+                    MessageBox.Show("Approximations don't match", "Error");
                     return;
                 }
 
@@ -369,6 +453,80 @@ namespace StatisticAnalyzerUI
                     !PointsCheck.Checked, this.localGraphic);
                 this.localGraphic.graphic.Show();
             }
+        }
+
+        private void localValueButton_Click(object sender, EventArgs e)
+        {
+            if (this.ByJobsRadio.Checked == true && this.JobsCmb.Text == string.Empty)
+            {
+                MessageBox.Show("Choose a job", "Error");
+                return;
+            }
+
+            List<ResultAssembly> res = new List<ResultAssembly>(); ;
+            if (this.ByJobsRadio.Checked)
+                res.Add(loader.SelectAssemblyByJob(this.JobsCmb.Text));
+            else
+                res = loader.SelectAssemblyByParameters(Values(0, generationParametersComboBoxes.Count),
+                    this.ByAllJobsCheck.Checked);
+            StAnalyzer analyzer = new StAnalyzer(res);
+
+            List<AnalyseOptions> checkedOptions = new List<AnalyseOptions>();
+
+            if (this.LocalPropertiesList.GetItemChecked(0))
+            {
+                analyzer.options |= AnalyseOptions.ClusteringCoefficient;
+                checkedOptions.Add(AnalyseOptions.ClusteringCoefficient);
+            }
+            if (this.LocalPropertiesList.GetItemChecked(1))
+            {
+                analyzer.options |= AnalyseOptions.DegreeDistribution;
+                checkedOptions.Add(AnalyseOptions.DegreeDistribution);
+            }
+            if (this.LocalPropertiesList.GetItemChecked(2))
+            {
+                analyzer.options |= AnalyseOptions.ConnSubGraph;
+                checkedOptions.Add(AnalyseOptions.ConnSubGraph);
+            }
+            if (this.LocalPropertiesList.GetItemChecked(3))
+            {
+                analyzer.options |= AnalyseOptions.MinPathDist;
+                checkedOptions.Add(AnalyseOptions.MinPathDist);
+            }
+            if (this.LocalPropertiesList.GetItemChecked(4))
+            {
+                analyzer.options |= AnalyseOptions.EigenValue;
+                checkedOptions.Add(AnalyseOptions.EigenValue);
+            }
+            if (this.LocalPropertiesList.GetItemChecked(5))
+            {
+                analyzer.options |= AnalyseOptions.DistEigenPath;
+                checkedOptions.Add(AnalyseOptions.DistEigenPath);
+            }
+            if (this.LocalPropertiesList.GetItemChecked(6))
+            {
+                analyzer.options |= AnalyseOptions.Cycles;
+                checkedOptions.Add(AnalyseOptions.Cycles);
+            }
+
+            MakeParameters(analyzer);
+            analyzer.LocalAnalyze();
+
+            StAnalyzeResult result = analyzer.Result;
+            result.type = StAnalyzeType.Local;
+            result.approximationType = (ApproximationTypes)Enum.Parse(typeof(ApproximationTypes),
+                this.ApproximationTypeCmb.SelectedItem.ToString());
+
+
+            ShowWarning(checkedOptions, result);
+
+            if (result.result.Keys.Count == 0)
+            {
+                return;
+            }
+
+            ValueTable valueTable = new ValueTable(result);
+            valueTable.ShowDialog();
         }
 
         private void MotifDrawGraphics_Click(object sender, EventArgs e)
@@ -678,7 +836,6 @@ namespace StatisticAnalyzerUI
                 MessageBox.Show(message);
             }
         }
-
     }
 
     public class GraphicCondition

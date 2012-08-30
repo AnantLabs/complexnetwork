@@ -9,44 +9,202 @@ using System.Windows.Forms;
 
 using RandomGraph.Common.Model;
 using CommonLibrary.Model.Attributes;
+using StatisticAnalyzer.Analyzer;
+using StatisticAnalyzer.Viewer;
 
 namespace StatisticAnalyzerUI
 {
     public partial class ValueTable : Form
     {
-        private SortedDictionary<double, double> m_values;
-        public Graphic m_parent;
+        private ValueTableCaller valueTableCaller;
+        private Graphic parent;
+        private AnalyseOptions currentOption;
+        private StAnalyzeResult currentResult;
+        private Dictionary<string, AnalyseOptions> optionNames;
+        private bool isFirst = true;
 
-        public ValueTable(SortedDictionary<double, double> values)
+        public ValueTable(AnalyseOptions option, Graphic caller)
         {
+            this.parent = caller;
+            this.currentOption = option;
+            this.valueTableCaller = ValueTableCaller.Graphic;
             InitializeComponent();
+        }
 
-            m_values = values;
+        public ValueTable(StAnalyzeResult stAnalyzeResult)
+        {
+            this.valueTableCaller = ValueTableCaller.StatisticAnalyzer;
+            this.currentResult = stAnalyzeResult;
+            this.currentOption = this.currentResult.result.Keys.First<AnalyseOptions>();
+            InitializeComponent();
         }
 
         private void ValueTable_Load(object sender, EventArgs e)
         {
-            int index = 0;
-            SortedDictionary<double, double>.KeyCollection keys = m_values.Keys;
-            foreach (double key in keys)
+            this.optionNames = new Dictionary<string, AnalyseOptions>();
+
+            if (this.valueTableCaller == ValueTableCaller.Graphic)
             {
-                index = this.ValuesGrd.Rows.Add();
-                this.ValuesGrd.Rows[index].Cells[0].Value = key;
-                this.ValuesGrd.Rows[index].Cells[1].Value = m_values[key];
+                foreach (StAnalyzeResult res in parent.resultsList)
+                {
+                    generationCmbBox.Items.Add(res.parameterLine);
+                    if (res.result.ContainsKey(this.currentOption))
+                    {
+                        this.currentResult = res;
+                        this.generationCmbBox.Text = res.parameterLine;
+                        // The last command calls generationCmbBox_SelectedIndexChanged event handler,
+                        // wich calls SetValues, AddOptions. etc.. 
+                    }
+                }
+                                                                  
+            }
+
+            else
+            {
+                this.generationCmbBox.Items.Add(this.currentResult.parameterLine);
+                this.generationCmbBox.Text = generationCmbBox.Items[0].ToString();
+            }
+
+            if (this.currentResult.type != StAnalyzeType.Local)
+            {
+                DisableApproximation();
+            }
+            else
+            {
+                EnableApproximation();
+                this.approximationTxt.Text = currentResult.approximationType.ToString();
+            }
+
+        }
+
+        private void AddOptions()
+        {
+            this.optionCmbBox.Items.Clear();
+            this.optionNames.Clear();
+            AnalyzeOptionInfo info;
+
+            Dictionary<AnalyseOptions, SortedDictionary<double, double>>.KeyCollection keyOptions = currentResult.result.Keys;
+            foreach (AnalyseOptions option in keyOptions)
+            {
+                info = (AnalyzeOptionInfo)(option.GetType().GetField(option.ToString()).
+                    GetCustomAttributes(typeof(AnalyzeOptionInfo), false)[0]);
+
+                this.optionNames.Add(info.Name, option);
+                this.optionCmbBox.Items.Add(info.Name);
+                if (option == this.currentOption)
+                {
+                    this.optionCmbBox.Text = info.Name;
+                }
             }
         }
 
+        private void EnableApproximation()
+        {
+            this.apprLabel.Enabled = true;
+            this.approximationTxt.Enabled = true;
+        }
+
+        private void DisableApproximation()
+        {
+            this.apprLabel.Enabled = false;
+            this.approximationTxt.Enabled = false;
+        }
+    
+        private void SetValues()
+        {
+            this.ValuesGrd.Rows.Clear();
+
+            int dataIndex;
+            SortedDictionary<double, double> pointsDictionary;
+            double x, y;
+
+            this.currentResult.result.TryGetValue(this.currentOption, out pointsDictionary);
+            foreach (KeyValuePair<double, double> point in pointsDictionary)
+            {
+                x = point.Key;
+                y = point.Value;
+                if (this.currentResult.type == StAnalyzeType.Local && currentResult.approximationType != ApproximationTypes.None)
+                {
+                    Graphic.HandleApproximation(currentResult.approximationType, ref x, ref y);
+                }
+                dataIndex = this.ValuesGrd.Rows.Add();
+                this.ValuesGrd.Rows[dataIndex].Cells[0].Value = x;
+                this.ValuesGrd.Rows[dataIndex].Cells[1].Value = y;
+            }
+        }
+
+        private void SetColumnNames()
+        {
+            AnalyzeOptionInfo info = (AnalyzeOptionInfo)(this.currentOption.GetType().GetField(this.currentOption.ToString()).
+                GetCustomAttributes(typeof(AnalyzeOptionInfo), false)[0]);
+
+            if (this.currentResult.type == StAnalyzeType.Global)
+            {
+                this.ValuesGrd.Columns[0].HeaderText = info.GXAxis;
+                this.ValuesGrd.Columns[1].HeaderText = info.GYAxis;
+            }
+
+            else if (this.currentResult.type == StAnalyzeType.Local)
+            {
+                string x = info.LXAxis, y = info.LYAxis;
+                if (currentResult.approximationType != ApproximationTypes.None)
+                {
+                    Graphic.GetApproximationAxisNames(this.currentResult.approximationType, ref x, ref y);
+                }
+
+                this.ValuesGrd.Columns[0].HeaderText = x;
+                this.ValuesGrd.Columns[1].HeaderText = y;
+            }
+
+        }
+        
         private void Print_Click(object sender, EventArgs e)
         {
+            //TODO
         }
 
         private void Save_Click(object sender, EventArgs e)
         {
+            //TODO
         }
 
         private void ValueTable_FormClosing(object sender, FormClosingEventArgs e)
         {
-            m_parent.TableClosed();
+            if (this.valueTableCaller == ValueTableCaller.Graphic)
+            {
+                parent.TableClosed();
+            }
         }
+         
+
+        private void generationCmbBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.valueTableCaller == ValueTableCaller.Graphic)
+            {
+                this.currentResult = this.parent.resultsList[this.generationCmbBox.SelectedIndex];
+                if (this.isFirst == false)
+                {
+                    this.currentOption = this.currentResult.result.Keys.First<AnalyseOptions>();
+                }
+                isFirst = false;
+            }
+
+            AddOptions();
+        }
+
+        private void optionCmbBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            AnalyseOptions option;
+            this.optionNames.TryGetValue(optionCmbBox.Text, out option);
+            this.currentOption = option;
+            SetColumnNames();
+            SetValues();
+        }
+    }
+
+    enum ValueTableCaller
+    {
+        StatisticAnalyzer,
+        Graphic
     }
 }
