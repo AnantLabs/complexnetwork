@@ -60,6 +60,7 @@
             this.LocalPropertiesList = new System.Windows.Forms.CheckedListBox();
             this.LocalDrawGraphics = new System.Windows.Forms.Button();
             this.GlobalAnalyzeTab = new System.Windows.Forms.TabPage();
+            this.valueButton = new System.Windows.Forms.Button();
             this.GlobalPropertiesList = new System.Windows.Forms.CheckedListBox();
             this.GetGlobalResult = new System.Windows.Forms.Button();
             this.GlobalDrawGraphics = new System.Windows.Forms.Button();
@@ -71,6 +72,7 @@
             this.PointsCheck = new System.Windows.Forms.CheckBox();
             this.GraphicsGrp = new System.Windows.Forms.GroupBox();
             this.GroupByOptionCheck = new System.Windows.Forms.CheckBox();
+            this.localValueButton = new System.Windows.Forms.Button();
             this.MenuStrip.SuspendLayout();
             this.LocalAnalyzeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalAnalyzeOptionsGrd)).BeginInit();
@@ -259,6 +261,7 @@
             // 
             // LocalAnalyzeTab
             // 
+            this.LocalAnalyzeTab.Controls.Add(this.localValueButton);
             this.LocalAnalyzeTab.Controls.Add(this.LocalAnalyzeOptionsGrd);
             this.LocalAnalyzeTab.Controls.Add(this.ApproximationType);
             this.LocalAnalyzeTab.Controls.Add(this.ApproximationTypeCmb);
@@ -359,6 +362,7 @@
             // 
             // GlobalAnalyzeTab
             // 
+            this.GlobalAnalyzeTab.Controls.Add(this.valueButton);
             this.GlobalAnalyzeTab.Controls.Add(this.GlobalPropertiesList);
             this.GlobalAnalyzeTab.Controls.Add(this.GetGlobalResult);
             this.GlobalAnalyzeTab.Controls.Add(this.GlobalDrawGraphics);
@@ -369,6 +373,17 @@
             this.GlobalAnalyzeTab.TabIndex = 0;
             this.GlobalAnalyzeTab.Text = "Global Analyze";
             this.GlobalAnalyzeTab.UseVisualStyleBackColor = true;
+            // 
+            // valueButton
+            // 
+            this.valueButton.Location = new System.Drawing.Point(615, 84);
+            this.valueButton.Name = "valueButton";
+            this.valueButton.Size = new System.Drawing.Size(120, 37);
+            this.valueButton.TabIndex = 16;
+            this.valueButton.Text = "Show Values";
+            this.CommonToolTip.SetToolTip(this.valueButton, "Shows the global analyze result graphic.");
+            this.valueButton.UseVisualStyleBackColor = true;
+            this.valueButton.Click += new System.EventHandler(this.valueButton_Click);
             // 
             // GlobalPropertiesList
             // 
@@ -392,7 +407,7 @@
             // 
             // GetGlobalResult
             // 
-            this.GetGlobalResult.Location = new System.Drawing.Point(614, 78);
+            this.GetGlobalResult.Location = new System.Drawing.Point(615, 41);
             this.GetGlobalResult.Name = "GetGlobalResult";
             this.GetGlobalResult.Size = new System.Drawing.Size(120, 37);
             this.GetGlobalResult.TabIndex = 12;
@@ -498,6 +513,17 @@
             this.GroupByOptionCheck.Text = "Group Graphics by Option";
             this.GroupByOptionCheck.UseVisualStyleBackColor = true;
             // 
+            // localValueButton
+            // 
+            this.localValueButton.Location = new System.Drawing.Point(613, 84);
+            this.localValueButton.Name = "localValueButton";
+            this.localValueButton.Size = new System.Drawing.Size(120, 37);
+            this.localValueButton.TabIndex = 39;
+            this.localValueButton.Text = "Show Values";
+            this.CommonToolTip.SetToolTip(this.localValueButton, "Shows the global analyze result graphic.");
+            this.localValueButton.UseVisualStyleBackColor = true;
+            this.localValueButton.Click += new System.EventHandler(this.localValueButton_Click);
+            // 
             // StatisticAnalyzer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -582,6 +608,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ThickeningColumn;
         private System.Windows.Forms.GroupBox GraphicsGrp;
         private System.Windows.Forms.CheckBox GroupByOptionCheck;
+        private System.Windows.Forms.Button valueButton;
+        private System.Windows.Forms.Button localValueButton;
     }
 }
 

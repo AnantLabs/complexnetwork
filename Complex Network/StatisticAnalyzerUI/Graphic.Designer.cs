@@ -34,7 +34,7 @@
             this.DispertionTxt = new System.Windows.Forms.TextBox();
             this.Dispersion = new System.Windows.Forms.Label();
             this.CommonToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.ValueTable = new System.Windows.Forms.Button();
+            this.valueTableButton = new System.Windows.Forms.Button();
             this.InformationGrp = new System.Windows.Forms.GroupBox();
             this.realCoutTxt = new System.Windows.Forms.TextBox();
             this.realCount = new System.Windows.Forms.Label();
@@ -111,15 +111,15 @@
             this.CommonToolTip.IsBalloon = true;
             this.CommonToolTip.ShowAlways = true;
             // 
-            // ValueTable
+            // valueTableButton
             // 
-            this.ValueTable.Location = new System.Drawing.Point(84, 442);
-            this.ValueTable.Name = "ValueTable";
-            this.ValueTable.Size = new System.Drawing.Size(65, 23);
-            this.ValueTable.TabIndex = 8;
-            this.ValueTable.Text = "Values";
-            this.ValueTable.UseVisualStyleBackColor = true;
-            this.ValueTable.Click += new System.EventHandler(this.ValueTable_Click);
+            this.valueTableButton.Location = new System.Drawing.Point(84, 442);
+            this.valueTableButton.Name = "valueTableButton";
+            this.valueTableButton.Size = new System.Drawing.Size(65, 23);
+            this.valueTableButton.TabIndex = 8;
+            this.valueTableButton.Text = "Values";
+            this.valueTableButton.UseVisualStyleBackColor = true;
+            this.valueTableButton.Click += new System.EventHandler(this.ValueTable_Click);
             // 
             // InformationGrp
             // 
@@ -285,7 +285,7 @@
             this.panel1.Controls.Add(this.saveButton);
             this.panel1.Controls.Add(this.InformationGrp);
             this.panel1.Controls.Add(this.ResultsGrp);
-            this.panel1.Controls.Add(this.ValueTable);
+            this.panel1.Controls.Add(this.valueTableButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
@@ -352,7 +352,7 @@
         private System.Windows.Forms.TextBox DispertionTxt;
         private System.Windows.Forms.Label Dispersion;
         private System.Windows.Forms.ToolTip CommonToolTip;
-        private System.Windows.Forms.Button ValueTable;
+        private System.Windows.Forms.Button valueTableButton;
         private System.Windows.Forms.GroupBox InformationGrp;
         private System.Windows.Forms.TextBox PropertyTxt;
         private System.Windows.Forms.Label Property;
