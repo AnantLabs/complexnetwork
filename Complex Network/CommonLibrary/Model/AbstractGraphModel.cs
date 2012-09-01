@@ -29,7 +29,7 @@ namespace RandomGraph.Common.Model
     /// 
     /// </summary>
     [KnownType("GetKnownModelTypes")]
-    public abstract class AbstractGraphModel : IGraphModel
+    public abstract class AbstractGraphModel
     {
         public event GraphProgressEventHandler Progress;
         public event GraphGeneratedDelegate GraphGenerated;
@@ -37,7 +37,7 @@ namespace RandomGraph.Common.Model
         // Генератор графа.
         protected IGraphGenerator generator;
         // Анализатор графа.
-        protected IGraphAnalyzer analyzer;
+        protected AbstarctGraphAnalyzer analyzer;
 
         public AbstractGraphModel() { }
 
@@ -295,7 +295,7 @@ namespace RandomGraph.Common.Model
             }
             catch (Exception ex)
             {
-                InvokeFailureProgressEvent(GraphProgress.AnalizingFailed, "ENTER FAIL REASON HERE");
+                InvokeFailureProgressEvent(GraphProgress.AnalizingFailed, ex.Message);
                 //RETHROW EXCEPTION
             }
             finally
@@ -308,8 +308,7 @@ namespace RandomGraph.Common.Model
         /// Check input generation parameters. 
         /// </summary>
         public abstract bool CheckGenerationParams(int instances);
-
-        /// <summary>
+                /// <summary>
         /// Получение матрицы смежности из контейнера.
         /// </summary>
         public bool[,] GetMatrix()
@@ -432,9 +431,9 @@ namespace RandomGraph.Common.Model
 
         #region IGraphModel Members
 
-        /// <summary>
-        /// Started analize GrapeMode.
-        /// </summary>
+        /// Triggers analyze start process,
+        /// and can be called only in case when 
+        /// generation is fully completed
         public void StartAnalize()
         {
             if (CurrentStatus.GraphProgress != GraphProgress.GenerationDone)
@@ -444,21 +443,21 @@ namespace RandomGraph.Common.Model
             AnalyzeModel();
         }
 
-        /// <summary>
-        /// Started generate Graph model. Invoked only Randome mode.
-        /// </summary>
+        /// Starts generation of graph model for separate 
+        /// generation rule and for the first time of 
+        /// sequential generation 
         public void StartGenerate()
         {
             if (CurrentStatus.GraphProgress != GraphProgress.Ready)
             {
                 return;
             }
-            //if(AbstractGraphModel.staticGeneration)
-                 GenerateModel();
-            //else
-            //    StaticGenerateModel();
+            GenerateModel();
         }
 
+        /// Starts generation of graph model for sequential
+        /// generation rule starting from second to the last model in the
+        /// queue
         public void StartGenerate(Object graphObj)
         {
 

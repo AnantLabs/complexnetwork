@@ -7,7 +7,7 @@ using log4net;
 
 namespace CommonLibrary.Model
 {
-    public abstract class AbstarctGraphAnalyzer : IGraphAnalyzer
+    public abstract class AbstarctGraphAnalyzer
     {
         // Организация Работы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(AbstarctGraphAnalyzer));
