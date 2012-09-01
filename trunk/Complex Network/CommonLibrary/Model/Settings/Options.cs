@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Configuration;
+using System.IO;
 
 namespace RandomGraph.Common.Model.Settings
 {
@@ -52,7 +53,19 @@ namespace RandomGraph.Common.Model.Settings
             }
             set
             {
-                storageDirectory = value;
+                if (value.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                {
+                    storageDirectory = value;
+                }
+                else
+                {
+                    storageDirectory = value + Path.DirectorySeparatorChar;
+                }
+
+                if (Directory.Exists(storageDirectory) == false)
+                {
+                    Directory.CreateDirectory(storageDirectory);
+                }
                 config.AppSettings.Settings["XmlProvider"].Value = storageDirectory;
             }
         }
@@ -184,9 +197,9 @@ namespace RandomGraph.Common.Model.Settings
             else throw new Exception("Training is set improperly.");
 
             if (config.AppSettings.Settings["Tracing"].Value == "yes")
-                trainingMode = true;
+                tracingMode = true;
             else if (config.AppSettings.Settings["Tracing"].Value == "no")
-                trainingMode = false;
+                tracingMode = false;
             else throw new Exception("Tracing is set improperly.");
 
             tracingDirectory = config.AppSettings.Settings["TracingDirectory"].Value;
