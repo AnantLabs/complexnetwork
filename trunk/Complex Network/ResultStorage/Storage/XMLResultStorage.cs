@@ -62,16 +62,18 @@ namespace ResultStorage.Storage
                 writer.WriteEndElement();
 
                 writer.WriteStartElement("generationparams");
-                foreach (GenerationParam genParameter in assembly.GenerationParams.Keys)
+                if (assembly.GenerationParams != null)
                 {
-                    writer.WriteStartElement("generationparam");
-                    writer.WriteAttributeString("id", Convert.ToInt32(genParameter).ToString());
-                    writer.WriteAttributeString("parametername", Enum.GetName(typeof(GenerationParam), genParameter));
-                    writer.WriteAttributeString("value", assembly.GenerationParams[genParameter].ToString());
+                    foreach (GenerationParam genParameter in assembly.GenerationParams.Keys)
+                    {
+                        writer.WriteStartElement("generationparam");
+                        writer.WriteAttributeString("id", Convert.ToInt32(genParameter).ToString());
+                        writer.WriteAttributeString("parametername", Enum.GetName(typeof(GenerationParam), genParameter));
+                        writer.WriteAttributeString("value", assembly.GenerationParams[genParameter].ToString());
+                        writer.WriteEndElement();
+                    }
                     writer.WriteEndElement();
                 }
-                writer.WriteEndElement();
-
                 writer.WriteStartElement("analyseresults");
 
                 foreach (AnalizeResult result in assembly.Results)
