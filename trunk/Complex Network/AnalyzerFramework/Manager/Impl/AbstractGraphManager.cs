@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using RandomGraph.Core.Manager.Interface;
 using RandomGraph.Common.Model;
 using RandomGraph.Common.Storage;
 using RandomGraph.Core.Events;
 using RandomGraph.Core.Manager.Status;
 using RandomGraph.Common.Model.Status;
 using CommonLibrary.Model.Result;
-//using RandomGraph.Common.Model.StatAnalyzer;
 using CommonLibrary.Model.Util;
 using AnalyzerFramework.Manager.Impl;
 using CommonLibrary.Model.Events;
@@ -18,7 +16,7 @@ namespace RandomGraph.Core.Manager.Impl
     /// <summary>
     /// This class is a base for all Graph manager implementations.
     /// </summary>
-    public abstract class AbstractGraphManager : IGraphManager
+    public abstract class AbstractGraphManager
     {
         /// <summary>
         /// Event for notification of graph manager status change.

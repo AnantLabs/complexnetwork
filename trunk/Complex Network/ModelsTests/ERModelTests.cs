@@ -60,7 +60,7 @@ namespace ModelsTests
             ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
             container.SetMatrix(matrix);
-            IGraphAnalyzer analyzer = new ERAnalyzer(container);
+            AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             double actualValue = analyzer.GetAveragePath();
             double expectedValue = goldResult.Results[0].Result[AnalyseOptions.AveragePath];
@@ -78,7 +78,7 @@ namespace ModelsTests
             ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
             container.SetMatrix(matrix);
-            IGraphAnalyzer analyzer = new ERAnalyzer(container);
+            AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             SortedDictionary<double, int> actualValue = analyzer.GetClusteringCoefficient();
             SortedDictionary<double, int> expectedValue = goldResult.Results[0].Coefficient;
@@ -96,7 +96,7 @@ namespace ModelsTests
             ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
             container.SetMatrix(matrix);
-            IGraphAnalyzer analyzer = new ERAnalyzer(container);
+            AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetDegreeDistribution();
             SortedDictionary<int, int> expectedValue = goldResult.Results[0].VertexDegree;
@@ -114,7 +114,7 @@ namespace ModelsTests
             ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
             container.SetMatrix(matrix);
-            IGraphAnalyzer analyzer = new ERAnalyzer(container);
+            AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             SortedDictionary<int, long> actualValue = analyzer.GetCycles(4, 6);
             SortedDictionary<int, long> expectedValue = goldResult.Results[0].Cycles;
@@ -132,7 +132,7 @@ namespace ModelsTests
             ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
             container.SetMatrix(matrix);
-            IGraphAnalyzer analyzer = new ERAnalyzer(container);
+            AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             int actualValue = analyzer.GetCycles3();
             int expectedValue = (int)goldResult.Results[0].Result[AnalyseOptions.Cycles3];
@@ -150,7 +150,7 @@ namespace ModelsTests
             ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
             container.SetMatrix(matrix);
-            IGraphAnalyzer analyzer = new ERAnalyzer(container);
+            AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             int actualValue = analyzer.GetCycles4();
             //FIXME
@@ -170,7 +170,7 @@ namespace ModelsTests
             ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
             container.SetMatrix(matrix);
-            IGraphAnalyzer analyzer = new ERAnalyzer(container);
+            AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetFullSubGraph();
             SortedDictionary<int, int> expectedValue = goldResult.Results[0].FullSubgraphs;
@@ -188,7 +188,7 @@ namespace ModelsTests
             ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
             container.SetMatrix(matrix);
-            IGraphAnalyzer analyzer = new ERAnalyzer(container);
+            AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetMinPathDist();
             SortedDictionary<int, int> expectedValue = goldResult.Results[0].DistanceBetweenVertices;
@@ -206,7 +206,7 @@ namespace ModelsTests
             ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
             container.SetMatrix(matrix);
-            IGraphAnalyzer analyzer = new ERAnalyzer(container);
+            AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             SortedDictionary<double, int> actualValue = analyzer.GetDistEigenPath();
             SortedDictionary<double, int> expectedValue = goldResult.Results[0].DistancesBetweenEigenValues;
@@ -259,7 +259,7 @@ namespace ModelsTests
             ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
             container.SetMatrix(matrix);
-            IGraphAnalyzer analyzer = new ERAnalyzer(container);
+            AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             ArrayList actualValue = analyzer.GetEigenValues();
             ArrayList expectedValue = goldResult.Results[0].EigenVector;

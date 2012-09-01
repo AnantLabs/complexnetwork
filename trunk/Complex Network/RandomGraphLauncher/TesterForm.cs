@@ -80,7 +80,7 @@ namespace RandomGraphLauncher
 
         private void WSModelTest(WSContainer container)
         {
-            IGraphAnalyzer analyzer = new WSAnalyzer(container);
+            AbstarctGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             //test tDegreeDistribution
             testDegreeDistribution(0, analyzer);
@@ -109,7 +109,7 @@ namespace RandomGraphLauncher
 
         private void BAModelTest(BAContainer container)
         {
-            IGraphAnalyzer analyzer = new BAAnalyzer(container);
+            AbstarctGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             //test tDegreeDistribution
             testDegreeDistribution(0, analyzer);
@@ -195,7 +195,7 @@ namespace RandomGraphLauncher
             }
             return true;
         }
-        private void testDegreeDistribution(int number, IGraphAnalyzer analyzer)
+        private void testDegreeDistribution(int number, AbstarctGraphAnalyzer analyzer)
         {
             Label label;
             if (!checkIfNeedToTest(number))
@@ -225,7 +225,7 @@ namespace RandomGraphLauncher
             }
         }
 
-        private void testAveragePath(int number, IGraphAnalyzer analyzer)
+        private void testAveragePath(int number, AbstarctGraphAnalyzer analyzer)
         {
             if (!checkIfNeedToTest(number))
             {
@@ -260,7 +260,7 @@ namespace RandomGraphLauncher
             }
         }
 
-        private void testClusteringCoefficient(int number, IGraphAnalyzer analyzer)
+        private void testClusteringCoefficient(int number, AbstarctGraphAnalyzer analyzer)
         {
             if (!checkIfNeedToTest(number))
             {
@@ -290,7 +290,7 @@ namespace RandomGraphLauncher
             }
         }
 
-        private void testEigenValue(int number, IGraphAnalyzer analyzer)
+        private void testEigenValue(int number, AbstarctGraphAnalyzer analyzer)
         {
             if (!checkIfNeedToTest(number))
             {
@@ -320,7 +320,7 @@ namespace RandomGraphLauncher
             }
         }
 
-        private void testCycles3(int number, IGraphAnalyzer analyzer)
+        private void testCycles3(int number, AbstarctGraphAnalyzer analyzer)
         {
             if (!checkIfNeedToTest(number))
             {
@@ -350,7 +350,7 @@ namespace RandomGraphLauncher
             }
         }
 
-        private void testDiameter(int number, IGraphAnalyzer analyzer)
+        private void testDiameter(int number, AbstarctGraphAnalyzer analyzer)
         {
             if (!checkIfNeedToTest(number))
             {
@@ -380,7 +380,7 @@ namespace RandomGraphLauncher
             }
         }
 
-        private void testCycles4(int number, IGraphAnalyzer analyzer)
+        private void testCycles4(int number, AbstarctGraphAnalyzer analyzer)
         {
             if (!checkIfNeedToTest(number))
             {
@@ -410,7 +410,7 @@ namespace RandomGraphLauncher
             }
         }
 
-        private void testDistanceBetweenVertices(int number, IGraphAnalyzer analyzer)
+        private void testDistanceBetweenVertices(int number, AbstarctGraphAnalyzer analyzer)
         {
             if (!checkIfNeedToTest(number))
             {
@@ -440,7 +440,7 @@ namespace RandomGraphLauncher
             }
         }
 
-        private void testDistancesBetweenEigenValues(int number, IGraphAnalyzer analyzer)
+        private void testDistancesBetweenEigenValues(int number, AbstarctGraphAnalyzer analyzer)
         {
             if (!checkIfNeedToTest(number))
             {
@@ -470,7 +470,7 @@ namespace RandomGraphLauncher
             }
         }
 
-        private void testFullSubgraphs(int number, IGraphAnalyzer analyzer)
+        private void testFullSubgraphs(int number, AbstarctGraphAnalyzer analyzer)
         {
             if (!checkIfNeedToTest(number))
             {
@@ -500,7 +500,7 @@ namespace RandomGraphLauncher
             }
         }
 
-        private void testMotiv(int number, IGraphAnalyzer analyzer)
+        private void testMotiv(int number, AbstarctGraphAnalyzer analyzer)
         {
             if (!checkIfNeedToTest(number))
             {
@@ -530,7 +530,7 @@ namespace RandomGraphLauncher
             }
         }
 
-        private void testCycles(int number, IGraphAnalyzer analyzer)
+        private void testCycles(int number, AbstarctGraphAnalyzer analyzer)
         {
             if (!checkIfNeedToTest(number))
             {

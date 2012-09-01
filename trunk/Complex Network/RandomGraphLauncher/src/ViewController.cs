@@ -20,7 +20,6 @@ using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model.Status;
 using RandomGraph.Core.Events;
 using RandomGraph.Core.Manager.Impl;
-using RandomGraph.Core.Manager.Interface;
 using RandomGraph.Core.Manager.Status;
 using RandomGraphLauncher.controls;
 using RandomGraphLauncher.models;
