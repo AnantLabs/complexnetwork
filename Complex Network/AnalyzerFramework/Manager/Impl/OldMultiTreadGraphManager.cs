@@ -58,7 +58,15 @@ namespace AnalyzerFramework.Manager.Impl
             log.Info("Started creating thread for each instance");
             for (int i = 0; i < iterations; i++)
             {
-                AbstractGraphModel model = origineModel.Clone();
+                AbstractGraphModel model;
+                if (Options.GenerationMode.staticGeneration == Options.Generation) 
+                {
+                  model = origineModel;
+                }
+                else 
+                {
+                  model = origineModel.Clone();
+                }
                 model.setID(i);
                 model.Progress += new GraphProgressEventHandler(OnSeparateModelProgress);
                 model.GraphGenerated += new CommonLibrary.Model.Events.GraphGeneratedDelegate(model_GraphGenerated);

@@ -67,6 +67,7 @@ namespace RandomGraph.Common.Model
             //GenerationParamValues = genParam;
             AnalizeOptions = options;
             AnalizeOptionsValues = analizeOptionsValues;
+            NeighbourshipMatrix = matrix;
 
             CurrentStatus = new GraphProgressStatus();
             CurrentStatus.GraphProgress = GraphProgress.Initializing;
