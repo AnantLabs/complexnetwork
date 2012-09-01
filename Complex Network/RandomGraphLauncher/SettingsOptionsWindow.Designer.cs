@@ -47,37 +47,41 @@
             this.LabelConnStr = new System.Windows.Forms.Label();
             this.Location = new System.Windows.Forms.Label();
             this.distributedTabPage = new System.Windows.Forms.TabPage();
-            this.RefreshButton = new System.Windows.Forms.Button();
-            this.distributedCheckBox = new System.Windows.Forms.CheckBox();
-            this.DiscoveredServices = new System.Windows.Forms.CheckedListBox();
+            this.distributedGroupBox = new System.Windows.Forms.GroupBox();
             this.distributedLabel = new System.Windows.Forms.Label();
+            this.RefreshButton = new System.Windows.Forms.Button();
+            this.DiscoveredServices = new System.Windows.Forms.CheckedListBox();
+            this.distributedCheckBox = new System.Windows.Forms.CheckBox();
             this.LoggerSettingsTabPage = new System.Windows.Forms.TabPage();
             this.loggerSettingsGroupBox = new System.Windows.Forms.GroupBox();
             this.debugCheckBox = new System.Windows.Forms.CheckBox();
             this.pathLabel = new System.Windows.Forms.Label();
             this.loggerPathTextBox = new System.Windows.Forms.TextBox();
             this.savingButton = new System.Windows.Forms.Button();
-            this.tracingModetabPage = new System.Windows.Forms.TabPage();
+            this.tracingTabPage = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tracingBrowseButton = new System.Windows.Forms.Button();
             this.tracingLabel = new System.Windows.Forms.Label();
             this.tracingPathTxtBox = new System.Windows.Forms.TextBox();
             this.generationTabPage = new System.Windows.Forms.TabPage();
+            this.trainingTabPage = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.BrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.LoggerBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.tracingBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.distributedGroupBox = new System.Windows.Forms.GroupBox();
             this.generationModeGroupBox.SuspendLayout();
             this.OptionsTabControl.SuspendLayout();
             this.storageTabPage.SuspendLayout();
             this.storageGroupBox.SuspendLayout();
             this.distributedTabPage.SuspendLayout();
+            this.distributedGroupBox.SuspendLayout();
             this.LoggerSettingsTabPage.SuspendLayout();
             this.loggerSettingsGroupBox.SuspendLayout();
-            this.tracingModetabPage.SuspendLayout();
+            this.tracingTabPage.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.generationTabPage.SuspendLayout();
-            this.distributedGroupBox.SuspendLayout();
+            this.trainingTabPage.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // cancelButton
@@ -105,20 +109,20 @@
             this.tracingModeCheckBox.AutoSize = true;
             this.tracingModeCheckBox.Location = new System.Drawing.Point(20, 40);
             this.tracingModeCheckBox.Name = "tracingModeCheckBox";
-            this.tracingModeCheckBox.Size = new System.Drawing.Size(91, 17);
+            this.tracingModeCheckBox.Size = new System.Drawing.Size(92, 17);
             this.tracingModeCheckBox.TabIndex = 2;
-            this.tracingModeCheckBox.Text = "Tracing mode";
+            this.tracingModeCheckBox.Text = "Tracing Mode";
             this.tracingModeCheckBox.UseVisualStyleBackColor = true;
             this.tracingModeCheckBox.CheckedChanged += new System.EventHandler(this.tracingModeCheckBox_CheckedChanged);
             // 
             // trainingModeCheckBox
             // 
             this.trainingModeCheckBox.AutoSize = true;
-            this.trainingModeCheckBox.Location = new System.Drawing.Point(18, 118);
+            this.trainingModeCheckBox.Location = new System.Drawing.Point(20, 40);
             this.trainingModeCheckBox.Name = "trainingModeCheckBox";
-            this.trainingModeCheckBox.Size = new System.Drawing.Size(93, 17);
+            this.trainingModeCheckBox.Size = new System.Drawing.Size(94, 17);
             this.trainingModeCheckBox.TabIndex = 1;
-            this.trainingModeCheckBox.Text = "Training mode";
+            this.trainingModeCheckBox.Text = "Training Mode";
             this.trainingModeCheckBox.UseVisualStyleBackColor = true;
             // 
             // generationModeGroupBox
@@ -157,8 +161,9 @@
             this.OptionsTabControl.Controls.Add(this.storageTabPage);
             this.OptionsTabControl.Controls.Add(this.distributedTabPage);
             this.OptionsTabControl.Controls.Add(this.LoggerSettingsTabPage);
-            this.OptionsTabControl.Controls.Add(this.tracingModetabPage);
+            this.OptionsTabControl.Controls.Add(this.tracingTabPage);
             this.OptionsTabControl.Controls.Add(this.generationTabPage);
+            this.OptionsTabControl.Controls.Add(this.trainingTabPage);
             this.OptionsTabControl.Location = new System.Drawing.Point(39, 24);
             this.OptionsTabControl.Name = "OptionsTabControl";
             this.OptionsTabControl.SelectedIndex = 0;
@@ -281,6 +286,27 @@
             this.distributedTabPage.Text = "Distributed";
             this.distributedTabPage.UseVisualStyleBackColor = true;
             // 
+            // distributedGroupBox
+            // 
+            this.distributedGroupBox.Controls.Add(this.distributedLabel);
+            this.distributedGroupBox.Controls.Add(this.RefreshButton);
+            this.distributedGroupBox.Controls.Add(this.DiscoveredServices);
+            this.distributedGroupBox.Controls.Add(this.distributedCheckBox);
+            this.distributedGroupBox.Location = new System.Drawing.Point(39, 24);
+            this.distributedGroupBox.Name = "distributedGroupBox";
+            this.distributedGroupBox.Size = new System.Drawing.Size(421, 171);
+            this.distributedGroupBox.TabIndex = 11;
+            this.distributedGroupBox.TabStop = false;
+            this.distributedGroupBox.Text = "Set distributed mode settings";
+            // 
+            // distributedLabel
+            // 
+            this.distributedLabel.Location = new System.Drawing.Point(20, 62);
+            this.distributedLabel.Name = "distributedLabel";
+            this.distributedLabel.Size = new System.Drawing.Size(250, 31);
+            this.distributedLabel.TabIndex = 7;
+            this.distributedLabel.Text = "Please select computers which will be used during \ndistributed calculation.";
+            // 
             // RefreshButton
             // 
             this.RefreshButton.Location = new System.Drawing.Point(23, 111);
@@ -290,16 +316,6 @@
             this.RefreshButton.Text = "Refresh list";
             this.RefreshButton.UseVisualStyleBackColor = true;
             this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
-            // 
-            // distributedCheckBox
-            // 
-            this.distributedCheckBox.AutoSize = true;
-            this.distributedCheckBox.Location = new System.Drawing.Point(23, 30);
-            this.distributedCheckBox.Name = "distributedCheckBox";
-            this.distributedCheckBox.Size = new System.Drawing.Size(156, 17);
-            this.distributedCheckBox.TabIndex = 9;
-            this.distributedCheckBox.Text = "Use distributed calculation?";
-            this.distributedCheckBox.UseVisualStyleBackColor = true;
             // 
             // DiscoveredServices
             // 
@@ -311,13 +327,15 @@
             this.DiscoveredServices.Size = new System.Drawing.Size(137, 135);
             this.DiscoveredServices.TabIndex = 8;
             // 
-            // distributedLabel
+            // distributedCheckBox
             // 
-            this.distributedLabel.Location = new System.Drawing.Point(20, 62);
-            this.distributedLabel.Name = "distributedLabel";
-            this.distributedLabel.Size = new System.Drawing.Size(250, 31);
-            this.distributedLabel.TabIndex = 7;
-            this.distributedLabel.Text = "Please select computers which will be used during \ndistributed calculation.";
+            this.distributedCheckBox.AutoSize = true;
+            this.distributedCheckBox.Location = new System.Drawing.Point(23, 30);
+            this.distributedCheckBox.Name = "distributedCheckBox";
+            this.distributedCheckBox.Size = new System.Drawing.Size(156, 17);
+            this.distributedCheckBox.TabIndex = 9;
+            this.distributedCheckBox.Text = "Use distributed calculation?";
+            this.distributedCheckBox.UseVisualStyleBackColor = true;
             // 
             // LoggerSettingsTabPage
             // 
@@ -379,20 +397,19 @@
             this.savingButton.UseVisualStyleBackColor = true;
             this.savingButton.Click += new System.EventHandler(this.savingButton_Click);
             // 
-            // tracingModetabPage
+            // tracingTabPage
             // 
-            this.tracingModetabPage.Controls.Add(this.groupBox1);
-            this.tracingModetabPage.Location = new System.Drawing.Point(4, 22);
-            this.tracingModetabPage.Name = "tracingModetabPage";
-            this.tracingModetabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.tracingModetabPage.Size = new System.Drawing.Size(511, 226);
-            this.tracingModetabPage.TabIndex = 3;
-            this.tracingModetabPage.Text = "Tracing and Training Modes";
-            this.tracingModetabPage.UseVisualStyleBackColor = true;
+            this.tracingTabPage.Controls.Add(this.groupBox1);
+            this.tracingTabPage.Location = new System.Drawing.Point(4, 22);
+            this.tracingTabPage.Name = "tracingTabPage";
+            this.tracingTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.tracingTabPage.Size = new System.Drawing.Size(511, 226);
+            this.tracingTabPage.TabIndex = 3;
+            this.tracingTabPage.Text = "Tracing Mode";
+            this.tracingTabPage.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.trainingModeCheckBox);
             this.groupBox1.Controls.Add(this.tracingBrowseButton);
             this.groupBox1.Controls.Add(this.tracingModeCheckBox);
             this.groupBox1.Controls.Add(this.tracingLabel);
@@ -402,7 +419,7 @@
             this.groupBox1.Size = new System.Drawing.Size(421, 171);
             this.groupBox1.TabIndex = 26;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Set Tracing and Training configurations";
+            this.groupBox1.Text = "Set Tracing Mode configurations";
             // 
             // tracingBrowseButton
             // 
@@ -441,18 +458,26 @@
             this.generationTabPage.Text = "Generation";
             this.generationTabPage.UseVisualStyleBackColor = true;
             // 
-            // distributedGroupBox
+            // trainingTabPage
             // 
-            this.distributedGroupBox.Controls.Add(this.distributedLabel);
-            this.distributedGroupBox.Controls.Add(this.RefreshButton);
-            this.distributedGroupBox.Controls.Add(this.DiscoveredServices);
-            this.distributedGroupBox.Controls.Add(this.distributedCheckBox);
-            this.distributedGroupBox.Location = new System.Drawing.Point(39, 24);
-            this.distributedGroupBox.Name = "distributedGroupBox";
-            this.distributedGroupBox.Size = new System.Drawing.Size(421, 171);
-            this.distributedGroupBox.TabIndex = 11;
-            this.distributedGroupBox.TabStop = false;
-            this.distributedGroupBox.Text = "Set distributed mode settings";
+            this.trainingTabPage.Controls.Add(this.groupBox2);
+            this.trainingTabPage.Location = new System.Drawing.Point(4, 22);
+            this.trainingTabPage.Name = "trainingTabPage";
+            this.trainingTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.trainingTabPage.Size = new System.Drawing.Size(511, 226);
+            this.trainingTabPage.TabIndex = 5;
+            this.trainingTabPage.Text = "Training Mode";
+            this.trainingTabPage.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.trainingModeCheckBox);
+            this.groupBox2.Location = new System.Drawing.Point(39, 24);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(421, 171);
+            this.groupBox2.TabIndex = 27;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Set Training Mode configurations";
             // 
             // SettingsOptionsWindow
             // 
@@ -475,15 +500,18 @@
             this.storageGroupBox.ResumeLayout(false);
             this.storageGroupBox.PerformLayout();
             this.distributedTabPage.ResumeLayout(false);
+            this.distributedGroupBox.ResumeLayout(false);
+            this.distributedGroupBox.PerformLayout();
             this.LoggerSettingsTabPage.ResumeLayout(false);
             this.loggerSettingsGroupBox.ResumeLayout(false);
             this.loggerSettingsGroupBox.PerformLayout();
-            this.tracingModetabPage.ResumeLayout(false);
+            this.tracingTabPage.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.generationTabPage.ResumeLayout(false);
-            this.distributedGroupBox.ResumeLayout(false);
-            this.distributedGroupBox.PerformLayout();
+            this.trainingTabPage.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -520,7 +548,7 @@
         private System.Windows.Forms.Button savingButton;
         private System.Windows.Forms.FolderBrowserDialog BrowserDialog;
         private System.Windows.Forms.FolderBrowserDialog LoggerBrowserDialog;
-        private System.Windows.Forms.TabPage tracingModetabPage;
+        private System.Windows.Forms.TabPage tracingTabPage;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button tracingBrowseButton;
         private System.Windows.Forms.Label tracingLabel;
@@ -529,5 +557,7 @@
         private System.Windows.Forms.TabPage generationTabPage;
         private System.Windows.Forms.CheckBox debugCheckBox;
         private System.Windows.Forms.GroupBox distributedGroupBox;
+        private System.Windows.Forms.TabPage trainingTabPage;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }
