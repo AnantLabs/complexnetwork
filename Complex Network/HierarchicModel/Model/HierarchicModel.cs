@@ -12,7 +12,7 @@ using log4net;
 namespace Model.HierarchicModel
 {
     // Атрибуты модели (Block-Hierarchic).
-    [GraphModel("Block-Hierarchic", GenerationRule.Separate, "Block-hierarchic Model")]
+    [GraphModel("Block-Hierarchic","Block-hierarchic Model")]
     [AvailableAnalyzeOptions(
         AnalyseOptions.AveragePath | 
         AnalyseOptions.Cycles3 | 
@@ -61,9 +61,6 @@ namespace Model.HierarchicModel
             log.Info("Started model initialization.");
             InvokeProgressEvent(GraphProgress.Initializing, 0);
             ModelName = MODEL_NAME;
-
-            // Проверить правильность
-            GenerationRule = GenerationRule.Separate;
 
             // Определение параметров генерации.
             List<GenerationParam> genParams = new List<GenerationParam>();

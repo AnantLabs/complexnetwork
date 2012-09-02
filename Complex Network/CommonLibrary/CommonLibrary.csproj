@@ -98,7 +98,6 @@
     <Compile Include="Model\Events\GraphProgressEventArgs.cs" />
     <Compile Include="Model\Events\GraphsAreGenerated.cs" />
     <Compile Include="Model\Generation\GenerationParam.cs" />
-    <Compile Include="Model\Generation\GenerationRule.cs" />
     <Compile Include="Model\ModelRepo\ModelRepository.cs" />
     <Compile Include="Model\RandomVector\IVectorGenerator.cs" />
     <Compile Include="Model\RandomVector\NativeVectorGenerator.cs" />

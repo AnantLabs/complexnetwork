@@ -12,7 +12,7 @@ using log4net;
 namespace Model.ERModel
 {
     // Атрибуты модели (ER).
-    [GraphModel("ERModel", GenerationRule.Sequential, "Erdos-Renyi Model")]
+    [GraphModel("ERModel", "Erdos-Renyi Model")]
     [AvailableAnalyzeOptions(
          AnalyseOptions.AveragePath |
          AnalyseOptions.Diameter |
@@ -25,6 +25,7 @@ namespace Model.ERModel
          AnalyseOptions.MinPathDist)]
     [RequiredGenerationParam(GenerationParam.Vertices, 2)]
     [RequiredGenerationParam(GenerationParam.P, 3)]
+    [RequiredGenerationParam(GenerationParam.StepCount, 8)]
 
     // Реализация модели (ER).
     public class ERModel : AbstractGraphModel
@@ -61,13 +62,11 @@ namespace Model.ERModel
             InvokeProgressEvent(GraphProgress.Initializing, 0);
             ModelName = MODEL_NAME;
 
-            // Проверить правильность
-            GenerationRule = GenerationRule.Sequential;
-
-            // Определение параметров генерации. !Добавить число шагов!
+            // Определение параметров генерации.
             List<GenerationParam> genParams = new List<GenerationParam>();
             genParams.Add(GenerationParam.Vertices);
             genParams.Add(GenerationParam.P);
+            genParams.Add(GenerationParam.StepCount);
             RequiredGenerationParams = genParams;
 
             // Определение доступных опций для анализа (вычисляемые характеристики для данной модели (ER)).
@@ -79,17 +78,17 @@ namespace Model.ERModel
                 AnalyseOptions.DistEigenPath |
                 AnalyseOptions.DegreeDistribution |
                 AnalyseOptions.ClusteringCoefficient |
-                AnalyseOptions.MinPathDist;   
-         
+                AnalyseOptions.MinPathDist;
+
             // Определение генератора и анализатора для данной модели (ER).
             log.Info("Creating generator and analyzer for model.");
             generator = new ERGenerator();
             analyzer = new ERAnalyzer((ERContainer)generator.Container);
-          
+
             InvokeProgressEvent(GraphProgress.Ready);
             log.Info("Finished model initialization");
         }
-        
+
         // Проверка параметров генерации.
         public override bool CheckGenerationParams(int instances)
         {

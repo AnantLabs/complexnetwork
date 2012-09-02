@@ -114,7 +114,7 @@ namespace Model.WSModel.Realization
             for (int i = 0; i < size; ++i)
             {
                 List<int> lst = matrixDict[i];
-                matrix[i, i] = true;
+                matrix[i, i] = false;
                 for (int j = 0; j < i; ++j)
                 {
                     if (i == j)

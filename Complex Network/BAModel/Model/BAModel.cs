@@ -12,7 +12,7 @@ using log4net;
 namespace Model.BAModel
 {
     // Атрибуты модели (BA).
-    [GraphModel("BAModel", GenerationRule.Sequential, "Barabasi-Albert Model")]
+    [GraphModel("BAModel", "Barabasi-Albert Model")]
     [AvailableAnalyzeOptions(
         AnalyseOptions.AveragePath |
         AnalyseOptions.Diameter |
@@ -35,7 +35,7 @@ namespace Model.BAModel
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(BAModel));
 
         private static readonly string MODEL_NAME = "BAModel";
-        
+
         public BAModel() { }
 
         public BAModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
@@ -63,9 +63,6 @@ namespace Model.BAModel
             InvokeProgressEvent(GraphProgress.Initializing, 0);
             ModelName = MODEL_NAME;
 
-            // Проверить правильность
-            GenerationRule = GenerationRule.Sequential;
-
             // Определение параметров генерации.
             List<GenerationParam> genParams = new List<GenerationParam>();
             genParams.Add(GenerationParam.Vertices);
@@ -89,7 +86,7 @@ namespace Model.BAModel
             log.Info("Creating generator and analyzer for model.");
             generator = new BAGenerator();
             analyzer = new BAAnalyzer((BAContainer)generator.Container);
-          
+
             InvokeProgressEvent(GraphProgress.Ready);
             log.Info("Finished model initialization");
         }

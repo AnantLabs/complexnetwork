@@ -90,7 +90,6 @@
     <Compile Include="Model\Realization\HierarchicGeneratorPerLevel.cs" />
     <Compile Include="Model\Realization\HierarchicGraphNode.cs" />
     <Compile Include="Model\HierarchicModel.cs" />
-    <Compile Include="Model\Realization\HierarchicGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
