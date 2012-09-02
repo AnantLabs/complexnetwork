@@ -36,7 +36,8 @@ namespace Model.HierarchicModel.Realization
             log.Info("Getting average path length.");
 
             long[] pathsInfo = GetSubgraphsPathInfo(0, 0);
-            return 2 * (pathsInfo[0] + pathsInfo[2]) / (container.Size * (container.Size - 1));
+            return 2 * (pathsInfo[0] + pathsInfo[2]) / ((double)container.Size *
+                ((double)container.Size - 1));
         }
 
         // Возвращается число циклов длиной 3 в графе. Реализовано.
