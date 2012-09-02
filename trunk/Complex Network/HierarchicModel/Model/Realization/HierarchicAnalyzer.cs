@@ -484,12 +484,12 @@ namespace Model.HierarchicModel.Realization
         /// <param name="bitArr"></param>
         /// <param name="mBase"></param>
         /// <param name="EigValue"></param>
-        private List<int> CalcEigenValue(BitArray bitArr, int mBase)
+        private List<double> CalcEigenValue(BitArray bitArr, int mBase)
         {
-            List<int> EigValue = new List<int>();
+            List<double> EigValue = new List<double>();
 
-            List<int> basicEigValue = new List<int>(mBase);
-            List<int> eigValueE = new List<int>(mBase);
+            List<double> basicEigValue = new List<double>(mBase);
+            List<double> eigValueE = new List<double>(mBase);
             for (int i = 1; i < mBase; ++i)
             {
                 eigValueE.Add(0);
@@ -568,7 +568,7 @@ namespace Model.HierarchicModel.Realization
         // Возвращает число циклов данного порядка, с помощью собственных значений.
         public double CalcCyclesCount(int cycleLength)
         {
-            List<int> eigValue = CalcEigenValue(container.TreeVector(), container.BranchIndex);
+            List<double> eigValue = CalcEigenValue(container.TreeVector(), container.BranchIndex);
 
             double total = 0;
             foreach (int i in eigValue)
