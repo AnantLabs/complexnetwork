@@ -14,6 +14,10 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Организация pаботы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(NonRegularHierarchicContainer));
 
+        // Иерархияеская основа (простое число).
+        private int branchIndex = 0;
+        // Иерархический уровень (максимальный).
+        private int level = 0;
         // ??
         public NonRegularHierarchicGraphNode node = new NonRegularHierarchicGraphNode();
 
@@ -28,8 +32,20 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Размер контейнера (число вершин в графе).
         public int Size
         {
-            get { return (int)node.VertexCount; }
+            get { return (int)Math.Pow(branchIndex, level); }
             set { } // ??
+        }
+
+        public int BranchIndex
+        {
+            get { return branchIndex; }
+            set { branchIndex = value; }
+        }
+
+        public int Level
+        {
+            get { return level; }
+            set { level = value; }
         }
 
         // Строится граф на основе матрицы смежности.
