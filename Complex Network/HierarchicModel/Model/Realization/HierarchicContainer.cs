@@ -109,8 +109,17 @@ namespace Model.HierarchicModel.Realization
         public bool[,] GetMatrix()
         {
             log.Info("Getting matrix from HierarchicContainer object.");
-            // !Нужна реализация!
-            return new bool[0,0];
+
+            int vertexCount = (int)Math.Pow(branchIndex, level);
+            bool[,] matrix = new bool[vertexCount, vertexCount];
+
+            for (int i = 0; i < vertexCount; ++i)
+            {
+                for (int j = 0; j < vertexCount; ++j)
+                    matrix[i, j] = (this[i, j] == 1) ? true : false;
+            }
+
+            return matrix;
         }
 
         // Методы не из общего интерфейса.    
