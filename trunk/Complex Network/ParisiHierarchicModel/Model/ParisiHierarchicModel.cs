@@ -13,7 +13,7 @@ using log4net;
 namespace Model.ParisiHierarchicModel
 {
     // Атрибуты модели (Block-Hierarchic Parisi).
-    [GraphModel("Block-Hierarchic Parisi", GenerationRule.Separate, "Block-hierarchic Parisi Model")]
+    [GraphModel("Block-Hierarchic Parisi", "Block-hierarchic Parisi Model")]
     [AvailableAnalyzeOptions(
         AnalyseOptions.AveragePath |
         AnalyseOptions.Cycles3 |
@@ -63,9 +63,6 @@ namespace Model.ParisiHierarchicModel
             log.Info("Started model initialization.");
             InvokeProgressEvent(GraphProgress.Initializing, 0);
             ModelName = MODEL_NAME;
-
-            // Проверить правильность
-            GenerationRule = GenerationRule.Separate;
 
             // Определение параметров генерации.
             List<GenerationParam> genParams = new List<GenerationParam>();

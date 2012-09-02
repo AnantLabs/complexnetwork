@@ -12,7 +12,7 @@ using log4net;
 namespace Model.NonRegularHierarchicModel
 {
     // Атрибуты модели (Block-Hierarchic Non Regular).
-    [GraphModel("Block-Hierarchic Non Regular", GenerationRule.Separate, "Block-Hierarchic Non Regular Model")]
+    [GraphModel("Block-Hierarchic Non Regular", "Block-Hierarchic Non Regular Model")]
     [AvailableAnalyzeOptions(
         AnalyseOptions.AveragePath |
         AnalyseOptions.Diameter |
@@ -59,9 +59,6 @@ public override AbstractGraphModel Clone()
             log.Info("Started model initialization.");
             InvokeProgressEvent(GraphProgress.Initializing, 0);
             ModelName = MODEL_NAME;
-
-            // Проверить правильность
-            GenerationRule = GenerationRule.Separate;
 
             // Определение параметров генерации.
             List<GenerationParam> genParams = new List<GenerationParam>();

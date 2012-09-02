@@ -147,7 +147,6 @@ namespace RandomGraphLauncher
             GraphModel graphMetaData = controller.GetGraphModel();
             model_Name.Text = "Model name: \n" + graphMetaData.Name;
             Description.Text = "Description: \n" + graphMetaData.Description;
-            Gen_Rule.Text = "Generation rule: \n" + graphMetaData.GenerationRule.ToString();
         }
 
         /*        protected void OnAnalyzeEvent(AnalyzeEventArgs args)

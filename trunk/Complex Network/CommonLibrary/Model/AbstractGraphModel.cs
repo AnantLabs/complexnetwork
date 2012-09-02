@@ -63,7 +63,7 @@ namespace RandomGraph.Common.Model
 
         public AbstractGraphModel(ArrayList matrix, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
         {
-            
+
             //GenerationParamValues = genParam;
             AnalizeOptions = options;
             AnalizeOptionsValues = analizeOptionsValues;
@@ -73,7 +73,7 @@ namespace RandomGraph.Common.Model
             CurrentStatus.GraphProgress = GraphProgress.Initializing;
         }
 
-        public void setID(int ID) 
+        public void setID(int ID)
         {
             this.ID = ID;
             Result = new AnalizeResult()
@@ -117,13 +117,6 @@ namespace RandomGraph.Common.Model
         public AnalyseOptions AvailableOptions { get; set; }
 
         /// <summary>
-        /// Defines generation rule for model.
-        /// Currently supported types are separate and
-        /// sequential.
-        /// </summary>
-        public GenerationRule GenerationRule { get; set; }
-
-        /// <summary>
         /// Result of current model computations
         /// </summary>
         public AnalizeResult Result { get; set; }
@@ -144,7 +137,7 @@ namespace RandomGraph.Common.Model
         /// <summary>
         /// Values of AnalyseOptions
         /// </summary>
-        public  Dictionary<String, Object> AnalizeOptionsValues { get; set; }
+        public Dictionary<String, Object> AnalizeOptionsValues { get; set; }
 
         public string ModelName { get; set; }
 
@@ -308,7 +301,7 @@ namespace RandomGraph.Common.Model
         /// Check input generation parameters. 
         /// </summary>
         public abstract bool CheckGenerationParams(int instances);
-                /// <summary>
+        /// <summary>
         /// Получение матрицы смежности из контейнера.
         /// </summary>
         public bool[,] GetMatrix()

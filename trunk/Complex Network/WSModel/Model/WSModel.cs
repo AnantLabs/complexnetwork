@@ -13,7 +13,7 @@ using log4net;
 namespace Model.WSModel
 {
     // Атрибуты модели (WS).
-    [GraphModel("WSModel", GenerationRule.Sequential, "Watts-Strogatz Model")]
+    [GraphModel("WSModel", "Watts-Strogatz Model")]
     [AvailableAnalyzeOptions(
         AnalyseOptions.AveragePath |
         AnalyseOptions.Diameter |
@@ -62,9 +62,6 @@ namespace Model.WSModel
             log.Info("Started model initialization.");
             InvokeProgressEvent(GraphProgress.Initializing, 0);
             ModelName = MODEL_NAME;
-
-            // Проверить правильность
-            GenerationRule = GenerationRule.Sequential;
 
             // Определение параметров генерации. !Добавить число шагов!
             List<GenerationParam> genParams = new List<GenerationParam>();

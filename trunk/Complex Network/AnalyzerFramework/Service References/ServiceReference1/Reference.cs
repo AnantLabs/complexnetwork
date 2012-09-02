@@ -54,7 +54,6 @@ namespace AnalyzerFramework.ServiceReference1 {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Collections.Generic.Dictionary<int, int>))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(int[]))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RandomGraph.Common.Model.Generation.GenerationParam))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RandomGraph.Common.Model.Generation.GenerationRule))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RandomGraph.Common.Model.Generation.GenerationParam[]))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RandomGraph.Common.Model.Status.GraphProgressStatus))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RandomGraph.Common.Model.Status.GraphProgress))]
