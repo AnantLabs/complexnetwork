@@ -118,7 +118,19 @@ namespace RandomGraph.Common.Model.Settings
             }
             set
             {
-                tracingDirectory = value;
+                if (value.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                {
+                    tracingDirectory = value;
+                }
+                else
+                {
+                    tracingDirectory = value + Path.DirectorySeparatorChar;
+                }
+
+                if (Directory.Exists(tracingDirectory) == false)
+                {
+                    Directory.CreateDirectory(tracingDirectory);
+                }
                 config.AppSettings.Settings["TracingDirectory"].Value = tracingDirectory;
             }
         }
