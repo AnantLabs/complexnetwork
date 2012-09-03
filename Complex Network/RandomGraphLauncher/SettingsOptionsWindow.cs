@@ -192,11 +192,20 @@ namespace RandomGraphLauncher
             
             Options.Storage = (XMLRadioButton.Checked == true) ? Options.StorageProvider.XMLProvider :
                 Options.StorageProvider.SQLProvider;
-            Options.StorageDirectory = LocationTxt.Text;
-            Options.ConnectionString = textBoxConnStr.Text;
+            if (Options.Storage == Options.StorageProvider.XMLProvider)
+            {
+                Options.StorageDirectory = LocationTxt.Text;
+            }
+            else
+            {
+                Options.ConnectionString = textBoxConnStr.Text;
+            } 
             Options.TrainingMode = trainingModeCheckBox.Checked;
             Options.TracingMode = tracingModeCheckBox.Checked;
-            Options.TracingDirectory = tracingPathTxtBox.Text;
+            if (Options.TracingMode == true)
+            {
+                Options.TracingDirectory = tracingPathTxtBox.Text;
+            } 
             Options.Generation = (randomGenerationRadioButton.Checked) ? Options.GenerationMode.randomGeneration :
                 Options.GenerationMode.staticGeneration;
             Options.DistributedMode = distributedCheckBox.Checked;
