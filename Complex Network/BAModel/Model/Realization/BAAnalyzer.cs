@@ -23,7 +23,7 @@ namespace Model.BAModel.Realization
         // Конструктор, получающий контейнер графа.
         public BAAnalyzer(BAContainer c)
         {
-            log.Info("Creating ERAnalizer object.");
+            log.Info("Creating BAAnalizer object.");
             container = c;
             Initialization();
         }
