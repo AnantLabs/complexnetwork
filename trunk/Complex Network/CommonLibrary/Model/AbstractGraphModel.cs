@@ -436,9 +436,7 @@ namespace RandomGraph.Common.Model
             AnalyzeModel();
         }
 
-        /// Starts generation of graph model for separate 
-        /// generation rule and for the first time of 
-        /// sequential generation 
+        /// Начинается генерация графа.
         public void StartGenerate()
         {
             if (CurrentStatus.GraphProgress != GraphProgress.Ready)
@@ -446,16 +444,6 @@ namespace RandomGraph.Common.Model
                 return;
             }
             GenerateModel();
-        }
-
-        /// Starts generation of graph model for sequential
-        /// generation rule starting from second to the last model in the
-        /// queue
-        public void StartGenerate(Object graphObj)
-        {
-
-            Graph = graphObj;
-            StartGenerate();
         }
 
         public void UpdateGeneratedMatrix()

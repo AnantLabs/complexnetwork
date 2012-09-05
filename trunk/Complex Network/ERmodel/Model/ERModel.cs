@@ -25,7 +25,6 @@ namespace Model.ERModel
          AnalyseOptions.MinPathDist)]
     [RequiredGenerationParam(GenerationParam.Vertices, 2)]
     [RequiredGenerationParam(GenerationParam.P, 3)]
-    [RequiredGenerationParam(GenerationParam.StepCount, 8)]
 
     // Реализация модели (ER).
     public class ERModel : AbstractGraphModel
@@ -66,7 +65,6 @@ namespace Model.ERModel
             List<GenerationParam> genParams = new List<GenerationParam>();
             genParams.Add(GenerationParam.Vertices);
             genParams.Add(GenerationParam.P);
-            genParams.Add(GenerationParam.StepCount);
             RequiredGenerationParams = genParams;
 
             // Определение доступных опций для анализа (вычисляемые характеристики для данной модели (ER)).

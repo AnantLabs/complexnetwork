@@ -36,7 +36,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.Gen_Rule = new System.Windows.Forms.Label();
             this.Description = new System.Windows.Forms.Label();
             this.model_Name = new System.Windows.Forms.Label();
             this.groupBox_Gen_params = new System.Windows.Forms.GroupBox();
@@ -124,7 +123,6 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.Gen_Rule);
             this.groupBox4.Controls.Add(this.Description);
             this.groupBox4.Controls.Add(this.model_Name);
             this.groupBox4.Location = new System.Drawing.Point(3, 3);
@@ -133,16 +131,6 @@
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Info";
-            // 
-            // Gen_Rule
-            // 
-            this.Gen_Rule.AutoSize = true;
-            this.Gen_Rule.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Gen_Rule.Location = new System.Drawing.Point(7, 111);
-            this.Gen_Rule.Name = "Gen_Rule";
-            this.Gen_Rule.Size = new System.Drawing.Size(107, 17);
-            this.Gen_Rule.TabIndex = 2;
-            this.Gen_Rule.Text = "Generation rule";
             // 
             // Description
             // 
@@ -661,7 +649,6 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Label Gen_Rule;
         private System.Windows.Forms.Label Description;
         private System.Windows.Forms.Label model_Name;
         private System.Windows.Forms.GroupBox groupBox_Gen_params;
