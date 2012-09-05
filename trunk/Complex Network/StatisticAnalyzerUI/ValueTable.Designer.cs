@@ -28,14 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             this.GenerationParameters = new System.Windows.Forms.Label();
             this.OptionNameLabel = new System.Windows.Forms.Label();
             this.Values = new System.Windows.Forms.Label();
             this.Print = new System.Windows.Forms.Button();
             this.excelButton = new System.Windows.Forms.Button();
-            this.SaveFileDlg = new System.Windows.Forms.SaveFileDialog();
             this.approximationTxt = new System.Windows.Forms.TextBox();
             this.apprLabel = new System.Windows.Forms.Label();
             this.ValuesGrd = new System.Windows.Forms.DataGridView();
@@ -43,6 +42,7 @@
             this.ValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.generationCmbBox = new System.Windows.Forms.ComboBox();
             this.optionCmbBox = new System.Windows.Forms.ComboBox();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.ValuesGrd)).BeginInit();
             this.SuspendLayout();
             // 
@@ -88,14 +88,9 @@
             this.excelButton.Name = "excelButton";
             this.excelButton.Size = new System.Drawing.Size(75, 23);
             this.excelButton.TabIndex = 7;
-            this.excelButton.Text = "Excel";
+            this.excelButton.Text = "Save";
             this.excelButton.UseVisualStyleBackColor = true;
-            // 
-            // SaveFileDlg
-            // 
-            this.SaveFileDlg.CheckFileExists = true;
-            this.SaveFileDlg.Filter = " \"Text files (*.txt)|*.txt|All files (*.*)|*.*\"";
-            this.SaveFileDlg.Title = "Save Table of Values";
+            this.excelButton.Click += new System.EventHandler(this.excelButton_Click);
             // 
             // approximationTxt
             // 
@@ -131,8 +126,8 @@
             // 
             // KeyColumn
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.KeyColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.KeyColumn.DefaultCellStyle = dataGridViewCellStyle13;
             this.KeyColumn.HeaderText = "Column1";
             this.KeyColumn.Name = "KeyColumn";
             this.KeyColumn.ReadOnly = true;
@@ -140,8 +135,8 @@
             // 
             // ValueColumn
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ValueColumn.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ValueColumn.DefaultCellStyle = dataGridViewCellStyle14;
             this.ValueColumn.HeaderText = "Column2";
             this.ValueColumn.Name = "ValueColumn";
             this.ValueColumn.ReadOnly = true;
@@ -166,6 +161,13 @@
             this.optionCmbBox.Size = new System.Drawing.Size(439, 21);
             this.optionCmbBox.TabIndex = 11;
             this.optionCmbBox.SelectedIndexChanged += new System.EventHandler(this.optionCmbBox_SelectedIndexChanged);
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Filter = "Excel files (*.xls)|*.xls\"";
+            this.saveFileDialog.InitialDirectory = "C:\\";
+            this.saveFileDialog.RestoreDirectory = true;
+            this.saveFileDialog.Title = "Export Excel File To";
             // 
             // ValueTable
             // 
@@ -201,7 +203,6 @@
         private System.Windows.Forms.Label Values;
         private System.Windows.Forms.Button Print;
         private System.Windows.Forms.Button excelButton;
-        private System.Windows.Forms.SaveFileDialog SaveFileDlg;
         private System.Windows.Forms.TextBox approximationTxt;
         private System.Windows.Forms.Label apprLabel;
         private System.Windows.Forms.DataGridView ValuesGrd;
@@ -209,5 +210,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ValueColumn;
         private System.Windows.Forms.ComboBox generationCmbBox;
         private System.Windows.Forms.ComboBox optionCmbBox;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }
