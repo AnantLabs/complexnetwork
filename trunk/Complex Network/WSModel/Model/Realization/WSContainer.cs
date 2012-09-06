@@ -86,6 +86,11 @@ namespace Model.WSModel.Realization
         {
             size = matrix.Count;
             indexes = new Dictionary<int, ArrayList>(size);
+
+            indexes.Add(0, new ArrayList(2));
+            indexes[0].Add(true);
+            indexes[0].Add(new List<int>());
+
             for (int i = 1; i < matrix.Count; ++i)
             {
                 ArrayList data = (ArrayList)matrix[i];
