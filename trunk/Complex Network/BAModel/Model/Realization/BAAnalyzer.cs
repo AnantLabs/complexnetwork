@@ -93,7 +93,7 @@ namespace Model.BAModel.Realization
 
             int count = 0;
             for (int i = 0; i < container.Size; i++)
-                count += CalculatCycles4(i);
+                count += Get4OrderCyclesOfNode(i);
 
             return count / 4;
         }
@@ -232,7 +232,7 @@ namespace Model.BAModel.Realization
         {
             public int ancestor = -1;
             public int lenght = -1;
-
+            public int m_4Cycles = 0;
             public Node() { }
         }
 
@@ -429,6 +429,32 @@ namespace Model.BAModel.Realization
                     k = this.fullSubGgraph(i);
 
             return k;
+        }
+
+        private int Get4OrderCyclesOfNode(int j)
+        {
+            List<int> neigboursList =container.Neighbourship[j];
+            List<int> neigboursList1 = new List<int>();
+            List<int> neigboursList2 = new List<int>();
+            int count = 0;
+            for (int i = 0; i < neigboursList.Count; i++)
+            {
+                neigboursList1 = container.Neighbourship[neigboursList[i]];
+                for (int t = 0; t < neigboursList1.Count; t++)
+                {
+                    if (j != neigboursList1[t])
+                    {
+                        neigboursList2 = container.Neighbourship[neigboursList1[t]];
+                        for (int k = 0; k < neigboursList2.Count; k++)
+                            if (container.AreNeighbours(neigboursList2[k], j) && neigboursList2[k] != neigboursList1[t] && neigboursList2[k] != neigboursList[i])
+                                count++;
+                    }
+                }
+
+
+            }
+            return count/2;
+
         }
     }
 }
