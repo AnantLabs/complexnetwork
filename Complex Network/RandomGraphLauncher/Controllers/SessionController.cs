@@ -254,5 +254,42 @@ namespace RandomGraphLauncher.Controllers
             log.Info("Saving results for a job in the session.");
             session[jobName].Save();
         }
+
+        // ??
+        public static Dictionary<GenerationParam, object> GetGenParamValues(string jobName)
+        {
+            return session[jobName].GenParamValues;
+        }
+
+        // ??
+        public static AnalyseOptions GetSelectedAnalyzeOptions(string jobName)
+        {
+            return session[jobName].SelectedOptions;
+        }
+
+        // ??
+        public static Dictionary<String, Object> GetAnalyzeOptionsValues(string jobName)
+        {
+            return session[jobName].AnalyzeOptionValues;
+        }
+
+        // ??
+        public static void StartGraphModel(string jobName, object[] invokeParams)
+        {
+            session[jobName].Start(invokeParams);
+        }
     }
 }
+
+/*
+public void InitFlashApi(AxShockwaveFlashObjects.AxShockwaveFlash proxy, ExternalInterfaceCallEventHandler proxy_ExternalInterfaceCall)
+{
+    this.proxy = new ExternalInterfaceProxy(proxy);
+    this.proxy.ExternalInterfaceCall += new ExternalInterfaceCallEventHandler(proxy_ExternalInterfaceCall);
+}
+
+public void CallFlash(String jsonString)
+{
+    this.proxy.Call("sendToActionScript", jsonString);
+}
+ */

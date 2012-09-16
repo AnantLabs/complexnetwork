@@ -109,7 +109,6 @@ namespace RandomGraphLauncher
             }
         }
 
-        // !!
         private void startButton_Click(object sender, EventArgs e)
         {
             log.Info("<Start> button clicked.");
@@ -142,11 +141,12 @@ namespace RandomGraphLauncher
                 SetButtonEnabled(pauseBtn, true);
                 SetButtonEnabled(stopBtn, true);
 
-                // !добавить!
-                /*Thread.CurrentThread.Priority = ThreadPriority.Highest;
+                Thread.CurrentThread.Priority = ThreadPriority.Highest;
                 Tuple<Dictionary<GenerationParam, object>, AnalyseOptions> tmp =
-                    Tuple.Create<Dictionary<GenerationParam, object>, AnalyseOptions>(controller.genParams, selectedOptions);
-                backgroundStartWorker.RunWorkerAsync(tmp);*/
+                    Tuple.Create<Dictionary<GenerationParam, object>, AnalyseOptions>(
+                    SessionController.GetGenParamValues(jobName),
+                    SessionController.GetSelectedAnalyzeOptions(jobName));
+                backgroundStartWorker.RunWorkerAsync(tmp);
             }
             else
             {
@@ -331,11 +331,12 @@ namespace RandomGraphLauncher
         private void StartWork(object sender, DoWorkEventArgs e)
         {
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
-            Tuple<Dictionary<GenerationParam, object>, AnalyseOptions> args = (Tuple<Dictionary<GenerationParam, object>,
+            Tuple<Dictionary<GenerationParam, object>, AnalyseOptions> args = 
+                (Tuple<Dictionary<GenerationParam, object>,
                 AnalyseOptions>)e.Argument;
-            // !исправить!
-            //object[] invokeParams = new object[] { args.Item1, args.Item2, controller.AnalizeOptionsValues };
-            //controller.StartGraphModel(invokeParams);
+            object[] invokeParams = new object[] { args.Item1, args.Item2, 
+                SessionController.GetAnalyzeOptionsValues(jobName)};
+            SessionController.StartGraphModel(jobName, invokeParams);
         }
 
         private void PauseWork(object sender, DoWorkEventArgs e)
@@ -484,8 +485,7 @@ namespace RandomGraphLauncher
                 calculationStatusGrp.Visible = false;
                 InitFlashAPI();
                 InitFlash();
-                // !исправить!
-                //DisableControlButtons();
+                DisableControlButtons();
             }
             else
             {
@@ -564,6 +564,12 @@ namespace RandomGraphLauncher
         private bool CheckParameters()
         {
             return SessionController.CheckParameters(jobName);
+        }
+
+        private void DisableControlButtons()
+        {
+            this.pauseBtn.Visible = false;
+            this.continueBtn.Visible = false;
         }
 
         // Замарозить все строки Grid-а.

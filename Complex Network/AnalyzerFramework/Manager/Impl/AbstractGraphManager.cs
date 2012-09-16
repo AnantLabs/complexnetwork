@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+
+using RandomGraph.Settings;
 using RandomGraph.Common.Model;
 using RandomGraph.Common.Storage;
 using RandomGraph.Core.Events;
@@ -13,60 +14,47 @@ using CommonLibrary.Model.Events;
 
 namespace RandomGraph.Core.Manager.Impl
 {
-    /// <summary>
-    /// This class is a base for all Graph manager implementations.
-    /// </summary>
+    // Базовый абстрактный класс для manager-ов графа.
     public abstract class AbstractGraphManager
     {
-        /// <summary>
-        /// Event for notification of graph manager status change.
-        /// e.g it can be change execution status from Stopped to Running
-        /// </summary>
-        public event StatusChangedEventHandler ExecutionStatusChange;
-
-        public event GraphsAreGenerated GraphsGenerated;
-
-        /// <summary>
-        /// Event is generated any time when one of instances changes its state.
-        /// Event arguments of this event contain statuses of all instances of graph models,
-        /// that are currently being executed
-        /// </summary>
-        public event GraphProgressEventHandler OverallProgress;
-
-        /// <summary>
-        /// The only constructor of abstract class that requires that all
-        /// child classes should define storage.
-        /// </summary>
-        /// <param name="storage">Instance of IResultStorage implementation class. 
-        /// defines a storage that will be used</param>
-        public AbstractGraphManager(IResultStorage storage)
+        // Конструктор, которому передается хранилище данных, тип генерации и режим трассировки.
+        public AbstractGraphManager(IResultStorage storage, Options.GenerationMode genMode, bool tracingMode)
         {
             DataStorage = storage;
+            GenMode = genMode;
+            TracingMode = tracingMode;
+
             Assembly = new ResultAssembly();
             GraphTables = new List<GraphTable>();
         }
 
+        // События.
+
+        // Событие, обозначающее изменения статуса manager-а (например, изменение статуса из Stopped в Running).
+        public event StatusChangedEventHandler ExecutionStatusChange;
+        // ??
+        public event GraphsAreGenerated GraphsGenerated;
+        // Событие, обозначающее изменение статуса любой реализации.
+        // Каждый аргумент этого события имеет статусы всех реализаций, которые ныне выполняются.
+        public event GraphProgressEventHandler OverallProgress;
+
         #region Properties
 
-        public ResultAssembly Assembly { get; protected set; }
-
-        /// <summary>
-        /// List for storing all created instances of graph models
-        /// </summary>
-        protected List<AbstractGraphModel> Models { get; set; }
-
-
-        protected List<GraphTable> GraphTables { get; set; }
-
-        /// <summary>
-        /// Reference to result storage object
-        /// </summary>
+        // Хранилище данных.
         public IResultStorage DataStorage { get; protected set; }
-
-        /// <summary>
-        /// Current status of execution, e.g. Stopped, Running, Paused.
-        /// </summary>
+        // Тип генерации.
+        public Options.GenerationMode GenMode { get; protected set; }
+        // Тип трассировки (true - трассировка есть).
+        public bool TracingMode { get; protected set; }
+        // Результат вычислительной работы.
+        public ResultAssembly Assembly { get; protected set; }
+        // Статус выполнения (например, Stopped, Running, Paused).
         public ExecutionStatus CurrentExecutionStatus { get; protected set; }
+
+        // ??
+        protected List<GraphTable> GraphTables { get; set; }
+        // ?? List for storing all created instances of graph models
+        protected List<AbstractGraphModel> Models { get; set; }
 
         #endregion
 
@@ -83,6 +71,8 @@ namespace RandomGraph.Core.Manager.Impl
         public abstract void Continue(int instanceID);
 
         public abstract void Start(AbstractGraphModel model, int iterations, string name);
+
+        // Защищенная часть.
 
         protected void OnExecutionStatusChange(ExecutionStatusEventArgs args)
         {
@@ -114,5 +104,4 @@ namespace RandomGraph.Core.Manager.Impl
             }
         }
     }
-
 }
