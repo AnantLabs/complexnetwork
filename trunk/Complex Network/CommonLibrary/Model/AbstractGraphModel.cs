@@ -1,42 +1,35 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading;
+using System.Runtime.Serialization;
+// !удалить!
+using System.Configuration;
+
 using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model.Result;
 using RandomGraph.Common.Model.Status;
-using System.Threading;
-using System.Collections;
 using RandomGraph.Core.Events;
-using System.Runtime.Serialization;
-using AnalyzerFramework.Manager.ModelRepo;
 using CommonLibrary.Model.Events;
 using CommonLibrary.Model.Util;
-using System.Configuration;
-
 using CommonLibrary.Model;
+using AnalyzerFramework.Manager.ModelRepo;
 
 namespace RandomGraph.Common.Model
 {
-    /// <summary>
-    /// Base class for graph models implementations,
-    /// Defines Template method Design Pattern by introducing
-    /// two protected methods for calling appropriate generation and analyze 
-    /// methods, and provides other interface to outside.
-    /// Generation and analyze methods available from outside
-    /// simply wrap that computational process into another thread
-    /// so it can gain control over it when needed.
-    /// 
-    /// </summary>
     [KnownType("GetKnownModelTypes")]
+    // Базовый абстрактный класс для имплементации модели графа.
     public abstract class AbstractGraphModel
     {
-        public event GraphProgressEventHandler Progress;
-        public event GraphGeneratedDelegate GraphGenerated;
-
         // Генератор графа.
         protected IGraphGenerator generator;
         // Анализатор графа.
         protected AbstarctGraphAnalyzer analyzer;
+
+        public event GraphProgressEventHandler Progress;
+        public event GraphGeneratedDelegate GraphGenerated;
+
+
 
         public AbstractGraphModel() { }
 
@@ -155,7 +148,7 @@ namespace RandomGraph.Common.Model
             {
                 // !Исправить!
                 //if (Options.GenerationMode.randomGeneration == Options.Generation)    // Динамическая генерация
-                    generator.RandomGeneration(GenerationParamValues);
+                generator.RandomGeneration(GenerationParamValues);
                 //else    // Статическая генерация
                 //    generator.StaticGeneration(NeighbourshipMatrix);
 

@@ -29,10 +29,10 @@ namespace Model.BAModel.Realization
         }
 
         // Контейнер, в котором содержится сгенерированный граф (полученный от генератора).
-        public override IGraphContainer Container 
+        public override IGraphContainer Container
         {
             get { return container; }
-            set { container = (BAContainer)value; } 
+            set { container = (BAContainer)value; }
         }
 
         // Возвращается средняя длина пути в графе. Реализовано.
@@ -215,7 +215,7 @@ namespace Model.BAModel.Realization
 
         private double avgPath = -1;
         private int diameter = -1;
-        private SortedDictionary<int, int> pathDistribution = new SortedDictionary<int,int>();
+        private SortedDictionary<int, int> pathDistribution = new SortedDictionary<int, int>();
         private List<SortedList<int, int>> cycles4 = new List<SortedList<int, int>>();
         private CyclesCounter cyclesCounter;
 
@@ -407,7 +407,7 @@ namespace Model.BAModel.Realization
 
         // Возвращает длину минимальной пути между данными вершинами.
         private int MinimumWay(int i, int j)
-        {            
+        {
             if (i == j)
                 return 0;
 
@@ -416,7 +416,7 @@ namespace Model.BAModel.Realization
                 nodes[k] = new Node();
 
             BFS(i, nodes);
-         
+
             return nodes[j].lenght;
         }
 
@@ -433,7 +433,7 @@ namespace Model.BAModel.Realization
 
         private int Get4OrderCyclesOfNode(int j)
         {
-            List<int> neigboursList =container.Neighbourship[j];
+            List<int> neigboursList = container.Neighbourship[j];
             List<int> neigboursList1 = new List<int>();
             List<int> neigboursList2 = new List<int>();
             int count = 0;
@@ -453,7 +453,7 @@ namespace Model.BAModel.Realization
 
 
             }
-            return count/2;
+            return count / 2;
 
         }
     }
