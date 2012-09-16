@@ -76,6 +76,8 @@ namespace StatisticAnalyzerUI
                 this.approximationTxt.Text = currentResult.approximationType.ToString();
             }
 
+            this.realizationCountTxt.Text = currentResult.realizationsCount.ToString();
+
         }
 
         private void AddOptions()
@@ -164,10 +166,6 @@ namespace StatisticAnalyzerUI
             //TODO
         }
 
-        private void Save_Click(object sender, EventArgs e)
-        {
-            //TODO
-        }
 
         private void ValueTable_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -236,8 +234,8 @@ namespace StatisticAnalyzerUI
             style.Alignment.Horizontal = StyleHorizontalAlignment.Center;
 
             Worksheet sheet = book.Worksheets.Add("Value Table");
-            sheet.Table.Columns.Add(new WorksheetColumn(170));
-            sheet.Table.Columns.Add(new WorksheetColumn(170));
+            sheet.Table.Columns.Add(new WorksheetColumn(220));
+            sheet.Table.Columns.Add(new WorksheetColumn(220));
 
             WorksheetRow row = sheet.Table.Rows.Add();
 
@@ -255,12 +253,17 @@ namespace StatisticAnalyzerUI
             if (this.currentResult.type == StAnalyzeType.Local)
             {
                 row = sheet.Table.Rows.Add();
-                WorksheetCell approximationCell =
-                    new WorksheetCell(this.currentResult.approximationType.ToString(), "HeaderStyle");
-                approximationCell.Comment.Data.Text = apprLabel.Text;
+                WorksheetCell approximationCell = new WorksheetCell(this.apprLabel.Text + " - " + 
+                        this.currentResult.approximationType.ToString() , "HeaderStyle");
                 row.Cells.Add(approximationCell);
                 approximationCell.MergeAcross = 1;
             }
+
+            row = sheet.Table.Rows.Add();
+            WorksheetCell realizationCountCell = new WorksheetCell(this.realizationCountLabel.Text
+                + " = " + this.realizationCountTxt.Text, "HeaderStyle");
+            row.Cells.Add(realizationCountCell);
+            realizationCountCell.MergeAcross = 1;
 
             row = sheet.Table.Rows.Add();
             row.Cells.Add(this.ValuesGrd.Columns[0].HeaderText, DataType.String, "ColumnNames");
