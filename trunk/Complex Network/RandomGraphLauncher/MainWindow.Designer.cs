@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using System.Drawing;
 namespace RandomGraphLauncher
 {
-    partial class MainWindow
+    partial class mainWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@ namespace RandomGraphLauncher
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainWindow));
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newJobToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,7 +44,7 @@ namespace RandomGraphLauncher
             this.testerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modelCheckingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.userControl11 = new MyControlLibrary.TabCtlEx();
+            this.mainControl = new MyControlLibrary.TabCtlEx();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,7 +59,7 @@ namespace RandomGraphLauncher
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.Size = new System.Drawing.Size(1028, 24);
             this.mainMenu.TabIndex = 1;
-            this.mainMenu.Text = "menuStrip1";
+            this.mainMenu.Text = "Menu";
             // 
             // fileToolStripMenuItem
             // 
@@ -95,7 +95,7 @@ namespace RandomGraphLauncher
             // optionToolStripMenuItem
             // 
             this.optionToolStripMenuItem.Name = "optionToolStripMenuItem";
-            this.optionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.optionToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.optionToolStripMenuItem.Text = "Options";
             this.optionToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -144,32 +144,32 @@ namespace RandomGraphLauncher
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
-            // userControl11
+            // mainControl
             // 
-            this.userControl11.ConfirmOnClose = false;
-            this.userControl11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.userControl11.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-            this.userControl11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.userControl11.ItemSize = new System.Drawing.Size(330, 24);
-            this.userControl11.Location = new System.Drawing.Point(0, 24);
-            this.userControl11.Name = "userControl11";
-            this.userControl11.SelectedIndex = 0;
-            this.userControl11.Size = new System.Drawing.Size(1028, 578);
-            this.userControl11.TabIndex = 0;
-            this.userControl11.TabStop = false;
-            this.userControl11.OnClose += new MyControlLibrary.TabCtlEx.OnHeaderCloseDelegate(this.userControl11_OnClose);
+            this.mainControl.ConfirmOnClose = false;
+            this.mainControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainControl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
+            this.mainControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mainControl.ItemSize = new System.Drawing.Size(330, 24);
+            this.mainControl.Location = new System.Drawing.Point(0, 24);
+            this.mainControl.Name = "mainControl";
+            this.mainControl.SelectedIndex = 0;
+            this.mainControl.Size = new System.Drawing.Size(1028, 578);
+            this.mainControl.TabIndex = 0;
+            this.mainControl.TabStop = false;
+            this.mainControl.OnClose += new MyControlLibrary.TabCtlEx.OnHeaderCloseDelegate(this.mainControl_OnClose);
             // 
-            // MainWindow
+            // mainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1028, 602);
-            this.Controls.Add(this.userControl11);
+            this.Controls.Add(this.mainControl);
             this.Controls.Add(this.mainMenu);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(600, 400);
-            this.Name = "MainWindow";
+            this.Name = "mainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Complex Network";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormClosing_Event);
@@ -189,7 +189,7 @@ namespace RandomGraphLauncher
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 
-        private MyControlLibrary.TabCtlEx userControl11;
+        private MyControlLibrary.TabCtlEx mainControl;
         private ToolStripMenuItem toolsToolStripMenuItem;
         private ToolStripMenuItem statisticAnalyzerToolStripMenuItem;
         private ToolStripMenuItem dataExportIMportToolStripMenuItem;

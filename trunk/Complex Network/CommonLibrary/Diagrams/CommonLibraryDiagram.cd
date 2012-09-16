@@ -123,7 +123,7 @@
       <FileName>Model\Result\ResultAssembly.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RandomGraph.Common.Model.Settings.Options" Collapsed="true">
+  <Class Name="RandomGraph.Settings.Options" Collapsed="true">
     <Position X="7.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACgAAAAAJAIBgCQAAQAEAAAAgAEAAIADACEAAgApA=</HashCode>

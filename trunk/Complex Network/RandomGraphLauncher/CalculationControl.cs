@@ -10,494 +10,55 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using CommonLibrary.Model.Attributes;
-using CommonLibrary.Model.Util;
+
 using Flash.External;
 using Newtonsoft.Json;
-using RandomGraph.Common.Model.Settings;
+
+using RandomGraphLauncher.Controllers;
+using CommonLibrary.Model.Attributes;
+using CommonLibrary.Model.Util;
+using RandomGraph.Settings;
 using RandomGraph.Common.Model;
 using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model.Status;
 using RandomGraph.Core.Events;
 using RandomGraph.Core.Manager.Impl;
 using RandomGraph.Core.Manager.Status;
-using RandomGraphLauncher.controls;
-using RandomGraphLauncher.models;
+using RandomGraphLauncher.Controls;
 using RandomGraphLauncher.Properties;
+using AnalyzerFramework.Manager.Impl;
 using log4net;
 
 namespace RandomGraphLauncher
 {
+    // Реализация одной вычислительной формы.
     public partial class CalculationControl : UserControl
     {
-        /// <summary>
-        /// The logger static object for monitoring.
-        /// </summary>
+        // Организация работы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(CalculationControl));
-        /// <summary>
-        /// View controller object.
-        /// </summary>
-        private RandomGraphLauncher.src.ViewController controller = new src.ViewController();
-        private Dictionary<string, AnalyseOptions> analizeOptionBoxes;
-        private Dictionary<GenerationParam, Control> genParamBoxes;
 
-        public CalculationControl( 
-            Type arg_modelType, 
-            string jobName, 
-            AbstractGraphManager manager)
+        // Имя job-а.
+        private string jobName;
+        // Поля для параметры генерации.
+        private Dictionary<GenerationParam, Control> generationParamsControls;
+        // Поля для свойств анализа.
+        private Dictionary<string, AnalyseOptions> analyzeOptionsControls;
+
+        public CalculationControl(string name)
         {
-            log.Info("Started constructing UI");
-            controller.Init(arg_modelType, jobName, manager);
-            controller.SetStatusChangedEventHandler(manager_ExecutionStatusChange);
+            log.Info("Started constructing calculation UI.");
+
             InitializeComponent();
-            InitModelLabels();
-            InitSelectionPanels();
 
-            if (Options.TrainingMode)
-            {
-                controller.SetGraphsGeneratedEventHandler(manager_GraphsGenerated);
-                axShockwaveFlash1.Visible = true;
-                groupBox1.Visible = false;
-                InitFlashAPI();
-                InitFlash();
-                DisapleControlButtons();
-            }
-            else
-            {
-                axShockwaveFlash1.Visible = false;
-                groupBox1.Visible = true;
-                controller.SetGraphProgressEventHandler(manager_OverallProgress);
-                if (controller.isDistributed)
-                {
-                    dataGridView1.Columns[4].Visible = true;
-                }
-            }
-            
-            GraphModel graphMetaData = controller.GetGraphModel();
-
-            numericUpDown_Instances_Count.Enabled = (Options.Generation == Options.GenerationMode.randomGeneration) ? true : false;
+            jobName = name;
+            InitializeModelInfo();
+            InitializeGenerationParamsControls();
+            InitializeAnalyzeOptionsControls();
+            InitializeCommonControls();
+            InitializeGlobalModes();
         }
 
-        private void DisapleControlButtons()
-        {
-            pauseButton.Visible = false;
-            continueButton.Visible = false;
-        }
-
-        private void InitFlash()
-        {
-            log.Info("Init Flash");
-            axShockwaveFlash1.Movie = AppDomain.CurrentDomain.BaseDirectory + @"\SWF\communication.swf";
-        }
-
-        void manager_GraphsGenerated(object sender, List<GraphTable> e)
-        {
-            CallFlash(e);
-        }
-
-        private void CallFlash(List<GraphTable> e)
-        {
-            log.Info("Call Flash");
-            GraphModel graphMetaData = controller.GetGraphModel();
-            StringBuilder theJson = new StringBuilder();
-            theJson.Append("{\"type\":\"");
-            theJson.Append(graphMetaData.Name);
-            theJson.Append("\",  \"matrixes\":");
-            theJson.Append(JsonConvert.SerializeObject(e));
-            theJson.Append(", \"params\":");
-            theJson.Append(JsonConvert.SerializeObject(controller.genParams));
-            theJson.Append("}");
-            controller.CallFlash(theJson.ToString());
-            log.Info("End calling Flash");
-        }
-
-        private void InitFlashAPI()
-        {
-            log.Info("Init Flash api");
-            controller.InitFlashApi(axShockwaveFlash1, proxy_ExternalInterfaceCall);
-        }
-
-        // Flash API
-
-        private object proxy_ExternalInterfaceCall(object sender, ExternalInterfaceCallEventArgs e)
-        {
-            switch (e.FunctionCall.FunctionName)
-            {
-                case "sendToJavaScript":
-                    CallFromFlash(e.FunctionCall.Arguments);
-                    break;
-                default:
-                    return null;
-            }
-            return null;
-        }
-
-        private void CallFromFlash(object[] p)
-        {
-            MessageBox.Show(p[0].ToString());
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            controller.CallFlash("Text from .NET");
-        }
-
-        private void InitModelLabels()
-        {
-            GraphModel graphMetaData = controller.GetGraphModel();
-            model_Name.Text = "Model name: \n" + graphMetaData.Name;
-            Description.Text = "Description: \n" + graphMetaData.Description;
-        }
-
-        /*        protected void OnAnalyzeEvent(AnalyzeEventArgs args)
-                {
-                    if (ExecutionStatusChange != null)
-                    {
-                        ExecutionStatusChange(this, args);
-                    }
-                }
-        */
-        void manager_OverallProgress(object sender, GraphProgressEventArgs e)
-        {
-            if (dataGridView1.InvokeRequired)
-            {
-                OverallCallback d = new OverallCallback(OverallProgress);
-                this.Invoke(d, new object[] { e });
-            }
-            else
-            {
-                OverallProgress(e);
-            }
-        }
-
-        private delegate void OverallCallback(GraphProgressEventArgs e);
-
-        void OverallProgress(GraphProgressEventArgs e)
-        {
-            if (dataGridView1.Rows.Count != 0)
-            {
-                GraphProgressStatus status = e.Progress;
-                DataGridViewRow row = dataGridView1.Rows[status.ID];
-                row.Cells[0].Value = status.ID + 1;
-                row.Cells[1].Value = status.GraphProgress;
-                row.Cells[2].Value = status.Percent;
-                row.Cells[3].Value = status.TargetName;
-                row.Cells[4].Value = status.HostName;
-            }
-        }
-
-        void manager_ExecutionStatusChange(object sender, ExecutionStatusEventArgs e)
-        {
-            ExecutionStatus currentStatus = e.ExecutionStatus;
-            if (currentStatus == ExecutionStatus.Success || currentStatus == ExecutionStatus.Failed || currentStatus == ExecutionStatus.Stopped)
-            {
-                frozeGridButtons();
-                setButtonEnabled(stopButton, false);
-                setButtonEnabled(pauseButton, false);
-                setButtonEnabled(startButton, false);
-                setButtonEnabled(continueButton, false);
-                if (currentStatus == ExecutionStatus.Success)
-                {
-                    toolStripLabel1.Text = "Saving into database...";
-                    controller.Save();
-                    toolStripLabel1.Text = "";
-                    MessageBox.Show("Calculation has completed successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else if (currentStatus == ExecutionStatus.Stopped)
-                {
-                    MessageBox.Show("Calculation has stopped by user", "Stopped", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    if (controller.ResultCount() != 0)
-                    {
-                        toolStripLabel1.Text = "Saving into database...";
-                        controller.Save();
-                        toolStripLabel1.Text = "";
-                    }
-
-                }
-                else if (currentStatus == ExecutionStatus.Failed)
-                {
-                    MessageBox.Show("Calculation has failed", "Fail", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private void setButtonEnabled(Button btn, bool val)
-        {
-            if (btn.InvokeRequired)
-            {
-                BtnEnabled d = new BtnEnabled(ButtonEnabledThreadSafe);
-                this.Invoke(d, new object[] { btn, val });
-            }
-            else
-            {
-                btn.Enabled = val;
-            }
-        }
-
-        private static void ButtonEnabledThreadSafe(Button btn, bool val)
-        {
-            btn.Enabled = val;
-        }
-
-        private delegate void BtnEnabled(Button btn, bool val);
-
-        private void InitSelectionPanels()
-        {
-            log.Info("Starting initialization of selection panels");
-
-            bool randomGeneration = (Options.Generation == Options.GenerationMode.randomGeneration) ? true : false;
-            analizeOptionBoxes = new Dictionary<string, AnalyseOptions>();
-            foreach (AnalyseOptions opt in Enum.GetValues(typeof(AnalyseOptions)))
-            {
-                if ((opt & controller.availableOptions) == opt && opt != AnalyseOptions.None)
-                {
-                    AnalyzeOptionInfo optionInfo = (AnalyzeOptionInfo)(opt.GetType().GetField(Enum.GetName(typeof(AnalyseOptions), opt)).GetCustomAttributes(typeof(AnalyzeOptionInfo), false)[0]);
-                    analizeOptionBoxes.Add(optionInfo.Name, opt);
-                    checkedListBox_Options.Items.Add(optionInfo.Name, true);
-                }
-                if ((opt & controller.availableOptions) == opt && opt == AnalyseOptions.Motifs)
-                {
-                    motiveHi.SelectedIndex = 0;
-                    motiveLow.SelectedIndex = 0;
-                    motiveHi.Show();
-                    motiveLow.Show();
-                    motives.Show();
-
-                }
-                if ((opt & controller.availableOptions) == opt && opt == AnalyseOptions.Cycles)
-                {
-                    cyclesHi.SelectedIndex = 0;
-                    cyclesLow.SelectedIndex = 0;
-                    cyclesHi.Show();
-                    cyclesLow.Show();
-                    cycles.Show();
-                }
-            }
-
-            genParamBoxes = new Dictionary<GenerationParam, Control>();
-            int position = 20;
-            controller.reqGenParams.Sort(delegate(RequiredGenerationParam arg1, RequiredGenerationParam arg2)
-            {
-                return arg1.Index.CompareTo(arg2.Index);
-            });
-            log.Info("Constructing generation parameters boxes");
-            foreach (RequiredGenerationParam requiredGenerationParam in controller.reqGenParams)
-            {
-                GenerationParam param = requiredGenerationParam.GenParam;
-                GenerationParamInfo paramInfo = (GenerationParamInfo)(param.GetType().GetField(param.ToString()).GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);
-                Control control = null;
-                Label textBoxLabel;
-                if (paramInfo.Type == typeof(bool))
-                {
-                    control = new CheckBox();
-                }
-                if (!randomGeneration)// && paramInfo.Type == typeof(String))
-                {
-                    control = new TextBox();
-                    Button brButton = new Button();
-                    brButton.Click += browseButton_Click;
-                    brButton.Location = new Point(105, position + 40);
-                    brButton.Height = 20;
-                    brButton.Width = 100;
-                    brButton.Text = "Browse";
-                    groupBox_Gen_params.Controls.Add(brButton);
-                    control.Tag = "filePath";
-                    control.Width = 100;
-                    control.Location = new Point(105, position);
-
-                    textBoxLabel = new Label() { Width = 100 };
-                    textBoxLabel.Location = new Point(15, position);
-
-                    textBoxLabel.Text = "File Path";
-                    genParamBoxes.Add(param, control);
-
-                    groupBox_Gen_params.Controls.Add(control);
-                    groupBox_Gen_params.Controls.Add(textBoxLabel);
-                    position += 25;
-                    break;
-                }
-                else
-                {
-                    if (paramInfo.Type!=typeof(String))
-                    {
-                        control = new TextBox();
-                        control.Width = 100;
-                        control.Location = new Point(105, position);
-
-                        textBoxLabel = new Label() { Width = 100 };
-                        textBoxLabel.Location = new Point(15, position);
-
-                        textBoxLabel.Text = paramInfo.Name;
-                        genParamBoxes.Add(param, control);
-
-                        groupBox_Gen_params.Controls.Add(control);
-                        groupBox_Gen_params.Controls.Add(textBoxLabel);
-                        position += 25;
-                    }
-                }
-            }
-        }
-
-        private void startButton_Click(object sender, EventArgs e)
-        {
-            log.Info("Start button clicked");
-            try
-            {
-                if (Options.GenerationMode.randomGeneration == Options.Generation)
-                {
-                    controller.genParams.Clear();
-                    foreach (GenerationParam paramType in genParamBoxes.Keys)
-                    {
-                        string a = genParamBoxes[paramType].Text;
-                        GenerationParamInfo paramInfo = (GenerationParamInfo)(paramType.GetType().GetField(paramType.ToString()).GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);
-                        if (paramInfo.Type.Equals(typeof(Double)))
-                        {
-                            controller.genParams.Add(paramType, Convert.ToDouble(a, CultureInfo.InvariantCulture));
-                        }
-                        else if (paramInfo.Type.Equals(typeof(Int16)))
-                        {
-                            controller.genParams.Add(paramType, Convert.ToInt16(a));
-                        }
-                        else if (paramInfo.Type.Equals(typeof(Int32)))
-                        {
-                            controller.genParams.Add(paramType, Convert.ToInt32(a));
-                        }
-                        else if (paramInfo.Type.Equals(typeof(String)))
-                        {
-                            controller.genParams.Add(paramType, a);
-                        }
-                        else if (paramInfo.Type.Equals(typeof(bool)))
-                        {
-                            controller.genParams.Add(paramType, Convert.ToBoolean(((CheckBox)genParamBoxes[paramType]).Checked));
-                        }
-                    }
-                }
-                else if (Options.GenerationMode.staticGeneration == Options.Generation)
-                {
-                    controller.genParams.Clear();
-                    foreach (GenerationParam paramType in genParamBoxes.Keys)
-                    {
-                        string path = genParamBoxes[paramType].Text;
-                        controller.genParams.Add(paramType, path);
-                    }
-                }
-            }
-            catch (FormatException ex)
-            {
-                log.Info("Exception are occured. Invalid input parameter.");
-                log.Fatal(ex);
-                MessageBox.Show("Invalid input parameter.");
-                return;
-            }
-
-            AnalyseOptions selectedOptions = AnalyseOptions.None;
-            foreach (string option in analizeOptionBoxes.Keys)
-            {
-                if (checkedListBox_Options.CheckedItems.Contains(option))
-                {
-                    selectedOptions |= analizeOptionBoxes[option];
-                }
-            }
-
-            controller.instances = Convert.ToInt32(numericUpDown_Instances_Count.Value);
-            SetParamsInfo(controller.genParams, selectedOptions);
-            if (controller.CheckGenerationParams(selectedOptions))
-            {
-                for (int i = 0; i < controller.instances; i++)
-                {
-                    dataGridView1.Rows.Add();
-                }
-                numericUpDown_Instances_Count.Enabled = false;
-                DisableGenerationParamsInput();
-                DisableAnalyseOptins();
-
-                setButtonEnabled(startButton, false);
-                setButtonEnabled(pauseButton, true);
-                setButtonEnabled(stopButton, true);
-
-                Thread.CurrentThread.Priority = ThreadPriority.Highest;
-                Tuple<Dictionary<GenerationParam, object>, AnalyseOptions> tmp = 
-                    Tuple.Create<Dictionary<GenerationParam, object>, AnalyseOptions>(controller.genParams, selectedOptions);
-                backgroundStartWorker.RunWorkerAsync(tmp);
-            }
-            else
-            {
-                if (controller.errorMessage != null)
-                {
-                    MessageBox.Show(controller.errorMessage);
-                }
-                else
-                {
-                    MessageBox.Show("Generation parameters are too large.");
-                }
-            }
-        }
-
-        private void DisableAnalyseOptins()
-        {
-            checkedListBox_Options.Enabled = false;
-            motiveLow.Enabled = false;
-            motiveHi.Enabled = false;
-            cyclesLow.Enabled = false;
-            cyclesHi.Enabled = false;
-        }
-
-        private void EnableAnalyseOptins()
-        {
-            checkedListBox_Options.Enabled = true;
-            motiveLow.Enabled = true;
-            motiveHi.Enabled = true;
-            cyclesLow.Enabled = true;
-            cyclesHi.Enabled = true;
-        }
-
-        private void DisableGenerationParamsInput()
-        {
-            foreach (var item in genParamBoxes)
-            {
-                item.Value.Enabled = false;
-            }
-        }
-
-        private void EnableGenerationParamsInput()
-        {
-            foreach (var item in genParamBoxes)
-            {
-                item.Value.Enabled = true;
-            }
-        }
-
-        private void stopButton_Click(object sender, EventArgs e)
-        {
-            pauseButton.Enabled = false;
-            continueButton.Enabled = false;
-            stopButton.Enabled = false;
-            frozeGridButtons();
-            backgroundStopWorker.RunWorkerAsync();
-        }
-
-        private void pauseButton_Click(object sender, EventArgs e)
-        {
-            pauseButton.Enabled = false;
-            continueButton.Enabled = true;
-            stopButton.Enabled = true;
-            backgroundPauseWorker.RunWorkerAsync();
-        }
-
-        private void continueButton_Click(object sender, EventArgs e)
-        {
-            pauseButton.Enabled = true;
-            continueButton.Enabled = false;
-            stopButton.Enabled = true;
-            backgroundContinueWorker.RunWorkerAsync();
-        }
-
-        private void randomModeButton_Click(object sender, EventArgs e)
-        {
-            EnableGenerationParamsInput();
-            numericUpDown_Instances_Count.Enabled = true;
-            startButton.Enabled = true;
-        }
+        // Обработчики сообщений.
 
         private void browseButton_Click(object sender, EventArgs e)
         {
@@ -510,9 +71,9 @@ namespace RandomGraphLauncher
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                foreach (Control childControl in groupBox_Gen_params.Controls)
+                foreach (Control childControl in genParamsGrp.Controls)
                 {
-                    if (childControl.Tag == "filePath")
+                    if ((string)childControl.Tag == "FilePath")
                     {
                         childControl.Text = openFileDialog1.FileName;
                     }
@@ -520,117 +81,151 @@ namespace RandomGraphLauncher
             }
         }
 
-        private void StartWork(object sender, DoWorkEventArgs e)
+        private void selectallcheckBox_CheckedChanged(object sender, EventArgs e)
         {
-
-            Thread.CurrentThread.Priority = ThreadPriority.Highest;
-            Tuple<Dictionary<GenerationParam, object>, AnalyseOptions> args = (Tuple<Dictionary<GenerationParam, object>, AnalyseOptions>)e.Argument;
-            object[] invokeParams = new object[] { args.Item1, args.Item2, controller.AnalizeOptionsValues };
-            controller.StartGraphModel(invokeParams);
+            if (selectAllCheck.Checked)
+            {
+                deselectAllCheck.Checked = false;
+                for (int i = 0; i < optionsCheckList.Items.Count; i++)
+                {
+                    optionsCheckList.SetItemChecked(i, true);
+                }
+                selectAllCheck.Enabled = false;
+                deselectAllCheck.Enabled = true;
+            }
         }
 
-        private void SetParamsInfo(Dictionary<GenerationParam, object> genParams, AnalyseOptions selectedOptions)
+        private void deselectallcheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), typeof(AnalyseOptions), typeof(int) };
-            object[] invokeParams = new object[] { genParams, selectedOptions, 0 };
-            //AbstractGraphModel graphModel = (AbstractGraphModel)modelType.GetConstructor(constructTypes).Invoke(invokeParams);
+            if (deselectAllCheck.Checked)
+            {
+                selectAllCheck.Checked = false;
+                for (int i = 0; i < optionsCheckList.Items.Count; i++)
+                {
+                    optionsCheckList.SetItemChecked(i, false);
+                }
+                deselectAllCheck.Enabled = false;
+                selectAllCheck.Enabled = true;
+            }
         }
 
-        private void PauseWork(object sender, DoWorkEventArgs e)
+        // !!
+        private void startButton_Click(object sender, EventArgs e)
         {
-            controller.Pause();
+            log.Info("<Start> button clicked.");
+            try
+            {
+                PassGenerationParameterValues();
+            }
+            catch (FormatException ex)
+            {
+                log.Info("FormatException occured. There are some invalid input parameters.");
+                log.Fatal(ex);
+                MessageBox.Show("There are some invalid input parameter!");
+                return;
+            }
+
+            PassAnalyzeOptions();
+            PassInstanceCount();
+
+            if (CheckParameters())
+            {
+                for (int i = 0; i < Convert.ToInt32(implementationCountNumeric.Value); i++)
+                {
+                    calculationStatusGrd.Rows.Add();
+                }
+                implementationCountNumeric.Enabled = false;
+                DisableGenerationParamsInput();
+                DisableAnalyseOptins();
+
+                SetButtonEnabled(startBtn, false);
+                SetButtonEnabled(pauseBtn, true);
+                SetButtonEnabled(stopBtn, true);
+
+                // !добавить!
+                /*Thread.CurrentThread.Priority = ThreadPriority.Highest;
+                Tuple<Dictionary<GenerationParam, object>, AnalyseOptions> tmp =
+                    Tuple.Create<Dictionary<GenerationParam, object>, AnalyseOptions>(controller.genParams, selectedOptions);
+                backgroundStartWorker.RunWorkerAsync(tmp);*/
+            }
+            else
+            {
+                string errMsg = SessionController.GetErrorMessage(jobName);
+                if (errMsg != null)
+                {
+                    MessageBox.Show(errMsg);
+                }
+                else
+                {
+                    MessageBox.Show("Generation parameters are too large!");
+                }
+            }
         }
 
-        private void ContiuneWork(object sender, DoWorkEventArgs e)
+        private void stopButton_Click(object sender, EventArgs e)
         {
-            controller.Continue();
+            pauseBtn.Enabled = false;
+            continueBtn.Enabled = false;
+            stopBtn.Enabled = false;
+            FreezeGridButtons();
+            backgroundStopWorker.RunWorkerAsync();
         }
 
-        private void StopWork(object sender, DoWorkEventArgs e)
+        private void pauseButton_Click(object sender, EventArgs e)
         {
-            controller.Stop();
+            pauseBtn.Enabled = false;
+            continueBtn.Enabled = true;
+            stopBtn.Enabled = true;
+            backgroundPauseWorker.RunWorkerAsync();
+        }
+
+        private void continueButton_Click(object sender, EventArgs e)
+        {
+            pauseBtn.Enabled = true;
+            continueBtn.Enabled = false;
+            stopBtn.Enabled = true;
+            backgroundContinueWorker.RunWorkerAsync();
         }
 
         private void tableCellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex > -1)
             {
-                if (e.ColumnIndex == 5) // Stop button clicked
+                // Кнопка <Stop>.
+                if (e.ColumnIndex == 5) 
                 {
-                    DataGridViewDisableButtonCell stopButton = (DataGridViewDisableButtonCell)dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                    DataGridViewDisableButtonCell manageButton = (DataGridViewDisableButtonCell)dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex + 1];
-                    if (stopButton.Enabled)
+                    if (stopBtn.Enabled)
                     {
-                        setColumnButtonEnable(stopButton, false);
-                        setColumnButtonEnable(manageButton, false);
-                        stopInstance(e.RowIndex);
+                        SetColumnButtonEnable(
+                            (DataGridViewDisableButtonCell)calculationStatusGrd.Rows[e.RowIndex].Cells[e.ColumnIndex], 
+                            false);
+                        SetColumnButtonEnable(
+                            (DataGridViewDisableButtonCell)calculationStatusGrd.Rows[e.RowIndex].Cells[e.ColumnIndex + 1],
+                            false);
+                        StopInstance(e.RowIndex);
                     }
                 }
-                else if (e.ColumnIndex == 6) // Pause/Continue button clicked
+                // Кнопка <Pause/Continue>.
+                else if (e.ColumnIndex == 6)
                 {
-                    DataGridViewDisableButtonCell cell = (DataGridViewDisableButtonCell)dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                    DataGridViewDisableButtonCell stopButton = (DataGridViewDisableButtonCell)dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex - 1];
+                    DataGridViewDisableButtonCell cell = 
+                        (DataGridViewDisableButtonCell)calculationStatusGrd.Rows[e.RowIndex].Cells[e.ColumnIndex];
                     if (cell.Enabled)
                     {
                         string buttonText = (string)cell.Value;
                         if (buttonText == "Pause")
                         {
-                            //setColumnButtonEnable(stopButton, false);
-                            setColumnButtonText(cell, "Continue");
-                            pauseInstance(e.RowIndex);
+                            SetColumnButtonText(cell, "Continue");
+                            PauseInstance(e.RowIndex);
                         }
                         else if (buttonText == "Continue")
                         {
-                            //setColumnButtonEnable(stopButton, true);
-                            setColumnButtonText(cell, "Pause");
-                            continueInstance(e.RowIndex);
+                            SetColumnButtonText(cell, "Pause");
+                            ContinueInstance(e.RowIndex);
                         }
                     }
                 }
             }
-        }
-
-        private void setColumnButtonEnable(DataGridViewDisableButtonCell button, bool enable)
-        {
-            button.Enabled = enable;
-            dataGridView1.InvalidateCell(button.ColumnIndex, button.RowIndex);
-        }
-
-        private void frozeGridRow(int index)
-        {
-            DataGridViewDisableButtonCell manageButton = (DataGridViewDisableButtonCell)dataGridView1.Rows[index].Cells[6];
-            DataGridViewDisableButtonCell stopButton = (DataGridViewDisableButtonCell)dataGridView1.Rows[index].Cells[5];
-            setColumnButtonEnable(manageButton, false);
-            setColumnButtonEnable(stopButton, false);
-        }
-
-        private void frozeGridButtons()
-        {
-            for (int i = 0; i < dataGridView1.RowCount; i++)
-            {
-                frozeGridRow(i);
-            }
-        }
-
-        private void setColumnButtonText(DataGridViewButtonCell button, string text)
-        {
-            button.UseColumnTextForButtonValue = false;
-            button.Value = text;
-        }
-
-        private void stopInstance(int index)
-        {
-            controller.Stop(index);
-        }
-
-        private void pauseInstance(int index)
-        {
-            controller.Pause(index);
-        }
-
-        private void continueInstance(int index)
-        {
-            controller.Continue(index);
         }
 
         private void StartButtonEnableChanged(object sender, EventArgs e)
@@ -657,70 +252,474 @@ namespace RandomGraphLauncher
             button.BackgroundImage = button.Enabled ? Resources.Cont : Resources.Cont_dis;
         }
 
-        public void closeCalculation()
-        {
-            /* if (controller.manager.CurrentExecutionStatus == ExecutionStatus.Starting)
-             {
-                 controller.Stop();
-             }*/
-        }
-
         private void motiveLow_SelectedIndexChanged(object sender, EventArgs e)
         {
-            controller.AnalizeOptionsValues["motiveLow"] = motiveLow.SelectedItem;
+            SessionController.SetAnalyzeOptionValue(jobName, "MotiveLow", motiveLowCmb.SelectedItem);
         }
 
         private void motiveHi_SelectedIndexChanged(object sender, EventArgs e)
         {
-            controller.AnalizeOptionsValues["motiveHi"] = motiveHi.SelectedItem;
+            SessionController.SetAnalyzeOptionValue(jobName, "MotiveHigh", motiveHighCmb.SelectedItem);
         }
 
         private void cyclesLow_SelectedIndexChanged(object sender, EventArgs e)
         {
-            controller.AnalizeOptionsValues["cyclesLow"] = cyclesLow.SelectedItem;
+            SessionController.SetAnalyzeOptionValue(jobName, "CyclesLow", cyclesLowCmb.SelectedItem);
         }
 
         private void cyclesHi_SelectedIndexChanged(object sender, EventArgs e)
         {
-            controller.AnalizeOptionsValues["cyclesHi"] = cyclesHi.SelectedItem;
+            SessionController.SetAnalyzeOptionValue(jobName, "CyclesHigh", cyclesHighCmb.SelectedItem);
         }
 
-        private void checkedListBox_Options_SelectedIndexChanged(object sender, EventArgs e)
+        private void manager_OverallProgress(object sender, GraphProgressEventArgs e)
         {
-            if (((CheckedListBox)sender).Text == "Motives")
+            if (calculationStatusGrd.InvokeRequired)
             {
-                // if (((CheckedListBox)sender).)
+                OverallCallback d = new OverallCallback(OverallProgress);
+                this.Invoke(d, new object[] { e });
+            }
+            else
+            {
+                OverallProgress(e);
             }
         }
 
-        private void selectallcheckBox_CheckedChanged(object sender, EventArgs e)
+        private void manager_ExecutionStatusChange(object sender, ExecutionStatusEventArgs e)
         {
-            if (selectallcheckBox.Checked)
+            ExecutionStatus currentStatus = e.ExecutionStatus;
+            if (currentStatus == ExecutionStatus.Success || 
+                currentStatus == ExecutionStatus.Failed || 
+                currentStatus == ExecutionStatus.Stopped)
             {
-                deselectallcheckBox.Checked = false;
-                for (int i = 0; i < checkedListBox_Options.Items.Count; i++)
+                FreezeGridButtons();
+                SetButtonEnabled(stopBtn, false);
+                SetButtonEnabled(pauseBtn, false);
+                SetButtonEnabled(startBtn, false);
+                SetButtonEnabled(continueBtn, false);
+                if (currentStatus == ExecutionStatus.Success)
                 {
-                    checkedListBox_Options.SetItemChecked(i, true);
+                    toolStripLabel1.Text = "Saving results...";
+                    SessionController.SaveResults(jobName);
+                    toolStripLabel1.Text = "";
+                    MessageBox.Show("Calculation has completed successfully", "Success", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                selectallcheckBox.Enabled = false;
-                deselectallcheckBox.Enabled = true;
+                else if (currentStatus == ExecutionStatus.Stopped)
+                {
+                    MessageBox.Show("Calculation has stopped by user", "Stopped", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (SessionController.GetResultsCount(jobName) != 0)
+                    {
+                        toolStripLabel1.Text = "Saving results...";
+                        SessionController.SaveResults(jobName);
+                        toolStripLabel1.Text = "";
+                    }
+                }
+                else if (currentStatus == ExecutionStatus.Failed)
+                {
+                    MessageBox.Show("Calculation has failed", "Fail", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
+        }
+
+        private void manager_GraphsGenerated(object sender, List<GraphTable> e)
+        {
+            CallFlash(e);
+        }
+
+        private void StartWork(object sender, DoWorkEventArgs e)
+        {
+            Thread.CurrentThread.Priority = ThreadPriority.Highest;
+            Tuple<Dictionary<GenerationParam, object>, AnalyseOptions> args = (Tuple<Dictionary<GenerationParam, object>,
+                AnalyseOptions>)e.Argument;
+            // !исправить!
+            //object[] invokeParams = new object[] { args.Item1, args.Item2, controller.AnalizeOptionsValues };
+            //controller.StartGraphModel(invokeParams);
+        }
+
+        private void PauseWork(object sender, DoWorkEventArgs e)
+        {
+            SessionController.PauseJob(jobName);
+        }
+
+        private void ContiuneWork(object sender, DoWorkEventArgs e)
+        {
+            SessionController.ContinueJob(jobName);
+        }
+
+        private void StopWork(object sender, DoWorkEventArgs e)
+        {
+            SessionController.StopJob(jobName);
+        }
+
+        private object proxy_ExternalInterfaceCall(object sender, ExternalInterfaceCallEventArgs e)
+        {
+            switch (e.FunctionCall.FunctionName)
+            {
+                case "sendToJavaScript":
+                    CallFromFlash(e.FunctionCall.Arguments);
+                    break;
+                default:
+                    return null;
+            }
+            return null;
+        }
          
-        }
+        // Утилиты.
 
-        private void deselectallcheckBox_CheckedChanged(object sender, EventArgs e)
+        private void InitializeModelInfo()
         {
-            if (deselectallcheckBox.Checked)
-            {
-                selectallcheckBox.Checked = false;
-                for (int i = 0; i < checkedListBox_Options.Items.Count; i++)
-                {
-                    checkedListBox_Options.SetItemChecked(i, false);
-                }
-                deselectallcheckBox.Enabled = false;
-                selectallcheckBox.Enabled = true;
-            }
-
+            GraphModel graphMetaData = SessionController.GetGraphModel(jobName);
+            modelName.Text = "Model name: \n" + graphMetaData.Name;
+            description.Text = "Description: \n" + graphMetaData.Description;
         }
+
+        private void InitializeGenerationParamsControls()
+        {
+            log.Info("Constructing generation parameters boxes");
+            bool randomGeneration = (Options.Generation == Options.GenerationMode.randomGeneration) ? true : false;
+
+            int position = 20;
+            if(randomGeneration)
+            {
+                generationParamsControls = new Dictionary<GenerationParam,Control>();
+                List<RequiredGenerationParam> genParams = SessionController.GetRequiredGenParams(jobName);
+                foreach (RequiredGenerationParam rp in genParams)
+                {
+                    GenerationParam p = rp.GenParam;
+                    GenerationParamInfo paramInfo = (GenerationParamInfo)(p.GetType().GetField(p.ToString()).
+                        GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);
+                    Control control = null;
+                    Label textBoxLabel = null;
+                    if (paramInfo.Type!=typeof(String))
+                    {
+                        control = new TextBox();
+                        control.Width = 100;
+                        control.Location = new Point(105, position);
+
+                        textBoxLabel = new Label() { Width = 100 };
+                        textBoxLabel.Location = new Point(15, position);
+
+                        textBoxLabel.Text = paramInfo.Name;
+                        generationParamsControls.Add(p, control);
+
+                        genParamsGrp.Controls.Add(control);
+                        genParamsGrp.Controls.Add(textBoxLabel);
+                        position += 25;
+                    }
+                }
+            }
+            else
+            {
+                Control control = new TextBox();
+                Label textBoxLabel = null;
+                Button brButton = new Button();
+                brButton.Click += browseButton_Click;
+                brButton.Location = new Point(105, position + 40);
+                brButton.Height = 20;
+                brButton.Width = 100;
+                brButton.Text = "Browse";
+                genParamsGrp.Controls.Add(brButton);
+                control.Width = 100;
+                control.Tag = "FilePath";
+                control.Location = new Point(105, position);
+                textBoxLabel = new Label() { Width = 100 };
+                textBoxLabel.Location = new Point(15, position);
+                textBoxLabel.Text = "File Path";
+                genParamsGrp.Controls.Add(control);
+                genParamsGrp.Controls.Add(textBoxLabel);
+                position += 25;
+            }  
+        }
+
+        private void InitializeAnalyzeOptionsControls()
+        {
+            analyzeOptionsControls = new Dictionary<string, AnalyseOptions>();
+            foreach (AnalyseOptions opt in Enum.GetValues(typeof(AnalyseOptions)))
+            {
+                AnalyseOptions availableOptions = SessionController.GetAvailableAnalyzeOptions(jobName);
+                if ((opt & availableOptions) == opt && opt != AnalyseOptions.None)
+                {
+                    AnalyzeOptionInfo optionInfo = (AnalyzeOptionInfo)(opt.GetType().
+                        GetField(Enum.GetName(typeof(AnalyseOptions), opt)).
+                        GetCustomAttributes(typeof(AnalyzeOptionInfo), false)[0]);
+                    analyzeOptionsControls.Add(optionInfo.Name, opt);
+                    optionsCheckList.Items.Add(optionInfo.Name, true);
+                }
+                if ((opt & availableOptions) == opt && opt == AnalyseOptions.Motifs)
+                {
+                    motiveHighCmb.SelectedIndex = 0;
+                    motiveLowCmb.SelectedIndex = 0;
+                    motiveHighCmb.Show();
+                    motiveLowCmb.Show();
+                    motives.Show();
+                }
+                if ((opt & availableOptions) == opt && opt == AnalyseOptions.Cycles)
+                {
+                    cyclesHighCmb.SelectedIndex = 0;
+                    cyclesLowCmb.SelectedIndex = 0;
+                    cyclesHighCmb.Show();
+                    cyclesLowCmb.Show();
+                    cycles.Show();
+                }
+            }
+        }
+
+        private void InitializeCommonControls()
+        {
+            implementationCountNumeric.Enabled = (Options.Generation == Options.GenerationMode.randomGeneration) ? 
+                true : false;
+        }
+
+        private void InitializeGlobalModes()
+        {
+            SessionController.SetStatusChangedEventHandler(jobName, manager_ExecutionStatusChange);
+
+            if (Options.TrainingMode)
+            {
+                SessionController.SetGraphsGeneratedEventHandler(jobName, manager_GraphsGenerated);
+
+                this.axShockwaveFlash1.Visible = true;
+                calculationStatusGrp.Visible = false;
+                InitFlashAPI();
+                InitFlash();
+                // !исправить!
+                //DisableControlButtons();
+            }
+            else
+            {
+                SessionController.SetGraphProgressEventHandler(jobName, manager_OverallProgress);
+
+                this.axShockwaveFlash1.Visible = false;
+                calculationStatusGrp.Visible = true;
+                if (Options.DistributedMode)
+                {
+                    calculationStatusGrd.Columns[4].Visible = true;
+                }
+            }
+        }
+
+        private void PassGenerationParameterValues()
+        {
+            if (Options.GenerationMode.randomGeneration == Options.Generation)
+            {
+                Dictionary<GenerationParam, object> values = new Dictionary<GenerationParam, object>();
+                foreach (GenerationParam paramType in generationParamsControls.Keys)
+                {
+                    string genParamValue = generationParamsControls[paramType].Text;
+                    GenerationParamInfo paramInfo = (GenerationParamInfo)(paramType.GetType().
+                        GetField(paramType.ToString()).GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);
+
+                    if (paramInfo.Type.Equals(typeof(Double)))
+                    {
+                        values.Add(paramType, Convert.ToDouble(genParamValue, CultureInfo.InvariantCulture));
+                    }
+                    else if (paramInfo.Type.Equals(typeof(Int16)))
+                    {
+                        values.Add(paramType, Convert.ToInt16(genParamValue));
+                    }
+                    else if (paramInfo.Type.Equals(typeof(Int32)))
+                    {
+                        values.Add(paramType, Convert.ToInt32(genParamValue));
+                    }
+                    else if (paramInfo.Type.Equals(typeof(String)))
+                    {
+                        values.Add(paramType, genParamValue);
+                    }
+                }
+                SessionController.SetGenParamValuesForJob(jobName, values);
+            }
+            else if (Options.GenerationMode.staticGeneration == Options.Generation)
+            {
+                foreach (Control childControl in genParamsGrp.Controls)
+                {
+                    if ((string)childControl.Tag == "FilePath")
+                    {
+                        SessionController.SetFilePath(jobName, childControl.Text);
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void PassAnalyzeOptions()
+        {
+            AnalyseOptions selectedOptions = AnalyseOptions.None;
+            foreach (string option in analyzeOptionsControls.Keys)
+            {
+                if (optionsCheckList.CheckedItems.Contains(option))
+                {
+                    selectedOptions |= analyzeOptionsControls[option];
+                }
+            }
+            SessionController.SetSelectedOptions(jobName, selectedOptions);
+        }
+
+        private void PassInstanceCount()
+        {
+            SessionController.SetInstanceCount(jobName, Convert.ToInt32(implementationCountNumeric.Value));
+        }
+
+        private bool CheckParameters()
+        {
+            return SessionController.CheckParameters(jobName);
+        }
+
+        // Замарозить все строки Grid-а.
+        private void FreezeGridButtons()
+        {
+            for (int i = 0; i < calculationStatusGrd.RowCount; i++)
+            {
+                FreezeGridRow(i);
+            }
+        }
+
+        // Замарозить i-тую строкы Grid-а.
+        private void FreezeGridRow(int index)
+        {
+            SetColumnButtonEnable((DataGridViewDisableButtonCell)calculationStatusGrd.Rows[index].Cells[5], false);
+            SetColumnButtonEnable((DataGridViewDisableButtonCell)calculationStatusGrd.Rows[index].Cells[6], false);
+        }
+
+        // Деактивировать поля i-той строки Grid-а. 
+        private void SetColumnButtonEnable(DataGridViewDisableButtonCell button, bool enable)
+        {
+            button.Enabled = enable;
+            calculationStatusGrd.InvalidateCell(button.ColumnIndex, button.RowIndex);
+        }
+
+        // Деактивация ввода параметров генерации.
+        private void DisableGenerationParamsInput()
+        {
+            foreach (var item in generationParamsControls)
+            {
+                item.Value.Enabled = false;
+            }
+        }
+
+        // Активация ввода параметров генерации.
+        private void EnableGenerationParamsInput()
+        {
+            foreach (var item in generationParamsControls)
+            {
+                item.Value.Enabled = true;
+            }
+        }
+
+        // Деактивация отметки свойств анализа.
+        private void DisableAnalyseOptins()
+        {
+            optionsCheckList.Enabled = false;
+            motiveLowCmb.Enabled = false;
+            motiveHighCmb.Enabled = false;
+            cyclesLowCmb.Enabled = false;
+            cyclesHighCmb.Enabled = false;
+        }
+
+        // Активация отметки свойств анализа.
+        private void EnableAnalyseOptins()
+        {
+            optionsCheckList.Enabled = true;
+            motiveLowCmb.Enabled = true;
+            motiveHighCmb.Enabled = true;
+            cyclesLowCmb.Enabled = true;
+            cyclesHighCmb.Enabled = true;
+        }
+
+        private void SetButtonEnabled(Button btn, bool val)
+        {
+            if (btn.InvokeRequired)
+            {
+                BtnEnabled d = new BtnEnabled(ButtonEnabledThreadSafe);
+                this.Invoke(d, new object[] { btn, val });
+            }
+            else
+            {
+                btn.Enabled = val;
+            }
+        }
+
+        private static void ButtonEnabledThreadSafe(Button btn, bool val)
+        {
+            btn.Enabled = val;
+        }
+
+        private void SetColumnButtonText(DataGridViewButtonCell button, string text)
+        {
+            button.UseColumnTextForButtonValue = false;
+            button.Value = text;
+        }
+
+        private void StopInstance(int index)
+        {
+            SessionController.StopJob(jobName, index);
+        }
+
+        private void PauseInstance(int index)
+        {
+            SessionController.PauseJob(jobName, index);
+        }
+
+        private void ContinueInstance(int index)
+        {
+            SessionController.ContinueJob(jobName, index);
+        }
+
+        void OverallProgress(GraphProgressEventArgs e)
+        {
+            if (calculationStatusGrd.Rows.Count != 0)
+            {
+                GraphProgressStatus status = e.Progress;
+                DataGridViewRow row = calculationStatusGrd.Rows[status.ID];
+                row.Cells[0].Value = status.ID + 1;
+                row.Cells[1].Value = status.GraphProgress;
+                row.Cells[2].Value = status.Percent;
+                row.Cells[3].Value = status.TargetName;
+                row.Cells[4].Value = status.HostName;
+            }
+        }
+
+        // Утилиты Flash-а, которые используются в тренировачном режиме.
+
+        private void InitFlash()
+        {
+            log.Info("Initializing Flash.");
+            this.axShockwaveFlash1.Movie = AppDomain.CurrentDomain.BaseDirectory + @"\SWF\communication.swf";
+        }
+
+        private void InitFlashAPI()
+        {
+            log.Info("Initializing Flash API.");
+            // !исправить!
+            //controller.InitFlashApi(this.axShockwaveFlash1, proxy_ExternalInterfaceCall); 
+        }
+
+        private void CallFlash(List<GraphTable> e)
+        {
+            log.Info("Calling Flash.");
+            GraphModel graphMetaData = SessionController.GetGraphModel(jobName);
+            StringBuilder theJson = new StringBuilder();
+            theJson.Append("{\"type\":\"");
+            theJson.Append(graphMetaData.Name);
+            theJson.Append("\",  \"matrixes\":");
+            theJson.Append(JsonConvert.SerializeObject(e));
+            theJson.Append(", \"params\":");
+            theJson.Append(JsonConvert.SerializeObject(SessionController.GetRequiredGenParams(jobName)));
+            theJson.Append("}");
+            // !исправить!
+            //controller.CallFlash(theJson.ToString());
+            log.Info("End calling Flash.");
+        }
+
+        private void CallFromFlash(object[] p)
+        {
+            MessageBox.Show(p[0].ToString());
+        }
+
+        // Делегаты.
+
+        private delegate void OverallCallback(GraphProgressEventArgs e);
+        private delegate void BtnEnabled(Button btn, bool val);
     }
 }

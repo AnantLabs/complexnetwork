@@ -65,7 +65,7 @@
             this.tracingPathTxtBox = new System.Windows.Forms.TextBox();
             this.generationTabPage = new System.Windows.Forms.TabPage();
             this.trainingTabPage = new System.Windows.Forms.TabPage();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.trainingGroupBox = new System.Windows.Forms.GroupBox();
             this.BrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.LoggerBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.tracingBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
@@ -81,7 +81,7 @@
             this.groupBox1.SuspendLayout();
             this.generationTabPage.SuspendLayout();
             this.trainingTabPage.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.trainingGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // cancelButton
@@ -460,7 +460,7 @@
             // 
             // trainingTabPage
             // 
-            this.trainingTabPage.Controls.Add(this.groupBox2);
+            this.trainingTabPage.Controls.Add(this.trainingGroupBox);
             this.trainingTabPage.Location = new System.Drawing.Point(4, 22);
             this.trainingTabPage.Name = "trainingTabPage";
             this.trainingTabPage.Padding = new System.Windows.Forms.Padding(3);
@@ -469,15 +469,15 @@
             this.trainingTabPage.Text = "Training Mode";
             this.trainingTabPage.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
+            // trainingGroupBox
             // 
-            this.groupBox2.Controls.Add(this.trainingModeCheckBox);
-            this.groupBox2.Location = new System.Drawing.Point(39, 24);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(421, 171);
-            this.groupBox2.TabIndex = 27;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Set Training Mode configurations";
+            this.trainingGroupBox.Controls.Add(this.trainingModeCheckBox);
+            this.trainingGroupBox.Location = new System.Drawing.Point(39, 24);
+            this.trainingGroupBox.Name = "trainingGroupBox";
+            this.trainingGroupBox.Size = new System.Drawing.Size(421, 171);
+            this.trainingGroupBox.TabIndex = 27;
+            this.trainingGroupBox.TabStop = false;
+            this.trainingGroupBox.Text = "Set Training Mode configurations";
             // 
             // SettingsOptionsWindow
             // 
@@ -491,6 +491,7 @@
             this.MinimizeBox = false;
             this.Name = "SettingsOptionsWindow";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Options";
             this.Load += new System.EventHandler(this.SettingsOptionsWindow_Load);
             this.generationModeGroupBox.ResumeLayout(false);
@@ -510,8 +511,8 @@
             this.groupBox1.PerformLayout();
             this.generationTabPage.ResumeLayout(false);
             this.trainingTabPage.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.trainingGroupBox.ResumeLayout(false);
+            this.trainingGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -558,6 +559,6 @@
         private System.Windows.Forms.CheckBox debugCheckBox;
         private System.Windows.Forms.GroupBox distributedGroupBox;
         private System.Windows.Forms.TabPage trainingTabPage;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox trainingGroupBox;
     }
 }

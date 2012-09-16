@@ -14,7 +14,7 @@ using CommonLibrary.Model.Attributes;
 using CommonLibrary.Model.Util;
 using Flash.External;
 using Newtonsoft.Json;
-using RandomGraph.Common.Model.Settings;
+using RandomGraph.Settings;
 using RandomGraph.Common.Model;
 using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model.Status;

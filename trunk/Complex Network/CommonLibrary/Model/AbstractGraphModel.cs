@@ -14,7 +14,6 @@ using CommonLibrary.Model.Util;
 using System.Configuration;
 
 using CommonLibrary.Model;
-using RandomGraph.Common.Model.Settings;
 
 namespace RandomGraph.Common.Model
 {
@@ -154,10 +153,11 @@ namespace RandomGraph.Common.Model
 
             try
             {
-                if (Options.GenerationMode.randomGeneration == Options.Generation)    // Динамическая генерация
+                // !Исправить!
+                //if (Options.GenerationMode.randomGeneration == Options.Generation)    // Динамическая генерация
                     generator.RandomGeneration(GenerationParamValues);
-                else    // Статическая генерация
-                    generator.StaticGeneration(NeighbourshipMatrix);
+                //else    // Статическая генерация
+                //    generator.StaticGeneration(NeighbourshipMatrix);
 
                 InvokeProgressEvent(GraphProgress.GenerationDone, 30);
             }
