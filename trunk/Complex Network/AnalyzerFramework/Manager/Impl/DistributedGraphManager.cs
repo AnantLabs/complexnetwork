@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using RandomGraph.Settings;
 using RandomGraph.Core.Manager.Impl;
 using RandomGraph.Common.Model;
 using RandomGraph.Common.Storage;
@@ -61,8 +63,8 @@ namespace AnalyzerFramework.Manager.Impl
         private int iterations;
         List<HelpService> services = new List<HelpService>();
 
-        public DistributedGraphManager(IResultStorage storage)
-            : base(storage) 
+        public DistributedGraphManager(IResultStorage storage, Options.GenerationMode genMode, bool tracingMode)
+            : base(storage, genMode, tracingMode) 
         {
             // Construct InstanceContext to handle messages on callback interface
             InstanceContext instanceContext = new InstanceContext(new CallbackHandler(this));

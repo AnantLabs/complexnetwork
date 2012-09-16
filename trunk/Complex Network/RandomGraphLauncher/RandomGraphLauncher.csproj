@@ -161,7 +161,6 @@
     <Compile Include="SettingsOptionsWindow.Designer.cs">
       <DependentUpon>SettingsOptionsWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\ViewController.cs" />
     <Compile Include="TesterWindow.cs">
       <SubType>Form</SubType>
     </Compile>

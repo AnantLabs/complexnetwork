@@ -27,8 +27,8 @@ namespace AnalyzerFramework.Manager.Impl
         private Thread[] threads;
         private AutoResetEvent[] waitHandles;
 
-        public MultiTreadGraphManager(IResultStorage storage)
-            : base(storage)
+        public MultiTreadGraphManager(IResultStorage storage, Options.GenerationMode genMode, bool tracingMode)
+            : base(storage, genMode, tracingMode)
         {
             log.Info("Called constructor of MultiTreadGraphManager");
         }
