@@ -51,7 +51,7 @@ namespace Model.NonRegularHierarchicModel
 
 public override AbstractGraphModel Clone()
         {
-            return new NonRegularHierarchicModel(this.GenerationParamValues, this.AnalizeOptions, this.AnalizeOptionsValues);
+            return new NonRegularHierarchicModel(this.GenerationParamValues, this.AnalyzeOptions, this.AnalyzeOptionsValues);
         }
 
         private void InitModel()

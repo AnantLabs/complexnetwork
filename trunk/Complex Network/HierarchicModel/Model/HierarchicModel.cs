@@ -47,7 +47,7 @@ namespace Model.HierarchicModel
 
         public override AbstractGraphModel Clone()
         {
-            return new HierarchicModel(this.GenerationParamValues, this.AnalizeOptions, this.AnalizeOptionsValues);
+            return new HierarchicModel(this.GenerationParamValues, this.AnalyzeOptions, this.AnalyzeOptionsValues);
         }
 
         private void ValidateModelParams()

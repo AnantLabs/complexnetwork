@@ -154,7 +154,7 @@ namespace AnalyzerFramework.Manager.Impl
             }
             this.iterations = iterations;
 
-            Assembly.AnalizeOptions = model.AnalizeOptions;
+            Assembly.AnalizeOptions = model.AnalyzeOptions;
             Assembly.GenerationParams = model.GenerationParamValues;
             Assembly.ModelType = model.GetType();
             Assembly.ModelName = Assembly.ModelType.Name;

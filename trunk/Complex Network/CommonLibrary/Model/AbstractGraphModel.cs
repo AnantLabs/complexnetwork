@@ -25,132 +25,95 @@ namespace RandomGraph.Common.Model
         protected IGraphGenerator generator;
         // Анализатор графа.
         protected AbstarctGraphAnalyzer analyzer;
-
+        // События.
         public event GraphProgressEventHandler Progress;
         public event GraphGeneratedDelegate GraphGenerated;
 
-
-
         public AbstractGraphModel() { }
 
-
-        /// <summary>
-        /// Constructor of Graph model base class, so
-        /// it's mandatory that input parameters are passed from child constructor to this
-        /// during objetc creation process
-        /// </summary>
-        /// <param name="genParam">Generation parameteres map</param>
-        /// <param name="options">selected analyze options</param>
-        /// <param name="sequenceNumber">number in sequence for identifieng results</param>
-        public AbstractGraphModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+        // Конструктор, в который входные параметры переходят от конструкторов дочерных классов.
+        // Передаются параметры генерации (подразумевается динамическая генерация).
+        public AbstractGraphModel(Dictionary<GenerationParam, object> genParam, 
+            AnalyseOptions options, 
+            Dictionary<String, Object> analyzeOptionsValues)
         {
-            //ID = sequenceNumber;
             GenerationParamValues = genParam;
-            AnalizeOptions = options;
-            AnalizeOptionsValues = analizeOptionsValues;
+            AnalyzeOptions = options;
+            AnalyzeOptionsValues = analyzeOptionsValues;
 
             CurrentStatus = new GraphProgressStatus();
             CurrentStatus.GraphProgress = GraphProgress.Initializing;
         }
 
-        public AbstractGraphModel(ArrayList matrix, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+        // Конструктор, в который входные параметры переходят от конструкторов дочерных классов.
+        // Передается матрица (подразумевается статическая генерация).
+        public AbstractGraphModel(ArrayList matrix, 
+            AnalyseOptions options, 
+            Dictionary<String, Object> analyzeOptionsValues)
         {
-
-            //GenerationParamValues = genParam;
-            AnalizeOptions = options;
-            AnalizeOptionsValues = analizeOptionsValues;
             NeighbourshipMatrix = matrix;
+            AnalyzeOptions = options;
+            AnalyzeOptionsValues = analyzeOptionsValues;
 
             CurrentStatus = new GraphProgressStatus();
             CurrentStatus.GraphProgress = GraphProgress.Initializing;
         }
 
-        public void setID(int ID)
+        // Свойства.
+
+        // Имя модели.
+        public string ModelName { get; set; }
+        // Уникальных идентификатор данной модели.
+        public int ID
         {
-            this.ID = ID;
-            Result = new AnalizeResult()
+            get { return ID; }
+            set
             {
-                InstanceID = ID
-            };
+                this.ID = value;
+                Result = new AnalizeResult()
+                {
+                    InstanceID = ID
+                };
+            }
         }
-
-        /// <summary>
-        /// Current status of graph model
-        /// execution process
-        /// </summary>
-        public GraphProgressStatus CurrentStatus { get; set; }
-
-        /// <summary>
-        /// Map of values that should be used for generation as generation 
-        /// params.
-        /// </summary>
-        public Dictionary<GenerationParam, object> GenerationParamValues { get; set; }
-
-        // Матрица смежности
-        public ArrayList NeighbourshipMatrix { get; set; }
-
-        #region Properties
-
-        /// <summary>
-        /// Unique ID of current model
-        /// </summary>
-        public int ID { get; set; }
-
-        /// <summary>
-        /// reference to graph object created during
-        /// generation process
-        /// </summary>
+        // Текущий статус процесса выполнения.
+        public GraphProgressStatus CurrentStatus { get; set; }        
+        // Ссылка на обьект графа, созданный в процессе генерации.
         public object Graph { get; set; }
-
-        /// <summary>
-        /// Defines options that are available for 
-        /// calculation and could be choosen by user.
-        /// </summary>
+        // Список параметров генерации для данной модели.
+        public List<GenerationParam> RequiredGenerationParams { get; set; }
+        // Свойства, которые доступны для вычисления для данной модели.
         public AnalyseOptions AvailableOptions { get; set; }
-
-        /// <summary>
-        /// Result of current model computations
-        /// </summary>
+        // Значения параметров генерации. null в случае статической генерации.
+        public Dictionary<GenerationParam, object> GenerationParamValues { get; set; }
+        // Матрица смежности. null в случае динамической генерации.
+        public ArrayList NeighbourshipMatrix { get; set; }
+        // Свойства, которые должны вычисляться.
+        public AnalyseOptions AnalyzeOptions { get; set; }
+        // Значения свойств.
+        public Dictionary<String, Object> AnalyzeOptionsValues { get; set; }
+        // Результат вычислений.
         public AnalizeResult Result { get; set; }
 
-        /// <summary>
-        /// Defines list of GenerationParams that are 
-        /// mandatory for starting generation as this list could 
-        /// various from model to model.
-        /// </summary>
-        public List<GenerationParam> RequiredGenerationParams { get; set; }
+        // Защищенная часть.
 
-        /// <summary>
-        /// Selected analyze options that should be calculated
-        /// during analyze process
-        /// </summary>
-        public AnalyseOptions AnalizeOptions { get; set; }
-
-        /// <summary>
-        /// Values of AnalyseOptions
-        /// </summary>
-        public Dictionary<String, Object> AnalizeOptionsValues { get; set; }
-
-        public string ModelName { get; set; }
-
-        #endregion
-
-        /// <summary>
-        /// Функция вызывается в методе StartGenerate в отдельном потоке.
-        /// Для получения параметров генерации (динамическая генерация) используется GenerationParamValues dictionary.
-        /// Для получения матрицы смежности (статическая генерация) используется NeighbourshipMatrix ArrayList.
-        /// </summary>
+        // Функция вызывается в методе StartGenerate в отдельном потоке.
+        // Для получения параметров генерации (динамическая генерация) используется GenerationParamValues dictionary.
+        // Для получения матрицы смежности (статическая генерация) используется NeighbourshipMatrix ArrayList.
         protected void GenerateModel()
         {
             InvokeProgressEvent(GraphProgress.StartingGeneration, 5);
 
             try
             {
-                // !Исправить!
-                //if (Options.GenerationMode.randomGeneration == Options.Generation)    // Динамическая генерация
-                generator.RandomGeneration(GenerationParamValues);
-                //else    // Статическая генерация
-                //    generator.StaticGeneration(NeighbourshipMatrix);
+                if (GenerationParamValues != null)    // Динамическая генерация
+                    generator.RandomGeneration(GenerationParamValues);
+                else if (NeighbourshipMatrix != null)   // Статическая генерация
+                    generator.StaticGeneration(NeighbourshipMatrix);
+                else
+                {
+                    throw new SystemException("Not correct generation parameters or neighbourship matrix.");
+                }
 
                 InvokeProgressEvent(GraphProgress.GenerationDone, 30);
             }
@@ -166,11 +129,9 @@ namespace RandomGraph.Common.Model
             }
         }
 
-        /// <summary>
-        /// Функция вызывается в методе StartAnalize в отдельном потоке. 
-        /// Для получения выбранных опций анализа используется флаг перечисления AnalizeOptions.
-        /// После окончания анализа обьект Result должен иметь значение.
-        /// </summary>
+        // Функция вызывается в методе StartAnalize в отдельном потоке. 
+        // Для получения выбранных опций анализа используется флаг перечисления AnalyzeOptions.
+        // После окончания анализа обьект Result должен иметь значение.
         protected void AnalyzeModel()
         {
             InvokeProgressEvent(GraphProgress.StartingAnalizing);
@@ -179,97 +140,97 @@ namespace RandomGraph.Common.Model
 
             try
             {
-                if ((AnalizeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
+                if ((AnalyzeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 10, "Average Path");
                     Result.Result[AnalyseOptions.AveragePath] = analyzer.GetAveragePath();
                 }
 
-                if ((AnalizeOptions & AnalyseOptions.Diameter) == AnalyseOptions.Diameter)
+                if ((AnalyzeOptions & AnalyseOptions.Diameter) == AnalyseOptions.Diameter)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 20, "Diameter");
                     Result.Result[AnalyseOptions.Diameter] = analyzer.GetDiameter();
                 }
 
-                if ((AnalizeOptions & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3)
+                if ((AnalyzeOptions & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 30, "Cycles of order 3");
                     Result.Result[AnalyseOptions.Cycles3] = analyzer.GetCycles3();
                 }
 
-                if ((AnalizeOptions & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4)
+                if ((AnalyzeOptions & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 40, "Cycles of order 4");
                     Result.Result[AnalyseOptions.Cycles4] = analyzer.GetCycles4();
                 }
 
-                if ((AnalizeOptions & AnalyseOptions.CycleEigen3) == AnalyseOptions.CycleEigen3)
+                if ((AnalyzeOptions & AnalyseOptions.CycleEigen3) == AnalyseOptions.CycleEigen3)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 40, "Cycles of order 3 (Eigen)");
                     Result.Result[AnalyseOptions.CycleEigen3] = analyzer.GetCyclesEigen3();
                 }
 
-                if ((AnalizeOptions & AnalyseOptions.CycleEigen4) == AnalyseOptions.CycleEigen4)
+                if ((AnalyzeOptions & AnalyseOptions.CycleEigen4) == AnalyseOptions.CycleEigen4)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 40, "Cycles of order 4 (Eigen)");
                     Result.Result[AnalyseOptions.CycleEigen4] = analyzer.GetCyclesEigen4();
                 }
 
-                if ((AnalizeOptions & AnalyseOptions.EigenValue) == AnalyseOptions.EigenValue)
+                if ((AnalyzeOptions & AnalyseOptions.EigenValue) == AnalyseOptions.EigenValue)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 50, "Calculating EigenValues");
                     Result.EigenVector = analyzer.GetEigenValues();
                 }
 
-                if ((AnalizeOptions & AnalyseOptions.DistEigenPath) == AnalyseOptions.DistEigenPath)
+                if ((AnalyzeOptions & AnalyseOptions.DistEigenPath) == AnalyseOptions.DistEigenPath)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 60, "Distances between Eigen Values");
                     Result.DistancesBetweenEigenValues = analyzer.GetDistEigenPath();
                 }
 
-                if ((AnalizeOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
+                if ((AnalyzeOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 60, "Degree Distribution");
                     Result.VertexDegree = analyzer.GetDegreeDistribution();
                 }
 
-                if ((AnalizeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
+                if ((AnalyzeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 70, "Clustering Coefficient");
                     Result.Coefficient = analyzer.GetClusteringCoefficient();
                 }
 
-                if ((AnalizeOptions & AnalyseOptions.ConnSubGraph) == AnalyseOptions.ConnSubGraph)
+                if ((AnalyzeOptions & AnalyseOptions.ConnSubGraph) == AnalyseOptions.ConnSubGraph)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 70, "Connected Subgraphs Orders");
                     Result.Subgraphs = analyzer.GetConnSubGraph();
                 }
 
-                if ((AnalizeOptions & AnalyseOptions.FullSubGraph) == AnalyseOptions.FullSubGraph)
+                if ((AnalyzeOptions & AnalyseOptions.FullSubGraph) == AnalyseOptions.FullSubGraph)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 70, "Full Subgraphs Orders");
                     Result.FullSubgraphs = analyzer.GetFullSubGraph();
                 }
 
-                if ((AnalizeOptions & AnalyseOptions.MinPathDist) == AnalyseOptions.MinPathDist)
+                if ((AnalyzeOptions & AnalyseOptions.MinPathDist) == AnalyseOptions.MinPathDist)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 80, "Minimal Path Distance Distribution");
                     Result.DistanceBetweenVertices = analyzer.GetMinPathDist();
                 }
 
-                if ((AnalizeOptions & AnalyseOptions.Cycles) == AnalyseOptions.Cycles)
+                if ((AnalyzeOptions & AnalyseOptions.Cycles) == AnalyseOptions.Cycles)
                 {
-                    int maxValue = Int32.Parse((String)AnalizeOptionsValues["cyclesHi"]);
-                    int minvalue = Int32.Parse((String)AnalizeOptionsValues["cyclesLow"]);
+                    int maxValue = Int32.Parse((String)AnalyzeOptionsValues["cyclesHi"]);
+                    int minvalue = Int32.Parse((String)AnalyzeOptionsValues["cyclesLow"]);
 
                     InvokeProgressEvent(GraphProgress.Analizing, 85, "Cycles of " + minvalue + "-" + maxValue + "degree");
                     Result.Cycles = analyzer.GetCycles(minvalue, maxValue);
                 }
 
-                if ((AnalizeOptions & AnalyseOptions.Motifs) == AnalyseOptions.Motifs)
+                if ((AnalyzeOptions & AnalyseOptions.Motifs) == AnalyseOptions.Motifs)
                 {
-                    int maxValue = Int32.Parse((String)AnalizeOptionsValues["motiveHi"]);
-                    int minvalue = Int32.Parse((String)AnalizeOptionsValues["motiveLow"]);
+                    int maxValue = Int32.Parse((String)AnalyzeOptionsValues["motiveHi"]);
+                    int minvalue = Int32.Parse((String)AnalyzeOptionsValues["motiveLow"]);
                     InvokeProgressEvent(GraphProgress.Analizing, 90, "Motiv of " + minvalue + "-" + maxValue + "degree");
                     Result.MotivesCount = analyzer.GetMotivs(minvalue, maxValue);
                 }
@@ -290,17 +251,16 @@ namespace RandomGraph.Common.Model
             }
         }
 
-        /// <summary>
-        /// Check input generation parameters. 
-        /// </summary>
-        public abstract bool CheckGenerationParams(int instances);
-        /// <summary>
-        /// Получение матрицы смежности из контейнера.
-        /// </summary>
+        // Получение матрицы смежности из контейнера.
         public bool[,] GetMatrix()
         {
             return analyzer.Container.GetMatrix();
         }
+
+        /// <summary>
+        /// Check input generation parameters. 
+        /// </summary>
+        public abstract bool CheckGenerationParams(int instances);        
 
         /// <summary>
         /// Prints details information of parameters into the form.

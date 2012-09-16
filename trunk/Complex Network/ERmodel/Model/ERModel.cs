@@ -52,7 +52,7 @@ namespace Model.ERModel
 
         public override AbstractGraphModel Clone()
         {
-            return new ERModel(this.GenerationParamValues, this.AnalizeOptions, this.AnalizeOptionsValues);
+            return new ERModel(this.GenerationParamValues, this.AnalyzeOptions, this.AnalyzeOptionsValues);
         }
 
         private void InitModel()
