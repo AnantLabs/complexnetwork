@@ -102,10 +102,18 @@ namespace Model.BAModel.Realization
         public override ArrayList GetEigenValues()
         {
             log.Info("Getting eigen values array.");
-
+            ArrayList engineValue = new ArrayList();
             Algorithms.EigenValue ev = new EigenValue();
             bool[,] m = container.GetMatrix();
-            return ev.EV(m);
+            try
+            {
+                return ev.EV(m);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                return new ArrayList();
+            }
         }
 
         // Возвращается степенное распределение графа. Реализовано.
@@ -139,7 +147,7 @@ namespace Model.BAModel.Realization
                 {
                     iEdgeCountForFullness = (iNeighbourCount == 1) ? 1 : iNeighbourCount * (iNeighbourCount - 1) / 2;
                     iclusteringCoefficient = (edgesBetweenNeighbours[i]) / iEdgeCountForFullness;
-                    iclusteringCoefficientList[i] = Math.Round(iclusteringCoefficient, 14);
+                    iclusteringCoefficientList[i] = Math.Round(iclusteringCoefficient, 4);
                     clusteringCoefficient += iclusteringCoefficient;
                 }
                 else
@@ -155,6 +163,8 @@ namespace Model.BAModel.Realization
                     m_iclusteringCoefficient[iclusteringCoefficientList[i]]++;
                 else
                     m_iclusteringCoefficient[iclusteringCoefficientList[i]] = 1;
+
+                
             }
             return m_iclusteringCoefficient;
         }
