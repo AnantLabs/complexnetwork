@@ -54,7 +54,7 @@ namespace Model.WSModel
 
         public override AbstractGraphModel Clone()
         {
-            return new WSModel(this.GenerationParamValues, this.AnalizeOptions, this.AnalizeOptionsValues);
+            return new WSModel(this.GenerationParamValues, this.AnalyzeOptions, this.AnalyzeOptionsValues);
         }
 
         private void InitModel()

@@ -44,7 +44,7 @@ namespace AnalyzerFramework.Manager.Impl
             }
             this.iterations = iterations;
 
-            Assembly.AnalizeOptions = origineModel.AnalizeOptions;
+            Assembly.AnalizeOptions = origineModel.AnalyzeOptions;
             Assembly.GenerationParams = origineModel.GenerationParamValues;
             Assembly.ModelType = origineModel.GetType();
             Assembly.Name = name;
@@ -67,7 +67,7 @@ namespace AnalyzerFramework.Manager.Impl
                 {
                   model = origineModel.Clone();
                 }
-                model.setID(i);
+                model.ID = i;
                 model.Progress += new GraphProgressEventHandler(OnSeparateModelProgress);
                 model.GraphGenerated += new CommonLibrary.Model.Events.GraphGeneratedDelegate(model_GraphGenerated);
                 Models.Add(model);
