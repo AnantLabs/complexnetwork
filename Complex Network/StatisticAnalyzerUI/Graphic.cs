@@ -58,6 +58,7 @@ namespace StatisticAnalyzerUI
             this.MaximizeBox = false; 
 
             Initialization();
+
             foreach (KeyValuePair<AnalyseOptions, SortedDictionary<double, double>> option in 
                 this.resultsList[0].result)
                 {
@@ -77,8 +78,6 @@ namespace StatisticAnalyzerUI
             this.MaximizeBox = true;
             this.WindowState = FormWindowState.Maximized;
             this.MaximizeBox = false;
-
-            ShowInfo((AnalyseOptions)Enum.Parse(typeof(AnalyseOptions), optionTabs.SelectedTab.Text));
                 
             Initialization();
         }
@@ -133,8 +132,10 @@ namespace StatisticAnalyzerUI
                 points.Add(x, y);
             }
 
-            zedGraph.GraphPane.AddCurve(resultsList[resultsList.Count -1].parameterLine, points, currentColor, SymbolType.Circle);
+            zedGraph.GraphPane.AddCurve(resultsList[resultsList.Count -1].parameterLine,
+                points, currentColor, SymbolType.Circle);
             zedGraph.GraphPane.CurveList[zedGraph.GraphPane.CurveList.Count - 1].IsVisible = this.currentPointView;
+
 
             zedGraph.AxisChange();
             zedGraph.Invalidate();
@@ -203,7 +204,7 @@ namespace StatisticAnalyzerUI
         private void ShowInfo(AnalyseOptions option)
         {
             int index = 0;
-            for (int i = resultsList.Count - 1; i >= 0; --i)
+            for (int i = this.resultsList.Count - 1; i >= 0; --i)
             {
                 if (resultsList[i].result.ContainsKey(option))
                 {
@@ -214,7 +215,7 @@ namespace StatisticAnalyzerUI
 
             this.ModelNameTxt.Text = this.resultsList[index].modelName;
             this.NetworkSizeTxt.Text = this.resultsList[index].networkSize.ToString();
-            this.realCoutTxt.Text = this.resultsList[0].realizationsCount.ToString();
+            this.realCoutTxt.Text = this.resultsList[index].realizationsCount.ToString();
 
             if (this.resultsList[0].type == StAnalyzeType.Local)
             {

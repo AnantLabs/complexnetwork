@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.GenerationParameters = new System.Windows.Forms.Label();
             this.OptionNameLabel = new System.Windows.Forms.Label();
             this.Values = new System.Windows.Forms.Label();
@@ -43,6 +43,8 @@
             this.generationCmbBox = new System.Windows.Forms.ComboBox();
             this.optionCmbBox = new System.Windows.Forms.ComboBox();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.realizationCountTxt = new System.Windows.Forms.TextBox();
+            this.realizationCountLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ValuesGrd)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,7 +69,7 @@
             // Values
             // 
             this.Values.AutoSize = true;
-            this.Values.Location = new System.Drawing.Point(12, 107);
+            this.Values.Location = new System.Drawing.Point(12, 131);
             this.Values.Name = "Values";
             this.Values.Size = new System.Drawing.Size(39, 13);
             this.Values.TabIndex = 4;
@@ -75,7 +77,7 @@
             // 
             // Print
             // 
-            this.Print.Location = new System.Drawing.Point(398, 527);
+            this.Print.Location = new System.Drawing.Point(403, 560);
             this.Print.Name = "Print";
             this.Print.Size = new System.Drawing.Size(75, 23);
             this.Print.TabIndex = 6;
@@ -84,7 +86,7 @@
             // 
             // excelButton
             // 
-            this.excelButton.Location = new System.Drawing.Point(497, 527);
+            this.excelButton.Location = new System.Drawing.Point(497, 560);
             this.excelButton.Name = "excelButton";
             this.excelButton.Size = new System.Drawing.Size(75, 23);
             this.excelButton.TabIndex = 7;
@@ -94,7 +96,7 @@
             // 
             // approximationTxt
             // 
-            this.approximationTxt.Location = new System.Drawing.Point(133, 74);
+            this.approximationTxt.Location = new System.Drawing.Point(133, 70);
             this.approximationTxt.Name = "approximationTxt";
             this.approximationTxt.ReadOnly = true;
             this.approximationTxt.Size = new System.Drawing.Size(439, 20);
@@ -103,7 +105,7 @@
             // apprLabel
             // 
             this.apprLabel.AutoSize = true;
-            this.apprLabel.Location = new System.Drawing.Point(12, 77);
+            this.apprLabel.Location = new System.Drawing.Point(12, 73);
             this.apprLabel.Name = "apprLabel";
             this.apprLabel.Size = new System.Drawing.Size(73, 13);
             this.apprLabel.TabIndex = 8;
@@ -118,7 +120,7 @@
             this.ValuesGrd.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.KeyColumn,
             this.ValueColumn});
-            this.ValuesGrd.Location = new System.Drawing.Point(15, 123);
+            this.ValuesGrd.Location = new System.Drawing.Point(15, 156);
             this.ValuesGrd.Name = "ValuesGrd";
             this.ValuesGrd.ReadOnly = true;
             this.ValuesGrd.Size = new System.Drawing.Size(557, 389);
@@ -126,8 +128,8 @@
             // 
             // KeyColumn
             // 
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.KeyColumn.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.KeyColumn.DefaultCellStyle = dataGridViewCellStyle1;
             this.KeyColumn.HeaderText = "Column1";
             this.KeyColumn.Name = "KeyColumn";
             this.KeyColumn.ReadOnly = true;
@@ -135,8 +137,8 @@
             // 
             // ValueColumn
             // 
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ValueColumn.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ValueColumn.DefaultCellStyle = dataGridViewCellStyle2;
             this.ValueColumn.HeaderText = "Column2";
             this.ValueColumn.Name = "ValueColumn";
             this.ValueColumn.ReadOnly = true;
@@ -156,7 +158,7 @@
             // 
             this.optionCmbBox.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.optionCmbBox.FormattingEnabled = true;
-            this.optionCmbBox.Location = new System.Drawing.Point(133, 44);
+            this.optionCmbBox.Location = new System.Drawing.Point(133, 43);
             this.optionCmbBox.Name = "optionCmbBox";
             this.optionCmbBox.Size = new System.Drawing.Size(439, 21);
             this.optionCmbBox.TabIndex = 11;
@@ -169,11 +171,30 @@
             this.saveFileDialog.RestoreDirectory = true;
             this.saveFileDialog.Title = "Export Excel File To";
             // 
+            // realizationCountTxt
+            // 
+            this.realizationCountTxt.Location = new System.Drawing.Point(133, 96);
+            this.realizationCountTxt.Name = "realizationCountTxt";
+            this.realizationCountTxt.ReadOnly = true;
+            this.realizationCountTxt.Size = new System.Drawing.Size(439, 20);
+            this.realizationCountTxt.TabIndex = 12;
+            // 
+            // realizationCountLabel
+            // 
+            this.realizationCountLabel.AutoSize = true;
+            this.realizationCountLabel.Location = new System.Drawing.Point(12, 99);
+            this.realizationCountLabel.Name = "realizationCountLabel";
+            this.realizationCountLabel.Size = new System.Drawing.Size(90, 13);
+            this.realizationCountLabel.TabIndex = 13;
+            this.realizationCountLabel.Text = "Realization Count";
+            // 
             // ValueTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 562);
+            this.ClientSize = new System.Drawing.Size(584, 595);
+            this.Controls.Add(this.realizationCountLabel);
+            this.Controls.Add(this.realizationCountTxt);
             this.Controls.Add(this.optionCmbBox);
             this.Controls.Add(this.generationCmbBox);
             this.Controls.Add(this.ValuesGrd);
@@ -211,5 +232,7 @@
         private System.Windows.Forms.ComboBox generationCmbBox;
         private System.Windows.Forms.ComboBox optionCmbBox;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.TextBox realizationCountTxt;
+        private System.Windows.Forms.Label realizationCountLabel;
     }
 }
