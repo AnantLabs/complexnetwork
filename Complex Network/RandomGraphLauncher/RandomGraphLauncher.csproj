@@ -294,9 +294,7 @@
       <Name>WSModel</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\charts\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\Cont.png" />
   </ItemGroup>
