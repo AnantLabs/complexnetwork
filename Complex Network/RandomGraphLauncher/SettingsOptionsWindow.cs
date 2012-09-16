@@ -12,12 +12,13 @@ using System.IO;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.ServiceModel.Discovery;
+
+using RandomGraphLauncher.Controllers;
+using RandomGraph.Settings;
 using AnalyzerFramework.Manager.WcfClient;
 using log4net.Config;
 using log4net.Appender;
 using log4net;
-
-using RandomGraph.Common.Model.Settings;
 
 namespace RandomGraphLauncher
 {
@@ -94,6 +95,13 @@ namespace RandomGraphLauncher
 
         private void SettingsOptionsWindow_Load(object sender, EventArgs e)
         {
+            if (SessionController.ExistsAnyRunningJob())
+            {
+                // Деактивировать табы Distributed, Training Mode
+                this.distributedGroupBox.Enabled = false;
+                this.trainingGroupBox.Enabled = false;
+            }
+
             if (Options.Storage == Options.StorageProvider.XMLProvider)
             {
                 this.XMLRadioButton.Checked = true;

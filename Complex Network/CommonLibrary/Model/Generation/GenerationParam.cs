@@ -16,16 +16,16 @@ namespace RandomGraph.Common.Model.Generation
         [GenerationParamInfo(Name = "Number of Vertices", Type = typeof(Int32))]
         Vertices = 1,
 
-        [GenerationParamInfo(Name = "Number of edges", Type = typeof(Int32))]
+        [GenerationParamInfo(Name = "Number of Edges", Type = typeof(Int32))]
         Edges = 2,
 
-        [GenerationParamInfo(Name = "Branch index", Type = typeof(Int16))]
+        [GenerationParamInfo(Name = "Branch Index", Type = typeof(Int16))]
         BranchIndex = 3,
 
         [GenerationParamInfo(Name = "Level", Type = typeof(Int16))]
         Level = 4,
 
-        [GenerationParamInfo(Name = "Maximum connections", Type = typeof(Int16))]
+        [GenerationParamInfo(Name = "Maximum Connections", Type = typeof(Int16))]
         MaxEdges = 5,
 
         [GenerationParamInfo(Name = "Mu", Type = typeof(double))]
@@ -34,7 +34,7 @@ namespace RandomGraph.Common.Model.Generation
         [GenerationParamInfo(Name = "Probability", Type = typeof(double))]
         P = 7,
 
-        [GenerationParamInfo(Name = "Step count", Type = typeof(Int32))]
+        [GenerationParamInfo(Name = "Step Count", Type = typeof(Int32))]
         StepCount = 8
     }
 }

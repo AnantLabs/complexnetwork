@@ -6,7 +6,7 @@ using RandomGraph.Core.Manager.Impl;
 using RandomGraph.Common.Model;
 using System.Threading;
 using CommonLibrary.Model.Attributes;
-using RandomGraph.Common.Model.Settings;
+using RandomGraph.Settings;
 using RandomGraph.Core.Exceptions;
 using RandomGraph.Core.Manager.Status;
 using RandomGraph.Core.Events;

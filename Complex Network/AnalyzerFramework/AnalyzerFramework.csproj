@@ -65,6 +65,7 @@
       <HintPath>..\libs\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -87,6 +88,7 @@
     <Compile Include="Manager\Impl\AbstractGraphManager.cs" />
     <Compile Include="Manager\Impl\DistributedGraphManager.cs" />
     <Compile Include="Manager\Impl\OldMultiTreadGraphManager.cs" />
+    <Compile Include="Settings\Options.cs" />
     <Compile Include="Manager\util\EventHandlerDelegates.cs" />
     <Compile Include="Manager\util\ExecutionStatus.cs" />
     <Compile Include="Manager\util\ExecutionStatusEventArgs.cs" />

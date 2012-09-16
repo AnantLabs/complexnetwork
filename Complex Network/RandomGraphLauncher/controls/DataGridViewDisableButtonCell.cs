@@ -6,8 +6,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
-
-namespace RandomGraphLauncher.controls
+namespace RandomGraphLauncher.Controls
 {
     public class DataGridViewDisableButtonCell : DataGridViewButtonCell
     {

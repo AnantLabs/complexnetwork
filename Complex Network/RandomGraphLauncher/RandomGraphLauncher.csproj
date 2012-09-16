@@ -69,7 +69,7 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>main.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\main.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -114,31 +114,27 @@
     <Compile Include="CalculationControl.designer.cs">
       <DependentUpon>CalculationControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="controls\DataGridViewDisableButtonCell.cs" />
-    <Compile Include="controls\DataGridViewProgressCell.cs" />
-    <Compile Include="controls\DataGridViewProgressColumn.cs" />
-    <Compile Include="controls\TabCtlEx.cs">
+    <Compile Include="Controls\DataGridViewDisableButtonCell.cs" />
+    <Compile Include="Controls\DataGridViewProgressCell.cs" />
+    <Compile Include="Controls\DataGridViewProgressColumn.cs" />
+    <Compile Include="Controls\TabCtlEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="controls\TabPage.cs">
+    <Compile Include="Controls\TabPage.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DataExportImport.cs">
+    <Compile Include="DataExportImportWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DataExportImport.designer.cs">
-      <DependentUpon>DataExportImport.cs</DependentUpon>
+    <Compile Include="DataExportImportWindow.designer.cs">
+      <DependentUpon>DataExportImportWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="FlashAPI\ExternalInterfaceCall.cs" />
     <Compile Include="FlashAPI\ExternalInterfaceCallEventArgs.cs" />
     <Compile Include="FlashAPI\ExternalInterfaceProxy.cs" />
     <Compile Include="FlashAPI\ExternalInterfaceSerializer.cs" />
-    <Compile Include="LoggerSetingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LoggerSetingsForm.Designer.cs">
-      <DependentUpon>LoggerSetingsForm.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Controllers\JobController.cs" />
+    <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -166,23 +162,23 @@
       <DependentUpon>SettingsOptionsWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="src\ViewController.cs" />
-    <Compile Include="TesterForm.cs">
+    <Compile Include="TesterWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TesterForm.Designer.cs">
-      <DependentUpon>TesterForm.cs</DependentUpon>
+    <Compile Include="TesterWindow.Designer.cs">
+      <DependentUpon>TesterWindow.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="CalculationControl.resx">
       <DependentUpon>CalculationControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="controls\TabCtlEx.resx">
+    <EmbeddedResource Include="Controls\TabCtlEx.resx">
       <DependentUpon>TabCtlEx.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="controls\TabPage.resx">
+    <EmbeddedResource Include="Controls\TabPage.resx">
       <DependentUpon>TabPage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoggerSetingsForm.resx">
-      <DependentUpon>LoggerSetingsForm.cs</DependentUpon>
+    <EmbeddedResource Include="DataExportImportWindow.resx">
+      <DependentUpon>DataExportImportWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
@@ -206,8 +202,8 @@
     <EmbeddedResource Include="SettingsOptionsWindow.resx">
       <DependentUpon>SettingsOptionsWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TesterForm.resx">
-      <DependentUpon>TesterForm.cs</DependentUpon>
+    <EmbeddedResource Include="TesterWindow.resx">
+      <DependentUpon>TesterWindow.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
     <None Include="Diagrams\RandomGraphLauncherDiagram.cd" />
@@ -299,7 +295,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Library\" />
     <Folder Include="src\charts\" />
   </ItemGroup>
   <ItemGroup>
@@ -349,7 +344,7 @@
     <None Include="Resources\1302789078_ooo-math.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="main.ico" />
+    <Content Include="Resources\main.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

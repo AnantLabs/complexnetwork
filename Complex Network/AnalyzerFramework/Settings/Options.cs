@@ -3,20 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Configuration;
+using System.IO;
 
-namespace RandomGraphLauncher
+using RandomGraph.Common.Storage;
+using ResultStorage.Storage;
+
+namespace RandomGraph.Settings
 {
-    static class Options
+    public static class Options
     {
         // public members that indicate current settings.
         static private StorageProvider storage;
         static private string storageDirectory;
         static private string connectionString;
+
         static private bool trainingMode;
+
         static private bool tracingMode;
         static private string tracingDirectory;
+
         static private GenerationMode generation;
+
         static private bool distributedMode;
+
         static private LoggerMode logger;
         static private string loggerDirectory;
 
@@ -29,13 +38,12 @@ namespace RandomGraphLauncher
             get
             {
                 return storage;
-            } 
+            }
             set
             {
                 storage = value;
                 config.AppSettings.Settings["Storage"].Value = (storage == StorageProvider.XMLProvider) ?
                     "XmlProvider" : "SQLProvider";
-
             }
         }
 
@@ -47,7 +55,19 @@ namespace RandomGraphLauncher
             }
             set
             {
-                storageDirectory = value;
+                if (value.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                {
+                    storageDirectory = value;
+                }
+                else
+                {
+                    storageDirectory = value + Path.DirectorySeparatorChar;
+                }
+
+                if (Directory.Exists(storageDirectory) == false)
+                {
+                    Directory.CreateDirectory(storageDirectory);
+                }
                 config.AppSettings.Settings["XmlProvider"].Value = storageDirectory;
             }
         }
@@ -63,6 +83,25 @@ namespace RandomGraphLauncher
                 connectionString = value;
                 config.ConnectionStrings.ConnectionStrings[config.AppSettings.Settings["SQLProvider"].Value].ConnectionString
                     = connectionString;
+            }
+        }
+
+        // ??
+        public static IResultStorage StorageManager
+        {
+            get
+            {
+                string provider = ConfigurationManager.AppSettings["Storage"];
+                if (provider == "XmlProvider")
+                {
+                    return new XMLResultStorage(ConfigurationManager.AppSettings[provider]);
+                }
+                else if (provider == "SQLProvider")
+                {
+                    return new SQLResultStorage(ConfigurationManager.ConnectionStrings[ConfigurationManager.AppSettings[provider]]);
+                }
+                else
+                    return null;
             }
         }
 
@@ -100,7 +139,19 @@ namespace RandomGraphLauncher
             }
             set
             {
-                tracingDirectory = value;
+                if (value.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                {
+                    tracingDirectory = value;
+                }
+                else
+                {
+                    tracingDirectory = value + Path.DirectorySeparatorChar;
+                }
+
+                if (Directory.Exists(tracingDirectory) == false)
+                {
+                    Directory.CreateDirectory(tracingDirectory);
+                }
                 config.AppSettings.Settings["TracingDirectory"].Value = tracingDirectory;
             }
         }
@@ -179,9 +230,9 @@ namespace RandomGraphLauncher
             else throw new Exception("Training is set improperly.");
 
             if (config.AppSettings.Settings["Tracing"].Value == "yes")
-                trainingMode = true;
+                tracingMode = true;
             else if (config.AppSettings.Settings["Tracing"].Value == "no")
-                trainingMode = false;
+                tracingMode = false;
             else throw new Exception("Tracing is set improperly.");
 
             tracingDirectory = config.AppSettings.Settings["TracingDirectory"].Value;
@@ -234,3 +285,62 @@ namespace RandomGraphLauncher
         }
     }
 }
+
+// !убрать в класс Options!
+/*private void InitLogManager()
+{
+    XmlConfigurator.Configure();
+    log4net.Repository.Hierarchy.Hierarchy h =
+    (log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository();
+    foreach (IAppender a in h.Root.Appenders)
+    {
+        if (a is FileAppender)
+        {
+            FileAppender fa = (FileAppender)a;
+            // Uncomment the lines below if you want to retain the base file name
+            // and change the folder name...
+            //FileInfo fileInfo = new FileInfo(fa.File);
+            //logFileLocation = string.Format(@"C:\MySpecialFolder\{0}", fileInfo.Name);
+            fa.File = Options.LoggerDirectory;
+            fa.ActivateOptions();
+            break;
+        }
+    }
+
+    //Set Logger level
+    string strChecker = "WARN_INFO_DEBUG_ERROR_FATAL";
+    string strLogLevel = null;
+
+    if (Options.Logger == Options.LoggerMode.debug)
+    {
+        strLogLevel = "DEBUG";
+    }
+
+    else if (Options.Logger == Options.LoggerMode.info)
+    {
+        strLogLevel = "INFO";
+    }
+
+    if (String.IsNullOrEmpty(strLogLevel) == true || strChecker.Contains(strLogLevel) == false)
+        throw new Exception(" The strLogLevel should be set to WARN , INFO , DEBUG ,");
+
+
+
+    log4net.Repository.ILoggerRepository[] repositories = log4net.LogManager.GetAllRepositories();
+
+    //Configure all loggers to be at the debug level.
+    foreach (log4net.Repository.ILoggerRepository repository in repositories)
+    {
+        repository.Threshold = repository.LevelMap[strLogLevel];
+        log4net.Repository.Hierarchy.Hierarchy hier = (log4net.Repository.Hierarchy.Hierarchy)repository;
+        log4net.Core.ILogger[] loggers = hier.GetCurrentLoggers();
+        foreach (log4net.Core.ILogger logger in loggers)
+        {
+            ((log4net.Repository.Hierarchy.Logger)logger).Level = hier.LevelMap[strLogLevel];
+        }
+    }
+
+    //Configure the root logger.
+    log4net.Repository.Hierarchy.Logger rootLogger = h.Root;
+    rootLogger.Level = h.LevelMap[strLogLevel];
+}*/

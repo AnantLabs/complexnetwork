@@ -1,6 +1,6 @@
 ﻿namespace RandomGraphLauncher
 {
-    partial class ModelChooserWindow
+    partial class modelChooserWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -30,15 +30,15 @@
         {
             this.button_OK = new System.Windows.Forms.Button();
             this.button_Cancel = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.comboBox_ModelType = new System.Windows.Forms.ComboBox();
-            this.textBox_JobName = new System.Windows.Forms.TextBox();
+            this.jobName = new System.Windows.Forms.Label();
+            this.model = new System.Windows.Forms.Label();
+            this.modelCmb = new System.Windows.Forms.ComboBox();
+            this.jobNameTxt = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button_OK
             // 
-            this.button_OK.Location = new System.Drawing.Point(19, 112);
+            this.button_OK.Location = new System.Drawing.Point(75, 112);
             this.button_OK.Name = "button_OK";
             this.button_OK.Size = new System.Drawing.Size(75, 23);
             this.button_OK.TabIndex = 0;
@@ -57,42 +57,40 @@
             this.button_Cancel.Text = "Cancel";
             this.button_Cancel.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // jobName
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Job name";
+            this.jobName.AutoSize = true;
+            this.jobName.Location = new System.Drawing.Point(16, 25);
+            this.jobName.Name = "jobName";
+            this.jobName.Size = new System.Drawing.Size(55, 13);
+            this.jobName.TabIndex = 2;
+            this.jobName.Text = "Job Name";
             // 
-            // label2
+            // model
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(33, 63);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(36, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Model";
+            this.model.AutoSize = true;
+            this.model.Location = new System.Drawing.Point(33, 63);
+            this.model.Name = "model";
+            this.model.Size = new System.Drawing.Size(36, 13);
+            this.model.TabIndex = 3;
+            this.model.Text = "Model";
             // 
-            // comboBox_ModelType
+            // modelCmb
             // 
-            this.comboBox_ModelType.AutoCompleteCustomSource.AddRange(new string[] {
-            "Hierarchic"});
-            this.comboBox_ModelType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_ModelType.Location = new System.Drawing.Point(75, 60);
-            this.comboBox_ModelType.Name = "comboBox_ModelType";
-            this.comboBox_ModelType.Size = new System.Drawing.Size(180, 21);
-            this.comboBox_ModelType.TabIndex = 4;
+            this.modelCmb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.modelCmb.Location = new System.Drawing.Point(75, 60);
+            this.modelCmb.Name = "modelCmb";
+            this.modelCmb.Size = new System.Drawing.Size(180, 21);
+            this.modelCmb.TabIndex = 4;
             // 
-            // textBox_JobName
+            // jobNameTxt
             // 
-            this.textBox_JobName.Location = new System.Drawing.Point(75, 22);
-            this.textBox_JobName.Name = "textBox_JobName";
-            this.textBox_JobName.Size = new System.Drawing.Size(180, 20);
-            this.textBox_JobName.TabIndex = 1;
+            this.jobNameTxt.Location = new System.Drawing.Point(75, 22);
+            this.jobNameTxt.Name = "jobNameTxt";
+            this.jobNameTxt.Size = new System.Drawing.Size(180, 20);
+            this.jobNameTxt.TabIndex = 1;
             // 
-            // ModelChooserWindow
+            // modelChooserWindow
             // 
             this.AcceptButton = this.button_OK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -100,16 +98,16 @@
             this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this.button_Cancel;
             this.ClientSize = new System.Drawing.Size(304, 148);
-            this.Controls.Add(this.textBox_JobName);
-            this.Controls.Add(this.comboBox_ModelType);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.jobNameTxt);
+            this.Controls.Add(this.modelCmb);
+            this.Controls.Add(this.model);
+            this.Controls.Add(this.jobName);
             this.Controls.Add(this.button_Cancel);
             this.Controls.Add(this.button_OK);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ModelChooserWindow";
+            this.Name = "modelChooserWindow";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Choose Model";
@@ -122,9 +120,9 @@
 
         private System.Windows.Forms.Button button_OK;
         private System.Windows.Forms.Button button_Cancel;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        public System.Windows.Forms.ComboBox comboBox_ModelType;
-        public System.Windows.Forms.TextBox textBox_JobName;
+        private System.Windows.Forms.Label jobName;
+        private System.Windows.Forms.Label model;
+        public System.Windows.Forms.ComboBox modelCmb;
+        public System.Windows.Forms.TextBox jobNameTxt;
     }
 }
