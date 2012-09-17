@@ -192,6 +192,11 @@ namespace StatisticAnalyzer.Loader
             return result;
         }
 
+        public int GetRealizationCount(string jobName)
+        {
+            return Convert.ToInt32(resultStorage.Load(assemblies.Find(i => i.Name == jobName).ID).Results.Count);
+        }
+
         // Utilities //
 
         private void InitAssembliesID()

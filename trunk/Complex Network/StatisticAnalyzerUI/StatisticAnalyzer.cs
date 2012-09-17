@@ -30,7 +30,6 @@ namespace StatisticAnalyzerUI
 
         // GUI members //
         private List<ComboBox> generationParametersComboBoxes = new List<ComboBox>();
-        //private Dictionary<AnalyseOptions, Graphic> existingGraphics;
         private GraphicCondition globalGraphic;
         private GraphicCondition localGraphic;
         private GraphicCondition motifGraphic;
@@ -533,11 +532,6 @@ namespace StatisticAnalyzerUI
         {
         }
 
-        public void DestroyGraphic(AnalyseOptions gr)
-        {
-//            existingGraphics[gr] = null;
-        }
-
         // Menu Event Handlers //
         private void MenuSetProvider_Click(object sender, EventArgs e)
         {
@@ -680,7 +674,7 @@ namespace StatisticAnalyzerUI
                     c[i].Text = loader.GetParameterValue(name, generationParameters[i].GenParam); 
                 }
 
-                //this.RealizationsTxt.Text = m_analyzer.GetRealizationsCount(name);
+                this.RealizationsTxt.Text = loader.GetRealizationCount(name).ToString();
             }
         }
 
