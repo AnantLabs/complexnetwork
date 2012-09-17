@@ -17,9 +17,6 @@ namespace Model.HierarchicModel
         AnalyseOptions.AveragePath | 
         AnalyseOptions.Cycles3 | 
         AnalyseOptions.Cycles4 | 
-        AnalyseOptions.CycleEigen3 |
-        AnalyseOptions.CycleEigen4 |
-        AnalyseOptions.EigenValue |
         AnalyseOptions.DegreeDistribution |
         AnalyseOptions.ClusteringCoefficient |
         AnalyseOptions.ConnSubGraph |
@@ -73,9 +70,6 @@ namespace Model.HierarchicModel
             AvailableOptions = AnalyseOptions.AveragePath |
                 AnalyseOptions.Cycles3 |
                 AnalyseOptions.Cycles4 |
-                AnalyseOptions.CycleEigen3 |
-                AnalyseOptions.CycleEigen4 |
-                AnalyseOptions.EigenValue |
                 AnalyseOptions.DegreeDistribution |
                 AnalyseOptions.ClusteringCoefficient |
                 AnalyseOptions.ConnSubGraph |
