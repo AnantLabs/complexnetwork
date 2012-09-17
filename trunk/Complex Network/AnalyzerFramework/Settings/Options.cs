@@ -8,6 +8,10 @@ using System.IO;
 using RandomGraph.Common.Storage;
 using ResultStorage.Storage;
 
+using log4net.Config;
+using log4net.Appender;
+using log4net;
+
 namespace RandomGraph.Settings
 {
     public static class Options
@@ -265,6 +269,59 @@ namespace RandomGraph.Settings
             ConfigurationManager.RefreshSection("appSettings");
             ConfigurationManager.RefreshSection("connectionStrings");
         }
+
+        static public void InitializeLogManager()
+        {
+            XmlConfigurator.Configure();
+            log4net.Repository.Hierarchy.Hierarchy h = (log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository();
+            foreach (IAppender a in h.Root.Appenders)
+            {
+                if (a is FileAppender)
+                {
+                    FileAppender fa = (FileAppender)a;
+                    //FileInfo fileInfo = new FileInfo(fa.File);
+                    //logFileLocation = string.Format(@"C:\MySpecialFolder\{0}", fileInfo.Name);
+                    fa.File = Options.LoggerDirectory;
+                    fa.ActivateOptions();
+                    break;
+                }
+            }
+
+            //Set Logger level
+            string strChecker = "WARN_INFO_DEBUG_ERROR_FATAL";
+            string strLogLevel = null;
+
+            if (Options.Logger == Options.LoggerMode.debug)
+            {
+                strLogLevel = "DEBUG";
+            }
+
+            else if (Options.Logger == Options.LoggerMode.info)
+            {
+                strLogLevel = "INFO";
+            }
+
+            if (String.IsNullOrEmpty(strLogLevel) == true || strChecker.Contains(strLogLevel) == false)
+                throw new Exception(" The strLogLevel should be set to WARN , INFO , DEBUG ,");
+
+            log4net.Repository.ILoggerRepository[] repositories = log4net.LogManager.GetAllRepositories();
+
+            //Configure all loggers to be at the debug level.
+            foreach (log4net.Repository.ILoggerRepository repository in repositories)
+            {
+                repository.Threshold = repository.LevelMap[strLogLevel];
+                log4net.Repository.Hierarchy.Hierarchy hier = (log4net.Repository.Hierarchy.Hierarchy)repository;
+                log4net.Core.ILogger[] loggers = hier.GetCurrentLoggers();
+                foreach (log4net.Core.ILogger logger in loggers)
+                {
+                    ((log4net.Repository.Hierarchy.Logger)logger).Level = hier.LevelMap[strLogLevel];
+                }
+            }
+
+            //Configure the root logger.
+            log4net.Repository.Hierarchy.Logger rootLogger = h.Root;
+            rootLogger.Level = h.LevelMap[strLogLevel];
+        }
         
         public enum StorageProvider
         {
@@ -285,62 +342,3 @@ namespace RandomGraph.Settings
         }
     }
 }
-
-// !убрать в класс Options!
-/*private void InitLogManager()
-{
-    XmlConfigurator.Configure();
-    log4net.Repository.Hierarchy.Hierarchy h =
-    (log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository();
-    foreach (IAppender a in h.Root.Appenders)
-    {
-        if (a is FileAppender)
-        {
-            FileAppender fa = (FileAppender)a;
-            // Uncomment the lines below if you want to retain the base file name
-            // and change the folder name...
-            //FileInfo fileInfo = new FileInfo(fa.File);
-            //logFileLocation = string.Format(@"C:\MySpecialFolder\{0}", fileInfo.Name);
-            fa.File = Options.LoggerDirectory;
-            fa.ActivateOptions();
-            break;
-        }
-    }
-
-    //Set Logger level
-    string strChecker = "WARN_INFO_DEBUG_ERROR_FATAL";
-    string strLogLevel = null;
-
-    if (Options.Logger == Options.LoggerMode.debug)
-    {
-        strLogLevel = "DEBUG";
-    }
-
-    else if (Options.Logger == Options.LoggerMode.info)
-    {
-        strLogLevel = "INFO";
-    }
-
-    if (String.IsNullOrEmpty(strLogLevel) == true || strChecker.Contains(strLogLevel) == false)
-        throw new Exception(" The strLogLevel should be set to WARN , INFO , DEBUG ,");
-
-
-
-    log4net.Repository.ILoggerRepository[] repositories = log4net.LogManager.GetAllRepositories();
-
-    //Configure all loggers to be at the debug level.
-    foreach (log4net.Repository.ILoggerRepository repository in repositories)
-    {
-        repository.Threshold = repository.LevelMap[strLogLevel];
-        log4net.Repository.Hierarchy.Hierarchy hier = (log4net.Repository.Hierarchy.Hierarchy)repository;
-        log4net.Core.ILogger[] loggers = hier.GetCurrentLoggers();
-        foreach (log4net.Core.ILogger logger in loggers)
-        {
-            ((log4net.Repository.Hierarchy.Logger)logger).Level = hier.LevelMap[strLogLevel];
-        }
-    }
-
-    //Configure the root logger.
-    log4net.Repository.Hierarchy.Logger rootLogger = h.Root;
-    rootLogger.Level = h.LevelMap[strLogLevel];
-}*/

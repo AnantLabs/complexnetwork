@@ -791,6 +791,11 @@ namespace StatisticAnalyzerUI
                                 param = AnalyseOptions.DistEigenPath;
                                 break;
                             }
+                        case 6:
+                            {
+                                param = AnalyseOptions.Cycles;
+                                break;
+                            }
                         default:
                             {
                                 break;

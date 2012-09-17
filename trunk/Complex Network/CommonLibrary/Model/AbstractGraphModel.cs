@@ -218,8 +218,8 @@ namespace RandomGraph.Common.Model
 
                 if ((AnalyzeOptions & AnalyseOptions.Cycles) == AnalyseOptions.Cycles)
                 {
-                    int maxValue = Int32.Parse((String)AnalyzeOptionsValues["cyclesHi"]);
-                    int minvalue = Int32.Parse((String)AnalyzeOptionsValues["cyclesLow"]);
+                    int maxValue = Int32.Parse((String)AnalyzeOptionsValues["CyclesHigh"]);
+                    int minvalue = Int32.Parse((String)AnalyzeOptionsValues["CyclesLow"]);
 
                     InvokeProgressEvent(GraphProgress.Analizing, 85, "Cycles of " + minvalue + "-" + maxValue + "degree");
                     Result.Cycles = analyzer.GetCycles(minvalue, maxValue);
@@ -227,8 +227,8 @@ namespace RandomGraph.Common.Model
 
                 if ((AnalyzeOptions & AnalyseOptions.Motifs) == AnalyseOptions.Motifs)
                 {
-                    int maxValue = Int32.Parse((String)AnalyzeOptionsValues["motiveHi"]);
-                    int minvalue = Int32.Parse((String)AnalyzeOptionsValues["motiveLow"]);
+                    int maxValue = Int32.Parse((String)AnalyzeOptionsValues["MotiveHigh"]);
+                    int minvalue = Int32.Parse((String)AnalyzeOptionsValues["MotiveLow"]);
                     InvokeProgressEvent(GraphProgress.Analizing, 90, "Motiv of " + minvalue + "-" + maxValue + "degree");
                     Result.MotivesCount = analyzer.GetMotivs(minvalue, maxValue);
                 }

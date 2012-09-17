@@ -366,9 +366,9 @@
             this.debugCheckBox.AutoSize = true;
             this.debugCheckBox.Location = new System.Drawing.Point(25, 98);
             this.debugCheckBox.Name = "debugCheckBox";
-            this.debugCheckBox.Size = new System.Drawing.Size(101, 17);
+            this.debugCheckBox.Size = new System.Drawing.Size(133, 17);
             this.debugCheckBox.TabIndex = 12;
-            this.debugCheckBox.Text = "Only debug files";
+            this.debugCheckBox.Text = "Only Debug Messages";
             this.debugCheckBox.UseVisualStyleBackColor = true;
             // 
             // pathLabel

@@ -211,6 +211,10 @@ namespace StatisticAnalyzer.Analyzer
                     {
                         return FillLocalResultEigenDistance(i, initialInstance);
                     }
+                case AnalyseOptions.Cycles:
+                    {
+                        return FillLocalResultCycles(i, initialInstance);
+                    }
                 default:
                     {
                         return FillLocalResult(option, i, initialInstance);
@@ -239,6 +243,7 @@ namespace StatisticAnalyzer.Analyzer
             {
                 int index = previousInstanceCount == -1 ? I : I - previousInstanceCount;
                 double sum = 0;
+                // хвост
                 while (I <= instanceCount)
                 {
                     sum = 0;
@@ -283,6 +288,7 @@ namespace StatisticAnalyzer.Analyzer
             {
                 int index = previousInstanceCount == -1 ? I : I - previousInstanceCount;
                 double sum = 0;
+                // хвост
                 while (I <= instanceCount)
                 {
                     sum = 0;
@@ -322,6 +328,7 @@ namespace StatisticAnalyzer.Analyzer
             {
                 int index = previousInstanceCount == -1 ? I : I - previousInstanceCount;
                 double sum = 0;
+                //
                 while (I <= iCount)
                 {
                     sum = 0;
@@ -420,6 +427,25 @@ namespace StatisticAnalyzer.Analyzer
             return r;*/
         }
 
+        private SortedDictionary<double, double> FillLocalResultCycles(int i, int initialInstance)
+        {
+            SortedDictionary<double, double> r = new SortedDictionary<double, double>();
+            SortedDictionary<int, long> tempDictionary = assemblyToAnalyze[0].Results[i - initialInstance].Cycles;
+
+            SortedDictionary<int, long>.KeyCollection keyColl = tempDictionary.Keys;
+            int size = assemblyToAnalyze[0].Size;
+
+            foreach (int key in keyColl)
+            {
+                if (r.Keys.Contains(key))
+                    r[key] += (double)tempDictionary[key] / size;
+                else
+                    r.Add(key, (double)tempDictionary[key] / size);
+            }
+
+            return r;
+        }
+
         protected SortedDictionary<double, double> FillLocalResult(AnalyseOptions option, int i, int initialInstance)
         {
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
@@ -440,11 +466,6 @@ namespace StatisticAnalyzer.Analyzer
                 case AnalyseOptions.MinPathDist:
                     {
                         tempDictionary = assemblyToAnalyze[0].Results[i - initialInstance].DistanceBetweenVertices;
-                        break;
-                    }
-                case AnalyseOptions.Cycles:
-                    {
-                        //tempDictionary = assemblyToAnalyze[0].Results[i - initialInstance].Cycles;
                         break;
                     }
                 default:
@@ -559,8 +580,8 @@ namespace StatisticAnalyzer.Analyzer
                 mathWaitingSquare += Math.Pow(key, 2) * r[key];
             }
 
-            //result.resultMathWaitings.Add(option, mathWaiting);
-            //result.resultDispersions.Add(option, (mathWaitingSquare - Math.Pow(mathWaiting, 2)));
+            result.resultMathWaitings.Add(option, mathWaiting);
+            result.resultDispersions.Add(option, (mathWaitingSquare - Math.Pow(mathWaiting, 2)));
         }
     }
 }

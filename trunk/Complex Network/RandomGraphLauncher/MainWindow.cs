@@ -32,6 +32,7 @@ namespace RandomGraphLauncher
 
             if (modelChooserWnd.ShowDialog() == DialogResult.OK)
             {
+                Options.InitializeLogManager();
                 SessionController.AddJobToSession(modelChooserWnd.modelCmb.SelectedItem.ToString(),
                     modelChooserWnd.jobNameTxt.Text);
                 InitializeNewJobTab(modelChooserWnd.jobNameTxt.Text);
@@ -76,10 +77,14 @@ namespace RandomGraphLauncher
         private void mainControl_OnClose(object sender, CloseEventArgs e)
         {
             TabPage tab = this.mainControl.TabPages[e.TabIndex];
-            if (this.mainControl.TabPages.Count > 0)
+            if (this.mainControl.TabPages.Count > 1)
             {
                 SessionController.RemoveJobFromSession(tab.Text);
                 this.mainControl.Controls.Remove(tab);
+            }
+            else
+            {
+                Environment.Exit(0);
             }
         }
 
