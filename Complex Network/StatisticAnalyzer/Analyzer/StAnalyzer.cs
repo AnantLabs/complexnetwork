@@ -327,7 +327,7 @@ namespace StatisticAnalyzer.Analyzer
                     sum = 0;
                     for (int i = 0; i < index; ++i)
                         sum += assemblyToAnalyze[0].Results[i].Result[option];
-                    r.Add(I, sum / I);
+                    r.Add(I, sum / I);                    
                     I += deltaI;
                 }
             }

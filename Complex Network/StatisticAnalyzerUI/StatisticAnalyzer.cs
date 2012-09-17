@@ -229,7 +229,7 @@ namespace StatisticAnalyzerUI
 
             if (result.result.Keys.Count == 0)
             {
-               return;
+                return;
             }
 
             if (this.globalGraphic.isOpen)
@@ -327,7 +327,7 @@ namespace StatisticAnalyzerUI
             }
 
             ValueTable valueTable = new ValueTable(result);
-            valueTable.Show();
+            valueTable.ShowDialog();
         }
 
         private void GetGlobalResult_Click(object sender, EventArgs e)
@@ -582,7 +582,7 @@ namespace StatisticAnalyzerUI
             // Список доступных типов аппроксимаций.
             this.ApproximationTypeCmb.Items.AddRange(Enum.GetNames(typeof(ApproximationTypes)));
 
-//            existingGraphics = new Dictionary<AnalyseOptions, Graphic>();
+            //            existingGraphics = new Dictionary<AnalyseOptions, Graphic>();
         }
 
         private void InitializeConfigurationMembers()
@@ -618,9 +618,13 @@ namespace StatisticAnalyzerUI
             this.GenerationParametersGrp.Controls.Clear();
 
             Type modelType = StLoader.models[this.ModelNameCmb.Text];
-            List<RequiredGenerationParam> generationParameters = 
+            List<RequiredGenerationParam> generationParameters =
                 new List<RequiredGenerationParam>((RequiredGenerationParam[])modelType.
                 GetCustomAttributes(typeof(RequiredGenerationParam), false));
+            generationParameters.Sort(delegate(RequiredGenerationParam arg1, RequiredGenerationParam arg2)
+            {
+                return arg1.Index.CompareTo(arg2.Index);
+            });
 
             int position = 30;
             int index = 0;
@@ -671,7 +675,7 @@ namespace StatisticAnalyzerUI
                 Control[] c = this.GenerationParametersGrp.Controls.Find("GenerationParameterCombo", false);
                 for (int i = 0; i < c.Length; ++i)
                 {
-                    c[i].Text = loader.GetParameterValue(name, generationParameters[i].GenParam); 
+                    c[i].Text = loader.GetParameterValue(name, generationParameters[i].GenParam);
                 }
 
                 this.RealizationsTxt.Text = loader.GetRealizationCount(name).ToString();
@@ -715,7 +719,7 @@ namespace StatisticAnalyzerUI
                 List<RequiredGenerationParam> generationParameters =
                     new List<RequiredGenerationParam>((RequiredGenerationParam[])modelType.
                     GetCustomAttributes(typeof(RequiredGenerationParam), false));
-                List<string> valuesStr = loader.GetParameterValues(Values(firstComboIndex, i), 
+                List<string> valuesStr = loader.GetParameterValues(Values(firstComboIndex, i),
                     generationParameters[i].GenParam);
                 foreach (string v in valuesStr)
                     generationParametersComboBoxes[i].Items.Add(v);
@@ -738,7 +742,7 @@ namespace StatisticAnalyzerUI
             return values;
         }
         // CHECK THE LOGIC AND CORRECT TABINDEX PART //
-                
+
         private void MakeParameters(StAnalyzer analyzer)
         {
             Dictionary<AnalyseOptions, StAnalyzeOptions> localOptions =

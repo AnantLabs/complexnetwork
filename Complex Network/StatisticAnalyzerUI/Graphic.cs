@@ -50,6 +50,15 @@ namespace StatisticAnalyzerUI
                 Approximation.Enabled = false;
                 PropertyTxt.Enabled = false;
                 Property.Enabled = false;
+                MathWaiting.Enabled = false;
+                MathWaitingTxt.Enabled = false;
+                Dispersion.Enabled = false;
+                DispertionTxt.Enabled = false;
+            }
+            if (this.resultsList[0].type != StAnalyzeType.Global)
+            {
+                this.Average.Enabled = false;
+                this.AverageTxt.Enabled = false;
             }
 
             // The only way to properly display the window in maximized state having disabled MaximizeBox.
@@ -132,9 +141,9 @@ namespace StatisticAnalyzerUI
                 points.Add(x, y);
             }
 
-            zedGraph.GraphPane.AddCurve(resultsList[resultsList.Count -1].parameterLine,
+            LineItem l = zedGraph.GraphPane.AddCurve(resultsList[resultsList.Count -1].parameterLine,
                 points, currentColor, SymbolType.Circle);
-            zedGraph.GraphPane.CurveList[zedGraph.GraphPane.CurveList.Count - 1].IsVisible = this.currentPointView;
+            l.Line.IsVisible = this.currentPointView;
 
             zedGraph.AxisChange();
             zedGraph.Invalidate();
@@ -216,6 +225,12 @@ namespace StatisticAnalyzerUI
             this.NetworkSizeTxt.Text = this.resultsList[index].networkSize.ToString();
             this.realCoutTxt.Text = this.resultsList[index].realizationsCount.ToString();
 
+            if (this.resultsList[0].type == StAnalyzeType.Global)
+            {
+                double tmp;
+                this.resultsList[index].resultAvgValues.TryGetValue(option, out tmp);
+                this.AverageTxt.Text = tmp.ToString();
+            }
             if (this.resultsList[0].type == StAnalyzeType.Local)
             {
                 this.ApproximationTxt.Text = this.resultsList[0].approximationType.ToString();
@@ -225,8 +240,6 @@ namespace StatisticAnalyzerUI
             }
 
             double temp;
-            this.resultsList[index].resultAvgValues.TryGetValue(option, out temp);
-            this.AverageTxt.Text = temp.ToString();
             this.resultsList[index].resultMathWaitings.TryGetValue(option, out temp);
             this.MathWaitingTxt.Text = temp.ToString();
             this.resultsList[index].resultDispersions.TryGetValue(option, out temp);
