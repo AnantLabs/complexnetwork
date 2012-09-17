@@ -208,6 +208,7 @@
             this.MaximizeBox = false;
             this.Name = "ValueTable";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Table of Values";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ValueTable_FormClosing);
             this.Load += new System.EventHandler(this.ValueTable_Load);
