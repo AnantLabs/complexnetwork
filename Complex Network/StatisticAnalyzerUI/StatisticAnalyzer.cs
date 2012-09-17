@@ -327,7 +327,7 @@ namespace StatisticAnalyzerUI
             }
 
             ValueTable valueTable = new ValueTable(result);
-            valueTable.ShowDialog();
+            valueTable.Show();
         }
 
         private void GetGlobalResult_Click(object sender, EventArgs e)
@@ -525,7 +525,7 @@ namespace StatisticAnalyzerUI
             }
 
             ValueTable valueTable = new ValueTable(result);
-            valueTable.ShowDialog();
+            valueTable.Show();
         }
 
         private void MotifDrawGraphics_Click(object sender, EventArgs e)
