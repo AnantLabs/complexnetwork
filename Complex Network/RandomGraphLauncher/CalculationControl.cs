@@ -437,9 +437,9 @@ namespace RandomGraphLauncher
         private void InitializeAnalyzeOptionsControls()
         {
             analyzeOptionsControls = new Dictionary<string, AnalyseOptions>();
+            AnalyseOptions availableOptions = SessionController.GetAvailableAnalyzeOptions(jobName);
             foreach (AnalyseOptions opt in Enum.GetValues(typeof(AnalyseOptions)))
-            {
-                AnalyseOptions availableOptions = SessionController.GetAvailableAnalyzeOptions(jobName);
+            {                
                 if ((opt & availableOptions) == opt && opt != AnalyseOptions.None)
                 {
                     AnalyzeOptionInfo optionInfo = (AnalyzeOptionInfo)(opt.GetType().
@@ -598,9 +598,16 @@ namespace RandomGraphLauncher
         // Деактивация ввода параметров генерации.
         private void DisableGenerationParamsInput()
         {
-            foreach (var item in generationParamsControls)
+            if (generationParamsControls != null)
             {
-                item.Value.Enabled = false;
+                foreach (var item in generationParamsControls)
+                {
+                    item.Value.Enabled = false;
+                }
+            }
+            else
+            {
+                this.genParamsGrp.Enabled = false;
             }
         }
 
