@@ -67,7 +67,7 @@ namespace AnalyzerFramework.Manager.Impl
                 {
                   model = origineModel.Clone();
                 }
-                model.ID = i;
+                model.SetID(i);
                 model.Progress += new GraphProgressEventHandler(OnSeparateModelProgress);
                 model.GraphGenerated += new CommonLibrary.Model.Events.GraphGeneratedDelegate(model_GraphGenerated);
                 Models.Add(model);

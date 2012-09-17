@@ -136,7 +136,6 @@ namespace StatisticAnalyzerUI
                 points, currentColor, SymbolType.Circle);
             zedGraph.GraphPane.CurveList[zedGraph.GraphPane.CurveList.Count - 1].IsVisible = this.currentPointView;
 
-
             zedGraph.AxisChange();
             zedGraph.Invalidate();
             zedGraph.Refresh();

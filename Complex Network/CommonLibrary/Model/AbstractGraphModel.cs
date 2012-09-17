@@ -59,23 +59,21 @@ namespace RandomGraph.Common.Model
             CurrentStatus.GraphProgress = GraphProgress.Initializing;
         }
 
+        public void SetID(int ID)
+        {
+            this.ID = ID;
+            Result = new AnalizeResult()
+            {
+                InstanceID = ID
+            };
+        }
+
         // Свойства.
 
         // Имя модели.
         public string ModelName { get; set; }
         // Уникальных идентификатор данной модели.
-        public int ID
-        {
-            get { return ID; }
-            set
-            {
-                this.ID = value;
-                Result = new AnalizeResult()
-                {
-                    InstanceID = ID
-                };
-            }
-        }
+        public int ID { get; set; }
         // Текущий статус процесса выполнения.
         public GraphProgressStatus CurrentStatus { get; set; }        
         // Ссылка на обьект графа, созданный в процессе генерации.
