@@ -13,102 +13,38 @@ using ModelCheck;
 
 namespace RandomGraphLauncher
 {
+    // Реализация формы для проверки соответствия модели.
     public partial class ModelCheckWindow : Form
     {
-        private List<int> degreeSequence;
-
         public ModelCheckWindow()
         {
             InitializeComponent();
-
-            degreeSequence = new List<int>();
         }
+
+        // Обработчики сообщений.
 
         private void ModelCheckWindow_Load(object sender, EventArgs e)
         {
             InitializeModelNameCmb();
+            this.checkersTab.Enabled = false;
             this.degreesRadio.Checked = true;
-            this.filePath.Enabled = false;
-            this.filePathTxt.Enabled = false;
-            this.browse.Enabled = false;
         }
 
-        // Utilities //
-
-        private void InitializeModelNameCmb()
+        private void modelNameCmb_SelectedIndexChanged(object sender, EventArgs e)
         {
-            List<Type> availableModelTypes = ModelRepository.GetInstance().GetAvailableModelTypes();
-            foreach (Type modelType in availableModelTypes)
+            switch (this.modelNameCmb.Text)
             {
-                string modelName = modelType.Name;
-                this.modelNameCmb.Items.Add(modelName);
-            }
-
-            this.modelNameCmb.SelectedIndex = 0;
-        }
-
-        private void ParceDegrees()
-        {
-            degreeSequence.Clear();
-            string degrees = this.degreesTxt.Text.ToString();
-            string d = "";
-            for (int i = 0; i < degrees.Length; ++i)
-            {
-                if(Char.IsDigit(degrees[i]))
-                    d += degrees[i].ToString();
-                else if (degrees[i] == ',')
-                {
-                    degreeSequence.Add(Convert.ToInt32(d));
-                    d = "";
-                }
-            }
-            degreeSequence.Add(Convert.ToInt32(d));
-        }
-
-        private void checkBtn_Click(object sender, EventArgs e)
-        {
-            if (this.modelNameCmb.Text == "Block-Hierarchic")
-            {
-                if (this.exactCheckRadio.Checked == true)
-                {
-                    HierarchicExactChecker checker = new HierarchicExactChecker();
-                    if (this.degreesRadio.Checked == false)
+                case "HierarchicModel":
                     {
-                        bool result = checker.IsHierarchic(this.filePathTxt.Text);
-                        this.resultTxt.Text = result ? "Is Hierarchic" : "Is Not Hierarchic";
+                        this.checkersTab.Enabled = true;
+                        break;
                     }
-                    else
+                default:
                     {
-                        this.resultTxt.Text = "Cannot calculate. File path should be specified!";
+                        this.checkersTab.Enabled = false; ;
+                        break;
                     }
-                }
-                else
-                {
-                    HierarchicChecker checker;
-                    if (this.degreesRadio.Checked == true)
-                    {
-                        ParceDegrees();
-                        checker = new HierarchicChecker(degreeSequence);
-                    }
-                    else
-                    {
-                        checker = new HierarchicChecker(this.filePathTxt.Text);
-                        FillDegrees(checker.FromMatrixToDegrees());
-                    }
-
-                    this.resultTxt.Text = checker.IsHierarchic().ToString();
-                }
             }
-        }
-
-        private void FillDegrees(List<int> degrees)
-        {
-            string d = "";
-            for (int i = 0; i < degrees.Count; ++i)
-            {
-                d += degrees[i].ToString() + ",";
-            }
-            this.degreesTxt.Text = d;
         }
 
         private void degreesRadio_CheckedChanged(object sender, EventArgs e)
@@ -129,45 +65,104 @@ namespace RandomGraphLauncher
         {
             if (this.fromFileRadio.Checked == true)
             {
-                this.filePath.Enabled = true;
-                this.filePathTxt.Enabled = true;
-                this.browse.Enabled = true;
+                this.notExactFilePath.Enabled = true;
+                this.notExactFilePathTxt.Enabled = true;
+                this.notExactBrowseBtn.Enabled = true;
             }
             else
             {
-                this.filePath.Enabled = false;
-                this.filePathTxt.Enabled = false;
-                this.browse.Enabled = false;
+                this.notExactFilePath.Enabled = false;
+                this.notExactFilePathTxt.Enabled = false;
+                this.notExactBrowseBtn.Enabled = false;
             }
         }
 
-        private void modelNameCmb_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            switch (this.modelNameCmb.Text)
-            {
-                case "Block-Hierarchic":
-                    {
-                        this.exactCheckRadio.Visible = true;
-                        this.notExactCheckRadio.Visible = true;
-                        this.exactCheckRadio.Checked = true;
-                        break;
-                    }
-                default:
-                    {
-                        this.exactCheckRadio.Visible = false;
-                        this.notExactCheckRadio.Visible = false;
-                        break;
-                    }
-            }
-        }
-
-        private void browse_Click(object sender, EventArgs e)
+        private void notExactBrowseBtn_Click(object sender, EventArgs e)
         {
             openFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                this.filePathTxt.Text = openFileDialog1.FileName;
+                this.notExactFilePathTxt.Text = openFileDialog1.FileName;
             }
+        }
+
+        private void exactBrowseBtn_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                this.exactFilePathTxt.Text = openFileDialog1.FileName;
+            }
+        }
+
+        private void notExactCheckBtn_Click(object sender, EventArgs e)
+        {
+            HierarchicChecker checker;
+            if (this.degreesRadio.Checked == true)
+            {
+                checker = new HierarchicChecker(ParceDegrees());
+            }
+            else
+            {
+                checker = new HierarchicChecker(this.notExactFilePathTxt.Text);
+                FillDegrees(checker.FromMatrixToDegrees());
+            }
+
+            this.notExactResultTxt.Text = checker.IsHierarchic().ToString();
+        }
+
+        private void exactCheckBtn_Click(object sender, EventArgs e)
+        {
+            HierarchicExactChecker checker = new HierarchicExactChecker();
+            bool result = checker.IsHierarchic(this.exactFilePathTxt.Text);
+            this.exactResultTxt.Text = result ? "Is Hierarchic" : "Is Not Hierarchic";
+        }
+
+        // Utilities //
+
+        private void InitializeModelNameCmb()
+        {
+            List<Type> availableModelTypes = ModelRepository.GetInstance().GetAvailableModelTypes();
+            foreach (Type modelType in availableModelTypes)
+            {
+                string modelName = modelType.Name;
+                this.modelNameCmb.Items.Add(modelName);
+            }
+
+            this.modelNameCmb.SelectedIndex = 0;
+        }
+
+        private List<int> ParceDegrees()
+        {
+            List<int> degreeList = new List<int>();
+            string degrees = this.degreesTxt.Text.ToString();
+            string d = "";
+            for (int i = 0; i < degrees.Length; ++i)
+            {
+                if(Char.IsDigit(degrees[i]))
+                    d += degrees[i].ToString();
+                else if (degrees[i] == ',')
+                {
+                    degreeList.Add(Convert.ToInt32(d));
+                    d = "";
+                }
+            }
+            degreeList.Add(Convert.ToInt32(d));
+
+            return degreeList;
+        }
+
+        private void FillDegrees(List<int> degrees)
+        {
+            string d = "";
+            for (int i = 0; i < degrees.Count; ++i)
+            {
+                if (i != degrees.Count - 1)
+                    d += degrees[i].ToString() + ", ";
+                else
+                    d += degrees[i].ToString();
+            }
+            this.degreesTxt.Text = d;
         }
     }
 }
