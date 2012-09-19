@@ -18,11 +18,9 @@ namespace RandomGraph.Core.Manager.Impl
     public abstract class AbstractGraphManager
     {
         // Конструктор, которому передается хранилище данных, тип генерации и режим трассировки.
-        public AbstractGraphManager(IResultStorage storage, Options.GenerationMode genMode, bool tracingMode)
+        public AbstractGraphManager(IResultStorage storage)
         {
             DataStorage = storage;
-            GenMode = genMode;
-            TracingMode = tracingMode;
 
             Assembly = new ResultAssembly();
             GraphTables = new List<GraphTable>();
@@ -42,10 +40,10 @@ namespace RandomGraph.Core.Manager.Impl
 
         // Хранилище данных.
         public IResultStorage DataStorage { get; protected set; }
-        // Тип генерации.
-        public Options.GenerationMode GenMode { get; protected set; }
-        // Тип трассировки (true - трассировка есть).
-        public bool TracingMode { get; protected set; }
+        // Режим генерации.
+        public Options.GenerationMode GenerationMode { get; set; }
+        // Режим трассировки.
+        public bool TracingMode { get; set; }
         // Результат вычислительной работы.
         public ResultAssembly Assembly { get; protected set; }
         // Статус выполнения (например, Stopped, Running, Paused).

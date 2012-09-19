@@ -63,8 +63,8 @@ namespace AnalyzerFramework.Manager.Impl
         private int iterations;
         List<HelpService> services = new List<HelpService>();
 
-        public DistributedGraphManager(IResultStorage storage, Options.GenerationMode genMode, bool tracingMode)
-            : base(storage, genMode, tracingMode) 
+        public DistributedGraphManager(IResultStorage storage)
+            : base(storage) 
         {
             // Construct InstanceContext to handle messages on callback interface
             InstanceContext instanceContext = new InstanceContext(new CallbackHandler(this));

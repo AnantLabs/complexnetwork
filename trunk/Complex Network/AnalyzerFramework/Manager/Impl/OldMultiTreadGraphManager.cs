@@ -27,8 +27,8 @@ namespace AnalyzerFramework.Manager.Impl
         private Thread[] threads;
         private AutoResetEvent[] waitHandles;
 
-        public MultiTreadGraphManager(IResultStorage storage, Options.GenerationMode genMode, bool tracingMode)
-            : base(storage, genMode, tracingMode)
+        public MultiTreadGraphManager(IResultStorage storage)
+            : base(storage)
         {
             log.Info("Called constructor of MultiTreadGraphManager");
         }
@@ -59,7 +59,7 @@ namespace AnalyzerFramework.Manager.Impl
             for (int i = 0; i < iterations; i++)
             {
                 AbstractGraphModel model;
-                if (Options.GenerationMode.staticGeneration == Options.Generation) 
+                if (Options.GenerationMode.staticGeneration == GenerationMode) 
                 {
                   model = origineModel;
                 }
@@ -102,7 +102,7 @@ namespace AnalyzerFramework.Manager.Impl
             try
             {
                 Models[index].StartGenerate();
-                if (Options.TracingMode)
+                if (TracingMode)
                 {
                     Models[index].StartTrace(index, Models[index].ModelName, Assembly.Name);
                 }

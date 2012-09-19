@@ -48,10 +48,14 @@ namespace Model.NonRegularHierarchicModel
             log.Info("Creating Block-Hierarchic Non Regular model object from matrix.");
             InitModel();
         }
-
-public override AbstractGraphModel Clone()
+        
+        public override AbstractGraphModel Clone()
         {
-            return new NonRegularHierarchicModel(this.GenerationParamValues, this.AnalyzeOptions, this.AnalyzeOptionsValues);
+            AbstractGraphModel model = new NonRegularHierarchicModel(this.GenerationParamValues,
+                this.AnalyzeOptions,
+                this.AnalyzeOptionsValues);
+            model.TracingPath = this.TracingPath;
+            return model;    
         }
 
         private void InitModel()

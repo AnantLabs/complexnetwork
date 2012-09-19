@@ -55,7 +55,11 @@ namespace Model.ParisiHierarchicModel
 
         public override AbstractGraphModel Clone()
         {
-            return new ParisiHierarchicModel(this.GenerationParamValues, this.AnalyzeOptions, this.AnalyzeOptionsValues);
+            AbstractGraphModel model = new ParisiHierarchicModel(this.GenerationParamValues,
+                this.AnalyzeOptions,
+                this.AnalyzeOptionsValues);
+            model.TracingPath = this.TracingPath;
+            return model;
         }
 
         private void InitModel()
