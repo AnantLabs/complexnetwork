@@ -83,7 +83,7 @@ namespace Model.NonRegularHierarchicModel.Realization
 
                     /// Add information of connection between blocks i and j.
                     for (k = 0; k < node.children[i].node.VertexCount; ++k)
-                        for (l = 0; l < node.children[i].node.VertexCount; ++l)
+                        for (l = 0; l < node.children[j].node.VertexCount; ++l)
                         {
                             result[vi + k, vj + l] = are_connected;
                         }

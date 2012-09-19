@@ -73,14 +73,15 @@ namespace RandomGraphLauncher.Controllers
 
         public void Start(object[] invokeParams)
         {
-            // !убедиться!
             if (Options.GenerationMode.randomGeneration == Options.Generation)
             {
                 Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), 
                     typeof(AnalyseOptions), 
                     typeof(Dictionary<String, Object>) };
-                manager.Start((AbstractGraphModel)modelType.GetConstructor(constructTypes).Invoke(invokeParams), 
-                    instanceCount, jobName);
+                AbstractGraphModel graphModel = 
+                    (AbstractGraphModel)modelType.GetConstructor(constructTypes).Invoke(invokeParams);
+                graphModel.TracingPath = Options.TracingDirectory;
+                manager.Start(graphModel, instanceCount, jobName);
             }
             else if (Options.GenerationMode.staticGeneration == Options.Generation)
             {
@@ -88,7 +89,9 @@ namespace RandomGraphLauncher.Controllers
                     typeof(AnalyseOptions), 
                     typeof(Dictionary<String, Object>) };
                 invokeParams[0] = MatrixFileReader.MatrixReader(filePath);
-                AbstractGraphModel graphModel = (AbstractGraphModel)modelType.GetConstructor(constructTypes).Invoke(invokeParams);
+                AbstractGraphModel graphModel = 
+                    (AbstractGraphModel)modelType.GetConstructor(constructTypes).Invoke(invokeParams);
+                graphModel.TracingPath = Options.TracingDirectory;
                 manager.Start((AbstractGraphModel)modelType.GetConstructor(constructTypes).Invoke(invokeParams),
                     instanceCount, jobName);
             }
@@ -112,6 +115,7 @@ namespace RandomGraphLauncher.Controllers
         public void Save()
         {
             manager.DataStorage.Save(manager.Assembly);
+            finished = true;
         }
 
         // Свойства
@@ -174,12 +178,14 @@ namespace RandomGraphLauncher.Controllers
         {
             if (Options.DistributedMode)
             {
-                manager = new DistributedGraphManager(Options.StorageManager, Options.Generation, Options.TracingMode);
+                manager = new DistributedGraphManager(Options.StorageManager);
             }
             else
             {
-                manager = new MultiTreadGraphManager(Options.StorageManager, Options.Generation, Options.TracingMode);
+                manager = new MultiTreadGraphManager(Options.StorageManager);
             }
+            manager.GenerationMode = Options.Generation;
+            manager.TracingMode = Options.TracingMode;
         }
     }
 }

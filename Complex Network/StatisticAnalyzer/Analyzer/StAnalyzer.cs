@@ -139,7 +139,6 @@ namespace StatisticAnalyzer.Analyzer
         {
             if (ContainsOption(option))
             {
-                SortedDictionary<double, double> resultDictionary = new SortedDictionary<double, double>();
                 SortedDictionary<double, double> tempResult = new SortedDictionary<double, double>();
                 int instanceCount = assemblyToAnalyze[0].Results.Count;
                 for (int i = 0; i < instanceCount; ++i)
@@ -225,7 +224,7 @@ namespace StatisticAnalyzer.Analyzer
         private SortedDictionary<double, double> FillGlobalResultCC(int I, int deltaI, int instanceCount, int previousInstanceCount)
         {
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
-            if (instanceCount <= 10 && assemblyToAnalyze.Count ==1)
+            if (instanceCount <= 10 && assemblyToAnalyze.Count == 1)
             {
                 for (int i = 0; i < instanceCount; ++i)
                 {

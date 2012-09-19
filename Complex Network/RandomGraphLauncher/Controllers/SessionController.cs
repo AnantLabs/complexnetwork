@@ -67,14 +67,19 @@ namespace RandomGraphLauncher.Controllers
         // Возвращает true, если в сессии есть job-ы, которые еще не закончили работу.
         public static bool ExistsAnyRunningJob()
         {
-            Dictionary<string, JobController>.KeyCollection keys = session.Keys;
-            foreach (string k in keys)
+            if (session.Count == 0)
+                return false;
+            else
             {
-                if (session[k].Finished == true)
-                    return true;
-            }
+                Dictionary<string, JobController>.KeyCollection keys = session.Keys;
+                foreach (string k in keys)
+                {
+                    if (session[k].Finished != true)
+                        return true;
+                }
 
-            return false;
+                return false;
+            }
         }
 
         // Регистрация нового job-а в сессию.

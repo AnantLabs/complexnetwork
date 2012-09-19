@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Runtime.Serialization;
-// !удалить!
-using System.Configuration;
 
 using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model.Result;
@@ -66,9 +64,12 @@ namespace RandomGraph.Common.Model
             {
                 InstanceID = ID
             };
-        }
+        }        
 
         // Свойства.
+
+        // Директория трассировки.
+        public string TracingPath { get; set; }
 
         // Имя модели.
         public string ModelName { get; set; }
@@ -110,7 +111,7 @@ namespace RandomGraph.Common.Model
                     generator.StaticGeneration(NeighbourshipMatrix);
                 else
                 {
-                    throw new SystemException("Not correct generation parameters or neighbourship matrix.");
+                    throw new SystemException("Generation type is not correct!");
                 }
 
                 InvokeProgressEvent(GraphProgress.GenerationDone, 30);
@@ -275,10 +276,8 @@ namespace RandomGraph.Common.Model
         /// </summary>
         public void StartTrace(int instanceIndex, string modelName, string jobName)
         {
-            string provider = ConfigurationManager.AppSettings["Storage"];
-            string dir = ConfigurationManager.AppSettings[provider] + "\\" + modelName + "\\";
-            string filePath = dir + jobName + "_" + instanceIndex + "_dump.txt";
-            System.IO.Directory.CreateDirectory(dir);
+            string filePath = TracingPath + jobName + "_" + instanceIndex + "_dump.txt";
+            System.IO.Directory.CreateDirectory(TracingPath);
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath))
             {
                 try
