@@ -47,7 +47,7 @@ namespace ResultStorage.Storage
                 case 1:
                     return typeof(Model.HierarchicModel.HierarchicModel);
                 case 2:
-                    return typeof(BAModel);
+                    return typeof(Model.BAModel.BAModel);
                 case 3:
                     return typeof(ParisiHierarchicModel);
                 case 4:

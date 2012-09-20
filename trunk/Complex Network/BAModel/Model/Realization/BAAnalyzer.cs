@@ -6,9 +6,11 @@ using System.Linq;
 using CommonLibrary.Model;
 using Algorithms;
 using Motifs;
-using MathNet.Numerics;
-using MathNet.Numerics.LinearAlgebra;
+
 using log4net;
+
+using BAModel.Model.Realization.EigenValue;
+
 
 namespace Model.BAModel.Realization
 {
@@ -102,12 +104,17 @@ namespace Model.BAModel.Realization
         public override ArrayList GetEigenValues()
         {
             log.Info("Getting eigen values array.");
-            ArrayList engineValue = new ArrayList();
-            Algorithms.EigenValue ev = new EigenValue();
             bool[,] m = container.GetMatrix();
+
+            EigenValueForBA eg = new EigenValueForBA();
+           
+
             try
             {
-                return ev.EV(m);
+
+
+                return eg.CalculateEigenValue(m);
+
             }
             catch (Exception ex)
             {
@@ -116,6 +123,8 @@ namespace Model.BAModel.Realization
             }
         }
 
+
+       
         // Возвращается степенное распределение графа. Реализовано.
         public override SortedDictionary<int, int> GetDegreeDistribution()
         {
