@@ -76,29 +76,23 @@ namespace Model.ParisiHierarchicModel.Realization
                 int nodeDataLength = (b - 1) * b / 2;
                 long dataLength = Convert.ToInt64(Math.Pow(b, d - i) * nodeDataLength);
                 int arrCount = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(dataLength) / ARRAY_MAX_SIZE));
+
                 treeMatrix[d - i] = new BitArray[arrCount];
                 int j;
-                double k = rand.NextDouble();
-                Boolean val;
-                if (k <= (1 / Math.Pow(d, i * m)))
-                {
-                    val = true;
-                }
-                else
-                {
-                    val = false;
-                }
                 for (j = 0; j < arrCount - 1; j++)
                 {
-                    treeMatrix[d - i][j] = new BitArray(ARRAY_MAX_SIZE, val);
+                    treeMatrix[d - i][j] = new BitArray(ARRAY_MAX_SIZE);
                 }
-                treeMatrix[d - i][j] = new BitArray(Convert.ToInt32(dataLength - (arrCount - 1) * ARRAY_MAX_SIZE), val);
+                treeMatrix[d - i][j] = new BitArray(Convert.ToInt32(dataLength - (arrCount - 1) * ARRAY_MAX_SIZE));
+                
+                //genereates data for current level nodes
+                GenerateData(treeMatrix, i, b, d, m);
             }
 
             return treeMatrix;
         }
 
-        /*/// <summary>
+        /// <summary>
         /// Generates a data of tree level 
         /// </summary>
         /// <param name="level"></param>
@@ -123,6 +117,6 @@ namespace Model.ParisiHierarchicModel.Realization
                     treeMatrix[d - level][i][j] = val;
                 }
             }
-        }*/
+        }
     }
 }
