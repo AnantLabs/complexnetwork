@@ -276,8 +276,9 @@ namespace RandomGraph.Common.Model
         /// </summary>
         public void StartTrace(int instanceIndex, string modelName, string jobName)
         {
-            string filePath = TracingPath + jobName + "_" + instanceIndex + "_dump.txt";
-            System.IO.Directory.CreateDirectory(TracingPath);
+            string dir = TracingPath + "\\" + modelName + "\\";
+            string filePath = dir + jobName + "_" + instanceIndex + "_dump.txt";
+            System.IO.Directory.CreateDirectory(dir);
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath))
             {
                 try

@@ -85,7 +85,7 @@ namespace Model.HierarchicModel.Realization
                 treeMatrix[d - i][j] = new BitArray(Convert.ToInt32(dataLength - (arrCount - 1) * ARRAY_MAX_SIZE));
 
                 //genereates data for current level nodes
-                GenerateData(treeMatrix, i, b, d,  m);
+                GenerateData(treeMatrix, i, b, d, m);
             }
 
             return treeMatrix;
