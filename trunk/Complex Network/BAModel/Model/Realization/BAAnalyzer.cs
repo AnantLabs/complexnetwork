@@ -123,6 +123,29 @@ namespace Model.BAModel.Realization
             }
         }
 
+        // Возвращается распределение длин между собственными значениями. Реализовано
+        public override SortedDictionary<double, int> GetDistEigenPath()
+        {
+            log.Info("Getting distances between eigen values.");
+
+            bool[,] m = container.GetMatrix();
+
+            EigenValueForBA eg = new EigenValueForBA();
+
+
+            try
+            {
+
+                eg.CalculateEigenValue(m);
+                return eg.CalcEigenValuesDist();
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                return new SortedDictionary<double, int>();
+            }
+        }
 
        
         // Возвращается степенное распределение графа. Реализовано.

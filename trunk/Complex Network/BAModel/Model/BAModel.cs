@@ -23,7 +23,7 @@ namespace Model.BAModel
         AnalyseOptions.ClusteringCoefficient |
         AnalyseOptions.MinPathDist |
         AnalyseOptions.Cycles |
-        AnalyseOptions.Motifs)]
+        AnalyseOptions.Motifs | AnalyseOptions.DistEigenPath)]
     [RequiredGenerationParam(GenerationParam.Vertices, 1)]
     [RequiredGenerationParam(GenerationParam.MaxEdges, 5)]
     [RequiredGenerationParam(GenerationParam.StepCount, 8)]
@@ -84,7 +84,7 @@ namespace Model.BAModel
                 AnalyseOptions.ClusteringCoefficient |
                 AnalyseOptions.MinPathDist |
                 AnalyseOptions.Cycles |
-                AnalyseOptions.Motifs;
+                AnalyseOptions.Motifs |  AnalyseOptions.DistEigenPath;
 
             // Определение генератора и анализатора для данной модели (BA).
             log.Info("Creating generator and analyzer for model.");
