@@ -132,7 +132,15 @@ namespace StatisticAnalyzer.Loader
             foreach (string resultName in assembliesID)
             {
                 ResultAssembly r = resultStorage.Load(assemblies.Find(i => i.Name == resultName).ID);
-                result.Add(r.GenerationParams[p].ToString());
+                try
+                {
+                    result.Add(r.GenerationParams[p].ToString());
+                }
+                // Такая ситуация возникает при наличии xml-а с результатом статической генерации.
+                catch (KeyNotFoundException)    
+                {
+                    continue;
+                }
             }
             result.Sort();
             result = result.Distinct().ToList();
