@@ -29,7 +29,9 @@ namespace StatisticAnalyzerUI
         private StLoader loader;
 
         // GUI members //
-        private List<ComboBox> generationParametersComboBoxes = new List<ComboBox>();
+        private Dictionary<GenerationParam, ComboBox> generationParamatersControls = 
+            new Dictionary<GenerationParam, ComboBox>();
+
         private GraphicCondition globalGraphic;
         private GraphicCondition localGraphic;
         private GraphicCondition motifGraphic;
@@ -154,93 +156,27 @@ namespace StatisticAnalyzerUI
         // Analyzers //
         private void GlobalDrawGraphics_Click(object sender, EventArgs e)
         {
-            if (this.ByJobsRadio.Checked == true && this.JobsCmb.Text == string.Empty)
-            {
-                MessageBox.Show("Choose a job", "Error");
+            if (!ValidateGraphicConditions())
                 return;
-            }
 
-            List<ResultAssembly> res = new List<ResultAssembly>();
-            if (this.ByJobsRadio.Checked)
-                res.Add(loader.SelectAssemblyByJob(this.JobsCmb.Text));
-            else
-                res = loader.SelectAssemblyByParameters(Values(0, generationParametersComboBoxes.Count),
-                    this.ByAllJobsCheck.Checked);
-            StAnalyzer analyzer = new StAnalyzer(res);
-
-            List<AnalyseOptions> checkedOptions = new List<AnalyseOptions>();
-
-            if (this.GlobalPropertiesList.GetItemChecked(0))
-            {
-                analyzer.options |= AnalyseOptions.AveragePath;
-                checkedOptions.Add(AnalyseOptions.AveragePath);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(1))
-            {
-                analyzer.options |= AnalyseOptions.Diameter;
-                checkedOptions.Add(AnalyseOptions.Diameter);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(2))
-            {
-                analyzer.options |= AnalyseOptions.ClusteringCoefficient;
-                checkedOptions.Add(AnalyseOptions.ClusteringCoefficient);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(3))
-            {
-                analyzer.options |= AnalyseOptions.DegreeDistribution;
-                checkedOptions.Add(AnalyseOptions.DegreeDistribution);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(4))
-            {
-                analyzer.options |= AnalyseOptions.Cycles3;
-                checkedOptions.Add(AnalyseOptions.Cycles3);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(5))
-            {
-                analyzer.options |= AnalyseOptions.Cycles4;
-                checkedOptions.Add(AnalyseOptions.Cycles4);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(6))
-            {
-                analyzer.options |= AnalyseOptions.MaxFullSubgraph;
-                checkedOptions.Add(AnalyseOptions.MaxFullSubgraph);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(7))
-            {
-                analyzer.options |= AnalyseOptions.LargestConnectedComponent;
-                checkedOptions.Add(AnalyseOptions.LargestConnectedComponent);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(8))
-            {
-                analyzer.options |= AnalyseOptions.MinEigenValue;
-                checkedOptions.Add(AnalyseOptions.MinEigenValue);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(9))
-            {
-                analyzer.options |= AnalyseOptions.MaxEigenValue;
-                checkedOptions.Add(AnalyseOptions.MaxEigenValue);
-            }
-
+            StAnalyzer analyzer = new StAnalyzer(GetAssembliesToAnalyze());
+            List<AnalyseOptions> checkedOptions = GetCheckedOptionsGlobal(analyzer);
             analyzer.GlobalAnalyze();
-            StAnalyzeResult result = analyzer.Result;
-            result.type = StAnalyzeType.Global;
-
-            ShowWarning(checkedOptions, result);
-
-            if (result.result.Keys.Count == 0)
-            {
+            if (analyzer.Result.result.Keys.Count == 0)
                 return;
-            }
+            StAnalyzeResult stResult = analyzer.Result;
+            stResult.type = StAnalyzeType.Global;
+
+            ShowWarning(checkedOptions, stResult);
 
             if (this.globalGraphic.isOpen)
             {
-                this.globalGraphic.graphic.Add(result, (Color)this.CurveLineCmb.SelectedItem, !PointsCheck.Checked);
+                this.globalGraphic.graphic.Add(stResult, (Color)this.CurveLineCmb.SelectedItem, !PointsCheck.Checked);
             }
-
             else
             {
                 this.globalGraphic.isOpen = true;
-                this.globalGraphic.graphic = new Graphic(result, (Color)this.CurveLineCmb.SelectedItem,
+                this.globalGraphic.graphic = new Graphic(stResult, (Color)this.CurveLineCmb.SelectedItem,
                     !PointsCheck.Checked, this.globalGraphic);
                 this.globalGraphic.graphic.Show();
             }
@@ -248,83 +184,18 @@ namespace StatisticAnalyzerUI
 
         private void valueButton_Click(object sender, EventArgs e)
         {
-            if (this.ByJobsRadio.Checked == true && this.JobsCmb.Text == string.Empty)
-            {
-                MessageBox.Show("Choose a job", "Error");
+            if (!ValidateGraphicConditions())
                 return;
-            }
 
-            List<ResultAssembly> res = new List<ResultAssembly>();
-            if (this.ByJobsRadio.Checked)
-                res.Add(loader.SelectAssemblyByJob(this.JobsCmb.Text));
-            else
-                res = loader.SelectAssemblyByParameters(Values(0, generationParametersComboBoxes.Count),
-                    this.ByAllJobsCheck.Checked);
-            StAnalyzer analyzer = new StAnalyzer(res);
-
-            List<AnalyseOptions> checkedOptions = new List<AnalyseOptions>();
-
-            if (this.GlobalPropertiesList.GetItemChecked(0))
-            {
-                analyzer.options |= AnalyseOptions.AveragePath;
-                checkedOptions.Add(AnalyseOptions.AveragePath);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(1))
-            {
-                analyzer.options |= AnalyseOptions.Diameter;
-                checkedOptions.Add(AnalyseOptions.Diameter);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(2))
-            {
-                analyzer.options |= AnalyseOptions.ClusteringCoefficient;
-                checkedOptions.Add(AnalyseOptions.ClusteringCoefficient);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(3))
-            {
-                analyzer.options |= AnalyseOptions.DegreeDistribution;
-                checkedOptions.Add(AnalyseOptions.DegreeDistribution);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(4))
-            {
-                analyzer.options |= AnalyseOptions.Cycles3;
-                checkedOptions.Add(AnalyseOptions.Cycles3);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(5))
-            {
-                analyzer.options |= AnalyseOptions.Cycles4;
-                checkedOptions.Add(AnalyseOptions.Cycles4);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(6))
-            {
-                analyzer.options |= AnalyseOptions.MaxFullSubgraph;
-                checkedOptions.Add(AnalyseOptions.MaxFullSubgraph);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(7))
-            {
-                analyzer.options |= AnalyseOptions.LargestConnectedComponent;
-                checkedOptions.Add(AnalyseOptions.LargestConnectedComponent);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(8))
-            {
-                analyzer.options |= AnalyseOptions.MinEigenValue;
-                checkedOptions.Add(AnalyseOptions.MinEigenValue);
-            }
-            if (this.GlobalPropertiesList.GetItemChecked(9))
-            {
-                analyzer.options |= AnalyseOptions.MaxEigenValue;
-                checkedOptions.Add(AnalyseOptions.MaxEigenValue);
-            }
-
+            StAnalyzer analyzer = new StAnalyzer(GetAssembliesToAnalyze());
+            List<AnalyseOptions> checkedOptions = GetCheckedOptionsGlobal(analyzer);
             analyzer.GlobalAnalyze();
+            if (analyzer.Result.result.Keys.Count == 0)
+                return;
             StAnalyzeResult result = analyzer.Result;
             result.type = StAnalyzeType.Global;
 
             ShowWarning(checkedOptions, result);
-
-            if (result.result.Keys.Count == 0)
-            {
-                return;
-            }
 
             ValueTable valueTable = new ValueTable(result);
             valueTable.ShowDialog();
@@ -332,119 +203,45 @@ namespace StatisticAnalyzerUI
 
         private void GetGlobalResult_Click(object sender, EventArgs e)
         {
-            List<ResultAssembly> res = new List<ResultAssembly>(); ;
-            if (this.ByJobsRadio.Checked)
-                res.Add(loader.SelectAssemblyByJob(this.JobsCmb.Text));
-            else
-                res = loader.SelectAssemblyByParameters(Values(0, generationParametersComboBoxes.Count),
-                    this.ByAllJobsCheck.Checked);
-            StAnalyzer analyzer = new StAnalyzer(res);
+            if (!ValidateGraphicConditions())
+                return;
 
-            if (this.GlobalPropertiesList.GetItemChecked(0))
-                analyzer.options |= AnalyseOptions.AveragePath;
-            if (this.GlobalPropertiesList.GetItemChecked(1))
-                analyzer.options |= AnalyseOptions.Diameter;
-            if (this.GlobalPropertiesList.GetItemChecked(2))
-                analyzer.options |= AnalyseOptions.ClusteringCoefficient;
-            if (this.GlobalPropertiesList.GetItemChecked(3))
-                analyzer.options |= AnalyseOptions.DegreeDistribution;
-            if (this.GlobalPropertiesList.GetItemChecked(4))
-                analyzer.options |= AnalyseOptions.Cycles3;
-            if (this.GlobalPropertiesList.GetItemChecked(5))
-                analyzer.options |= AnalyseOptions.Cycles4;
-            if (this.GlobalPropertiesList.GetItemChecked(6))
-                analyzer.options |= AnalyseOptions.MaxFullSubgraph;
-            if (this.GlobalPropertiesList.GetItemChecked(7))
-                analyzer.options |= AnalyseOptions.LargestConnectedComponent;
-            if (this.GlobalPropertiesList.GetItemChecked(8))
-                analyzer.options |= AnalyseOptions.MinEigenValue;
-            if (this.GlobalPropertiesList.GetItemChecked(9))
-                analyzer.options |= AnalyseOptions.MaxEigenValue;
-
+            StAnalyzer analyzer = new StAnalyzer(GetAssembliesToAnalyze());
+            List<AnalyseOptions> checkedOptions = GetCheckedOptionsGlobal(analyzer);
             analyzer.GlobalAnalyze();
+
+            ShowWarning(checkedOptions, analyzer.Result);
         }
 
         private void LocalDrawGraphics_Click(object sender, EventArgs e)
         {
-            if (this.ByJobsRadio.Checked == true && this.JobsCmb.Text == string.Empty)
-            {
-                MessageBox.Show("Choose a job", "Error");
+            if (!ValidateGraphicConditions())
                 return;
-            }
 
-            List<ResultAssembly> res = new List<ResultAssembly>(); ;
-            if (this.ByJobsRadio.Checked)
-                res.Add(loader.SelectAssemblyByJob(this.JobsCmb.Text));
-            else
-                res = loader.SelectAssemblyByParameters(Values(0, generationParametersComboBoxes.Count),
-                    this.ByAllJobsCheck.Checked);
-            StAnalyzer analyzer = new StAnalyzer(res);
+            StAnalyzer analyzer = new StAnalyzer(GetAssembliesToAnalyze());
 
-            List<AnalyseOptions> checkedOptions = new List<AnalyseOptions>();
-
-            if (this.LocalPropertiesList.GetItemChecked(0))
-            {
-                analyzer.options |= AnalyseOptions.ClusteringCoefficient;
-                checkedOptions.Add(AnalyseOptions.ClusteringCoefficient);
-            }
-            if (this.LocalPropertiesList.GetItemChecked(1))
-            {
-                analyzer.options |= AnalyseOptions.DegreeDistribution;
-                checkedOptions.Add(AnalyseOptions.DegreeDistribution);
-            }
-            if (this.LocalPropertiesList.GetItemChecked(2))
-            {
-                analyzer.options |= AnalyseOptions.ConnSubGraph;
-                checkedOptions.Add(AnalyseOptions.ConnSubGraph);
-            }
-            if (this.LocalPropertiesList.GetItemChecked(3))
-            {
-                analyzer.options |= AnalyseOptions.MinPathDist;
-                checkedOptions.Add(AnalyseOptions.MinPathDist);
-            }
-            if (this.LocalPropertiesList.GetItemChecked(4))
-            {
-                analyzer.options |= AnalyseOptions.EigenValue;
-                checkedOptions.Add(AnalyseOptions.EigenValue);
-            }
-            if (this.LocalPropertiesList.GetItemChecked(5))
-            {
-                analyzer.options |= AnalyseOptions.DistEigenPath;
-                checkedOptions.Add(AnalyseOptions.DistEigenPath);
-            }
-            if (this.LocalPropertiesList.GetItemChecked(6))
-            {
-                analyzer.options |= AnalyseOptions.Cycles;
-                checkedOptions.Add(AnalyseOptions.Cycles);
-            }
-
+            List<AnalyseOptions> checkedOptions = GetCheckedOptionsLocal(analyzer);
             MakeParameters(analyzer);
             analyzer.LocalAnalyze();
-
+            if (analyzer.Result.result.Keys.Count == 0)
+                return;
             StAnalyzeResult result = analyzer.Result;
             result.type = StAnalyzeType.Local;
             result.approximationType = (ApproximationTypes)Enum.Parse(typeof(ApproximationTypes),
                 this.ApproximationTypeCmb.SelectedItem.ToString());
 
-
             ShowWarning(checkedOptions, result);
-
-            if (result.result.Keys.Count == 0)
-            {
-                return;
-            }
 
             if (this.localGraphic.isOpen)
             {
                 if (result.approximationType != this.localGraphic.graphic.GetApproximation())
                 {
-                    MessageBox.Show("Approximations don't match", "Error");
+                    MessageBox.Show("Approximation types don't match!", "Error");
                     return;
                 }
 
                 this.localGraphic.graphic.Add(result, (Color)this.CurveLineCmb.SelectedItem, !PointsCheck.Checked);
             }
-
             else
             {
                 this.localGraphic.isOpen = true;
@@ -456,73 +253,21 @@ namespace StatisticAnalyzerUI
 
         private void localValueButton_Click(object sender, EventArgs e)
         {
-            if (this.ByJobsRadio.Checked == true && this.JobsCmb.Text == string.Empty)
-            {
-                MessageBox.Show("Choose a job", "Error");
+            if (!ValidateGraphicConditions())
                 return;
-            }
 
-            List<ResultAssembly> res = new List<ResultAssembly>(); ;
-            if (this.ByJobsRadio.Checked)
-                res.Add(loader.SelectAssemblyByJob(this.JobsCmb.Text));
-            else
-                res = loader.SelectAssemblyByParameters(Values(0, generationParametersComboBoxes.Count),
-                    this.ByAllJobsCheck.Checked);
-            StAnalyzer analyzer = new StAnalyzer(res);
-
-            List<AnalyseOptions> checkedOptions = new List<AnalyseOptions>();
-
-            if (this.LocalPropertiesList.GetItemChecked(0))
-            {
-                analyzer.options |= AnalyseOptions.ClusteringCoefficient;
-                checkedOptions.Add(AnalyseOptions.ClusteringCoefficient);
-            }
-            if (this.LocalPropertiesList.GetItemChecked(1))
-            {
-                analyzer.options |= AnalyseOptions.DegreeDistribution;
-                checkedOptions.Add(AnalyseOptions.DegreeDistribution);
-            }
-            if (this.LocalPropertiesList.GetItemChecked(2))
-            {
-                analyzer.options |= AnalyseOptions.ConnSubGraph;
-                checkedOptions.Add(AnalyseOptions.ConnSubGraph);
-            }
-            if (this.LocalPropertiesList.GetItemChecked(3))
-            {
-                analyzer.options |= AnalyseOptions.MinPathDist;
-                checkedOptions.Add(AnalyseOptions.MinPathDist);
-            }
-            if (this.LocalPropertiesList.GetItemChecked(4))
-            {
-                analyzer.options |= AnalyseOptions.EigenValue;
-                checkedOptions.Add(AnalyseOptions.EigenValue);
-            }
-            if (this.LocalPropertiesList.GetItemChecked(5))
-            {
-                analyzer.options |= AnalyseOptions.DistEigenPath;
-                checkedOptions.Add(AnalyseOptions.DistEigenPath);
-            }
-            if (this.LocalPropertiesList.GetItemChecked(6))
-            {
-                analyzer.options |= AnalyseOptions.Cycles;
-                checkedOptions.Add(AnalyseOptions.Cycles);
-            }
-
+            StAnalyzer analyzer = new StAnalyzer(GetAssembliesToAnalyze());
+            List<AnalyseOptions> checkedOptions = GetCheckedOptionsLocal(analyzer);
             MakeParameters(analyzer);
             analyzer.LocalAnalyze();
-
+            if (analyzer.Result.result.Keys.Count == 0)
+                return;
             StAnalyzeResult result = analyzer.Result;
             result.type = StAnalyzeType.Local;
             result.approximationType = (ApproximationTypes)Enum.Parse(typeof(ApproximationTypes),
                 this.ApproximationTypeCmb.SelectedItem.ToString());
 
-
             ShowWarning(checkedOptions, result);
-
-            if (result.result.Keys.Count == 0)
-            {
-                return;
-            }
 
             ValueTable valueTable = new ValueTable(result);
             valueTable.Show();
@@ -530,6 +275,8 @@ namespace StatisticAnalyzerUI
 
         private void MotifDrawGraphics_Click(object sender, EventArgs e)
         {
+            if (!ValidateGraphicConditions())
+                return;
         }
 
         // Menu Event Handlers //
@@ -581,8 +328,6 @@ namespace StatisticAnalyzerUI
         {
             // Список доступных типов аппроксимаций.
             this.ApproximationTypeCmb.Items.AddRange(Enum.GetNames(typeof(ApproximationTypes)));
-
-            //            existingGraphics = new Dictionary<AnalyseOptions, Graphic>();
         }
 
         private void InitializeConfigurationMembers()
@@ -614,7 +359,7 @@ namespace StatisticAnalyzerUI
 
         private void InitializeGenerationParameters()
         {
-            generationParametersComboBoxes.Clear();
+            generationParamatersControls.Clear();
             this.GenerationParametersGrp.Controls.Clear();
 
             Type modelType = StLoader.models[this.ModelNameCmb.Text];
@@ -644,7 +389,7 @@ namespace StatisticAnalyzerUI
                 control.Location = new Point(150, position);
                 control.TabIndex = index++;
                 control.SelectedIndexChanged += new EventHandler(control_SelectedIndexChanged);
-                generationParametersComboBoxes.Add(control);
+                generationParamatersControls[requiredGenerationParam.GenParam] = control;
 
                 this.GenerationParametersGrp.Controls.Add(control);
                 this.GenerationParametersGrp.Controls.Add(comboBoxLabel);
@@ -667,15 +412,10 @@ namespace StatisticAnalyzerUI
             string name = (string)this.JobsCmb.SelectedItem;
             if (name != null)
             {
-                Type modelType = StLoader.models[this.ModelNameCmb.Text];
-                List<RequiredGenerationParam> generationParameters =
-                    new List<RequiredGenerationParam>((RequiredGenerationParam[])modelType.
-                    GetCustomAttributes(typeof(RequiredGenerationParam), false));
-
-                Control[] c = this.GenerationParametersGrp.Controls.Find("GenerationParameterCombo", false);
-                for (int i = 0; i < c.Length; ++i)
+                Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
+                foreach (GenerationParam g in keys)
                 {
-                    c[i].Text = loader.GetParameterValue(name, generationParameters[i].GenParam);
+                    generationParamatersControls[g].Text = loader.GetParameterValue(name, g);
                 }
 
                 this.RealizationsTxt.Text = loader.GetRealizationCount(name).ToString();
@@ -691,26 +431,26 @@ namespace StatisticAnalyzerUI
         // CHECK THE LOGIC AND CORRECT TABINDEX PART //
         private void FillFirstGenerationParameterCombo()
         {
-            if (generationParametersComboBoxes.Count != 0)
+            Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
+            foreach (GenerationParam g in keys)
             {
-                generationParametersComboBoxes[0].Text = "";
+                generationParamatersControls[g].Text = "";
+                generationParamatersControls[g].Items.Clear();
 
-                generationParametersComboBoxes[0].Items.Clear();
-                Type modelType = StLoader.models[this.ModelNameCmb.Text];
-                List<RequiredGenerationParam> generationParameters =
-                    new List<RequiredGenerationParam>((RequiredGenerationParam[])modelType.
-                    GetCustomAttributes(typeof(RequiredGenerationParam), false));
-                List<string> valuesStr = loader.GetParameterValues(generationParameters[0].GenParam);
-                foreach (string v in valuesStr)
-                    generationParametersComboBoxes[0].Items.Add(v);
-                if (generationParametersComboBoxes[0].Items.Count != 0)
-                    generationParametersComboBoxes[0].SelectedIndex = 0;
+                List<string> valuesStr = loader.GetParameterValues(g);
+                for (int i = 0; i < valuesStr.Count; ++i)
+                    generationParamatersControls[g].Items.Add(valuesStr[i]);
+
+                if (generationParamatersControls[g].Items.Count != 0)
+                    generationParamatersControls[g].SelectedIndex = 0;
+
+                break;
             }
         }
 
         private void FillNextGenerationParameterCombos(int firstComboIndex)
         {
-            for (int i = firstComboIndex; i < generationParametersComboBoxes.Count; ++i)
+            /*for (int i = firstComboIndex; i < generationParametersComboBoxes.Count; ++i)
             {
                 generationParametersComboBoxes[i].Text = "";
 
@@ -725,23 +465,162 @@ namespace StatisticAnalyzerUI
                     generationParametersComboBoxes[i].Items.Add(v);
                 if (generationParametersComboBoxes[i].Items.Count != 0)
                     generationParametersComboBoxes[i].SelectedIndex = 0;
-            }
+            }*/
         }
 
         private Dictionary<GenerationParam, string> Values(int firstIndex, int lastIndex)
         {
             Dictionary<GenerationParam, string> values = new Dictionary<GenerationParam, string>();
-            for (int i = firstIndex; i < lastIndex; ++i)
+            /*for (int i = firstIndex; i < lastIndex; ++i)
             {
                 Type modelType = StLoader.models[this.ModelNameCmb.Text];
                 List<RequiredGenerationParam> generationParameters =
                     new List<RequiredGenerationParam>((RequiredGenerationParam[])modelType.
                     GetCustomAttributes(typeof(RequiredGenerationParam), false));
                 values.Add(generationParameters[i].GenParam, generationParametersComboBoxes[i].Text);
-            }
+            }*/
             return values;
         }
         // CHECK THE LOGIC AND CORRECT TABINDEX PART //
+
+        private bool ValidateGraphicConditions()
+        {
+            if (this.ByJobsRadio.Checked == true)
+            {
+                if(this.JobsCmb.Text == string.Empty)
+                {
+                    MessageBox.Show("Choose a job!", "Error");
+                    return false;
+                }
+                else
+                    return true;
+            }
+            else
+            {
+                Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
+                foreach (GenerationParam g in keys)
+                {
+                    if (generationParamatersControls[g].Text == string.Empty)
+                    {
+                        MessageBox.Show("Choose generation parameter values!", "Error");
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        private List<ResultAssembly> GetAssembliesToAnalyze()
+        {
+            List<ResultAssembly> res = new List<ResultAssembly>();
+            if (this.ByJobsRadio.Checked)
+                res.Add(loader.SelectAssemblyByJob(this.JobsCmb.Text));
+            else
+                res = loader.SelectAssemblyByParameters(Values(0, generationParamatersControls.Count),
+                    this.ByAllJobsCheck.Checked);
+
+            return res;
+        }
+
+        private List<AnalyseOptions> GetCheckedOptionsGlobal(StAnalyzer analyzer)
+        {
+            List<AnalyseOptions> checkedOptions = new List<AnalyseOptions>();
+            if (this.GlobalPropertiesList.GetItemChecked(0))
+            {
+                analyzer.options |= AnalyseOptions.AveragePath;
+                checkedOptions.Add(AnalyseOptions.AveragePath);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(1))
+            {
+                analyzer.options |= AnalyseOptions.Diameter;
+                checkedOptions.Add(AnalyseOptions.Diameter);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(2))
+            {
+                analyzer.options |= AnalyseOptions.ClusteringCoefficient;
+                checkedOptions.Add(AnalyseOptions.ClusteringCoefficient);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(3))
+            {
+                analyzer.options |= AnalyseOptions.DegreeDistribution;
+                checkedOptions.Add(AnalyseOptions.DegreeDistribution);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(4))
+            {
+                analyzer.options |= AnalyseOptions.Cycles3;
+                checkedOptions.Add(AnalyseOptions.Cycles3);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(5))
+            {
+                analyzer.options |= AnalyseOptions.Cycles4;
+                checkedOptions.Add(AnalyseOptions.Cycles4);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(6))
+            {
+                analyzer.options |= AnalyseOptions.MaxFullSubgraph;
+                checkedOptions.Add(AnalyseOptions.MaxFullSubgraph);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(7))
+            {
+                analyzer.options |= AnalyseOptions.LargestConnectedComponent;
+                checkedOptions.Add(AnalyseOptions.LargestConnectedComponent);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(8))
+            {
+                analyzer.options |= AnalyseOptions.MinEigenValue;
+                checkedOptions.Add(AnalyseOptions.MinEigenValue);
+            }
+            if (this.GlobalPropertiesList.GetItemChecked(9))
+            {
+                analyzer.options |= AnalyseOptions.MaxEigenValue;
+                checkedOptions.Add(AnalyseOptions.MaxEigenValue);
+            }
+
+            return checkedOptions;
+        }
+
+        private List<AnalyseOptions> GetCheckedOptionsLocal(StAnalyzer analyzer)
+        {
+            List<AnalyseOptions> checkedOptions = new List<AnalyseOptions>();
+            if (this.LocalPropertiesList.GetItemChecked(0))
+            {
+                analyzer.options |= AnalyseOptions.ClusteringCoefficient;
+                checkedOptions.Add(AnalyseOptions.ClusteringCoefficient);
+            }
+            if (this.LocalPropertiesList.GetItemChecked(1))
+            {
+                analyzer.options |= AnalyseOptions.DegreeDistribution;
+                checkedOptions.Add(AnalyseOptions.DegreeDistribution);
+            }
+            if (this.LocalPropertiesList.GetItemChecked(2))
+            {
+                analyzer.options |= AnalyseOptions.ConnSubGraph;
+                checkedOptions.Add(AnalyseOptions.ConnSubGraph);
+            }
+            if (this.LocalPropertiesList.GetItemChecked(3))
+            {
+                analyzer.options |= AnalyseOptions.MinPathDist;
+                checkedOptions.Add(AnalyseOptions.MinPathDist);
+            }
+            if (this.LocalPropertiesList.GetItemChecked(4))
+            {
+                analyzer.options |= AnalyseOptions.EigenValue;
+                checkedOptions.Add(AnalyseOptions.EigenValue);
+            }
+            if (this.LocalPropertiesList.GetItemChecked(5))
+            {
+                analyzer.options |= AnalyseOptions.DistEigenPath;
+                checkedOptions.Add(AnalyseOptions.DistEigenPath);
+            }
+            if (this.LocalPropertiesList.GetItemChecked(6))
+            {
+                analyzer.options |= AnalyseOptions.Cycles;
+                checkedOptions.Add(AnalyseOptions.Cycles);
+            }
+
+            return checkedOptions;
+        }
 
         private void MakeParameters(StAnalyzer analyzer)
         {

@@ -51,6 +51,7 @@
             this.ByParametersRadio = new System.Windows.Forms.RadioButton();
             this.DeleteJob = new System.Windows.Forms.Button();
             this.LocalAnalyzeTab = new System.Windows.Forms.TabPage();
+            this.localValueButton = new System.Windows.Forms.Button();
             this.LocalAnalyzeOptionsGrd = new System.Windows.Forms.DataGridView();
             this.PropertyNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DeltaColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -72,7 +73,6 @@
             this.PointsCheck = new System.Windows.Forms.CheckBox();
             this.GraphicsGrp = new System.Windows.Forms.GroupBox();
             this.GroupByOptionCheck = new System.Windows.Forms.CheckBox();
-            this.localValueButton = new System.Windows.Forms.Button();
             this.MenuStrip.SuspendLayout();
             this.LocalAnalyzeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalAnalyzeOptionsGrd)).BeginInit();
@@ -273,6 +273,17 @@
             this.LocalAnalyzeTab.TabIndex = 2;
             this.LocalAnalyzeTab.Text = "Local Analyze";
             this.LocalAnalyzeTab.UseVisualStyleBackColor = true;
+            // 
+            // localValueButton
+            // 
+            this.localValueButton.Location = new System.Drawing.Point(613, 84);
+            this.localValueButton.Name = "localValueButton";
+            this.localValueButton.Size = new System.Drawing.Size(120, 37);
+            this.localValueButton.TabIndex = 39;
+            this.localValueButton.Text = "Show Values";
+            this.CommonToolTip.SetToolTip(this.localValueButton, "Shows the global analyze result graphic.");
+            this.localValueButton.UseVisualStyleBackColor = true;
+            this.localValueButton.Click += new System.EventHandler(this.localValueButton_Click);
             // 
             // LocalAnalyzeOptionsGrd
             // 
@@ -512,17 +523,6 @@
             this.GroupByOptionCheck.TabIndex = 16;
             this.GroupByOptionCheck.Text = "Group Graphics by Option";
             this.GroupByOptionCheck.UseVisualStyleBackColor = true;
-            // 
-            // localValueButton
-            // 
-            this.localValueButton.Location = new System.Drawing.Point(613, 84);
-            this.localValueButton.Name = "localValueButton";
-            this.localValueButton.Size = new System.Drawing.Size(120, 37);
-            this.localValueButton.TabIndex = 39;
-            this.localValueButton.Text = "Show Values";
-            this.CommonToolTip.SetToolTip(this.localValueButton, "Shows the global analyze result graphic.");
-            this.localValueButton.UseVisualStyleBackColor = true;
-            this.localValueButton.Click += new System.EventHandler(this.localValueButton_Click);
             // 
             // StatisticAnalyzer
             // 
