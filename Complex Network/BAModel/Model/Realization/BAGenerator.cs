@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
 using RandomGraph.Common.Model.Generation;
 using CommonLibrary.Model;
 using NumberGeneration;
@@ -17,7 +17,7 @@ namespace Model.BAModel.Realization
         
         // Контейнер, в котором содержится граф конкретной модели (BA).
         private BAContainer container;
-
+        private int edges;
         // Конструктор по умолчанию, в котором создается пустой контейнер графа.
         public BAGenerator()
         {
@@ -36,7 +36,7 @@ namespace Model.BAModel.Realization
         {
             log.Info("Random generation step started.");
             int numberOfVertices = (Int32)genParam[GenerationParam.Vertices];
-            int edges = (Int16)genParam[GenerationParam.MaxEdges];
+            edges = (Int16)genParam[GenerationParam.MaxEdges];
             int stepCount = (Int32)genParam[GenerationParam.StepCount];
 
             container.Size = numberOfVertices;
@@ -70,11 +70,23 @@ namespace Model.BAModel.Realization
 
         private bool[] MakeGenerationStep(double[] probabilityArray)
         {
-            bool[] result = new bool[probabilityArray.Length];
-
+            Dictionary<int,double> resultDic = new Dictionary<int,double>();
+            int count = 0;
             for (int i = 0; i < probabilityArray.Length; ++i)
-                result[i] = rand.NextDouble() <= probabilityArray[i];
+                resultDic.Add(i, probabilityArray[i] - rand.NextDouble());
 
+           
+             var  items = from pair in resultDic
+                        orderby pair.Value descending
+                        select pair;
+            
+            bool[] result = new bool[container.Neighbourship.Count];
+            foreach (var item in items)
+                if (count <= edges)
+                {
+                    result[item.Key] = true;
+                    count++;
+                }
             return result;
         }
     }

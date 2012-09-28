@@ -25,7 +25,7 @@ namespace RandomGraph.Common.Model.Generation
         [GenerationParamInfo(Name = "Level", Type = typeof(Int16))]
         Level = 4,
 
-        [GenerationParamInfo(Name = "Maximum Connections", Type = typeof(Int16))]
+        [GenerationParamInfo(Name = "Connections Count", Type = typeof(Int16))]
         MaxEdges = 5,
 
         [GenerationParamInfo(Name = "Mu", Type = typeof(double))]
