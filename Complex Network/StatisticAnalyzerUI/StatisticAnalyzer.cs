@@ -727,6 +727,39 @@ namespace StatisticAnalyzerUI
                 MessageBox.Show(message);
             }
         }
+
+        private void selectGlobal_Click(object sender, EventArgs e)
+        {
+            for(int i = 0; i < GlobalPropertiesList.Items.Count; ++i)
+            {
+                GlobalPropertiesList.SetItemChecked(i, true);
+            }
+        }
+
+        private void deselectGlobal_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < GlobalPropertiesList.Items.Count; ++i)
+            {
+                GlobalPropertiesList.SetItemChecked(i, false);
+            }
+        }
+
+        private void selectLocal_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < LocalPropertiesList.Items.Count; ++i)
+            {
+                LocalPropertiesList.SetItemChecked(i, true);
+            }
+        }
+
+        private void deselectLocal_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < LocalPropertiesList.Items.Count; ++i)
+            {
+                LocalPropertiesList.SetItemChecked(i, false);
+            }
+        }     
+
     }
 
     public class GraphicCondition

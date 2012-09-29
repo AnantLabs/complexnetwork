@@ -51,6 +51,8 @@
             this.ByParametersRadio = new System.Windows.Forms.RadioButton();
             this.DeleteJob = new System.Windows.Forms.Button();
             this.LocalAnalyzeTab = new System.Windows.Forms.TabPage();
+            this.deselectLocal = new System.Windows.Forms.Button();
+            this.selectLocal = new System.Windows.Forms.Button();
             this.localValueButton = new System.Windows.Forms.Button();
             this.LocalAnalyzeOptionsGrd = new System.Windows.Forms.DataGridView();
             this.PropertyNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -61,11 +63,13 @@
             this.LocalPropertiesList = new System.Windows.Forms.CheckedListBox();
             this.LocalDrawGraphics = new System.Windows.Forms.Button();
             this.GlobalAnalyzeTab = new System.Windows.Forms.TabPage();
+            this.deselectGlobal = new System.Windows.Forms.Button();
+            this.selectGlobal = new System.Windows.Forms.Button();
             this.valueButton = new System.Windows.Forms.Button();
             this.GlobalPropertiesList = new System.Windows.Forms.CheckedListBox();
             this.GetGlobalResult = new System.Windows.Forms.Button();
             this.GlobalDrawGraphics = new System.Windows.Forms.Button();
-            this.StatisticAnalyzeTab = new System.Windows.Forms.TabControl();
+            this.selectTabControl = new System.Windows.Forms.TabControl();
             this.MotifAnalyzeTab = new System.Windows.Forms.TabPage();
             this.MotifDrowGraphics = new System.Windows.Forms.Button();
             this.MotifPropertiesList = new System.Windows.Forms.CheckedListBox();
@@ -77,7 +81,7 @@
             this.LocalAnalyzeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalAnalyzeOptionsGrd)).BeginInit();
             this.GlobalAnalyzeTab.SuspendLayout();
-            this.StatisticAnalyzeTab.SuspendLayout();
+            this.selectTabControl.SuspendLayout();
             this.MotifAnalyzeTab.SuspendLayout();
             this.GraphicsGrp.SuspendLayout();
             this.SuspendLayout();
@@ -261,6 +265,8 @@
             // 
             // LocalAnalyzeTab
             // 
+            this.LocalAnalyzeTab.Controls.Add(this.deselectLocal);
+            this.LocalAnalyzeTab.Controls.Add(this.selectLocal);
             this.LocalAnalyzeTab.Controls.Add(this.localValueButton);
             this.LocalAnalyzeTab.Controls.Add(this.LocalAnalyzeOptionsGrd);
             this.LocalAnalyzeTab.Controls.Add(this.ApproximationType);
@@ -269,10 +275,30 @@
             this.LocalAnalyzeTab.Controls.Add(this.LocalDrawGraphics);
             this.LocalAnalyzeTab.Location = new System.Drawing.Point(4, 22);
             this.LocalAnalyzeTab.Name = "LocalAnalyzeTab";
-            this.LocalAnalyzeTab.Size = new System.Drawing.Size(759, 196);
+            this.LocalAnalyzeTab.Size = new System.Drawing.Size(759, 211);
             this.LocalAnalyzeTab.TabIndex = 2;
             this.LocalAnalyzeTab.Text = "Local Analyze";
             this.LocalAnalyzeTab.UseVisualStyleBackColor = true;
+            // 
+            // deselectLocal
+            // 
+            this.deselectLocal.Location = new System.Drawing.Point(109, 175);
+            this.deselectLocal.Name = "deselectLocal";
+            this.deselectLocal.Size = new System.Drawing.Size(75, 23);
+            this.deselectLocal.TabIndex = 43;
+            this.deselectLocal.Text = "Deselect All";
+            this.deselectLocal.UseVisualStyleBackColor = true;
+            this.deselectLocal.Click += new System.EventHandler(this.deselectLocal_Click);
+            // 
+            // selectLocal
+            // 
+            this.selectLocal.Location = new System.Drawing.Point(13, 175);
+            this.selectLocal.Name = "selectLocal";
+            this.selectLocal.Size = new System.Drawing.Size(75, 23);
+            this.selectLocal.TabIndex = 42;
+            this.selectLocal.Text = "Select All";
+            this.selectLocal.UseVisualStyleBackColor = true;
+            this.selectLocal.Click += new System.EventHandler(this.selectLocal_Click);
             // 
             // localValueButton
             // 
@@ -373,6 +399,8 @@
             // 
             // GlobalAnalyzeTab
             // 
+            this.GlobalAnalyzeTab.Controls.Add(this.deselectGlobal);
+            this.GlobalAnalyzeTab.Controls.Add(this.selectGlobal);
             this.GlobalAnalyzeTab.Controls.Add(this.valueButton);
             this.GlobalAnalyzeTab.Controls.Add(this.GlobalPropertiesList);
             this.GlobalAnalyzeTab.Controls.Add(this.GetGlobalResult);
@@ -380,10 +408,30 @@
             this.GlobalAnalyzeTab.Location = new System.Drawing.Point(4, 22);
             this.GlobalAnalyzeTab.Name = "GlobalAnalyzeTab";
             this.GlobalAnalyzeTab.Padding = new System.Windows.Forms.Padding(3);
-            this.GlobalAnalyzeTab.Size = new System.Drawing.Size(759, 196);
+            this.GlobalAnalyzeTab.Size = new System.Drawing.Size(759, 211);
             this.GlobalAnalyzeTab.TabIndex = 0;
             this.GlobalAnalyzeTab.Text = "Global Analyze";
             this.GlobalAnalyzeTab.UseVisualStyleBackColor = true;
+            // 
+            // deselectGlobal
+            // 
+            this.deselectGlobal.Location = new System.Drawing.Point(109, 175);
+            this.deselectGlobal.Name = "deselectGlobal";
+            this.deselectGlobal.Size = new System.Drawing.Size(75, 23);
+            this.deselectGlobal.TabIndex = 45;
+            this.deselectGlobal.Text = "Deselect All";
+            this.deselectGlobal.UseVisualStyleBackColor = true;
+            this.deselectGlobal.Click += new System.EventHandler(this.deselectGlobal_Click);
+            // 
+            // selectGlobal
+            // 
+            this.selectGlobal.Location = new System.Drawing.Point(13, 175);
+            this.selectGlobal.Name = "selectGlobal";
+            this.selectGlobal.Size = new System.Drawing.Size(75, 23);
+            this.selectGlobal.TabIndex = 44;
+            this.selectGlobal.Text = "Select All";
+            this.selectGlobal.UseVisualStyleBackColor = true;
+            this.selectGlobal.Click += new System.EventHandler(this.selectGlobal_Click);
             // 
             // valueButton
             // 
@@ -438,16 +486,16 @@
             this.GlobalDrawGraphics.UseVisualStyleBackColor = true;
             this.GlobalDrawGraphics.Click += new System.EventHandler(this.GlobalDrawGraphics_Click);
             // 
-            // StatisticAnalyzeTab
+            // selectTabControl
             // 
-            this.StatisticAnalyzeTab.Controls.Add(this.GlobalAnalyzeTab);
-            this.StatisticAnalyzeTab.Controls.Add(this.LocalAnalyzeTab);
-            this.StatisticAnalyzeTab.Controls.Add(this.MotifAnalyzeTab);
-            this.StatisticAnalyzeTab.Location = new System.Drawing.Point(31, 360);
-            this.StatisticAnalyzeTab.Name = "StatisticAnalyzeTab";
-            this.StatisticAnalyzeTab.SelectedIndex = 0;
-            this.StatisticAnalyzeTab.Size = new System.Drawing.Size(767, 222);
-            this.StatisticAnalyzeTab.TabIndex = 9;
+            this.selectTabControl.Controls.Add(this.GlobalAnalyzeTab);
+            this.selectTabControl.Controls.Add(this.LocalAnalyzeTab);
+            this.selectTabControl.Controls.Add(this.MotifAnalyzeTab);
+            this.selectTabControl.Location = new System.Drawing.Point(31, 360);
+            this.selectTabControl.Name = "selectTabControl";
+            this.selectTabControl.SelectedIndex = 0;
+            this.selectTabControl.Size = new System.Drawing.Size(767, 237);
+            this.selectTabControl.TabIndex = 9;
             // 
             // MotifAnalyzeTab
             // 
@@ -456,7 +504,7 @@
             this.MotifAnalyzeTab.Location = new System.Drawing.Point(4, 22);
             this.MotifAnalyzeTab.Name = "MotifAnalyzeTab";
             this.MotifAnalyzeTab.Padding = new System.Windows.Forms.Padding(3);
-            this.MotifAnalyzeTab.Size = new System.Drawing.Size(759, 196);
+            this.MotifAnalyzeTab.Size = new System.Drawing.Size(759, 211);
             this.MotifAnalyzeTab.TabIndex = 3;
             this.MotifAnalyzeTab.Text = "Motif Analyze";
             this.MotifAnalyzeTab.UseVisualStyleBackColor = true;
@@ -529,7 +577,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(828, 613);
+            this.ClientSize = new System.Drawing.Size(828, 623);
             this.Controls.Add(this.ByAllJobsCheck);
             this.Controls.Add(this.GraphicsGrp);
             this.Controls.Add(this.RealizationsTxt);
@@ -540,7 +588,7 @@
             this.Controls.Add(this.Realizations);
             this.Controls.Add(this.ByJobsRadio);
             this.Controls.Add(this.RefreshBtn);
-            this.Controls.Add(this.StatisticAnalyzeTab);
+            this.Controls.Add(this.selectTabControl);
             this.Controls.Add(this.GenerationParametersGrp);
             this.Controls.Add(this.ModelNameCmb);
             this.Controls.Add(this.ModelName);
@@ -558,7 +606,7 @@
             this.LocalAnalyzeTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalAnalyzeOptionsGrd)).EndInit();
             this.GlobalAnalyzeTab.ResumeLayout(false);
-            this.StatisticAnalyzeTab.ResumeLayout(false);
+            this.selectTabControl.ResumeLayout(false);
             this.MotifAnalyzeTab.ResumeLayout(false);
             this.GraphicsGrp.ResumeLayout(false);
             this.GraphicsGrp.PerformLayout();
@@ -590,7 +638,7 @@
         private System.Windows.Forms.Button LocalDrawGraphics;
         private System.Windows.Forms.TabPage GlobalAnalyzeTab;
         private System.Windows.Forms.Button GlobalDrawGraphics;
-        private System.Windows.Forms.TabControl StatisticAnalyzeTab;
+        private System.Windows.Forms.TabControl selectTabControl;
         private System.Windows.Forms.ToolStripMenuItem MenuHelp;
         private System.Windows.Forms.ToolTip CommonToolTip;
         private System.Windows.Forms.Button GetGlobalResult;
@@ -610,6 +658,10 @@
         private System.Windows.Forms.CheckBox GroupByOptionCheck;
         private System.Windows.Forms.Button valueButton;
         private System.Windows.Forms.Button localValueButton;
+        private System.Windows.Forms.Button deselectLocal;
+        private System.Windows.Forms.Button selectLocal;
+        private System.Windows.Forms.Button deselectGlobal;
+        private System.Windows.Forms.Button selectGlobal;
     }
 }
 
