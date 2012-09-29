@@ -101,6 +101,10 @@ namespace StatisticAnalyzerUI
             this.RefreshBtn.Enabled = true;
             this.GenerationParametersGrp.Enabled = true;
             this.ByAllJobsCheck.Enabled = true;
+
+            Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
+            foreach (GenerationParam g in keys)
+                generationParamatersControls[g].Text = "";
         }
 
         private void Refresh_Click(object sender, EventArgs e)
@@ -111,7 +115,7 @@ namespace StatisticAnalyzerUI
         private void control_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox cmb = (ComboBox)sender;
-            FillNextGenerationParameterCombos(cmb.TabIndex + 1);
+            FillNextGenerationParameterCombos((int)cmb.Tag);
         }
 
         private void LocalPropertiesList_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -372,7 +376,7 @@ namespace StatisticAnalyzerUI
             });
 
             int position = 30;
-            int index = 0;
+            int index = 1;
             foreach (RequiredGenerationParam requiredGenerationParam in generationParameters)
             {
                 GenerationParamInfo paramInfo =
@@ -387,7 +391,7 @@ namespace StatisticAnalyzerUI
                 control.Name = "GenerationParameterCombo";
                 control.Width = 150;
                 control.Location = new Point(150, position);
-                control.TabIndex = index++;
+                control.Tag = index++;
                 control.SelectedIndexChanged += new EventHandler(control_SelectedIndexChanged);
                 generationParamatersControls[requiredGenerationParam.GenParam] = control;
 
@@ -428,7 +432,6 @@ namespace StatisticAnalyzerUI
             FillFirstGenerationParameterCombo();
         }
 
-        // CHECK THE LOGIC AND CORRECT TABINDEX PART //
         private void FillFirstGenerationParameterCombo()
         {
             Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
@@ -440,7 +443,6 @@ namespace StatisticAnalyzerUI
                 List<string> valuesStr = loader.GetParameterValues(g);
                 for (int i = 0; i < valuesStr.Count; ++i)
                     generationParamatersControls[g].Items.Add(valuesStr[i]);
-
                 if (generationParamatersControls[g].Items.Count != 0)
                     generationParamatersControls[g].SelectedIndex = 0;
 
@@ -450,38 +452,27 @@ namespace StatisticAnalyzerUI
 
         private void FillNextGenerationParameterCombos(int firstComboIndex)
         {
-            /*for (int i = firstComboIndex; i < generationParametersComboBoxes.Count; ++i)
-            {
-                generationParametersComboBoxes[i].Text = "";
-
-                generationParametersComboBoxes[i].Items.Clear();
-                Type modelType = StLoader.models[this.ModelNameCmb.Text];
-                List<RequiredGenerationParam> generationParameters =
-                    new List<RequiredGenerationParam>((RequiredGenerationParam[])modelType.
-                    GetCustomAttributes(typeof(RequiredGenerationParam), false));
-                List<string> valuesStr = loader.GetParameterValues(Values(firstComboIndex, i),
-                    generationParameters[i].GenParam);
-                foreach (string v in valuesStr)
-                    generationParametersComboBoxes[i].Items.Add(v);
-                if (generationParametersComboBoxes[i].Items.Count != 0)
-                    generationParametersComboBoxes[i].SelectedIndex = 0;
-            }*/
-        }
-
-        private Dictionary<GenerationParam, string> Values(int firstIndex, int lastIndex)
-        {
+            Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
             Dictionary<GenerationParam, string> values = new Dictionary<GenerationParam, string>();
-            /*for (int i = firstIndex; i < lastIndex; ++i)
+            foreach (GenerationParam g in keys)
             {
-                Type modelType = StLoader.models[this.ModelNameCmb.Text];
-                List<RequiredGenerationParam> generationParameters =
-                    new List<RequiredGenerationParam>((RequiredGenerationParam[])modelType.
-                    GetCustomAttributes(typeof(RequiredGenerationParam), false));
-                values.Add(generationParameters[i].GenParam, generationParametersComboBoxes[i].Text);
-            }*/
-            return values;
+                if ((int)generationParamatersControls[g].Tag <= firstComboIndex)
+                {
+                    values[g] = generationParamatersControls[g].Text;
+                    continue;
+                }
+
+                generationParamatersControls[g].Text = "";
+                generationParamatersControls[g].Items.Clear();
+
+                List<string> valuesStr = loader.GetParameterValues(values, g);
+
+                for (int i = 0; i < valuesStr.Count; ++i)
+                    generationParamatersControls[g].Items.Add(valuesStr[i]);
+                if (generationParamatersControls[g].Items.Count != 0)
+                    generationParamatersControls[g].SelectedIndex = 0;
+            }
         }
-        // CHECK THE LOGIC AND CORRECT TABINDEX PART //
 
         private bool ValidateGraphicConditions()
         {
@@ -517,8 +508,15 @@ namespace StatisticAnalyzerUI
             if (this.ByJobsRadio.Checked)
                 res.Add(loader.SelectAssemblyByJob(this.JobsCmb.Text));
             else
-                res = loader.SelectAssemblyByParameters(Values(0, generationParamatersControls.Count),
-                    this.ByAllJobsCheck.Checked);
+            {
+                Dictionary<GenerationParam, string> values = new Dictionary<GenerationParam, string>();
+                Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
+                foreach (GenerationParam g in keys)
+                {
+                    values[g] = generationParamatersControls[g].Text;
+                }
+                res = loader.SelectAssemblyByParameters(values, this.ByAllJobsCheck.Checked);
+            }
 
             return res;
         }
