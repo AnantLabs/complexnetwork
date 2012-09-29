@@ -119,7 +119,8 @@ namespace StatisticAnalyzer.Loader
                 ResultAssembly result = resultStorage.Load(assemblies.Find(i => i.Name == jobName).ID);
                 return result.GenerationParams[p].ToString();
             }
-            catch
+            // Такая ситуация возникает при наличии xml-а с результатом статической генерации.
+            catch(KeyNotFoundException)
             {
                 return "Generation Parameter Error!";
             }
@@ -132,15 +133,10 @@ namespace StatisticAnalyzer.Loader
             foreach (string resultName in assembliesID)
             {
                 ResultAssembly r = resultStorage.Load(assemblies.Find(i => i.Name == resultName).ID);
-                try
-                {
+                if(r.GenerationParams.Count != 0)
                     result.Add(r.GenerationParams[p].ToString());
-                }
-                // Такая ситуация возникает при наличии xml-а с результатом статической генерации.
-                catch (KeyNotFoundException)    
-                {
+                else
                     continue;
-                }
             }
             result.Sort();
             result = result.Distinct().ToList();
@@ -160,10 +156,18 @@ namespace StatisticAnalyzer.Loader
                 bool b = true;
                 foreach (GenerationParam key in keys)
                 {
-                    b = b && (r.GenerationParams[key].ToString() == values[key]);
+                    if (r.GenerationParams.Count != 0)
+                        b = b && (r.GenerationParams[key].ToString() == values[key]);
+                    else
+                    {
+                        b = false;
+                        break;
+                    }
                 }
                 if (b)
+                {
                     result.Add(r.GenerationParams[parameter].ToString());
+                }
             }
             result.Sort();
             result = result.Distinct().ToList();
@@ -191,10 +195,16 @@ namespace StatisticAnalyzer.Loader
                 bool b = true;
                 foreach (GenerationParam key in keys)
                 {
-                    b = b && (r.GenerationParams[key].ToString() == values[key]);
+                    if (r.GenerationParams.Count != 0)
+                        b = b && (r.GenerationParams[key].ToString() == values[key]);
+                    else
+                    {
+                        b = false;
+                        break;
+                    }
                 }
                 if (b)
-                    result.Add(r); ;
+                    result.Add(r);
             }
 
             return result;
