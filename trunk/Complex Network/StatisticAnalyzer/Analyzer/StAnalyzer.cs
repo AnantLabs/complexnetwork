@@ -146,7 +146,7 @@ namespace StatisticAnalyzer.Analyzer
                         }
                 }
 
-                result.resultAvgValues.Add(option, GetGlobalAverage(GetRealizationsCount(), result.result[option]));
+                result.resultAvgValues.Add(option, GetGlobalAverage(result.result[option]));
             }
         }
         
@@ -154,14 +154,37 @@ namespace StatisticAnalyzer.Analyzer
         {
             if (ContainsOption(option))
             {
-                SortedDictionary<double, double> tempResult = new SortedDictionary<double, double>();
-                int instanceCount = assemblyToAnalyze[0].Results.Count;
-                for (int i = 0; i < instanceCount; ++i)
+                SortedDictionary<double, double> tempResult;
+                switch (option)
                 {
-                    tempResult = LocalCases(option, i, 0);
+                    case AnalyseOptions.ClusteringCoefficient:
+                        {
+                            tempResult = FillLocalResultCC();
+                            break;
+                        }
+                    case AnalyseOptions.EigenValue:
+                        {
+                            tempResult = FillLocalResultEigen();
+                            break;
+                        }
+                    case AnalyseOptions.DistEigenPath:
+                        {
+                            tempResult = FillLocalResultEigenDistance();
+                            break;
+                        }
+                    case AnalyseOptions.Cycles:
+                        {
+                            tempResult = FillLocalResultCycles();
+                            break;
+                        }
+                    default:
+                        {
+                            tempResult = FillLocalResult(option);
+                            break;
+                        }
                 }
 
-                result.result.Add(option, GetLocalResult(option, tempResult, instanceCount));
+                result.result.Add(option, GetLocalResult(option, tempResult, GetRealizationsCount()));
             }
         }
         
@@ -195,32 +218,30 @@ namespace StatisticAnalyzer.Analyzer
             {
                 case AnalyseOptions.ClusteringCoefficient:
                     {
-                        return FillLocalResultCC(i, initialInstance);
+                        return FillLocalResultCC();
                     }
                 case AnalyseOptions.EigenValue:
                     {
-                        return FillLocalResultEigen(i);
+                        return FillLocalResultEigen();
                     }
                 case AnalyseOptions.DistEigenPath:
                     {
-                        return FillLocalResultEigenDistance(i, initialInstance);
+                        return FillLocalResultEigenDistance();
                     }
                 case AnalyseOptions.Cycles:
                     {
-                        return FillLocalResultCycles(i, initialInstance);
+                        return FillLocalResultCycles();
                     }
                 default:
                     {
-                        return FillLocalResult(option, i, initialInstance);
+                        return FillLocalResult(option);
                     }
             }
         }
 
         private void FillGlobalResultCC()
         {
-            SortedDictionary<double, double> r = new SortedDictionary<double, double>();
             SortedDictionary<double, double> rValues = new SortedDictionary<double,double>();
-            int delta = 10;
             for (int i = 0; i < assemblyToAnalyze.Count; ++i)
             {
                 int instanceCount = assemblyToAnalyze[i].Results.Count;
@@ -231,22 +252,21 @@ namespace StatisticAnalyzer.Analyzer
                     double sumOfCoeffs = 0;
                     foreach (double key in keyColl)
                     {
-                        sumOfCoeffs += key * assemblyToAnalyze[i].Results[j].Coefficient[key];
+                           sumOfCoeffs += key * assemblyToAnalyze[i].Results[j].Coefficient[key];
                     }
                     sumOfCoeffs /= assemblyToAnalyze[i].Size;
-                    rValues.Add(j + 1, sumOfCoeffs);
+                    double index = (rValues.Count != 0) ? rValues.Last().Key : 0;
+                    rValues.Add(index + 1, sumOfCoeffs);
                 }
             }
 
-            result.result.Add(AnalyseOptions.ClusteringCoefficient, r);
+            result.result.Add(AnalyseOptions.ClusteringCoefficient, GetAverageValuesByDelta(rValues));
             result.resultValues.Add(AnalyseOptions.ClusteringCoefficient, rValues);
         }
 
         private void FillGlobalResultDD()
         {
-            SortedDictionary<double, double> r = new SortedDictionary<double, double>();
             SortedDictionary<double, double> rValues = new SortedDictionary<double,double>();
-            int delta = 10;
             for (int i = 0; i < assemblyToAnalyze.Count; ++i)
             {
                 int instanceCount = assemblyToAnalyze[i].Results.Count;
@@ -259,59 +279,83 @@ namespace StatisticAnalyzer.Analyzer
                     {
                         sumOfDegrees += key * assemblyToAnalyze[i].Results[j].VertexDegree[key];
                     }
-                    sumOfDegrees /= assemblyToAnalyze[0].Size;
-                    r.Add(j + 1, sumOfDegrees);
+                    sumOfDegrees /= assemblyToAnalyze[i].Size;
+                    double index = (rValues.Count != 0) ? rValues.Last().Key : 0;
+                    rValues.Add(index + 1, sumOfDegrees);
                 }
             }
 
-            result.result.Add(AnalyseOptions.DegreeDistribution, r);
+            result.result.Add(AnalyseOptions.DegreeDistribution, GetAverageValuesByDelta(rValues));
             result.resultValues.Add(AnalyseOptions.DegreeDistribution, rValues);
         }
 
         private void FillGlobalResult(AnalyseOptions option)
         {
-            SortedDictionary<double, double> r = new SortedDictionary<double, double>();
             SortedDictionary<double, double> rValues = new SortedDictionary<double, double>();
-            int delta = 10;
             for (int i = 0; i < assemblyToAnalyze.Count; ++i)
             {
                 int instanceCount = assemblyToAnalyze[i].Results.Count;
                 for (int j = 0; j < instanceCount; ++j)
                 {
-                    rValues.Add(j + 1, assemblyToAnalyze[i].Results[j].Result[option]);
+                    double index = (rValues.Count != 0) ? rValues.Last().Key : 0;
+                    rValues.Add(index + 1, assemblyToAnalyze[i].Results[j].Result[option]);
                 }
             }
 
-            result.result.Add(option, r);
+            result.result.Add(option, GetAverageValuesByDelta(rValues));
             result.resultValues.Add(option, rValues);
         }
 
-        protected double GetGlobalAverage(int instanceCount, SortedDictionary<double, double> resultDictionary)
+        private SortedDictionary<double, double> GetAverageValuesByDelta(SortedDictionary<double, double> d)
         {
-            if (instanceCount <= 10 && assemblyToAnalyze.Count == 1)
+            SortedDictionary<double, double> res = new SortedDictionary<double, double>();
+            int delta = 10, step = delta;
+            while (step <= d.Count)
             {
-                double result = 0;
-                SortedDictionary<double, double>.KeyCollection keys = resultDictionary.Keys;
-                foreach (double key in keys)
+                double sum = 0;
+                int index = 0;
+                SortedDictionary<double, double>.KeyCollection keys = d.Keys;
+                foreach (double k in keys)
                 {
-                    result += resultDictionary[key];
+                    if (index < step)
+                    {
+                        sum += d[k];
+                        ++index;
+                    }
+                    else
+                        break;
                 }
 
-                return result / instanceCount;
+                res.Add(step, sum / step);
+                step += delta;
             }
-            else
+
+            if (d.Count % delta != 0)
             {
-                if (resultDictionary.Count != 0)
-                    return resultDictionary.Last().Value;
-                else
-                    return 0;
+                double sum = 0;
+                SortedDictionary<double, double>.KeyCollection keys = d.Keys;
+                foreach (double k in keys)
+                {
+                    sum += d[k];
+                }
+                res.Add(d.Count, sum / d.Count);
             }
+
+            return res;
         }
 
-        private SortedDictionary<double, double> FillLocalResultCC(int i, int initialInstance)
+        private double GetGlobalAverage(SortedDictionary<double, double> resultDictionary)
+        {
+            if (resultDictionary.Count != 0)
+                return resultDictionary.Last().Value;
+            else
+                return 0;
+        }
+
+        private SortedDictionary<double, double> FillLocalResultCC()
         {
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
-            SortedDictionary<double, int> CCDictionary = assemblyToAnalyze[0].Results[i - initialInstance].Coefficient;
+            /*SortedDictionary<double, int> CCDictionary = assemblyToAnalyze[0].Results[i - initialInstance].Coefficient;
             SortedDictionary<double, int>.KeyCollection keyColl = CCDictionary.Keys;
             foreach (double key in keyColl)
             {
@@ -319,34 +363,34 @@ namespace StatisticAnalyzer.Analyzer
                     r[key] += CCDictionary[key];
                 else
                     r.Add(key, CCDictionary[key]);
-            }
+            }*/
 
             return r;
         }
 
-        private SortedDictionary<double, double> FillLocalResultEigen(int i)
+        private SortedDictionary<double, double> FillLocalResultEigen()
         {
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
-            ArrayList l = assemblyToAnalyze[0].Results[i].EigenVector;
+            /*ArrayList l = assemblyToAnalyze[0].Results[i].EigenVector;
             l.Sort();
             for (int k = 0; k < l.Count; ++k)
             {
                 r.Add((double)l[k], 1);
-            }
+            }*/
 
             return r;
         }
 
-        private SortedDictionary<double, double> FillLocalResultEigenDistance(int i, int initialInstance)
+        private SortedDictionary<double, double> FillLocalResultEigenDistance()
         {
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
-            SortedDictionary<double, int> EDDictionary = assemblyToAnalyze[0].Results[i - initialInstance].DistancesBetweenEigenValues;
+            /*SortedDictionary<double, int> EDDictionary = assemblyToAnalyze[0].Results[i - initialInstance].DistancesBetweenEigenValues;
             SortedDictionary<double, int>.KeyCollection keyCol = EDDictionary.Keys;
             foreach (double key in keyCol)
                 if (r.Keys.Contains(key))
                     r[key] += (double)EDDictionary[key] / EDDictionary.Count;
                 else
-                    r.Add(key, (double)EDDictionary[key] / EDDictionary.Count);
+                    r.Add(key, (double)EDDictionary[key] / EDDictionary.Count);*/
 
             return r;
 
@@ -372,10 +416,10 @@ namespace StatisticAnalyzer.Analyzer
             return r;*/
         }
 
-        private SortedDictionary<double, double> FillLocalResultCycles(int i, int initialInstance)
+        private SortedDictionary<double, double> FillLocalResultCycles()
         {
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
-            SortedDictionary<int, long> tempDictionary = assemblyToAnalyze[0].Results[i - initialInstance].Cycles;
+            /*SortedDictionary<int, long> tempDictionary = assemblyToAnalyze[0].Results[i - initialInstance].Cycles;
 
             SortedDictionary<int, long>.KeyCollection keyColl = tempDictionary.Keys;
             int size = assemblyToAnalyze[0].Size;
@@ -386,17 +430,17 @@ namespace StatisticAnalyzer.Analyzer
                     r[key] += (double)tempDictionary[key] / size;
                 else
                     r.Add(key, (double)tempDictionary[key] / size);
-            }
+            }*/
 
             return r;
         }
 
-        protected SortedDictionary<double, double> FillLocalResult(AnalyseOptions option, int i, int initialInstance)
+        protected SortedDictionary<double, double> FillLocalResult(AnalyseOptions option)
         {
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
             SortedDictionary<int, int> tempDictionary = new SortedDictionary<int, int>();
 
-            switch (option)
+            /*switch (option)
             {
                 case AnalyseOptions.DegreeDistribution:
                     {
@@ -429,7 +473,7 @@ namespace StatisticAnalyzer.Analyzer
                     r[key] += (double)tempDictionary[key] / div;
                 else
                     r.Add(key, (double)tempDictionary[key] / div);
-            }
+            }*/
 
             return r;
         }
