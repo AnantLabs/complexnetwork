@@ -312,7 +312,10 @@ namespace StatisticAnalyzerUI
 
         private void Graphic_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.parent.isOpen = false;
-        }        
+            if (this.parent != null)
+            {
+                this.parent.isOpen = false;
+            }
+        }
      }
 }

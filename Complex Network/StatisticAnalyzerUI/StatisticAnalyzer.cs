@@ -176,16 +176,26 @@ namespace StatisticAnalyzerUI
 
             ShowWarning(checkedOptions, stResult);
 
-            if (this.globalGraphic.isOpen)
+            if (GroupByOptionCheck.Checked == false)
             {
-                this.globalGraphic.graphic.Add(stResult, (Color)this.CurveLineCmb.SelectedItem, !PointsCheck.Checked);
+                if (this.globalGraphic.isOpen)
+                {
+                    this.globalGraphic.graphic.Add(stResult, (Color)this.CurveLineCmb.SelectedItem, !PointsCheck.Checked);
+                }
+                else
+                {
+                    this.globalGraphic.isOpen = true;
+                    this.globalGraphic.graphic = new Graphic(stResult, (Color)this.CurveLineCmb.SelectedItem,
+                        !PointsCheck.Checked, this.globalGraphic);
+                    this.globalGraphic.graphic.Show();
+                }
             }
+            
             else
             {
-                this.globalGraphic.isOpen = true;
-                this.globalGraphic.graphic = new Graphic(stResult, (Color)this.CurveLineCmb.SelectedItem,
-                    !PointsCheck.Checked, this.globalGraphic);
-                this.globalGraphic.graphic.Show();
+                Graphic graphic = new Graphic(stResult, (Color)this.CurveLineCmb.SelectedItem,
+                        !PointsCheck.Checked, null);
+                graphic.Show();
             }
         }
 
@@ -244,23 +254,35 @@ namespace StatisticAnalyzerUI
 
             ShowWarning(checkedOptions, result);
 
-            if (this.localGraphic.isOpen)
+            if (GroupByOptionCheck.Checked == false)
             {
-                if (result.approximationType != this.localGraphic.graphic.GetApproximation())
+                if (this.localGraphic.isOpen)
                 {
-                    MessageBox.Show("Approximation types don't match!", "Error");
-                    return;
+                    if (result.approximationType != this.localGraphic.graphic.GetApproximation())
+                    {
+                        MessageBox.Show("Approximation types don't match!", "Error");
+                        return;
+                    }
+
+                    this.localGraphic.graphic.Add(result, (Color)this.CurveLineCmb.SelectedItem, !PointsCheck.Checked);
                 }
 
-                this.localGraphic.graphic.Add(result, (Color)this.CurveLineCmb.SelectedItem, !PointsCheck.Checked);
+                else
+                {
+                    this.localGraphic.isOpen = true;
+                    this.localGraphic.graphic = new Graphic(result, (Color)this.CurveLineCmb.SelectedItem,
+                        !PointsCheck.Checked, this.localGraphic);
+                    this.localGraphic.graphic.Show();
+                }
             }
+
             else
             {
-                this.localGraphic.isOpen = true;
-                this.localGraphic.graphic = new Graphic(result, (Color)this.CurveLineCmb.SelectedItem,
-                    !PointsCheck.Checked, this.localGraphic);
-                this.localGraphic.graphic.Show();
+                Graphic graphic = new Graphic(result, (Color)this.CurveLineCmb.SelectedItem,
+                                    !PointsCheck.Checked, null);
+                graphic.Show();
             }
+            
         }
 
         private void localValueButton_Click(object sender, EventArgs e)
