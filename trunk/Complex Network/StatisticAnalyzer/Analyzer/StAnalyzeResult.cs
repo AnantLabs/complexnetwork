@@ -24,6 +24,7 @@ namespace StatisticAnalyzer.Analyzer
         public Viewer.ApproximationTypes approximationType;
         public Dictionary<AnalyseOptions, StAnalyzeOptions> options;
         public Dictionary<AnalyseOptions, SortedDictionary<double, double>> result;
+        public Dictionary<AnalyseOptions, SortedDictionary<double, double>> resultValues;
         public Dictionary<AnalyseOptions, double> resultAvgValues;
         public Dictionary<AnalyseOptions, double> resultMathWaitings;
         public Dictionary<AnalyseOptions, double> resultDispersions;
@@ -39,6 +40,7 @@ namespace StatisticAnalyzer.Analyzer
             options = new Dictionary<AnalyseOptions,StAnalyzeOptions>();
 
             result = new Dictionary<AnalyseOptions, SortedDictionary<double, double>>();
+            resultValues = new Dictionary<AnalyseOptions, SortedDictionary<double, double>>();
             resultAvgValues = new Dictionary<AnalyseOptions, double>();
             resultMathWaitings = new Dictionary<AnalyseOptions, double>();
             resultDispersions = new Dictionary<AnalyseOptions, double>();

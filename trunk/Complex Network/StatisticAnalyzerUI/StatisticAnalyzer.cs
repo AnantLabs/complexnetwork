@@ -167,7 +167,10 @@ namespace StatisticAnalyzerUI
             List<AnalyseOptions> checkedOptions = GetCheckedOptionsGlobal(analyzer);
             analyzer.GlobalAnalyze();
             if (analyzer.Result.result.Keys.Count == 0)
+            {
+                MessageBox.Show("There are no results!");
                 return;
+            }
             StAnalyzeResult stResult = analyzer.Result;
             stResult.type = StAnalyzeType.Global;
 
@@ -195,7 +198,10 @@ namespace StatisticAnalyzerUI
             List<AnalyseOptions> checkedOptions = GetCheckedOptionsGlobal(analyzer);
             analyzer.GlobalAnalyze();
             if (analyzer.Result.result.Keys.Count == 0)
+            {
+                MessageBox.Show("There are no results!");
                 return;
+            }
             StAnalyzeResult result = analyzer.Result;
             result.type = StAnalyzeType.Global;
 
@@ -223,12 +229,14 @@ namespace StatisticAnalyzerUI
                 return;
 
             StAnalyzer analyzer = new StAnalyzer(GetAssembliesToAnalyze());
-
             List<AnalyseOptions> checkedOptions = GetCheckedOptionsLocal(analyzer);
             MakeParameters(analyzer);
             analyzer.LocalAnalyze();
             if (analyzer.Result.result.Keys.Count == 0)
+            {
+                MessageBox.Show("There are no results!");
                 return;
+            }
             StAnalyzeResult result = analyzer.Result;
             result.type = StAnalyzeType.Local;
             result.approximationType = (ApproximationTypes)Enum.Parse(typeof(ApproximationTypes),
@@ -265,7 +273,10 @@ namespace StatisticAnalyzerUI
             MakeParameters(analyzer);
             analyzer.LocalAnalyze();
             if (analyzer.Result.result.Keys.Count == 0)
+            {
+                MessageBox.Show("There are no results!");
                 return;
+            }
             StAnalyzeResult result = analyzer.Result;
             result.type = StAnalyzeType.Local;
             result.approximationType = (ApproximationTypes)Enum.Parse(typeof(ApproximationTypes),

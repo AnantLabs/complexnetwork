@@ -127,11 +127,26 @@ namespace StatisticAnalyzer.Analyzer
         {
             if (ContainsOption(option))
             {
-                SortedDictionary<double, double> resultDictionary = new SortedDictionary<double, double>();
-                int instanceCount = assemblyToAnalyze[0].Results.Count, deltaI = 10, I = deltaI;
-                resultDictionary = GlobalCases(option, I, deltaI, instanceCount, 0);
-                result.result.Add(option, resultDictionary);
-                result.resultAvgValues.Add(option, GetGlobalAverage(instanceCount, resultDictionary));
+                switch (option)
+                {
+                    case AnalyseOptions.ClusteringCoefficient:
+                        {
+                            FillGlobalResultCC();
+                            break;
+                        }
+                    case AnalyseOptions.DegreeDistribution:
+                        {
+                            FillGlobalResultDD();
+                            break;
+                        }
+                    default:
+                        {
+                            FillGlobalResult(option);
+                            break;
+                        }
+                }
+
+                result.resultAvgValues.Add(option, GetGlobalAverage(GetRealizationsCount(), result.result[option]));
             }
         }
         
@@ -173,26 +188,6 @@ namespace StatisticAnalyzer.Analyzer
             }
         }
 
-        private SortedDictionary<double, double> GlobalCases(AnalyseOptions option, int I,
-            int deltaI, int instanceCount, int previousInstanceCount)
-        {
-            switch (option)
-            {
-                case AnalyseOptions.ClusteringCoefficient:
-                    {
-                        return FillGlobalResultCC(I, deltaI, instanceCount, previousInstanceCount);
-                    }
-                case AnalyseOptions.DegreeDistribution:
-                    {
-                        return FillGlobalResultDD(I, deltaI, instanceCount, previousInstanceCount);
-                    }
-                default:
-                    {
-                        return FillGlobalResult(option, I, deltaI, previousInstanceCount);
-                    }
-            }
-        }
-
         private SortedDictionary<double, double> LocalCases(AnalyseOptions option, int i,
             int initialInstance)
         {
@@ -221,123 +216,74 @@ namespace StatisticAnalyzer.Analyzer
             }
         }
 
-        private SortedDictionary<double, double> FillGlobalResultCC(int I, int deltaI, int instanceCount, int previousInstanceCount)
+        private void FillGlobalResultCC()
         {
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
-            if (instanceCount <= 10 && assemblyToAnalyze.Count == 1)
+            SortedDictionary<double, double> rValues = new SortedDictionary<double,double>();
+            int delta = 10;
+            for (int i = 0; i < assemblyToAnalyze.Count; ++i)
             {
-                for (int i = 0; i < instanceCount; ++i)
+                int instanceCount = assemblyToAnalyze[i].Results.Count;
+                for (int j = 0; j < instanceCount; ++j)
                 {
-                    SortedDictionary<double, int>.KeyCollection keyColl = assemblyToAnalyze[0].Results[i].Coefficient.Keys;
+                    SortedDictionary<double, int>.KeyCollection keyColl =
+                                assemblyToAnalyze[i].Results[j].Coefficient.Keys;
                     double sumOfCoeffs = 0;
                     foreach (double key in keyColl)
                     {
-                        sumOfCoeffs += key * assemblyToAnalyze[0].Results[i].Coefficient[key];
+                        sumOfCoeffs += key * assemblyToAnalyze[i].Results[j].Coefficient[key];
                     }
-                    sumOfCoeffs /= assemblyToAnalyze[0].Size;
-                    r.Add(i + 1, sumOfCoeffs);
-                }
-            }
-            else
-            {
-                int index = previousInstanceCount == -1 ? I : I - previousInstanceCount;
-                double sum = 0;
-                // хвост
-                while (I <= instanceCount)
-                {
-                    sum = 0;
-                    for (int i = 0; i < I - index; ++i)
-                    {
-                        SortedDictionary<double, int>.KeyCollection keyColl = assemblyToAnalyze[0].Results[i].Coefficient.Keys;
-                        double sumOfCoeffs = 0;
-                        foreach (double key in keyColl)
-                        {
-                            sumOfCoeffs += key * assemblyToAnalyze[0].Results[i].Coefficient[key];
-                        }
-                        sumOfCoeffs /= assemblyToAnalyze[0].Size;
-
-                        sum += sumOfCoeffs;
-                    }
-                    r.Add(I, sum / I);
-                    I += deltaI;
+                    sumOfCoeffs /= assemblyToAnalyze[i].Size;
+                    rValues.Add(j + 1, sumOfCoeffs);
                 }
             }
 
-            return r;
+            result.result.Add(AnalyseOptions.ClusteringCoefficient, r);
+            result.resultValues.Add(AnalyseOptions.ClusteringCoefficient, rValues);
         }
 
-        private SortedDictionary<double, double> FillGlobalResultDD(int I, int deltaI, int instanceCount, int previousInstanceCount)
+        private void FillGlobalResultDD()
         {
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
-            if (instanceCount <= 10 && assemblyToAnalyze.Count == 1)
+            SortedDictionary<double, double> rValues = new SortedDictionary<double,double>();
+            int delta = 10;
+            for (int i = 0; i < assemblyToAnalyze.Count; ++i)
             {
-                for (int i = 0; i < instanceCount; ++i)
+                int instanceCount = assemblyToAnalyze[i].Results.Count;
+                for (int j = 0; j < instanceCount; ++j)
                 {
-                    SortedDictionary<int, int>.KeyCollection keyColl = assemblyToAnalyze[0].Results[i].VertexDegree.Keys;
+                    SortedDictionary<int, int>.KeyCollection keyColl = 
+                        assemblyToAnalyze[i].Results[j].VertexDegree.Keys;
                     double sumOfDegrees = 0;
                     foreach (int key in keyColl)
                     {
-                        sumOfDegrees += key * assemblyToAnalyze[0].Results[i].VertexDegree[key];
+                        sumOfDegrees += key * assemblyToAnalyze[i].Results[j].VertexDegree[key];
                     }
                     sumOfDegrees /= assemblyToAnalyze[0].Size;
-                    r.Add(i + 1, sumOfDegrees);
-                }
-            }
-            else
-            {
-                int index = previousInstanceCount == -1 ? I : I - previousInstanceCount;
-                double sum = 0;
-                // хвост
-                while (I <= instanceCount)
-                {
-                    sum = 0;
-                    for (int i = 0; i < index; ++i)
-                    {
-                        SortedDictionary<int, int>.KeyCollection keyColl = assemblyToAnalyze[0].Results[i].VertexDegree.Keys;
-                        double sumOfDegrees = 0;
-                        foreach (int key in keyColl)
-                        {
-                            sumOfDegrees += key * assemblyToAnalyze[0].Results[i].VertexDegree[key];
-                        }
-                        sumOfDegrees /= assemblyToAnalyze[0].Size;
-
-                        sum += sumOfDegrees;
-                    }
-                    r.Add(I, sum / I);
-                    I += deltaI;
+                    r.Add(j + 1, sumOfDegrees);
                 }
             }
 
-            return r;
+            result.result.Add(AnalyseOptions.DegreeDistribution, r);
+            result.resultValues.Add(AnalyseOptions.DegreeDistribution, rValues);
         }
 
-        private SortedDictionary<double, double> FillGlobalResult(AnalyseOptions option, int I,
-            int deltaI, int previousInstanceCount)
+        private void FillGlobalResult(AnalyseOptions option)
         {
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
-            int iCount = assemblyToAnalyze[0].Results.Count;
-            if (iCount <= 10 && assemblyToAnalyze.Count == 1)
+            SortedDictionary<double, double> rValues = new SortedDictionary<double, double>();
+            int delta = 10;
+            for (int i = 0; i < assemblyToAnalyze.Count; ++i)
             {
-                for (int i = 0; i < iCount; ++i)
+                int instanceCount = assemblyToAnalyze[i].Results.Count;
+                for (int j = 0; j < instanceCount; ++j)
                 {
-                    r.Add(i + 1, assemblyToAnalyze[0].Results[i].Result[option]);
+                    rValues.Add(j + 1, assemblyToAnalyze[i].Results[j].Result[option]);
                 }
             }
-            else
-            {
-                int index = previousInstanceCount == -1 ? I : I - previousInstanceCount;
-                double sum = 0;
-                //
-                while (I <= iCount)
-                {
-                    sum = 0;
-                    for (int i = 0; i < index; ++i)
-                        sum += assemblyToAnalyze[0].Results[i].Result[option];
-                    r.Add(I, sum / I);                    
-                    I += deltaI;
-                }
-            }
-            return r;
+
+            result.result.Add(option, r);
+            result.resultValues.Add(option, rValues);
         }
 
         protected double GetGlobalAverage(int instanceCount, SortedDictionary<double, double> resultDictionary)
