@@ -146,6 +146,7 @@
             this.GenerationParametersGrp.TabIndex = 4;
             this.GenerationParametersGrp.TabStop = false;
             this.GenerationParametersGrp.Text = "Generation Parameters";
+            this.CommonToolTip.SetToolTip(this.GenerationParametersGrp, "Generation parameters for choosed model.");
             // 
             // ByAllJobsCheck
             // 
@@ -307,7 +308,7 @@
             this.localValueButton.Size = new System.Drawing.Size(120, 37);
             this.localValueButton.TabIndex = 39;
             this.localValueButton.Text = "Show Values";
-            this.CommonToolTip.SetToolTip(this.localValueButton, "Shows the global analyze result graphic.");
+            this.CommonToolTip.SetToolTip(this.localValueButton, "Shows the local analyze result values.");
             this.localValueButton.UseVisualStyleBackColor = true;
             this.localValueButton.Click += new System.EventHandler(this.localValueButton_Click);
             // 
@@ -324,6 +325,7 @@
             this.LocalAnalyzeOptionsGrd.Name = "LocalAnalyzeOptionsGrd";
             this.LocalAnalyzeOptionsGrd.Size = new System.Drawing.Size(383, 138);
             this.LocalAnalyzeOptionsGrd.TabIndex = 16;
+            this.CommonToolTip.SetToolTip(this.LocalAnalyzeOptionsGrd, "Global analyze options properties.");
             this.LocalAnalyzeOptionsGrd.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.LocalAnalyzeOptionsGrd_CellEndEdit);
             // 
             // PropertyNameColumn
@@ -367,6 +369,7 @@
             this.ApproximationTypeCmb.Name = "ApproximationTypeCmb";
             this.ApproximationTypeCmb.Size = new System.Drawing.Size(121, 21);
             this.ApproximationTypeCmb.TabIndex = 37;
+            this.CommonToolTip.SetToolTip(this.ApproximationTypeCmb, "Choose approximation type.");
             // 
             // LocalPropertiesList
             // 
@@ -384,6 +387,7 @@
             this.LocalPropertiesList.Name = "LocalPropertiesList";
             this.LocalPropertiesList.Size = new System.Drawing.Size(183, 139);
             this.LocalPropertiesList.TabIndex = 36;
+            this.CommonToolTip.SetToolTip(this.LocalPropertiesList, "Local analyze options.");
             this.LocalPropertiesList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.LocalPropertiesList_ItemCheck);
             // 
             // LocalDrawGraphics
@@ -440,7 +444,7 @@
             this.valueButton.Size = new System.Drawing.Size(120, 37);
             this.valueButton.TabIndex = 16;
             this.valueButton.Text = "Show Values";
-            this.CommonToolTip.SetToolTip(this.valueButton, "Shows the global analyze result graphic.");
+            this.CommonToolTip.SetToolTip(this.valueButton, "Shows the global analyze result values.");
             this.valueButton.UseVisualStyleBackColor = true;
             this.valueButton.Click += new System.EventHandler(this.valueButton_Click);
             // 
@@ -463,6 +467,7 @@
             this.GlobalPropertiesList.Name = "GlobalPropertiesList";
             this.GlobalPropertiesList.Size = new System.Drawing.Size(577, 139);
             this.GlobalPropertiesList.TabIndex = 15;
+            this.CommonToolTip.SetToolTip(this.GlobalPropertiesList, "Global analyze options.");
             // 
             // GetGlobalResult
             // 
@@ -471,7 +476,7 @@
             this.GetGlobalResult.Size = new System.Drawing.Size(120, 37);
             this.GetGlobalResult.TabIndex = 12;
             this.GetGlobalResult.Text = "Get Global Result";
-            this.CommonToolTip.SetToolTip(this.GetGlobalResult, "Shows the global analyze result graphic.");
+            this.CommonToolTip.SetToolTip(this.GetGlobalResult, "Shows the global analyze result averages.");
             this.GetGlobalResult.UseVisualStyleBackColor = true;
             this.GetGlobalResult.Click += new System.EventHandler(this.GetGlobalResult_Click);
             // 
@@ -547,6 +552,7 @@
             this.PointsCheck.Size = new System.Drawing.Size(55, 17);
             this.PointsCheck.TabIndex = 15;
             this.PointsCheck.Text = "Points";
+            this.CommonToolTip.SetToolTip(this.PointsCheck, "Line or only points.");
             this.PointsCheck.UseVisualStyleBackColor = true;
             // 
             // GraphicsGrp
@@ -561,6 +567,7 @@
             this.GraphicsGrp.TabIndex = 16;
             this.GraphicsGrp.TabStop = false;
             this.GraphicsGrp.Text = "Graphics";
+            this.CommonToolTip.SetToolTip(this.GraphicsGrp, "Settings for graphics.");
             // 
             // GroupByOptionCheck
             // 
@@ -570,6 +577,7 @@
             this.GroupByOptionCheck.Size = new System.Drawing.Size(148, 17);
             this.GroupByOptionCheck.TabIndex = 16;
             this.GroupByOptionCheck.Text = "Group Graphics by Option";
+            this.CommonToolTip.SetToolTip(this.GroupByOptionCheck, "Graphics in the one or saparate windows.");
             this.GroupByOptionCheck.UseVisualStyleBackColor = true;
             // 
             // StatisticAnalyzer
