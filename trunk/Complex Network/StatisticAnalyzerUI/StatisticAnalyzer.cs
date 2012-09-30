@@ -176,26 +176,28 @@ namespace StatisticAnalyzerUI
 
             ShowWarning(checkedOptions, stResult);
 
-            if (GroupByOptionCheck.Checked == true)
+
+            if (this.globalGraphic.isOpen)
             {
-                if (this.globalGraphic.isOpen)
+                if (GroupByOptionCheck.Checked == false)
+                {
+                    Graphic graphic = new Graphic(stResult, (Color)this.CurveLineCmb.SelectedItem,
+                        !PointsCheck.Checked, null);
+                    graphic.Show();
+                }
+
+                else
                 {
                     this.globalGraphic.graphic.Add(stResult, (Color)this.CurveLineCmb.SelectedItem, !PointsCheck.Checked);
                 }
-                else
-                {
-                    this.globalGraphic.isOpen = true;
-                    this.globalGraphic.graphic = new Graphic(stResult, (Color)this.CurveLineCmb.SelectedItem,
-                        !PointsCheck.Checked, this.globalGraphic);
-                    this.globalGraphic.graphic.Show();
-                }
             }
-            
+
             else
             {
-                Graphic graphic = new Graphic(stResult, (Color)this.CurveLineCmb.SelectedItem,
-                        !PointsCheck.Checked, null);
-                graphic.Show();
+                this.globalGraphic.isOpen = true;
+                this.globalGraphic.graphic = new Graphic(stResult, (Color)this.CurveLineCmb.SelectedItem,
+                        !PointsCheck.Checked, this.globalGraphic);
+                this.globalGraphic.graphic.Show();
             }
         }
 
@@ -254,33 +256,33 @@ namespace StatisticAnalyzerUI
 
             ShowWarning(checkedOptions, result);
 
-            if (GroupByOptionCheck.Checked == true)
+            if (this.localGraphic.isOpen)
             {
-                if (this.localGraphic.isOpen)
+                if (result.approximationType != this.localGraphic.graphic.GetApproximation())
                 {
-                    if (result.approximationType != this.localGraphic.graphic.GetApproximation())
-                    {
-                        MessageBox.Show("Approximation types don't match!", "Error");
-                        return;
-                    }
+                    MessageBox.Show("Approximation types don't match!", "Error");
+                    return;
+                }
 
-                    this.localGraphic.graphic.Add(result, (Color)this.CurveLineCmb.SelectedItem, !PointsCheck.Checked);
+                if (GroupByOptionCheck.Checked == false)
+                {
+                    Graphic graphic = new Graphic(result, (Color)this.CurveLineCmb.SelectedItem,
+                                    !PointsCheck.Checked, null);
+                    graphic.Show();
                 }
 
                 else
                 {
-                    this.localGraphic.isOpen = true;
-                    this.localGraphic.graphic = new Graphic(result, (Color)this.CurveLineCmb.SelectedItem,
-                        !PointsCheck.Checked, this.localGraphic);
-                    this.localGraphic.graphic.Show();
+                    this.localGraphic.graphic.Add(result, (Color)this.CurveLineCmb.SelectedItem, !PointsCheck.Checked);
                 }
             }
 
             else
             {
-                Graphic graphic = new Graphic(result, (Color)this.CurveLineCmb.SelectedItem,
-                                    !PointsCheck.Checked, null);
-                graphic.Show();
+                this.localGraphic.isOpen = true;
+                this.localGraphic.graphic = new Graphic(result, (Color)this.CurveLineCmb.SelectedItem,
+                    !PointsCheck.Checked, this.localGraphic);
+                this.localGraphic.graphic.Show();
             }
             
         }
