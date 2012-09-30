@@ -72,10 +72,10 @@ namespace ResultStorage.Storage
                         writer.WriteAttributeString("value", assembly.GenerationParams[genParameter].ToString());
                         writer.WriteEndElement();
                     }
-                    writer.WriteEndElement();
                 }
-                writer.WriteStartElement("analyseresults");
+                writer.WriteEndElement();
 
+                writer.WriteStartElement("analyseresults");
                 foreach (AnalizeResult result in assembly.Results)
                 {
                     writer.WriteStartElement("instance");

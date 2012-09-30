@@ -231,8 +231,17 @@ namespace StatisticAnalyzerUI
             StAnalyzer analyzer = new StAnalyzer(GetAssembliesToAnalyze());
             List<AnalyseOptions> checkedOptions = GetCheckedOptionsGlobal(analyzer);
             analyzer.GlobalAnalyze();
+            if (analyzer.Result.result.Keys.Count == 0)
+            {
+                MessageBox.Show("There are no results!");
+                return;
+            }
+            StAnalyzeResult result = analyzer.Result;
 
             ShowWarning(checkedOptions, analyzer.Result);
+
+            Averages averagesWnd = new Averages(result);
+            averagesWnd.Show();
         }
 
         private void LocalDrawGraphics_Click(object sender, EventArgs e)
