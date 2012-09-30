@@ -176,7 +176,7 @@ namespace StatisticAnalyzerUI
 
             ShowWarning(checkedOptions, stResult);
 
-            if (GroupByOptionCheck.Checked == false)
+            if (GroupByOptionCheck.Checked == true)
             {
                 if (this.globalGraphic.isOpen)
                 {
@@ -254,7 +254,7 @@ namespace StatisticAnalyzerUI
 
             ShowWarning(checkedOptions, result);
 
-            if (GroupByOptionCheck.Checked == false)
+            if (GroupByOptionCheck.Checked == true)
             {
                 if (this.localGraphic.isOpen)
                 {

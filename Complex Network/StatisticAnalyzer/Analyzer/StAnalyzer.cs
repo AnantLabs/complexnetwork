@@ -11,14 +11,20 @@ using RandomGraph.Common.Model;
 
 namespace StatisticAnalyzer.Analyzer
 {
+    // Статистический анализатор.
     public class StAnalyzer
     {
+        // Список сборок для анализа. Число сборок больше 1, если анализ по параметрам и byAllJobs.
         private List<ResultAssembly> assemblyToAnalyze;
-        private Dictionary<AnalyseOptions, StAnalyzeOptions> analyzeOptions;
-        private StAnalyzeResult result;
-
+        // Дополнительные параметры анализа для каждого свойства (только для локального анализа).
+        private Dictionary<AnalyseOptions, StAnalyzeOptions> analyzeOptions;        
+        // Свойства, которые нужно анализировать.
         public AnalyseOptions options = AnalyseOptions.None;
 
+        // Результат статистического анализа.
+        private StAnalyzeResult result;
+
+        // Конструктор, который получает список сборок для анализа.
         public StAnalyzer(List<ResultAssembly> assembly)
         {
             if (assembly.Count != 0)
@@ -36,6 +42,8 @@ namespace StatisticAnalyzer.Analyzer
                 throw new SystemException("There are no assemblies.");
         }
 
+        // Свойства.
+
         public Dictionary<AnalyseOptions, StAnalyzeOptions> AnalyzeOptions
         {
             set 
@@ -50,6 +58,9 @@ namespace StatisticAnalyzer.Analyzer
             get { return result; }
         }
 
+        // Открытая часть статистического анализа.
+
+        // Глобальный анализ.
         public void GlobalAnalyze()
         {
             if ((options & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
@@ -74,6 +85,7 @@ namespace StatisticAnalyzer.Analyzer
                 GlobalAnalyzeByOption(AnalyseOptions.MaxEigenValue);
         }
 
+        // Локальный анализ.
         public void LocalAnalyze()
         {
             if ((options & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
@@ -184,7 +196,7 @@ namespace StatisticAnalyzer.Analyzer
                         }
                 }
 
-                result.result.Add(option, GetLocalResult(option, tempResult, GetRealizationsCount()));
+                result.result.Add(option, GetLocalResult(option, tempResult));
             }
         }
         
@@ -208,34 +220,6 @@ namespace StatisticAnalyzer.Analyzer
                     return assemblyToAnalyze[0].Results[0].Cycles.Count != 0;
                 default:
                     return assemblyToAnalyze[0].Results[0].Result.Keys.Contains(option);
-            }
-        }
-
-        private SortedDictionary<double, double> LocalCases(AnalyseOptions option, int i,
-            int initialInstance)
-        {
-            switch (option)
-            {
-                case AnalyseOptions.ClusteringCoefficient:
-                    {
-                        return FillLocalResultCC();
-                    }
-                case AnalyseOptions.EigenValue:
-                    {
-                        return FillLocalResultEigen();
-                    }
-                case AnalyseOptions.DistEigenPath:
-                    {
-                        return FillLocalResultEigenDistance();
-                    }
-                case AnalyseOptions.Cycles:
-                    {
-                        return FillLocalResultCycles();
-                    }
-                default:
-                    {
-                        return FillLocalResult(option);
-                    }
             }
         }
 
@@ -355,15 +339,23 @@ namespace StatisticAnalyzer.Analyzer
         private SortedDictionary<double, double> FillLocalResultCC()
         {
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
-            /*SortedDictionary<double, int> CCDictionary = assemblyToAnalyze[0].Results[i - initialInstance].Coefficient;
-            SortedDictionary<double, int>.KeyCollection keyColl = CCDictionary.Keys;
-            foreach (double key in keyColl)
+            for (int i = 0; i < assemblyToAnalyze.Count(); ++i)
             {
-                if (r.Keys.Contains(key))
-                    r[key] += CCDictionary[key];
-                else
-                    r.Add(key, CCDictionary[key]);
-            }*/
+                int instanceCount = assemblyToAnalyze[i].Results.Count;
+                for (int j = 0; j < instanceCount; ++j)
+                {
+                    SortedDictionary<double, int> CCDictionary = 
+                        assemblyToAnalyze[i].Results[j].Coefficient;
+                    SortedDictionary<double, int>.KeyCollection keyColl = CCDictionary.Keys;
+                    foreach (double key in keyColl)
+                    {
+                        if (r.Keys.Contains(key))
+                            r[key] += CCDictionary[key];
+                        else
+                            r.Add(key, CCDictionary[key]);
+                    }
+                }
+            }
 
             return r;
         }
@@ -384,13 +376,21 @@ namespace StatisticAnalyzer.Analyzer
         private SortedDictionary<double, double> FillLocalResultEigenDistance()
         {
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
-            /*SortedDictionary<double, int> EDDictionary = assemblyToAnalyze[0].Results[i - initialInstance].DistancesBetweenEigenValues;
-            SortedDictionary<double, int>.KeyCollection keyCol = EDDictionary.Keys;
-            foreach (double key in keyCol)
-                if (r.Keys.Contains(key))
-                    r[key] += (double)EDDictionary[key] / EDDictionary.Count;
-                else
-                    r.Add(key, (double)EDDictionary[key] / EDDictionary.Count);*/
+            for (int i = 0; i < assemblyToAnalyze.Count(); ++i)
+            {
+                int instanceCount = assemblyToAnalyze[i].Results.Count;
+                for (int j = 0; j < instanceCount; ++j)
+                {
+                    SortedDictionary<double, int> EDDictionary = 
+                        assemblyToAnalyze[i].Results[j].DistancesBetweenEigenValues;
+                    SortedDictionary<double, int>.KeyCollection keyCol = EDDictionary.Keys;
+                    foreach (double key in keyCol)
+                        if (r.Keys.Contains(key))
+                            r[key] += (double)EDDictionary[key] / EDDictionary.Count;
+                        else
+                            r.Add(key, (double)EDDictionary[key] / EDDictionary.Count);
+                }
+            }
 
             return r;
 
@@ -419,73 +419,83 @@ namespace StatisticAnalyzer.Analyzer
         private SortedDictionary<double, double> FillLocalResultCycles()
         {
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
-            /*SortedDictionary<int, long> tempDictionary = assemblyToAnalyze[0].Results[i - initialInstance].Cycles;
-
-            SortedDictionary<int, long>.KeyCollection keyColl = tempDictionary.Keys;
-            int size = assemblyToAnalyze[0].Size;
-
-            foreach (int key in keyColl)
+            for (int i = 0; i < assemblyToAnalyze.Count(); ++i)
             {
-                if (r.Keys.Contains(key))
-                    r[key] += (double)tempDictionary[key] / size;
-                else
-                    r.Add(key, (double)tempDictionary[key] / size);
-            }*/
-
+                int size = assemblyToAnalyze[i].Size;
+                int instanceCount  = assemblyToAnalyze[i].Results.Count();
+                for (int j = 0; j < instanceCount; ++j)
+                {
+                    SortedDictionary<int, long> tempDictionary = assemblyToAnalyze[i].Results[j].Cycles;
+                    SortedDictionary<int, long>.KeyCollection keyColl = tempDictionary.Keys;
+                    foreach (int key in keyColl)
+                    {
+                        if (r.Keys.Contains(key))
+                            r[key] += (double)tempDictionary[key] / size;
+                        else
+                            r.Add(key, (double)tempDictionary[key] / size);
+                    }
+                }
+            }
+            
             return r;
         }
 
         protected SortedDictionary<double, double> FillLocalResult(AnalyseOptions option)
         {
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
-            SortedDictionary<int, int> tempDictionary = new SortedDictionary<int, int>();
-
-            /*switch (option)
+            SortedDictionary<int, int> tempDictionary;
+            for (int i = 0; i < assemblyToAnalyze.Count(); ++i)
             {
-                case AnalyseOptions.DegreeDistribution:
+                int size = assemblyToAnalyze[i].Size;
+                int instanceCount = assemblyToAnalyze[i].Results.Count();
+                for (int j = 0; j < instanceCount; ++j)
+                {
+                    switch (option)
                     {
-                        tempDictionary = assemblyToAnalyze[0].Results[i - initialInstance].VertexDegree;
-                        break;
+                        case AnalyseOptions.DegreeDistribution:
+                            {
+                                tempDictionary = assemblyToAnalyze[i].Results[j].VertexDegree;
+                                break;
+                            }
+                        case AnalyseOptions.ConnSubGraph:
+                            {
+                                tempDictionary = assemblyToAnalyze[i].Results[j].Subgraphs;
+                                break;
+                            }
+                        case AnalyseOptions.MinPathDist:
+                            {
+                                tempDictionary = assemblyToAnalyze[i].Results[j].DistanceBetweenVertices;
+                                break;
+                            }
+                        default:
+                            {
+                                throw(new SystemException("Unknown analyze option."));
+                            }
                     }
-                case AnalyseOptions.ConnSubGraph:
+                    
+                    SortedDictionary<int, int>.KeyCollection keyColl = tempDictionary.Keys;
+                    int div = (option == AnalyseOptions.MinPathDist) ? (size * (size - 1) / 2) : size;
+                    foreach (int key in keyColl)
                     {
-                        tempDictionary = assemblyToAnalyze[0].Results[i - initialInstance].Subgraphs;
-                        break;
+                        if (r.Keys.Contains(key))
+                            r[key] += (double)tempDictionary[key] / div;
+                        else
+                            r.Add(key, (double)tempDictionary[key] / div);
                     }
-                case AnalyseOptions.MinPathDist:
-                    {
-                        tempDictionary = assemblyToAnalyze[0].Results[i - initialInstance].DistanceBetweenVertices;
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
+                }
             }
-
-            SortedDictionary<int, int>.KeyCollection keyColl = tempDictionary.Keys;
-            int size = assemblyToAnalyze[0].Size;
-            int div = (option == AnalyseOptions.MinPathDist) ? (size * (size - 1) / 2) : size;
-
-            foreach (int key in keyColl)
-            {
-                if (r.Keys.Contains(key))
-                    r[key] += (double)tempDictionary[key] / div;
-                else
-                    r.Add(key, (double)tempDictionary[key] / div);
-            }*/
-
+            
             return r;
         }
 
-        protected SortedDictionary<double, double> GetLocalResult(AnalyseOptions option,
-            SortedDictionary<double, double> t, int instanceCount)
+        private SortedDictionary<double, double> GetLocalResult(AnalyseOptions option, 
+            SortedDictionary<double, double> t)
         {
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
             SortedDictionary<double, double>.KeyCollection keys = t.Keys;
             foreach (double key in keys)
             {
-                r.Add(key, t[key] / instanceCount);
+                r.Add(key, t[key] / GetRealizationsCount());
             }
 
             FillMathWaitingsAndDispersions(r, option);
