@@ -121,7 +121,14 @@ namespace StatisticAnalyzerUI
             SortedDictionary<double, double> pointsDictionary;
             double x, y;
 
-            this.currentResult.resultValues.TryGetValue(this.currentOption, out pointsDictionary);
+            if (this.currentResult.type == StAnalyzeType.Global)
+            {
+                this.currentResult.resultValues.TryGetValue(this.currentOption, out pointsDictionary);
+            }
+            else
+            {
+                this.currentResult.result.TryGetValue(this.currentOption, out pointsDictionary);
+            }
             foreach (KeyValuePair<double, double> point in pointsDictionary)
             {
                 x = point.Key;
