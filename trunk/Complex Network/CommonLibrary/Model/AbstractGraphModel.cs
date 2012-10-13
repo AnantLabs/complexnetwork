@@ -137,6 +137,7 @@ namespace RandomGraph.Common.Model
 
             analyzer.Container = generator.Container;
 
+            Result.graphSize = analyzer.Container.Size;
             try
             {
                 if ((AnalyzeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
@@ -233,8 +234,6 @@ namespace RandomGraph.Common.Model
                     InvokeProgressEvent(GraphProgress.Analizing, 90, "Motiv of " + minvalue + "-" + maxValue + "degree");
                     Result.MotivesCount = analyzer.GetMotivs(minvalue, maxValue);
                 }
-
-                Result.graphSize = analyzer.Container.Size;
 
                 InvokeProgressEvent(GraphProgress.AnalizingDone, 95);
 
