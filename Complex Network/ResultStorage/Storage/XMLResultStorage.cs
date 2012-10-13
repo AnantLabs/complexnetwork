@@ -440,6 +440,7 @@ namespace ResultStorage.Storage
             }
             return resultAssembly;
         }
+
         public override List<ResultAssembly> LoadAllAssemblies()
         {
             List<ResultAssembly> assemblies = new List<ResultAssembly>();
@@ -451,30 +452,37 @@ namespace ResultStorage.Storage
                 assemblies.Add(assembly);
                 using (XmlTextReader reader = new XmlTextReader(file))
                 {
-
-                    reader.WhitespaceHandling = WhitespaceHandling.None;
-                    while (reader.Read())
+                    try // exception handling
                     {
-                        if (reader.NodeType == XmlNodeType.Element)
+                        reader.WhitespaceHandling = WhitespaceHandling.None;
+                        while (reader.Read())
                         {
-                            if (reader.Name == "id")
+                            if (reader.NodeType == XmlNodeType.Element)
                             {
-                                assembly.ID = new Guid(reader.ReadElementString());
-                            }
-                            if (reader.Name == "name")
-                            {
-                                assembly.Name = reader.ReadElementString();
-                            }
-                            if (reader.Name == "graphmodel")
-                            {
-                                reader.MoveToAttribute("modelname");
-                                assembly.ModelName = reader.ReadContentAsString();
-                                break;
+                                if (reader.Name == "id")
+                                {
+                                    assembly.ID = new Guid(reader.ReadElementString());
+                                }
+                                if (reader.Name == "name")
+                                {
+                                    assembly.Name = reader.ReadElementString();
+                                }
+                                if (reader.Name == "graphmodel")
+                                {
+                                    reader.MoveToAttribute("modelname");
+                                    assembly.ModelName = reader.ReadContentAsString();
+                                    break;
+                                }
                             }
                         }
                     }
+                    catch (SystemException)
+                    {
+                        continue;
+                    }
                 }
             }
+
             return assemblies;
         }
 
