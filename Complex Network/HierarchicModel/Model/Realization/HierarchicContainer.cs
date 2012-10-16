@@ -500,37 +500,34 @@ namespace Model.HierarchicModel.Realization
         /// <param name="vertex1"></param>
         /// <param name="vertex2"></param>
         /// <returns></returns>
-        private int this[int vertex1, int vertex2]
+        private int this[int v1, int v2]
         {
             get
             {
-                if (vertex1 == vertex2)
-                {
+                if (v1 == v2)
                     return 0;
-                }
-                else
+                if (v1 > v2)
                 {
-                    int rm1, rm2;
-                    int prevNum = 0;
-
-                    for (int i = 1; i <= level; i++)
-                    {
-                        rm1 = Convert.ToInt32(Math.Floor(vertex1 / Math.Pow(branchIndex, level - i)));
-                        rm2 = Convert.ToInt32(Math.Floor(vertex2 / Math.Pow(branchIndex, level - i)));
-
-                        if (rm1 != rm2)
-                        {
-                            var tempInd = AdjacentIndex(rm1, rm2);
-                            // !Исправить!
-                            if (tempInd < 0)
-                                return 0;
-                            // !Исправить!
-                            return Convert.ToInt32(TreeNode(i - 1, prevNum)[tempInd]);
-                        }
-                        prevNum = rm1;
-                    }
+                    int temp = v1;
+                    v1 = v2;
+                    v2 = temp;
                 }
-                return 0;
+
+                int currentLevel = level - 1;
+                int numberOfGroup1 = Convert.ToInt32(v1 / branchIndex);
+                int numberOfGroup2 = Convert.ToInt32(v2 / branchIndex);
+                while (numberOfGroup1 != numberOfGroup2)
+                {
+                    v1 = numberOfGroup1;
+                    v2 = numberOfGroup2;
+                    numberOfGroup1 = Convert.ToInt32(numberOfGroup1 / branchIndex);
+                    numberOfGroup2 = Convert.ToInt32(numberOfGroup2 / branchIndex);
+                    --currentLevel;
+                }
+
+                BitArray currentNode = TreeNode(currentLevel, numberOfGroup1);
+                int index = AdjacentIndex(v1 % branchIndex, v2 % branchIndex);
+                return Convert.ToInt32(currentNode[index]);
             }
         }
 
@@ -540,26 +537,19 @@ namespace Model.HierarchicModel.Realization
         /// <param name="vert1"></param>
         /// <param name="vert2"></param>
         /// <returns></returns>
-        private int AdjacentIndex(int vert1, int vert2)
+        private int AdjacentIndex(int v1, int v2)
         {
-            if (vert1 == vert2)
+            if (v1 == v2)
             {
                 return 0;
             }
-            else if (vert2 > vert1)
-            {
-                int tempVert = vert2;
-                vert2 = vert1;
-                vert1 = tempVert;
-            }
-            vert1++;
-            vert2++;
             int tempInd = 0;
-            for (int i = 1; i < vert1; i++)
+            for (int i = 1; i <= v1; i++)
             {
-                tempInd += (branchIndex - vert1);
+                tempInd += (branchIndex - i);
             }
-            tempInd += vert2 - vert1;
+            --tempInd;
+            tempInd += v2 - v1;
 
             return tempInd;
         }
