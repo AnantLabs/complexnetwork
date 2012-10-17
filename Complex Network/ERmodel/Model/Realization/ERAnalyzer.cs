@@ -107,9 +107,20 @@ namespace Model.ERModel.Realization
         {
             log.Info("Getting eigen values array.");
 
-            Algorithms.EigenValue ev = new EigenValue();
             bool[,] m = container.GetMatrix();
-            return ev.EV(m);
+
+            EigenValueUtils eg = new EigenValueUtils();
+
+            try
+            {
+                return eg.CalculateEigenValue(m);
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                return new ArrayList();
+            }
         }
 
         // Возвращается распределение длин между собственными значениями. Реализовано.
@@ -117,10 +128,22 @@ namespace Model.ERModel.Realization
         {
             log.Info("Getting distances between eigen values.");
 
-            Algorithms.EigenValue ev = new EigenValue();
             bool[,] m = container.GetMatrix();
-            ev.EV(m);
-            return ev.CalcEigenValuesDist();
+
+            EigenValueUtils eg = new EigenValueUtils();
+            
+            try
+            {
+                eg.CalculateEigenValue(m);
+                return eg.CalcEigenValuesDist();
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                return new SortedDictionary<double, int>();
+            }
+            
         }
         
         // Возвращается степенное распределение графа. Реализовано.

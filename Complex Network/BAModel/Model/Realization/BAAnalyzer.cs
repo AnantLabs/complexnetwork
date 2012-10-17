@@ -106,13 +106,10 @@ namespace Model.BAModel.Realization
             log.Info("Getting eigen values array.");
             bool[,] m = container.GetMatrix();
 
-            EigenValueForBA eg = new EigenValueForBA();
-           
-
+            EigenValueUtils eg = new EigenValueUtils();
+            
             try
             {
-
-
                 return eg.CalculateEigenValue(m);
 
             }
@@ -130,7 +127,7 @@ namespace Model.BAModel.Realization
 
             bool[,] m = container.GetMatrix();
 
-            EigenValueForBA eg = new EigenValueForBA();
+            EigenValueUtils eg = new EigenValueUtils();
 
 
             try
