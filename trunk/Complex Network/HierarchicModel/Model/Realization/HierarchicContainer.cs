@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using CommonLibrary.Model;
+using ModelCheck;
 using log4net;
 
 namespace Model.HierarchicModel.Realization
@@ -55,54 +56,29 @@ namespace Model.HierarchicModel.Realization
         // Строится граф на основе матрицы смежности.
         public void SetMatrix(ArrayList matrix)
         {
-            log.Info("Creating HierarchicContainer object from given matrix.");
-            // !Нужна реализация!
-            /*// matricic stanal toxeri p-akner
-            Dictionary<int, ArrayList> rows = new Dictionary<int, ArrayList>();
-            int index = 0;
+            log.Info("Checking if given matrix is block-hierarchic.");
+            List<List<bool>> matrixInList = new List<List<bool>>();
+
+            ArrayList arr;
             for (int i = 0; i < matrix.Count; ++i)
             {
-                ArrayList a = new ArrayList();
-                while (i < branchIndex)
-                {
-                    a.Add((ArrayList)matrix[i]);
-                }
-                rows[index].Add(a);
-                ++index;
+                arr = (ArrayList)matrix[i];
+                matrixInList.Add(new List<bool>());
+                for(int j = 0; j < arr.Count - 1; ++j)
+                    matrixInList[i].Add((bool)arr[j]);
             }
 
-            //for every level create datas, started with root
-            for (int i = level; i > 0; i--)
+            HierarchicExactChecker checker = new HierarchicExactChecker();
+            if (!checker.IsHierarchic(matrixInList))
             {
-                //get current level data length and bitArrays count
-                int nodeDataLength = (branchIndex - 1) * branchIndex / 2;
-                long dataLength = Convert.ToInt64(Math.Pow(branchIndex, level - i) * nodeDataLength);
-                int arrCount = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(dataLength) / ARRAY_MAX_SIZE));
-
-                treeMatrix[level - i] = new BitArray[arrCount];
-                int j;
-                for (j = 0; j < arrCount - 1; j++)
-                {
-                    treeMatrix[level - i][j] = new BitArray(ARRAY_MAX_SIZE);
-                }
-                treeMatrix[level - i][j] = new BitArray(Convert.ToInt32(dataLength - (arrCount - 1) * ARRAY_MAX_SIZE));
-
-                //fill data for current level nodes
-                ArrayList levelFori = new ArrayList();
-                Dictionary<int, ArrayList>.KeyCollection keys = rows.Keys;
-                foreach (int k in keys)
-                {
-                    int firstIndex = (int)Math.Pow(branchIndex, level - i) + 1;
-                    for (; firstIndex < rows[k].Count; ++firstIndex)
-                    {
-                        for (int c = 1; c < rows[k].Count; c += branchIndex)
-                        {
-                            if (firstIndex != j)
-                                levelFori.Add(rows[k][c]);
-                        }
-                    }
-                }
-            }*/
+                log.Info("Given matrix is not block-hierarchic.");
+                throw new SystemException("Not correct matrix.");
+            }
+            else
+            {
+                log.Info("Given matrix is block-hierarchic.");
+                log.Info("Creating HierarchicContainer object from given matrix.");
+            }
         }
 
         // Возвращается матрица смежности, соответсвующая графу.
