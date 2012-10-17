@@ -42,6 +42,13 @@ namespace Model.HierarchicModel
             InitModel();
         }
 
+        public HierarchicModel(ArrayList matrix, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+            : base(matrix, options, analizeOptionsValues)
+        {
+            log.Info("Creating Block-Hierarchic object from matrix.");
+            InitModel();
+        }
+
         public override AbstractGraphModel Clone()
         {
             AbstractGraphModel model = new HierarchicModel(this.GenerationParamValues,
