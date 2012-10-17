@@ -57,8 +57,9 @@ namespace Model.HierarchicModel.Realization
         public void SetMatrix(ArrayList matrix)
         {
             log.Info("Checking if given matrix is block-hierarchic.");
-            List<List<bool>> matrixInList = new List<List<bool>>();
 
+            // проверка на правильность входной матрицы (она должна быть иерархической)
+            List<List<bool>> matrixInList = new List<List<bool>>();
             ArrayList arr;
             for (int i = 0; i < matrix.Count; ++i)
             {
@@ -77,7 +78,40 @@ namespace Model.HierarchicModel.Realization
             else
             {
                 log.Info("Given matrix is block-hierarchic.");
+                int p = 3, k = 3;   // !должна получить из части Оганеса!
+
+                branchIndex = p;
+                level = k;
+
                 log.Info("Creating HierarchicContainer object from given matrix.");
+                treeMatrix = new BitArray[level][];
+
+                // for every level create datas, started with root
+                for (int i = level; i > 0; i--)
+                {
+                    // get current level data length and bitArrays count
+                    int nodeDataLength = (branchIndex - 1) * branchIndex / 2;
+                    long dataLength = Convert.ToInt64(Math.Pow(branchIndex, level - i) * nodeDataLength);
+                    int arrCount = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(dataLength) / ARRAY_MAX_SIZE));
+
+                    treeMatrix[level - i] = new BitArray[arrCount];
+                    int j;
+                    for (j = 0; j < arrCount - 1; j++)
+                    {
+                        treeMatrix[level - i][j] = new BitArray(ARRAY_MAX_SIZE);
+                    }
+                    treeMatrix[level - i][j] = new BitArray(Convert.ToInt32(dataLength - (arrCount - 1) * ARRAY_MAX_SIZE));
+
+                    // genereates data for current level nodes
+                    // loop over all elements of given level and generate him values
+                    for (int f = 0; f < treeMatrix[level - i].Length; f++)
+                    {
+                        for (int g = 0; g < treeMatrix[level - i][f].Length; g++)
+                        {
+                            treeMatrix[level - i][f][g] = GetConnectionValueFromMatrix(matrixInList, level - i, f, g);
+                        }
+                    }
+                }
             }
         }
 
@@ -100,19 +134,24 @@ namespace Model.HierarchicModel.Realization
 
         // Методы не из общего интерфейса.    
 
-        /// <summary>
-        /// Возвращает матрицу смежности для узла, как одну строку.
-        /// </summary>
-        /// <param name="level"></param>
-        /// <param name="number"></param>
-        /// <returns></returns>
-        public BitArray TreeNode(int level, long number)
+        // Возвращает последовательность 0/1 длиной p*(p-1)/2, которой отмечен данный узел дерева.
+        // Узел определяется номером уровня l (из диапазоне [0, k-1])
+        // и номером узла на данном уровне (из диапазона [0, pow(p,l) - 1]).
+        public BitArray TreeNode(int l, long n)
         {
-            BitArray tempNode = new BitArray(branchIndex * (branchIndex - 1) / 2);
-            long i = number * branchIndex * (branchIndex - 1) / 2;
+            // проверка параметров на правильность
+            if (l < 0 || l >= level)
+                throw new SystemException("Wrong parameter (number of level).");
+            if (n < 0 || n >= Math.Pow(branchIndex, l))
+                throw new SystemException("Wrong parameter (number of node).");
+
+            int resultSize = branchIndex * (branchIndex - 1) / 2;
+            BitArray result = new BitArray(resultSize);
+
+            long i = n * resultSize;
             int ind = Convert.ToInt32(Math.Floor(Convert.ToDouble(i / ARRAY_MAX_SIZE)));
             int rangeSt = Convert.ToInt32(i - ind * ARRAY_MAX_SIZE);
-            int rangeEnd = rangeSt + branchIndex * (branchIndex - 1) / 2;
+            int rangeEnd = rangeSt + resultSize;
             int secArray = 0;
 
             if (rangeEnd > ARRAY_MAX_SIZE)
@@ -120,32 +159,36 @@ namespace Model.HierarchicModel.Realization
                 secArray = rangeEnd - ARRAY_MAX_SIZE;
                 rangeEnd = ARRAY_MAX_SIZE - 1;
             }
+
             int counter = 0;
             for (int j = rangeSt; j < rangeEnd; j++)
             {
-                tempNode[counter] = treeMatrix[level][ind][j];
+                result[counter] = treeMatrix[l][ind][j];
                 counter++;
             }
 
             for (int j = 0; j < secArray; j++)
             {
-                tempNode[counter] = treeMatrix[level][ind + 1][j];
+                result[counter] = treeMatrix[l][ind + 1][j];
                 counter++;
             }
 
-            return tempNode;
+            return result;
         }
 
-        /// <summary>
-        /// Возвращает матрицу смежности для узла.
-        /// </summary>
-        /// <param name="level"></param>
-        /// <param name="number"></param>
-        /// <returns></returns>
-        public int[,] NodeMatrix(int level, long number)
+        // Возвращает матрицу 0/1 размером p Х p, которая определяет связность данного узла дерева.
+        // Узел определяется номером уровня l (из диапазоне [0, k-1])
+        // и номером узла на данном уровне (из диапазона [0, pow(p,l) - 1]).
+        public int[,] NodeMatrix(int l, long n)
         {
-            int[,] tempNode = new int[branchIndex, branchIndex];
-            long i = number * branchIndex * (branchIndex - 1) / 2;
+            // проверка параметров на правильность
+            if (l < 0 || l >= level)
+                throw new SystemException("Wrong parameter (number of level).");
+            if (n < 0 || n >= Math.Pow(branchIndex, l))
+                throw new SystemException("Wrong parameter (number of node).");
+
+            int[,] result = new int[branchIndex, branchIndex];
+            long i = n * branchIndex * (branchIndex - 1) / 2;
             int ind = Convert.ToInt32(Math.Floor(Convert.ToDouble(i / ARRAY_MAX_SIZE)));
             int rangeSt = Convert.ToInt32(i - ind * ARRAY_MAX_SIZE);
             int rangeEnd = rangeSt + branchIndex * (branchIndex - 1) / 2;
@@ -160,8 +203,8 @@ namespace Model.HierarchicModel.Realization
             int counterY = 0;
             for (int j = rangeSt; j < rangeEnd; j++)
             {
-                tempNode[counterX, counterY] = (treeMatrix[level][ind][j] ? 1 : 0);
-                tempNode[counterY, counterX] = (treeMatrix[level][ind][j] ? 1 : 0);
+                result[counterX, counterY] = (treeMatrix[l][ind][j] ? 1 : 0);
+                result[counterY, counterX] = (treeMatrix[l][ind][j] ? 1 : 0);
                 counterX++;
                 if (counterX == branchIndex)
                 {
@@ -172,8 +215,8 @@ namespace Model.HierarchicModel.Realization
 
             for (int j = 0; j < secArray; j++)
             {
-                tempNode[counterX, counterY] = (treeMatrix[level][ind + 1][j] ? 1 : 0);
-                tempNode[counterY, counterX] = (treeMatrix[level][ind + 1][j] ? 1 : 0);
+                result[counterX, counterY] = (treeMatrix[l][ind + 1][j] ? 1 : 0);
+                result[counterY, counterX] = (treeMatrix[l][ind + 1][j] ? 1 : 0);
                 counterX++;
                 if (counterX == branchIndex)
                 {
@@ -182,7 +225,7 @@ namespace Model.HierarchicModel.Realization
                 }
             }
 
-            return tempNode;
+            return result;
         }
 
         /// <summary>
@@ -470,12 +513,8 @@ namespace Model.HierarchicModel.Realization
 
         // Закрытая часть класса (не из общего интерфейса).
 
-        /// <summary>
-        /// Возвращает 1, если данные вершины соединены, и 0 - в обратном случае.
-        /// </summary>
-        /// <param name="vertex1"></param>
-        /// <param name="vertex2"></param>
-        /// <returns></returns>
+        // Возвращает 1, если данные вершины соединены, и 0 - в обратном случае.
+        // Номера вершин задаются из диапазона [0, pow(p,k) - 1].
         private int this[int v1, int v2]
         {
             get
@@ -484,12 +523,12 @@ namespace Model.HierarchicModel.Realization
                     return 0;
                 if (v1 > v2)
                 {
-                    int temp = v1;
-                    v1 = v2;
-                    v2 = temp;
+                    return this[v2, v1];
                 }
 
                 int currentLevel = level - 1;
+                // проверка на принадлежение к одному поддереву (для данных вершин)
+                // поднимаемся по уровням до того уровна, где они будут принадлежать одному поддереву
                 int numberOfGroup1 = Convert.ToInt32(v1 / branchIndex);
                 int numberOfGroup2 = Convert.ToInt32(v2 / branchIndex);
                 while (numberOfGroup1 != numberOfGroup2)
@@ -507,27 +546,31 @@ namespace Model.HierarchicModel.Realization
             }
         }
 
-        /// <summary>
-        /// Возвращает вершину, где данные вершины связываются.
-        /// </summary>
-        /// <param name="vert1"></param>
-        /// <param name="vert2"></param>
-        /// <returns></returns>
+        // Возвращает индекс того бита (в соответствующей битовой последовательности), 
+        // который определяет связность данных узлов.
+        // Номера узлов задаются из диапазона [0, p-1]. 
         private int AdjacentIndex(int v1, int v2)
         {
             if (v1 == v2)
             {
                 return 0;
             }
-            int tempInd = 0;
+
+            int result = 0;
             for (int i = 1; i <= v1; i++)
             {
-                tempInd += (branchIndex - i);
+                result += (branchIndex - i);
             }
-            --tempInd;
-            tempInd += v2 - v1;
+            --result;
+            result += v2 - v1;
 
-            return tempInd;
+            return result;
+        }
+
+        //
+        private bool GetConnectionValueFromMatrix(List<List<bool>> matrix, int l, int f, int g)
+        {
+            return true;
         }
 
         // Вывод иерархического дерева (рекурсивно). Не используется.
