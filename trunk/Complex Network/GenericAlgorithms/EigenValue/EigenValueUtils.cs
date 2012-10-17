@@ -80,6 +80,7 @@ namespace Algorithms
 
             return eigenValue;
         }
+
         public SortedDictionary<double, int> CalcEigenValuesDist()
         {
             var  dist = new List<double>();
