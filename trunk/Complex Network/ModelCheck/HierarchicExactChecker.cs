@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -52,11 +53,20 @@ namespace ModelCheck
             {
                 if (isHierarchic(prime))
                 {
+                    BranchIndex = prime;
+                    Level = Convert.ToInt32(Math.Log(_container.Size, prime));
                     return true;
                 }
             }
             return false;
         }
+
+        /////
+
+        public int BranchIndex;
+        public int Level;
+        
+        /////
 
         /// <summary>
         /// Checks whether the graph specified by the given matrix
