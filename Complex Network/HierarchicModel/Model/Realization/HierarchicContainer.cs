@@ -78,10 +78,8 @@ namespace Model.HierarchicModel.Realization
             else
             {
                 log.Info("Given matrix is block-hierarchic.");
-                int p = 3, k = 3;   // !должна получить из части Оганеса!
-
-                branchIndex = p;
-                level = k;
+                branchIndex = checker.BranchIndex;
+                level = checker.Level;
 
                 log.Info("Creating HierarchicContainer object from given matrix.");
                 treeMatrix = new BitArray[level][];
@@ -90,7 +88,7 @@ namespace Model.HierarchicModel.Realization
                 for (int i = level; i > 0; i--)
                 {
                     // get current level data length and bitArrays count
-                    int nodeDataLength = (branchIndex - 1) * branchIndex / 2;
+                    int nodeDataLength = branchIndex * (branchIndex - 1) / 2;
                     long dataLength = Convert.ToInt64(Math.Pow(branchIndex, level - i) * nodeDataLength);
                     int arrCount = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(dataLength) / ARRAY_MAX_SIZE));
 
@@ -106,9 +104,17 @@ namespace Model.HierarchicModel.Realization
                     // loop over all elements of given level and generate him values
                     for (int f = 0; f < treeMatrix[level - i].Length; f++)
                     {
+                        int s = 1;
                         for (int g = 0; g < treeMatrix[level - i][f].Length; g++)
                         {
-                            treeMatrix[level - i][f][g] = GetConnectionValueFromMatrix(matrixInList, level - i, f, g);
+                            int t = g % branchIndex;
+                            int n = Convert.ToInt32(g / branchIndex);// +(t - 1) * branchIndex;
+                            int m = t - ((2 * branchIndex - n) * (n - 1) / 2) + n;// +(t * (branchIndex - 1));
+                            bool value = matrixInList[n][m];
+
+                            treeMatrix[level - i][f][g] = value;
+
+                            s *= nodeDataLength;
                         }
                     }
                 }
@@ -565,12 +571,6 @@ namespace Model.HierarchicModel.Realization
             result += v2 - v1;
 
             return result;
-        }
-
-        //
-        private bool GetConnectionValueFromMatrix(List<List<bool>> matrix, int l, int f, int g)
-        {
-            return true;
         }
 
         // Вывод иерархического дерева (рекурсивно). Не используется.
