@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -84,39 +85,88 @@ namespace Model.HierarchicModel.Realization
                 log.Info("Creating HierarchicContainer object from given matrix.");
                 treeMatrix = new BitArray[level][];
 
-                // for every level create datas, started with root
-                for (int i = level; i > 0; i--)
+                // начиная снизу, для каждого уровня создаются и заполняются данные
+                int nodeDataLength = branchIndex * (branchIndex - 1) / 2;
+                int[] nIndexes = new int[nodeDataLength];
+                int[] mIndexes = new int[nodeDataLength];
+                for (int gamma = level; gamma > 0; --gamma)
                 {
                     // get current level data length and bitArrays count
-                    int nodeDataLength = branchIndex * (branchIndex - 1) / 2;
-                    long dataLength = Convert.ToInt64(Math.Pow(branchIndex, level - i) * nodeDataLength);
+                    long dataLength = Convert.ToInt64(Math.Pow(branchIndex, gamma - 1) * nodeDataLength);
                     int arrCount = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(dataLength) / ARRAY_MAX_SIZE));
 
-                    treeMatrix[level - i] = new BitArray[arrCount];
+                    treeMatrix[gamma - 1] = new BitArray[arrCount];
                     int j;
                     for (j = 0; j < arrCount - 1; j++)
                     {
-                        treeMatrix[level - i][j] = new BitArray(ARRAY_MAX_SIZE);
+                        treeMatrix[gamma - 1][j] = new BitArray(ARRAY_MAX_SIZE);
                     }
-                    treeMatrix[level - i][j] = new BitArray(Convert.ToInt32(dataLength - (arrCount - 1) * ARRAY_MAX_SIZE));
+                    treeMatrix[gamma - 1][j] = new BitArray(Convert.ToInt32(dataLength - (arrCount - 1) * ARRAY_MAX_SIZE));
 
-                    // genereates data for current level nodes
-                    // loop over all elements of given level and generate him values
-                    for (int f = 0; f < treeMatrix[level - i].Length; f++)
+                    // fills data for current level nodes
+                    // loop over all elements of given level and fill him values
+                    nIndexes[0] = 0;
+                    int nt = branchIndex - 1;
+                    for (int nIndex = 1; nIndex < nodeDataLength; ++nIndex)
                     {
-                        int s = 1;
-                        for (int g = 0; g < treeMatrix[level - i][f].Length; g++)
+                        if (nIndex < nt)
+                            nIndexes[nIndex] = nIndexes[nIndex - 1];
+                        else
                         {
-                            int t = g % branchIndex;
-                            int n = Convert.ToInt32(g / branchIndex);// +(t - 1) * branchIndex;
-                            int m = t - ((2 * branchIndex - n) * (n - 1) / 2) + n;// +(t * (branchIndex - 1));
-                            bool value = matrixInList[n][m];
-
-                            treeMatrix[level - i][f][g] = value;
-
-                            s *= nodeDataLength;
+                            nIndexes[nIndex] = nIndexes[nIndex - 1] +
+                                Convert.ToInt32(Math.Pow(branchIndex, level - gamma));
+                            nt += (nt - 1);
                         }
                     }
+                    
+                    /*mIndexes[0] = Convert.ToInt32(Math.Pow(branchIndex, level - gamma));
+                    int mt = 1, l = 2;  // ?????????
+                    for (int mIndex = 1; mIndex < nodeDataLength; ++mIndex)
+                    {
+                        if (mIndex < mt)
+                        {
+                            mIndexes[mIndex] = mIndexes[mIndex - 1];
+                            ++l;
+                        }
+                        else
+                        {
+                            mIndexes[mIndex] = mIndexes[mIndex - 1] * 2;
+                            mt += l;
+                        }
+                    }*/
+
+                    mIndexes[0] = Convert.ToInt32(Math.Pow(branchIndex, level - gamma));
+                    int mt = 1, sum = 2;
+                    for (int k = 2; k <= nodeDataLength; ++k)
+                    {
+                        while (mt <= sum)
+                        {
+                            if (mt == nodeDataLength)
+                                break;
+                            mIndexes[mt] = k * mIndexes[0];
+                            ++mt;
+                        }
+                        sum = k + mt;
+                        if (mt == nodeDataLength)
+                            break;
+                    }
+
+                    for (int f = 0; f < treeMatrix[gamma - 1].Length; f++)
+                    {
+                        for (int g = 0; g < treeMatrix[gamma - 1][f].Length; g++)
+                        {
+                            int currentIndex = g % branchIndex;
+                            int add = Convert.ToInt32((g / branchIndex)) * branchIndex;
+                            treeMatrix[gamma - 1][f][g] =
+                                matrixInList[nIndexes[currentIndex] + add][mIndexes[currentIndex] + add];
+                        }
+                    }
+
+                    //for (int index = 0; index < nodeDataLength; ++index)
+                    //{
+                    //    nIndexes[index] *= level;
+                    //    mIndexes[index] *= level;
+                    //}
                 }
             }
         }
