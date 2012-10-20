@@ -118,22 +118,6 @@ namespace Model.HierarchicModel.Realization
                             nt += (nt - 1);
                         }
                     }
-                    
-                    /*mIndexes[0] = Convert.ToInt32(Math.Pow(branchIndex, level - gamma));
-                    int mt = 1, l = 2;  // ?????????
-                    for (int mIndex = 1; mIndex < nodeDataLength; ++mIndex)
-                    {
-                        if (mIndex < mt)
-                        {
-                            mIndexes[mIndex] = mIndexes[mIndex - 1];
-                            ++l;
-                        }
-                        else
-                        {
-                            mIndexes[mIndex] = mIndexes[mIndex - 1] * 2;
-                            mt += l;
-                        }
-                    }*/
 
                     mIndexes[0] = Convert.ToInt32(Math.Pow(branchIndex, level - gamma));
                     int mt = 1, sum = 2;
@@ -161,12 +145,6 @@ namespace Model.HierarchicModel.Realization
                                 matrixInList[nIndexes[currentIndex] + add][mIndexes[currentIndex] + add];
                         }
                     }
-
-                    //for (int index = 0; index < nodeDataLength; ++index)
-                    //{
-                    //    nIndexes[index] *= level;
-                    //    mIndexes[index] *= level;
-                    //}
                 }
             }
         }
