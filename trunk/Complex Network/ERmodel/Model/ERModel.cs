@@ -22,7 +22,7 @@ namespace Model.ERModel
          AnalyseOptions.DistEigenPath |
          AnalyseOptions.DegreeDistribution |
          AnalyseOptions.ClusteringCoefficient |
-         AnalyseOptions.MinPathDist)]
+         AnalyseOptions.MinPathDist | AnalyseOptions.Motifs )]
     [RequiredGenerationParam(GenerationParam.Vertices, 2)]
     [RequiredGenerationParam(GenerationParam.P, 3)]
 

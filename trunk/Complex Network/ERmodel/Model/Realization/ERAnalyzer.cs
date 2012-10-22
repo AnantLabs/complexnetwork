@@ -345,6 +345,26 @@ namespace Model.ERModel.Realization
             }
 
             return (double)(2 * (count / 2 + neighbor_count)) / (neighbor_count * (neighbor_count + 1));
-        }        
+        }
+
+        // Возвращается распределение чисел мотивов. Реализовано.
+        public override SortedDictionary<int, float> GetMotivs(int lowBound, int hightBound)
+        {
+            log.Info("Getting motifs.");
+
+            var motivfinder = new MotifFinder();
+            var motifisCount = new SortedDictionary<int, float>();
+            var motifisCountResult = new SortedDictionary<int, float>();
+            Graph graph = Graph.reformatToOurGraghFromBAContainer(container.Neighbourship);
+            for (int motifDegree = lowBound; motifDegree <= hightBound; motifDegree++)
+            {
+                motivfinder.SearchMotifs(graph, motifDegree);
+                motifisCount = motivfinder.dictionaryIdsValues();
+                foreach (var key in motifisCount.Keys)
+                    motifisCountResult.Add(key, motifisCount[key]);
+            }
+
+            return motifisCountResult;
+        }
     }
 }

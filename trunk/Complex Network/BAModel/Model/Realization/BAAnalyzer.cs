@@ -2,13 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
 using CommonLibrary.Model;
 using Algorithms;
-using Motifs;
-
 using log4net;
-
 using BAModel.Model.Realization.EigenValue;
 
 
@@ -235,7 +231,7 @@ namespace Model.BAModel.Realization
             var motivfinder = new MotifFinder();
             var motifisCount = new SortedDictionary<int, float>();
             var motifisCountResult = new SortedDictionary<int, float>();
-            Graph graph = Graph.reformatToOurGraghFromBAContainer(container);
+            Graph graph = Graph.reformatToOurGraghFromBAContainer(container.Neighbourship);
             for (int motifDegree = lowBound; motifDegree <= hightBound; motifDegree++)
             {
                 motivfinder.SearchMotifs(graph, motifDegree);
