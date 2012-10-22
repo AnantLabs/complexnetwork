@@ -77,6 +77,10 @@
     <Compile Include="EigenValue\cMatrixLib.cs" />
     <Compile Include="EigenValue\EigenValueUtils.cs" />
     <Compile Include="FileReader.cs" />
+    <Compile Include="Motifs\Graph.cs" />
+    <Compile Include="Motifs\Isomorphism.cs" />
+    <Compile Include="Motifs\MotifFinder.cs" />
+    <Compile Include="Motifs\SubgraphSampler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
