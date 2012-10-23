@@ -128,7 +128,6 @@ namespace Model.BAModel.Realization
 
             try
             {
-
                 eg.CalculateEigenValue(m);
                 return eg.CalcEigenValuesDist();
 
