@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using CommonLibrary.Model;
+using Algorithms;
 using log4net;
 
 namespace Model.HierarchicModel.Realization
@@ -55,6 +56,7 @@ namespace Model.HierarchicModel.Realization
         }
 
         // Возвращается число циклов длиной 3 в графе, с помощью собственных значений. Реализовано.
+        // Используется только для модели ParisiHierarchicModel.
         public override int GetCyclesEigen3()
         {
             log.Info("Getting count of cycles by eigen values - order 3.");
@@ -62,6 +64,7 @@ namespace Model.HierarchicModel.Realization
         }
 
         // Возвращается число циклов длиной 4 в графе. Реализовано.
+        // Используется только для модели ParisiHierarchicModel.
         public override int GetCyclesEigen4()
         {
             log.Info("Getting count of cycles by eigen values - order 4.");
@@ -72,7 +75,38 @@ namespace Model.HierarchicModel.Realization
         public override ArrayList GetEigenValues()
         {
             log.Info("Getting eigen values array.");
-            return new ArrayList(CalcEigenValue(container.TreeVector(), container.BranchIndex));
+            bool[,] m = container.GetMatrix();
+            EigenValueUtils eg = new EigenValueUtils();
+            try
+            {
+                return eg.CalculateEigenValue(m);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                return new ArrayList();
+            }
+
+            // Правильно для модели ParisiHierarchicModel.
+            //return new ArrayList(CalcEigenValue(container.TreeVector(), container.BranchIndex));
+        }
+
+        // Возвращается распределение длин между собственными значениями. Реализовано
+        public override SortedDictionary<double, int> GetDistEigenPath()
+        {
+            log.Info("Getting distances between eigen values.");
+            bool[,] m = container.GetMatrix();
+            EigenValueUtils eg = new EigenValueUtils();
+            try
+            {
+                eg.CalculateEigenValue(m);
+                return eg.CalcEigenValuesDist();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                return new SortedDictionary<double, int>();
+            }
         }
 
         // Возвращается степенное распределение графа. Реализовано.

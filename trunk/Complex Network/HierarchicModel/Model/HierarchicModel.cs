@@ -20,7 +20,9 @@ namespace Model.HierarchicModel
         AnalyseOptions.DegreeDistribution |
         AnalyseOptions.ClusteringCoefficient |
         AnalyseOptions.ConnSubGraph |
-        AnalyseOptions.Cycles)]
+        AnalyseOptions.Cycles |
+        AnalyseOptions.EigenValue |
+        AnalyseOptions.DistEigenPath)]
     [RequiredGenerationParam(GenerationParam.BranchIndex, 3)]
     [RequiredGenerationParam(GenerationParam.Level, 4)]
     [RequiredGenerationParam(GenerationParam.Mu, 6)]
@@ -84,7 +86,9 @@ namespace Model.HierarchicModel
                 AnalyseOptions.DegreeDistribution |
                 AnalyseOptions.ClusteringCoefficient |
                 AnalyseOptions.ConnSubGraph |
-                AnalyseOptions.Cycles;
+                AnalyseOptions.Cycles |
+                AnalyseOptions.EigenValue |
+                AnalyseOptions.DistEigenPath;
 
             // Определение генератора и анализатора для данной модели (Block-Hierarchic).
             log.Info("Creating generator and analyzer for model.");
