@@ -81,6 +81,19 @@ namespace RandomGraphLauncher
             }
         }
 
+        private void buttonB_CheckedChanged(object sender, EventArgs e)
+        {
+            generationParamsControls[GenerationParam.InitialProbability].Hide();
+            generationParamsControls[GenerationParam.InitialProbability].Text = "0";
+            genParamsGrp.Controls[8].Hide();
+        }
+
+        private void buttonA_CheckedChanged(object sender, EventArgs e)
+        {
+            generationParamsControls[GenerationParam.InitialProbability].Text = "";
+            generationParamsControls[GenerationParam.InitialProbability].Show();
+            genParamsGrp.Controls[8].Show();
+        }
         private void selectallcheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (selectAllCheck.Checked)
@@ -374,6 +387,13 @@ namespace RandomGraphLauncher
             GraphModel graphMetaData = SessionController.GetGraphModel(jobName);
             modelName.Text = "Model name: \n" + graphMetaData.Name;
             description.Text = "Description: \n" + graphMetaData.Description;
+            if (graphMetaData.CheckModel)
+            {
+                this.infoGrp.Controls.Add(checkModel);
+                this.infoGrp.Controls.Add(buttonB);
+                this.infoGrp.Controls.Add(buttonA);
+            }
+
         }
 
         private void InitializeGenerationParamsControls()

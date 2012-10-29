@@ -12,7 +12,7 @@ using log4net;
 namespace Model.BAModel
 {
     // Атрибуты модели (BA).
-    [GraphModel("BAModel", "Barabasi-Albert Model")]
+    [GraphModel("BAModel", "Barabasi-Albert Model",true)]
     [AvailableAnalyzeOptions(
         AnalyseOptions.AveragePath |
         AnalyseOptions.Diameter |
@@ -27,6 +27,7 @@ namespace Model.BAModel
     [RequiredGenerationParam(GenerationParam.Vertices, 1)]
     [RequiredGenerationParam(GenerationParam.MaxEdges, 5)]
     [RequiredGenerationParam(GenerationParam.StepCount, 8)]
+    [RequiredGenerationParam(GenerationParam.InitialProbability, 9)]
 
     // Реализация модели (BA).
     public class BAModel : AbstractGraphModel
