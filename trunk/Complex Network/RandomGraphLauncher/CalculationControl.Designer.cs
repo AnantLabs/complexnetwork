@@ -29,20 +29,23 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CalculationControl));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.infoGrp = new System.Windows.Forms.GroupBox();
             this.description = new System.Windows.Forms.Label();
             this.modelName = new System.Windows.Forms.Label();
+            this.checkModel = new System.Windows.Forms.Label();
             this.genParamsGrp = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.optionsGrp = new System.Windows.Forms.GroupBox();
             this.deselectAllCheck = new System.Windows.Forms.CheckBox();
             this.selectAllCheck = new System.Windows.Forms.CheckBox();
+            this.buttonB = new System.Windows.Forms.RadioButton();
+            this.buttonA = new System.Windows.Forms.RadioButton();
             this.cycles = new System.Windows.Forms.Label();
             this.motives = new System.Windows.Forms.Label();
             this.cyclesHighCmb = new System.Windows.Forms.ComboBox();
@@ -61,6 +64,13 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.calculationStatusGrd = new System.Windows.Forms.DataGridView();
+            this.idColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.statusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.percentColumn = new RandomGraphLauncher.controls.DataGridViewProgressColumn();
+            this.taskColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hostColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stopColumn = new RandomGraphLauncher.Controls.DataGridViewDisableButtonColumn();
+            this.manageColumn = new RandomGraphLauncher.Controls.DataGridViewDisableButtonColumn();
             this.axShockwaveFlash1 = new AxShockwaveFlashObjects.AxShockwaveFlash();
             this.backgroundStartWorker = new System.ComponentModel.BackgroundWorker();
             this.backgroundStopWorker = new System.ComponentModel.BackgroundWorker();
@@ -70,13 +80,6 @@
             this.dataGridViewDisableButtonColumn2 = new RandomGraphLauncher.Controls.DataGridViewDisableButtonColumn();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.idColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.statusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.percentColumn = new RandomGraphLauncher.controls.DataGridViewProgressColumn();
-            this.taskColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hostColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.stopColumn = new RandomGraphLauncher.Controls.DataGridViewDisableButtonColumn();
-            this.manageColumn = new RandomGraphLauncher.Controls.DataGridViewDisableButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -151,6 +154,40 @@
             this.modelName.Size = new System.Drawing.Size(85, 17);
             this.modelName.TabIndex = 0;
             this.modelName.Text = "Model name";
+            //
+            //buttonB
+            //
+            this.buttonB.AutoSize = true;
+            this.buttonB.Location = new System.Drawing.Point(65, 130);
+            this.buttonB.Name = "ModelB";
+            this.buttonB.Size = new System.Drawing.Size(50, 17);
+            this.buttonB.TabIndex = 8;
+            this.buttonB.Text = "Model B";
+            this.buttonB.UseVisualStyleBackColor = true;
+            this.buttonB.CheckedChanged += new System.EventHandler(this.buttonB_CheckedChanged);
+
+            //
+            //buttonA
+            //
+            this.buttonA.AutoSize = true;
+            this.buttonA.Checked = true;
+            this.buttonA.Location = new System.Drawing.Point(7, 130);
+            this.buttonA.Name = "ModelA";
+            this.buttonA.Size = new System.Drawing.Size(50, 17);
+            this.buttonA.TabIndex = 8;
+            this.buttonA.Text = "Model A";
+            this.buttonA.UseVisualStyleBackColor = true;
+            this.buttonA.CheckedChanged += new System.EventHandler(this.buttonA_CheckedChanged);
+            //
+            //CheckModel
+            //
+            this.checkModel.Text = "Generete BAModel by";
+            this.checkModel.AutoSize = true;
+            this.checkModel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.checkModel.Location = new System.Drawing.Point(7, 105);
+            this.checkModel.Name = "modelCheckBA";
+            this.checkModel.Size = new System.Drawing.Size(50, 17);
+            this.checkModel.TabIndex = 0;
             // 
             // genParamsGrp
             // 
@@ -492,60 +529,6 @@
             this.calculationStatusGrd.TabIndex = 4;
             this.calculationStatusGrd.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableCellClick);
             // 
-            // axShockwaveFlash1
-            // 
-            this.axShockwaveFlash1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.axShockwaveFlash1.Enabled = true;
-            this.axShockwaveFlash1.Location = new System.Drawing.Point(0, 0);
-            this.axShockwaveFlash1.Name = "axShockwaveFlash1";
-            this.axShockwaveFlash1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axShockwaveFlash1.OcxState")));
-            this.axShockwaveFlash1.Size = new System.Drawing.Size(818, 98);
-            this.axShockwaveFlash1.TabIndex = 18;
-            // 
-            // backgroundStartWorker
-            // 
-            this.backgroundStartWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.StartWork);
-            // 
-            // backgroundStopWorker
-            // 
-            this.backgroundStopWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.StopWork);
-            // 
-            // backgroundPauseWorker
-            // 
-            this.backgroundPauseWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.PauseWork);
-            // 
-            // backgroundContinueWorker
-            // 
-            this.backgroundContinueWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ContiuneWork);
-            // 
-            // dataGridViewDisableButtonColumn1
-            // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(2);
-            this.dataGridViewDisableButtonColumn1.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dataGridViewDisableButtonColumn1.HeaderText = "Stop";
-            this.dataGridViewDisableButtonColumn1.Name = "dataGridViewDisableButtonColumn1";
-            this.dataGridViewDisableButtonColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewDisableButtonColumn1.Text = "Stop";
-            this.dataGridViewDisableButtonColumn1.UseColumnTextForButtonValue = true;
-            // 
-            // dataGridViewDisableButtonColumn2
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(2);
-            this.dataGridViewDisableButtonColumn2.DefaultCellStyle = dataGridViewCellStyle4;
-            this.dataGridViewDisableButtonColumn2.HeaderText = "Manage";
-            this.dataGridViewDisableButtonColumn2.Name = "dataGridViewDisableButtonColumn2";
-            this.dataGridViewDisableButtonColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewDisableButtonColumn2.Text = "Pause";
-            this.dataGridViewDisableButtonColumn2.UseColumnTextForButtonValue = true;
-            // 
-            // imageList1
-            // 
-            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            // 
             // idColumn
             // 
             this.idColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -610,6 +593,60 @@
             this.manageColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.manageColumn.Text = "Pause";
             this.manageColumn.UseColumnTextForButtonValue = true;
+            // 
+            // axShockwaveFlash1
+            // 
+            this.axShockwaveFlash1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.axShockwaveFlash1.Enabled = true;
+            this.axShockwaveFlash1.Location = new System.Drawing.Point(0, 0);
+            this.axShockwaveFlash1.Name = "axShockwaveFlash1";
+            this.axShockwaveFlash1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axShockwaveFlash1.OcxState")));
+            this.axShockwaveFlash1.Size = new System.Drawing.Size(818, 98);
+            this.axShockwaveFlash1.TabIndex = 18;
+            // 
+            // backgroundStartWorker
+            // 
+            this.backgroundStartWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.StartWork);
+            // 
+            // backgroundStopWorker
+            // 
+            this.backgroundStopWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.StopWork);
+            // 
+            // backgroundPauseWorker
+            // 
+            this.backgroundPauseWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.PauseWork);
+            // 
+            // backgroundContinueWorker
+            // 
+            this.backgroundContinueWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ContiuneWork);
+            // 
+            // dataGridViewDisableButtonColumn1
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(2);
+            this.dataGridViewDisableButtonColumn1.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dataGridViewDisableButtonColumn1.HeaderText = "Stop";
+            this.dataGridViewDisableButtonColumn1.Name = "dataGridViewDisableButtonColumn1";
+            this.dataGridViewDisableButtonColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewDisableButtonColumn1.Text = "Stop";
+            this.dataGridViewDisableButtonColumn1.UseColumnTextForButtonValue = true;
+            // 
+            // dataGridViewDisableButtonColumn2
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(2);
+            this.dataGridViewDisableButtonColumn2.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dataGridViewDisableButtonColumn2.HeaderText = "Manage";
+            this.dataGridViewDisableButtonColumn2.Name = "dataGridViewDisableButtonColumn2";
+            this.dataGridViewDisableButtonColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewDisableButtonColumn2.Text = "Pause";
+            this.dataGridViewDisableButtonColumn2.UseColumnTextForButtonValue = true;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // CalculationControl
             // 
@@ -682,6 +719,9 @@
         private System.Windows.Forms.Label motives;
         private System.Windows.Forms.CheckBox selectAllCheck;
         private System.Windows.Forms.CheckBox deselectAllCheck;
+        private System.Windows.Forms.Label checkModel;
+        private System.Windows.Forms.RadioButton buttonB;
+        private System.Windows.Forms.RadioButton buttonA;
         private System.Windows.Forms.DataGridViewTextBoxColumn idColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn statusColumn;
         private controls.DataGridViewProgressColumn percentColumn;

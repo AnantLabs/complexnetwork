@@ -153,6 +153,20 @@ namespace Model.BAModel.Realization
             ++degrees[newVertexDegree];
         }
 
+  
+        public void ConnectVertex(int i,int j)
+        {
+            var ivertexdegree = CountVertexDegree(i);
+            var jvertexdegree = CountVertexDegree(j);
+            AddEdge(i, j);
+            --degrees[ivertexdegree];
+            --degrees[jvertexdegree];
+            ++degrees[ivertexdegree + 1];
+            ++degrees[jvertexdegree + 1];
+
+        }
+
+
         // Закрытая часть класса (не из общего интерфейса). //
 
         private void SetDataToDictionary(int index, ArrayList neighbourshipOfIVertex)

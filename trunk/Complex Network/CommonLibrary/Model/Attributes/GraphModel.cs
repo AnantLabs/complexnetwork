@@ -9,10 +9,11 @@ namespace CommonLibrary.Model.Attributes
     [System.AttributeUsage(System.AttributeTargets.Class)]
     public class GraphModel : System.Attribute
     {
-        public GraphModel(string name, string description)
+        public GraphModel(string name, string description,bool checkModel=false)
         {
             Name = name;
             Description = description;
+            CheckModel = checkModel;
         }
 
         public string Name
@@ -21,6 +22,12 @@ namespace CommonLibrary.Model.Attributes
             private set;
         }
         public string Description
+        {
+            get;
+            private set;
+        }
+
+        public bool CheckModel
         {
             get;
             private set;

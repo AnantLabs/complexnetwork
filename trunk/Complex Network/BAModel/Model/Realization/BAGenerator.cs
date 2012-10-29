@@ -18,6 +18,7 @@ namespace Model.BAModel.Realization
         // Контейнер, в котором содержится граф конкретной модели (BA).
         private BAContainer container;
         private int edges;
+        private bool initialGeneration=true;
         // Конструктор по умолчанию, в котором создается пустой контейнер графа.
         public BAGenerator()
         {
@@ -38,9 +39,9 @@ namespace Model.BAModel.Realization
             int numberOfVertices = (Int32)genParam[GenerationParam.Vertices];
             edges = (Int16)genParam[GenerationParam.MaxEdges];
             int stepCount = (Int32)genParam[GenerationParam.StepCount];
-
+            double probability = (double)genParam[GenerationParam.InitialProbability];
             container.Size = numberOfVertices;
-            Generate(stepCount);
+            Generate(stepCount,probability);
             log.Info("Random generation step finished.");
         }
 
@@ -57,8 +58,13 @@ namespace Model.BAModel.Realization
         // Генератор случайного числа.
         private RNGCrypto rand = new RNGCrypto();
 
-        private void Generate(long stepCount)
+        private void Generate(long stepCount,double probability)
         {
+            if (initialGeneration && probability != 0)
+            {
+                GenereateInitialGraph(probability);
+                initialGeneration = false;
+            }
             while (stepCount > 0)
             {
                 double[] probabilyArray = container.CountProbabilities();
@@ -66,6 +72,17 @@ namespace Model.BAModel.Realization
                 container.RefreshNeighbourships(MakeGenerationStep(probabilyArray));
                 --stepCount;
             }
+        }
+
+        private void GenereateInitialGraph(double probability)
+        {
+            for(int i = 0;i<container.Size;i++)
+                for(int j = i+1;j<container.Size;j++)
+                {
+                    if (rand.NextDouble() < probability)
+                        container.ConnectVertex(i, j);
+
+                }
         }
 
         private bool[] MakeGenerationStep(double[] probabilityArray)
