@@ -404,6 +404,54 @@ namespace Model.BAModel.Realization
             return degreeDistribution;
         }
 
+        // Возвращается распределение чисел  связанных подграфов в графе.
+        public override SortedDictionary<int, int> GetConnSubGraph()
+        {
+            var connectedSubGraphDic = new SortedDictionary<int, int>();
+            Queue<int> q = new Queue<int>();
+            var nodes = new Node[container.Size];
+            for (int i = 0; i < nodes.Length; i++)
+                nodes[i] = new Node();
+            var list = new List<int>();
+            int order = 0;
+            for (int i = 0; i < container.Size; i++)
+            {
+                    q.Enqueue(i);
+                    while (q.Count != 0)
+                    {
+                        var item = q.Dequeue();
+                        order++;
+                        if (nodes[item].lenght != 2)
+                        {
+                            list = container.Neighbourship[item];
+                            nodes[item].lenght = 2;
+                            for (int j = 0; j < list.Count; j++)
+                            {
+                                if (nodes[list[j]].lenght == -1)
+                                {
+                                    nodes[list[j]].lenght = 1;
+                                    order++;
+                                    q.Enqueue(list[j]);
+                                }
+
+                            }
+                        }
+                    }
+                
+                if (order != 0)
+                {
+                    if (connectedSubGraphDic.ContainsKey(order))
+                        connectedSubGraphDic[order]++;
+                    else
+                        connectedSubGraphDic.Add(order, 1);
+                }
+
+                order = 0;
+
+            }
+            return connectedSubGraphDic;
+        }
+
         private int fullSubGgraph(int u)    // Разобраться, почему не реализована соответсвующая функция интерфейса.
         {
             List<int> n1;
