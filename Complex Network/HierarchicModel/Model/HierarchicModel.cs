@@ -33,7 +33,7 @@ namespace Model.HierarchicModel
         // Организация работы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(HierarchicModel));
 
-        private static readonly string MODEL_NAME = "Bloch-Hierarchic";
+        private static readonly string MODEL_NAME = "Block-Hierarchic";
 
         public HierarchicModel() { }
 

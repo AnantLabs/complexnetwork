@@ -105,42 +105,43 @@ namespace Model.HierarchicModel.Realization
 
                     // fills data for current level nodes
                     // loop over all elements of given level and fill him values
+                    int lim1 = branchIndex - 1, lim2 = 0, nt = 0;
                     nIndexes[0] = 0;
-                    int nt = branchIndex - 1;
-                    for (int nIndex = 1; nIndex < nodeDataLength; ++nIndex)
+                    for (int nIndex = 1; nIndex < branchIndex; ++nIndex)
                     {
-                        if (nIndex < nt)
-                            nIndexes[nIndex] = nIndexes[nIndex - 1];
-                        else
+                        while (nt < lim1)
                         {
-                            nIndexes[nIndex] = nIndexes[nIndex - 1] +
-                                Convert.ToInt32(Math.Pow(branchIndex, level - gamma));
-                            nt += (nt - 1);
+                            if (nIndex == 1)
+                                nIndexes[nt] = nIndexes[lim2];
+                            else
+                                nIndexes[nt] = nIndexes[lim2] +
+                                    Convert.ToInt32(Math.Pow(branchIndex, level - gamma));
+                            ++nt;
                         }
+                        lim2 = lim1 - 1;
+                        lim1 = lim1 + branchIndex - 1 - nIndex;
                     }
 
                     mIndexes[0] = Convert.ToInt32(Math.Pow(branchIndex, level - gamma));
-                    int mt = 1, sum = 2;
-                    for (int k = 2; k <= nodeDataLength; ++k)
+                    int mt = 0;
+                    int fIndex = 1;
+                    while (mt < nodeDataLength)
                     {
-                        while (mt <= sum)
+                        for (int i = fIndex; i <= branchIndex - 1; ++i)
                         {
-                            if (mt == nodeDataLength)
-                                break;
-                            mIndexes[mt] = k * mIndexes[0];
+                            mIndexes[mt] = i * mIndexes[0];
                             ++mt;
                         }
-                        sum = k + mt;
-                        if (mt == nodeDataLength)
-                            break;
+                        ++fIndex;
                     }
 
                     for (int f = 0; f < treeMatrix[gamma - 1].Length; f++)
                     {
                         for (int g = 0; g < treeMatrix[gamma - 1][f].Length; g++)
                         {
-                            int currentIndex = g % branchIndex;
-                            int add = Convert.ToInt32((g / branchIndex)) * branchIndex;
+                            int currentIndex = g % nodeDataLength;
+                            int add = Convert.ToInt32((g / nodeDataLength)) *
+                                Convert.ToInt32(Math.Pow(branchIndex, level - gamma + 1));
                             treeMatrix[gamma - 1][f][g] =
                                 matrixInList[nIndexes[currentIndex] + add][mIndexes[currentIndex] + add];
                         }
