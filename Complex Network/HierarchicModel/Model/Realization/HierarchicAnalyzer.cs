@@ -37,6 +37,7 @@ namespace Model.HierarchicModel.Realization
             log.Info("Getting average path length.");
 
             long[] pathsInfo = GetSubgraphsPathInfo(0, 0);
+            // !petq e bajanel chanaparhneri qanaki vra!
             return 2 * (pathsInfo[0] + pathsInfo[2]) / ((double)container.Size *
                 ((double)container.Size - 1));
         }

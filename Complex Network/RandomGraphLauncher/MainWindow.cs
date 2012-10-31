@@ -74,6 +74,12 @@ namespace RandomGraphLauncher
             modelCheckWnd.ShowDialog();
         }
 
+        private void matrixMixerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MatrixMixerWindow matrixMixerWnd = new MatrixMixerWindow();
+            matrixMixerWnd.ShowDialog();
+        }
+
         private void mainControl_OnClose(object sender, CloseEventArgs e)
         {
             TabPage tab = this.mainControl.TabPages[e.TabIndex];
