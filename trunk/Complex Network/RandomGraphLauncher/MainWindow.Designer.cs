@@ -45,6 +45,7 @@ namespace RandomGraphLauncher
             this.modelCheckingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainControl = new MyControlLibrary.TabCtlEx();
+            this.matrixMixerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -105,7 +106,8 @@ namespace RandomGraphLauncher
             this.statisticAnalyzerToolStripMenuItem,
             this.dataExportIMportToolStripMenuItem,
             this.testerToolStripMenuItem,
-            this.modelCheckingToolStripMenuItem});
+            this.modelCheckingToolStripMenuItem,
+            this.matrixMixerToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -159,6 +161,13 @@ namespace RandomGraphLauncher
             this.mainControl.TabStop = false;
             this.mainControl.OnClose += new MyControlLibrary.TabCtlEx.OnHeaderCloseDelegate(this.mainControl_OnClose);
             // 
+            // matrixMixerToolStripMenuItem
+            // 
+            this.matrixMixerToolStripMenuItem.Name = "matrixMixerToolStripMenuItem";
+            this.matrixMixerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.matrixMixerToolStripMenuItem.Text = "Matrix Mixer";
+            this.matrixMixerToolStripMenuItem.Click += new System.EventHandler(this.matrixMixerToolStripMenuItem_Click);
+            // 
             // mainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -196,6 +205,7 @@ namespace RandomGraphLauncher
         private ToolStripMenuItem testerToolStripMenuItem;
         private ToolStripMenuItem modelCheckingToolStripMenuItem;
         private ToolStripMenuItem optionToolStripMenuItem;
+        private ToolStripMenuItem matrixMixerToolStripMenuItem;
 
     }
 }

@@ -428,10 +428,7 @@ namespace Model.HierarchicModel.Realization
             }
         }
 
-        /// <summary>
-        /// Возвращает число ребер для всего графа.
-        /// </summary>
-        /// <returns></returns>
+        // Возвращает число ребер графа.
         public double CountEdgesAllGraph()
         {
             int countOne = 0;
@@ -447,8 +444,8 @@ namespace Model.HierarchicModel.Realization
                 count += countOne * t * t;
                 countOne = 0;
             }
-            return count;
 
+            return count;
         }
 
         /// <summary>
