@@ -19,36 +19,121 @@ namespace RandomGraphLauncher
             InitializeComponent();
         }
 
-        private void mix_Click(object sender, EventArgs e)
+        // Обработчики сообщений.
+
+        private void MatrixMixerWindow_Load(object sender, EventArgs e)
         {
-            ArrayList matrix = MatrixFileReader.MatrixReader(this.filePathTxt.Text);
+            this.firstIndexTxt.Enabled = false;
+            this.secondIndexTxt.Enabled = false;
+            this.mix.Enabled = false;
 
-            int firstIndex = Convert.ToInt32(this.firstIndexTxt.Text);
-            int secondIndex = Convert.ToInt32(this.secondIndexTxt.Text);
-            List<int> firstNeighbours = new List<int>();
-            List<int> secondNeighbours = new List<int>();
+            this.browse.Select();
+        }
 
-            ArrayList firstArr = (ArrayList)matrix[firstIndex];
-            ArrayList secondArr = (ArrayList)matrix[secondIndex];
-            for (int i = 0; i < matrix.Count; ++i)
+        private void browse_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.InitialDirectory = "c:\\";
+            openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog.FilterIndex = 2;
+            openFileDialog.RestoreDirectory = true;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if((bool)firstArr[i])
-                    firstNeighbours.Add(i);
-                if ((bool)secondArr[i])
-                    secondNeighbours.Add(i);
+                this.filePathTxt.Text = openFileDialog.FileName;
             }
 
-            for (int j = 0; j < matrix.Count; ++j)
-            {
-                if (firstNeighbours.Contains(j))
-                    ((ArrayList)matrix[firstIndex])[j] = true;
-                else
-                    ((ArrayList)matrix[firstIndex])[j] = false;
+            this.firstIndexTxt.Enabled = true;
+            this.secondIndexTxt.Enabled = true;
+            this.mix.Enabled = true;
 
-                if (secondNeighbours.Contains(j))
-                    ((ArrayList)matrix[secondIndex])[j] = true;
+            this.firstIndexTxt.SelectAll();
+            this.firstIndexTxt.Focus();
+        }
+
+        private void mix_Click(object sender, EventArgs e)
+        {
+            int firstIndex = 0, secondIndex = 0;
+            try
+            {
+                firstIndex = Convert.ToInt32(this.firstIndexTxt.Text);
+                secondIndex = Convert.ToInt32(this.secondIndexTxt.Text);
+
+                if (firstIndex < 0 || secondIndex < 0)
+                {
+                    throw new SystemException();
+                }
+            }
+            catch(SystemException)
+            {
+                MessageBox.Show("Wrong Index.", "Error");
+                this.firstIndexTxt.SelectAll();
+                this.firstIndexTxt.Focus();
+                return;
+            }
+
+            ArrayList matrixArr = MatrixFileReader.MatrixReader(this.filePathTxt.Text);
+            SortedDictionary<int, List<int>> neighbourship = new SortedDictionary<int, List<int>>();
+            ArrayList neighbourshipOfIVertex = new ArrayList();
+            for (int i = 0; i < matrixArr.Count; i++)
+            {
+                neighbourshipOfIVertex = (ArrayList)matrixArr[i];
+                neighbourship[i] = new List<int>();
+                for (int j = 0; j < matrixArr.Count; j++)
+                    if ((bool)neighbourshipOfIVertex[j] == true && i != j)
+                        neighbourship[i].Add(j);
+            }
+
+            List<int> firstNeighbours = neighbourship[firstIndex];
+            List<int> secondNeighbours = neighbourship[secondIndex];
+            if (firstNeighbours.Contains(secondIndex))
+                secondNeighbours.Add(secondIndex);
+            if (secondNeighbours.Contains(firstIndex))
+                firstNeighbours.Add(firstIndex);
+
+            neighbourship[firstIndex] = secondNeighbours;
+            neighbourship[secondIndex] = firstNeighbours;
+
+            SortedDictionary<int, List<int>>.KeyCollection keys = neighbourship.Keys;
+            foreach (int k in keys)
+            {
+                if (k == firstIndex || k == secondIndex)
+                    continue;
                 else
-                    ((ArrayList)matrix[secondIndex])[j] = false;
+                {
+                    if (neighbourship[k].Contains(firstIndex) && neighbourship[k].Contains(secondIndex))
+                        continue;
+                    else 
+                    {
+                        if (neighbourship[k].Contains(firstIndex))
+                        {
+                            neighbourship[k].Remove(firstIndex);
+                            neighbourship[k].Add(secondIndex);
+                        }
+
+                        if (neighbourship[k].Contains(secondIndex))
+                        {
+                            neighbourship[k].Remove(secondIndex);
+                            neighbourship[k].Add(firstIndex);
+                        }
+                    }
+                }
+            }
+
+            bool[,] matrix = new bool[neighbourship.Count, neighbourship.Count];
+
+            for (int i = 0; i < neighbourship.Count; ++i)
+                for (int j = 0; j < neighbourship.Count; ++j)
+                    matrix[i, j] = false;
+
+            List<int> list = new List<int>();
+
+            for (int i = 0; i < neighbourship.Count; i++)
+            {
+                list = neighbourship[i];
+                for (int j = 0; j < list.Count; j++)
+                    matrix[i, list[j]] = true;
             }
 
             int strLength = this.filePathTxt.Text.Length - 4;
@@ -57,12 +142,18 @@ namespace RandomGraphLauncher
             {
                 try
                 {
-                    for (int i = 0; i < matrix.Count; ++i)
+                    for (int i = 0; i < matrix.GetLength(0); ++i)
                     {
-                        ArrayList neighbourshipOfIVertex = (ArrayList)matrix[i];
-                        for (int j = 0; j < neighbourshipOfIVertex.Count; ++j)
+                        for (int j = 0; j < matrix.GetLength(1); ++j)
                         {
-                            file.Write(Convert.ToInt32(neighbourshipOfIVertex[j]) + " ");
+                            if (matrix[i, j])
+                            {
+                                file.Write(1 + " ");
+                            }
+                            else
+                            {
+                                file.Write(0 + " ");
+                            }
                         }
                         file.WriteLine("");
                     }
@@ -75,21 +166,6 @@ namespace RandomGraphLauncher
                 {
 
                 }
-            }
-        }
-
-        private void browse_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-            openFileDialog1.InitialDirectory = "c:\\";
-            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-            openFileDialog1.FilterIndex = 2;
-            openFileDialog1.RestoreDirectory = true;
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                this.filePathTxt.Text = openFileDialog1.FileName;
             }
         }
     }
