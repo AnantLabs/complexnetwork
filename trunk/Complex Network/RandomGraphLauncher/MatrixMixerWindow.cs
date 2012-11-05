@@ -87,37 +87,31 @@ namespace RandomGraphLauncher
 
             List<int> firstNeighbours = neighbourship[firstIndex];
             List<int> secondNeighbours = neighbourship[secondIndex];
-            if (firstNeighbours.Contains(secondIndex))
-                secondNeighbours.Add(secondIndex);
-            if (secondNeighbours.Contains(firstIndex))
+            if (firstNeighbours.Contains(secondIndex))   // данные вершины смежны
+            {
+                firstNeighbours.Remove(secondIndex);
                 firstNeighbours.Add(firstIndex);
-
+                secondNeighbours.Remove(firstIndex);
+                secondNeighbours.Add(secondIndex);
+            }
             neighbourship[firstIndex] = secondNeighbours;
             neighbourship[secondIndex] = firstNeighbours;
 
-            SortedDictionary<int, List<int>>.KeyCollection keys = neighbourship.Keys;
-            foreach (int k in keys)
+            for (int i = 0; i < firstNeighbours.Count; ++i) // проход по соседям второй вершины
             {
-                if (k == firstIndex || k == secondIndex)
-                    continue;
-                else
+                if (firstNeighbours[i] != firstIndex)
                 {
-                    if (neighbourship[k].Contains(firstIndex) && neighbourship[k].Contains(secondIndex))
-                        continue;
-                    else 
-                    {
-                        if (neighbourship[k].Contains(firstIndex))
-                        {
-                            neighbourship[k].Remove(firstIndex);
-                            neighbourship[k].Add(secondIndex);
-                        }
+                    neighbourship[firstNeighbours[i]].Remove(firstIndex);
+                    neighbourship[firstNeighbours[i]].Add(secondIndex);
+                }
+            }
 
-                        if (neighbourship[k].Contains(secondIndex))
-                        {
-                            neighbourship[k].Remove(secondIndex);
-                            neighbourship[k].Add(firstIndex);
-                        }
-                    }
+            for (int j = 0; j < secondNeighbours.Count; ++j) // проход по соседям первой вершины
+            {
+                if (secondNeighbours[j] != secondIndex)
+                {
+                    neighbourship[secondNeighbours[j]].Remove(secondIndex);
+                    neighbourship[secondNeighbours[j]].Add(firstIndex);
                 }
             }
 
