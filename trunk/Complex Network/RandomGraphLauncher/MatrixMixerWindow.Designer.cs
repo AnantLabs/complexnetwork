@@ -80,6 +80,7 @@
             this.firstIndexTxt.Name = "firstIndexTxt";
             this.firstIndexTxt.Size = new System.Drawing.Size(125, 20);
             this.firstIndexTxt.TabIndex = 4;
+            this.firstIndexTxt.Text = "0";
             this.firstIndexTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // secondIndex
@@ -97,6 +98,7 @@
             this.secondIndexTxt.Name = "secondIndexTxt";
             this.secondIndexTxt.Size = new System.Drawing.Size(125, 20);
             this.secondIndexTxt.TabIndex = 6;
+            this.secondIndexTxt.Text = "0";
             this.secondIndexTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // mix
@@ -125,6 +127,7 @@
             this.Name = "MatrixMixerWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Matrix Mixer";
+            this.Load += new System.EventHandler(this.MatrixMixerWindow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
