@@ -37,6 +37,7 @@ namespace Model.HierarchicModel.Realization
             log.Info("Getting average path length.");
 
             long[] pathsInfo = GetSubgraphsPathInfo(0, 0);
+            //int p = Engine.pathsCount;
             // !petq e bajanel chanaparhneri qanaki vra!
             return 2 * (pathsInfo[0] + pathsInfo[2]) / ((double)container.Size *
                 ((double)container.Size - 1));
@@ -46,7 +47,7 @@ namespace Model.HierarchicModel.Realization
         public override int GetCycles3()
         {
             log.Info("Getting count of cycles - order 3.");
-            return (int)Count3Cycle(0, 0)[1];
+            return (int)Count3Cycle(0, 0)[0];
         }
 
         // Возвращается число циклов длиной 4 в графе. Реализовано.
@@ -203,46 +204,46 @@ namespace Model.HierarchicModel.Realization
             }
         }
 
-        /// <summary>
-        /// Возвращает информацию о пути подграфа.
-        /// </summary>
-        /// <returns></returns>
+        // Возвращает информацию о пути подграфа (реализована рекурсивным образом).
+        // Используется алгоритм Флойда для вычисления минимальных путей между вершинами графа.
         private long[] GetSubgraphsPathInfo(int level, long nodeNumber)
         {
-            //tempArr's and tempinfo's 
+            //resultArr's and tempinfo's 
             //1 element is current paths, that can't minimized, lengths sum
             //2 temp paths count, that have chance to be minimized
             //3 >2 paths' lengths sum
-            long[] tempArr = { 0, 0, 0 };
+            long[] resultArr = { 0, 0, 0 };
             long[] tempInfo = { 0, 0, 0 };
-            // if it is not a leaf of tree
+
+            // Если это не лист дерева, то проход по всем дочерным узлам (рекурсивный вызов).
             if (level < container.Level - 1)
             {
-                //loop over all child nodes
                 for (int i = 0; i < container.BranchIndex; i++)
                 {
                     tempInfo = GetSubgraphsPathInfo(level + 1, nodeNumber * container.BranchIndex + i);
 
-                    tempArr[0] += tempInfo[0];
+                    resultArr[0] += tempInfo[0];
                     if (container.NodeChildAdjacentsCount(level, nodeNumber, i) > 0)
                     {
-                        tempArr[0] += tempInfo[1] * 2;
+                        resultArr[0] += tempInfo[1] * 2;
                     }
                     else
                     {
-                        tempArr[1] += tempInfo[1];
-                        tempArr[2] += tempInfo[2];
+                        resultArr[1] += tempInfo[1];
+                        resultArr[2] += tempInfo[2];
                     }
                 }
             }
-            //get node min paths sum and other info
+
+            // Получение суммы длин минимальных путей (и дополнительной информации) для данного узла.
             tempInfo = Engine.FloydMinPath(container.NodeMatrix(level, nodeNumber));
 
-            tempArr[0] += tempInfo[0] * Convert.ToInt64(Math.Pow(Math.Pow(container.BranchIndex, container.Level - level - 1), 2));
-            tempArr[1] += tempInfo[1] * Convert.ToInt64(Math.Pow(Math.Pow(container.BranchIndex, container.Level - level - 1), 2));
-            tempArr[2] += tempInfo[2] * Convert.ToInt64(Math.Pow(Math.Pow(container.BranchIndex, container.Level - level - 1), 2));
+            double tempPow = Math.Pow(container.BranchIndex, container.Level - level - 1);
+            resultArr[0] += tempInfo[0] * Convert.ToInt64(Math.Pow(tempPow, 2));
+            resultArr[1] += tempInfo[1] * Convert.ToInt64(Math.Pow(tempPow, 2));
+            resultArr[2] += tempInfo[2] * Convert.ToInt64(Math.Pow(tempPow, 2));
 
-            return tempArr;
+            return resultArr;
         }
 
         private SortedDictionary<int, int> AmountConnectedSubGraphs(int numberNode, int level)
@@ -355,7 +356,7 @@ namespace Model.HierarchicModel.Realization
                     }
                 }
                 retArray[0] += countCycle;
-
+                
                 return retArray;
             }
         }
