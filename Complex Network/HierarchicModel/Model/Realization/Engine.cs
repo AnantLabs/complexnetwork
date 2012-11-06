@@ -6,11 +6,10 @@ namespace Model.HierarchicModel.Realization
     // Вспомогательный класс-инженер (для реализации алгоритма Флойда).
     class Engine
     {
-        /// <summary>
-        /// Статическая функция, реализующая алгоритм Флойда, для вычисления минимальных путей между всеми вершинами графа.
-        /// </summary>
-        /// <param name="graphMatrix"></param>
-        /// <returns></returns>
+        static public int pathsCount = 0;
+        static public SortedDictionary<int, int> pathDistribution = new SortedDictionary<int, int>();
+
+        // Статическая функция, реализующая алгоритм Флойда, для вычисления минимальных путей между всеми вершинами графа.
         static public long[] FloydMinPath(int[,] graphMatrix)
         {
             int n = Convert.ToInt32(Math.Sqrt(graphMatrix.Length));
@@ -61,11 +60,17 @@ namespace Model.HierarchicModel.Realization
                         if (distance[v, w] <= 2)
                         {
                             info[0] += distance[v, w];
+                            //++pathsCount;
+                            //if (pathDistribution.ContainsKey(distance[v, w]))
+                            //    pathDistribution[distance[v, w]]++;
+                            //else
+                            //    pathDistribution.Add(distance[v, w], 1);
                         }
                         else
                         {
                             info[1]++;
                             info[2] += distance[v, w];
+                            //++pathsCount;
                         }
                     }
                     else if (v != w)
@@ -74,6 +79,7 @@ namespace Model.HierarchicModel.Realization
                     }
                 }
             }
+
             retInfo[0] = info[0] / 2;
             retInfo[1] = info[1] / 2;
             retInfo[2] = info[2] / 2;
