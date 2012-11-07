@@ -295,12 +295,8 @@ namespace Model.HierarchicModel.Realization
             return retArray;
         }
 
-        /// <summary>
-        /// Возвращает число циклов 3+.
-        /// </summary>
-        /// <param name="numberNode"></param>
-        /// <param name="level"></param>
-        /// <returns></returns>
+        // Возвращает число циклов порядка 3 в нулевом элементе SortedDictionary<int, double>.
+        // Число циклов вычисляется в данном узле данного уровня.
         private SortedDictionary<int, double> Count3Cycle(int numberNode, int level)
         {
             SortedDictionary<int, double> retArray = new SortedDictionary<int, double>();
@@ -361,30 +357,23 @@ namespace Model.HierarchicModel.Realization
             }
         }
 
-        /// <summary>
-        /// Возвращает число циклов 4+.
-        /// </summary>
-        /// <param name="numberNode"></param>
-        /// <param name="level"></param>
-        /// <returns></returns>
+        // Возвращает число циклов порядка 4 в нулевом элементе SortedDictionary<int, double>.
+        // Число циклов вычисляется в данном узле данного уровня.
         private SortedDictionary<int, double> Count4Cycle(int numberNode, int level)
         {
+            SortedDictionary<int, double> arrayRetured = new SortedDictionary<int, double>();
+            arrayRetured[0] = 0; // count cycles with 4 length
+            arrayRetured[1] = 0; // count way with 1 length
+            arrayRetured[2] = 0; // count way with 2 length
+
             if (level == container.Level)
             {
-                SortedDictionary<int, double> arrayRetured = new SortedDictionary<int, double>();
-                arrayRetured[0] = 0;//count cycles with 4 length
-                arrayRetured[1] = 0;//count way with 1 length
-                arrayRetured[2] = 0;//count way with 2 length
                 return arrayRetured;
             }
             else
             {
-
-                SortedDictionary<int, SortedDictionary<int, double>> array = new SortedDictionary<int, SortedDictionary<int, double>>();
-                SortedDictionary<int, double> arrayRetured = new SortedDictionary<int, double>();
-                arrayRetured[0] = 0;//count cycles with 4 length
-                arrayRetured[1] = 0;//count way with 1 length
-                arrayRetured[2] = 0;//count way with 2 length
+                SortedDictionary<int, SortedDictionary<int, double>> array = 
+                    new SortedDictionary<int, SortedDictionary<int, double>>();
                 double powPK = Math.Pow(container.BranchIndex, container.Level - level - 1);
 
                 for (int i = numberNode * container.BranchIndex; i < container.BranchIndex * (numberNode + 1); i++)
@@ -393,7 +382,6 @@ namespace Model.HierarchicModel.Realization
                     arrayRetured[0] += array[i][0];
                     arrayRetured[1] += array[i][1];
                     arrayRetured[2] += array[i][2];
-
                 }
 
                 BitArray node = container.TreeNode(level, numberNode);
@@ -404,25 +392,25 @@ namespace Model.HierarchicModel.Realization
 
                 for (int i = numberNode * container.BranchIndex; i < container.BranchIndex * (numberNode + 1); i++)
                 {
-
                     arrayRetured[2] += container.Factorial(container.CountConnectedBlocks(node, 
                         i - numberNode * container.BranchIndex) - 1) * powPK * powPK * powPK;
 
                     for (int j = (i + 1); j < container.BranchIndex * (numberNode + 1); j++)
                     {
-
                         if (container.IsConnectedTwoBlocks(node, i - numberNode * container.BranchIndex, 
                             j - numberNode * container.BranchIndex))
                         {
                             if (level < container.Level)
                             {
-                                arrayRetured[0] += array[i][1] * array[j][1];
+                                arrayRetured[0] += 2 * array[i][1] * array[j][1];   // corrected
                                 arrayRetured[0] += (array[i][2] + array[j][2]) * powPK;
 
                                 arrayRetured[1] += powPK * powPK;
 
                                 arrayRetured[2] += 2 * powPK * (array[i][1] + array[j][1]);
 
+                                // correct addition
+                                arrayRetured[0] += Convert.ToInt32(Math.Pow(powPK * (powPK - 1) / 2, 2));
                             }
 
                             for (int k = (j + 1); k < container.BranchIndex * (numberNode + 1); k++)
@@ -430,12 +418,14 @@ namespace Model.HierarchicModel.Realization
                                 if (container.IsConnectedTwoBlocks(node, j - numberNode * container.BranchIndex, 
                                     k - numberNode * container.BranchIndex))
                                 {
+                                    // correct addition
+                                    arrayRetured[0] += (powPK * powPK * powPK) * (powPK - 1) / 2;
+
                                     if (container.IsConnectedTwoBlocks(node, i - numberNode * container.BranchIndex, 
                                         k - numberNode * container.BranchIndex))
                                     {
                                         arrayRetured[0] += (array[i][1] + array[j][1] + array[k][1]) * powPK * powPK;
                                     }
-
 
                                     for (int l = (k + 1); l < container.BranchIndex * (numberNode + 1); l++)
                                         if (container.IsConnectedTwoBlocks(node, k - numberNode * container.BranchIndex, 
@@ -448,6 +438,7 @@ namespace Model.HierarchicModel.Realization
                         }
                     }
                 }
+
                 return arrayRetured;
             }
         }
