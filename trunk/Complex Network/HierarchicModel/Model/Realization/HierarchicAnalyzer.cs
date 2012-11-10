@@ -392,8 +392,8 @@ namespace Model.HierarchicModel.Realization
 
                 for (int i = numberNode * container.BranchIndex; i < container.BranchIndex * (numberNode + 1); i++)
                 {
-                    arrayRetured[2] += container.Factorial(container.CountConnectedBlocks(node, 
-                        i - numberNode * container.BranchIndex) - 1) * powPK * powPK * powPK;
+                    //arrayRetured[2] += container.Factorial(container.CountConnectedBlocks(node, 
+                    //    i - numberNode * container.BranchIndex) - 1) * powPK * powPK * powPK;
 
                     for (int j = (i + 1); j < container.BranchIndex * (numberNode + 1); j++)
                     {
@@ -408,6 +408,7 @@ namespace Model.HierarchicModel.Realization
                                 arrayRetured[1] += powPK * powPK;
 
                                 arrayRetured[2] += 2 * powPK * (array[i][1] + array[j][1]);
+                                arrayRetured[2] += powPK * powPK * powPK * (array[i][1] + array[j][1]); // corrected
 
                                 // correct addition
                                 arrayRetured[0] += Convert.ToInt32(Math.Pow(powPK * (powPK - 1) / 2, 2));
@@ -420,6 +421,7 @@ namespace Model.HierarchicModel.Realization
                                 {
                                     // correct addition
                                     arrayRetured[0] += (powPK * powPK * powPK) * (powPK - 1) / 2;
+                                    arrayRetured[2] += powPK * powPK * powPK;
 
                                     if (container.IsConnectedTwoBlocks(node, i - numberNode * container.BranchIndex, 
                                         k - numberNode * container.BranchIndex))
@@ -440,6 +442,59 @@ namespace Model.HierarchicModel.Realization
                 }
 
                 return arrayRetured;
+            }
+        }
+
+        private int Cycles3OfVertex(int vertex, int numberNode, int level)
+        {
+            int result = 0;
+
+            int degree = 1; // gagati astichan
+
+            if (level == container.Level)
+            {
+                return result;
+            }
+            else
+            {
+                SortedDictionary<int, int> array = new SortedDictionary<int, int>();
+                double powPK = Math.Pow(container.BranchIndex, container.Level - level - 1);
+
+                for (int i = numberNode * container.BranchIndex; i < container.BranchIndex * (numberNode + 1); i++)
+                {
+                    array[i] = Cycles3OfVertex(vertex, i, level + 1);
+                    result += array[i];
+                }
+
+                BitArray node = container.TreeNode(level, numberNode);
+
+                string str = "";
+                for (int b = 0; b < node.Length; b++)
+                    str += node[b];
+
+                for (int j = numberNode * container.BranchIndex; j < container.BranchIndex * (numberNode + 1); j++)
+                {
+                    if (container.IsConnectedTwoBlocks(node, vertex, j - numberNode * container.BranchIndex))
+                    {
+                        if (level < container.Level)
+                        {
+                            result += Convert.ToInt32(container.CountEdges(j, level));
+                            result += Convert.ToInt32(powPK * degree);
+                        }
+                    }
+                    
+                    for (int k = (j + 1); k < (container.BranchIndex - 2) * (numberNode + 1); k++)
+                    {
+                        if (container.IsConnectedTwoBlocks(node, j - numberNode * container.BranchIndex,
+                                    k - numberNode * container.BranchIndex) &&
+                            container.IsConnectedTwoBlocks(node, k - numberNode * container.BranchIndex, vertex))
+                        {
+                            result += Convert.ToInt32(powPK * powPK);
+                        }
+                    }
+                }
+
+                return result;
             }
         }
 
