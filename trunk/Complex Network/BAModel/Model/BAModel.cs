@@ -27,7 +27,8 @@ namespace Model.BAModel
     [RequiredGenerationParam(GenerationParam.Vertices, 1)]
     [RequiredGenerationParam(GenerationParam.MaxEdges, 5)]
     [RequiredGenerationParam(GenerationParam.StepCount, 8)]
-    [RequiredGenerationParam(GenerationParam.InitialProbability, 9)]
+    [RequiredGenerationParam(GenerationParam.InitialStep, 9)]
+    [RequiredGenerationParam(GenerationParam.InitialProbability, 10)]
 
     // Реализация модели (BA).
     public class BAModel : AbstractGraphModel

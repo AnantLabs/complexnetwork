@@ -44,8 +44,6 @@
             this.optionsGrp = new System.Windows.Forms.GroupBox();
             this.deselectAllCheck = new System.Windows.Forms.CheckBox();
             this.selectAllCheck = new System.Windows.Forms.CheckBox();
-            this.buttonB = new System.Windows.Forms.RadioButton();
-            this.buttonA = new System.Windows.Forms.RadioButton();
             this.cycles = new System.Windows.Forms.Label();
             this.motives = new System.Windows.Forms.Label();
             this.cyclesHighCmb = new System.Windows.Forms.ComboBox();
@@ -130,7 +128,7 @@
             this.infoGrp.Controls.Add(this.modelName);
             this.infoGrp.Location = new System.Drawing.Point(3, 3);
             this.infoGrp.Name = "infoGrp";
-            this.infoGrp.Size = new System.Drawing.Size(209, 285);
+            this.infoGrp.Size = new System.Drawing.Size(150, 285);
             this.infoGrp.TabIndex = 6;
             this.infoGrp.TabStop = false;
             this.infoGrp.Text = "Model Information";
@@ -155,48 +153,16 @@
             this.modelName.TabIndex = 0;
             this.modelName.Text = "Model name";
             //
-            //buttonB
-            //
-            this.buttonB.AutoSize = true;
-            this.buttonB.Location = new System.Drawing.Point(65, 130);
-            this.buttonB.Name = "ModelB";
-            this.buttonB.Size = new System.Drawing.Size(50, 17);
-            this.buttonB.TabIndex = 8;
-            this.buttonB.Text = "Model B";
-            this.buttonB.UseVisualStyleBackColor = true;
-            this.buttonB.CheckedChanged += new System.EventHandler(this.buttonB_CheckedChanged);
-
-            //
-            //buttonA
-            //
-            this.buttonA.AutoSize = true;
-            this.buttonA.Checked = true;
-            this.buttonA.Location = new System.Drawing.Point(7, 130);
-            this.buttonA.Name = "ModelA";
-            this.buttonA.Size = new System.Drawing.Size(50, 17);
-            this.buttonA.TabIndex = 8;
-            this.buttonA.Text = "Model A";
-            this.buttonA.UseVisualStyleBackColor = true;
-            this.buttonA.CheckedChanged += new System.EventHandler(this.buttonA_CheckedChanged);
-            //
-            //CheckModel
-            //
-            this.checkModel.Text = "Generete BAModel by";
-            this.checkModel.AutoSize = true;
-            this.checkModel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.checkModel.Location = new System.Drawing.Point(7, 105);
-            this.checkModel.Name = "modelCheckBA";
-            this.checkModel.Size = new System.Drawing.Size(50, 17);
-            this.checkModel.TabIndex = 0;
+           
             // 
             // genParamsGrp
             // 
             this.genParamsGrp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.genParamsGrp.Controls.Add(this.label2);
-            this.genParamsGrp.Location = new System.Drawing.Point(218, 3);
+            this.genParamsGrp.Location = new System.Drawing.Point(160, 3);
             this.genParamsGrp.Name = "genParamsGrp";
-            this.genParamsGrp.Size = new System.Drawing.Size(387, 285);
+            this.genParamsGrp.Size = new System.Drawing.Size(446, 285);
             this.genParamsGrp.TabIndex = 5;
             this.genParamsGrp.TabStop = false;
             this.genParamsGrp.Text = "Generation Parameters";
@@ -720,8 +686,6 @@
         private System.Windows.Forms.CheckBox selectAllCheck;
         private System.Windows.Forms.CheckBox deselectAllCheck;
         private System.Windows.Forms.Label checkModel;
-        private System.Windows.Forms.RadioButton buttonB;
-        private System.Windows.Forms.RadioButton buttonA;
         private System.Windows.Forms.DataGridViewTextBoxColumn idColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn statusColumn;
         private controls.DataGridViewProgressColumn percentColumn;

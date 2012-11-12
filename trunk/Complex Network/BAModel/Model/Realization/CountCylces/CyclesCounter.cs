@@ -13,15 +13,20 @@ using System.IO;
 using System.Diagnostics;
 using System.Threading;
 using Model.BAModel.Realization.CycleCounting;
+using log4net;
+using CommonLibrary.Model;
 
 namespace Model.BAModel.Realization
 {
+
     /**
      * The class is responsible for calculation of the cycles count with 
      * specified length in a graph.
      */
     public class CyclesCounter
     {
+        protected static readonly new ILog log = log4net.LogManager.GetLogger(typeof(CyclesCounter));
+
         // reference to the BAContainer object which contains the graph
         private BAContainer _container;
 
@@ -46,9 +51,23 @@ namespace Model.BAModel.Realization
         public long getCyclesCount(int cycleLength)
         {
             long count = 0;
+           
             try
             {
-                count = _counter.calculateCyclesCount(cycleLength);
+                log.Info("Calculeted cycles of order" + cycleLength);
+                if (cycleLength == 2)
+                {
+                    foreach (var item in _container.Neighbourship)
+                    {
+                        count += item.Value.Count;
+                    }
+
+                    count /= 2;
+                }
+                else
+                {
+                    count = _counter.calculateCyclesCount(cycleLength);
+                }
             }
             catch (ThreadInterruptedException e)
             {

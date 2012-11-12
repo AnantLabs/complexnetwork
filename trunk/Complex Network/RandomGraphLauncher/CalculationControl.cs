@@ -389,9 +389,9 @@ namespace RandomGraphLauncher
             description.Text = "Description: \n" + graphMetaData.Description;
             if (graphMetaData.CheckModel)
             {
-                this.infoGrp.Controls.Add(checkModel);
-                this.infoGrp.Controls.Add(buttonB);
-                this.infoGrp.Controls.Add(buttonA);
+               // this.infoGrp.Controls.Add(checkModel);
+               // this.infoGrp.Controls.Add(buttonB);
+              ///  this.infoGrp.Controls.Add(buttonA);
             }
 
         }
@@ -413,24 +413,54 @@ namespace RandomGraphLauncher
                         GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);
                     Control control = null;
                     Label textBoxLabel = null;
-                    if (paramInfo.Type!=typeof(String))
+                    if (paramInfo.Name.Equals("Initial Graph"))
                     {
-                        control = new TextBox();
-                        control.Width = 100;
-                        control.Location = new Point(105, position);
-
+                        ComboBox listBox = new ComboBox();
+                        listBox.DropDownStyle = ComboBoxStyle.DropDown;
+                        listBox.Items.Add("Variable");
+                        listBox.Items.Add("permanent");
+                        listBox.SelectedIndex = 1;
+                        listBox.BackColor = Color.White;
+                        listBox.Location = new Point(105, position);
+                        listBox.Width = 100;
                         textBoxLabel = new Label() { Width = 100 };
                         textBoxLabel.Location = new Point(15, position);
-
                         textBoxLabel.Text = paramInfo.Name;
-                        generationParamsControls.Add(p, control);
-
-                        genParamsGrp.Controls.Add(control);
+                        generationParamsControls.Add(p, listBox);
+                        genParamsGrp.Controls.Add(listBox);
                         genParamsGrp.Controls.Add(textBoxLabel);
                         position += 25;
+                       
+
                     }
+                    else
+                    {
+                        if (paramInfo.Type != typeof(String))
+                        {
+                            control = new TextBox();
+                            control.Width = 100;
+                            control.Location = new Point(105, position);
+                            if (paramInfo.Name.Equals("Initial Probability"))
+                            {
+                                control.Text = "0";
+                            }
+
+                            textBoxLabel = new Label() { Width = 100 };
+                            textBoxLabel.Location = new Point(15, position);
+
+                            textBoxLabel.Text = paramInfo.Name;
+                            generationParamsControls.Add(p, control);
+
+                            genParamsGrp.Controls.Add(control);
+                            genParamsGrp.Controls.Add(textBoxLabel);
+                            position += 25;
+                        }
+
+                    }
+                    
+                   
                 }
-            }
+            }                   
             else
             {
                 Control control = new TextBox();

@@ -37,7 +37,13 @@ namespace RandomGraph.Common.Model.Generation
         [GenerationParamInfo(Name = "Step Count", Type = typeof(Int32))]
         StepCount = 8,
 
+        [GenerationParamInfo(Name = "Initial Graph", Type = typeof(string))]
+        InitialStep = 9,
+
         [GenerationParamInfo(Name = "Initial Probability", Type = typeof(double))]
-        InitialProbability = 9
+        InitialProbability = 10
+
+     
+
     }
 }

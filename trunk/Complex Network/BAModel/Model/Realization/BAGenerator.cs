@@ -17,12 +17,15 @@ namespace Model.BAModel.Realization
         
         // Контейнер, в котором содержится граф конкретной модели (BA).
         private BAContainer container;
+        private BAContainer initialcontainer;
         private int edges;
+        private string initialGragh;
         private bool initialGeneration=true;
         // Конструктор по умолчанию, в котором создается пустой контейнер графа.
         public BAGenerator()
         {
             container = new BAContainer();
+            initialcontainer = new BAContainer();
         }
 
         // Контейнер, в котором содержится сгенерированный граф.
@@ -40,6 +43,7 @@ namespace Model.BAModel.Realization
             edges = (Int16)genParam[GenerationParam.MaxEdges];
             int stepCount = (Int32)genParam[GenerationParam.StepCount];
             double probability = (double)genParam[GenerationParam.InitialProbability];
+            initialGragh = (string)genParam[GenerationParam.InitialStep];
             container.Size = numberOfVertices;
             Generate(stepCount,probability);
             log.Info("Random generation step finished.");
@@ -60,10 +64,12 @@ namespace Model.BAModel.Realization
 
         private void Generate(long stepCount,double probability)
         {
-            if (initialGeneration && probability != 0)
+            if (initialGeneration)
             {
                 GenereateInitialGraph(probability);
-                initialGeneration = false;
+                if (initialGragh.Equals("permanent"))
+                    initialGeneration = false;
+                container = initialcontainer;
             }
             while (stepCount > 0)
             {
@@ -80,7 +86,7 @@ namespace Model.BAModel.Realization
                 for(int j = i+1;j<container.Size;j++)
                 {
                     if (rand.NextDouble() < probability)
-                        container.ConnectVertex(i, j);
+                        initialcontainer.ConnectVertex(i, j);
 
                 }
         }
@@ -99,7 +105,7 @@ namespace Model.BAModel.Realization
             
             bool[] result = new bool[container.Neighbourship.Count];
             foreach (var item in items)
-                if (count <= edges)
+                if (count < edges)
                 {
                     result[item.Key] = true;
                     count++;
