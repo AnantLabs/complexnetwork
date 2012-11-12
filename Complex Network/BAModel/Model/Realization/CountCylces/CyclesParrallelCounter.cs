@@ -12,6 +12,7 @@ using Model.BAModel.Realization;
 using System.IO;
 using System.Diagnostics;
 using System.Threading;
+using CommonLibrary.Model;
 
 namespace Model.BAModel.Realization.CycleCounting
 {

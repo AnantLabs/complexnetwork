@@ -11,6 +11,7 @@ using System.Text;
 using Model.BAModel.Realization;
 using System.IO;
 using System.Diagnostics;
+using CommonLibrary.Model;
 
 namespace Model.BAModel.Realization.CycleCounting
 {
