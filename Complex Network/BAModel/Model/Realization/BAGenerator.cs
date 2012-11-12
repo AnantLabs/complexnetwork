@@ -45,6 +45,7 @@ namespace Model.BAModel.Realization
             double probability = (double)genParam[GenerationParam.InitialProbability];
             initialGragh = (string)genParam[GenerationParam.InitialStep];
             container.Size = numberOfVertices;
+            initialcontainer.Size = numberOfVertices;
             Generate(stepCount,probability);
             log.Info("Random generation step finished.");
         }
