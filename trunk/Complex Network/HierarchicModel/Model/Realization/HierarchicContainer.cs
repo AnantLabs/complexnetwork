@@ -448,13 +448,7 @@ namespace Model.HierarchicModel.Realization
             return count;
         }
 
-        /// <summary>
-        /// Возвращает истину, если первый данный блок соединен со вторым данным блоком.
-        /// </summary>
-        /// <param name="node">nodes data</param>
-        /// <param name="number1">number of the first block</param>
-        /// <param name="number2">number of the second block</param>
-        /// <returns></returns>
+        // Возвращает true, если поддеревья под номерами i и j непосредственно соединены.
         public bool IsConnectedTwoBlocks(BitArray node, int number1, int number2)
         {
             if (number1 == number2)
@@ -483,6 +477,38 @@ namespace Model.HierarchicModel.Realization
             {
                 return false;
             }
+        }
+
+        // Возвращает число непосредственных соединений между всеми поддеревьями данного номера на данном уровне.
+        public int Links(int nodeNumber, int levelNumber)
+        {
+            int result = 0;
+            BitArray node = TreeNode(levelNumber, nodeNumber);
+            for (int i = branchIndex * nodeNumber; i < branchIndex * (nodeNumber + 1) - 1; ++i)
+            {
+                for (int j = i + 1; j < branchIndex * (nodeNumber + 1); ++j)
+                {
+                    if(IsConnectedTwoBlocks(node, i - branchIndex * nodeNumber, j - branchIndex * nodeNumber))
+                        ++result;
+                }
+            }
+
+            return result;
+        }
+
+        // Возвращает число непосредственных соединений между i и остальными поддеревьями 
+        // данного номера на данном уровне.
+        public int Links(int i, int nodeNumber, int levelNumber)
+        {
+            int result = 0;
+            BitArray node = TreeNode(levelNumber, nodeNumber);
+            for (int j = branchIndex * nodeNumber; j < branchIndex * (nodeNumber + 1); ++j)
+            {
+                if (IsConnectedTwoBlocks(node, i, j - branchIndex * nodeNumber))
+                    ++result;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -541,6 +567,16 @@ namespace Model.HierarchicModel.Realization
             }
 
             return vector;
+        }
+
+        // Возвращает номер дерева данного уровня (levelNumber), 
+        // листом которого является данная вершина (vertexNumber).
+        public int TreeIndex(int vertexNumber, int levelNumber)
+        {
+            if (levelNumber == level)
+                return vertexNumber;
+            else
+                return TreeIndex(vertexNumber, levelNumber + 1) / branchIndex;
         }
 
         // Закрытая часть класса (не из общего интерфейса).
