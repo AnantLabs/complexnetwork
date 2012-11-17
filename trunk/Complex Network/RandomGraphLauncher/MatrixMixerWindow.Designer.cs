@@ -31,11 +31,9 @@
             this.filePath = new System.Windows.Forms.Label();
             this.filePathTxt = new System.Windows.Forms.TextBox();
             this.browse = new System.Windows.Forms.Button();
-            this.firstIndex = new System.Windows.Forms.Label();
-            this.firstIndexTxt = new System.Windows.Forms.TextBox();
-            this.secondIndex = new System.Windows.Forms.Label();
-            this.secondIndexTxt = new System.Windows.Forms.TextBox();
-            this.mix = new System.Windows.Forms.Button();
+            this.percentTxt = new System.Windows.Forms.TextBox();
+            this.mixMatrix = new System.Windows.Forms.Button();
+            this.percent = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // filePath
@@ -59,68 +57,48 @@
             // 
             this.browse.Location = new System.Drawing.Point(166, 23);
             this.browse.Name = "browse";
-            this.browse.Size = new System.Drawing.Size(96, 23);
+            this.browse.Size = new System.Drawing.Size(95, 23);
             this.browse.TabIndex = 2;
             this.browse.Text = "Browse";
             this.browse.UseVisualStyleBackColor = true;
             this.browse.Click += new System.EventHandler(this.browse_Click);
             // 
-            // firstIndex
+            // percentTxt
             // 
-            this.firstIndex.AutoSize = true;
-            this.firstIndex.Location = new System.Drawing.Point(12, 67);
-            this.firstIndex.Name = "firstIndex";
-            this.firstIndex.Size = new System.Drawing.Size(55, 13);
-            this.firstIndex.TabIndex = 3;
-            this.firstIndex.Text = "First Index";
+            this.percentTxt.Location = new System.Drawing.Point(16, 81);
+            this.percentTxt.Name = "percentTxt";
+            this.percentTxt.Size = new System.Drawing.Size(125, 20);
+            this.percentTxt.TabIndex = 8;
+            this.percentTxt.Text = "0";
+            this.percentTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // firstIndexTxt
+            // mixMatrix
             // 
-            this.firstIndexTxt.Location = new System.Drawing.Point(15, 83);
-            this.firstIndexTxt.Name = "firstIndexTxt";
-            this.firstIndexTxt.Size = new System.Drawing.Size(125, 20);
-            this.firstIndexTxt.TabIndex = 4;
-            this.firstIndexTxt.Text = "0";
-            this.firstIndexTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mixMatrix.Location = new System.Drawing.Point(168, 79);
+            this.mixMatrix.Name = "mixMatrix";
+            this.mixMatrix.Size = new System.Drawing.Size(95, 23);
+            this.mixMatrix.TabIndex = 9;
+            this.mixMatrix.Text = "Mix Matrix";
+            this.mixMatrix.UseVisualStyleBackColor = true;
+            this.mixMatrix.Click += new System.EventHandler(this.MixMatrix_Click);
             // 
-            // secondIndex
+            // percent
             // 
-            this.secondIndex.AutoSize = true;
-            this.secondIndex.Location = new System.Drawing.Point(12, 127);
-            this.secondIndex.Name = "secondIndex";
-            this.secondIndex.Size = new System.Drawing.Size(73, 13);
-            this.secondIndex.TabIndex = 5;
-            this.secondIndex.Text = "Second Index";
-            // 
-            // secondIndexTxt
-            // 
-            this.secondIndexTxt.Location = new System.Drawing.Point(15, 143);
-            this.secondIndexTxt.Name = "secondIndexTxt";
-            this.secondIndexTxt.Size = new System.Drawing.Size(125, 20);
-            this.secondIndexTxt.TabIndex = 6;
-            this.secondIndexTxt.Text = "0";
-            this.secondIndexTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // mix
-            // 
-            this.mix.Location = new System.Drawing.Point(166, 140);
-            this.mix.Name = "mix";
-            this.mix.Size = new System.Drawing.Size(96, 23);
-            this.mix.TabIndex = 7;
-            this.mix.Text = "Mix";
-            this.mix.UseVisualStyleBackColor = true;
-            this.mix.Click += new System.EventHandler(this.mix_Click);
+            this.percent.AutoSize = true;
+            this.percent.Location = new System.Drawing.Point(15, 65);
+            this.percent.Name = "percent";
+            this.percent.Size = new System.Drawing.Size(61, 13);
+            this.percent.TabIndex = 10;
+            this.percent.Text = "Percent (%)";
             // 
             // MatrixMixerWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 202);
-            this.Controls.Add(this.mix);
-            this.Controls.Add(this.secondIndexTxt);
-            this.Controls.Add(this.secondIndex);
-            this.Controls.Add(this.firstIndexTxt);
-            this.Controls.Add(this.firstIndex);
+            this.ClientSize = new System.Drawing.Size(284, 132);
+            this.Controls.Add(this.percent);
+            this.Controls.Add(this.mixMatrix);
+            this.Controls.Add(this.percentTxt);
             this.Controls.Add(this.browse);
             this.Controls.Add(this.filePathTxt);
             this.Controls.Add(this.filePath);
@@ -138,10 +116,8 @@
         private System.Windows.Forms.Label filePath;
         private System.Windows.Forms.TextBox filePathTxt;
         private System.Windows.Forms.Button browse;
-        private System.Windows.Forms.Label firstIndex;
-        private System.Windows.Forms.TextBox firstIndexTxt;
-        private System.Windows.Forms.Label secondIndex;
-        private System.Windows.Forms.TextBox secondIndexTxt;
-        private System.Windows.Forms.Button mix;
+        private System.Windows.Forms.TextBox percentTxt;
+        private System.Windows.Forms.Button mixMatrix;
+        private System.Windows.Forms.Label percent;
     }
 }

@@ -162,16 +162,16 @@ namespace Model.HierarchicModel.Realization
         // Закрытая часть класса (не из общего интерфейса). //
 
         // Возвращает степень данного узла на данном уровне (в соответствующем кластере).
-        private int VertexDegree(int vertexNumber, int level)
+        private double VertexDegree(int vertexNumber, int level)
         {
-            int result = 0;
+            double result = 0;
             for (int i = container.Level - 1; i >= level; --i)
             {
                 int vertexIndex = container.TreeIndex(vertexNumber, i + 1) % container.BranchIndex;
                 int nodeNumber = container.TreeIndex(vertexNumber, i);
                 BitArray node = container.TreeNode(i, nodeNumber);
-                result += container.Links(vertexIndex, nodeNumber, i) *
-                    Convert.ToInt32(Math.Pow(container.BranchIndex, container.Level - i - 1));
+                result += container.Links(vertexIndex, nodeNumber, i) * 
+                    Math.Pow(container.BranchIndex, container.Level - i - 1);
             }
 
             return result;
@@ -463,18 +463,17 @@ namespace Model.HierarchicModel.Realization
             if (degree == 0)
                 return 0;
             else
-            {
-                double res = (2 * (double)Count3CycleOfVertex(vertexNumber, 0)) / (degree * (degree - 1));
-                return res;
-            }
+                return (2 * Count3CycleOfVertex(vertexNumber, 0)[0]) / (degree * (degree - 1));
         }
 
         // Возвращает число циклов порядка 3 прикрепленных к данному узлу 
-        // в нулевом элементе SortedDictionary<int, int>.
+        // в нулевом элементе SortedDictionary<int, double>.
         // Число циклов вычисляется в данном узле данного уровня.
-        private int Count3CycleOfVertex(int vertexNumber, int level)
+        private SortedDictionary<int, double> Count3CycleOfVertex(int vertexNumber, int level)
         {
-            int result = 0;
+            SortedDictionary<int, double> result = new SortedDictionary<int, double>();
+            result[0] = 0;  // число циклов 3 прикрепленных к данному узлу
+            result[1] = 0;  // число ребер в данном подграфе (такое вычисление повышает эффективность)
 
             if (level == container.Level)
             {
@@ -482,28 +481,38 @@ namespace Model.HierarchicModel.Realization
             }
             else
             {
-                int previousResult  = Count3CycleOfVertex(vertexNumber, level + 1);
-                result += previousResult;
-
-                int powPK = Convert.ToInt32(Math.Pow(container.BranchIndex, container.Level - level - 1));
-                int degree = VertexDegree(vertexNumber, level + 1);
                 int numberNode = container.TreeIndex(vertexNumber, level);
+                int vertexIndex = container.TreeIndex(vertexNumber, level) % container.BranchIndex;
                 BitArray node = container.TreeNode(level, numberNode);
+                double powPK = Math.Pow(container.BranchIndex, container.Level - level - 1);
+
+                SortedDictionary<int, double> previousResult = Count3CycleOfVertex(vertexNumber, level + 1);
+                result[0] += previousResult[0];
+                result[1] += previousResult[1];
+
+                int countOne = 0;
+                for (int i = 0; i < (container.BranchIndex * (container.BranchIndex - 1) / 2); i++)
+                {
+                    countOne += (node[i]) ? 1 : 0;
+                }
+                result[1] += countOne * powPK * powPK;
+                
+                double degree = VertexDegree(vertexNumber, level + 1);                
                 for (int j = numberNode * container.BranchIndex; j < container.BranchIndex * (numberNode + 1); ++j)
                 {
-                    if (container.IsConnectedTwoBlocks(node, numberNode, j - numberNode * container.BranchIndex))
+                    if (container.IsConnectedTwoBlocks(node, vertexIndex, j - numberNode * container.BranchIndex))
                     {
-                        result += (int)container.CountEdges(numberNode, level + 1);
-                        result += powPK * degree;
+                        result[0] += previousResult[1]; //container.CountEdges(numberNode, level + 1);
+                        result[0] += powPK * degree;
 
                         for (int k = j + 1; k < container.BranchIndex * (numberNode + 1); ++k)
                         {
                             if (container.IsConnectedTwoBlocks(node, j - numberNode * container.BranchIndex,
                                 k - numberNode * container.BranchIndex) &&
                                 container.IsConnectedTwoBlocks(node, k - numberNode * container.BranchIndex,
-                                numberNode))
+                                vertexIndex))
                             {
-                                result += powPK * powPK;
+                                result[0] += powPK * powPK;
                             }
                         }
                     }
@@ -518,7 +527,7 @@ namespace Model.HierarchicModel.Realization
         /// </summary>
         /// <param name="tree"></param>
         /// <returns></returns>
-        /*private double ClusteringCoefficientOfVertex(long vert)
+        private double ClusteringCoefficientOfVertex(long vert)
         {
             double sum = 0;
             long adjCount = 0;
@@ -574,7 +583,7 @@ namespace Model.HierarchicModel.Realization
             }
 
             return vertClustCoef;
-        }*/
+        }
 
         /// <summary>
         /// Возвращает собственные значения.

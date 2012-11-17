@@ -23,9 +23,9 @@ namespace RandomGraphLauncher
 
         private void MatrixMixerWindow_Load(object sender, EventArgs e)
         {
-            this.firstIndexTxt.Enabled = false;
-            this.secondIndexTxt.Enabled = false;
-            this.mix.Enabled = false;
+            this.percent.Enabled = false;
+            this.percentTxt.Enabled = false;
+            this.mixMatrix.Enabled = false;
 
             this.browse.Select();
         }
@@ -44,47 +44,54 @@ namespace RandomGraphLauncher
                 this.filePathTxt.Text = openFileDialog.FileName;
             }
 
-            this.firstIndexTxt.Enabled = true;
-            this.secondIndexTxt.Enabled = true;
-            this.mix.Enabled = true;
+            this.percent.Enabled = true;
+            this.percentTxt.Enabled = true;
+            this.mixMatrix.Enabled = true;
 
-            this.firstIndexTxt.SelectAll();
-            this.firstIndexTxt.Focus();
+            this.percentTxt.SelectAll();
+            this.percentTxt.Focus();
         }
 
-        private void mix_Click(object sender, EventArgs e)
+        private void MixMatrix_Click(object sender, EventArgs e)
         {
-            int firstIndex = 0, secondIndex = 0;
+            int percentValue = 0;
             try
             {
-                firstIndex = Convert.ToInt32(this.firstIndexTxt.Text);
-                secondIndex = Convert.ToInt32(this.secondIndexTxt.Text);
+                percentValue = Convert.ToInt32(this.percentTxt.Text);
 
-                if (firstIndex < 0 || secondIndex < 0)
+                if (percentValue < 0 || percentValue > 100)
                 {
                     throw new SystemException();
                 }
             }
-            catch(SystemException)
+            catch (SystemException)
             {
-                MessageBox.Show("Wrong Index.", "Error");
-                this.firstIndexTxt.SelectAll();
-                this.firstIndexTxt.Focus();
+                MessageBox.Show("Percent must be non-negative and less then 100 natural number.", "Error");
+                this.percentTxt.SelectAll();
+                this.percentTxt.Focus();
                 return;
             }
 
-            ArrayList matrixArr = MatrixFileReader.MatrixReader(this.filePathTxt.Text);
-            SortedDictionary<int, List<int>> neighbourship = new SortedDictionary<int, List<int>>();
-            ArrayList neighbourshipOfIVertex = new ArrayList();
-            for (int i = 0; i < matrixArr.Count; i++)
-            {
-                neighbourshipOfIVertex = (ArrayList)matrixArr[i];
-                neighbourship[i] = new List<int>();
-                for (int j = 0; j < matrixArr.Count; j++)
-                    if ((bool)neighbourshipOfIVertex[j] == true && i != j)
-                        neighbourship[i].Add(j);
-            }
+            ReadFromFile();
 
+            int percent = Convert.ToInt32(this.percentTxt.Text);
+            int changesCount = neighbourship.Count * percent / 100;
+            int f = 0, s = 0;
+            Random rand = new Random();
+
+            for (int i = 0; i < changesCount; ++i)
+            {
+                f = rand.Next(0, neighbourship.Count);
+                s = rand.Next(0, neighbourship.Count);
+
+                MixTwoIndices(f, s);
+            }
+            
+            WriteToFile();
+        }
+
+        private void MixTwoIndices(int firstIndex, int secondIndex)
+        {
             List<int> firstNeighbours = neighbourship[firstIndex];
             List<int> secondNeighbours = neighbourship[secondIndex];
             if (firstNeighbours.Contains(secondIndex))   // данные вершины смежны
@@ -114,7 +121,24 @@ namespace RandomGraphLauncher
                     neighbourship[secondNeighbours[j]].Add(firstIndex);
                 }
             }
+        }
 
+        private void ReadFromFile()
+        {
+            ArrayList matrixArr = MatrixFileReader.MatrixReader(this.filePathTxt.Text);
+            ArrayList neighbourshipOfIVertex = new ArrayList();
+            for (int i = 0; i < matrixArr.Count; i++)
+            {
+                neighbourshipOfIVertex = (ArrayList)matrixArr[i];
+                neighbourship[i] = new List<int>();
+                for (int j = 0; j < matrixArr.Count; j++)
+                    if ((bool)neighbourshipOfIVertex[j] == true && i != j)
+                        neighbourship[i].Add(j);
+            }
+        }
+
+        private void WriteToFile()
+        {
             bool[,] matrix = new bool[neighbourship.Count, neighbourship.Count];
 
             for (int i = 0; i < neighbourship.Count; ++i)
@@ -131,7 +155,7 @@ namespace RandomGraphLauncher
             }
 
             int strLength = this.filePathTxt.Text.Length - 4;
-            string filePath = this.filePathTxt.Text.Substring(0, strLength)  + "_mix.txt";
+            string filePath = this.filePathTxt.Text.Substring(0, strLength) + "_mix.txt";
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath))
             {
                 try
@@ -162,5 +186,7 @@ namespace RandomGraphLauncher
                 }
             }
         }
+
+        private SortedDictionary<int, List<int>> neighbourship = new SortedDictionary<int, List<int>>();
     }
 }
