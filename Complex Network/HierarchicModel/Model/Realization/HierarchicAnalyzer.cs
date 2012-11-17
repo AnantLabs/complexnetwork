@@ -124,16 +124,13 @@ namespace Model.HierarchicModel.Realization
             log.Info("Getting clustering coefficients.");
             SortedDictionary<double, int> result = new SortedDictionary<double, int>();
 
-            for (int i = 0; i < container.Size; i++)
+            for (int i = 0; i < container.Size; ++i)
             {
-                double dresult = ClusteringCoefficientOfVertex(i);
-                dresult = dresult * 10000;
-                int iResult = Convert.ToInt32(dresult);
-                double r = (double)iResult / 10000;
-                if (result.Keys.Contains(r))
-                    result[r] += 1;
+                double dresult = Math.Round(ClusterringCoefficientOfVertex(i), 4);
+                if (result.Keys.Contains(dresult))
+                    ++result[dresult];
                 else
-                    result.Add(r, 1);
+                    result.Add(dresult, 1);
             }
 
             return result;
@@ -164,11 +161,24 @@ namespace Model.HierarchicModel.Realization
 
         // Закрытая часть класса (не из общего интерфейса). //
 
-        /// <summary>
-        /// Возвращает  <countAdjacent,countVertexes> 
-        /// </summary>
-        /// <param name="HierarchicGraph"></param>
-        /// <returns></returns>
+        // Возвращает степень данного узла на данном уровне (в соответствующем кластере).
+        private int VertexDegree(int vertexNumber, int level)
+        {
+            int result = 0;
+            for (int i = container.Level - 1; i >= level; --i)
+            {
+                int vertexIndex = container.TreeIndex(vertexNumber, i + 1) % container.BranchIndex;
+                int nodeNumber = container.TreeIndex(vertexNumber, i);
+                BitArray node = container.TreeNode(i, nodeNumber);
+                result += container.Links(vertexIndex, nodeNumber, i) *
+                    Convert.ToInt32(Math.Pow(container.BranchIndex, container.Level - i - 1));
+            }
+
+            return result;
+        }
+
+        // Возвращает распределение степеней.
+        // Распределение степеней вычисляется в данном узле данного уровня.
         private SortedDictionary<int, int> ArrayCntAdjacentCntVertexes(int numberNode, int level)
         {
             if (level == container.Level)
@@ -445,11 +455,26 @@ namespace Model.HierarchicModel.Realization
             }
         }
 
-        private int Cycles3OfVertex(int vertex, int numberNode, int level)
+        // Возвращает коэффициент класстеризации для данной вершины (vertexNumber).
+        // Вычисляется с помощью числа циклов порядка 3, прикрепленных к данной вершине.
+        private double ClusterringCoefficientOfVertex(int vertexNumber)
+        {
+            double degree = VertexDegree(vertexNumber, 0);
+            if (degree == 0)
+                return 0;
+            else
+            {
+                double res = (2 * (double)Count3CycleOfVertex(vertexNumber, 0)) / (degree * (degree - 1));
+                return res;
+            }
+        }
+
+        // Возвращает число циклов порядка 3 прикрепленных к данному узлу 
+        // в нулевом элементе SortedDictionary<int, int>.
+        // Число циклов вычисляется в данном узле данного уровня.
+        private int Count3CycleOfVertex(int vertexNumber, int level)
         {
             int result = 0;
-
-            int degree = 1; // gagati astichan
 
             if (level == container.Level)
             {
@@ -457,39 +482,29 @@ namespace Model.HierarchicModel.Realization
             }
             else
             {
-                SortedDictionary<int, int> array = new SortedDictionary<int, int>();
-                double powPK = Math.Pow(container.BranchIndex, container.Level - level - 1);
+                int previousResult  = Count3CycleOfVertex(vertexNumber, level + 1);
+                result += previousResult;
 
-                for (int i = numberNode * container.BranchIndex; i < container.BranchIndex * (numberNode + 1); i++)
-                {
-                    array[i] = Cycles3OfVertex(vertex, i, level + 1);
-                    result += array[i];
-                }
-
+                int powPK = Convert.ToInt32(Math.Pow(container.BranchIndex, container.Level - level - 1));
+                int degree = VertexDegree(vertexNumber, level + 1);
+                int numberNode = container.TreeIndex(vertexNumber, level);
                 BitArray node = container.TreeNode(level, numberNode);
-
-                string str = "";
-                for (int b = 0; b < node.Length; b++)
-                    str += node[b];
-
-                for (int j = numberNode * container.BranchIndex; j < container.BranchIndex * (numberNode + 1); j++)
+                for (int j = numberNode * container.BranchIndex; j < container.BranchIndex * (numberNode + 1); ++j)
                 {
-                    if (container.IsConnectedTwoBlocks(node, vertex, j - numberNode * container.BranchIndex))
+                    if (container.IsConnectedTwoBlocks(node, numberNode, j - numberNode * container.BranchIndex))
                     {
-                        if (level < container.Level)
+                        result += (int)container.CountEdges(numberNode, level + 1);
+                        result += powPK * degree;
+
+                        for (int k = j + 1; k < container.BranchIndex * (numberNode + 1); ++k)
                         {
-                            result += Convert.ToInt32(container.CountEdges(j, level));
-                            result += Convert.ToInt32(powPK * degree);
-                        }
-                    }
-                    
-                    for (int k = (j + 1); k < (container.BranchIndex - 2) * (numberNode + 1); k++)
-                    {
-                        if (container.IsConnectedTwoBlocks(node, j - numberNode * container.BranchIndex,
-                                    k - numberNode * container.BranchIndex) &&
-                            container.IsConnectedTwoBlocks(node, k - numberNode * container.BranchIndex, vertex))
-                        {
-                            result += Convert.ToInt32(powPK * powPK);
+                            if (container.IsConnectedTwoBlocks(node, j - numberNode * container.BranchIndex,
+                                k - numberNode * container.BranchIndex) &&
+                                container.IsConnectedTwoBlocks(node, k - numberNode * container.BranchIndex,
+                                numberNode))
+                            {
+                                result += powPK * powPK;
+                            }
                         }
                     }
                 }
@@ -503,7 +518,7 @@ namespace Model.HierarchicModel.Realization
         /// </summary>
         /// <param name="tree"></param>
         /// <returns></returns>
-        private double ClusteringCoefficientOfVertex(long vert)
+        /*private double ClusteringCoefficientOfVertex(long vert)
         {
             double sum = 0;
             long adjCount = 0;
@@ -559,7 +574,7 @@ namespace Model.HierarchicModel.Realization
             }
 
             return vertClustCoef;
-        }
+        }*/
 
         /// <summary>
         /// Возвращает собственные значения.
