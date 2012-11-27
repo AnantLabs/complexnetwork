@@ -15,6 +15,8 @@ namespace Model.HierarchicModel
     [GraphModel("Block-Hierarchic","Block-hierarchic Model")]
     [AvailableAnalyzeOptions(
         AnalyseOptions.AveragePath | 
+        AnalyseOptions.MinPathDist |
+        AnalyseOptions.Diameter |
         AnalyseOptions.Cycles3 | 
         AnalyseOptions.Cycles4 | 
         AnalyseOptions.DegreeDistribution |
@@ -81,6 +83,8 @@ namespace Model.HierarchicModel
 
             // Определение доступных опций для анализа (вычисляемые характеристики для данной модели (Block-Hierarchic)).
             AvailableOptions = AnalyseOptions.AveragePath |
+                AnalyseOptions.MinPathDist |
+                AnalyseOptions.Diameter |
                 AnalyseOptions.Cycles3 |
                 AnalyseOptions.Cycles4 |
                 AnalyseOptions.DegreeDistribution |

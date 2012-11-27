@@ -36,11 +36,30 @@ namespace Model.HierarchicModel.Realization
         {
             log.Info("Getting average path length.");
 
-            long[] pathsInfo = GetSubgraphsPathInfo(0, 0);
-            //int p = Engine.pathsCount;
+            if (-1 == avgPath)
+            {
+                CountPathDistribution();
+            }
+
+            return Math.Round(avgPath, 14);
+
+            //long[] pathsInfo = GetSubgraphsPathInfo(0, 0);
             // !petq e bajanel chanaparhneri qanaki vra!
-            return 2 * (pathsInfo[0] + pathsInfo[2]) / ((double)container.Size *
-                ((double)container.Size - 1));
+            //return 2 * (pathsInfo[0] + pathsInfo[2]) / ((double)container.Size *
+            //    ((double)container.Size - 1));
+        }
+
+        // Возвращается диаметр графа. Реализовано.
+        public override int GetDiameter()
+        {
+            log.Info("Getting diameter.");
+
+            if (-1 == diameter)
+            {
+                CountPathDistribution();
+            }
+
+            return diameter;
         }
 
         // Возвращается число циклов длиной 3 в графе. Реализовано.
@@ -81,7 +100,8 @@ namespace Model.HierarchicModel.Realization
             EigenValueUtils eg = new EigenValueUtils();
             try
             {
-                return eg.CalculateEigenValue(m);
+                eigenValues = eg.CalculateEigenValue(m);
+                return eigenValues;
             }
             catch (Exception ex)
             {
@@ -109,6 +129,19 @@ namespace Model.HierarchicModel.Realization
                 log.Error(ex);
                 return new SortedDictionary<double, int>();
             }
+        }
+
+        // Возвращается распределение длин минимальных путей в графе. Реализовано.
+        public override SortedDictionary<int, int> GetMinPathDist()
+        {
+            log.Info("Getting minimal distances between vertices.");
+
+            if (-1 == avgPath)
+            {
+                CountPathDistribution();
+            }
+
+            return pathDistribution;
         }
 
         // Возвращается степенное распределение графа. Реализовано.
@@ -150,8 +183,11 @@ namespace Model.HierarchicModel.Realization
             EngineForCycles engForCycles = new EngineForCycles(container);
 
             SortedDictionary<int, long> result = new SortedDictionary<int, long>();
+            string infoStr = "Getting cycles of order ";
             for (int l = lowBound; l <= hightBound; ++l)
             {
+                infoStr += l.ToString() + ".";
+                log.Info(infoStr);
                 result.Add(l, (int)engForCycles.GetCycleCount(l));
             }
 
@@ -161,14 +197,56 @@ namespace Model.HierarchicModel.Realization
 
         // Закрытая часть класса (не из общего интерфейса). //
 
+        private double avgPath = -1;
+        private int diameter = -1;
+        private SortedDictionary<int, int> pathDistribution = new SortedDictionary<int, int>();
+        private ArrayList eigenValues;
+
+        private void CountPathDistribution()
+        {
+            double avgPath = 0;
+            int diameter = 0, countOfWays = 0;
+
+            for (int i = 0; i < container.Size; ++i)
+            {
+                for (int j = i + 1; j < container.Size; ++j)
+                {
+                    int way = MinimumWay(i, j);
+                    if (way == -1)
+                        continue;
+                    if (pathDistribution.ContainsKey(way))
+                        pathDistribution[way]++;
+                    else
+                        pathDistribution.Add(way, 1);
+
+                    if (way > diameter)
+                        diameter = way;
+
+                    avgPath += way;
+                    ++countOfWays;
+                }
+            }
+
+            this.avgPath = avgPath / countOfWays;
+            this.diameter = diameter;
+        }
+
+        private int MinimumWay(int vertex1, int vertex2)
+        {
+            int result = 0;
+
+            return result;
+        }
+
         // Возвращает степень данного узла на данном уровне (в соответствующем кластере).
         private double VertexDegree(int vertexNumber, int level)
         {
             double result = 0;
+            int vertexIndex = 0, nodeNumber = 0;
             for (int i = container.Level - 1; i >= level; --i)
             {
-                int vertexIndex = container.TreeIndex(vertexNumber, i + 1) % container.BranchIndex;
-                int nodeNumber = container.TreeIndex(vertexNumber, i);
+                vertexIndex = container.TreeIndex(vertexNumber, i + 1) % container.BranchIndex;
+                nodeNumber = container.TreeIndex(vertexNumber, i);
                 BitArray node = container.TreeNode(i, nodeNumber);
                 result += container.Links(vertexIndex, nodeNumber, i) * 
                     Math.Pow(container.BranchIndex, container.Level - i - 1);
@@ -460,7 +538,7 @@ namespace Model.HierarchicModel.Realization
         private double ClusterringCoefficientOfVertex(int vertexNumber)
         {
             double degree = VertexDegree(vertexNumber, 0);
-            if (degree == 0)
+            if (degree == 0 || degree == 1)
                 return 0;
             else
                 return (2 * Count3CycleOfVertex(vertexNumber, 0)[0]) / (degree * (degree - 1));
@@ -482,7 +560,7 @@ namespace Model.HierarchicModel.Realization
             else
             {
                 int numberNode = container.TreeIndex(vertexNumber, level);
-                int vertexIndex = container.TreeIndex(vertexNumber, level) % container.BranchIndex;
+                int vertexIndex = container.TreeIndex(vertexNumber, level + 1) % container.BranchIndex;
                 BitArray node = container.TreeNode(level, numberNode);
                 double powPK = Math.Pow(container.BranchIndex, container.Level - level - 1);
 
