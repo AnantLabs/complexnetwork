@@ -392,40 +392,71 @@ namespace Model.HierarchicModel.Realization
             return 0;
         }
 
-        /// <summary>
-        /// Возвращает число ребер в графе.
-        /// </summary>
-        /// <param name="numberNode"></param>
-        /// <param name="level"></param>
-        /// <returns>count edges</returns>
-        public double CountEdges(long numberNode, int level)
+        // Возвращает число ребер в данном кластере (определяется по l и nodeNumber).
+        public double CountEdges(long nodeNumber, int l)
         {
-            if (level < 0)
+            double result = 0;
+
+            if (l < 0 || l == level)
             {
-                return 0;
-            }
-            if (level == this.level)
-            {
-                return 0;
+                return result;
             }
             else
             {
-                int countOne = 0;
-                BitArray node = TreeNode(level, numberNode);
+                double res = 0;
+                BitArray node = TreeNode(level, nodeNumber);
 
                 for (int i = 0; i < (branchIndex * (branchIndex - 1) / 2); i++)
                 {
-                    countOne += (node[i]) ? 1 : 0;
+                    res += (node[i]) ? 1 : 0;
                 }
                 double t = Math.Pow(branchIndex, level - level - 1);
-                double count = countOne * t * t;
+                result = res * t * t;
 
-                for (long i = numberNode * branchIndex; i < branchIndex * (numberNode + 1); i++)
+                for (long i = nodeNumber * branchIndex; i < branchIndex * (nodeNumber + 1); ++i)
                 {
-                    count += CountEdges(i, level + 1);
+                    result += CountEdges(i, level + 1);
                 }
-                return count;
+
+                return result;
             }
+        }
+
+        // Возвращает число связей длиной 2 в данном кластере (определяется по l и nodeNumber).
+        public double CountEdges2(int nodeNumber, int l)
+        {
+            double result = 0;
+
+            if (l < 0 || l == level)
+                return result;
+            else
+            {
+                BitArray node = TreeNode(l, nodeNumber);
+                double powPK = Math.Pow(branchIndex, level - l - 1);
+
+                for (int i = nodeNumber * branchIndex; i < (nodeNumber + 1) * branchIndex; ++i)
+                {
+                    result += CountEdges2(i, l + 1);
+
+                    for (int j = i + 1; j < (nodeNumber + 1) * branchIndex; ++j)
+                    {
+                        if (IsConnectedTwoBlocks(node, i - nodeNumber * branchIndex, j - nodeNumber * branchIndex))
+                        {
+                            result += (CountEdges(i, l + 1) + CountEdges(j, l + 1)) * powPK * powPK * powPK;
+
+                            for (int k = j + 1; k < (nodeNumber + 1) * branchIndex; ++k)
+                            {
+                                if (IsConnectedTwoBlocks(node, j - nodeNumber * branchIndex, k - nodeNumber * branchIndex))
+                                {
+                                    result += powPK * powPK * powPK;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return result;
         }
 
         // Возвращает число ребер графа.

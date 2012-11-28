@@ -447,89 +447,86 @@ namespace Model.HierarchicModel.Realization
 
         // Возвращает число циклов порядка 4 в нулевом элементе SortedDictionary<int, double>.
         // Число циклов вычисляется в данном узле данного уровня.
-        private SortedDictionary<int, double> Count4Cycle(int numberNode, int level)
+        private SortedDictionary<int, double> Count4Cycle(int nodeNumber, int level)
         {
-            SortedDictionary<int, double> arrayRetured = new SortedDictionary<int, double>();
-            arrayRetured[0] = 0; // count cycles with 4 length
-            arrayRetured[1] = 0; // count way with 1 length
-            arrayRetured[2] = 0; // count way with 2 length
+            SortedDictionary<int, double> arrayReturned = new SortedDictionary<int, double>();
+            arrayReturned[0] = 0; // число циклов порядка 4
+            arrayReturned[1] = 0; // число путей длиной 1 (ребер)
+            arrayReturned[2] = 0; // число путей длиной 2
 
             if (level == container.Level)
             {
-                return arrayRetured;
+                return arrayReturned;
             }
             else
             {
                 SortedDictionary<int, SortedDictionary<int, double>> array = 
                     new SortedDictionary<int, SortedDictionary<int, double>>();
-                double powPK = Math.Pow(container.BranchIndex, container.Level - level - 1);
+                int bIndex = container.BranchIndex;
 
-                for (int i = numberNode * container.BranchIndex; i < container.BranchIndex * (numberNode + 1); i++)
+                for (int i = nodeNumber * bIndex; i < (nodeNumber + 1) * bIndex; ++i)
                 {
                     array[i] = Count4Cycle(i, level + 1);
-                    arrayRetured[0] += array[i][0];
-                    arrayRetured[1] += array[i][1];
-                    arrayRetured[2] += array[i][2];
+                    arrayReturned[0] += array[i][0];
+                    arrayReturned[1] += array[i][1];
+                    arrayReturned[2] += array[i][2];
                 }
 
-                BitArray node = container.TreeNode(level, numberNode);
+                BitArray node = container.TreeNode(level, nodeNumber);
+                double powPK = Math.Pow(container.BranchIndex, container.Level - level - 1);
 
-                string str = "";
-                for (int b = 0; b < node.Length; b++)
-                    str += node[b];
-
-                for (int i = numberNode * container.BranchIndex; i < container.BranchIndex * (numberNode + 1); i++)
+                for (int i = nodeNumber * bIndex; i < (nodeNumber + 1) * bIndex; ++i)
                 {
-                    //arrayRetured[2] += container.Factorial(container.CountConnectedBlocks(node, 
-                    //    i - numberNode * container.BranchIndex) - 1) * powPK * powPK * powPK;
-
-                    for (int j = (i + 1); j < container.BranchIndex * (numberNode + 1); j++)
+                    for (int j = (i + 1); j < (nodeNumber + 1) * bIndex; ++j)
                     {
-                        if (container.IsConnectedTwoBlocks(node, i - numberNode * container.BranchIndex, 
-                            j - numberNode * container.BranchIndex))
+                        if (container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex))
                         {
+                            arrayReturned[0] += Math.Pow(powPK * (powPK - 1) / 2, 2);
+
                             if (level < container.Level)
                             {
-                                arrayRetured[0] += 2 * array[i][1] * array[j][1];   // corrected
-                                arrayRetured[0] += (array[i][2] + array[j][2]) * powPK;
+                                arrayReturned[0] += 2 * array[i][1] * array[j][1];
+                                arrayReturned[0] += (array[i][2] + array[j][2]) * powPK;
 
-                                arrayRetured[1] += powPK * powPK;
+                                arrayReturned[1] += powPK * powPK;
 
-                                arrayRetured[2] += 2 * powPK * (array[i][1] + array[j][1]);
-                                arrayRetured[2] += powPK * powPK * powPK * (array[i][1] + array[j][1]); // corrected
-
-                                // correct addition
-                                arrayRetured[0] += Convert.ToInt32(Math.Pow(powPK * (powPK - 1) / 2, 2));
+                                arrayReturned[2] += powPK * powPK * powPK * (array[i][1] + array[j][1]);
                             }
 
-                            for (int k = (j + 1); k < container.BranchIndex * (numberNode + 1); k++)
+                            for (int k = (j + 1); k < (nodeNumber + 1) * bIndex; ++k)
                             {
-                                if (container.IsConnectedTwoBlocks(node, j - numberNode * container.BranchIndex, 
-                                    k - numberNode * container.BranchIndex))
+                                if (container.IsConnectedTwoBlocks(node, 
+                                    j - nodeNumber * bIndex, 
+                                    k - nodeNumber * bIndex))
                                 {
-                                    // correct addition
-                                    arrayRetured[0] += (powPK * powPK * powPK) * (powPK - 1) / 2;
-                                    arrayRetured[2] += powPK * powPK * powPK;
+                                    arrayReturned[0] += powPK * powPK * powPK * (powPK - 1) / 2;
 
-                                    if (container.IsConnectedTwoBlocks(node, i - numberNode * container.BranchIndex, 
-                                        k - numberNode * container.BranchIndex))
+                                    arrayReturned[2] += powPK * powPK * powPK;
+
+                                    if (container.IsConnectedTwoBlocks(node,
+                                        i - nodeNumber * bIndex,
+                                        k - nodeNumber * bIndex))
                                     {
-                                        arrayRetured[0] += (array[i][1] + array[j][1] + array[k][1]) * powPK * powPK;
+                                        arrayReturned[0] += (array[i][1] + array[j][1] + array[k][1]) * powPK * powPK;
                                     }
 
-                                    for (int l = (k + 1); l < container.BranchIndex * (numberNode + 1); l++)
-                                        if (container.IsConnectedTwoBlocks(node, k - numberNode * container.BranchIndex, 
-                                            l - numberNode * container.BranchIndex)
-                                            && container.IsConnectedTwoBlocks(node, i - numberNode * container.BranchIndex, 
-                                            l - numberNode * container.BranchIndex))
-                                            arrayRetured[0] += powPK * powPK * powPK * powPK;
+                                    for (int l = (k + 1); l < (nodeNumber + 1) * bIndex; ++l)
+                                    {
+                                        if (container.IsConnectedTwoBlocks(node,
+                                            k - nodeNumber * bIndex, l - nodeNumber * bIndex) &&
+                                            container.IsConnectedTwoBlocks(node,
+                                            i - nodeNumber * bIndex, l - nodeNumber * bIndex))
+                                        {
+                                            arrayReturned[0] += powPK * powPK * powPK * powPK;
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
 
-                return arrayRetured;
+                return arrayReturned;
             }
         }
 
@@ -580,7 +577,7 @@ namespace Model.HierarchicModel.Realization
                 {
                     if (container.IsConnectedTwoBlocks(node, vertexIndex, j - numberNode * container.BranchIndex))
                     {
-                        result[0] += previousResult[1]; //container.CountEdges(numberNode, level + 1);
+                        result[0] += previousResult[1];
                         result[0] += powPK * degree;
 
                         for (int k = j + 1; k < container.BranchIndex * (numberNode + 1); ++k)
