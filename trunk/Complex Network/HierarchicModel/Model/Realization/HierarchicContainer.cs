@@ -393,8 +393,16 @@ namespace Model.HierarchicModel.Realization
         }
 
         // Возвращает число ребер в данном кластере (определяется по l и nodeNumber).
-        public double CountEdges(long nodeNumber, int l)
+        // Кластер определяется номером уровня l (из диапазоне [0, k-1])
+        // и номером узла на данном уровне n (из диапазона [0, pow(p,l) - 1]).
+        public double CountEdges(long n, int l)
         {
+            // проверка параметров на правильность
+            if (l < 0 || l >= level)
+                throw new SystemException("Wrong parameter (number of level).");
+            if (n < 0 || n >= Math.Pow(branchIndex, l))
+                throw new SystemException("Wrong parameter (number of node).");
+
             double result = 0;
 
             if (l < 0 || l == level)
@@ -404,25 +412,25 @@ namespace Model.HierarchicModel.Realization
             else
             {
                 double res = 0;
-                BitArray node = TreeNode(level, nodeNumber);
+                BitArray node = TreeNode(level, n);
 
                 for (int i = 0; i < (branchIndex * (branchIndex - 1) / 2); i++)
                 {
                     res += (node[i]) ? 1 : 0;
                 }
-                double t = Math.Pow(branchIndex, level - level - 1);
+                double t = Math.Pow(branchIndex, level - l - 1);
                 result = res * t * t;
 
-                for (long i = nodeNumber * branchIndex; i < branchIndex * (nodeNumber + 1); ++i)
+                for (long i = n * branchIndex; i < branchIndex * (n + 1); ++i)
                 {
-                    result += CountEdges(i, level + 1);
+                    result += CountEdges(i, l + 1);
                 }
 
                 return result;
             }
         }
 
-        // Возвращает число связей длиной 2 в данном кластере (определяется по l и nodeNumber).
+        // Возвращает число связей длиной 2 в данном кластере (определяется по l и nodeNumber). ??
         public double CountEdges2(int nodeNumber, int l)
         {
             double result = 0;
@@ -608,6 +616,54 @@ namespace Model.HierarchicModel.Realization
                 return vertexNumber;
             else
                 return TreeIndex(vertexNumber, levelNumber + 1) / branchIndex;
+        }
+
+        public int MinimumWay(int v1, int v2)
+        {
+            int vertex1 = v1, vertex2 = v2;
+
+            if (v1 == v2)
+                return 0;
+            if (v1 > v2)
+            {
+                return MinimumWay(v2, v1);
+            }
+            
+            int currentLevel = level - 1;
+            // проверка на принадлежение к одному поддереву (для данных вершин)
+            // поднимаемся по уровням до того уровна, где они будут принадлежать одному поддереву
+            int numberOfGroup1 = Convert.ToInt32(v1 / branchIndex);
+            int numberOfGroup2 = Convert.ToInt32(v2 / branchIndex);
+            while (numberOfGroup1 != numberOfGroup2)
+            {
+                v1 = numberOfGroup1;
+                v2 = numberOfGroup2;
+                numberOfGroup1 = Convert.ToInt32(numberOfGroup1 / branchIndex);
+                numberOfGroup2 = Convert.ToInt32(numberOfGroup2 / branchIndex);
+                --currentLevel;
+            }
+
+            BitArray currentNode = TreeNode(currentLevel, numberOfGroup1);
+            if (currentNode[AdjacentIndex(v1 % branchIndex, v2 % branchIndex)] == true)
+                return 1;
+
+            int tempCurrentLevel = currentLevel, vertexIndex, vI;
+            while (0 != tempCurrentLevel)
+            {
+                vertexIndex = TreeIndex(vertex1, tempCurrentLevel - 1);
+                vI = TreeIndex(vertex1, tempCurrentLevel) % branchIndex;
+                if (Links(vI, vertexIndex, tempCurrentLevel - 1) >= 1)
+                    return 2;
+
+                --tempCurrentLevel;
+            }
+
+            int[,] nodeMatrix = NodeMatrix(currentLevel, numberOfGroup1);
+            int[,] distances = Engine.MinPath(nodeMatrix);
+            if (distances[v1 % branchIndex, v2 % branchIndex] != int.MaxValue)
+                return distances[v1 % branchIndex, v2 % branchIndex];
+
+            return -1;
         }
 
         // Закрытая часть класса (не из общего интерфейса).
