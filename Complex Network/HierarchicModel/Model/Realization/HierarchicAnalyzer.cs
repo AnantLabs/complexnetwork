@@ -211,7 +211,7 @@ namespace Model.HierarchicModel.Realization
             {
                 for (int j = i + 1; j < container.Size; ++j)
                 {
-                    int way = MinimumWay(i, j);
+                    int way = container.MinimumWay(i, j);
                     if (way == -1)
                         continue;
                     if (pathDistribution.ContainsKey(way))
@@ -229,13 +229,6 @@ namespace Model.HierarchicModel.Realization
 
             this.avgPath = avgPath / countOfWays;
             this.diameter = diameter;
-        }
-
-        private int MinimumWay(int vertex1, int vertex2)
-        {
-            int result = 0;
-
-            return result;
         }
 
         // Возвращает степень данного узла на данном уровне (в соответствующем кластере).
