@@ -242,6 +242,32 @@ namespace Model.BAModel.Realization
             return motifisCountResult;
         }
 
+        // Возвращает распределение триугольников, прикрепленных к вершине.
+        public override SortedDictionary<int, int> GetTrianglesDistribution()
+        {
+            log.Info("Getting triangles distribution.");
+
+            if (-1 == avgPath)
+            {
+                CountEssentialOptions();
+            }
+
+            var trianglesDistribution = new SortedDictionary<int, int>();
+            for (int i = 0; i < container.Size; ++i)
+            {
+                var countTringle = (int)edgesBetweenNeighbours[i];
+                if (trianglesDistribution.ContainsKey(countTringle))
+                {
+                    trianglesDistribution[countTringle]++;
+                }
+                else
+                {
+                    trianglesDistribution.Add(countTringle, 1);
+                }
+            }
+
+            return trianglesDistribution;
+        }
 
         // Закрытая часть класса (не из общего интерфейса). //
 
