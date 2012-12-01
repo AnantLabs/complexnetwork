@@ -227,11 +227,17 @@ namespace RandomGraph.Common.Model
                     Result.Cycles = analyzer.GetCycles(minvalue, maxValue);
                 }
 
+                if ((AnalyzeOptions & AnalyseOptions.TriangleCountByVertex) == AnalyseOptions.TriangleCountByVertex)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 90, "Triangles Distribution");
+                    Result.TriangleCount = analyzer.GetTrianglesDistribution();
+                }
+
                 if ((AnalyzeOptions & AnalyseOptions.Motifs) == AnalyseOptions.Motifs)
                 {
                     int maxValue = Int32.Parse((String)AnalyzeOptionsValues["MotiveHigh"]);
                     int minvalue = Int32.Parse((String)AnalyzeOptionsValues["MotiveLow"]);
-                    InvokeProgressEvent(GraphProgress.Analizing, 90, "Motiv of " + minvalue + "-" + maxValue + "degree");
+                    InvokeProgressEvent(GraphProgress.Analizing, 95, "Motiv of " + minvalue + "-" + maxValue + "degree");
                     Result.MotivesCount = analyzer.GetMotivs(minvalue, maxValue);
                 }
 
