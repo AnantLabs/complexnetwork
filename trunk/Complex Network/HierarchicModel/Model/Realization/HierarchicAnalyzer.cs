@@ -195,13 +195,21 @@ namespace Model.HierarchicModel.Realization
         }
 
 
-        // ??
+        // Возвращает распределение триугольников, прикрепленных к вершине.
         public override SortedDictionary<int, int> GetTrianglesDistribution()
         {
-            log.Info("Getting triangles count.");
+            log.Info("Getting triangles distribution.");
 
             SortedDictionary<int, int> result = new SortedDictionary<int, int>();
-
+            for (int i = 0; i < container.Size; ++i)
+            {
+                int triangleCountOfVertex = (int)Count3CycleOfVertex(i, 0)[0];
+                if (result.Keys.Contains(triangleCountOfVertex))
+                    ++result[triangleCountOfVertex];
+                else
+                    result.Add(triangleCountOfVertex, 1);
+            }
+            
             return result;
         }
 
