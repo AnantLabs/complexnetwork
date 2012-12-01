@@ -78,5 +78,8 @@ namespace RandomGraph.Common.Model
 
         [AnalyzeOptionInfo("Cycles", "Cycles of any degree", LXAxis = "Order", LYAxis = "Distribution")]
         Cycles = 0x40000,
+
+        [AnalyzeOptionInfo("Triangle Count by Vertex", "Triangle Count", LXAxis = "Count", LYAxis = "Distribution")]
+        TriangleCountByVertex = 0x80000
     }
 }

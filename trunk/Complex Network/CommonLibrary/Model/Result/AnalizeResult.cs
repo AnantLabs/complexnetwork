@@ -23,6 +23,7 @@ namespace RandomGraph.Common.Model.Result
             EigenVector = new ArrayList();
             DistancesBetweenEigenValues = new SortedDictionary<double, int>();
             Cycles = new SortedDictionary<int, long>();
+            TriangleCount = new SortedDictionary<int, int>();
             //CyclesCount = new SortedDictionary<int, int>();
             MotivesCount = new SortedDictionary<int, float>();
             //CyclesCountForBA = new SortedDictionary<int, long>();
@@ -51,6 +52,8 @@ namespace RandomGraph.Common.Model.Result
         public SortedDictionary<int, float> MotivesCount { get; set; }
 
         public SortedDictionary<int, long> Cycles { get; set; }
+
+        public SortedDictionary<int, int> TriangleCount { get; set; }
 
         public ArrayList EigenVector { get; set; }
 

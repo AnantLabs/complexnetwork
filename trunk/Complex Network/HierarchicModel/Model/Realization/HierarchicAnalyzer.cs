@@ -195,6 +195,16 @@ namespace Model.HierarchicModel.Realization
         }
 
 
+        // ??
+        public override SortedDictionary<int, int> GetTrianglesDistribution()
+        {
+            log.Info("Getting triangles count.");
+
+            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
+
+            return result;
+        }
+
         // Закрытая часть класса (не из общего интерфейса). //
 
         private double avgPath = -1;

@@ -113,6 +113,13 @@ namespace CommonLibrary.Model
             return new SortedDictionary<int, long>();
         }
 
+        // Возвращается распределение чисел триугольников, связанных с вершиной.
+        public virtual SortedDictionary<int, int> GetTrianglesDistribution()
+        {
+            log.Error("This model does not support Triangles counting algorithm.");
+            return new SortedDictionary<int, int>();
+        }
+
         // Возвращается распределение чисел мотивов (lowBound - минимальный порядок, highBound - максимальный порядок мативов).
         public virtual SortedDictionary<int, float> GetMotivs(int lowBound, int hightBound)
         {
