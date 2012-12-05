@@ -22,7 +22,9 @@ namespace Model.WSModel
         AnalyseOptions.EigenValue |
         AnalyseOptions.DegreeDistribution |
         AnalyseOptions.ClusteringCoefficient |
-        AnalyseOptions.ConnSubGraph)]
+        AnalyseOptions.MinPathDist |
+        AnalyseOptions.ConnSubGraph |
+        AnalyseOptions.FullSubGraph)]
     [RequiredGenerationParam(GenerationParam.Vertices, 1)]
     [RequiredGenerationParam(GenerationParam.Edges, 2)]
     [RequiredGenerationParam(GenerationParam.P, 7)]
@@ -83,7 +85,9 @@ namespace Model.WSModel
                 AnalyseOptions.EigenValue |
                 AnalyseOptions.DegreeDistribution |
                 AnalyseOptions.ClusteringCoefficient |
-                AnalyseOptions.ConnSubGraph;
+                AnalyseOptions.MinPathDist |
+                AnalyseOptions.ConnSubGraph |
+                AnalyseOptions.FullSubGraph;
 
             // Определение генератора и анализатора для данной модели (WS).
             log.Info("Creating generator and analyzer for model.");
