@@ -16,13 +16,13 @@ namespace Model.WSModel.Realization
         // Организация работы с лог файлом.
         protected static readonly new ILog log = log4net.LogManager.GetLogger(typeof(WSAnalyzer));
 
-        // Контейнер, в котором содержится граф конкретной модели (ER).
+        // Контейнер, в котором содержится граф конкретной модели (WS).
         private WSContainer container;
 
         // Конструктор, получающий контейнер графа.
         public WSAnalyzer(WSContainer c)
         {
-            log.Info("Creating ERAnalizer object.");
+            log.Info("Creating WSAnalizer object.");
             container = c;
             CountNeighbourships();
         }
@@ -155,8 +155,8 @@ namespace Model.WSModel.Realization
             return coefficients;
         }
 
-        // Возвращается распределение чисел связанных подграфов в графе. Реализовано.
-        public override SortedDictionary<int, int> GetConnSubGraph()
+        // Возвращается распределение чисел связанных полных подграфов в графе. Реализовано.
+        public override SortedDictionary<int, int> GetFullSubGraph()
         {
             log.Info("Getting clustering coefficients.");
 
@@ -164,7 +164,19 @@ namespace Model.WSModel.Realization
             {
                 ClusteringCoefficient();
             }
-            return conSubgraphs;
+            return fullSubgraphs;
+        }
+
+        // Возвращается распределение чисел связанных полных подграфов в графе. Реализовано.
+        public override SortedDictionary<int, int> GetConnSubGraph()
+        {
+            log.Info("Getting clustering coefficients.");
+
+            if (-1 == connSubgraphsOrder)
+            {
+                CountConnSubGraphs();
+            }
+            return connSubgraphs;
         }
 
         // Возвращается распределение длин минимальных путей в графе. Реализовано.
@@ -189,8 +201,10 @@ namespace Model.WSModel.Realization
         private int diameter = -1;
         private int cyclesOfOrder3 = -1;
         private int cyclesOfOrder4 = -1;
+        private int connSubgraphsOrder = -1;
         private SortedDictionary<double, int> coefficients = new SortedDictionary<double, int>();
-        private SortedDictionary<int, int> conSubgraphs = new SortedDictionary<int, int>();
+        private SortedDictionary<int, int> fullSubgraphs = new SortedDictionary<int, int>();
+        private SortedDictionary<int, int> connSubgraphs = new SortedDictionary<int, int>();
         private SortedDictionary<int, int> vertexDistances = new SortedDictionary<int, int>();
 
         // Внутренный тип для работы BFS алгоритма.
@@ -229,6 +243,43 @@ namespace Model.WSModel.Realization
                     }
                 }
             }
+        }
+
+        // Реализация DFS алгоритма.
+        private void DFS(int v, List<bool> used) 
+        {
+	        used[v] = true;
+            ++connSubgraphsOrder;
+            List<int> l = container.Neighbours(v);
+	        for (int i = 0; i < l.Count; ++i) 
+            {
+                int neighbour = l[i];
+		        if (!used[neighbour])
+			        DFS(neighbour, used);
+            }
+    	}
+
+        // Считает распределение подграфов в графе.
+        private void CountConnSubGraphs()
+        {
+            List<bool> used = new List<bool>(container.Size);
+            for (int i = 0; i < container.Size; ++i)
+		        used.Insert(i, false);
+
+	        for (int i = 0; i < container.Size; ++i)
+                if (!used[i])
+                {
+                    connSubgraphsOrder = 0;
+                    DFS(i, used);
+
+                    if (connSubgraphsOrder != 0)
+                    {
+                        if (connSubgraphs.ContainsKey(connSubgraphsOrder))
+                            connSubgraphs[connSubgraphsOrder]++;
+                        else
+                            connSubgraphs.Add(connSubgraphsOrder, 1);
+                    }
+                }
         }
 
         private void CountNeighbourships()
@@ -352,7 +403,11 @@ namespace Model.WSModel.Realization
 
             cyclesOfOrder3 += E;
 
-            double clusteringCoefI = (double)E / K;
+            double clusteringCoef = (double)E / K;
+
+            double coefD = clusteringCoef * 10000;
+            int coefI = Convert.ToInt32(coefD);
+            double clusteringCoefI = (double)coefI / 10000;
 
             if (coefficients.ContainsKey(clusteringCoefI))
                 coefficients[clusteringCoefI]++;
@@ -361,10 +416,10 @@ namespace Model.WSModel.Realization
 
             if (E / K == 1)
             {
-                if (conSubgraphs.ContainsKey(neighbours + 1))
-                    conSubgraphs[neighbours + 1]++;
+                if (fullSubgraphs.ContainsKey(neighbours + 1))
+                    fullSubgraphs[neighbours + 1]++;
                 else
-                    conSubgraphs.Add(neighbours + 1, 1);
+                    fullSubgraphs.Add(neighbours + 1, 1);
             }
         }
 
@@ -377,11 +432,11 @@ namespace Model.WSModel.Realization
         // Возвращает степень максимального соединенного подграфа.
         private int MaxConSubGraph()
         {
-            int size = conSubgraphs.Count;
+            int size = fullSubgraphs.Count;
             int max = 0;
             for (int i = 0; i < size; ++i)
             {
-                int element = conSubgraphs.ElementAt(i).Key;
+                int element = fullSubgraphs.ElementAt(i).Key;
                 if (max < element)
                     max = element;
             }
