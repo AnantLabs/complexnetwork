@@ -12,6 +12,7 @@ using log4net;
 
 namespace Model.WSModel
 {
+    // Test commit
     // Атрибуты модели (WS).
     [GraphModel("WSModel", "Watts-Strogatz Model")]
     [AvailableAnalyzeOptions(
