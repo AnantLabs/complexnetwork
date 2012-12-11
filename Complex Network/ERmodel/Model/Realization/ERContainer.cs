@@ -49,7 +49,7 @@ namespace Model.ERModel.Realization
         }
 
         // Списки соседей для вершин графа.
-        public SortedDictionary<int, List<int>> Neighbourship
+        public  SortedDictionary<int, List<int>> Neighbourship
         {
             get { return neighbourship; }
         }
