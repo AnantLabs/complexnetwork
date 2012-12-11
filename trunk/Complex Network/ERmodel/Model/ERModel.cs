@@ -22,7 +22,7 @@ namespace Model.ERModel
          AnalyseOptions.DistEigenPath |
          AnalyseOptions.DegreeDistribution |
          AnalyseOptions.ClusteringCoefficient |
-         AnalyseOptions.MinPathDist | AnalyseOptions.Motifs )]
+         AnalyseOptions.MinPathDist |AnalyseOptions.Cycles | AnalyseOptions.Motifs )]
     [RequiredGenerationParam(GenerationParam.Vertices, 2)]
     [RequiredGenerationParam(GenerationParam.P, 3)]
 
@@ -74,6 +74,7 @@ namespace Model.ERModel
             // Определение доступных опций для анализа (вычисляемые характеристики для данной модели (ER)).
             AvailableOptions = AnalyseOptions.AveragePath |
                 AnalyseOptions.Diameter |
+                AnalyseOptions.Cycles |
                 AnalyseOptions.Cycles3 |
                 AnalyseOptions.Cycles4 |
                 AnalyseOptions.EigenValue |

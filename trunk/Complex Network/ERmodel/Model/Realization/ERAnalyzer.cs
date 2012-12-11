@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
 using Model.ERModel.Realization;
 using CommonLibrary.Model;
 using Algorithms;
@@ -57,6 +56,20 @@ namespace Model.ERModel.Realization
             return diameter;
         }
 
+        public override SortedDictionary<int, long> GetCycles(int lowBound, int hightBound)
+        {
+            log.Info("Getting cycles.");
+            var cyclesCounter = new CyclesCounter(container);
+            SortedDictionary<int, long> cyclesCount = new SortedDictionary<int, long>();
+            long count = 0;
+            for (int i = lowBound; i <= hightBound; i++)
+            {
+                count = cyclesCounter.getCyclesCount(i);
+                cyclesCount.Add(i, count);
+            }
+
+            return cyclesCount;
+        }
         // Возвращается число циклов длиной 3 в графе. Реализовано.
         public override int GetCycles3()
         {
@@ -366,5 +379,6 @@ namespace Model.ERModel.Realization
 
             return motifisCountResult;
         }
+
     }
 }
