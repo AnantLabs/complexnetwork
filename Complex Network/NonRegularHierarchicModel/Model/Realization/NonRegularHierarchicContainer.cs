@@ -80,7 +80,8 @@ namespace Model.NonRegularHierarchicModel.Realization
                 for (j = 0; j < node.children.Length; ++j)
                 {
                     are_connected = IsConnectedBlocks(i, j);
-
+                    if (are_connected)
+                        log.Info("blocks with numbers " + i + " and " + j + " are connected and vertex counts are " + node.children[i].node.VertexCount + " and " + node.children[j].node.VertexCount);
                     /// Add information of connection between blocks i and j.
                     for (k = 0; k < node.children[i].node.VertexCount; ++k)
                         for (l = 0; l < node.children[j].node.VertexCount; ++l)
@@ -581,13 +582,16 @@ namespace Model.NonRegularHierarchicModel.Realization
         /// <returns>True, if given 2 blocks are connected.</returns>
         private bool IsConnectedBlocks(uint block1_num, uint block2_num)
         {
+
             if (block1_num == block2_num)
             {
+                log.Info("IN IsConnectedBlocks " + block1_num + " " + block2_num + "and result is false");
                 return false;
             }
             // vertex1 must have min number
             if (block1_num > block2_num)
             {
+                log.Info("IN IsConnectedBlocks " + block1_num + " " + block2_num + "and result is " + IsConnectedBlocks(block2_num, block1_num));
                 return IsConnectedBlocks(block2_num, block1_num);
             }
 
@@ -598,6 +602,7 @@ namespace Model.NonRegularHierarchicModel.Realization
                 index += this.node.children.Length - k;
             }
             index += (int)(block2_num - block1_num - 1);
+            log.Info("IN IsConnectedBlocks " + block1_num + " " + block2_num + "and result is " + node.data[index]);
             return node.data[index];
         }
 

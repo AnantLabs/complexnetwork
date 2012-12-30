@@ -38,7 +38,7 @@ namespace Model.NonRegularHierarchicModel.Realization
             Int16 branchIndex = (Int16)genParam[GenerationParam.BranchIndex];
             Int16 level = (Int16)genParam[GenerationParam.Level];
             double mu = (Double)genParam[GenerationParam.Mu];
-;
+            ;
             Generate(branchIndex, level, mu);
             log.Info("Random generation step finished.");
         }
