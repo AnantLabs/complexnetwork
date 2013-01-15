@@ -233,6 +233,13 @@ namespace RandomGraph.Common.Model
                     Result.TriangleCount = analyzer.GetTrianglesDistribution();
                 }
 
+                // for Lusine
+                if (false)
+                {
+                    InvokeProgressEvent(GraphProgress.Analizing, 90, "Triangle Traectory");
+                    Result.TriangleTrajectory = analyzer.GetTrianglesTraectory();
+                }
+
                 if ((AnalyzeOptions & AnalyseOptions.Motifs) == AnalyseOptions.Motifs)
                 {
                     int maxValue = Int32.Parse((String)AnalyzeOptionsValues["MotiveHigh"]);

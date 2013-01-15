@@ -24,14 +24,11 @@ namespace RandomGraph.Common.Model.Result
             DistancesBetweenEigenValues = new SortedDictionary<double, int>();
             Cycles = new SortedDictionary<int, long>();
             TriangleCount = new SortedDictionary<int, int>();
-            //CyclesCount = new SortedDictionary<int, int>();
             MotivesCount = new SortedDictionary<int, float>();
-            //CyclesCountForBA = new SortedDictionary<int, long>();
+            TriangleTrajectory = new SortedDictionary<int, long>();
         }
 
         public int InstanceID { get; set; }
-
-        //public SortedDictionary<int, long> CyclesCountForBA { get; set; }
 
         public SortedDictionary<AnalyseOptions, double> Result { get; set; }
 
@@ -46,8 +43,6 @@ namespace RandomGraph.Common.Model.Result
         public SortedDictionary<int, int> DistanceBetweenVertices { get; set; }
 
         public SortedDictionary<double, int> DistancesBetweenEigenValues { get; set; }
-
-        //public SortedDictionary<int, int> CyclesCount { get; set; }
 
         public SortedDictionary<int, float> MotivesCount { get; set; }
 
@@ -64,6 +59,8 @@ namespace RandomGraph.Common.Model.Result
         public int Cycles3 { get; set; }
 
         public int Cycles4 { get; set; }
+
+        public SortedDictionary<int, long> TriangleTrajectory { get; set; }
 
     }
 }
