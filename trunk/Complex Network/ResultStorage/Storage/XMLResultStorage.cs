@@ -183,6 +183,16 @@ namespace ResultStorage.Storage
                     }
                     writer.WriteEndElement();
 
+                    writer.WriteStartElement("triangletrajectory");
+                    foreach (int count in result.TriangleCount.Keys)
+                    {
+                        writer.WriteStartElement("tt");
+                        writer.WriteAttributeString("time", count.ToString());
+                        writer.WriteAttributeString("triangleCount", result.TriangleTrajectory[count].ToString());
+                        writer.WriteEndElement();
+                    }
+                    writer.WriteEndElement();
+
                     /*foreach (int sub in result.CyclesCountForBA.Keys)
                     {
                         writer.WriteStartElement("cl");
@@ -344,6 +354,14 @@ namespace ResultStorage.Storage
                     degree = int.Parse(item.Attributes["triangleCount"].Value);
                     count = int.Parse(item.Attributes["count"].Value);
                     result.TriangleCount.Add(degree, count);
+                }
+
+                long t = 0;
+                foreach (XmlNode item in paramNode.SelectNodes("triangletrajectory/tt"))
+                {
+                    degree = int.Parse(item.Attributes["time"].Value);
+                    t = long.Parse(item.Attributes["trianglecount"].Value);
+                    result.TriangleTrajectory.Add(degree, t);
                 }
 
                 XmlNodeList XmlBits = paramNode.SelectNodes("parisiarray/par");
