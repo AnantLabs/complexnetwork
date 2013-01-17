@@ -172,6 +172,7 @@ namespace ResultStorage.Storage
                         writer.WriteAttributeString("count", result.Cycles[sub].ToString());
                         writer.WriteEndElement();
                     }
+                    writer.WriteEndElement();
 
                     writer.WriteStartElement("triangles");
                     foreach (int count in result.TriangleCount.Keys)
@@ -184,30 +185,13 @@ namespace ResultStorage.Storage
                     writer.WriteEndElement();
 
                     writer.WriteStartElement("triangletrajectory");
-                    foreach (int count in result.TriangleCount.Keys)
+                    foreach (int count in result.TriangleTrajectory.Keys)
                     {
                         writer.WriteStartElement("tt");
                         writer.WriteAttributeString("time", count.ToString());
                         writer.WriteAttributeString("triangleCount", result.TriangleTrajectory[count].ToString());
                         writer.WriteEndElement();
                     }
-                    writer.WriteEndElement();
-
-                    /*foreach (int sub in result.CyclesCountForBA.Keys)
-                    {
-                        writer.WriteStartElement("cl");
-                        writer.WriteAttributeString("degree", sub.ToString());
-                        writer.WriteAttributeString("count", result.CyclesCountForBA[sub].ToString());
-                        writer.WriteEndElement();
-                    }
-                    foreach (int sub in result.CyclesCount.Keys)
-                    {
-                        writer.WriteStartElement("cl");
-                        writer.WriteAttributeString("degree", sub.ToString());
-                        writer.WriteAttributeString("count", result.CyclesCount[sub].ToString());
-                        writer.WriteEndElement();
-                    }*/
-                   
                     writer.WriteEndElement();
 
                     writer.WriteStartElement("motives");
