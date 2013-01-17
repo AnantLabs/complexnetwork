@@ -70,6 +70,7 @@ namespace Model.ERModel.Realization
 
             return cyclesCount;
         }
+
         // Возвращается число циклов длиной 3 в графе. Реализовано.
         public override int GetCycles3()
         {
