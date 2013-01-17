@@ -22,7 +22,10 @@ namespace Model.ERModel
          AnalyseOptions.DistEigenPath |
          AnalyseOptions.DegreeDistribution |
          AnalyseOptions.ClusteringCoefficient |
-         AnalyseOptions.MinPathDist |AnalyseOptions.Cycles | AnalyseOptions.Motifs )]
+         AnalyseOptions.MinPathDist |
+         AnalyseOptions.Cycles | 
+         AnalyseOptions.Motifs |
+         AnalyseOptions.TriangleTraectory)]
     [RequiredGenerationParam(GenerationParam.Vertices, 2)]
     [RequiredGenerationParam(GenerationParam.P, 3)]
 
@@ -81,7 +84,8 @@ namespace Model.ERModel
                 AnalyseOptions.DistEigenPath |
                 AnalyseOptions.DegreeDistribution |
                 AnalyseOptions.ClusteringCoefficient |
-                AnalyseOptions.MinPathDist;
+                AnalyseOptions.MinPathDist |
+                AnalyseOptions.TriangleTraectory;
 
             // Определение генератора и анализатора для данной модели (ER).
             log.Info("Creating generator and analyzer for model.");

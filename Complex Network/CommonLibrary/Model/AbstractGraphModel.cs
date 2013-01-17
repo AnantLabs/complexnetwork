@@ -233,10 +233,9 @@ namespace RandomGraph.Common.Model
                     Result.TriangleCount = analyzer.GetTrianglesDistribution();
                 }
 
-                // for Lusine
-                if (false)
+                if ((AnalyzeOptions & AnalyseOptions.TriangleTraectory) == AnalyseOptions.TriangleTraectory)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 90, "Triangle Traectory");
+                    InvokeProgressEvent(GraphProgress.Analizing, 93, "Triangle Traectory");
                     Result.TriangleTrajectory = analyzer.GetTrianglesTraectory();
                 }
 
