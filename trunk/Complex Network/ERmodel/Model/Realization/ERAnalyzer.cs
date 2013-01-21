@@ -12,6 +12,7 @@ namespace Model.ERModel.Realization
     // Реализация анализатора (ER).
     public class ERAnalyzer : AbstarctGraphAnalyzer
     {
+        public static SortedDictionary<int, SortedDictionary<int, long>> ansmble = new SortedDictionary<int, SortedDictionary<int, long>>();
         // Организация работы с лог файлом.
         protected static readonly new ILog log = log4net.LogManager.GetLogger(typeof(ERAnalyzer));
 
@@ -88,7 +89,21 @@ namespace Model.ERModel.Realization
 
             return count / 6;
         }
+        private static int GetCyclesForTringle(ERContainer container)
+        {
+            int count = 0;
+            for (int i = 0; i < container.Size; ++i)
+            {
+                List<int> nbs = container.Neighbourship[i];
+                for (int j = 0; j < nbs.Count; ++j)
+                {
+                    List<int> tmp = container.Neighbourship[nbs[j]];
+                    count += nbs.Intersect(tmp).Count();
+                }
+            }
 
+            return count / 6;
+        }
         // Возвращается число циклов длиной 4 в графе. Реализовано.
         public override int GetCycles4()
         {
@@ -187,6 +202,68 @@ namespace Model.ERModel.Realization
             }
 
             return pathDistribution;
+        }
+
+        public  override SortedDictionary<int, double> GetTrianglesTraectory()
+        {
+   
+            log.Error("This model does not support Triangle Traectory counting algorithm.");
+            var tarctory = new SortedDictionary<int, long>();
+            var avaragtarctory = new SortedDictionary<int, double>();
+            foreach(var dic in ansmble)
+                foreach (var item in dic.Value)
+                {
+                    if (!tarctory.ContainsKey(item.Key))
+                        tarctory.Add(item.Key, item.Value);
+                    else
+                    {
+                        tarctory[item.Key] += item.Value;
+                    }
+                }
+
+            foreach (var item in tarctory)
+                avaragtarctory.Add(item.Key, item.Value / ansmble.Count());
+
+            return avaragtarctory;
+
+        }
+
+        public static void GetTrianglesTraectory(ERContainer container, int constant, int ansamble)
+        {
+            var tarctory = new SortedDictionary<int, long>();
+            int time = 0;
+            int currentcounttriangle = GetCyclesForTringle(container);
+            tarctory.Add(time, currentcounttriangle);
+            var currentContainer = container;
+            var stepcount = 100;
+            while (stepcount != 0)
+            {
+                time++;
+                currentContainer = Transformations(currentContainer);
+                int counttriangle = GetCyclesForTringle(currentContainer);
+                int delta = counttriangle - currentcounttriangle;
+                if (delta > 0)
+                {
+                    tarctory.Add(time, counttriangle);
+
+                }
+                else
+                {
+                    if (new Random().NextDouble() > CalculatePropability(delta, constant))
+                    {
+                        tarctory.Add(time, counttriangle);
+                    }
+                    else
+                    {
+                        tarctory.Add(time, currentcounttriangle);
+                    }
+                }
+
+                stepcount--;
+
+            }
+
+            ansmble.Add(ansamble, tarctory);
         }
 
 
@@ -381,5 +458,40 @@ namespace Model.ERModel.Realization
             return motifisCountResult;
         }
 
+
+        private static double CalculatePropability(double delta,int constant)
+        {
+            return Math.Exp(-constant * delta);
+        }
+
+        private static ERContainer Transformations(ERContainer container)
+        {
+            var random = new Random();
+            var list = new List<int>();
+            int randomvertix = random.Next(0, container.Size);
+            int randomedge = container.Neighbourship[randomvertix][random.Next(0, container.Neighbourship[randomvertix].Count)];
+            for (int i = 0; i < container.Size; i++)
+            {
+                if (!container.Neighbourship[randomvertix].Contains(i))
+                {
+                    list.Add(i);
+                }
+            }
+
+            int newedge = list[random.Next(0, list.Count)];
+
+            //Make transfer edges
+
+            //Remove edge
+            container.Neighbourship[randomvertix].Remove(randomedge);
+            container.Neighbourship[randomedge].Remove(randomvertix);
+
+            //Add edge
+
+            container.Neighbourship[randomvertix].Add(newedge);
+            container.Neighbourship[newedge].Add(randomvertix);
+
+            return container;
+        }
     }
 }

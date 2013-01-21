@@ -25,7 +25,7 @@ namespace RandomGraph.Common.Model.Result
             Cycles = new SortedDictionary<int, long>();
             TriangleCount = new SortedDictionary<int, int>();
             MotivesCount = new SortedDictionary<int, float>();
-            TriangleTrajectory = new SortedDictionary<int, long>();
+            TriangleTrajectory = new SortedDictionary<int, double>();
         }
 
         public int InstanceID { get; set; }
@@ -60,7 +60,7 @@ namespace RandomGraph.Common.Model.Result
 
         public int Cycles4 { get; set; }
 
-        public SortedDictionary<int, long> TriangleTrajectory { get; set; }
+        public SortedDictionary<int, double> TriangleTrajectory { get; set; }
 
     }
 }

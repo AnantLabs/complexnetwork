@@ -28,6 +28,9 @@ namespace Model.ERModel
          AnalyseOptions.TriangleTraectory)]
     [RequiredGenerationParam(GenerationParam.Vertices, 2)]
     [RequiredGenerationParam(GenerationParam.P, 3)]
+    [RequiredGenerationParam(GenerationParam.Constant, 4)]
+    [RequiredGenerationParam(GenerationParam.InitialStep, 5)]
+    [RequiredGenerationParam(GenerationParam.StepCount, 5)]
 
     // Реализация модели (ER).
     public class ERModel : AbstractGraphModel
