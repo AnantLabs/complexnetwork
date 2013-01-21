@@ -121,10 +121,10 @@ namespace CommonLibrary.Model
         }
 
         // Возвращается троектория триугольников (зависимость числа триугольников от времени).
-        public virtual SortedDictionary<int, long> GetTrianglesTraectory()
+        public virtual SortedDictionary<int, double> GetTrianglesTraectory()
         {
             log.Error("This model does not support Triangle Traectory counting algorithm.");
-            return new SortedDictionary<int, long>();
+            return new SortedDictionary<int, double>();
         }
 
         // Возвращается распределение чисел мотивов (lowBound - минимальный порядок, highBound - максимальный порядок мативов).
