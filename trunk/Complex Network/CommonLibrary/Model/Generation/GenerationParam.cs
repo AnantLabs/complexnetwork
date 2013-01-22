@@ -44,12 +44,6 @@ namespace RandomGraph.Common.Model.Generation
         InitialProbability = 10,
 
         [GenerationParamInfo(Name = "Constant", Type = typeof(Int32))]
-        Constant = 12
-
-
-
-
-     
-
+        Constant = 11
     }
 }
