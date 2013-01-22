@@ -32,8 +32,6 @@ namespace ResultStorage.Storage
                     return 5;
                 case "NonRegularHierarchicModel":
                     return 6;
-                case "StaticcModel":
-                    return 7;
                 default:
                     return 0;
             }
@@ -45,7 +43,7 @@ namespace ResultStorage.Storage
             switch (ModelTypeID)
             {
                 case 1:
-                    return typeof(Model.HierarchicModel.HierarchicModel);
+                    return typeof(HierarchicModel);
                 case 2:
                     return typeof(Model.BAModel.BAModel);
                 case 3:
@@ -55,7 +53,7 @@ namespace ResultStorage.Storage
                 case 5:
                     return typeof(WSModel);
                 case 6:
-                    return typeof(Model.NonRegularHierarchicModel.NonRegularHierarchicModel);
+                    return typeof(NonRegularHierarchicModel);
                 default:
                     return null;
             }

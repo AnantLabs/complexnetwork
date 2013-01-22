@@ -25,7 +25,7 @@ namespace Model.ERModel
          AnalyseOptions.MinPathDist |
          AnalyseOptions.Cycles | 
          AnalyseOptions.Motifs |
-         AnalyseOptions.TriangleTraectory)]
+         AnalyseOptions.TriangleTrajectory)]
     [RequiredGenerationParam(GenerationParam.Vertices, 2)]
     [RequiredGenerationParam(GenerationParam.P, 3)]
     [RequiredGenerationParam(GenerationParam.Constant, 4)]
@@ -88,7 +88,7 @@ namespace Model.ERModel
                 AnalyseOptions.DegreeDistribution |
                 AnalyseOptions.ClusteringCoefficient |
                 AnalyseOptions.MinPathDist |
-                AnalyseOptions.TriangleTraectory;
+                AnalyseOptions.TriangleTrajectory;
 
             // Определение генератора и анализатора для данной модели (ER).
             log.Info("Creating generator and analyzer for model.");

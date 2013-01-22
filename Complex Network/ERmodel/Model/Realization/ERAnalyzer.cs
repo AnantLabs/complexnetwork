@@ -205,9 +205,8 @@ namespace Model.ERModel.Realization
         }
 
         public  override SortedDictionary<int, double> GetTrianglesTraectory()
-        {
-   
-            log.Error("This model does not support Triangle Traectory counting algorithm.");
+        {   
+            log.Error("Getting triangle trajectory.");
             var tarctory = new SortedDictionary<int, long>();
             var avaragtarctory = new SortedDictionary<int, double>();
             foreach(var dic in ansmble)
@@ -228,7 +227,7 @@ namespace Model.ERModel.Realization
 
         }
 
-        public static void GetTrianglesTraectory(ERContainer container, int constant, int ansamble)
+        public static void GetTrianglesTrajectory(ERContainer container, int constant, int ansamble)
         {
             var tarctory = new SortedDictionary<int, long>();
             int time = 0;
