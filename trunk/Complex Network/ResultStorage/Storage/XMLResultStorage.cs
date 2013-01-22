@@ -340,11 +340,11 @@ namespace ResultStorage.Storage
                     result.TriangleCount.Add(degree, count);
                 }
 
-                long t = 0;
+                double t = 0;
                 foreach (XmlNode item in paramNode.SelectNodes("triangletrajectory/tt"))
                 {
                     degree = int.Parse(item.Attributes["time"].Value);
-                    t = long.Parse(item.Attributes["trianglecount"].Value);
+                    t = long.Parse(item.Attributes["triangleCount"].Value);
                     result.TriangleTrajectory.Add(degree, t);
                 }
 

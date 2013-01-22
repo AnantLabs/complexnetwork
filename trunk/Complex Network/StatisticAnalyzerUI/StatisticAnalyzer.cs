@@ -660,6 +660,11 @@ namespace StatisticAnalyzerUI
                 analyzer.options |= AnalyseOptions.Cycles;
                 checkedOptions.Add(AnalyseOptions.Cycles);
             }
+            if (this.LocalPropertiesList.GetItemChecked(7))
+            {
+                analyzer.options |= AnalyseOptions.TriangleTrajectory;
+                checkedOptions.Add(AnalyseOptions.TriangleTrajectory);
+            }
 
             return checkedOptions;
         }
@@ -715,6 +720,11 @@ namespace StatisticAnalyzerUI
                         case 6:
                             {
                                 param = AnalyseOptions.Cycles;
+                                break;
+                            }
+                        case 7:
+                            {
+                                param = AnalyseOptions.TriangleTrajectory;
                                 break;
                             }
                         default:

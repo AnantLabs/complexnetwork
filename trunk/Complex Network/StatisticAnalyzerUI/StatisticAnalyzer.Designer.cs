@@ -382,7 +382,8 @@
             "Distance between Vertices",
             "Eigen Values",
             "Distance between Eigen Values",
-            "Cycles"});
+            "Cycles",
+            "Triangle Trajectory"});
             this.LocalPropertiesList.Location = new System.Drawing.Point(13, 25);
             this.LocalPropertiesList.Name = "LocalPropertiesList";
             this.LocalPropertiesList.Size = new System.Drawing.Size(183, 139);

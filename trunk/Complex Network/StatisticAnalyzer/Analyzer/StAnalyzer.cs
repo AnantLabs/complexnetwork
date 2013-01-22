@@ -102,6 +102,8 @@ namespace StatisticAnalyzer.Analyzer
                 LocalAnalyzeByOption(AnalyseOptions.DistEigenPath);
             if ((options & AnalyseOptions.Cycles) == AnalyseOptions.Cycles)
                 LocalAnalyzeByOption(AnalyseOptions.Cycles);
+            if ((options & AnalyseOptions.TriangleTrajectory) == AnalyseOptions.TriangleTrajectory)
+                LocalAnalyzeByOption(AnalyseOptions.TriangleTrajectory);
         }
 
         // Utilities //
@@ -189,6 +191,11 @@ namespace StatisticAnalyzer.Analyzer
                             tempResult = FillLocalResultCycles();
                             break;
                         }
+                    case AnalyseOptions.TriangleTrajectory:
+                        {
+                            tempResult = FillLocalResultTrajectory();
+                            break;
+                        }
                     default:
                         {
                             tempResult = FillLocalResult(option);
@@ -218,6 +225,8 @@ namespace StatisticAnalyzer.Analyzer
                     return assemblyToAnalyze[0].Results[0].DistancesBetweenEigenValues.Count != 0;
                 case AnalyseOptions.Cycles:
                     return assemblyToAnalyze[0].Results[0].Cycles.Count != 0;
+                case AnalyseOptions.TriangleTrajectory:
+                    return assemblyToAnalyze[0].Results[0].TriangleTrajectory.Count != 0;
                 default:
                     return assemblyToAnalyze[0].Results[0].Result.Keys.Contains(option);
             }
@@ -437,6 +446,30 @@ namespace StatisticAnalyzer.Analyzer
                 }
             }
             
+            return r;
+        }
+
+        protected SortedDictionary<double, double> FillLocalResultTrajectory()
+        {
+            SortedDictionary<double, double> r = new SortedDictionary<double, double>();
+            for (int i = 0; i < assemblyToAnalyze.Count(); ++i)
+            {
+                int size = assemblyToAnalyze[i].Size;
+                int instanceCount = assemblyToAnalyze[i].Results.Count();
+                for (int j = 0; j < instanceCount; ++j)
+                {
+                    SortedDictionary<int, double> tempDictionary = assemblyToAnalyze[i].Results[j].TriangleTrajectory;
+                    SortedDictionary<int, double>.KeyCollection keyColl = tempDictionary.Keys;
+                    foreach (int key in keyColl)
+                    {
+                        if (r.Keys.Contains(key))
+                            r[key] += (double)tempDictionary[key] / size;
+                        else
+                            r.Add(key, (double)tempDictionary[key] / size);
+                    }
+                }
+            }
+
             return r;
         }
 

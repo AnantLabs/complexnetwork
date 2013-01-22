@@ -46,7 +46,7 @@ namespace Model.ERModel.Realization
             int ansambleCount = 0;
             FillValuesByProbability(probability);
             var currentContainer = container;
-            ERAnalyzer.GetTrianglesTraectory(container, constant, ansambleCount);
+            ERAnalyzer.GetTrianglesTrajectory(container, constant, ansambleCount);
             ansambleCount++;
             if (stepCount != 0)
             {
@@ -55,7 +55,7 @@ namespace Model.ERModel.Realization
                     if ((string)genParam[GenerationParam.InitialStep] != "permament")
                         FillValuesByProbability(probability);
 
-                    ERAnalyzer.GetTrianglesTraectory(container, constant, ansambleCount);
+                    ERAnalyzer.GetTrianglesTrajectory(container, constant, ansambleCount);
                     ansambleCount++;
                 }
             }
