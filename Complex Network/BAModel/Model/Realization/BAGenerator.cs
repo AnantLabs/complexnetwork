@@ -68,7 +68,7 @@ namespace Model.BAModel.Realization
             if (initialGeneration)
             {
                 GenereateInitialGraph(probability);
-                if (initialGragh.Equals("permanent"))
+                if (initialGragh.Equals("Permanent"))
                     initialGeneration = false;
                 container = initialcontainer;
             }

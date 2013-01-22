@@ -418,7 +418,7 @@ namespace RandomGraphLauncher
                         ComboBox listBox = new ComboBox();
                         listBox.DropDownStyle = ComboBoxStyle.DropDown;
                         listBox.Items.Add("Variable");
-                        listBox.Items.Add("permanent");
+                        listBox.Items.Add("Permanent");
                         listBox.SelectedIndex = 1;
                         listBox.BackColor = Color.White;
                         listBox.Location = new Point(105, position);
