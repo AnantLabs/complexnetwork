@@ -43,9 +43,10 @@ namespace RandomGraphLauncher
             this.dataExportIMportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modelCheckingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.matrixMixerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainControl = new MyControlLibrary.TabCtlEx();
-            this.matrixMixerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dbViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -104,6 +105,7 @@ namespace RandomGraphLauncher
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statisticAnalyzerToolStripMenuItem,
+            this.dbViewerToolStripMenuItem,
             this.dataExportIMportToolStripMenuItem,
             this.testerToolStripMenuItem,
             this.modelCheckingToolStripMenuItem,
@@ -140,6 +142,13 @@ namespace RandomGraphLauncher
             this.modelCheckingToolStripMenuItem.Text = "Model Checking";
             this.modelCheckingToolStripMenuItem.Click += new System.EventHandler(this.modelCheckingToolStripMenuItem_Click);
             // 
+            // matrixMixerToolStripMenuItem
+            // 
+            this.matrixMixerToolStripMenuItem.Name = "matrixMixerToolStripMenuItem";
+            this.matrixMixerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.matrixMixerToolStripMenuItem.Text = "Matrix Mixer";
+            this.matrixMixerToolStripMenuItem.Click += new System.EventHandler(this.matrixMixerToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
@@ -161,12 +170,11 @@ namespace RandomGraphLauncher
             this.mainControl.TabStop = false;
             this.mainControl.OnClose += new MyControlLibrary.TabCtlEx.OnHeaderCloseDelegate(this.mainControl_OnClose);
             // 
-            // matrixMixerToolStripMenuItem
+            // dbViewerToolStripMenuItem
             // 
-            this.matrixMixerToolStripMenuItem.Name = "matrixMixerToolStripMenuItem";
-            this.matrixMixerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
-            this.matrixMixerToolStripMenuItem.Text = "Matrix Mixer";
-            this.matrixMixerToolStripMenuItem.Click += new System.EventHandler(this.matrixMixerToolStripMenuItem_Click);
+            this.dbViewerToolStripMenuItem.Name = "dbViewerToolStripMenuItem";
+            this.dbViewerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.dbViewerToolStripMenuItem.Text = "DB Viewer";
             // 
             // mainWindow
             // 
@@ -206,6 +214,7 @@ namespace RandomGraphLauncher
         private ToolStripMenuItem modelCheckingToolStripMenuItem;
         private ToolStripMenuItem optionToolStripMenuItem;
         private ToolStripMenuItem matrixMixerToolStripMenuItem;
+        private ToolStripMenuItem dbViewerToolStripMenuItem;
 
     }
 }
