@@ -8,6 +8,7 @@ namespace CommonLibrary.Model
     // Каждий контейнер графа любой модели должен реализовать этот интерфейс.
     public interface IGraphContainer
     {
+        
         // Размер контейнера (число вершин в графе).
         int Size { get; set; }
 

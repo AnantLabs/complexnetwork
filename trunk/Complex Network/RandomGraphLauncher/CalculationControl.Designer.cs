@@ -49,6 +49,8 @@
             this.cyclesHighCmb = new System.Windows.Forms.ComboBox();
             this.cyclesLowCmb = new System.Windows.Forms.ComboBox();
             this.motiveHighCmb = new System.Windows.Forms.ComboBox();
+            this.constantInput = new System.Windows.Forms.TextBox();
+            this.constantInputLabel = new System.Windows.Forms.Label();
             this.motiveLowCmb = new System.Windows.Forms.ComboBox();
             this.optionsCheckList = new System.Windows.Forms.CheckedListBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -182,6 +184,8 @@
             this.optionsGrp.Controls.Add(this.selectAllCheck);
             this.optionsGrp.Controls.Add(this.cycles);
             this.optionsGrp.Controls.Add(this.motives);
+            this.optionsGrp.Controls.Add(this.constantInputLabel);
+            this.optionsGrp.Controls.Add(this.constantInput);
             this.optionsGrp.Controls.Add(this.cyclesHighCmb);
             this.optionsGrp.Controls.Add(this.cyclesLowCmb);
             this.optionsGrp.Controls.Add(this.motiveHighCmb);
@@ -189,7 +193,7 @@
             this.optionsGrp.Controls.Add(this.optionsCheckList);
             this.optionsGrp.Location = new System.Drawing.Point(611, 3);
             this.optionsGrp.Name = "optionsGrp";
-            this.optionsGrp.Size = new System.Drawing.Size(204, 285);
+            this.optionsGrp.Size = new System.Drawing.Size(204, 300);
             this.optionsGrp.TabIndex = 4;
             this.optionsGrp.TabStop = false;
             this.optionsGrp.Text = "Analize Options";
@@ -238,9 +242,24 @@
             this.motives.TabIndex = 5;
             this.motives.Text = "Motives";
             this.motives.Visible = false;
+            //
+            //constantInput
+            //
+
+            this.constantInput.Location  = new System.Drawing.Point(90, 228);
+            this.constantInput.Size =  new System.Drawing.Size(80, 21);
+            this.constantInput.TextChanged += new System.EventHandler(this.constant_InputChange);
+
+
+            this.constantInputLabel.Location = new System.Drawing.Point(6, 228);
+            this.constantInputLabel.Size = new System.Drawing.Size(80, 13);
+
+            this.constantInputLabel.Text = "Nu for Trajectory";
+
+
             // 
             // cyclesHighCmb
-            // 
+            //  
             this.cyclesHighCmb.FormatString = "N2";
             this.cyclesHighCmb.FormattingEnabled = true;
             this.cyclesHighCmb.Items.AddRange(new object[] {
@@ -679,6 +698,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cyclesHighCmb;
         private System.Windows.Forms.ComboBox cyclesLowCmb;
+        private System.Windows.Forms.TextBox constantInput;
+        private System.Windows.Forms.Label constantInputLabel;
         private System.Windows.Forms.ComboBox motiveHighCmb;
         private System.Windows.Forms.ComboBox motiveLowCmb;
         private System.Windows.Forms.Label cycles;

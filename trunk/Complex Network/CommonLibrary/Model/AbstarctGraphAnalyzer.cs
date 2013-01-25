@@ -121,7 +121,7 @@ namespace CommonLibrary.Model
         }
 
         // Возвращается троектория триугольников (зависимость числа триугольников от времени).
-        public virtual SortedDictionary<int, double> GetTrianglesTraectory()
+        public virtual SortedDictionary<int, double> GetTrianglesTraectory(int constant)
         {
             log.Error("This model does not support Triangle Traectory counting algorithm.");
             return new SortedDictionary<int, double>();

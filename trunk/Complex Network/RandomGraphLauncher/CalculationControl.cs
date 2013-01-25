@@ -275,6 +275,11 @@ namespace RandomGraphLauncher
             SessionController.SetAnalyzeOptionValue(jobName, "MotiveHigh", motiveHighCmb.SelectedItem);
         }
 
+        private void constant_InputChange(object sender, EventArgs e)
+        {
+            SessionController.SetAnalyzeOptionValue(jobName, "Constant", this.constantInput.Text);
+        }
+
         private void cyclesLow_SelectedIndexChanged(object sender, EventArgs e)
         {
             SessionController.SetAnalyzeOptionValue(jobName, "CyclesLow", cyclesLowCmb.SelectedItem);

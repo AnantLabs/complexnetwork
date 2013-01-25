@@ -37,29 +37,14 @@ namespace Model.ERModel.Realization
         public void RandomGeneration(Dictionary<GenerationParam, object> genParam)
         {
             log.Info("Random generation step started.");
-            ERAnalyzer.ansmble = new SortedDictionary<int, SortedDictionary<int, long>>();
+  
             int numberOfVertices = (Int32)genParam[GenerationParam.Vertices];
             double probability = (Double)genParam[GenerationParam.P];
-            int constant = (int)genParam[GenerationParam.Constant];
-            int stepCount = (int)genParam[GenerationParam.StepCount];
+          
             container.Size = numberOfVertices;
-            int ansambleCount = 0;
+           
             FillValuesByProbability(probability);
-            var currentContainer = container;
-            ERAnalyzer.GetTrianglesTrajectory(container, constant, ansambleCount);
-            ansambleCount++;
-            if (stepCount != 0)
-            {
-                while (stepCount != ansambleCount)
-                {
-                    if ((string)genParam[GenerationParam.InitialStep] != "permament")
-                        FillValuesByProbability(probability);
-
-                    ERAnalyzer.GetTrianglesTrajectory(container, constant, ansambleCount);
-                    ansambleCount++;
-                }
-            }
-            container = currentContainer;
+            
             log.Info("Random generation step finished.");
         }
 

@@ -12,7 +12,6 @@ namespace Model.ERModel.Realization
     // Реализация анализатора (ER).
     public class ERAnalyzer : AbstarctGraphAnalyzer
     {
-        public static SortedDictionary<int, SortedDictionary<int, long>> ansmble = new SortedDictionary<int, SortedDictionary<int, long>>();
         // Организация работы с лог файлом.
         protected static readonly new ILog log = log4net.LogManager.GetLogger(typeof(ERAnalyzer));
 
@@ -204,37 +203,15 @@ namespace Model.ERModel.Realization
             return pathDistribution;
         }
 
-        public  override SortedDictionary<int, double> GetTrianglesTraectory()
+        public  override SortedDictionary<int, double> GetTrianglesTraectory(int constant)
         {   
             log.Error("Getting triangle trajectory.");
-            var tarctory = new SortedDictionary<int, long>();
-            var avaragtarctory = new SortedDictionary<int, double>();
-            foreach(var dic in ansmble)
-                foreach (var item in dic.Value)
-                {
-                    if (!tarctory.ContainsKey(item.Key))
-                        tarctory.Add(item.Key, item.Value);
-                    else
-                    {
-                        tarctory[item.Key] += item.Value;
-                    }
-                }
-
-            foreach (var item in tarctory)
-                avaragtarctory.Add(item.Key, item.Value / ansmble.Count());
-
-            return avaragtarctory;
-
-        }
-
-        public static void GetTrianglesTrajectory(ERContainer container, int constant, int ansamble)
-        {
-            var tarctory = new SortedDictionary<int, long>();
+            var tarctory = new SortedDictionary<int, double>();
             int time = 0;
             int currentcounttriangle = GetCyclesForTringle(container);
             tarctory.Add(time, currentcounttriangle);
             var currentContainer = container;
-            var stepcount = 100;
+            var stepcount = 1000;
             while (stepcount != 0)
             {
                 time++;
@@ -261,9 +238,12 @@ namespace Model.ERModel.Realization
                 stepcount--;
 
             }
+            return tarctory;
+            
 
-            ansmble.Add(ansamble, tarctory);
         }
+
+      
 
 
         // Закрытая часть класса (не из общего интерфейса). //
@@ -465,30 +445,36 @@ namespace Model.ERModel.Realization
 
         private static ERContainer Transformations(ERContainer container)
         {
-            var random = new Random();
-            var list = new List<int>();
-            int randomvertix = random.Next(0, container.Size);
-            int randomedge = container.Neighbourship[randomvertix][random.Next(0, container.Neighbourship[randomvertix].Count)];
-            for (int i = 0; i < container.Size; i++)
+            int count = 4 ;
+            while (count != 0)
             {
-                if (!container.Neighbourship[randomvertix].Contains(i))
+                var random = new Random();
+                var list = new List<int>();
+                int randomvertix = random.Next(0, container.Size);
+                int randomedge = container.Neighbourship[randomvertix][random.Next(0, container.Neighbourship[randomvertix].Count)];
+                for (int i = 0; i < container.Size; i++)
                 {
-                    list.Add(i);
+                    if (!container.Neighbourship[randomvertix].Contains(i))
+                    {
+                        list.Add(i);
+                    }
                 }
+
+                int newedge = list[random.Next(0, list.Count)];
+
+                //Make transfer edges
+
+                //Remove edge
+                container.Neighbourship[randomvertix].Remove(randomedge);
+                container.Neighbourship[randomedge].Remove(randomvertix);
+
+                //Add edge
+
+                container.Neighbourship[randomvertix].Add(newedge);
+                container.Neighbourship[newedge].Add(randomvertix);
+
+                count--;
             }
-
-            int newedge = list[random.Next(0, list.Count)];
-
-            //Make transfer edges
-
-            //Remove edge
-            container.Neighbourship[randomvertix].Remove(randomedge);
-            container.Neighbourship[randomedge].Remove(randomvertix);
-
-            //Add edge
-
-            container.Neighbourship[randomvertix].Add(newedge);
-            container.Neighbourship[newedge].Add(randomvertix);
 
             return container;
         }

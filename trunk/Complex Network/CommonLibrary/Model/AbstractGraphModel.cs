@@ -236,7 +236,7 @@ namespace RandomGraph.Common.Model
                 if ((AnalyzeOptions & AnalyseOptions.TriangleTrajectory) == AnalyseOptions.TriangleTrajectory)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 93, "Triangle Traectory");
-                    Result.TriangleTrajectory = analyzer.GetTrianglesTraectory();
+                    Result.TriangleTrajectory = analyzer.GetTrianglesTraectory(Int32.Parse((String)AnalyzeOptionsValues["Constant"]));
                 }
 
                 if ((AnalyzeOptions & AnalyseOptions.Motifs) == AnalyseOptions.Motifs)
