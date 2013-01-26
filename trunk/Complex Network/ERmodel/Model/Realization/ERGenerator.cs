@@ -19,7 +19,10 @@ namespace Model.ERModel.Realization
         private ERContainer container;
 
         private ERAnalyzer analyzer;
-
+        public static int instancecount = 1;
+        static int count = 0;
+        static bool isPermannet = true;
+        static ERContainer Staticcontainer = new ERContainer();
         // Конструктор по умолчанию, в котором создается пустой контейнер графа.
         public ERGenerator()
         {
@@ -40,10 +43,36 @@ namespace Model.ERModel.Realization
   
             int numberOfVertices = (Int32)genParam[GenerationParam.Vertices];
             double probability = (Double)genParam[GenerationParam.P];
-          
+            
             container.Size = numberOfVertices;
-           
-            FillValuesByProbability(probability);
+            if ((string)genParam[GenerationParam.InitialStep] == "Permanent")
+            {
+                if (isPermannet)
+                {
+                    FillValuesByProbability(probability);
+                    isPermannet = false;
+                    Staticcontainer = container;
+                }
+
+                container = Staticcontainer;
+            }
+            else
+            {
+                FillValuesByProbability(probability);
+                isPermannet = true;
+            }
+
+            count++;
+
+            if (count == instancecount)
+            {
+                isPermannet = true;
+                count = 1;
+                instancecount = 1;
+            }
+
+            
+            
             
             log.Info("Random generation step finished.");
         }

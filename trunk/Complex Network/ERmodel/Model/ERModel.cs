@@ -104,6 +104,7 @@ namespace Model.ERModel
             UInt64 vertex = UInt64.Parse(GenerationParamValues[GenerationParam.Vertices].ToString());
             UInt64 vertexmemory = vertex * (vertex - 1) / 16;
             int processorcount = Environment.ProcessorCount;
+            ERGenerator.instancecount = instances;
             return vertexmemory < ramCounter.NextValue() / processorcount
                    && (int)GenerationParamValues[GenerationParam.Vertices] < 32000;
         }

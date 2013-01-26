@@ -51,6 +51,8 @@
             this.motiveHighCmb = new System.Windows.Forms.ComboBox();
             this.constantInput = new System.Windows.Forms.TextBox();
             this.constantInputLabel = new System.Windows.Forms.Label();
+            this.stepcountInput = new System.Windows.Forms.TextBox();
+            this.stepcountLabel = new System.Windows.Forms.Label();
             this.motiveLowCmb = new System.Windows.Forms.ComboBox();
             this.optionsCheckList = new System.Windows.Forms.CheckedListBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -186,6 +188,8 @@
             this.optionsGrp.Controls.Add(this.motives);
             this.optionsGrp.Controls.Add(this.constantInputLabel);
             this.optionsGrp.Controls.Add(this.constantInput);
+            this.optionsGrp.Controls.Add(this.stepcountInput);
+            this.optionsGrp.Controls.Add(this.stepcountLabel);
             this.optionsGrp.Controls.Add(this.cyclesHighCmb);
             this.optionsGrp.Controls.Add(this.cyclesLowCmb);
             this.optionsGrp.Controls.Add(this.motiveHighCmb);
@@ -256,6 +260,19 @@
 
             this.constantInputLabel.Text = "Nu for Trajectory";
 
+            //
+            //stepcount
+            //
+
+            this.stepcountInput.Location = new System.Drawing.Point(90, 250);
+            this.stepcountInput.Size = new System.Drawing.Size(80, 21);
+            this.stepcountInput.TextChanged += new System.EventHandler(this.stepcount_InputChange);
+
+
+            this.stepcountLabel.Location = new System.Drawing.Point(6, 250);
+            this.stepcountLabel.Size = new System.Drawing.Size(80, 13);
+
+            this.stepcountLabel.Text = "Steps for Trajectory";
 
             // 
             // cyclesHighCmb
@@ -700,6 +717,8 @@
         private System.Windows.Forms.ComboBox cyclesLowCmb;
         private System.Windows.Forms.TextBox constantInput;
         private System.Windows.Forms.Label constantInputLabel;
+        private System.Windows.Forms.TextBox stepcountInput;
+        private System.Windows.Forms.Label stepcountLabel;
         private System.Windows.Forms.ComboBox motiveHighCmb;
         private System.Windows.Forms.ComboBox motiveLowCmb;
         private System.Windows.Forms.Label cycles;

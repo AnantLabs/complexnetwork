@@ -285,6 +285,12 @@ namespace RandomGraphLauncher
             SessionController.SetAnalyzeOptionValue(jobName, "CyclesLow", cyclesLowCmb.SelectedItem);
         }
 
+        private void stepcount_InputChange(object sender, EventArgs e)
+        {
+            SessionController.SetAnalyzeOptionValue(jobName, "StepCount", this.stepcountInput.Text);
+        }
+    
+
         private void cyclesHi_SelectedIndexChanged(object sender, EventArgs e)
         {
             SessionController.SetAnalyzeOptionValue(jobName, "CyclesHigh", cyclesHighCmb.SelectedItem);
