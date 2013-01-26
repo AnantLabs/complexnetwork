@@ -151,7 +151,7 @@ namespace RandomGraph.Common.Model
                     InvokeProgressEvent(GraphProgress.Analizing, 20, "Diameter");
                     Result.Result[AnalyseOptions.Diameter] = analyzer.GetDiameter();
                 }
-
+ 
                 if ((AnalyzeOptions & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 30, "Cycles of order 3");
@@ -236,7 +236,7 @@ namespace RandomGraph.Common.Model
                 if ((AnalyzeOptions & AnalyseOptions.TriangleTrajectory) == AnalyseOptions.TriangleTrajectory)
                 {
                     InvokeProgressEvent(GraphProgress.Analizing, 93, "Triangle Traectory");
-                    Result.TriangleTrajectory = analyzer.GetTrianglesTraectory(Int32.Parse((String)AnalyzeOptionsValues["Constant"]));
+                    Result.TriangleTrajectory = analyzer.GetTrianglesTraectory(Int64.Parse((String)AnalyzeOptionsValues["Constant"]), Int64.Parse((String)AnalyzeOptionsValues["StepCount"]));
                 }
 
                 if ((AnalyzeOptions & AnalyseOptions.Motifs) == AnalyseOptions.Motifs)
