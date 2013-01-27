@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using Model.ERModel.Realization;
 using CommonLibrary.Model;
 using Algorithms;
@@ -203,40 +204,55 @@ namespace Model.ERModel.Realization
             return pathDistribution;
         }
 
-        public override SortedDictionary<int, double> GetTrianglesTraectory(long constant, long stepcount)
+        public override SortedDictionary<int, double> GetTrianglesTraectory(BigInteger constant, BigInteger stepcount)
         {   
             log.Error("Getting triangle trajectory.");
+
             var tarctory = new SortedDictionary<int, double>();
             int time = 0;
             int currentcounttriangle = GetCyclesForTringle(container);
             tarctory.Add(time, currentcounttriangle);
             var currentContainer = container;
+            var tempContainer = new ERContainer();
             while (stepcount != 0)
             {
-                time++;
-                currentContainer = Transformations(currentContainer);
-                int counttriangle = GetCyclesForTringle(currentContainer);
-                int delta = counttriangle - currentcounttriangle;
-                if (delta > 0)
+                try
                 {
-                    tarctory.Add(time, counttriangle);
-
-                }
-                else
-                {
-                    if (new Random().NextDouble() < CalculatePropability(delta, constant))
+                   // Console.WriteLine(stepcount);
+                    time++;
+                    tempContainer = Transformations(currentContainer);
+                    var  counttriangle = GetCyclesForTringle(currentContainer);
+                    var  delta = counttriangle - currentcounttriangle;
+                    if (delta > 0)
                     {
                         tarctory.Add(time, counttriangle);
+                        currentContainer = tempContainer;
+                        currentcounttriangle = counttriangle;
                     }
                     else
                     {
-                        tarctory.Add(time, currentcounttriangle);
+                        if (new Random().NextDouble() < CalculatePropability(delta, constant))
+                        {
+                            tarctory.Add(time, counttriangle);
+                            currentContainer = tempContainer;
+                            currentcounttriangle = counttriangle;
+
+                        }
+                        else
+                        {
+                            tarctory.Add(time, currentcounttriangle);
+                        }
                     }
+
+                    stepcount--;
+                }
+                catch (Exception ex)
+                {
+                    log.Error(String.Format("Error occurred in step {0} ,Error message {1} ",stepcount,ex.InnerException));
                 }
 
-                stepcount--;
-
             }
+
             return tarctory;
             
 
@@ -437,9 +453,9 @@ namespace Model.ERModel.Realization
         }
 
 
-        private static double CalculatePropability(double delta,long constant)
+        private static double CalculatePropability(long delta, BigInteger constant)
         {
-            return Math.Exp(-constant * delta);
+            return Math.Exp((double)(-constant * Math.Abs(delta)));
         }
 
         private static ERContainer Transformations(ERContainer container)

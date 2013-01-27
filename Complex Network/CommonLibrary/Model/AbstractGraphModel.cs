@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Runtime.Serialization;
-
+using System.Numerics;
 using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model.Result;
 using RandomGraph.Common.Model.Status;
@@ -235,8 +235,20 @@ namespace RandomGraph.Common.Model
 
                 if ((AnalyzeOptions & AnalyseOptions.TriangleTrajectory) == AnalyseOptions.TriangleTrajectory)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 93, "Triangle Traectory");
-                    Result.TriangleTrajectory = analyzer.GetTrianglesTraectory(Int64.Parse((String)AnalyzeOptionsValues["Constant"]), Int64.Parse((String)AnalyzeOptionsValues["StepCount"]));
+                    InvokeProgressEvent(GraphProgress.Analizing, 93, "Triangle Trajectory");
+                    try
+                    {
+                        var constant = BigInteger.Parse((String)AnalyzeOptionsValues["Constant"]);
+                        var stepCount = BigInteger.Parse((String)AnalyzeOptionsValues["StepCount"]);
+                        Result.TriangleTrajectory = analyzer.GetTrianglesTraectory(constant, stepCount);
+
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine("Cannot Parse parameter");
+                    }
+                  
+
                 }
 
                 if ((AnalyzeOptions & AnalyseOptions.Motifs) == AnalyseOptions.Motifs)
