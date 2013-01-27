@@ -525,6 +525,12 @@ namespace RandomGraphLauncher
                     cyclesLowCmb.Show();
                     cycles.Show();
                 }
+
+                if ((opt & availableOptions) == opt && opt == AnalyseOptions.TriangleTrajectory)
+                {
+                    constantInputLabel.Show();
+                    constantInput.Show();
+                }
             }
         }
 

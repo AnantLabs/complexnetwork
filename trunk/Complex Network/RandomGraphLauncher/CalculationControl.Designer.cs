@@ -197,10 +197,12 @@
             this.optionsGrp.Controls.Add(this.optionsCheckList);
             this.optionsGrp.Location = new System.Drawing.Point(611, 3);
             this.optionsGrp.Name = "optionsGrp";
-            this.optionsGrp.Size = new System.Drawing.Size(204, 300);
+            this.optionsGrp.Size = new System.Drawing.Size(204, 285);
             this.optionsGrp.TabIndex = 4;
             this.optionsGrp.TabStop = false;
             this.optionsGrp.Text = "Analize Options";
+
+
             // 
             // deselectAllCheck
             // 
@@ -253,12 +255,13 @@
             this.constantInput.Location  = new System.Drawing.Point(90, 228);
             this.constantInput.Size =  new System.Drawing.Size(80, 21);
             this.constantInput.TextChanged += new System.EventHandler(this.constant_InputChange);
+            this.constantInput.Visible = false;
 
 
             this.constantInputLabel.Location = new System.Drawing.Point(6, 228);
             this.constantInputLabel.Size = new System.Drawing.Size(80, 13);
-
-            this.constantInputLabel.Text = "Nu for Trajectory";
+            this.constantInputLabel.Visible = true;
+            this.constantInputLabel.Text = "Nu";
 
             //
             //stepcount
@@ -272,7 +275,7 @@
             this.stepcountLabel.Location = new System.Drawing.Point(6, 250);
             this.stepcountLabel.Size = new System.Drawing.Size(80, 13);
 
-            this.stepcountLabel.Text = "Steps for Trajectory";
+            this.stepcountLabel.Text = "Steps";
 
             // 
             // cyclesHighCmb
@@ -684,7 +687,7 @@
         }
 
         #endregion
-
+            
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox infoGrp;
         private System.Windows.Forms.Label description;

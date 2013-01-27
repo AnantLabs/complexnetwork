@@ -7,6 +7,7 @@ using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model.Status;
 using CommonLibrary.Model.Attributes;
 using Model.ERModel.Realization;
+//using System.Numerics;
 using log4net;
 
 namespace Model.ERModel
@@ -100,6 +101,7 @@ namespace Model.ERModel
         // Проверка параметров генерации.
         public override bool CheckGenerationParams(int instances)
         {
+           
             System.Diagnostics.PerformanceCounter ramCounter = new System.Diagnostics.PerformanceCounter("Memory", "Available Bytes");
             UInt64 vertex = UInt64.Parse(GenerationParamValues[GenerationParam.Vertices].ToString());
             UInt64 vertexmemory = vertex * (vertex - 1) / 16;

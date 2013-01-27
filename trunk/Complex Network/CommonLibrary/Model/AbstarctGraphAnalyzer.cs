@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using log4net;
+using System.Numerics;
 
 namespace CommonLibrary.Model
 {
@@ -121,7 +122,7 @@ namespace CommonLibrary.Model
         }
 
         // Возвращается троектория триугольников (зависимость числа триугольников от времени).
-        public virtual SortedDictionary<int, double> GetTrianglesTraectory(long constant,long stepcount)
+        public virtual SortedDictionary<int, double> GetTrianglesTraectory(BigInteger constant, BigInteger stepcount)
         {
             log.Error("This model does not support Triangle Traectory counting algorithm.");
             return new SortedDictionary<int, double>();
