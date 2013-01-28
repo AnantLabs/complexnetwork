@@ -2,32 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
+using System.Xml;
+using System.Collections;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Globalization;
+
 using RandomGraph.Common.Storage;
 using RandomGraph.Common.Model.Result;
 using CommonLibrary.Model.Result;
-using System.IO;
-using System.Xml;
 using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model;
-using System.Collections;
-using System.Runtime.Serialization.Formatters.Binary;
 using CommonLibrary.Model.Attributes;
-using System.Globalization;
 using log4net;
 
 namespace ResultStorage.Storage
 {
-
+    // Реализация хранилища данных - xml файл.
     public class XMLResultStorage : ResultStorage
     {
-        /// <summary>
-        /// The logger static object for monitoring.
-        /// </summary>
-        protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(XMLResultStorage));
+        // Организация работы с лог файлом.
+        private static readonly ILog log = log4net.LogManager.GetLogger(typeof(XMLResultStorage));
+
+        // Путь к директории, где должны быть сохранены xml файлы.
         private string directory;
 
+        // Конструктор, который получает путь к директории для сохранения xml файлов.
         public XMLResultStorage(string dir)
         {
+            log.Info("Creating XMLResultStorage object with path of directory.");
+
             if (dir.EndsWith(Path.DirectorySeparatorChar.ToString()))
             {
                 this.directory = dir;
@@ -44,10 +48,14 @@ namespace ResultStorage.Storage
 
         #region IResultStorage Members
 
+        // Сохранение сборки в xml файле.
         public override void Save(ResultAssembly assembly)
         {
             using (XmlTextWriter writer = new XmlTextWriter(directory + assembly.ID.ToString() + ".xml", Encoding.ASCII))
             {
+                // Сохранение общей информации для данной сборки.
+                log.Info("Saving common info of assembly.");
+
                 writer.Formatting = Formatting.Indented;
                 writer.WriteStartDocument(true);
                 writer.WriteStartElement("assembly");
@@ -60,6 +68,9 @@ namespace ResultStorage.Storage
                 writer.WriteAttributeString("id", GetModelID(assembly.ModelType).ToString());
                 writer.WriteAttributeString("modelname", assembly.ModelType.Name);
                 writer.WriteEndElement();
+
+                // Сохранение значений параметров генерации для данной сборки.
+                log.Info("Saving generation parameters values of assembly.");
 
                 writer.WriteStartElement("generationparams");
                 if (assembly.GenerationParams != null)
@@ -75,14 +86,23 @@ namespace ResultStorage.Storage
                 }
                 writer.WriteEndElement();
 
+                // Сохранение результатов анализа для данной сборки.
+                log.Info("Saving analyze results.");
+
                 writer.WriteStartElement("analyseresults");
+                int instanceNumber = 1;
                 foreach (AnalizeResult result in assembly.Results)
                 {
+                    log.Info("Saving analyze results for instance - " + instanceNumber.ToString() + ".");
+
                     writer.WriteStartElement("instance");
 
-                    writer.WriteStartElement("Model");
-                    writer.WriteAttributeString("grapSize", result.graphSize.ToString());
+                    writer.WriteStartElement("graphsize");
+                    writer.WriteAttributeString("size", result.Size.ToString());
                     writer.WriteEndElement();
+
+                    // Сохранение результатов анализа для глобальных свойств.
+                    log.Info("Saving analyze results for global options.");
 
                     writer.WriteStartElement("result");
                     foreach (AnalyseOptions analyseOption in result.Result.Keys)
@@ -94,6 +114,9 @@ namespace ResultStorage.Storage
                     }
                     writer.WriteEndElement();
 
+                    log.Info("Saving analyze results for local options.");
+
+                    log.Info("Saving results for vertex degrees.");
                     writer.WriteStartElement("vertexdegree");
                     foreach (int degree in result.VertexDegree.Keys)
                     {
@@ -104,6 +127,7 @@ namespace ResultStorage.Storage
                     }
                     writer.WriteEndElement();
 
+                    log.Info("Saving results for clustering coefficients.");
                     writer.WriteStartElement("coefficients");
                     foreach (double coefficient in result.Coefficient.Keys)
                     {
@@ -114,7 +138,8 @@ namespace ResultStorage.Storage
                     }
                     writer.WriteEndElement();
 
-                    writer.WriteStartElement("Connsubgraphs");
+                    log.Info("Saving results for connected subgraphs.");
+                    writer.WriteStartElement("connsubgraphs");
                     foreach (int sub in result.Subgraphs.Keys)
                     {
                         writer.WriteStartElement("csub");
@@ -124,7 +149,8 @@ namespace ResultStorage.Storage
                     }
                     writer.WriteEndElement();
 
-                    writer.WriteStartElement("Fullsubgraphs");
+                    log.Info("Saving results for full subgraphs.");
+                    writer.WriteStartElement("fullsubgraphs");
                     foreach (int sub in result.FullSubgraphs.Keys)
                     {
                         writer.WriteStartElement("fsub");
@@ -134,6 +160,7 @@ namespace ResultStorage.Storage
                     }
                     writer.WriteEndElement();
 
+                    log.Info("Saving results for distances between vertices.");
                     writer.WriteStartElement("vertexdistance");
                     foreach (int sub in result.DistanceBetweenVertices.Keys)
                     {
@@ -144,16 +171,17 @@ namespace ResultStorage.Storage
                     }
                     writer.WriteEndElement();
 
+                    log.Info("Saving results for eigen values.");
                     writer.WriteStartElement("eigenvalues");
                     foreach (double sub in result.EigenVector)
                     {
                         writer.WriteStartElement("ev");
                         writer.WriteAttributeString("eigenValue", sub.ToString());
-                        //writer.WriteAttributeString("count", result.Subgraphs[sub].ToString());
                         writer.WriteEndElement();
                     }
                     writer.WriteEndElement();
 
+                    log.Info("Saving results for distances between eigen values.");
                     writer.WriteStartElement("eigenvaluesdistance");
                     foreach (double sub in result.DistancesBetweenEigenValues.Keys)
                     {
@@ -164,26 +192,29 @@ namespace ResultStorage.Storage
                     }
                     writer.WriteEndElement();
 
+                    log.Info("Saving results for cycles.");
                     writer.WriteStartElement("cycles");
                     foreach (int sub in result.Cycles.Keys)
                     {
-                        writer.WriteStartElement("cl");
-                        writer.WriteAttributeString("degree", sub.ToString());
+                        writer.WriteStartElement("cs");
+                        writer.WriteAttributeString("order", sub.ToString());
                         writer.WriteAttributeString("count", result.Cycles[sub].ToString());
                         writer.WriteEndElement();
                     }
                     writer.WriteEndElement();
 
+                    log.Info("Saving results for triangles.");
                     writer.WriteStartElement("triangles");
                     foreach (int count in result.TriangleCount.Keys)
                     {
                         writer.WriteStartElement("tc");
-                        writer.WriteAttributeString("triangleCount", count.ToString());
+                        writer.WriteAttributeString("trianglecount", count.ToString());
                         writer.WriteAttributeString("count", result.TriangleCount[count].ToString());
                         writer.WriteEndElement();
                     }
                     writer.WriteEndElement();
 
+                    log.Info("Saving results for triangle trajectory.");
                     writer.WriteStartElement("triangletrajectory");
                     foreach (int count in result.TriangleTrajectory.Keys)
                     {
@@ -194,29 +225,19 @@ namespace ResultStorage.Storage
                     }
                     writer.WriteEndElement();
 
+                    log.Info("Saving results for motivs.");
                     writer.WriteStartElement("motives");
                     foreach (int sub in result.MotivesCount.Keys)
                     {
-                        writer.WriteStartElement("mt");
-                        writer.WriteAttributeString("degree", sub.ToString());
+                        writer.WriteStartElement("mf");
+                        writer.WriteAttributeString("id", sub.ToString());
                         writer.WriteAttributeString("count", result.MotivesCount[sub].ToString());
                         writer.WriteEndElement();
                     }
                     writer.WriteEndElement();
 
-                    writer.WriteStartElement("parisiarray");
-                    if (result.TreeVector != null)
-                    {
-                        foreach (bool bit in result.TreeVector)
-                        {
-                            writer.WriteStartElement("par");
-                            writer.WriteAttributeString("bit", bit.ToString());
-                            writer.WriteEndElement();
-                        }
-                    }
                     writer.WriteEndElement();
-
-                    writer.WriteEndElement();
+                    ++instanceNumber;
                 }
                 writer.WriteEndElement();
 
@@ -224,17 +245,24 @@ namespace ResultStorage.Storage
             }
         }
 
+        // Удаление сборки по данному идентификатору сборки.
         public override void Delete(Guid assemblyID)
         {
             string fileName = directory + assemblyID.ToString() + ".xml";
             if (File.Exists(fileName))
             {
+                log.Info("Deleting assembly with ID " + assemblyID.ToString() + ".");
                 File.Delete(fileName);
             }
         }
 
+        // Загрузка сборки по данному идентификатору сборки.
         public override ResultAssembly Load(Guid assemblyID)
         {
+            log.Info("Loading assembly with ID " + assemblyID.ToString() + ".");
+
+            log.Info("Loading common info of assembly.");
+
             ResultAssembly resultAssembly = new ResultAssembly();
             resultAssembly.ID = assemblyID;
 
@@ -247,6 +275,7 @@ namespace ResultStorage.Storage
             resultAssembly.Name = xml.SelectSingleNode("/assembly/name").InnerText;
             resultAssembly.ModelType = GetModelType(int.Parse(xml.SelectSingleNode("/assembly/graphmodel").Attributes["id"].Value));
 
+            log.Info("Loading generation parameters values of assembly.");
             foreach (XmlNode paramNode in xml.SelectNodes("/assembly/generationparams/generationparam"))
             {
                 GenerationParam param = (GenerationParam)Enum.ToObject(typeof(GenerationParam), int.Parse(paramNode.Attributes["id"].Value));
@@ -269,99 +298,131 @@ namespace ResultStorage.Storage
                     resultAssembly.GenerationParams.Add(param, Convert.ToBoolean(paramNode.Attributes["value"].Value));
                 }
             }
-            
-            int degree, count, sub, distance;
-            double coefficient;
+
+            log.Info("Loading analyze results.");
+
+            int instanceNumber = 0, tempInt1, tempInt2;
+            long tempLong;
+            double tempDouble;
             foreach (XmlNode paramNode in xml.SelectNodes("/assembly/analyseresults/instance"))
             {
-                resultAssembly.Size = Convert.ToInt32(paramNode.SelectSingleNode("Model").Attributes["grapSize"].Value);
+                log.Info("Loading analyze results for instance - " + instanceNumber.ToString() + ".");
 
                 result = new AnalizeResult();
                 results.Add(result);
+                
+                result.Size = Convert.ToInt32(paramNode.SelectSingleNode("graphsize").Attributes["size"].Value);
 
-                string base64Motif = paramNode.SelectNodes("motives")[0].InnerText;
-                if (!String.IsNullOrEmpty(base64Motif))
-                {
-                    //result.MotifCount = (SubgruphCount)BinaryDeserialization(Convert.FromBase64String(base64Motif));
-                }
+                log.Info("Loading analyze results for global options.");
                 foreach (XmlNode item in paramNode.SelectNodes("result/item"))
                 {
-                    AnalyseOptions option = (AnalyseOptions)Enum.Parse(typeof(AnalyseOptions), item.Attributes["option"].Value, true);
+                    AnalyseOptions option = (AnalyseOptions)Enum.Parse(typeof(AnalyseOptions), 
+                        item.Attributes["option"].Value, true);
                     result.Result.Add(option, double.Parse(item.InnerText));
                 }
+
+                log.Info("Loading analyze results for local options.");
+
+                log.Info("Loading vertex degrees.");
                 foreach (XmlNode item in paramNode.SelectNodes("vertexdegree/vd"))
                 {
-                    degree = int.Parse(item.Attributes["degree"].Value);
-                    count = int.Parse(item.Attributes["count"].Value);
-                    result.VertexDegree.Add(degree, count);
+                    tempInt1 = int.Parse(item.Attributes["degree"].Value);
+                    tempInt2 = int.Parse(item.Attributes["count"].Value);
+                    result.VertexDegree.Add(tempInt1, tempInt2);
                 }
+
+                log.Info("Loading clustering coefficients.");
                 foreach (XmlNode item in paramNode.SelectNodes("coefficients/coeff"))
                 {
-                    coefficient = double.Parse(item.Attributes["coefficient"].Value);
-                    count = int.Parse(item.Attributes["count"].Value);
-                    result.Coefficient.Add(coefficient, count);
+                    tempDouble = double.Parse(item.Attributes["coefficient"].Value);
+                    tempInt1 = int.Parse(item.Attributes["count"].Value);
+                    result.Coefficient.Add(tempDouble, tempInt1);
                 }
-                /////////////////////////////////////////////////////////////////////////////
-                foreach (XmlNode item in paramNode.SelectNodes("eigenvalues/ev"))
+
+                log.Info("Loading connected subgraphs.");
+                foreach (XmlNode item in paramNode.SelectNodes("connsubgraphs/csub"))
                 {
-                    coefficient = double.Parse(item.Attributes["eigenValue"].Value);
-                    result.EigenVector.Add(coefficient);
+                    tempInt1 = int.Parse(item.Attributes["vx"].Value);
+                    tempInt2 = int.Parse(item.Attributes["count"].Value);
+                    result.Subgraphs.Add(tempInt1, tempInt2);
                 }
-                foreach (XmlNode item in paramNode.SelectNodes("eigenvaluesdistance/ev"))
+
+                log.Info("Loading full subgraphs.");
+                foreach (XmlNode item in paramNode.SelectNodes("fullsubgraphs/fsub"))
                 {
-                    coefficient = double.Parse(item.Attributes["distance"].Value);
-                    count = int.Parse(item.Attributes["count"].Value);
-                    result.DistancesBetweenEigenValues.Add(coefficient, count);
+                    tempInt1 = int.Parse(item.Attributes["vx"].Value);
+                    tempInt2 = int.Parse(item.Attributes["count"].Value);
+                    result.FullSubgraphs.Add(tempInt1, tempInt2);
                 }
+
+                log.Info("Loading distances between vertices.");
                 foreach (XmlNode item in paramNode.SelectNodes("vertexdistance/vd"))
                 {
-                    distance = int.Parse(item.Attributes["distance"].Value);
-                    count = int.Parse(item.Attributes["count"].Value);
-                    result.DistanceBetweenVertices.Add(distance, count);
-                }
-                /////////////////////////////////////////////////////////////////////////////
-                foreach (XmlNode item in paramNode.SelectNodes("subgraphs/sub"))
-                {
-                    sub = int.Parse(item.Attributes["vx"].Value);
-                    count = int.Parse(item.Attributes["count"].Value);
-                    result.Subgraphs.Add(sub, count);
-                }
-                foreach (XmlNode item in paramNode.SelectNodes("cycles/cl"))
-                {
-                    sub = int.Parse(item.Attributes["degree"].Value);
-                    count = int.Parse(item.Attributes["count"].Value);
-                    result.Cycles.Add(sub, count);
+                    tempInt1 = int.Parse(item.Attributes["distance"].Value);
+                    tempInt2 = int.Parse(item.Attributes["count"].Value);
+                    result.DistanceBetweenVertices.Add(tempInt1, tempInt2);
                 }
 
+                log.Info("Loading eigen values.");
+                foreach (XmlNode item in paramNode.SelectNodes("eigenvalues/ev"))
+                {
+                    tempDouble = double.Parse(item.Attributes["eigenValue"].Value);
+                    result.EigenVector.Add(tempDouble);
+                }
+
+                log.Info("Loading distances between eigen values.");
+                foreach (XmlNode item in paramNode.SelectNodes("eigenvaluesdistance/ev"))
+                {
+                    tempDouble = double.Parse(item.Attributes["distance"].Value);
+                    tempInt1 = int.Parse(item.Attributes["count"].Value);
+                    result.DistancesBetweenEigenValues.Add(tempDouble, tempInt1);
+                }
+
+                log.Info("Loading cycles.");
+                foreach (XmlNode item in paramNode.SelectNodes("cycles/cs"))
+                {
+                    tempInt1 = int.Parse(item.Attributes["order"].Value);
+                    tempLong = long.Parse(item.Attributes["count"].Value);
+                    result.Cycles.Add(tempInt1, tempLong);
+                }
+
+                log.Info("Loading triangles.");
                 foreach (XmlNode item in paramNode.SelectNodes("triangles/tc"))
                 {
-                    degree = int.Parse(item.Attributes["triangleCount"].Value);
-                    count = int.Parse(item.Attributes["count"].Value);
-                    result.TriangleCount.Add(degree, count);
+                    tempInt1 = int.Parse(item.Attributes["trianglecount"].Value);
+                    tempInt2 = int.Parse(item.Attributes["count"].Value);
+                    result.TriangleCount.Add(tempInt1, tempInt2);
                 }
 
-                double t = 0;
+                log.Info("Loading triangle trajectory.");
                 foreach (XmlNode item in paramNode.SelectNodes("triangletrajectory/tt"))
                 {
-                    degree = int.Parse(item.Attributes["time"].Value);
-                    t = long.Parse(item.Attributes["triangleCount"].Value);
-                    result.TriangleTrajectory.Add(degree, t);
+                    tempInt1 = int.Parse(item.Attributes["time"].Value);
+                    tempDouble = double.Parse(item.Attributes["triangleCount"].Value);
+                    result.TriangleTrajectory.Add(tempInt1, tempDouble);
                 }
 
-                XmlNodeList XmlBits = paramNode.SelectNodes("parisiarray/par");
-                BitArray bits = new BitArray(XmlBits.Count);
-                for (int i = 0; i < XmlBits.Count; i++)
+                log.Info("Loading motifs.");
+                foreach (XmlNode item in paramNode.SelectNodes("motif/mf"))
                 {
-                    bits[i] = bool.Parse(XmlBits[i].Attributes["bit"].Value);
+                    tempInt1 = int.Parse(item.Attributes["id"].Value);
+                    tempInt2 = int.Parse(item.Attributes["count"].Value);
+                    result.MotivesCount.Add(tempInt1, tempInt2);
                 }
+
+                ++instanceNumber;
             }
             return resultAssembly;
         }
 
+        // Загрузка сборки по строковому идентификатору сборки.
         public ResultAssembly LoadXML(String assemblyID)
         {
+            log.Info("Loading assembly with ID " + assemblyID.ToString() + ".");
+
+            log.Info("Loading common info of assembly.");
+
             ResultAssembly resultAssembly = new ResultAssembly();
-            //resultAssembly.ID = assemblyID;
 
             List<AnalizeResult> results = new List<AnalizeResult>();
             resultAssembly.Results = results;
@@ -372,6 +433,7 @@ namespace ResultStorage.Storage
             resultAssembly.Name = xml.SelectSingleNode("/assembly/name").InnerText;
             resultAssembly.ModelType = GetModelType(int.Parse(xml.SelectSingleNode("/assembly/graphmodel").Attributes["id"].Value));
 
+            log.Info("Loading generation parameters values of assembly.");
             foreach (XmlNode paramNode in xml.SelectNodes("/assembly/generationparams/generationparam"))
             {
                 GenerationParam param = (GenerationParam)Enum.ToObject(typeof(GenerationParam), int.Parse(paramNode.Attributes["id"].Value));
@@ -394,72 +456,124 @@ namespace ResultStorage.Storage
                     resultAssembly.GenerationParams.Add(param, Convert.ToBoolean(paramNode.Attributes["value"].Value));
                 }
             }
-            int degree, count, sub, distance;
-            double coefficient;
+
+            log.Info("Loading analyze results.");
+
+            int instanceNumber = 0, tempInt1, tempInt2;
+            long tempLong;
+            double tempDouble;
             foreach (XmlNode paramNode in xml.SelectNodes("/assembly/analyseresults/instance"))
             {
-                resultAssembly.Size = Convert.ToInt32(paramNode.SelectSingleNode("Model").Attributes["grapSize"].Value);
+                log.Info("Loading analyze results for instance - " + instanceNumber.ToString() + ".");
 
                 result = new AnalizeResult();
                 results.Add(result);
 
-                string base64Motif = paramNode.SelectNodes("motives")[0].InnerText;
-                if (!String.IsNullOrEmpty(base64Motif))
-                {
-                    //result.MotifCount = (SubgruphCount)BinaryDeserialization(Convert.FromBase64String(base64Motif));
-                }
+                result.Size = Convert.ToInt32(paramNode.SelectSingleNode("graphsize").Attributes["size"].Value);
+
+                log.Info("Loading analyze results for global options.");
                 foreach (XmlNode item in paramNode.SelectNodes("result/item"))
                 {
-                    AnalyseOptions option = (AnalyseOptions)Enum.Parse(typeof(AnalyseOptions), item.Attributes["option"].Value, true);
+                    AnalyseOptions option = (AnalyseOptions)Enum.Parse(typeof(AnalyseOptions),
+                        item.Attributes["option"].Value, true);
                     result.Result.Add(option, double.Parse(item.InnerText));
                 }
+
+                log.Info("Loading analyze results for local options.");
+
+                log.Info("Loading vertex degrees.");
                 foreach (XmlNode item in paramNode.SelectNodes("vertexdegree/vd"))
                 {
-                    degree = int.Parse(item.Attributes["degree"].Value);
-                    count = int.Parse(item.Attributes["count"].Value);
-                    result.VertexDegree.Add(degree, count);
+                    tempInt1 = int.Parse(item.Attributes["degree"].Value);
+                    tempInt2 = int.Parse(item.Attributes["count"].Value);
+                    result.VertexDegree.Add(tempInt1, tempInt2);
                 }
+
+                log.Info("Loading clustering coefficients.");
                 foreach (XmlNode item in paramNode.SelectNodes("coefficients/coeff"))
                 {
-                    coefficient = double.Parse(item.Attributes["coefficient"].Value);
-                    count = int.Parse(item.Attributes["count"].Value);
-                    result.Coefficient.Add(coefficient, count);
+                    tempDouble = double.Parse(item.Attributes["coefficient"].Value);
+                    tempInt1 = int.Parse(item.Attributes["count"].Value);
+                    result.Coefficient.Add(tempDouble, tempInt1);
                 }
-                /////////////////////////////////////////////////////////////////////////////
-                foreach (XmlNode item in paramNode.SelectNodes("eigenvalues/ev"))
+
+                log.Info("Loading connected subgraphs.");
+                foreach (XmlNode item in paramNode.SelectNodes("connsubgraphs/csub"))
                 {
-                    coefficient = double.Parse(item.Attributes["eigenValue"].Value);
-                    result.EigenVector.Add(coefficient);
+                    tempInt1 = int.Parse(item.Attributes["vx"].Value);
+                    tempInt2 = int.Parse(item.Attributes["count"].Value);
+                    result.Subgraphs.Add(tempInt1, tempInt2);
                 }
-                foreach (XmlNode item in paramNode.SelectNodes("eigenvaluesdistance/ev"))
+
+                log.Info("Loading full subgraphs.");
+                foreach (XmlNode item in paramNode.SelectNodes("fullsubgraphs/fsub"))
                 {
-                    coefficient = double.Parse(item.Attributes["distance"].Value);
-                    count = int.Parse(item.Attributes["count"].Value);
-                    result.DistancesBetweenEigenValues.Add(coefficient, count);
+                    tempInt1 = int.Parse(item.Attributes["vx"].Value);
+                    tempInt2 = int.Parse(item.Attributes["count"].Value);
+                    result.FullSubgraphs.Add(tempInt1, tempInt2);
                 }
+
+                log.Info("Loading distances between vertices.");
                 foreach (XmlNode item in paramNode.SelectNodes("vertexdistance/vd"))
                 {
-                    distance = int.Parse(item.Attributes["distance"].Value);
-                    count = int.Parse(item.Attributes["count"].Value);
-                    result.DistanceBetweenVertices.Add(distance, count);
+                    tempInt1 = int.Parse(item.Attributes["distance"].Value);
+                    tempInt2 = int.Parse(item.Attributes["count"].Value);
+                    result.DistanceBetweenVertices.Add(tempInt1, tempInt2);
                 }
-                /////////////////////////////////////////////////////////////////////////////
-                foreach (XmlNode item in paramNode.SelectNodes("subgraphs/sub"))
+
+                log.Info("Loading eigen values.");
+                foreach (XmlNode item in paramNode.SelectNodes("eigenvalues/ev"))
                 {
-                    sub = int.Parse(item.Attributes["vx"].Value);
-                    count = int.Parse(item.Attributes["count"].Value);
-                    result.Subgraphs.Add(sub, count);
+                    tempDouble = double.Parse(item.Attributes["eigenValue"].Value);
+                    result.EigenVector.Add(tempDouble);
                 }
-                XmlNodeList XmlBits = paramNode.SelectNodes("parisiarray/par");
-                BitArray bits = new BitArray(XmlBits.Count);
-                for (int i = 0; i < XmlBits.Count; i++)
+
+                log.Info("Loading distances between eigen values.");
+                foreach (XmlNode item in paramNode.SelectNodes("eigenvaluesdistance/ev"))
                 {
-                    bits[i] = bool.Parse(XmlBits[i].Attributes["bit"].Value);
+                    tempDouble = double.Parse(item.Attributes["distance"].Value);
+                    tempInt1 = int.Parse(item.Attributes["count"].Value);
+                    result.DistancesBetweenEigenValues.Add(tempDouble, tempInt1);
                 }
+
+                log.Info("Loading cycles.");
+                foreach (XmlNode item in paramNode.SelectNodes("cycles/cs"))
+                {
+                    tempInt1 = int.Parse(item.Attributes["order"].Value);
+                    tempLong = long.Parse(item.Attributes["count"].Value);
+                    result.Cycles.Add(tempInt1, tempLong);
+                }
+
+                log.Info("Loading triangles.");
+                foreach (XmlNode item in paramNode.SelectNodes("triangles/tc"))
+                {
+                    tempInt1 = int.Parse(item.Attributes["trianglecount"].Value);
+                    tempInt2 = int.Parse(item.Attributes["count"].Value);
+                    result.TriangleCount.Add(tempInt1, tempInt2);
+                }
+
+                log.Info("Loading triangle trajectory.");
+                foreach (XmlNode item in paramNode.SelectNodes("triangletrajectory/tt"))
+                {
+                    tempInt1 = int.Parse(item.Attributes["time"].Value);
+                    tempDouble = double.Parse(item.Attributes["triangleCount"].Value);
+                    result.TriangleTrajectory.Add(tempInt1, tempDouble);
+                }
+
+                log.Info("Loading motifs.");
+                foreach (XmlNode item in paramNode.SelectNodes("motif/mf"))
+                {
+                    tempInt1 = int.Parse(item.Attributes["id"].Value);
+                    tempInt2 = int.Parse(item.Attributes["count"].Value);
+                    result.MotivesCount.Add(tempInt1, tempInt2);
+                }
+
+                ++instanceNumber;
             }
             return resultAssembly;
         }
 
+        // Загрузка всех сборок.
         public override List<ResultAssembly> LoadAllAssemblies()
         {
             List<ResultAssembly> assemblies = new List<ResultAssembly>();
@@ -471,7 +585,7 @@ namespace ResultStorage.Storage
                 assemblies.Add(assembly);
                 using (XmlTextReader reader = new XmlTextReader(file))
                 {
-                    try // exception handling
+                    try
                     {
                         reader.WhitespaceHandling = WhitespaceHandling.None;
                         while (reader.Read())

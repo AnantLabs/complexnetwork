@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RandomGraph.Common.Storage;
-using CommonLibrary.Model.Result;
 using System.Data.Common;
 using System.Configuration;
 using System.Data;
+
+using RandomGraph.Common.Storage;
+using CommonLibrary.Model.Result;
 using RandomGraph.Common.Model.Result;
 using RandomGraph.Common.Model;
 using CommonLibrary.Model.Attributes;
@@ -18,15 +19,17 @@ using log4net;
 
 namespace ResultStorage.Storage
 {
+    // Реализация хранилища данных - SQL DB.
     public class SQLResultStorage : ResultStorage
     {
-        /// <summary>
-        /// The logger static object for monitoring.
-        /// </summary>
-        protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(SQLResultStorage));
+        // Организация работы с лог файлом.
+        private static readonly ILog log = log4net.LogManager.GetLogger(typeof(SQLResultStorage));
+
+        // Информация для соединения с SQL сервером.
         private ConnectionStringSettings connSettings;
         private DbProviderFactory provider;
 
+        // Конструктор, который получает строку соединения.
         public SQLResultStorage(ConnectionStringSettings connectionStringSettings)
         {
             string dp = connectionStringSettings.ProviderName;

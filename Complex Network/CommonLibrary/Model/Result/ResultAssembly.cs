@@ -22,7 +22,6 @@ namespace CommonLibrary.Model.Result
         public List<AnalizeResult> Results { get; set; }
         public Type ModelType { get; set; }
         public string ModelName { get; set; }
-        public int Size { get; set; }
         public Dictionary<GenerationParam, object> GenerationParams { get; set; }
         public AnalyseOptions AnalizeOptions { get; set; }
     }
