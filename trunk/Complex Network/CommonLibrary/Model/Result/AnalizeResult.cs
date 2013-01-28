@@ -54,7 +54,7 @@ namespace RandomGraph.Common.Model.Result
 
         public BitArray TreeVector { get; set; }
 
-        public int graphSize { get; set; }
+        public int Size { get; set; }
 
         public int Cycles3 { get; set; }
 

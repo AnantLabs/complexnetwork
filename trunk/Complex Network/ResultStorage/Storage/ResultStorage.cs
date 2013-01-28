@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using RandomGraph.Common.Storage;
 using CommonLibrary.Model.Result;
 using Model.HierarchicModel;
@@ -13,8 +14,10 @@ using Model.WSModel;
 
 namespace ResultStorage.Storage
 {
+    // Базовый абстрактный класс для имплементации хранилища данных.
     public abstract class ResultStorage : IResultStorage
     {
+        // Возвращает идентификатор модели графа по типу.
         protected int GetModelID(Type ModelType)
         {
             string name = ModelType.Name;
@@ -38,6 +41,7 @@ namespace ResultStorage.Storage
 
         }
 
+        // Возвращает тип по идентификатору модели графа.
         protected Type GetModelType(int ModelTypeID)
         {
             switch (ModelTypeID)
@@ -59,14 +63,19 @@ namespace ResultStorage.Storage
             }
         }
 
+        // Абстрактный метод для сохранения результатов анализа (сборки) в хранилище данных.
         public abstract void Save(ResultAssembly assembly);
 
+        // Абстрактный метод для удаления сборки из хранилища данных по данному идентификатору сборки.
         public abstract void Delete(Guid assemblyID);
 
+        // Абстрактный метод для загрузки сборки из хранилища данных по данному идентификатору сборки.
         public abstract ResultAssembly Load(Guid assemblyID);
 
+        // Абстрактный метод для загрузки всех сборок из хранилища данных.
         public abstract List<ResultAssembly> LoadAllAssemblies();
 
+        // Метод для загрузки всех сборок из хранилища данных по данному имени модели.
         public List<ResultAssembly> LoadAssembliesByModel(string modelName)
         {
             List<ResultAssembly> allResults = LoadAllAssemblies();
@@ -80,6 +89,5 @@ namespace ResultStorage.Storage
             }
             return results;
         }
-
     }
 }

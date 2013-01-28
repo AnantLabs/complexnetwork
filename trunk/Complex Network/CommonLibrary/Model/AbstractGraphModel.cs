@@ -137,7 +137,7 @@ namespace RandomGraph.Common.Model
 
             analyzer.Container = generator.Container;
 
-            Result.graphSize = analyzer.Container.Size;
+            Result.Size = analyzer.Container.Size;
             try
             {
                 if ((AnalyzeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
