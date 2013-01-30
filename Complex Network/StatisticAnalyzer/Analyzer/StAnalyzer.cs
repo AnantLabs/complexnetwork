@@ -454,7 +454,6 @@ namespace StatisticAnalyzer.Analyzer
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
             for (int i = 0; i < assemblyToAnalyze.Count(); ++i)
             {
-                int size = assemblyToAnalyze[i].Results[0].Size;
                 int instanceCount = assemblyToAnalyze[i].Results.Count();
                 for (int j = 0; j < instanceCount; ++j)
                 {
@@ -463,9 +462,9 @@ namespace StatisticAnalyzer.Analyzer
                     foreach (int key in keyColl)
                     {
                         if (r.Keys.Contains(key))
-                            r[key] += (double)tempDictionary[key] / size;
+                            r[key] += tempDictionary[key];
                         else
-                            r.Add(key, (double)tempDictionary[key] / size);
+                            r.Add(key, tempDictionary[key]);
                     }
                 }
             }
@@ -605,15 +604,46 @@ namespace StatisticAnalyzer.Analyzer
         private void FillMathWaitingsAndDispersions(SortedDictionary<double, double> r, AnalyseOptions option)
         {
             SortedDictionary<double, double>.KeyCollection keys = r.Keys;
-            double mathWaiting = 0, mathWaitingSquare = 0;
-            foreach (double key in keys)
+            switch(option)
             {
-                mathWaiting += key * r[key];
-                mathWaitingSquare += Math.Pow(key, 2) * r[key];
-            }
+                case AnalyseOptions.TriangleTrajectory:
+                    {
+                        double avg = 0, sigma = 0;
 
-            result.resultMathWaitings.Add(option, mathWaiting);
-            result.resultDispersions.Add(option, (mathWaitingSquare - Math.Pow(mathWaiting, 2)));
+                        foreach (double key in keys)
+                        {
+                            avg += r[key];
+                        }
+                        avg /= keys.Count();
+
+                        foreach (double key in keys)
+                        {
+                            sigma += (avg - r[key]); 
+                        }
+                        sigma /= keys.Count();
+                        sigma = Math.Sqrt(sigma);
+
+                        result.resultMathWaitings.Add(option, avg);
+                        result.resultDispersions.Add(option, sigma);
+
+                        break;
+                    }
+                default:
+                    {
+                        double mathWaiting = 0, mathWaitingSquare = 0;
+
+                        foreach (double key in keys)
+                        {
+                            mathWaiting += key * r[key];
+                            mathWaitingSquare += Math.Pow(key, 2) * r[key];
+                        }
+
+                        result.resultMathWaitings.Add(option, mathWaiting);
+                        result.resultDispersions.Add(option, (mathWaitingSquare - Math.Pow(mathWaiting, 2)));
+
+                        break;
+                    }
+            }
         }
     }
 }
