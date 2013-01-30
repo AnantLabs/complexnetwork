@@ -441,8 +441,6 @@ namespace RandomGraphLauncher
                         genParamsGrp.Controls.Add(listBox);
                         genParamsGrp.Controls.Add(textBoxLabel);
                         position += 25;
-                       
-
                     }
                     else
                     {
@@ -456,7 +454,7 @@ namespace RandomGraphLauncher
                                 control.Text = "0";
                             }
 
-                            textBoxLabel = new Label() { Width = 100 };
+                            textBoxLabel = new Label() { Width = 50 };
                             textBoxLabel.Location = new Point(15, position);
 
                             textBoxLabel.Text = paramInfo.Name;
@@ -466,10 +464,7 @@ namespace RandomGraphLauncher
                             genParamsGrp.Controls.Add(textBoxLabel);
                             position += 25;
                         }
-
                     }
-                    
-                   
                 }
             }                   
             else

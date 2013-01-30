@@ -38,7 +38,6 @@
             this.infoGrp = new System.Windows.Forms.GroupBox();
             this.description = new System.Windows.Forms.Label();
             this.modelName = new System.Windows.Forms.Label();
-            this.checkModel = new System.Windows.Forms.Label();
             this.genParamsGrp = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.optionsGrp = new System.Windows.Forms.GroupBox();
@@ -46,13 +45,13 @@
             this.selectAllCheck = new System.Windows.Forms.CheckBox();
             this.cycles = new System.Windows.Forms.Label();
             this.motives = new System.Windows.Forms.Label();
+            this.constantInputLabel = new System.Windows.Forms.Label();
+            this.constantInput = new System.Windows.Forms.TextBox();
+            this.stepcountInput = new System.Windows.Forms.TextBox();
+            this.stepcountLabel = new System.Windows.Forms.Label();
             this.cyclesHighCmb = new System.Windows.Forms.ComboBox();
             this.cyclesLowCmb = new System.Windows.Forms.ComboBox();
             this.motiveHighCmb = new System.Windows.Forms.ComboBox();
-            this.constantInput = new System.Windows.Forms.TextBox();
-            this.constantInputLabel = new System.Windows.Forms.Label();
-            this.stepcountInput = new System.Windows.Forms.TextBox();
-            this.stepcountLabel = new System.Windows.Forms.Label();
             this.motiveLowCmb = new System.Windows.Forms.ComboBox();
             this.optionsCheckList = new System.Windows.Forms.CheckedListBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -74,6 +73,7 @@
             this.stopColumn = new RandomGraphLauncher.Controls.DataGridViewDisableButtonColumn();
             this.manageColumn = new RandomGraphLauncher.Controls.DataGridViewDisableButtonColumn();
             this.axShockwaveFlash1 = new AxShockwaveFlashObjects.AxShockwaveFlash();
+            this.checkModel = new System.Windows.Forms.Label();
             this.backgroundStartWorker = new System.ComponentModel.BackgroundWorker();
             this.backgroundStopWorker = new System.ComponentModel.BackgroundWorker();
             this.backgroundPauseWorker = new System.ComponentModel.BackgroundWorker();
@@ -156,8 +156,6 @@
             this.modelName.Size = new System.Drawing.Size(85, 17);
             this.modelName.TabIndex = 0;
             this.modelName.Text = "Model name";
-            //
-           
             // 
             // genParamsGrp
             // 
@@ -166,7 +164,7 @@
             this.genParamsGrp.Controls.Add(this.label2);
             this.genParamsGrp.Location = new System.Drawing.Point(160, 3);
             this.genParamsGrp.Name = "genParamsGrp";
-            this.genParamsGrp.Size = new System.Drawing.Size(446, 285);
+            this.genParamsGrp.Size = new System.Drawing.Size(274, 285);
             this.genParamsGrp.TabIndex = 5;
             this.genParamsGrp.TabStop = false;
             this.genParamsGrp.Text = "Generation Parameters";
@@ -195,14 +193,12 @@
             this.optionsGrp.Controls.Add(this.motiveHighCmb);
             this.optionsGrp.Controls.Add(this.motiveLowCmb);
             this.optionsGrp.Controls.Add(this.optionsCheckList);
-            this.optionsGrp.Location = new System.Drawing.Point(611, 3);
+            this.optionsGrp.Location = new System.Drawing.Point(440, 3);
             this.optionsGrp.Name = "optionsGrp";
-            this.optionsGrp.Size = new System.Drawing.Size(204, 285);
+            this.optionsGrp.Size = new System.Drawing.Size(375, 285);
             this.optionsGrp.TabIndex = 4;
             this.optionsGrp.TabStop = false;
             this.optionsGrp.Text = "Analize Options";
-
-
             // 
             // deselectAllCheck
             // 
@@ -232,7 +228,7 @@
             // cycles
             // 
             this.cycles.AutoSize = true;
-            this.cycles.Location = new System.Drawing.Point(6, 209);
+            this.cycles.Location = new System.Drawing.Point(207, 67);
             this.cycles.Name = "cycles";
             this.cycles.Size = new System.Drawing.Size(38, 13);
             this.cycles.TabIndex = 6;
@@ -242,44 +238,48 @@
             // motives
             // 
             this.motives.AutoSize = true;
-            this.motives.Location = new System.Drawing.Point(6, 183);
+            this.motives.Location = new System.Drawing.Point(207, 41);
             this.motives.Name = "motives";
             this.motives.Size = new System.Drawing.Size(44, 13);
             this.motives.TabIndex = 5;
             this.motives.Text = "Motives";
             this.motives.Visible = false;
-            //
-            //constantInput
-            //
-
-            this.constantInput.Location  = new System.Drawing.Point(90, 228);
-            this.constantInput.Size =  new System.Drawing.Size(80, 21);
-            this.constantInput.TextChanged += new System.EventHandler(this.constant_InputChange);
-            this.constantInput.Visible = false;
-
-
-            this.constantInputLabel.Location = new System.Drawing.Point(6, 228);
-            this.constantInputLabel.Size = new System.Drawing.Size(80, 13);
-            this.constantInputLabel.Visible = true;
+            // 
+            // constantInputLabel
+            // 
+            this.constantInputLabel.Location = new System.Drawing.Point(207, 94);
+            this.constantInputLabel.Name = "constantInputLabel";
+            this.constantInputLabel.Size = new System.Drawing.Size(44, 18);
+            this.constantInputLabel.TabIndex = 9;
             this.constantInputLabel.Text = "Nu";
-
-            //
-            //stepcount
-            //
-
-            this.stepcountInput.Location = new System.Drawing.Point(90, 250);
-            this.stepcountInput.Size = new System.Drawing.Size(80, 21);
+            // 
+            // constantInput
+            // 
+            this.constantInput.Location = new System.Drawing.Point(257, 91);
+            this.constantInput.Name = "constantInput";
+            this.constantInput.Size = new System.Drawing.Size(80, 20);
+            this.constantInput.TabIndex = 10;
+            this.constantInput.Visible = false;
+            this.constantInput.TextChanged += new System.EventHandler(this.constant_InputChange);
+            // 
+            // stepcountInput
+            // 
+            this.stepcountInput.Location = new System.Drawing.Point(257, 117);
+            this.stepcountInput.Name = "stepcountInput";
+            this.stepcountInput.Size = new System.Drawing.Size(80, 20);
+            this.stepcountInput.TabIndex = 11;
             this.stepcountInput.TextChanged += new System.EventHandler(this.stepcount_InputChange);
-
-
-            this.stepcountLabel.Location = new System.Drawing.Point(6, 250);
-            this.stepcountLabel.Size = new System.Drawing.Size(80, 13);
-
+            // 
+            // stepcountLabel
+            // 
+            this.stepcountLabel.Location = new System.Drawing.Point(207, 123);
+            this.stepcountLabel.Name = "stepcountLabel";
+            this.stepcountLabel.Size = new System.Drawing.Size(44, 14);
+            this.stepcountLabel.TabIndex = 12;
             this.stepcountLabel.Text = "Steps";
-
             // 
             // cyclesHighCmb
-            //  
+            // 
             this.cyclesHighCmb.FormatString = "N2";
             this.cyclesHighCmb.FormattingEnabled = true;
             this.cyclesHighCmb.Items.AddRange(new object[] {
@@ -289,7 +289,7 @@
             "5",
             "6",
             "7"});
-            this.cyclesHighCmb.Location = new System.Drawing.Point(136, 206);
+            this.cyclesHighCmb.Location = new System.Drawing.Point(312, 64);
             this.cyclesHighCmb.MaxDropDownItems = 4;
             this.cyclesHighCmb.Name = "cyclesHighCmb";
             this.cyclesHighCmb.Size = new System.Drawing.Size(51, 21);
@@ -308,7 +308,7 @@
             "5",
             "6",
             "7"});
-            this.cyclesLowCmb.Location = new System.Drawing.Point(66, 206);
+            this.cyclesLowCmb.Location = new System.Drawing.Point(257, 64);
             this.cyclesLowCmb.MaxDropDownItems = 4;
             this.cyclesLowCmb.Name = "cyclesLowCmb";
             this.cyclesLowCmb.Size = new System.Drawing.Size(49, 21);
@@ -326,7 +326,7 @@
             "5",
             "6",
             "7"});
-            this.motiveHighCmb.Location = new System.Drawing.Point(136, 180);
+            this.motiveHighCmb.Location = new System.Drawing.Point(312, 38);
             this.motiveHighCmb.MaxDropDownItems = 4;
             this.motiveHighCmb.Name = "motiveHighCmb";
             this.motiveHighCmb.Size = new System.Drawing.Size(51, 21);
@@ -345,7 +345,7 @@
             "5",
             "6",
             "7"});
-            this.motiveLowCmb.Location = new System.Drawing.Point(66, 180);
+            this.motiveLowCmb.Location = new System.Drawing.Point(257, 38);
             this.motiveLowCmb.MaxDropDownItems = 4;
             this.motiveLowCmb.Name = "motiveLowCmb";
             this.motiveLowCmb.Size = new System.Drawing.Size(49, 21);
@@ -361,7 +361,7 @@
             this.optionsCheckList.FormattingEnabled = true;
             this.optionsCheckList.Location = new System.Drawing.Point(6, 41);
             this.optionsCheckList.Name = "optionsCheckList";
-            this.optionsCheckList.Size = new System.Drawing.Size(191, 150);
+            this.optionsCheckList.Size = new System.Drawing.Size(185, 225);
             this.optionsCheckList.Sorted = true;
             this.optionsCheckList.TabIndex = 0;
             this.optionsCheckList.ThreeDCheckBoxes = true;
@@ -608,6 +608,13 @@
             this.axShockwaveFlash1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axShockwaveFlash1.OcxState")));
             this.axShockwaveFlash1.Size = new System.Drawing.Size(818, 98);
             this.axShockwaveFlash1.TabIndex = 18;
+            // 
+            // checkModel
+            // 
+            this.checkModel.Location = new System.Drawing.Point(0, 0);
+            this.checkModel.Name = "checkModel";
+            this.checkModel.Size = new System.Drawing.Size(100, 23);
+            this.checkModel.TabIndex = 0;
             // 
             // backgroundStartWorker
             // 

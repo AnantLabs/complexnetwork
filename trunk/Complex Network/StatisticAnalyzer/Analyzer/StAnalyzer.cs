@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Numerics;
 
 using CommonLibrary.Model.Result;
 using RandomGraph.Common.Model.Generation;
@@ -451,6 +452,8 @@ namespace StatisticAnalyzer.Analyzer
 
         protected SortedDictionary<double, double> FillLocalResultTrajectory()
         {
+            result.parameterLine += "Mu = " + assemblyToAnalyze[0].Results[0].trajectoryMu.ToString() + 
+                "; StepCount = " + assemblyToAnalyze[0].Results[0].trajectoryStepCount.ToString() + ";";
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
             for (int i = 0; i < assemblyToAnalyze.Count(); ++i)
             {

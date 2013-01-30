@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Collections;
+using System.Numerics;
+
 using CommonLibrary.Model.Result;
 
 namespace RandomGraph.Common.Model.Result
@@ -61,6 +63,8 @@ namespace RandomGraph.Common.Model.Result
         public int Cycles4 { get; set; }
 
         public SortedDictionary<int, double> TriangleTrajectory { get; set; }
-
+        // !исправить!
+        public BigInteger trajectoryMu { get; set; }
+        public BigInteger trajectoryStepCount { get; set; }
     }
 }
