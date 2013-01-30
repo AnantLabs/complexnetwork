@@ -204,7 +204,7 @@ namespace Model.ERModel.Realization
             return pathDistribution;
         }
 
-        public override SortedDictionary<int, double> GetTrianglesTraectory(BigInteger constant, BigInteger stepcount)
+        public override SortedDictionary<int, double> GetTrianglesTrajectory(BigInteger constant, BigInteger stepcount)
         {   
             log.Error("Getting triangle trajectory.");
 

@@ -240,15 +240,13 @@ namespace RandomGraph.Common.Model
                     {
                         var constant = BigInteger.Parse((String)AnalyzeOptionsValues["Constant"]);
                         var stepCount = BigInteger.Parse((String)AnalyzeOptionsValues["StepCount"]);
-                        Result.TriangleTrajectory = analyzer.GetTrianglesTraectory(constant, stepCount);
+                        Result.TriangleTrajectory = analyzer.GetTrianglesTrajectory(constant, stepCount);
 
                     }
                     catch(Exception ex)
                     {
                         Console.WriteLine("Cannot Parse parameter");
                     }
-                  
-
                 }
 
                 if ((AnalyzeOptions & AnalyseOptions.Motifs) == AnalyseOptions.Motifs)
