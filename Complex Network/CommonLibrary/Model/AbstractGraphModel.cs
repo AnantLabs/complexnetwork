@@ -238,10 +238,11 @@ namespace RandomGraph.Common.Model
                     InvokeProgressEvent(GraphProgress.Analizing, 93, "Triangle Trajectory");
                     try
                     {
-                        var constant = BigInteger.Parse((String)AnalyzeOptionsValues["Constant"]);
-                        var stepCount = BigInteger.Parse((String)AnalyzeOptionsValues["StepCount"]);
+                        BigInteger constant = BigInteger.Parse((String)AnalyzeOptionsValues["Constant"]);
+                        BigInteger stepCount = BigInteger.Parse((String)AnalyzeOptionsValues["StepCount"]);
                         Result.TriangleTrajectory = analyzer.GetTrianglesTrajectory(constant, stepCount);
-
+                        Result.trajectoryMu = constant;
+                        Result.trajectoryStepCount = stepCount;
                     }
                     catch(Exception ex)
                     {

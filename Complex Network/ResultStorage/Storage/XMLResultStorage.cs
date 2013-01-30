@@ -7,6 +7,7 @@ using System.Xml;
 using System.Collections;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Globalization;
+using System.Numerics;
 
 using RandomGraph.Common.Storage;
 using RandomGraph.Common.Model.Result;
@@ -216,11 +217,14 @@ namespace ResultStorage.Storage
 
                     log.Info("Saving results for triangle trajectory.");
                     writer.WriteStartElement("triangletrajectory");
+                    // !исправить!
+                    writer.WriteAttributeString("mu", result.trajectoryMu.ToString());
+                    writer.WriteAttributeString("stepcount", result.trajectoryStepCount.ToString());
                     foreach (int count in result.TriangleTrajectory.Keys)
                     {
                         writer.WriteStartElement("tt");
                         writer.WriteAttributeString("time", count.ToString());
-                        writer.WriteAttributeString("triangleCount", result.TriangleTrajectory[count].ToString());
+                        writer.WriteAttributeString("trianglecount", result.TriangleTrajectory[count].ToString());
                         writer.WriteEndElement();
                     }
                     writer.WriteEndElement();
@@ -395,10 +399,14 @@ namespace ResultStorage.Storage
                 }
 
                 log.Info("Loading triangle trajectory.");
+                // !исправить!
+                XmlNode it = paramNode.SelectSingleNode("triangletrajectory");
+                result.trajectoryMu = BigInteger.Parse(it.Attributes["mu"].Value);
+                result.trajectoryStepCount = BigInteger.Parse(it.Attributes["stepcount"].Value);
                 foreach (XmlNode item in paramNode.SelectNodes("triangletrajectory/tt"))
                 {
                     tempInt1 = int.Parse(item.Attributes["time"].Value);
-                    tempDouble = double.Parse(item.Attributes["triangleCount"].Value);
+                    tempDouble = double.Parse(item.Attributes["trianglecount"].Value);
                     result.TriangleTrajectory.Add(tempInt1, tempDouble);
                 }
 
@@ -553,10 +561,14 @@ namespace ResultStorage.Storage
                 }
 
                 log.Info("Loading triangle trajectory.");
+                // !исправить!
+                XmlNode it = paramNode.SelectSingleNode("triangletrajectory");
+                result.trajectoryMu = BigInteger.Parse(it.Attributes["mu"].Value);
+                result.trajectoryStepCount = BigInteger.Parse(it.Attributes["stepcount"].Value);
                 foreach (XmlNode item in paramNode.SelectNodes("triangletrajectory/tt"))
                 {
                     tempInt1 = int.Parse(item.Attributes["time"].Value);
-                    tempDouble = double.Parse(item.Attributes["triangleCount"].Value);
+                    tempDouble = double.Parse(item.Attributes["trianglecount"].Value);
                     result.TriangleTrajectory.Add(tempInt1, tempDouble);
                 }
 
