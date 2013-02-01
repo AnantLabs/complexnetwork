@@ -85,6 +85,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="ZedGraph, Version=5.1.5.28844, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
@@ -93,6 +94,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExtendedAnalyze.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExtendedAnalyze.Designer.cs">
+      <DependentUpon>ExtendedAnalyze.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExtendedGraphic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExtendedGraphic.Designer.cs">
+      <DependentUpon>ExtendedGraphic.cs</DependentUpon>
+    </Compile>
     <Compile Include="Graphic.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,6 +132,12 @@
     <Compile Include="ValueTable.Designer.cs">
       <DependentUpon>ValueTable.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ExtendedAnalyze.resx">
+      <DependentUpon>ExtendedAnalyze.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExtendedGraphic.resx">
+      <DependentUpon>ExtendedGraphic.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Graphic.resx">
       <DependentUpon>Graphic.cs</DependentUpon>
       <SubType>Designer</SubType>

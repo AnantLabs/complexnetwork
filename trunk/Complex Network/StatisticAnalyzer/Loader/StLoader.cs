@@ -174,6 +174,19 @@ namespace StatisticAnalyzer.Loader
             return result;
         }
 
+        // Возвращает список всех сборок.
+        public List<ResultAssembly> SelectAllAssemblies()
+        {
+            List<ResultAssembly> result = new List<ResultAssembly>();
+
+            foreach (string resultName in assembliesID)
+            {
+                result.Add(resultStorage.Load(assemblies.Find(i => i.Name == resultName).ID));
+            }
+
+            return result;
+        }
+
         // Возвращает сборку, выбранную по имени job-а.
         public ResultAssembly SelectAssemblyByJob(string jobName)
         {

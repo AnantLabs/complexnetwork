@@ -77,6 +77,8 @@
             this.PointsCheck = new System.Windows.Forms.CheckBox();
             this.GraphicsGrp = new System.Windows.Forms.GroupBox();
             this.GroupByOptionCheck = new System.Windows.Forms.CheckBox();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.extendedAnalyzeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             this.LocalAnalyzeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalAnalyzeOptionsGrd)).BeginInit();
@@ -91,6 +93,7 @@
             this.MenuStrip.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuSettings,
+            this.toolsToolStripMenuItem,
             this.MenuHelp});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
@@ -581,6 +584,21 @@
             this.CommonToolTip.SetToolTip(this.GroupByOptionCheck, "Graphics in the one or saparate windows.");
             this.GroupByOptionCheck.UseVisualStyleBackColor = true;
             // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.extendedAnalyzeToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            // 
+            // extendedAnalyzeToolStripMenuItem
+            // 
+            this.extendedAnalyzeToolStripMenuItem.Name = "extendedAnalyzeToolStripMenuItem";
+            this.extendedAnalyzeToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.extendedAnalyzeToolStripMenuItem.Text = "Extended Analyze";
+            this.extendedAnalyzeToolStripMenuItem.Click += new System.EventHandler(this.extendedAnalyzeToolStripMenuItem_Click);
+            // 
             // StatisticAnalyzer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -671,6 +689,8 @@
         private System.Windows.Forms.Button selectLocal;
         private System.Windows.Forms.Button deselectGlobal;
         private System.Windows.Forms.Button selectGlobal;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem extendedAnalyzeToolStripMenuItem;
     }
 }
 
