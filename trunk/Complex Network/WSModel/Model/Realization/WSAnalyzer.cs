@@ -85,7 +85,7 @@ namespace Model.WSModel.Realization
 
             if (-1 == cyclesOfOrder4)
             {
-                CountEssentialOptions();
+                CountCycles4();
             }
 
             return cyclesOfOrder4;
@@ -236,11 +236,6 @@ namespace Model.WSModel.Realization
                         nodes[l[j]].ancestor = u;
                         q.Enqueue(l[j]);
                     }
-                    else
-                    {
-                        if (nodes[u].lenght == 2 && nodes[l[j]].lenght == 1 && nodes[u].ancestor != l[j])
-                            ++cyclesOfOrder4;
-                    }
                 }
             }
         }
@@ -258,6 +253,41 @@ namespace Model.WSModel.Realization
 			        DFS(neighbour, used);
             }
     	}
+
+        private void CountCycles4()
+        {
+            cyclesOfOrder4 = 0;
+            for (int i = 0; i < container.Size; ++i)
+                DFSforCycles(i);
+
+            cyclesOfOrder4 /= 8;
+        }
+
+        // Реализация DFS алгоритма.
+        private void DFSforCycles(int v)
+        {
+            List<int> firstLevel = container.Neighbours(v);
+            for (int i = 0; i < firstLevel.Count; ++i)
+            {
+                List<int> secondLevel = container.Neighbours(firstLevel[i]);
+                for (int j = 0; j < secondLevel.Count; ++j)
+                {
+                    if (secondLevel[j] == v)
+                        continue;
+
+                    List<int> thirdLevel = container.Neighbours(secondLevel[j]);
+                    for (int k = 0; k < thirdLevel.Count; ++k)
+                    {
+                        if (thirdLevel[k] == v || thirdLevel[k] == firstLevel[i])
+                            continue;
+
+                        List<int> neighbours = container.Neighbours(thirdLevel[k]);
+                        if(neighbours.Contains(v))
+                            ++cyclesOfOrder4;
+                    }
+                }
+            }
+        }
 
         // Считает распределение подграфов в графе.
         private void CountConnSubGraphs()
@@ -299,8 +329,6 @@ namespace Model.WSModel.Realization
         // Нужно вызвать перед получением этих свойств не изнутри.
         private void CountEssentialOptions()
         {
-            cyclesOfOrder4 = 0;
-
             double avg = 0;
             int diametr = 0, k = 0;
             for (int i = 0; i < container.Size; ++i)
@@ -337,7 +365,6 @@ namespace Model.WSModel.Realization
             int avgI = Convert.ToInt32(avgD);
             avgPathLenght = (double)avgI / 10000;
             diameter = diametr;
-            cyclesOfOrder4 /= 4;
         }
 
         // Возвращает распределение степеней
