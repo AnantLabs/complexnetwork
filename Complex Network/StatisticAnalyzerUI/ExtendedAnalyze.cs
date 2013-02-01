@@ -23,6 +23,19 @@ namespace StatisticAnalyzerUI
 
         private void trajectoryAnalyze_Click(object sender, EventArgs e)
         {
+            int k;
+            try
+            {
+                k = Convert.ToInt32(this.parameterKTxt.Text);
+            }
+            catch (SystemException ex)
+            {
+                MessageBox.Show("Parameter k must be an integer!", "Error");
+                this.parameterKTxt.SelectAll();
+                this.parameterKTxt.Focus();
+                return;
+            }
+
             // !исправить!
             StLoader loader = new StLoader();
             loader.ModelName = "ERModel";
@@ -40,12 +53,20 @@ namespace StatisticAnalyzerUI
                 {
                     SortedDictionary<int, double> tempDictionary = resultAssembly.Results[j].TriangleTrajectory;
                     SortedDictionary<int, double>.KeyCollection keyColl = tempDictionary.Keys;
+                    int limit = 1;
                     foreach (int key in keyColl)
                     {
-                        if (r.Keys.Contains(key))
-                            r[key] += tempDictionary[key];
+                        if (limit >= k)
+                        {
+                            if (r.Keys.Contains(key))
+                                r[key] += tempDictionary[key];
+                            else
+                                r.Add(key, tempDictionary[key]);
+                        }
                         else
-                            r.Add(key, tempDictionary[key]);
+                        {
+                            ++limit;
+                        }
                     }
                 }
 
