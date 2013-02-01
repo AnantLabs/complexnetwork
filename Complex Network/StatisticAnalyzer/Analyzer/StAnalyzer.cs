@@ -621,7 +621,7 @@ namespace StatisticAnalyzer.Analyzer
 
                         foreach (double key in keys)
                         {
-                            sigma += (avg - r[key]); 
+                            sigma += Math.Pow((avg - r[key]), 2); 
                         }
                         sigma /= keys.Count();
                         sigma = Math.Sqrt(sigma);
