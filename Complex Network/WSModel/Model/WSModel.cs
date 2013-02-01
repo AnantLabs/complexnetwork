@@ -25,6 +25,7 @@ namespace Model.WSModel
         AnalyseOptions.ClusteringCoefficient |
         AnalyseOptions.MinPathDist |
         AnalyseOptions.ConnSubGraph |
+        AnalyseOptions.TriangleCountByVertex |
         AnalyseOptions.FullSubGraph)]
     [RequiredGenerationParam(GenerationParam.Vertices, 1)]
     [RequiredGenerationParam(GenerationParam.Edges, 2)]
@@ -88,6 +89,7 @@ namespace Model.WSModel
                 AnalyseOptions.ClusteringCoefficient |
                 AnalyseOptions.MinPathDist |
                 AnalyseOptions.ConnSubGraph |
+                AnalyseOptions.TriangleCountByVertex |
                 AnalyseOptions.FullSubGraph;
 
             // Определение генератора и анализатора для данной модели (WS).

@@ -167,6 +167,18 @@ namespace Model.WSModel.Realization
             return fullSubgraphs;
         }
 
+        // Возвращается распределение чисел триугольников, связанных с вершиной. Реализовано.
+        public override SortedDictionary<int, int> GetTrianglesDistribution()
+        {
+            log.Info("Getting triangles distribution.");
+
+            if (-1 == cyclesOfOrder3)
+            {
+                ClusteringCoefficient();
+            }
+            return trianglesDistribution;
+        }
+
         // Возвращается распределение чисел связанных полных подграфов в графе. Реализовано.
         public override SortedDictionary<int, int> GetConnSubGraph()
         {
@@ -206,6 +218,7 @@ namespace Model.WSModel.Realization
         private SortedDictionary<int, int> fullSubgraphs = new SortedDictionary<int, int>();
         private SortedDictionary<int, int> connSubgraphs = new SortedDictionary<int, int>();
         private SortedDictionary<int, int> vertexDistances = new SortedDictionary<int, int>();
+        private SortedDictionary<int, int> trianglesDistribution = new SortedDictionary<int, int>();
 
         // Внутренный тип для работы BFS алгоритма.
         private class Node
@@ -429,6 +442,14 @@ namespace Model.WSModel.Realization
             }
 
             cyclesOfOrder3 += E;
+            if (trianglesDistribution.ContainsKey(E))
+            {
+                trianglesDistribution[E]++;
+            }
+            else
+            {
+                trianglesDistribution.Add(E, 1);
+            }
 
             double clusteringCoef = (double)E / K;
 
