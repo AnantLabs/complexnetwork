@@ -41,16 +41,16 @@ namespace RandomGraph.Common.Model
             LYAxis = "Distribution")]
         ConnSubGraph = 0x40,
 
-        [AnalyzeOptionInfo("Cycles 3 by eigen values", "Cycles 3 by eigen values")]
+        [AnalyzeOptionInfo("Cycles 3 by Eigen Values", "Cycles 3 by eigen values")]
         CycleEigen3 = 0x80,
 
         [AnalyzeOptionInfo("Cycles of Order 4", "Cycles with 4 length", GXAxis = "Instances", GYAxis = "Count")]
         Cycles4 = 0x100,
 
-        [AnalyzeOptionInfo("Cycles 4 by eigen values", "Cycles 4 by eigen values")]
+        [AnalyzeOptionInfo("Cycles 4 by Eigen Values", "Cycles 4 by eigen values")]
         CycleEigen4 = 0x200,
 
-        [AnalyzeOptionInfo("Motifs", "Calculate the count of motifs ")]
+        [AnalyzeOptionInfo("Motifs", "The count of motifs")]
         Motifs = 0x400,
 
         [AnalyzeOptionInfo("Distance between Vertices", "Minpath distribution", LXAxis = "Distance", LYAxis = "Distribution")]
@@ -70,10 +70,10 @@ namespace RandomGraph.Common.Model
             GYAxis = "Count")]
         LargestConnectedComponent = 0x8000,
 
-        [AnalyzeOptionInfo("Minimal Eigen value", "Minimal eigen value", GXAxis = "Instances", GYAxis = "Count")]
+        [AnalyzeOptionInfo("Minimal Eigen Value", "Minimal eigen value", GXAxis = "Instances", GYAxis = "Count")]
         MinEigenValue = 0x10000,
 
-        [AnalyzeOptionInfo("Maximal Eigen value", "Maximal eigen value", GXAxis = "Instances", GYAxis = "Count")]
+        [AnalyzeOptionInfo("Maximal Eigen Value", "Maximal eigen value", GXAxis = "Instances", GYAxis = "Count")]
         MaxEigenValue = 0x20000,
 
         [AnalyzeOptionInfo("Cycles", "Cycles of any degree", LXAxis = "Order", LYAxis = "Distribution")]
@@ -82,7 +82,7 @@ namespace RandomGraph.Common.Model
         [AnalyzeOptionInfo("Triangle Count by Vertex", "Triangle Count", LXAxis = "Count", LYAxis = "Distribution")]
         TriangleCountByVertex = 0x80000,
 
-        [AnalyzeOptionInfo("Triangle Trajectory", "Triangle Trajectory", LXAxis = "Time", LYAxis = "Values")]
+        [AnalyzeOptionInfo("Triangle Trajectory", "Triangle trajectory", LXAxis = "Time", LYAxis = "Values")]
         TriangleTrajectory = 0x100000
     }
 }

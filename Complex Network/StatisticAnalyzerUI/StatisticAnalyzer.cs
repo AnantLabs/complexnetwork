@@ -370,6 +370,12 @@ namespace StatisticAnalyzerUI
             FillJobs();
         }
 
+        private void extendedAnalyzeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExtendedAnalyze extendedAnalyzeWnd = new ExtendedAnalyze();
+            extendedAnalyzeWnd.ShowDialog();
+        }   
+
         // Utilities //
 
         private void InitializeGUIMembers()
@@ -801,8 +807,7 @@ namespace StatisticAnalyzerUI
             {
                 LocalPropertiesList.SetItemChecked(i, false);
             }
-        }     
-
+        }
     }
 
     public class GraphicCondition
