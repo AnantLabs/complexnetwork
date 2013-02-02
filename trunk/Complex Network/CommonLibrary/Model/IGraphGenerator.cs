@@ -15,6 +15,10 @@ namespace CommonLibrary.Model
 
         // Случайным образом генерируется граф, на основе параметров генерации.
         void RandomGeneration(Dictionary<GenerationParam, object> genParam);
+
+        //Permanet Generation
+        void PermanentGeneration(Dictionary<GenerationParam, object> genParam);
+
         // Строится граф, на основе матрицы смежности.
         void StaticGeneration(ArrayList matrix);
     }

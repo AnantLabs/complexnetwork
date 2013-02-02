@@ -137,5 +137,15 @@ namespace Model.WSModel.Realization
                 ++currentId;
             return index;
         }
+
+        #region IGraphGenerator Members
+
+
+        public void PermanentGeneration(Dictionary<GenerationParam, object> genParam)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

@@ -94,6 +94,9 @@ namespace RandomGraph.Common.Model
         // Результат вычислений.
         public AnalizeResult Result { get; set; }
 
+        //Permanet Status
+        virtual public bool PermanentStatus { get; set; }
+
         // Защищенная часть.
 
         // Функция вызывается в методе StartGenerate в отдельном потоке.
@@ -105,8 +108,17 @@ namespace RandomGraph.Common.Model
 
             try
             {
-                if (GenerationParamValues != null)    // Динамическая генерация
-                    generator.RandomGeneration(GenerationParamValues);
+                if (GenerationParamValues != null)
+                {
+                    if ((bool)GenerationParamValues[GenerationParam.Permanent])
+                        //Permanent Generation
+                        generator.PermanentGeneration(GenerationParamValues);
+                    else
+                    {
+                        // Динамическая генерация
+                        generator.RandomGeneration(GenerationParamValues);
+                    }
+                }
                 else if (NeighbourshipMatrix != null)   // Статическая генерация
                     generator.StaticGeneration(NeighbourshipMatrix);
                 else
