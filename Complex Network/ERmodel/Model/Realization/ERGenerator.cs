@@ -15,14 +15,16 @@ namespace Model.ERModel.Realization
         // Организация работы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(ERGenerator));
 
+        //For Thread seaf
+        private static object syncLock = new object();
+
         // Контейнер, в котором содержится граф конкретной модели (ER).
         private ERContainer container;
 
-        private ERAnalyzer analyzer;
-        public static int instancecount = 1;
-        static int count = 0;
-        static bool isPermannet = true;
-        static ERContainer Staticcontainer = new ERContainer();
+        //static container for permanent geretation
+        private static ERContainer permanentContainer;
+
+     
         // Конструктор по умолчанию, в котором создается пустой контейнер графа.
         public ERGenerator()
         {
@@ -36,6 +38,38 @@ namespace Model.ERModel.Realization
             set { container = (ERContainer)value; }
         }
 
+        //Permanet Generation
+        public void PermanentGeneration(Dictionary<GenerationParam, object> genParam)
+        {
+            Console.WriteLine(ERModel.permanentStatus);
+            if (ERModel.permanentStatus)
+            {
+                lock (syncLock)
+                {
+                    double probability = (Double)genParam[GenerationParam.P];
+                    int numberOfVertices = (Int32)genParam[GenerationParam.Vertices];
+                    container.Size = numberOfVertices;
+                    if (ERModel.permanentStatus)
+                    {
+                        FillValuesByProbability(probability);
+                        permanentContainer = container;
+                        ERModel.permanentStatus = false;
+                    }
+                    else
+                    {
+                        container = permanentContainer;
+                    }
+                    permanentContainer = container;
+                }
+            }
+            else
+            {
+                container = permanentContainer;
+            }
+
+
+        }
+
         // Случайным образом генерируется граф, на основе параметров генерации.
         public void RandomGeneration(Dictionary<GenerationParam, object> genParam)
         {
@@ -45,35 +79,8 @@ namespace Model.ERModel.Realization
             double probability = (Double)genParam[GenerationParam.P];
             
             container.Size = numberOfVertices;
-            if ((string)genParam[GenerationParam.InitialStep] == "Permanent")
-            {
-                if (isPermannet)
-                {
-                    FillValuesByProbability(probability);
-                    isPermannet = false;
-                    Staticcontainer = container;
-                }
-
-                container = Staticcontainer;
-            }
-            else
-            {
-                FillValuesByProbability(probability);
-                isPermannet = true;
-            }
-
-            count++;
-
-            if (count == instancecount)
-            {
-                isPermannet = true;
-                count = 1;
-                instancecount = 1;
-            }
-
-            
-            
-            
+           
+            FillValuesByProbability(probability);
             log.Info("Random generation step finished.");
         }
 

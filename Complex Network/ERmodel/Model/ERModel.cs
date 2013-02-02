@@ -29,7 +29,7 @@ namespace Model.ERModel
          AnalyseOptions.TriangleTrajectory)]
     [RequiredGenerationParam(GenerationParam.Vertices, 2)]
     [RequiredGenerationParam(GenerationParam.P, 3)]
-    [RequiredGenerationParam(GenerationParam.InitialStep, 4)]
+    [RequiredGenerationParam(GenerationParam.Permanent, 4)]
 
     // Реализация модели (ER).
     public class ERModel : AbstractGraphModel
@@ -38,6 +38,16 @@ namespace Model.ERModel
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(ERModel));
 
         private static readonly string MODEL_NAME = "ERModel";
+
+        //Static member for permanet generation
+        public static bool permanentStatus { get; set; }
+
+        public override bool PermanentStatus
+        {
+            get { return permanentStatus; }
+            set { permanentStatus = value; }
+        }
+
 
         public ERModel() { }
 
@@ -106,7 +116,7 @@ namespace Model.ERModel
             UInt64 vertex = UInt64.Parse(GenerationParamValues[GenerationParam.Vertices].ToString());
             UInt64 vertexmemory = vertex * (vertex - 1) / 16;
             int processorcount = Environment.ProcessorCount;
-            ERGenerator.instancecount = instances;
+            
             return vertexmemory < ramCounter.NextValue() / processorcount
                    && (int)GenerationParamValues[GenerationParam.Vertices] < 32000;
         }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.permanentcheck = new System.Windows.Forms.CheckBox();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CalculationControl));
@@ -743,5 +744,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn hostColumn;
         private Controls.DataGridViewDisableButtonColumn stopColumn;
         private Controls.DataGridViewDisableButtonColumn manageColumn;
+        private System.Windows.Forms.CheckBox permanentcheck;
     }
 }

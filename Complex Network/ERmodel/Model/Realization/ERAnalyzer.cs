@@ -160,7 +160,7 @@ namespace Model.ERModel.Realization
             bool[,] m = container.GetMatrix();
 
             EigenValueUtils eg = new EigenValueUtils();
-            
+
             try
             {
                 eg.CalculateEigenValue(m);
@@ -172,9 +172,9 @@ namespace Model.ERModel.Realization
                 log.Error(ex);
                 return new SortedDictionary<double, int>();
             }
-            
+
         }
-        
+
         // Возвращается степенное распределение графа. Реализовано.
         public override SortedDictionary<int, int> GetDegreeDistribution()
         {
@@ -205,24 +205,24 @@ namespace Model.ERModel.Realization
         }
 
         public override SortedDictionary<int, double> GetTrianglesTrajectory(BigInteger constant, BigInteger stepcount)
-        {   
+        {
             log.Error("Getting triangle trajectory.");
 
+            var stepscount = stepcount;
             var tarctory = new SortedDictionary<int, double>();
             int time = 0;
             int currentcounttriangle = GetCyclesForTringle(container);
             tarctory.Add(time, currentcounttriangle);
             var currentContainer = container;
             var tempContainer = new ERContainer();
-            while (stepcount != 0)
+            while (time != stepcount)
             {
                 try
                 {
-                   // Console.WriteLine(stepcount);
                     time++;
                     tempContainer = Transformations(currentContainer);
-                    var  counttriangle = GetCyclesForTringle(currentContainer);
-                    var  delta = counttriangle - currentcounttriangle;
+                    var counttriangle = GetCyclesForTringle(currentContainer);
+                    var delta = counttriangle - currentcounttriangle;
                     if (delta > 0)
                     {
                         tarctory.Add(time, counttriangle);
@@ -243,22 +243,21 @@ namespace Model.ERModel.Realization
                             tarctory.Add(time, currentcounttriangle);
                         }
                     }
-
-                    stepcount--;
                 }
                 catch (Exception ex)
                 {
-                    log.Error(String.Format("Error occurred in step {0} ,Error message {1} ",stepcount,ex.InnerException));
+                    log.Error(String.Format("Error occurred in step {0} ,Error message {1} ", stepcount, ex.InnerException));
                 }
 
             }
 
             return tarctory;
-            
+
+
 
         }
 
-      
+
 
 
         // Закрытая часть класса (не из общего интерфейса). //
@@ -266,7 +265,7 @@ namespace Model.ERModel.Realization
         private int[] minimalPathList;
         private double avgPathLenght = -1;
         private int diameter = -1;
-        private SortedDictionary<int, int> pathDistribution = new SortedDictionary<int,int>();
+        private SortedDictionary<int, int> pathDistribution = new SortedDictionary<int, int>();
 
         // Внутренный тип для работы BFS алгоритма.
         private class Node
@@ -330,7 +329,8 @@ namespace Model.ERModel.Realization
                 for (int j = 0; j < size; ++j)
                 {
                     int n = minimalPathList[j];
-                    if (n > 0) {
+                    if (n > 0)
+                    {
                         sum += n;
                         if (pathDistribution.ContainsKey(n))
                         {
@@ -360,7 +360,7 @@ namespace Model.ERModel.Realization
         // Возвращает распределение степеней.
         private SortedDictionary<int, int> CountDegreeDestribution()
         {
-            SortedDictionary<int, int> degreeDistribution = new SortedDictionary<int,int>();
+            SortedDictionary<int, int> degreeDistribution = new SortedDictionary<int, int>();
             int avg = 0;
 
             for (int i = 0; i < container.Size; ++i)
@@ -460,7 +460,7 @@ namespace Model.ERModel.Realization
 
         private static ERContainer Transformations(ERContainer container)
         {
-            int count = 4 ;
+            int count = 4;
             while (count != 0)
             {
                 var random = new Random();
@@ -493,5 +493,7 @@ namespace Model.ERModel.Realization
 
             return container;
         }
+
+
     }
 }

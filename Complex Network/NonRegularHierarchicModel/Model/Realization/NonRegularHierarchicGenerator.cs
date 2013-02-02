@@ -95,5 +95,15 @@ namespace Model.NonRegularHierarchicModel.Realization
 
             container.Post_generate();
         }
+
+        #region IGraphGenerator Members
+
+
+        public void PermanentGeneration(Dictionary<GenerationParam, object> genParam)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

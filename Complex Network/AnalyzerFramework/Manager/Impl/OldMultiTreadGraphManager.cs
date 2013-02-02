@@ -75,6 +75,10 @@ namespace AnalyzerFramework.Manager.Impl
                 waitHandles[i] = new AutoResetEvent(false);
                 threads[i] = new Thread(new ParameterizedThreadStart(StartAnalyze)) { Priority = ThreadPriority.Lowest };
             }
+
+            //Set permanent status
+            origineModel.PermanentStatus = true;
+
             log.Info("Ended creating thread for each instance");
             for (int i = 0; i < iterations; i++)
             {

@@ -41,6 +41,9 @@ namespace RandomGraph.Common.Model.Generation
         InitialStep = 9,
 
         [GenerationParamInfo(Name = "Initial Probability", Type = typeof(double))]
-        InitialProbability = 10
+        InitialProbability = 10,
+
+        [GenerationParamInfo(Name = "Permanent", Type = typeof(bool))]
+        Permanent = 11
     }
 }

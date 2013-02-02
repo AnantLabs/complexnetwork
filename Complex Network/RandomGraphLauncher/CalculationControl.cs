@@ -444,25 +444,39 @@ namespace RandomGraphLauncher
                     }
                     else
                     {
-                        if (paramInfo.Type != typeof(String))
+                        if (paramInfo.Name.Equals("Permanent"))
                         {
-                            control = new TextBox();
-                            control.Width = 100;
-                            control.Location = new Point(105, position);
-                            if (paramInfo.Name.Equals("Initial Probability"))
-                            {
-                                control.Text = "0";
-                            }
-
-                            textBoxLabel = new Label() { Width = 50 };
-                            textBoxLabel.Location = new Point(15, position);
-
-                            textBoxLabel.Text = paramInfo.Name;
-                            generationParamsControls.Add(p, control);
-
-                            genParamsGrp.Controls.Add(control);
-                            genParamsGrp.Controls.Add(textBoxLabel);
+                            permanentcheck.Text = "Permanent";
+                            permanentcheck.Location = new Point(15, position);
+                            permanentcheck.Visible = true;
+                            generationParamsControls.Add(p, permanentcheck);
+                            genParamsGrp.Controls.Add(permanentcheck);
                             position += 25;
+
+
+                        }
+                        else
+                        {
+                            if (paramInfo.Type != typeof(String))
+                            {
+                                control = new TextBox();
+                                control.Width = 100;
+                                control.Location = new Point(105, position);
+                                if (paramInfo.Name.Equals("Initial Probability"))
+                                {
+                                    control.Text = "0";
+                                }
+
+                                textBoxLabel = new Label() { Width = 50 };
+                                textBoxLabel.Location = new Point(15, position);
+
+                                textBoxLabel.Text = paramInfo.Name;
+                                generationParamsControls.Add(p, control);
+
+                                genParamsGrp.Controls.Add(control);
+                                genParamsGrp.Controls.Add(textBoxLabel);
+                                position += 25;
+                            }
                         }
                     }
                 }
@@ -523,8 +537,11 @@ namespace RandomGraphLauncher
 
                 if ((opt & availableOptions) == opt && opt == AnalyseOptions.TriangleTrajectory)
                 {
-                    constantInputLabel.Show();
-                    constantInput.Show();
+                   
+                        this.permanentcheck.Visible = true;
+                        constantInputLabel.Show();
+                        constantInput.Show();
+                   
                 }
             }
         }
@@ -588,6 +605,11 @@ namespace RandomGraphLauncher
                     else if (paramInfo.Type.Equals(typeof(String)))
                     {
                         values.Add(paramType, genParamValue);
+                    }
+                    else if (paramInfo.Type.Equals(typeof(bool)))
+                    {
+                        CheckBox check = (CheckBox)generationParamsControls[paramType];
+                        values.Add(paramType, Convert.ToBoolean(check.Checked));
                     }
                 }
                 SessionController.SetGenParamValuesForJob(jobName, values);
