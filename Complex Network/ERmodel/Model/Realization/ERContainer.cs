@@ -19,6 +19,8 @@ namespace Model.ERModel.Realization
         private SortedDictionary<int, List<int>> neighbourship;
         // Список степеней вершин графа.
         private List<int> degrees;
+        public List<KeyValuePair<int, int>> Edjes = new List<KeyValuePair<int, int>>();
+        public List<KeyValuePair<int, int>> NoEdjes = new List<KeyValuePair<int, int>>();
 
         // Конструктор по умолчанию для контейнера.
         public ERContainer()
@@ -45,6 +47,10 @@ namespace Model.ERModel.Realization
                 {
                     degrees.Add(0);
                 }
+
+                for (int i = 0; i < size; i++)
+                    for (int j = i + 1; j < size; j++)
+                        NoEdjes.Add(new KeyValuePair<int, int>(i, j));
             }
         }
 
@@ -105,6 +111,9 @@ namespace Model.ERModel.Realization
             neighbourship[j].Add(i);
             ++degrees[i];
             ++degrees[j];
+            var newEdjes = new KeyValuePair<int, int>(i, j);
+            Edjes.Add(newEdjes);
+            NoEdjes.Remove(newEdjes);
         }
 
         // Закрытая часть класса (не из общего интерфейса).

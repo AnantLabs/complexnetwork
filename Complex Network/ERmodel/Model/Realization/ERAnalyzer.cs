@@ -94,15 +94,54 @@ namespace Model.ERModel.Realization
             int count = 0;
             for (int i = 0; i < container.Size; ++i)
             {
-                List<int> nbs = container.Neighbourship[i];
-                for (int j = 0; j < nbs.Count; ++j)
-                {
-                    List<int> tmp = container.Neighbourship[nbs[j]];
-                    count += nbs.Intersect(tmp).Count();
-                }
+                count += CountTringlei(i, container);
             }
 
-            return count / 6;
+            return (count > 0 && count < 3) ? 1 : count / 3;
+        }
+
+        private class NodeTrigle
+        {
+            public int ancestor = -1;
+            public int lenght = -1;
+            public int m_4Cycles = 0;
+            public NodeTrigle() { }
+        }
+
+        private static int CountTringlei(int i, ERContainer container)
+        {
+            NodeTrigle[] nodes = new NodeTrigle[container.Size];
+            for (int j = 0; j < container.Size; j++)
+                nodes[j] = new NodeTrigle();
+
+            int count = 0;
+            nodes[i].lenght = 0;
+            nodes[i].ancestor = 0;
+            Queue<int> q = new Queue<int>();
+            q.Enqueue(i);
+            int u;
+
+            while (q.Count != 0)
+            {
+                u = q.Dequeue();
+                List<int> l = container.Neighbourship[u];
+                for (int j = 0; j < l.Count; ++j)
+                    if (nodes[l[j]].lenght == -1)
+                    {
+                        nodes[l[j]].lenght = nodes[u].lenght + 1;
+                        nodes[l[j]].ancestor = u;
+                        q.Enqueue(l[j]);
+                    }
+                    else
+                    {
+                        if (nodes[u].lenght == 1 && nodes[l[j]].lenght == 1)
+                        {
+                            ++count;
+                        }
+                    }
+            }
+
+            return count /= 2;
         }
         // Возвращается число циклов длиной 4 в графе. Реализовано.
         public override int GetCycles4()
@@ -221,7 +260,7 @@ namespace Model.ERModel.Realization
                 {
                     time++;
                     tempContainer = Transformations(currentContainer);
-                    var counttriangle = GetCyclesForTringle(currentContainer);
+                    var counttriangle = GetCyclesForTringle(tempContainer);
                     var delta = counttriangle - currentcounttriangle;
                     if (delta > 0)
                     {
@@ -252,9 +291,6 @@ namespace Model.ERModel.Realization
             }
 
             return tarctory;
-
-
-
         }
 
 
@@ -460,38 +496,58 @@ namespace Model.ERModel.Realization
 
         private static ERContainer Transformations(ERContainer container)
         {
-            int count = 4;
-            while (count != 0)
+            try
             {
+
                 var random = new Random();
-                var list = new List<int>();
-                int randomvertix = random.Next(0, container.Size);
-                int randomedge = container.Neighbourship[randomvertix][random.Next(0, container.Neighbourship[randomvertix].Count)];
-                for (int i = 0; i < container.Size; i++)
-                {
-                    if (!container.Neighbourship[randomvertix].Contains(i))
-                    {
-                        list.Add(i);
-                    }
-                }
+                var removeedje = random.Next(0, container.Edjes.Count-1);
+                var addEdje = random.Next(0, container.NoEdjes.Count-1);
 
-                int newedge = list[random.Next(0, list.Count)];
+                container.Neighbourship[container.Edjes[removeedje].Key].Remove(container.Edjes[removeedje].Value);
+                container.Neighbourship[container.Edjes[removeedje].Value].Remove(container.Edjes[removeedje].Key);
+                container.NoEdjes.Add(container.Edjes[removeedje]);
+                container.Edjes.RemoveAt(removeedje);
 
-                //Make transfer edges
 
-                //Remove edge
-                container.Neighbourship[randomvertix].Remove(randomedge);
-                container.Neighbourship[randomedge].Remove(randomvertix);
+                container.Neighbourship[container.NoEdjes[addEdje].Key].Add(container.NoEdjes[addEdje].Value);
+                container.Neighbourship[container.NoEdjes[addEdje].Value].Add(container.NoEdjes[addEdje].Key);
+                container.Edjes.Add(container.NoEdjes[addEdje]);
+                container.NoEdjes.RemoveAt(addEdje);
 
-                //Add edge
 
-                container.Neighbourship[randomvertix].Add(newedge);
-                container.Neighbourship[newedge].Add(randomvertix);
 
-                count--;
+                //var random = new Random();
+                //var list = new List<int>();
+                //int randomvertix = random.Next(0, container.Size);
+                //int randomedge = container.Neighbourship[randomvertix][random.Next(0, container.Neighbourship[randomvertix].Count)];
+                //for (int i = 0; i < container.Size; i++)
+                //{
+                //    if (!container.Neighbourship[randomvertix].Contains(i))
+                //    {
+                //        list.Add(i);
+                //    }
+                //}
+
+                //int newedge = list[random.Next(0, list.Count)];
+
+                ////Make transfer edges
+
+                ////Remove edge
+                //container.Neighbourship[randomvertix].Remove(randomedge);
+                //container.Neighbourship[randomedge].Remove(randomvertix);
+
+                ////Add edge
+
+                //container.Neighbourship[randomvertix].Add(newedge);
+                //container.Neighbourship[newedge].Add(randomvertix);
+               
             }
-
+            catch (Exception ex)
+            {
+                log.Error("Error according when transforms edges");
+            }
             return container;
+
         }
 
 

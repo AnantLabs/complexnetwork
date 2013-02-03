@@ -467,7 +467,7 @@ namespace RandomGraphLauncher
                                     control.Text = "0";
                                 }
 
-                                textBoxLabel = new Label() { Width = 50 };
+                                textBoxLabel = new Label() { Width = 55 };
                                 textBoxLabel.Location = new Point(15, position);
 
                                 textBoxLabel.Text = paramInfo.Name;
