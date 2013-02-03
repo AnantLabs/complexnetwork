@@ -49,6 +49,7 @@ namespace Model.ERModel.Realization
                     double probability = (Double)genParam[GenerationParam.P];
                     int numberOfVertices = (Int32)genParam[GenerationParam.Vertices];
                     container.Size = numberOfVertices;
+                    Console.WriteLine(ERModel.permanentStatus);
                     if (ERModel.permanentStatus)
                     {
                         FillValuesByProbability(probability);
@@ -59,7 +60,6 @@ namespace Model.ERModel.Realization
                     {
                         container = permanentContainer;
                     }
-                    permanentContainer = container;
                 }
             }
             else
