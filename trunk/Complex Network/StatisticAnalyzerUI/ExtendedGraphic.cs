@@ -20,11 +20,13 @@ namespace StatisticAnalyzerUI
 
         public ExtendedGraphic(SortedDictionary<BigInteger, double> dict, string text)
         {
+            InitializeComponent();
+
             yAxis = text;
 
             graphic = new ZedGraphControl();
             graphic.Dock = DockStyle.Fill;
-            this.Controls.Add(graphic);
+            this.graphicPanel.Controls.Add(graphic);
 
             values = new PointPairList();
 
@@ -33,8 +35,6 @@ namespace StatisticAnalyzerUI
             {
                 values.Add(Convert.ToDouble(i.ToString()), dict[i]);
             }
-
-            InitializeComponent();
         }
 
         private void ExtendedGraphic_Load(object sender, EventArgs e)
@@ -50,6 +50,11 @@ namespace StatisticAnalyzerUI
             graphic.AxisChange();
             graphic.Invalidate();
             graphic.Refresh();
+        }
+
+        private void save_Click(object sender, EventArgs e)
+        {
+            graphic.SaveAs();
         }
     }
 }

@@ -59,7 +59,7 @@ namespace ResultStorage.Storage
                 }
                 using (DbCommand cmd = conn.CreateCommand())
                 {
-                    string sqlQuery = "INSERT INTO Assemblies(AssemblyID,ModelID,Name,TimeStamp) VALUES(@AssemblyID,@ModelID,@Name,getDate())";
+                    string sqlQuery = "INSERT INTO Assemblies(AssemblyID,ModelID,Name,Date) VALUES(@AssemblyID,@ModelID,@Name,getDate())";
                     cmd.CommandText = sqlQuery;
                     cmd.CommandType = CommandType.Text;
 
@@ -79,7 +79,6 @@ namespace ResultStorage.Storage
                     cmd.Parameters.Add(dpName);
 
                     cmd.ExecuteNonQuery();
-
                 }
 
                 foreach (AnalizeResult result in assembly.Results)
@@ -188,8 +187,8 @@ namespace ResultStorage.Storage
                     {
                         using (DbCommand cmd = conn.CreateCommand())
                         {
-                            string sqlQuery = "INSERT INTO Subgraphs(ResultsID,Sub,Count) " +
-                                                "VALUES(@ResultsID,@Sub,@Count)";
+                            string sqlQuery = "INSERT INTO ConSubgraphs(ResultsID,VX,Count) " +
+                                                "VALUES(@ResultsID,@VX,@Count)";
                             cmd.CommandText = sqlQuery;
                             cmd.CommandType = CommandType.Text;
 
@@ -199,7 +198,7 @@ namespace ResultStorage.Storage
                             cmd.Parameters.Add(dpResultsID);
 
                             DbParameter dpSub = provider.CreateParameter();
-                            dpSub.ParameterName = "Sub";
+                            dpSub.ParameterName = "VX";
                             dpSub.Value = subgraph;
                             cmd.Parameters.Add(dpSub);
 
@@ -211,11 +210,12 @@ namespace ResultStorage.Storage
                             cmd.ExecuteNonQuery();
                         }
                     }
+
                     foreach (int dist in result.DistanceBetweenVertices.Keys)
                     {
                         using (DbCommand cmd = conn.CreateCommand())
                         {
-                            string sqlQuery = "INSERT INTO DistanceBetweenVertices(ResultsID,Distance,Count) " +
+                            string sqlQuery = "INSERT INTO VertexDistance(ResultsID,Distance,Count) " +
                                                 "VALUES(@ResultsID,@Distance,@Count)";
                             cmd.CommandText = sqlQuery;
                             cmd.CommandType = CommandType.Text;
@@ -238,6 +238,7 @@ namespace ResultStorage.Storage
                             cmd.ExecuteNonQuery();
                         }
                     }
+
                     foreach (int dist in result.DistancesBetweenEigenValues.Keys)
                     {
                         using (DbCommand cmd = conn.CreateCommand())
@@ -265,31 +266,8 @@ namespace ResultStorage.Storage
                             cmd.ExecuteNonQuery();
                         }
                     }
-                    if (result.TreeVector != null)
-                    {
-                        foreach (bool bit in result.TreeVector)
-                        {
-                            using (DbCommand cmd = conn.CreateCommand())
-                            {
-                                string sqlQuery = "INSERT INTO ParisiBitArray(ResultsID,Bit) " +
-                                                    "VALUES(@ResultsID,@Bit)";
-                                cmd.CommandText = sqlQuery;
-                                cmd.CommandType = CommandType.Text;
 
-                                DbParameter dpResultsID = provider.CreateParameter();
-                                dpResultsID.ParameterName = "ResultsID";
-                                dpResultsID.Value = resultsID;
-                                cmd.Parameters.Add(dpResultsID);
-
-                                DbParameter dpBit = provider.CreateParameter();
-                                dpBit.ParameterName = "Bit";
-                                dpBit.Value = bit;
-                                cmd.Parameters.Add(dpBit);
-
-                                cmd.ExecuteNonQuery();
-                            }
-                        }
-                    }
+                    // !добавить все остальные резултаты анализа!
                 }
 
                 foreach (GenerationParam genParameter in assembly.GenerationParams.Keys)
@@ -333,8 +311,8 @@ namespace ResultStorage.Storage
                     string sqlQuery = "DELETE FROM AnalyzeResults WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
                                         "DELETE FROM Coefficients WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
                                         "DELETE FROM VertexDegree WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
-                                        "DELETE FROM Subgraphs WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
-                                        "DELETE FROM ParisiBitArray WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
+                                        "DELETE FROM ConSubgraphs WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
+                                        // !добавить все остальные резултаты анализа!
                                         "DELETE FROM AssemblyResults WHERE AssemblyID=@AssemblyID " +
                                         "DELETE FROM GenerationParamValues WHERE AssemblyID=@AssemblyID " +
                                         "DELETE FROM Assemblies WHERE AssemblyID=@AssemblyID";
