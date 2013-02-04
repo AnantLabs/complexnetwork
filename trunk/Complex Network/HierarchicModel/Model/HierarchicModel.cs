@@ -54,9 +54,18 @@ namespace Model.HierarchicModel
             InitModel();
         }
 
-        public override AbstractGraphModel Clone()
+        public override AbstractGraphModel CloneRandom()
         {
             AbstractGraphModel model = new HierarchicModel(this.GenerationParamValues,
+                this.AnalyzeOptions,
+                this.AnalyzeOptionsValues);
+            model.TracingPath = this.TracingPath;
+            return model;
+        }
+
+        public override AbstractGraphModel CloneStatic()
+        {
+            AbstractGraphModel model = new HierarchicModel(this.NeighbourshipMatrix,
                 this.AnalyzeOptions,
                 this.AnalyzeOptionsValues);
             model.TracingPath = this.TracingPath;

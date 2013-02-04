@@ -303,7 +303,12 @@ namespace RandomGraph.Common.Model
         /// <summary>
         /// Create and return object of specific type
         /// </summary>
-        public abstract AbstractGraphModel Clone();
+        public abstract AbstractGraphModel CloneRandom();
+
+        /// <summary>
+        /// Create and return object of specific type
+        /// </summary>
+        public abstract AbstractGraphModel CloneStatic();
 
         /// <summary>
         /// Dump generated graph matrix into file

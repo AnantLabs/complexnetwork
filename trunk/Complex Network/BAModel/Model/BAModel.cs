@@ -54,10 +54,19 @@ namespace Model.BAModel
             InitModel();
         }
 
-        public override AbstractGraphModel Clone()
+        public override AbstractGraphModel CloneRandom()
         {
             AbstractGraphModel model = new BAModel(this.GenerationParamValues, 
                 this.AnalyzeOptions, 
+                this.AnalyzeOptionsValues);
+            model.TracingPath = this.TracingPath;
+            return model;
+        }
+
+        public override AbstractGraphModel CloneStatic()
+        {
+            AbstractGraphModel model = new BAModel(this.NeighbourshipMatrix,
+                this.AnalyzeOptions,
                 this.AnalyzeOptionsValues);
             model.TracingPath = this.TracingPath;
             return model;

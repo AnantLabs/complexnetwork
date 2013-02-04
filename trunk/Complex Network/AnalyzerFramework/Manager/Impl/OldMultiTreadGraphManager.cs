@@ -61,11 +61,11 @@ namespace AnalyzerFramework.Manager.Impl
                 AbstractGraphModel model;
                 if (Options.GenerationMode.staticGeneration == GenerationMode) 
                 {
-                  model = origineModel;
+                    model = origineModel.CloneStatic();
                 }
                 else 
                 {
-                  model = origineModel.Clone();
+                    model = origineModel.CloneRandom();
                 }
                 model.SetID(i);
                 model.Progress += new GraphProgressEventHandler(OnSeparateModelProgress);

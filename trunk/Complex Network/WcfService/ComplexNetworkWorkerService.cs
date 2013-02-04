@@ -134,7 +134,7 @@ namespace WcfService
 
             for (int i = startIndex; i < endIndex; i++)
             {
-                AbstractGraphModel model = origineModel.Clone();
+                AbstractGraphModel model = origineModel.CloneRandom();
                 model.Progress += new GraphProgressEventHandler(OnSeparateModelProgress);
                 Models.Add(i, model);
 
