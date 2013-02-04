@@ -65,11 +65,20 @@ namespace Model.ERModel
             InitModel();
         }
 
-        public override AbstractGraphModel Clone()
+        public override AbstractGraphModel CloneRandom()
         {
             AbstractGraphModel model = new ERModel(this.GenerationParamValues,
-                this.AnalyzeOptions,
-                this.AnalyzeOptionsValues);
+                    this.AnalyzeOptions,
+                    this.AnalyzeOptionsValues);
+            model.TracingPath = this.TracingPath;
+            return model;
+        }
+
+        public override AbstractGraphModel CloneStatic()
+        {
+            AbstractGraphModel model = new ERModel(this.NeighbourshipMatrix,
+                    this.AnalyzeOptions,
+                    this.AnalyzeOptionsValues);
             model.TracingPath = this.TracingPath;
             return model;
         }

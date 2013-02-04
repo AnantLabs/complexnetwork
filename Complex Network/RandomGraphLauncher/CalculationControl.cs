@@ -54,7 +54,6 @@ namespace RandomGraphLauncher
             InitializeModelInfo();
             InitializeGenerationParamsControls();
             InitializeAnalyzeOptionsControls();
-            InitializeCommonControls();
             InitializeGlobalModes();
         }
 
@@ -544,12 +543,6 @@ namespace RandomGraphLauncher
                    
                 }
             }
-        }
-
-        private void InitializeCommonControls()
-        {
-            implementationCountNumeric.Enabled = (Options.Generation == Options.GenerationMode.randomGeneration) ? 
-                true : false;
         }
 
         private void InitializeGlobalModes()
