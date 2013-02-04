@@ -41,30 +41,33 @@ namespace Model.ERModel.Realization
         //Permanet Generation
         public void PermanentGeneration(Dictionary<GenerationParam, object> genParam)
         {
-            Console.WriteLine(ERModel.permanentStatus);
             if (ERModel.permanentStatus)
             {
                 lock (syncLock)
                 {
-                    double probability = (Double)genParam[GenerationParam.P];
-                    int numberOfVertices = (Int32)genParam[GenerationParam.Vertices];
-                    container.Size = numberOfVertices;
-                    Console.WriteLine(ERModel.permanentStatus);
                     if (ERModel.permanentStatus)
                     {
+                        double probability = (Double)genParam[GenerationParam.P];
+                        int numberOfVertices = (Int32)genParam[GenerationParam.Vertices];
+                        container.Size = numberOfVertices;
+
                         FillValuesByProbability(probability);
-                        permanentContainer = container;
+
+                        permanentContainer = container.Copy();
+
                         ERModel.permanentStatus = false;
                     }
                     else
                     {
-                        container = permanentContainer;
+                        Console.WriteLine(ERModel.permanentStatus);
+                        container = permanentContainer.Copy();
                     }
                 }
             }
             else
             {
-                container = permanentContainer;
+                Console.WriteLine(ERModel.permanentStatus);
+                container = permanentContainer.Copy();
             }
 
 
