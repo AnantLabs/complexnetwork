@@ -30,6 +30,28 @@ namespace Model.ERModel.Realization
             degrees = new List<int>();
         }
 
+        public ERContainer(ERContainer cotainer)
+        {
+            this.size = cotainer.Size;
+            this.neighbourship = cotainer.neighbourship;
+            this.Edjes = new List<KeyValuePair<int,int>>(cotainer.Edjes);
+            this.NoEdjes = new List<KeyValuePair<int,int>>(cotainer.NoEdjes);
+            this.degrees = new List<int>( cotainer.degrees);
+
+
+            
+        }
+
+        public ERContainer Copy()
+        {
+            ERContainer other = (ERContainer)this.MemberwiseClone();
+            other.neighbourship = new SortedDictionary<int, List<int>>(this.neighbourship);
+            other.Edjes = new List<KeyValuePair<int, int>>(this.Edjes);
+            other.NoEdjes = new List<KeyValuePair<int, int>>(this.NoEdjes);
+            other.degrees = new List<int>(this.degrees);
+            return other;
+        }
+
         // Размер контейнера (число вершин в графе).
         public int Size 
         {

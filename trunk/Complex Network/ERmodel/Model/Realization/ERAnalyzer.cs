@@ -251,9 +251,15 @@ namespace Model.ERModel.Realization
             var tarctory = new SortedDictionary<int, double>();
             int time = 0;
             int currentcounttriangle = GetCyclesForTringle(container);
+
+            Console.WriteLine(currentcounttriangle);
+
             tarctory.Add(time, currentcounttriangle);
-            var currentContainer = container;
+
+            var currentContainer = container.Copy();
+
             var tempContainer = new ERContainer();
+
             while (time != stepcount)
             {
                 try
@@ -265,15 +271,16 @@ namespace Model.ERModel.Realization
                     if (delta > 0)
                     {
                         tarctory.Add(time, counttriangle);
-                        currentContainer = tempContainer;
+                        currentContainer = tempContainer.Copy(); 
                         currentcounttriangle = counttriangle;
+                       
                     }
                     else
                     {
                         if (new Random().NextDouble() < CalculatePropability(delta, constant))
                         {
                             tarctory.Add(time, counttriangle);
-                            currentContainer = tempContainer;
+                            currentContainer = tempContainer.Copy();
                             currentcounttriangle = counttriangle;
 
                         }
@@ -494,25 +501,27 @@ namespace Model.ERModel.Realization
             return Math.Exp((double)(-constant * Math.Abs(delta)));
         }
 
-        private static ERContainer Transformations(ERContainer container)
+        private static ERContainer Transformations(ERContainer trcontainer)
         {
+            var tranformation = trcontainer.Copy();
             try
             {
-
+               
                 var random = new Random();
-                var removeedje = random.Next(0, container.Edjes.Count-1);
-                var addEdje = random.Next(0, container.NoEdjes.Count-1);
+                var removeedje = random.Next(0, tranformation.Edjes.Count - 1);
+                var addEdje = random.Next(0, tranformation.NoEdjes.Count - 1);
 
-                container.Neighbourship[container.Edjes[removeedje].Key].Remove(container.Edjes[removeedje].Value);
-                container.Neighbourship[container.Edjes[removeedje].Value].Remove(container.Edjes[removeedje].Key);
-                container.NoEdjes.Add(container.Edjes[removeedje]);
-                container.Edjes.RemoveAt(removeedje);
+                tranformation.Neighbourship[tranformation.Edjes[removeedje].Key].Remove(tranformation.Edjes[removeedje].Value);
+                tranformation.Neighbourship[tranformation.Edjes[removeedje].Value].Remove(tranformation.Edjes[removeedje].Key);
+                tranformation.NoEdjes.Add(tranformation.Edjes[removeedje]);
+                tranformation.Edjes.RemoveAt(removeedje);
 
 
-                container.Neighbourship[container.NoEdjes[addEdje].Key].Add(container.NoEdjes[addEdje].Value);
-                container.Neighbourship[container.NoEdjes[addEdje].Value].Add(container.NoEdjes[addEdje].Key);
-                container.Edjes.Add(container.NoEdjes[addEdje]);
-                container.NoEdjes.RemoveAt(addEdje);
+
+                tranformation.Neighbourship[tranformation.NoEdjes[addEdje].Key].Add(tranformation.NoEdjes[addEdje].Value);
+                tranformation.Neighbourship[tranformation.NoEdjes[addEdje].Value].Add(tranformation.NoEdjes[addEdje].Key);
+                tranformation.Edjes.Add(tranformation.NoEdjes[addEdje]);
+                tranformation.NoEdjes.RemoveAt(addEdje);
 
 
 
@@ -546,7 +555,8 @@ namespace Model.ERModel.Realization
             {
                 log.Error("Error according when transforms edges");
             }
-            return container;
+
+            return tranformation;
 
         }
 
