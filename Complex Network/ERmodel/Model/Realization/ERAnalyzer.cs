@@ -19,6 +19,7 @@ namespace Model.ERModel.Realization
         // Контейнер, в котором содержится граф конкретной модели (ER).
         private ERContainer container;
 
+      
         // Конструктор, получающий контейнер графа.
         public ERAnalyzer(ERContainer c)
         {
@@ -89,15 +90,23 @@ namespace Model.ERModel.Realization
 
             return count / 6;
         }
-        private static int GetCyclesForTringle(ERContainer container)
+        private  int GetCyclesForTringle(ERContainer container)
         {
+           // log.Info("Getting count of cycles - order 3.");
+
             int count = 0;
             for (int i = 0; i < container.Size; ++i)
             {
-                count += CountTringlei(i, container);
+                count += CountTringlei(i, container.Size, container);
+                //List<int> nbs = container.Neighbourship[i];
+                //for (int j = 0; j < nbs.Count; ++j)
+                //{
+                //    List<int> tmp = container.Neighbourship[nbs[j]];
+                //    count += nbs.Intersect(tmp).Count();
+                //}
             }
 
-            return (count > 0 && count < 3) ? 1 : count / 3;
+            return count / 3;
         }
 
         private class NodeTrigle
@@ -108,23 +117,23 @@ namespace Model.ERModel.Realization
             public NodeTrigle() { }
         }
 
-        private static int CountTringlei(int i, ERContainer container)
+        private static int CountTringlei(int i, int size,ERContainer container)
         {
-            NodeTrigle[] nodes = new NodeTrigle[container.Size];
-            for (int j = 0; j < container.Size; j++)
+            var  nodes = new NodeTrigle[size];
+            for (int j = 0; j < size; j++)
                 nodes[j] = new NodeTrigle();
 
             int count = 0;
             nodes[i].lenght = 0;
             nodes[i].ancestor = 0;
-            Queue<int> q = new Queue<int>();
+            var  q = new Queue<int>();
             q.Enqueue(i);
             int u;
 
             while (q.Count != 0)
             {
                 u = q.Dequeue();
-                List<int> l = container.Neighbourship[u];
+                var  l = container.Neighbourship[u];
                 for (int j = 0; j < l.Count; ++j)
                     if (nodes[l[j]].lenght == -1)
                     {
@@ -245,56 +254,89 @@ namespace Model.ERModel.Realization
 
         public override SortedDictionary<int, double> GetTrianglesTrajectory(BigInteger constant, BigInteger stepcount)
         {
+          
             log.Error("Getting triangle trajectory.");
 
-            var stepscount = stepcount;
             var tarctory = new SortedDictionary<int, double>();
+
+            var tempContainer = new ERContainer();
+           
             int time = 0;
-            int currentcounttriangle = GetCyclesForTringle(container);
-
-            Console.WriteLine(currentcounttriangle);
-
-            tarctory.Add(time, currentcounttriangle);
 
             var currentContainer = container.Copy();
 
-            var tempContainer = new ERContainer();
+            int currentcounttriangle = GetCyclesForTringle(currentContainer);
+            Console.WriteLine(currentContainer.Neighbourship[10].Count);
+
+            tarctory.Add(time, currentcounttriangle);
+
+            //while (time != stepcount)
+            //{
+            //    try
+            //    {
+            //        time++;
+            //        int count = 0;
+            //        tempContainer = Transformations(currentContainer.Copy(), out count);
+            //        var counttriangle = GetCyclesForTringle(tempContainer);
+            //        var delta = counttriangle - currentcounttriangle;
+
+            //        if (delta > 0)
+            //        {
+            //            tarctory.Add(time, counttriangle);
+            //            currentContainer = tempContainer.Copy();
+            //            currentcounttriangle = counttriangle;
+
+            //        }
+            //        else
+            //        {
+            //            if (new Random().NextDouble() < CalculatePropability(delta, constant))
+            //            {
+            //                tarctory.Add(time, counttriangle);
+            //                currentContainer = tempContainer.Copy();
+            //                currentcounttriangle = counttriangle;
+
+            //            }
+            //            else
+            //            {
+            //                tarctory.Add(time, currentcounttriangle);
+            //            }
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        log.Error(String.Format("Error occurred in step {0} ,Error message {1} ", stepcount, ex.InnerException));
+            //    }
+
+            //}
 
             while (time != stepcount)
             {
-                try
+                time++;
+                var count = 0;
+                var tempcontainer = Transformations(currentContainer, out count);
+                int trangleCount = currentcounttriangle + count;
+              //  var trangleCount = GetCyclesForTringle(tempcontainer);
+                var delta = trangleCount - currentcounttriangle;
+                if (delta > 0)
                 {
-                    time++;
-                    tempContainer = Transformations(currentContainer);
-                    var counttriangle = GetCyclesForTringle(tempContainer);
-                    var delta = counttriangle - currentcounttriangle;
-                    if (delta > 0)
+                    currentContainer = tempcontainer.Copy();
+                    currentcounttriangle = trangleCount;
+                    tarctory.Add(time, currentcounttriangle);
+                }
+                else
+                {
+                    if (new Random().NextDouble() < CalculatePropability(delta, constant))
                     {
-                        tarctory.Add(time, counttriangle);
-                        currentContainer = tempContainer.Copy(); 
-                        currentcounttriangle = counttriangle;
-                       
+                        currentContainer = tempcontainer.Copy();
+                        currentcounttriangle = trangleCount;
+                        tarctory.Add(time, currentcounttriangle);
                     }
                     else
                     {
-                        if (new Random().NextDouble() < CalculatePropability(delta, constant))
-                        {
-                            tarctory.Add(time, counttriangle);
-                            currentContainer = tempContainer.Copy();
-                            currentcounttriangle = counttriangle;
-
-                        }
-                        else
-                        {
-                            tarctory.Add(time, currentcounttriangle);
-                        }
+                        tarctory.Add(time, currentcounttriangle);
                     }
-                }
-                catch (Exception ex)
-                {
-                    log.Error(String.Format("Error occurred in step {0} ,Error message {1} ", stepcount, ex.InnerException));
-                }
 
+                }
             }
 
             return tarctory;
@@ -501,9 +543,11 @@ namespace Model.ERModel.Realization
             return Math.Exp((double)(-constant * Math.Abs(delta)));
         }
 
-        private static ERContainer Transformations(ERContainer trcontainer)
+        private  ERContainer Transformations(ERContainer trcontainer,out int  triangle)
         {
             var tranformation = trcontainer.Copy();
+
+            triangle = 0;
             try
             {
                
@@ -513,6 +557,8 @@ namespace Model.ERModel.Realization
 
                 tranformation.Neighbourship[tranformation.Edjes[removeedje].Key].Remove(tranformation.Edjes[removeedje].Value);
                 tranformation.Neighbourship[tranformation.Edjes[removeedje].Value].Remove(tranformation.Edjes[removeedje].Key);
+
+                int removetriangle = CountTriangle(tranformation.Edjes[removeedje].Key, tranformation.Edjes[removeedje].Value,tranformation);
                 tranformation.NoEdjes.Add(tranformation.Edjes[removeedje]);
                 tranformation.Edjes.RemoveAt(removeedje);
 
@@ -520,8 +566,12 @@ namespace Model.ERModel.Realization
 
                 tranformation.Neighbourship[tranformation.NoEdjes[addEdje].Key].Add(tranformation.NoEdjes[addEdje].Value);
                 tranformation.Neighbourship[tranformation.NoEdjes[addEdje].Value].Add(tranformation.NoEdjes[addEdje].Key);
+
+                int addtriangle = CountTriangle(tranformation.NoEdjes[addEdje].Key, tranformation.NoEdjes[addEdje].Value, tranformation);
                 tranformation.Edjes.Add(tranformation.NoEdjes[addEdje]);
                 tranformation.NoEdjes.RemoveAt(addEdje);
+
+                triangle = addtriangle - removetriangle;
 
 
 
@@ -558,6 +608,19 @@ namespace Model.ERModel.Realization
 
             return tranformation;
 
+        }
+
+        private  int CountTriangle(int i, int j,ERContainer container)
+        {
+            var list = container.Neighbourship[j];
+            int count = 0;
+            for (int t = 0; t < list.Count; t++)
+            {
+                if (container.Neighbourship[list[t]].Contains(i))
+                    count++;
+            }
+
+            return count;
         }
 
 

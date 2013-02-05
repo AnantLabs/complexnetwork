@@ -44,6 +44,9 @@ namespace AnalyzerFramework.Manager.Impl
             }
             this.iterations = iterations;
 
+            //Set permanent status
+            origineModel.PermanentStatus = true;
+
             Assembly.AnalizeOptions = origineModel.AnalyzeOptions;
             Assembly.GenerationParams = origineModel.GenerationParamValues;
             Assembly.ModelType = origineModel.GetType();
@@ -76,8 +79,6 @@ namespace AnalyzerFramework.Manager.Impl
                 threads[i] = new Thread(new ParameterizedThreadStart(StartAnalyze)) { Priority = ThreadPriority.Lowest };
             }
 
-            //Set permanent status
-            origineModel.PermanentStatus = true;
 
             log.Info("Ended creating thread for each instance");
             for (int i = 0; i < iterations; i++)

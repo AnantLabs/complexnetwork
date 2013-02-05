@@ -45,7 +45,13 @@ namespace Model.ERModel.Realization
         public ERContainer Copy()
         {
             ERContainer other = (ERContainer)this.MemberwiseClone();
+
             other.neighbourship = new SortedDictionary<int, List<int>>(this.neighbourship);
+            foreach (var item in this.neighbourship)
+            {
+                other.neighbourship[item.Key] = new List<int>(item.Value);
+            }
+           
             other.Edjes = new List<KeyValuePair<int, int>>(this.Edjes);
             other.NoEdjes = new List<KeyValuePair<int, int>>(this.NoEdjes);
             other.degrees = new List<int>(this.degrees);

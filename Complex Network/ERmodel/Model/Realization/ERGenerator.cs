@@ -41,6 +41,7 @@ namespace Model.ERModel.Realization
         //Permanet Generation
         public void PermanentGeneration(Dictionary<GenerationParam, object> genParam)
         {
+           
             if (ERModel.permanentStatus)
             {
                 lock (syncLock)
@@ -53,21 +54,21 @@ namespace Model.ERModel.Realization
 
                         FillValuesByProbability(probability);
 
-                        permanentContainer = container.Copy();
-
+                        permanentContainer = container;
+                        
                         ERModel.permanentStatus = false;
                     }
                     else
                     {
-                        Console.WriteLine(ERModel.permanentStatus);
-                        container = permanentContainer.Copy();
+                       
+                        container = permanentContainer;
                     }
                 }
             }
             else
             {
-                Console.WriteLine(ERModel.permanentStatus);
-                container = permanentContainer.Copy();
+                
+                container = permanentContainer;
             }
 
 
@@ -103,6 +104,7 @@ namespace Model.ERModel.Realization
         // Добовляет ребра в граф (контейнер) по данной вероятности.
         private void FillValuesByProbability(double p)
         {
+            
             for (int i = 0; i < container.Size; ++i)
             {
                 for (int j = i + 1; j < container.Size; ++j)
