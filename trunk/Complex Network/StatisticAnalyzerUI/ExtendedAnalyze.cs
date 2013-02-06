@@ -54,14 +54,28 @@ namespace StatisticAnalyzerUI
                     SortedDictionary<int, double> tempDictionary = resultAssembly.Results[j].TriangleTrajectory;
                     SortedDictionary<int, double>.KeyCollection keyColl = tempDictionary.Keys;
                     int limit = 1;
+                    int previousKey = -1;
                     foreach (int key in keyColl)
                     {
                         if (limit >= k)
                         {
-                            if (r.Keys.Contains(key))
-                                r[key] += tempDictionary[key];
+                            if (key - 1 == previousKey)
+                            {
+                                if (r.Keys.Contains(key))
+                                    r[key] += tempDictionary[key];
+                                else
+                                    r.Add(key, tempDictionary[key]);
+                            }
                             else
-                                r.Add(key, tempDictionary[key]);
+                            {
+                                for (int tempIndex = key + 1; tempIndex <= key - previousKey; ++tempIndex)
+                                {
+                                    if (r.Keys.Contains(tempIndex))
+                                        r[tempIndex] += tempDictionary[key];
+                                    else
+                                        r.Add(tempIndex, tempDictionary[key]);
+                                }
+                            }
                         }
                         else
                         {

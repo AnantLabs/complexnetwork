@@ -462,12 +462,28 @@ namespace StatisticAnalyzer.Analyzer
                 {
                     SortedDictionary<int, double> tempDictionary = assemblyToAnalyze[i].Results[j].TriangleTrajectory;
                     SortedDictionary<int, double>.KeyCollection keyColl = tempDictionary.Keys;
+                    int previousKey = -1;
                     foreach (int key in keyColl)
                     {
-                        if (r.Keys.Contains(key))
-                            r[key] += tempDictionary[key];
+                        if (key - 1 == previousKey)
+                        {
+                            if (r.Keys.Contains(key))
+                                r[key] += tempDictionary[key];
+                            else
+                                r.Add(key, tempDictionary[key]);
+                        }
                         else
-                            r.Add(key, tempDictionary[key]);
+                        {
+                            for (int tempIndex = key + 1; tempIndex <= key - previousKey; ++tempIndex)
+                            {
+                                if (r.Keys.Contains(tempIndex))
+                                    r[tempIndex] += tempDictionary[key];
+                                else
+                                    r.Add(tempIndex, tempDictionary[key]);
+                            }
+                        }
+
+                        previousKey = key;
                     }
                 }
             }
