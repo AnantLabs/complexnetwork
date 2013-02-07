@@ -336,7 +336,7 @@ namespace ResultStorage.Storage
                     }
 
                     log.Info("Saving data to EigenValuesDistance table.");
-                    foreach (int dist in result.DistancesBetweenEigenValues.Keys)
+                    foreach (double dist in result.DistancesBetweenEigenValues.Keys)
                     {
                         using (DbCommand cmd = conn.CreateCommand())
                         {
@@ -369,7 +369,7 @@ namespace ResultStorage.Storage
                     {
                         using (DbCommand cmd = conn.CreateCommand())
                         {
-                            string sqlQuery = "INSERT INTO Cycles(ResultsID,Order,Count) " +
+                            string sqlQuery = "INSERT INTO Cycles(ResultsID,[Order],Count) " +
                                                 "VALUES(@ResultsID,@Order,@Count)";
                             cmd.CommandText = sqlQuery;
                             cmd.CommandType = CommandType.Text;
@@ -386,7 +386,7 @@ namespace ResultStorage.Storage
 
                             DbParameter dpCount = provider.CreateParameter();
                             dpCount.ParameterName = "Count";
-                            dpCount.Value = result.Cycles[order];   // !проверить!
+                            dpCount.Value = result.Cycles[order];
                             cmd.Parameters.Add(dpCount);
 
                             cmd.ExecuteNonQuery();
