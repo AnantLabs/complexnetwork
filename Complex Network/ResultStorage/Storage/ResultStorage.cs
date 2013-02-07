@@ -53,9 +53,9 @@ namespace ResultStorage.Storage
                 case 3:
                     return typeof(ParisiHierarchicModel);
                 case 4:
-                    return typeof(ERModel);
-                case 5:
                     return typeof(WSModel);
+                case 5:
+                    return typeof(ERModel);
                 case 6:
                     return typeof(NonRegularHierarchicModel);
                 default:
