@@ -266,7 +266,6 @@ namespace Model.ERModel.Realization
             var currentContainer = container.Copy();
 
             int currentcounttriangle = GetCyclesForTringle(currentContainer);
-            Console.WriteLine(currentContainer.Neighbourship[10].Count);
 
             tarctory.Add(time, currentcounttriangle);
 
@@ -312,11 +311,15 @@ namespace Model.ERModel.Realization
             while (time != stepcount)
             {
                 time++;
+
                 var count = 0;
+
                 var tempcontainer = Transformations(currentContainer, out count);
+
                 int trangleCount = currentcounttriangle + count;
-              //  var trangleCount = GetCyclesForTringle(tempcontainer);
+
                 var delta = trangleCount - currentcounttriangle;
+
                 if (delta > 0)
                 {
                     currentContainer = tempcontainer.Copy();
@@ -548,26 +551,36 @@ namespace Model.ERModel.Realization
             var tranformation = trcontainer.Copy();
 
             triangle = 0;
+
             try
             {
                
                 var random = new Random();
+
                 var removeedje = random.Next(0, tranformation.Edjes.Count - 1);
                 var addEdje = random.Next(0, tranformation.NoEdjes.Count - 1);
 
+                //Count remove triangle
+                int removetriangle = CountTriangle(tranformation.Edjes[removeedje].Key,
+                   tranformation.Edjes[removeedje].Value, tranformation);
+
+                //Remove edje 
                 tranformation.Neighbourship[tranformation.Edjes[removeedje].Key].Remove(tranformation.Edjes[removeedje].Value);
                 tranformation.Neighbourship[tranformation.Edjes[removeedje].Value].Remove(tranformation.Edjes[removeedje].Key);
+                
 
-                int removetriangle = CountTriangle(tranformation.Edjes[removeedje].Key, tranformation.Edjes[removeedje].Value,tranformation);
                 tranformation.NoEdjes.Add(tranformation.Edjes[removeedje]);
                 tranformation.Edjes.RemoveAt(removeedje);
 
 
-
+                //add edje
                 tranformation.Neighbourship[tranformation.NoEdjes[addEdje].Key].Add(tranformation.NoEdjes[addEdje].Value);
                 tranformation.Neighbourship[tranformation.NoEdjes[addEdje].Value].Add(tranformation.NoEdjes[addEdje].Key);
 
-                int addtriangle = CountTriangle(tranformation.NoEdjes[addEdje].Key, tranformation.NoEdjes[addEdje].Value, tranformation);
+                int addtriangle = CountTriangle(tranformation.NoEdjes[addEdje].Key, 
+                    tranformation.NoEdjes[addEdje].Value, tranformation);
+                
+                //add edje
                 tranformation.Edjes.Add(tranformation.NoEdjes[addEdje]);
                 tranformation.NoEdjes.RemoveAt(addEdje);
 
@@ -616,8 +629,11 @@ namespace Model.ERModel.Realization
             int count = 0;
             for (int t = 0; t < list.Count; t++)
             {
-                if (container.Neighbourship[list[t]].Contains(i))
-                    count++;
+                if (list[t] != i)
+                {
+                    if (container.Neighbourship[list[t]].Contains(i))
+                        count++;
+                }
             }
 
             return count;
