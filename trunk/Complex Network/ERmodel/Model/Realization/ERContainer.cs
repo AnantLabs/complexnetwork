@@ -91,8 +91,10 @@ namespace Model.ERModel.Realization
         // Строится граф на основе матрицы смежности.
         public void SetMatrix(ArrayList matrix)
         {
+
             log.Info("Creating ERContainer object from given matrix.");
             size = matrix.Count;
+            Size = matrix.Count;
             neighbourship = new SortedDictionary<int, List<int>>();
             ArrayList neighbourshipOfIVertex = new ArrayList();
             for (int i = 0; i < matrix.Count; i++)
@@ -100,6 +102,10 @@ namespace Model.ERModel.Realization
                 neighbourshipOfIVertex = (ArrayList)matrix[i];
                 SetDataToDictionary(i, neighbourshipOfIVertex);
             }
+
+
+
+
         }
 
         // Возвращается матрица смежности, соответсвующая графу.
@@ -154,6 +160,11 @@ namespace Model.ERModel.Realization
                 if ((bool)neighbourshipOfIVertex[j] == true && index != j)
                 {
                     neighbourship[index].Add(j);
+                    if(!Edjes.Contains(new KeyValuePair<int,int>(j,index)))
+                    {
+                        Edjes.Add(new KeyValuePair<int, int>(index, j));
+                        NoEdjes.Remove(new KeyValuePair<int, int>(index, j));
+                    }
                 }
             }
         }
