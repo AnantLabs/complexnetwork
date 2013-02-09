@@ -110,7 +110,7 @@ namespace RandomGraph.Common.Model
             {
                 if (GenerationParamValues != null)
                 {
-                    if ((bool)GenerationParamValues[GenerationParam.Permanent])
+                    if (GenerationParamValues.ContainsKey(GenerationParam.Permanent) && (bool)GenerationParamValues[GenerationParam.Permanent])
                         //Permanent Generation
                         generator.PermanentGeneration(GenerationParamValues);
                     else
@@ -129,7 +129,7 @@ namespace RandomGraph.Common.Model
                 InvokeProgressEvent(GraphProgress.GenerationDone, 30);
             }
             catch (ThreadAbortException) { }
-            catch (Exception)
+            catch (Exception ex)
             {
                 InvokeFailureProgressEvent(GraphProgress.GenerationFailed, "ENTER FAIL REASON HERE");
                 //RETHROW EXCEPTION 
