@@ -51,11 +51,6 @@ namespace RandomGraphLauncher
             settingsOptionsWnd.ShowDialog();
         }
 
-        private void statisticAnalyzerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Process.Start("StatisticAnalyzerUI.exe");
-        }
-
         private void dataExportIMportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataExportImportWindow dataExportImportWnd = new DataExportImportWindow();
@@ -78,6 +73,16 @@ namespace RandomGraphLauncher
         {
             MatrixMixerWindow matrixMixerWnd = new MatrixMixerWindow();
             matrixMixerWnd.ShowDialog();
+        }
+
+        private void statisticAnalyzerToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Process.Start("StatisticAnalyzerUI.exe");
+        }
+
+        private void dBViewerToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void mainControl_OnClose(object sender, CloseEventArgs e)

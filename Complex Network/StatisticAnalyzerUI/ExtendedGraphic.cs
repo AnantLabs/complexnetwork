@@ -14,14 +14,16 @@ namespace StatisticAnalyzerUI
 {
     public partial class ExtendedGraphic : Form
     {
+        string parameterLine;
         string yAxis;
         ZedGraphControl graphic;
         PointPairList values;
 
-        public ExtendedGraphic(SortedDictionary<BigInteger, double> dict, string text)
+        public ExtendedGraphic(SortedDictionary<BigInteger, double> dict, string paramLine, string text)
         {
             InitializeComponent();
 
+            parameterLine = paramLine;
             yAxis = text;
 
             graphic = new ZedGraphControl();
@@ -45,7 +47,7 @@ namespace StatisticAnalyzerUI
             graphic.GraphPane.XAxis.Title.Text = "Mu";
             graphic.GraphPane.YAxis.Title.Text = yAxis;
 
-            LineItem l = graphic.GraphPane.AddCurve(yAxis, values, Color.Black, SymbolType.Circle);
+            LineItem l = graphic.GraphPane.AddCurve(parameterLine, values, Color.Black, SymbolType.Circle);
 
             graphic.AxisChange();
             graphic.Invalidate();

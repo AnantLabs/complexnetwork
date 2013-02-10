@@ -39,14 +39,14 @@ namespace RandomGraphLauncher
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.statisticAnalyzerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataExportIMportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modelCheckingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.matrixMixerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statisticAnalyzerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.dBViewerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mainControl = new MyControlLibrary.TabCtlEx();
-            this.dbViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,6 +56,8 @@ namespace RandomGraphLauncher
             this.fileToolStripMenuItem,
             this.settingsToolStripMenuItem,
             this.toolsToolStripMenuItem,
+            this.statisticAnalyzerToolStripMenuItem1,
+            this.dBViewerToolStripMenuItem1,
             this.helpToolStripMenuItem});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
@@ -104,8 +106,6 @@ namespace RandomGraphLauncher
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statisticAnalyzerToolStripMenuItem,
-            this.dbViewerToolStripMenuItem,
             this.dataExportIMportToolStripMenuItem,
             this.testerToolStripMenuItem,
             this.modelCheckingToolStripMenuItem,
@@ -113,13 +113,6 @@ namespace RandomGraphLauncher
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
-            // 
-            // statisticAnalyzerToolStripMenuItem
-            // 
-            this.statisticAnalyzerToolStripMenuItem.Name = "statisticAnalyzerToolStripMenuItem";
-            this.statisticAnalyzerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
-            this.statisticAnalyzerToolStripMenuItem.Text = "Statistic Analyzer";
-            this.statisticAnalyzerToolStripMenuItem.Click += new System.EventHandler(this.statisticAnalyzerToolStripMenuItem_Click);
             // 
             // dataExportIMportToolStripMenuItem
             // 
@@ -155,6 +148,20 @@ namespace RandomGraphLauncher
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
+            // statisticAnalyzerToolStripMenuItem1
+            // 
+            this.statisticAnalyzerToolStripMenuItem1.Name = "statisticAnalyzerToolStripMenuItem1";
+            this.statisticAnalyzerToolStripMenuItem1.Size = new System.Drawing.Size(108, 20);
+            this.statisticAnalyzerToolStripMenuItem1.Text = "Statistic Analyzer";
+            this.statisticAnalyzerToolStripMenuItem1.Click += new System.EventHandler(this.statisticAnalyzerToolStripMenuItem1_Click);
+            // 
+            // dBViewerToolStripMenuItem1
+            // 
+            this.dBViewerToolStripMenuItem1.Name = "dBViewerToolStripMenuItem1";
+            this.dBViewerToolStripMenuItem1.Size = new System.Drawing.Size(72, 20);
+            this.dBViewerToolStripMenuItem1.Text = "DB Viewer";
+            this.dBViewerToolStripMenuItem1.Click += new System.EventHandler(this.dBViewerToolStripMenuItem1_Click);
+            // 
             // mainControl
             // 
             this.mainControl.ConfirmOnClose = false;
@@ -169,12 +176,6 @@ namespace RandomGraphLauncher
             this.mainControl.TabIndex = 0;
             this.mainControl.TabStop = false;
             this.mainControl.OnClose += new MyControlLibrary.TabCtlEx.OnHeaderCloseDelegate(this.mainControl_OnClose);
-            // 
-            // dbViewerToolStripMenuItem
-            // 
-            this.dbViewerToolStripMenuItem.Name = "dbViewerToolStripMenuItem";
-            this.dbViewerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
-            this.dbViewerToolStripMenuItem.Text = "DB Viewer";
             // 
             // mainWindow
             // 
@@ -208,13 +209,13 @@ namespace RandomGraphLauncher
 
         private MyControlLibrary.TabCtlEx mainControl;
         private ToolStripMenuItem toolsToolStripMenuItem;
-        private ToolStripMenuItem statisticAnalyzerToolStripMenuItem;
         private ToolStripMenuItem dataExportIMportToolStripMenuItem;
         private ToolStripMenuItem testerToolStripMenuItem;
         private ToolStripMenuItem modelCheckingToolStripMenuItem;
         private ToolStripMenuItem optionToolStripMenuItem;
         private ToolStripMenuItem matrixMixerToolStripMenuItem;
-        private ToolStripMenuItem dbViewerToolStripMenuItem;
+        private ToolStripMenuItem statisticAnalyzerToolStripMenuItem1;
+        private ToolStripMenuItem dBViewerToolStripMenuItem1;
 
     }
 }

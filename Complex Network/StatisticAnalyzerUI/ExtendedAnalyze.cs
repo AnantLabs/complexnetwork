@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using System.Numerics;
 
 using CommonLibrary.Model.Result;
+using RandomGraph.Common.Model.Generation;
+using CommonLibrary.Model.Attributes;
 using StatisticAnalyzer;
 using StatisticAnalyzer.Loader;
 
@@ -45,6 +47,21 @@ namespace StatisticAnalyzerUI
             SortedDictionary<BigInteger, double> avgs = new SortedDictionary<BigInteger,double>();
             SortedDictionary<BigInteger, double> sigmas = new SortedDictionary<BigInteger,double>();
 
+            string paramLine = "";
+
+            Dictionary<GenerationParam, object> genParams = list[0].GenerationParams;
+            Dictionary<GenerationParam, object>.KeyCollection genKeys = genParams.Keys;
+            foreach (GenerationParam g in genKeys)
+            {
+                GenerationParamInfo paramInfo =
+                    (GenerationParamInfo)(g.GetType().GetField(g.ToString()).
+                    GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);
+                paramLine += paramInfo.Name += " = ";
+                paramLine += genParams[g].ToString() + "; ";
+            }
+
+            paramLine += "StepCount = " + list[0].Results[0].trajectoryStepCount.ToString() + ";";
+
             foreach (ResultAssembly resultAssembly in list)
             {
                 SortedDictionary<double, double> r = new SortedDictionary<double, double>();
@@ -68,7 +85,7 @@ namespace StatisticAnalyzerUI
                             }
                             else
                             {
-                                for (int tempIndex = key + 1; tempIndex <= key - previousKey; ++tempIndex)
+                                for (int tempIndex = previousKey + 1; tempIndex <= key - previousKey; ++tempIndex)
                                 {
                                     if (r.Keys.Contains(tempIndex))
                                         r[tempIndex] += tempDictionary[key];
@@ -76,6 +93,8 @@ namespace StatisticAnalyzerUI
                                         r.Add(tempIndex, tempDictionary[key]);
                                 }
                             }
+
+                            previousKey = key;
                         }
                         else
                         {
@@ -111,10 +130,10 @@ namespace StatisticAnalyzerUI
                 sigmas.Add(resultAssembly.Results[0].trajectoryMu, sigma);
             }
 
-            ExtendedGraphic avgsGraphic = new ExtendedGraphic(avgs, "Average");
+            ExtendedGraphic avgsGraphic = new ExtendedGraphic(avgs, paramLine, "Average");
             avgsGraphic.Show();
 
-            ExtendedGraphic sigmasGraphic = new ExtendedGraphic(sigmas, "Sigma");
+            ExtendedGraphic sigmasGraphic = new ExtendedGraphic(sigmas, paramLine, "Sigma");
             sigmasGraphic.Show();            
         }
     }
