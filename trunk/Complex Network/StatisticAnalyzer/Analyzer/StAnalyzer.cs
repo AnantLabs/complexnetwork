@@ -474,7 +474,7 @@ namespace StatisticAnalyzer.Analyzer
                         }
                         else
                         {
-                            for (int tempIndex = key + 1; tempIndex <= key - previousKey; ++tempIndex)
+                            for (int tempIndex = previousKey + 1; tempIndex <= key - previousKey; ++tempIndex)
                             {
                                 if (r.Keys.Contains(tempIndex))
                                     r[tempIndex] += tempDictionary[key];
