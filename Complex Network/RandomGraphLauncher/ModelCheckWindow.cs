@@ -118,7 +118,7 @@ namespace RandomGraphLauncher
             this.exactResultTxt.Text = result ? "Is Hierarchic" : "Is Not Hierarchic";
         }
 
-        // Utilities //
+        // Утилиты.
 
         private void InitializeModelNameCmb()
         {
