@@ -43,9 +43,9 @@ namespace RandomGraphLauncher
             this.testerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modelCheckingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.matrixMixerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statisticAnalyzerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.dBViewerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainControl = new MyControlLibrary.TabCtlEx();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
@@ -61,7 +61,7 @@ namespace RandomGraphLauncher
             this.helpToolStripMenuItem});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
-            this.mainMenu.Size = new System.Drawing.Size(1028, 24);
+            this.mainMenu.Size = new System.Drawing.Size(1134, 24);
             this.mainMenu.TabIndex = 1;
             this.mainMenu.Text = "Menu";
             // 
@@ -142,12 +142,6 @@ namespace RandomGraphLauncher
             this.matrixMixerToolStripMenuItem.Text = "Matrix Mixer";
             this.matrixMixerToolStripMenuItem.Click += new System.EventHandler(this.matrixMixerToolStripMenuItem_Click);
             // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
-            // 
             // statisticAnalyzerToolStripMenuItem1
             // 
             this.statisticAnalyzerToolStripMenuItem1.Name = "statisticAnalyzerToolStripMenuItem1";
@@ -162,6 +156,12 @@ namespace RandomGraphLauncher
             this.dBViewerToolStripMenuItem1.Text = "DB Viewer";
             this.dBViewerToolStripMenuItem1.Click += new System.EventHandler(this.dBViewerToolStripMenuItem1_Click);
             // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
             // mainControl
             // 
             this.mainControl.ConfirmOnClose = false;
@@ -172,7 +172,7 @@ namespace RandomGraphLauncher
             this.mainControl.Location = new System.Drawing.Point(0, 24);
             this.mainControl.Name = "mainControl";
             this.mainControl.SelectedIndex = 0;
-            this.mainControl.Size = new System.Drawing.Size(1028, 578);
+            this.mainControl.Size = new System.Drawing.Size(1134, 638);
             this.mainControl.TabIndex = 0;
             this.mainControl.TabStop = false;
             this.mainControl.OnClose += new MyControlLibrary.TabCtlEx.OnHeaderCloseDelegate(this.mainControl_OnClose);
@@ -182,7 +182,7 @@ namespace RandomGraphLauncher
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1028, 602);
+            this.ClientSize = new System.Drawing.Size(1134, 662);
             this.Controls.Add(this.mainControl);
             this.Controls.Add(this.mainMenu);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

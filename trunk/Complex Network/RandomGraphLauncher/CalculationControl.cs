@@ -431,9 +431,9 @@ namespace RandomGraphLauncher
                         listBox.Items.Add("Permanent");
                         listBox.SelectedIndex = 1;
                         listBox.BackColor = Color.White;
-                        listBox.Location = new Point(105, position);
+                        listBox.Location = new Point(150, position);
                         listBox.Width = 100;
-                        textBoxLabel = new Label() { Width = 100 };
+                        textBoxLabel = new Label() { Width = 150 };
                         textBoxLabel.Location = new Point(15, position);
                         textBoxLabel.Text = paramInfo.Name;
                         generationParamsControls.Add(p, listBox);
@@ -451,8 +451,6 @@ namespace RandomGraphLauncher
                             generationParamsControls.Add(p, permanentcheck);
                             genParamsGrp.Controls.Add(permanentcheck);
                             position += 25;
-
-
                         }
                         else
                         {
@@ -460,13 +458,13 @@ namespace RandomGraphLauncher
                             {
                                 control = new TextBox();
                                 control.Width = 100;
-                                control.Location = new Point(105, position);
+                                control.Location = new Point(150, position);
                                 if (paramInfo.Name.Equals("Initial Probability"))
                                 {
                                     control.Text = "0";
                                 }
 
-                                textBoxLabel = new Label() { Width = 55 };
+                                textBoxLabel = new Label() { Width = 100 };
                                 textBoxLabel.Location = new Point(15, position);
 
                                 textBoxLabel.Text = paramInfo.Name;
@@ -494,7 +492,7 @@ namespace RandomGraphLauncher
                 control.Width = 100;
                 control.Tag = "FilePath";
                 control.Location = new Point(105, position);
-                textBoxLabel = new Label() { Width = 100 };
+                textBoxLabel = new Label() { Width = 150 };
                 textBoxLabel.Location = new Point(15, position);
                 textBoxLabel.Text = "File Path";
                 genParamsGrp.Controls.Add(control);
@@ -533,14 +531,12 @@ namespace RandomGraphLauncher
                     cyclesLowCmb.Show();
                     cycles.Show();
                 }
-
                 if ((opt & availableOptions) == opt && opt == AnalyseOptions.TriangleTrajectory)
                 {
-                   
-                        this.permanentcheck.Visible = true;
-                        constantInputLabel.Show();
-                        constantInput.Show();
-                   
+                    this.constantInputLabel.Show();
+                    this.constantInput.Show();
+                    this.stepcountLabel.Show();
+                    this.stepcountInput.Show();
                 }
             }
         }
