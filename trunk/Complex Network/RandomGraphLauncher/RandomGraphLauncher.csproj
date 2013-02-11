@@ -92,6 +92,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Numerics" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Discovery" />
     <Reference Include="System.Web.Extensions" />

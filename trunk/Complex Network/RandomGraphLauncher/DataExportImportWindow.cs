@@ -7,22 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Data.ConnectionUI;
+using System.Numerics;
+
 using RandomGraph.Common.Storage;
+using RandomGraph.Common.Model.Generation;
+using RandomGraph.Common.Model.Result;
 using ResultStorage.Storage;
 using System.Configuration;
 using CommonLibrary.Model.Result;
-using log4net;
-
 using RandomGraph.Settings;
+using Model.ERModel;
 
 namespace RandomGraphLauncher
 {
+    // Реализация формы для проверки соответствия модели.
     public partial class DataExportImportWindow : Form
     {
-        /// <summary>
-        /// The logger static object for monitoring.
-        /// </summary>
-        protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(DataExportImportWindow));
         private DataConnectionDialog dcd = new DataConnectionDialog();
         private IResultStorage storageManager;
 
@@ -39,7 +39,11 @@ namespace RandomGraphLauncher
 
             this.LocationTxt.Text = StorageDirectory;
             this.textBoxConnStr.Text = ConnectionString;
+            this.xmlLocationTxt.Text = StorageDirectory;
+            this.connectionStringTxt.Text = ConnectionString;
         }
+
+        // Обработчики сообщений.
 
         private void Browse_Click(object sender, EventArgs e)
         {
@@ -118,5 +122,87 @@ namespace RandomGraphLauncher
             SQL_into_XML_Button.Enabled = !freeze;
         }
 
+        private void externalBrowse_Click(object sender, EventArgs e)
+        {
+            if (BrowseDlg.ShowDialog() == DialogResult.OK)
+            {
+                this.externalLocationTxt.Text = BrowseDlg.SelectedPath;
+            }
+        }
+
+        private void xmlBrowse_Click(object sender, EventArgs e)
+        {
+            if (BrowseDlg.ShowDialog() == DialogResult.OK)
+            {
+                this.xmlLocationTxt.Text = BrowseDlg.SelectedPath;
+            }
+        }
+
+        private void Connections_Click(object sender, EventArgs e)
+        {
+            dcd = new DataConnectionDialog();
+            DataConnectionConfiguration dcs = new DataConnectionConfiguration(null);
+            dcs.LoadConfiguration(dcd);
+
+            if (dcd.SelectedDataProvider != null && dcd.SelectedDataSource != null)
+            {
+                dcd.ConnectionString = ConnectionString;
+            }
+            if (DataConnectionDialog.Show(dcd) == DialogResult.OK)
+            {
+                textBoxConnStr.Text = dcd.ConnectionString;
+            }
+            dcs.SaveConfiguration(dcd);
+        }
+
+        private void fromFileXml_Click(object sender, EventArgs e)
+        {
+            ResultAssembly result = new ResultAssembly();
+
+            result.Name = result.ID.ToString();
+            result.ModelType = typeof(ERModel);
+            result.ModelName = result.ModelType.Name;
+
+            result.GenerationParams.Add(GenerationParam.Vertices, GetN());
+            result.GenerationParams.Add(GenerationParam.P, GetP());
+
+            AnalizeResult r = new AnalizeResult();
+            r.Size = GetN();
+            r.TriangleTrajectory = GetDictionary();
+            r.trajectoryMu = GetMu();
+            r.trajectoryStepCount = (BigInteger)GetDictionary().Count();
+
+            result.Results.Add(r);
+
+            IResultStorage xmlStorage = new XMLResultStorage(this.xmlLocationTxt.Text);
+            xmlStorage.Save(result);
+        }
+
+        private void fromFileSql_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        // Утилиты.
+
+        private int GetN()
+        {
+            return 0;
+        }
+
+        private double GetP()
+        {
+            return 0.0;
+        }
+
+        private BigInteger GetMu()
+        {
+            return 0;
+        }
+
+        private SortedDictionary<int, double> GetDictionary()
+        {
+            return new SortedDictionary<int, double>();
+        }
     }
 }
