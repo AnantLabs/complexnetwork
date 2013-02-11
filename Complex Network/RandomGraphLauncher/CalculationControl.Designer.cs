@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.permanentcheck = new System.Windows.Forms.CheckBox();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CalculationControl));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.permanentcheck = new System.Windows.Forms.CheckBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.infoGrp = new System.Windows.Forms.GroupBox();
             this.description = new System.Windows.Forms.Label();
@@ -101,6 +101,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.axShockwaveFlash1)).BeginInit();
             this.SuspendLayout();
             // 
+            // permanentcheck
+            // 
+            this.permanentcheck.Location = new System.Drawing.Point(0, 0);
+            this.permanentcheck.Name = "permanentcheck";
+            this.permanentcheck.Size = new System.Drawing.Size(104, 24);
+            this.permanentcheck.TabIndex = 0;
+            // 
             // splitContainer1
             // 
             this.splitContainer1.BackColor = System.Drawing.Color.White;
@@ -122,7 +129,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Panel2MinSize = 100;
-            this.splitContainer1.Size = new System.Drawing.Size(820, 476);
+            this.splitContainer1.Size = new System.Drawing.Size(1100, 650);
             this.splitContainer1.SplitterDistance = 293;
             this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 0;
@@ -165,7 +172,7 @@
             this.genParamsGrp.Controls.Add(this.label2);
             this.genParamsGrp.Location = new System.Drawing.Point(160, 3);
             this.genParamsGrp.Name = "genParamsGrp";
-            this.genParamsGrp.Size = new System.Drawing.Size(274, 285);
+            this.genParamsGrp.Size = new System.Drawing.Size(554, 285);
             this.genParamsGrp.TabIndex = 5;
             this.genParamsGrp.TabStop = false;
             this.genParamsGrp.Text = "Generation Parameters";
@@ -194,7 +201,7 @@
             this.optionsGrp.Controls.Add(this.motiveHighCmb);
             this.optionsGrp.Controls.Add(this.motiveLowCmb);
             this.optionsGrp.Controls.Add(this.optionsCheckList);
-            this.optionsGrp.Location = new System.Drawing.Point(440, 3);
+            this.optionsGrp.Location = new System.Drawing.Point(720, 3);
             this.optionsGrp.Name = "optionsGrp";
             this.optionsGrp.Size = new System.Drawing.Size(375, 285);
             this.optionsGrp.TabIndex = 4;
@@ -253,6 +260,7 @@
             this.constantInputLabel.Size = new System.Drawing.Size(44, 18);
             this.constantInputLabel.TabIndex = 9;
             this.constantInputLabel.Text = "Nu";
+            this.constantInputLabel.Visible = false;
             // 
             // constantInput
             // 
@@ -269,6 +277,7 @@
             this.stepcountInput.Name = "stepcountInput";
             this.stepcountInput.Size = new System.Drawing.Size(80, 20);
             this.stepcountInput.TabIndex = 11;
+            this.stepcountInput.Visible = false;
             this.stepcountInput.TextChanged += new System.EventHandler(this.stepcount_InputChange);
             // 
             // stepcountLabel
@@ -278,6 +287,7 @@
             this.stepcountLabel.Size = new System.Drawing.Size(44, 14);
             this.stepcountLabel.TabIndex = 12;
             this.stepcountLabel.Text = "Steps";
+            this.stepcountLabel.Visible = false;
             // 
             // cyclesHighCmb
             // 
@@ -390,7 +400,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.calculationStatusGrp);
             this.splitContainer2.Panel2.Controls.Add(this.axShockwaveFlash1);
-            this.splitContainer2.Size = new System.Drawing.Size(820, 177);
+            this.splitContainer2.Size = new System.Drawing.Size(1100, 351);
             this.splitContainer2.SplitterDistance = 71;
             this.splitContainer2.SplitterWidth = 6;
             this.splitContainer2.TabIndex = 19;
@@ -488,7 +498,7 @@
             this.calculationStatusGrp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.calculationStatusGrp.Location = new System.Drawing.Point(0, 0);
             this.calculationStatusGrp.Name = "calculationStatusGrp";
-            this.calculationStatusGrp.Size = new System.Drawing.Size(818, 98);
+            this.calculationStatusGrp.Size = new System.Drawing.Size(1098, 272);
             this.calculationStatusGrp.TabIndex = 17;
             this.calculationStatusGrp.TabStop = false;
             this.calculationStatusGrp.Text = "Current Progress";
@@ -498,9 +508,9 @@
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 70);
+            this.toolStrip1.Location = new System.Drawing.Point(3, 244);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(812, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1092, 25);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -531,7 +541,7 @@
             this.calculationStatusGrd.ReadOnly = true;
             this.calculationStatusGrd.RowHeadersVisible = false;
             this.calculationStatusGrd.RowTemplate.Height = 35;
-            this.calculationStatusGrd.Size = new System.Drawing.Size(812, 51);
+            this.calculationStatusGrd.Size = new System.Drawing.Size(1092, 225);
             this.calculationStatusGrd.TabIndex = 4;
             this.calculationStatusGrd.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableCellClick);
             // 
@@ -607,7 +617,7 @@
             this.axShockwaveFlash1.Location = new System.Drawing.Point(0, 0);
             this.axShockwaveFlash1.Name = "axShockwaveFlash1";
             this.axShockwaveFlash1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axShockwaveFlash1.OcxState")));
-            this.axShockwaveFlash1.Size = new System.Drawing.Size(818, 98);
+            this.axShockwaveFlash1.Size = new System.Drawing.Size(1098, 272);
             this.axShockwaveFlash1.TabIndex = 18;
             // 
             // checkModel
@@ -667,7 +677,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.Name = "CalculationControl";
-            this.Size = new System.Drawing.Size(820, 476);
+            this.Size = new System.Drawing.Size(1100, 650);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
