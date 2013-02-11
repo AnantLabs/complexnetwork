@@ -255,7 +255,7 @@ namespace Model.ERModel.Realization
         public override SortedDictionary<int, double> GetTrianglesTrajectory(BigInteger constant, BigInteger stepcount)
         {
           
-            log.Error("Getting triangle trajectory.");
+            log.Info("Getting triangle trajectory.");
 
             var tarctory = new SortedDictionary<int, double>();
 
@@ -310,25 +310,19 @@ namespace Model.ERModel.Realization
 
             while (time != stepcount)
             {
-                time++;
-
-                var count = 0;
-
-                var tempcontainer = Transformations(currentContainer, out count);
-
-                int trangleCount = currentcounttriangle + count;
-
-                var delta = trangleCount - currentcounttriangle;
-
-                if (delta > 0)
+                try
                 {
-                    currentContainer = tempcontainer.Copy();
-                    currentcounttriangle = trangleCount;
-                    tarctory.Add(time, currentcounttriangle);
-                }
-                else
-                {
-                    if (new Random().NextDouble() < CalculatePropability(delta, constant))
+                    time++;
+
+                    var count = 0;
+
+                    var tempcontainer = Transformations(currentContainer, out count);
+
+                    int trangleCount = currentcounttriangle + count;
+
+                    var delta = trangleCount - currentcounttriangle;
+
+                    if (delta > 0)
                     {
                         currentContainer = tempcontainer.Copy();
                         currentcounttriangle = trangleCount;
@@ -336,9 +330,22 @@ namespace Model.ERModel.Realization
                     }
                     else
                     {
-                        tarctory.Add(time, currentcounttriangle);
-                    }
+                        if (new Random().NextDouble() < CalculatePropability(delta, constant))
+                        {
+                            currentContainer = tempcontainer.Copy();
+                            currentcounttriangle = trangleCount;
+                            tarctory.Add(time, currentcounttriangle);
+                        }
+                        else
+                        {
+                            tarctory.Add(time, currentcounttriangle);
+                        }
 
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error(String.Format("Error occurred in step {0} ,Error message {1} ", stepcount, ex.InnerException));
                 }
             }
 
@@ -554,7 +561,7 @@ namespace Model.ERModel.Realization
 
             try
             {
-               
+
                 var random = new Random();
 
                 var removeedje = random.Next(0, tranformation.Edjes.Count - 1);
@@ -567,7 +574,7 @@ namespace Model.ERModel.Realization
                 //Remove edje 
                 tranformation.Neighbourship[tranformation.Edjes[removeedje].Key].Remove(tranformation.Edjes[removeedje].Value);
                 tranformation.Neighbourship[tranformation.Edjes[removeedje].Value].Remove(tranformation.Edjes[removeedje].Key);
-                
+
 
                 tranformation.NoEdjes.Add(tranformation.Edjes[removeedje]);
                 tranformation.Edjes.RemoveAt(removeedje);
@@ -577,43 +584,16 @@ namespace Model.ERModel.Realization
                 tranformation.Neighbourship[tranformation.NoEdjes[addEdje].Key].Add(tranformation.NoEdjes[addEdje].Value);
                 tranformation.Neighbourship[tranformation.NoEdjes[addEdje].Value].Add(tranformation.NoEdjes[addEdje].Key);
 
-                int addtriangle = CountTriangle(tranformation.NoEdjes[addEdje].Key, 
+                int addtriangle = CountTriangle(tranformation.NoEdjes[addEdje].Key,
                     tranformation.NoEdjes[addEdje].Value, tranformation);
-                
+
                 //add edje
                 tranformation.Edjes.Add(tranformation.NoEdjes[addEdje]);
                 tranformation.NoEdjes.RemoveAt(addEdje);
 
                 triangle = addtriangle - removetriangle;
-
-
-
-                //var random = new Random();
-                //var list = new List<int>();
-                //int randomvertix = random.Next(0, container.Size);
-                //int randomedge = container.Neighbourship[randomvertix][random.Next(0, container.Neighbourship[randomvertix].Count)];
-                //for (int i = 0; i < container.Size; i++)
-                //{
-                //    if (!container.Neighbourship[randomvertix].Contains(i))
-                //    {
-                //        list.Add(i);
-                //    }
-                //}
-
-                //int newedge = list[random.Next(0, list.Count)];
-
-                ////Make transfer edges
-
-                ////Remove edge
-                //container.Neighbourship[randomvertix].Remove(randomedge);
-                //container.Neighbourship[randomedge].Remove(randomvertix);
-
-                ////Add edge
-
-                //container.Neighbourship[randomvertix].Add(newedge);
-                //container.Neighbourship[newedge].Add(randomvertix);
-               
             }
+
             catch (Exception ex)
             {
                 log.Error("Error according when transforms edges");
@@ -626,6 +606,7 @@ namespace Model.ERModel.Realization
         private  int CountTriangle(int i, int j,ERContainer container)
         {
             var list = container.Neighbourship[j];
+
             int count = 0;
             for (int t = 0; t < list.Count; t++)
             {
