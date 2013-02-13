@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Microsoft.Data.ConnectionUI;
 using System.Numerics;
+using System.IO;
 
 using RandomGraph.Common.Storage;
 using RandomGraph.Common.Model.Generation;
@@ -155,7 +156,101 @@ namespace RandomGraphLauncher
             dcs.SaveConfiguration(dcd);
         }
 
+        private int N = 0;
+        private double p = 0.0;
+        private double mu = 0.0;
+        private bool perm = false;
+        private List<SortedDictionary<int, double>> dictionaries = new List<SortedDictionary<int, double>>();
+
         private void fromFileXml_Click(object sender, EventArgs e)
+        {
+            ReadDirectory();            
+
+            IResultStorage xmlStorage = new XMLResultStorage(this.xmlLocationTxt.Text);
+            xmlStorage.Save(CreateAssembly());
+        }
+
+        private void fromFileSql_Click(object sender, EventArgs e)
+        {
+            ReadDirectory();
+
+            IResultStorage sqlStorage = new SQLResultStorage(new ConnectionStringSettings("a", 
+                this.connectionStringTxt.Text, "System.Data.SqlClient"));
+            sqlStorage.Save(CreateAssembly());
+        }
+
+        // Утилиты.
+
+        private void ReadDirectory()
+        {
+            DirectoryInfo d = new DirectoryInfo(this.externalLocationTxt.Text);
+            string dictionaryName = d.Name;
+
+            // Получение значение параметра N из имени каталога.
+            int i = 1;
+            string paramN = "";
+            while (dictionaryName[i] != '_')
+            {
+                paramN += dictionaryName[i];
+                ++i;
+            }
+            this.N = Convert.ToInt32(paramN);
+
+            // Получение значение параметра p из имени каталога.
+            i += 2;
+            string paramP = "";
+            while (dictionaryName[i] != '_')
+            {
+                paramP += dictionaryName[i];
+                ++i;
+            }
+            this.p = Convert.ToDouble(paramP);
+
+            // Получение значение параметра mu из имени каталога.
+            i += 2;
+            string paramMu = "";
+            while (dictionaryName[i] != '_')
+            {
+                paramMu += dictionaryName[i];
+                ++i;
+            }
+            this.mu = Convert.ToDouble(paramMu);
+
+            // Получение значение параметра Permanent из имени каталога.
+            ++i;
+            string paramPerm = dictionaryName.Substring(i);
+            this.perm = (paramPerm == "F") ? false : true;
+
+            // Получение пар значений из файлов данного каталога.
+            FileInfo[] f = d.GetFiles();
+            foreach (FileInfo fInfo in f)
+            {
+                SortedDictionary<int, double> dict= new SortedDictionary<int, double>();
+                StreamReader streamReader;
+                using (streamReader = new StreamReader(fInfo.FullName, System.Text.Encoding.Default))
+                {
+                    string contents;
+                    while ((contents = streamReader.ReadLine()) != null)
+                    {
+                        string first = "", second = "";
+                        int j = 0;
+                        while (contents[j] != ' ')
+                        {
+                            first += contents[j];
+                            ++j;
+                        }
+
+                        second = contents.Substring(j);
+
+                        dict.Add(Convert.ToInt32(first), Convert.ToDouble(second));
+                    }
+                }
+
+                this.dictionaries.Add(dict);
+            }
+        }
+
+        private ResultAssembly CreateAssembly()
         {
             ResultAssembly result = new ResultAssembly();
 
@@ -163,46 +258,23 @@ namespace RandomGraphLauncher
             result.ModelType = typeof(ERModel);
             result.ModelName = result.ModelType.Name;
 
-            result.GenerationParams.Add(GenerationParam.Vertices, GetN());
-            result.GenerationParams.Add(GenerationParam.P, GetP());
+            result.GenerationParams.Add(GenerationParam.Vertices, this.N);
+            result.GenerationParams.Add(GenerationParam.P, this.p);
+            result.GenerationParams.Add(GenerationParam.Permanent, this.perm);
 
-            AnalizeResult r = new AnalizeResult();
-            r.Size = GetN();
-            r.TriangleTrajectory = GetDictionary();
-            r.trajectoryMu = GetMu();
-            r.trajectoryStepCount = (BigInteger)GetDictionary().Count();
+            foreach (SortedDictionary<int, double> t in this.dictionaries)
+            {
+                AnalizeResult r = new AnalizeResult();
 
-            result.Results.Add(r);
+                r.Size = this.N;
+                r.TriangleTrajectory = t;
+                r.trajectoryMu = (BigInteger)this.mu;
+                r.trajectoryStepCount = (BigInteger)this.dictionaries.Count;
 
-            IResultStorage xmlStorage = new XMLResultStorage(this.xmlLocationTxt.Text);
-            xmlStorage.Save(result);
-        }
+                result.Results.Add(r);
+            }
 
-        private void fromFileSql_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        // Утилиты.
-
-        private int GetN()
-        {
-            return 0;
-        }
-
-        private double GetP()
-        {
-            return 0.0;
-        }
-
-        private BigInteger GetMu()
-        {
-            return 0;
-        }
-
-        private SortedDictionary<int, double> GetDictionary()
-        {
-            return new SortedDictionary<int, double>();
+            return result;
         }
     }
 }
