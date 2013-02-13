@@ -66,8 +66,8 @@ namespace ResultStorage.Storage
                 log.Info("Saving data to Assemblies table.");
                 using (DbCommand cmd = conn.CreateCommand())
                 {
-                    string sqlQuery = "INSERT INTO Assemblies(AssemblyID,ModelID,Name,Date)" + 
-                        "VALUES(@AssemblyID,@ModelID,@Name,getDate())";
+                    string sqlQuery = "INSERT INTO Assemblies(AssemblyID,ModelID,Name,Date,NetworkSize)" +
+                        "VALUES(@AssemblyID,@ModelID,@Name,getDate(),@NetworkSize)";
                     cmd.CommandText = sqlQuery;
                     cmd.CommandType = CommandType.Text;
 
@@ -85,6 +85,11 @@ namespace ResultStorage.Storage
                     dpName.ParameterName = "Name";
                     dpName.Value = assembly.Name;
                     cmd.Parameters.Add(dpName);
+
+                    DbParameter dpSize = provider.CreateParameter();
+                    dpSize.ParameterName = "NetworkSize";
+                    dpSize.Value = assembly.Results[0].Size;
+                    cmd.Parameters.Add(dpSize);
 
                     cmd.ExecuteNonQuery();
                 }
