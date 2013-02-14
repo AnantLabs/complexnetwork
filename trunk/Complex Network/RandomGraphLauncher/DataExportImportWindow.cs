@@ -25,23 +25,10 @@ namespace RandomGraphLauncher
     public partial class DataExportImportWindow : Form
     {
         private DataConnectionDialog dcd = new DataConnectionDialog();
-        private IResultStorage storageManager;
-
-        public string StorageDirectory { get; set; }
-        public string ConnectionString { get; set; }
 
         public DataExportImportWindow()
         {
-            this.storageManager = Options.StorageManager;
-            this.StorageDirectory = Options.StorageDirectory;
-            this.ConnectionString = Options.ConnectionString;
-
             InitializeComponent();
-
-            this.LocationTxt.Text = StorageDirectory;
-            this.textBoxConnStr.Text = ConnectionString;
-            this.xmlLocationTxt.Text = StorageDirectory;
-            this.connectionStringTxt.Text = ConnectionString;
         }
 
         // Обработчики сообщений.
@@ -60,10 +47,6 @@ namespace RandomGraphLauncher
             DataConnectionConfiguration dcs = new DataConnectionConfiguration(null);
             dcs.LoadConfiguration(dcd);
 
-            if (dcd.SelectedDataProvider != null && dcd.SelectedDataSource != null)
-            {
-                dcd.ConnectionString = ConnectionString;
-            }
             if (DataConnectionDialog.Show(dcd) == DialogResult.OK)
             {
                 textBoxConnStr.Text = dcd.ConnectionString;
@@ -73,7 +56,8 @@ namespace RandomGraphLauncher
 
         private void XML_into_SQL_Button_Click(object sender, EventArgs e)
         {
-            IResultStorage sqlStorage = new SQLResultStorage(new ConnectionStringSettings("a", textBoxConnStr.Text, "System.Data.SqlClient"));
+            IResultStorage sqlStorage = new SQLResultStorage(new ConnectionStringSettings("a", 
+                textBoxConnStr.Text, "System.Data.SqlClient"));
             IResultStorage xmlStorage = new XMLResultStorage(LocationTxt.Text);
 
             FreezeButtons(true);
@@ -89,8 +73,74 @@ namespace RandomGraphLauncher
             FreezeButtons(true);
             TransferData(sqlStorage, xmlStorage);
             FreezeButtons(false);
+        }        
+
+        private void externalBrowse_Click(object sender, EventArgs e)
+        {
+            if (BrowseDlg.ShowDialog() == DialogResult.OK)
+            {
+                this.externalLocationTxt.Text = BrowseDlg.SelectedPath;
+            }
         }
 
+        private void xmlBrowse_Click(object sender, EventArgs e)
+        {
+            if (BrowseDlg.ShowDialog() == DialogResult.OK)
+            {
+                this.xmlLocationTxt.Text = BrowseDlg.SelectedPath;
+            }
+        }
+
+        private void fromFileXml_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                IResultStorage xmlStorage = new XMLResultStorage(this.xmlLocationTxt.Text);
+
+                FreezeButtons(true);
+                DirectoryInfo parentDir = new DirectoryInfo(this.externalLocationTxt.Text);
+                foreach (DirectoryInfo dir in parentDir.GetDirectories())
+                {
+                    ReadDirectory(dir.FullName);
+                    xmlStorage.Save(CreateAssembly());
+                }
+                FreezeButtons(false);
+
+                MessageBox.Show("Data transfer succeed", "Success");
+            }
+            catch (SystemException)
+            {
+                MessageBox.Show("Data transfer failed", "Failed");
+            }
+        }
+
+        private void fromFileSql_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                IResultStorage sqlStorage = new SQLResultStorage(new ConnectionStringSettings("a",
+                    this.connectionStringTxt.Text, "System.Data.SqlClient"));
+
+                FreezeButtons(true);
+                DirectoryInfo parentDir = new DirectoryInfo(this.externalLocationTxt.Text);
+                foreach (DirectoryInfo dir in parentDir.GetDirectories())
+                {
+                    ReadDirectory(dir.FullName);
+                    sqlStorage.Save(CreateAssembly());
+                }
+                FreezeButtons(false);
+
+                MessageBox.Show("Data transfer succeed", "Success");
+            }
+            catch (SystemException)
+            {
+                MessageBox.Show("Data transfer failed", "Failed");
+            }
+        }
+
+        // Утилиты.
+
+        // Перевод информации с одного хранилища данных на другое.
         private void TransferData(IResultStorage from, IResultStorage into)
         {
             try
@@ -117,73 +167,45 @@ namespace RandomGraphLauncher
 
         private void FreezeButtons(bool freeze)
         {
-            Browse.Enabled = !freeze;
-            AddConnection.Enabled = !freeze;
-            XML_into_SQL_Button.Enabled = !freeze;
-            SQL_into_XML_Button.Enabled = !freeze;
-        }
-
-        private void externalBrowse_Click(object sender, EventArgs e)
-        {
-            if (BrowseDlg.ShowDialog() == DialogResult.OK)
+            switch (this.mainTab.SelectedIndex)
             {
-                this.externalLocationTxt.Text = BrowseDlg.SelectedPath;
+                case 0:
+                    {
+                        this.Browse.Enabled = !freeze;
+                        this.AddConnection.Enabled = !freeze;
+                        this.XML_into_SQL_Button.Enabled = !freeze;
+                        this.SQL_into_XML_Button.Enabled = !freeze;
+
+                        break;
+                    }
+                case 1:
+                    {
+                        this.externalBrowse.Enabled = !freeze;
+                        this.xmlBrowse.Enabled = !freeze;
+                        this.Connections.Enabled = !freeze;
+                        this.fromFileXml.Enabled = !freeze;
+                        this.fromFileSql.Enabled = !freeze;
+
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
             }
         }
 
-        private void xmlBrowse_Click(object sender, EventArgs e)
-        {
-            if (BrowseDlg.ShowDialog() == DialogResult.OK)
-            {
-                this.xmlLocationTxt.Text = BrowseDlg.SelectedPath;
-            }
-        }
-
-        private void Connections_Click(object sender, EventArgs e)
-        {
-            dcd = new DataConnectionDialog();
-            DataConnectionConfiguration dcs = new DataConnectionConfiguration(null);
-            dcs.LoadConfiguration(dcd);
-
-            if (dcd.SelectedDataProvider != null && dcd.SelectedDataSource != null)
-            {
-                dcd.ConnectionString = ConnectionString;
-            }
-            if (DataConnectionDialog.Show(dcd) == DialogResult.OK)
-            {
-                textBoxConnStr.Text = dcd.ConnectionString;
-            }
-            dcs.SaveConfiguration(dcd);
-        }
-
+        // Значения параметров генерации и результатов анализа из внешнего файла (директории).
         private int N = 0;
         private double p = 0.0;
         private double mu = 0.0;
         private bool perm = false;
-        private List<SortedDictionary<int, double>> dictionaries = new List<SortedDictionary<int, double>>();
+        private List<SortedDictionary<int, double>> dictionaries = 
+            new List<SortedDictionary<int, double>>();
 
-        private void fromFileXml_Click(object sender, EventArgs e)
+        private void ReadDirectory(string fullName)
         {
-            ReadDirectory();            
-
-            IResultStorage xmlStorage = new XMLResultStorage(this.xmlLocationTxt.Text);
-            xmlStorage.Save(CreateAssembly());
-        }
-
-        private void fromFileSql_Click(object sender, EventArgs e)
-        {
-            ReadDirectory();
-
-            IResultStorage sqlStorage = new SQLResultStorage(new ConnectionStringSettings("a", 
-                this.connectionStringTxt.Text, "System.Data.SqlClient"));
-            sqlStorage.Save(CreateAssembly());
-        }
-
-        // Утилиты.
-
-        private void ReadDirectory()
-        {
-            DirectoryInfo d = new DirectoryInfo(this.externalLocationTxt.Text);
+            DirectoryInfo d = new DirectoryInfo(fullName);
             string dictionaryName = d.Name;
 
             // Получение значение параметра N из имени каталога.
@@ -250,6 +272,7 @@ namespace RandomGraphLauncher
             }
         }
 
+        // Создание ансамбля из внешних данных.
         private ResultAssembly CreateAssembly()
         {
             ResultAssembly result = new ResultAssembly();
@@ -269,7 +292,7 @@ namespace RandomGraphLauncher
                 r.Size = this.N;
                 r.TriangleTrajectory = t;
                 r.trajectoryMu = (BigInteger)this.mu;
-                r.trajectoryStepCount = (BigInteger)this.dictionaries.Count;
+                r.trajectoryStepCount = (BigInteger)t.Count;
 
                 result.Results.Add(r);
             }
