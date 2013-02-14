@@ -326,7 +326,7 @@
             this.Connections.TabIndex = 21;
             this.Connections.Text = "Connections";
             this.Connections.UseVisualStyleBackColor = true;
-            this.Connections.Click += new System.EventHandler(this.Connections_Click);
+            this.Connections.Click += new System.EventHandler(this.AddConnection_Click);
             // 
             // fromFileXml
             // 
