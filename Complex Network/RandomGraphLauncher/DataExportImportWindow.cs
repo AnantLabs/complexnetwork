@@ -244,6 +244,7 @@ namespace RandomGraphLauncher
             this.perm = (paramPerm == "F") ? false : true;
 
             // Получение пар значений из файлов данного каталога.
+            this.dictionaries.Clear();
             FileInfo[] f = d.GetFiles();
             foreach (FileInfo fInfo in f)
             {
