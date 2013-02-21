@@ -94,26 +94,7 @@ namespace ResultStorage.Storage
                     cmd.ExecuteNonQuery();
                 }
 
-                log.Info("Saving data to AssemblyResults table.");
-                foreach (AnalizeResult result in assembly.Results)
-                {
-                    int resultsID = 0;
-                    using (DbCommand cmd = conn.CreateCommand())
-                    {
-                        string sqlQuery = "INSERT INTO AssemblyResults(AssemblyID) VALUES(@AssemblyID) " +
-                                            "SELECT ResultsID FROM AssemblyResults WHERE ResultsID=SCOPE_IDENTITY()";
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-
-                        DbParameter dpAssemblyID = provider.CreateParameter();
-                        dpAssemblyID.ParameterName = "AssemblyID";
-                        dpAssemblyID.Value = assembly.ID;
-                        cmd.Parameters.Add(dpAssemblyID);
-
-                        resultsID = (int) cmd.ExecuteScalar();
-                    }
-
-                    log.Info("Saving generation params values in DB.");
+                log.Info("Saving generation params values in DB.");
                     foreach (GenerationParam genParameter in assembly.GenerationParams.Keys)
                     {
                         using (DbCommand cmd = conn.CreateCommand())
@@ -140,6 +121,25 @@ namespace ResultStorage.Storage
 
                             cmd.ExecuteNonQuery();
                         }
+                    }
+
+                log.Info("Saving data to AssemblyResults table.");
+                foreach (AnalizeResult result in assembly.Results)
+                {
+                    int resultsID = 0;
+                    using (DbCommand cmd = conn.CreateCommand())
+                    {
+                        string sqlQuery = "INSERT INTO AssemblyResults(AssemblyID) VALUES(@AssemblyID) " +
+                                            "SELECT ResultsID FROM AssemblyResults WHERE ResultsID=SCOPE_IDENTITY()";
+                        cmd.CommandText = sqlQuery;
+                        cmd.CommandType = CommandType.Text;
+
+                        DbParameter dpAssemblyID = provider.CreateParameter();
+                        dpAssemblyID.ParameterName = "AssemblyID";
+                        dpAssemblyID.Value = assembly.ID;
+                        cmd.Parameters.Add(dpAssemblyID);
+
+                        resultsID = (int) cmd.ExecuteScalar();
                     }
 
                     log.Info("Saving data to AnalyzeResults table.");
