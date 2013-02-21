@@ -204,8 +204,8 @@ namespace ResultStorage.Storage
                     {
                         using (DbCommand cmd = conn.CreateCommand())
                         {
-                            string sqlQuery = "INSERT INTO AnalyzeResults(ResultsID,AnalyseOptionID,Result) " +
-                                                "VALUES(@ResultsID,@AnalyseOptionID,@Result)";
+                            string sqlQuery = "INSERT INTO AnalyzeResults(ResultsID,AnalyzeOptionID,Result) " +
+                                                "VALUES(@ResultsID,@AnalyzeOptionID,@Result)";
                             cmd.CommandText = sqlQuery;
                             cmd.CommandType = CommandType.Text;
 
@@ -215,7 +215,7 @@ namespace ResultStorage.Storage
                             cmd.Parameters.Add(dpResultsID);
 
                             DbParameter dpAnalyseOptionID = provider.CreateParameter();
-                            dpAnalyseOptionID.ParameterName = "AnalyseOptionID";
+                            dpAnalyseOptionID.ParameterName = "AnalyzeOptionID";
                             dpAnalyseOptionID.Value = Convert.ToInt32(analyseOption);
                             cmd.Parameters.Add(dpAnalyseOptionID);
 
@@ -609,7 +609,7 @@ namespace ResultStorage.Storage
                 log.Info("Loading data from tables Assemblies, GenerationParamValues.");
                 using (DbCommand cmd = conn.CreateCommand())
                 {
-                    string sqlQuery = "SELECT Assemblies.[Name], Assemblies.ModelID,GenerationParamValues.* FROM Assemblies " +
+                    string sqlQuery = "SELECT Assemblies.[Name], Assemblies.ModelID, Assemblies.NetworkSize, Assembly.FileName,GenerationParamValues.* FROM Assemblies " +
                                         "LEFT JOIN GenerationParamValues ON GenerationParamValues.AssemblyID=Assemblies.AssemblyID " +
                                         "WHERE Assemblies.AssemblyID=@AssemblyID ORDER BY GenerationParamID";
                     cmd.CommandText = sqlQuery;
@@ -627,6 +627,7 @@ namespace ResultStorage.Storage
                             resultAssembly.ModelType = GetModelType((int)dr["ModelID"]);
                             resultAssembly.Name = (string)dr["Name"];
                             resultAssembly.Size = (int)dr["NetworkSize"];
+                            resultAssembly.FileName = (string)dr["FileName"];
 
                             GenerationParam param = (GenerationParam)Enum.ToObject(typeof(GenerationParam), (int)dr["GenerationParamID"]);
 
@@ -650,6 +651,8 @@ namespace ResultStorage.Storage
                         }
                     }
                 }
+
+                // load mu stepcount !исправить!
 
                 log.Info("Loading analyze results data.");
                 using (DbCommand mainCmd = conn.CreateCommand())
@@ -692,7 +695,7 @@ namespace ResultStorage.Storage
                             {
                                 while (dr.Read())
                                 {
-                                    result.Result.Add((AnalyseOptions)Enum.ToObject(typeof(AnalyseOptions), dr["AnalyseOptionID"]), Convert.ToDouble(dr["Result"]));
+                                    result.Result.Add((AnalyseOptions)Enum.ToObject(typeof(AnalyseOptions), dr["AnalyzeOptionID"]), Convert.ToDouble(dr["Result"]));
                                 }
                             }
                         }
