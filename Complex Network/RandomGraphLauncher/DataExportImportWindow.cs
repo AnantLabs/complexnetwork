@@ -49,7 +49,23 @@ namespace RandomGraphLauncher
 
             if (DataConnectionDialog.Show(dcd) == DialogResult.OK)
             {
-                textBoxConnStr.Text = dcd.ConnectionString;
+                switch (this.mainTab.SelectedIndex)
+                {
+                    case 0:
+                        {
+                            this.textBoxConnStr.Text = dcd.ConnectionString;
+                            break;
+                        }
+                    case 1:
+                        {
+                            this.connectionStringTxt.Text = dcd.ConnectionString;
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
             }
             dcs.SaveConfiguration(dcd);
         }
@@ -132,9 +148,9 @@ namespace RandomGraphLauncher
 
                 MessageBox.Show("Data transfer succeed", "Success");
             }
-            catch (SystemException)
+            catch (SystemException ex)
             {
-                MessageBox.Show("Data transfer failed", "Failed");
+               MessageBox.Show("Data transfer failed", "Failed");
             }
         }
 
