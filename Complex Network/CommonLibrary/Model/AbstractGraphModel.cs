@@ -149,7 +149,6 @@ namespace RandomGraph.Common.Model
 
             analyzer.Container = generator.Container;
 
-            Result.Size = analyzer.Container.Size;
             try
             {
                 if ((AnalyzeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
@@ -289,6 +288,8 @@ namespace RandomGraph.Common.Model
         {
             return analyzer.Container.GetMatrix();
         }
+
+        public abstract int GetNetworkSize();
 
         /// <summary>
         /// Check input generation parameters. 

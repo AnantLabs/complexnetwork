@@ -53,6 +53,12 @@ namespace Model.ParisiHierarchicModel
             InitModel();
         }
 
+        public override int GetNetworkSize()
+        {
+            return (int)Math.Pow((Int16)this.GenerationParamValues[GenerationParam.BranchIndex],
+                (Int16)this.GenerationParamValues[GenerationParam.Level]);
+        }
+
         public override AbstractGraphModel CloneRandom()
         {
             AbstractGraphModel model = new ParisiHierarchicModel(this.GenerationParamValues,

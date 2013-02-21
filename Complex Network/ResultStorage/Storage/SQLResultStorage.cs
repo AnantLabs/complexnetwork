@@ -66,8 +66,8 @@ namespace ResultStorage.Storage
                 log.Info("Saving data to Assemblies table.");
                 using (DbCommand cmd = conn.CreateCommand())
                 {
-                    string sqlQuery = "INSERT INTO Assemblies(AssemblyID,ModelID,Name,Date,NetworkSize)" +
-                        "VALUES(@AssemblyID,@ModelID,@Name,getDate(),@NetworkSize)";
+                    string sqlQuery = "INSERT INTO Assemblies(AssemblyID,ModelID,Name,Date,NetworkSize,FileName)" +
+                        "VALUES(@AssemblyID,@ModelID,@Name,getDate(),@NetworkSize,@FileName)";
                     cmd.CommandText = sqlQuery;
                     cmd.CommandType = CommandType.Text;
 
@@ -88,40 +88,97 @@ namespace ResultStorage.Storage
 
                     DbParameter dpSize = provider.CreateParameter();
                     dpSize.ParameterName = "NetworkSize";
-                    dpSize.Value = assembly.Results[0].Size;
+                    dpSize.Value = assembly.Size;
                     cmd.Parameters.Add(dpSize);
+
+                    DbParameter dpFileName = provider.CreateParameter();
+                    dpFileName.ParameterName = "FileName";
+                    dpFileName.Value = assembly.FileName;
+                    cmd.Parameters.Add(dpFileName);
 
                     cmd.ExecuteNonQuery();
                 }
 
                 log.Info("Saving generation params values in DB.");
-                    foreach (GenerationParam genParameter in assembly.GenerationParams.Keys)
+                foreach (GenerationParam genParameter in assembly.GenerationParams.Keys)
+                {
+                    using (DbCommand cmd = conn.CreateCommand())
                     {
-                        using (DbCommand cmd = conn.CreateCommand())
-                        {
-                            string sqlQuery = "INSERT INTO GenerationParamValues(AssemblyID,GenerationParamID,Value) " +
-                                                "VALUES(@AssemblyID,@GenerationParamID,@Value)";
-                            cmd.CommandText = sqlQuery;
-                            cmd.CommandType = CommandType.Text;
+                        string sqlQuery = "INSERT INTO GenerationParamValues(AssemblyID,GenerationParamID,Value) " +
+                                            "VALUES(@AssemblyID,@GenerationParamID,@Value)";
+                        cmd.CommandText = sqlQuery;
+                        cmd.CommandType = CommandType.Text;
 
-                            DbParameter dpAssemblyID = provider.CreateParameter();
-                            dpAssemblyID.ParameterName = "AssemblyID";
-                            dpAssemblyID.Value = assembly.ID;
-                            cmd.Parameters.Add(dpAssemblyID);
+                        DbParameter dpAssemblyID = provider.CreateParameter();
+                        dpAssemblyID.ParameterName = "AssemblyID";
+                        dpAssemblyID.Value = assembly.ID;
+                        cmd.Parameters.Add(dpAssemblyID);
 
-                            DbParameter dpGenerationParamID = provider.CreateParameter();
-                            dpGenerationParamID.ParameterName = "GenerationParamID";
-                            dpGenerationParamID.Value = Convert.ToInt32(genParameter);
-                            cmd.Parameters.Add(dpGenerationParamID);
+                        DbParameter dpGenerationParamID = provider.CreateParameter();
+                        dpGenerationParamID.ParameterName = "GenerationParamID";
+                        dpGenerationParamID.Value = Convert.ToInt32(genParameter);
+                        cmd.Parameters.Add(dpGenerationParamID);
 
-                            DbParameter dpValue = provider.CreateParameter();
-                            dpValue.ParameterName = "Value";
-                            dpValue.Value = assembly.GenerationParams[genParameter].ToString();
-                            cmd.Parameters.Add(dpValue);
+                        DbParameter dpValue = provider.CreateParameter();
+                        dpValue.ParameterName = "Value";
+                        dpValue.Value = assembly.GenerationParams[genParameter].ToString();
+                        cmd.Parameters.Add(dpValue);
 
-                            cmd.ExecuteNonQuery();
-                        }
+                        cmd.ExecuteNonQuery();
                     }
+                }
+
+                // !исправить!
+                log.Info("Saving analyze option params values in DB.");
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "INSERT INTO AnalyzeOptionParamValues(AssemblyID,AnalyzeOptionParamID,Value) " +
+                                        "VALUES(@AssemblyID,@AnalyzeOptionParamID,@Value)";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter dpAssemblyID = provider.CreateParameter();
+                    dpAssemblyID.ParameterName = "AssemblyID";
+                    dpAssemblyID.Value = assembly.ID;
+                    cmd.Parameters.Add(dpAssemblyID);
+
+                    DbParameter dpGenerationParamID = provider.CreateParameter();
+                    dpGenerationParamID.ParameterName = "AnalyzeOptionParamID";
+                    dpGenerationParamID.Value = 5;
+                    cmd.Parameters.Add(dpGenerationParamID);
+
+                    DbParameter dpValue = provider.CreateParameter();
+                    dpValue.ParameterName = "Value";
+                    dpValue.Value = assembly.Results[0].trajectoryMu.ToString();
+                    cmd.Parameters.Add(dpValue);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "INSERT INTO AnalyzeOptionParamValues(AssemblyID,AnalyzeOptionParamID,Value) " +
+                                        "VALUES(@AssemblyID,@AnalyzeOptionParamID,@Value)";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter dpAssemblyID = provider.CreateParameter();
+                    dpAssemblyID.ParameterName = "AssemblyID";
+                    dpAssemblyID.Value = assembly.ID;
+                    cmd.Parameters.Add(dpAssemblyID);
+
+                    DbParameter dpGenerationParamID = provider.CreateParameter();
+                    dpGenerationParamID.ParameterName = "AnalyzeOptionParamID";
+                    dpGenerationParamID.Value = 6;
+                    cmd.Parameters.Add(dpGenerationParamID);
+
+                    DbParameter dpValue = provider.CreateParameter();
+                    dpValue.ParameterName = "Value";
+                    dpValue.Value = assembly.Results[0].trajectoryStepCount.ToString();
+                    cmd.Parameters.Add(dpValue);
+
+                    cmd.ExecuteNonQuery();
+                }
 
                 log.Info("Saving data to AssemblyResults table.");
                 foreach (AnalizeResult result in assembly.Results)
@@ -569,6 +626,7 @@ namespace ResultStorage.Storage
                         {
                             resultAssembly.ModelType = GetModelType((int)dr["ModelID"]);
                             resultAssembly.Name = (string)dr["Name"];
+                            resultAssembly.Size = (int)dr["NetworkSize"];
 
                             GenerationParam param = (GenerationParam)Enum.ToObject(typeof(GenerationParam), (int)dr["GenerationParamID"]);
 
@@ -901,6 +959,7 @@ namespace ResultStorage.Storage
                             result.ModelType = GetModelType((int)dr["ModelID"]);
                             result.ModelName = result.ModelType.Name;
                             result.Name = (string)dr["Name"];
+                            result.Size = (int)dr["NetworkSize"];
                         }
                     }
                 }
