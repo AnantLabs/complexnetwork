@@ -13,12 +13,15 @@ namespace CommonLibrary.Model.Result
         public ResultAssembly()
         {
             ID = Guid.NewGuid();
+            FileName = "none";
             Results = new List<AnalizeResult>();
             GenerationParams = new Dictionary<GenerationParam, object>();
         }
 
         public Guid ID { get; set; }
         public string Name { get; set; }
+        public int Size { get; set; }
+        public string FileName { get; set; }
         public List<AnalizeResult> Results { get; set; }
         public Type ModelType { get; set; }
         public string ModelName { get; set; }

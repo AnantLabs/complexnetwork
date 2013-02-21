@@ -35,7 +35,7 @@ namespace StatisticAnalyzer.Analyzer
                 result = new StAnalyzeResult();
 
                 result.modelName = assemblyToAnalyze[0].ModelType.Name;
-                result.networkSize = assemblyToAnalyze[0].Results[0].Size;
+                result.networkSize = assemblyToAnalyze[0].Size;
                 result.parameterLine = GetParameterLine();
                 result.realizationsCount = GetRealizationsCount();
             }
@@ -248,7 +248,7 @@ namespace StatisticAnalyzer.Analyzer
                     {
                            sumOfCoeffs += key * assemblyToAnalyze[i].Results[j].Coefficient[key];
                     }
-                    sumOfCoeffs /= assemblyToAnalyze[i].Results[0].Size;
+                    sumOfCoeffs /= assemblyToAnalyze[i].Size;
                     double index = (rValues.Count != 0) ? rValues.Last().Key : 0;
                     rValues.Add(index + 1, sumOfCoeffs);
                 }
@@ -273,7 +273,7 @@ namespace StatisticAnalyzer.Analyzer
                     {
                         sumOfDegrees += key * assemblyToAnalyze[i].Results[j].VertexDegree[key];
                     }
-                    sumOfDegrees /= assemblyToAnalyze[i].Results[0].Size;
+                    sumOfDegrees /= assemblyToAnalyze[i].Size;
                     double index = (rValues.Count != 0) ? rValues.Last().Key : 0;
                     rValues.Add(index + 1, sumOfDegrees);
                 }
@@ -431,7 +431,7 @@ namespace StatisticAnalyzer.Analyzer
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
             for (int i = 0; i < assemblyToAnalyze.Count(); ++i)
             {
-                int size = assemblyToAnalyze[i].Results[0].Size;
+                int size = assemblyToAnalyze[i].Size;
                 int instanceCount  = assemblyToAnalyze[i].Results.Count();
                 for (int j = 0; j < instanceCount; ++j)
                 {
@@ -497,7 +497,7 @@ namespace StatisticAnalyzer.Analyzer
             SortedDictionary<int, int> tempDictionary;
             for (int i = 0; i < assemblyToAnalyze.Count(); ++i)
             {
-                int size = assemblyToAnalyze[i].Results[0].Size;
+                int size = assemblyToAnalyze[i].Size;
                 int instanceCount = assemblyToAnalyze[i].Results.Count();
                 for (int j = 0; j < instanceCount; ++j)
                 {

@@ -51,6 +51,7 @@ namespace AnalyzerFramework.Manager.Impl
             Assembly.GenerationParams = origineModel.GenerationParamValues;
             Assembly.ModelType = origineModel.GetType();
             Assembly.Name = name;
+            Assembly.Size = origineModel.GetNetworkSize();
 
             OnExecutionStatusChange(new ExecutionStatusEventArgs(ExecutionStatus.Starting));
 

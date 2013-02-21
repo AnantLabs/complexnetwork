@@ -297,6 +297,7 @@ namespace RandomGraphLauncher
             result.Name = result.ID.ToString();
             result.ModelType = typeof(ERModel);
             result.ModelName = result.ModelType.Name;
+            result.Size = this.N;
 
             result.GenerationParams.Add(GenerationParam.Vertices, this.N);
             result.GenerationParams.Add(GenerationParam.P, this.p);
@@ -306,7 +307,6 @@ namespace RandomGraphLauncher
             {
                 AnalizeResult r = new AnalizeResult();
 
-                r.Size = this.N;
                 r.TriangleTrajectory = t;
                 r.trajectoryMu = (BigInteger)this.mu;
                 r.trajectoryStepCount = (BigInteger)t.Count;

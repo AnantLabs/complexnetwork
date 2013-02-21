@@ -54,6 +54,12 @@ namespace Model.BAModel
             InitModel();
         }
 
+        public override int GetNetworkSize()
+        {
+            return (Int32)this.GenerationParamValues[GenerationParam.Vertices] +
+                (Int32)this.GenerationParamValues[GenerationParam.StepCount];
+        }
+
         public override AbstractGraphModel CloneRandom()
         {
             AbstractGraphModel model = new BAModel(this.GenerationParamValues, 

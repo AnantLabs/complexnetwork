@@ -64,6 +64,10 @@ namespace ResultStorage.Storage
                 writer.WriteElementString("id", assembly.ID.ToString());
                 writer.WriteElementString("name", assembly.Name);
                 writer.WriteElementString("date", DateTime.Now.ToString());
+                writer.WriteStartElement("graphsize");
+                writer.WriteAttributeString("size", assembly.Size.ToString());
+                writer.WriteEndElement();
+                writer.WriteElementString("filename", assembly.FileName);
 
                 writer.WriteStartElement("graphmodel");
                 writer.WriteAttributeString("id", GetModelID(assembly.ModelType).ToString());
@@ -97,10 +101,6 @@ namespace ResultStorage.Storage
                     log.Info("Saving analyze results for instance - " + instanceNumber.ToString() + ".");
 
                     writer.WriteStartElement("instance");
-
-                    writer.WriteStartElement("graphsize");
-                    writer.WriteAttributeString("size", result.Size.ToString());
-                    writer.WriteEndElement();
 
                     // Сохранение результатов анализа для глобальных свойств.
                     log.Info("Saving analyze results for global options.");
@@ -278,6 +278,8 @@ namespace ResultStorage.Storage
             xml.Load(directory + assemblyID.ToString() + ".xml");
             resultAssembly.Name = xml.SelectSingleNode("/assembly/name").InnerText;
             resultAssembly.ModelType = GetModelType(int.Parse(xml.SelectSingleNode("/assembly/graphmodel").Attributes["id"].Value));
+            resultAssembly.Size = int.Parse(xml.SelectSingleNode("/assembly/graphsize").Attributes["size"].Value);
+            resultAssembly.FileName = xml.SelectSingleNode("/assembly/filename").InnerText;
 
             log.Info("Loading generation parameters values of assembly.");
             foreach (XmlNode paramNode in xml.SelectNodes("/assembly/generationparams/generationparam"))
@@ -315,8 +317,6 @@ namespace ResultStorage.Storage
                 result = new AnalizeResult();
                 results.Add(result);
                 
-                result.Size = Convert.ToInt32(paramNode.SelectSingleNode("graphsize").Attributes["size"].Value);
-
                 log.Info("Loading analyze results for global options.");
                 foreach (XmlNode item in paramNode.SelectNodes("result/item"))
                 {
@@ -440,6 +440,8 @@ namespace ResultStorage.Storage
             xml.Load(assemblyID);
             resultAssembly.Name = xml.SelectSingleNode("/assembly/name").InnerText;
             resultAssembly.ModelType = GetModelType(int.Parse(xml.SelectSingleNode("/assembly/graphmodel").Attributes["id"].Value));
+            resultAssembly.Size = int.Parse(xml.SelectSingleNode("/assembly/graphsize").Attributes["size"].Value);
+            resultAssembly.FileName = xml.SelectSingleNode("/assembly/filename").InnerText;
 
             log.Info("Loading generation parameters values of assembly.");
             foreach (XmlNode paramNode in xml.SelectNodes("/assembly/generationparams/generationparam"))
@@ -476,8 +478,6 @@ namespace ResultStorage.Storage
 
                 result = new AnalizeResult();
                 results.Add(result);
-
-                result.Size = Convert.ToInt32(paramNode.SelectSingleNode("graphsize").Attributes["size"].Value);
 
                 log.Info("Loading analyze results for global options.");
                 foreach (XmlNode item in paramNode.SelectNodes("result/item"))
@@ -611,6 +611,11 @@ namespace ResultStorage.Storage
                                 if (reader.Name == "name")
                                 {
                                     assembly.Name = reader.ReadElementString();
+                                }
+                                if (reader.Name == "graphsize")
+                                {
+                                    reader.MoveToAttribute("size");
+                                    assembly.Size = reader.ReadContentAsInt();
                                 }
                                 if (reader.Name == "graphmodel")
                                 {

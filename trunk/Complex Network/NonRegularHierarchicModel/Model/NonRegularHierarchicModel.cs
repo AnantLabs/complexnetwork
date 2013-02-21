@@ -48,6 +48,12 @@ namespace Model.NonRegularHierarchicModel
             log.Info("Creating Block-Hierarchic Non Regular model object from matrix.");
             InitModel();
         }
+
+        // !исправить!
+        public override int GetNetworkSize()
+        {
+            return 0;
+        }
         
         public override AbstractGraphModel CloneRandom()
         {
