@@ -257,59 +257,58 @@ namespace Model.ERModel.Realization
           
             log.Info("Getting triangle trajectory.");
 
-            var tarctory = new SortedDictionary<int, double>();
+            log.Error("Getting triangle trajectory.");
 
-            var tempContainer = new ERContainer();
-           
+            var stepscount = stepcount;
+            var tarctory = new SortedDictionary<int, double>();
             int time = 0;
+            int currentcounttriangle = GetCyclesForTringle(container);
+
+            Console.WriteLine(currentcounttriangle);
+
+            tarctory.Add(time, currentcounttriangle);
 
             var currentContainer = container.Copy();
 
-            int currentcounttriangle = GetCyclesForTringle(currentContainer);
-
-            tarctory.Add(time, currentcounttriangle);
+            var tempContainer = new ERContainer();
 
             while (time != stepcount)
             {
                 try
                 {
                     time++;
-
-                    var delta = 0;
-
-                    var tempcontainer = Transformations(currentContainer, out delta);
-
-                    
-                 //   int trangleCount = GetCyclesForTringle(tempcontainer);
-
-                  
+                    var count = 0;
+                    tempContainer = Transformations(currentContainer, out count);
+                    var counttriangle = GetCyclesForTringle(tempContainer);
+                    var counttriangle1 = currentcounttriangle + count;
+                    var delta = counttriangle - currentcounttriangle;
                     if (delta > 0)
                     {
-                        currentContainer = tempcontainer.Copy();
-                        Console.WriteLine(delta);
-                        Console.WriteLine(currentcounttriangle + delta);
-                        currentcounttriangle = currentcounttriangle + delta;
-                        tarctory.Add(time, currentcounttriangle);
+                        tarctory.Add(time, counttriangle);
+                        currentContainer = tempContainer.Copy();
+                        currentcounttriangle = counttriangle;
+
                     }
                     else
                     {
                         if (new Random().NextDouble() < CalculatePropability(delta, constant))
                         {
-                            currentContainer = tempcontainer.Copy();
-                            currentcounttriangle = currentcounttriangle + delta;
-                            tarctory.Add(time, currentcounttriangle);
+                            tarctory.Add(time, counttriangle);
+                            currentContainer = tempContainer.Copy();
+                            currentcounttriangle = counttriangle;
+
                         }
                         else
                         {
                             tarctory.Add(time, currentcounttriangle);
                         }
-
                     }
                 }
                 catch (Exception ex)
                 {
                     log.Error(String.Format("Error occurred in step {0} ,Error message {1} ", stepcount, ex.InnerException));
                 }
+
             }
 
             return tarctory;
