@@ -264,8 +264,6 @@ namespace Model.ERModel.Realization
             int time = 0;
             int currentcounttriangle = GetCyclesForTringle(container);
 
-            Console.WriteLine(currentcounttriangle);
-
             tarctory.Add(time, currentcounttriangle);
 
             var currentContainer = container.Copy();
@@ -279,9 +277,12 @@ namespace Model.ERModel.Realization
                     time++;
                     var count = 0;
                     tempContainer = Transformations(currentContainer, out count);
-                    var counttriangle = GetCyclesForTringle(tempContainer);
-                    var counttriangle1 = currentcounttriangle + count;
+                    //var counttriangle1 = GetCyclesForTringle(tempContainer);
+                    //Console.WriteLine(counttriangle1);
+                    var counttriangle= currentcounttriangle + count;
+                    Console.WriteLine(counttriangle);
                     var delta = counttriangle - currentcounttriangle;
+
                     if (delta > 0)
                     {
                         tarctory.Add(time, counttriangle);
@@ -535,9 +536,6 @@ namespace Model.ERModel.Realization
                 var addEdjeVertix1 = tranformation.NoEdjes[addEdje].Key;
                 var addEdjeVertix2 = tranformation.NoEdjes[addEdje].Value;
 
-
-          
-
                 //Remove edje 
                 tranformation.Neighbourship[removeedjeVertix1].Remove(removeedjeVertix2);
                 tranformation.Neighbourship[removeedjeVertix2].Remove(removeedjeVertix1);
@@ -545,6 +543,10 @@ namespace Model.ERModel.Realization
 
                 tranformation.NoEdjes.Add(tranformation.Edjes[removeedje]);
                 tranformation.Edjes.RemoveAt(removeedje);
+
+                //Count remove triangle
+                int removetriangle = CountTriangle(removeedjeVertix1,
+                   removeedjeVertix2, tranformation);
 
 
                 //add edje
@@ -558,10 +560,6 @@ namespace Model.ERModel.Realization
 
                 int addtriangle = CountTriangle(addEdjeVertix1,
                    addEdjeVertix2, tranformation);
-
-                //Count remove triangle
-                int removetriangle = CountTriangle(removeedjeVertix1,
-                   removeedjeVertix2, tranformation);
 
                 triangle = addtriangle - removetriangle;
             }
