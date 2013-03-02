@@ -18,6 +18,7 @@ namespace Model.ERModel.Realization
 
         // Контейнер, в котором содержится граф конкретной модели (ER).
         private ERContainer container;
+        static Random random1 = new Random();
 
       
         // Конструктор, получающий контейнер графа.
@@ -269,18 +270,18 @@ namespace Model.ERModel.Realization
             var currentContainer = container.Copy();
 
             var tempContainer = new ERContainer();
-
+            var randeom = new Random();
             while (time != stepcount)
             {
                 try
                 {
                     time++;
                     var count = 0;
-                    tempContainer = Transformations(currentContainer, out count);
-                    //var counttriangle1 = GetCyclesForTringle(tempContainer);
-                    //Console.WriteLine(counttriangle1);
-                    var counttriangle= currentcounttriangle + count;
-                    Console.WriteLine(counttriangle);
+                    tempContainer = Transformations(currentContainer, randeom,out count);
+                
+                   
+                    var counttriangle = currentcounttriangle + count;
+
                     var delta = counttriangle - currentcounttriangle;
 
                     if (delta > 0)
@@ -516,7 +517,7 @@ namespace Model.ERModel.Realization
             return Math.Exp((double)(-constant * Math.Abs(delta)));
         }
 
-        private  ERContainer Transformations(ERContainer trcontainer,out int  triangle)
+        private  ERContainer Transformations(ERContainer trcontainer,Random random, out int  triangle)
         {
             var tranformation = trcontainer.Copy();
 
@@ -524,8 +525,6 @@ namespace Model.ERModel.Realization
 
             try
             {
-
-                var random = new Random();
 
                 var removeedje = random.Next(0, tranformation.Edjes.Count - 1);
                 var addEdje = random.Next(0, tranformation.NoEdjes.Count - 1);
@@ -535,6 +534,7 @@ namespace Model.ERModel.Realization
 
                 var addEdjeVertix1 = tranformation.NoEdjes[addEdje].Key;
                 var addEdjeVertix2 = tranformation.NoEdjes[addEdje].Value;
+               
 
                 //Remove edje 
                 tranformation.Neighbourship[removeedjeVertix1].Remove(removeedjeVertix2);
