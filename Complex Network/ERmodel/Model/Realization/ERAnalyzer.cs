@@ -253,7 +253,7 @@ namespace Model.ERModel.Realization
             return pathDistribution;
         }
 
-        public override SortedDictionary<int, double> GetTrianglesTrajectory(BigInteger constant, BigInteger stepcount)
+        public override SortedDictionary<int, double> GetTrianglesTrajectory(double constant, BigInteger stepcount)
         {
           
             log.Info("Getting triangle trajectory.");
@@ -293,6 +293,8 @@ namespace Model.ERModel.Realization
                     }
                     else
                     {
+                       
+
                         if (new Random().NextDouble() < CalculatePropability(delta, constant))
                         {
                             tarctory.Add(time, counttriangle);
@@ -512,9 +514,9 @@ namespace Model.ERModel.Realization
         }
 
 
-        private static double CalculatePropability(long delta, BigInteger constant)
+        private static double CalculatePropability(long delta, double constant)
         {
-            return Math.Exp((double)(-constant * Math.Abs(delta)));
+            return Math.Exp((-constant * Math.Abs(delta)));
         }
 
         private  ERContainer Transformations(ERContainer trcontainer,Random random, out int  triangle)

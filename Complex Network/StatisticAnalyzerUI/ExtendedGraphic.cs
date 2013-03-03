@@ -19,7 +19,7 @@ namespace StatisticAnalyzerUI
         ZedGraphControl graphic;
         PointPairList values;
 
-        public ExtendedGraphic(SortedDictionary<BigInteger, double> dict, string paramLine, string text)
+        public ExtendedGraphic(SortedDictionary<double, double> dict, string paramLine, string text)
         {
             InitializeComponent();
 
@@ -32,8 +32,8 @@ namespace StatisticAnalyzerUI
 
             values = new PointPairList();
 
-            SortedDictionary<BigInteger, double>.KeyCollection keys = dict.Keys;
-            foreach (BigInteger i in keys)
+            SortedDictionary<double, double>.KeyCollection keys = dict.Keys;
+            foreach (double i in keys)
             {
                 values.Add(Convert.ToDouble(i.ToString()), dict[i]);
             }

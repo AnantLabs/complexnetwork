@@ -44,8 +44,8 @@ namespace StatisticAnalyzerUI
             loader.InitAssemblies();
             List<ResultAssembly> list = loader.SelectAllAssemblies();
 
-            SortedDictionary<BigInteger, double> avgs = new SortedDictionary<BigInteger,double>();
-            SortedDictionary<BigInteger, double> sigmas = new SortedDictionary<BigInteger,double>();
+            SortedDictionary<double, double> avgs = new SortedDictionary<double,double>();
+            SortedDictionary<double, double> sigmas = new SortedDictionary<double,double>();
 
             string paramLine = "";
 
