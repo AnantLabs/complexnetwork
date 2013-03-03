@@ -308,7 +308,7 @@ namespace RandomGraphLauncher
                 AnalizeResult r = new AnalizeResult();
 
                 r.TriangleTrajectory = t;
-                r.trajectoryMu = (BigInteger)this.mu;
+                r.trajectoryMu = (double)this.mu;
                 r.trajectoryStepCount = (BigInteger)t.Count;
 
                 result.Results.Add(r);

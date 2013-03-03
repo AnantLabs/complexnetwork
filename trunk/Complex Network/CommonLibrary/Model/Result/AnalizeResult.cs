@@ -62,7 +62,7 @@ namespace RandomGraph.Common.Model.Result
 
         public SortedDictionary<int, double> TriangleTrajectory { get; set; }
         // !исправить!
-        public BigInteger trajectoryMu { get; set; }
+        public double trajectoryMu { get; set; }
         public BigInteger trajectoryStepCount { get; set; }
     }
 }

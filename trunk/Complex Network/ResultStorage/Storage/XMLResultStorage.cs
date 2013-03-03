@@ -401,7 +401,7 @@ namespace ResultStorage.Storage
                 log.Info("Loading triangle trajectory.");
                 // !исправить!
                 XmlNode it = paramNode.SelectSingleNode("triangletrajectory");
-                result.trajectoryMu = BigInteger.Parse(it.Attributes["mu"].Value);
+                result.trajectoryMu = Double.Parse(it.Attributes["mu"].Value);
                 result.trajectoryStepCount = BigInteger.Parse(it.Attributes["stepcount"].Value);
                 foreach (XmlNode item in paramNode.SelectNodes("triangletrajectory/tt"))
                 {
@@ -563,7 +563,7 @@ namespace ResultStorage.Storage
                 log.Info("Loading triangle trajectory.");
                 // !исправить!
                 XmlNode it = paramNode.SelectSingleNode("triangletrajectory");
-                result.trajectoryMu = BigInteger.Parse(it.Attributes["mu"].Value);
+                result.trajectoryMu = Double.Parse(it.Attributes["mu"].Value);
                 result.trajectoryStepCount = BigInteger.Parse(it.Attributes["stepcount"].Value);
                 foreach (XmlNode item in paramNode.SelectNodes("triangletrajectory/tt"))
                 {
