@@ -35,6 +35,8 @@
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.MenuSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuSetProvider = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.extendedAnalyzeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.ModelName = new System.Windows.Forms.Label();
             this.ModelNameCmb = new System.Windows.Forms.ComboBox();
@@ -77,8 +79,6 @@
             this.PointsCheck = new System.Windows.Forms.CheckBox();
             this.GraphicsGrp = new System.Windows.Forms.GroupBox();
             this.GroupByOptionCheck = new System.Windows.Forms.CheckBox();
-            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.extendedAnalyzeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             this.LocalAnalyzeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalAnalyzeOptionsGrd)).BeginInit();
@@ -97,7 +97,7 @@
             this.MenuHelp});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(828, 24);
+            this.MenuStrip.Size = new System.Drawing.Size(848, 24);
             this.MenuStrip.TabIndex = 0;
             this.MenuStrip.Text = "MenuStrip";
             // 
@@ -115,6 +115,21 @@
             this.MenuSetProvider.Size = new System.Drawing.Size(223, 22);
             this.MenuSetProvider.Text = "Set/Change Storage Provider...";
             this.MenuSetProvider.Click += new System.EventHandler(this.MenuSetProvider_Click);
+            // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.extendedAnalyzeToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            // 
+            // extendedAnalyzeToolStripMenuItem
+            // 
+            this.extendedAnalyzeToolStripMenuItem.Name = "extendedAnalyzeToolStripMenuItem";
+            this.extendedAnalyzeToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.extendedAnalyzeToolStripMenuItem.Text = "Extended Analyze";
+            this.extendedAnalyzeToolStripMenuItem.Click += new System.EventHandler(this.extendedAnalyzeToolStripMenuItem_Click);
             // 
             // MenuHelp
             // 
@@ -145,7 +160,7 @@
             // 
             this.GenerationParametersGrp.Location = new System.Drawing.Point(325, 51);
             this.GenerationParametersGrp.Name = "GenerationParametersGrp";
-            this.GenerationParametersGrp.Size = new System.Drawing.Size(374, 167);
+            this.GenerationParametersGrp.Size = new System.Drawing.Size(374, 206);
             this.GenerationParametersGrp.TabIndex = 4;
             this.GenerationParametersGrp.TabStop = false;
             this.GenerationParametersGrp.Text = "Generation Parameters";
@@ -154,7 +169,7 @@
             // ByAllJobsCheck
             // 
             this.ByAllJobsCheck.AutoSize = true;
-            this.ByAllJobsCheck.Location = new System.Drawing.Point(717, 201);
+            this.ByAllJobsCheck.Location = new System.Drawing.Point(717, 240);
             this.ByAllJobsCheck.Name = "ByAllJobsCheck";
             this.ByAllJobsCheck.Size = new System.Drawing.Size(77, 17);
             this.ByAllJobsCheck.TabIndex = 7;
@@ -279,14 +294,14 @@
             this.LocalAnalyzeTab.Controls.Add(this.LocalDrawGraphics);
             this.LocalAnalyzeTab.Location = new System.Drawing.Point(4, 22);
             this.LocalAnalyzeTab.Name = "LocalAnalyzeTab";
-            this.LocalAnalyzeTab.Size = new System.Drawing.Size(759, 211);
+            this.LocalAnalyzeTab.Size = new System.Drawing.Size(759, 264);
             this.LocalAnalyzeTab.TabIndex = 2;
             this.LocalAnalyzeTab.Text = "Local Analyze";
             this.LocalAnalyzeTab.UseVisualStyleBackColor = true;
             // 
             // deselectLocal
             // 
-            this.deselectLocal.Location = new System.Drawing.Point(109, 175);
+            this.deselectLocal.Location = new System.Drawing.Point(109, 238);
             this.deselectLocal.Name = "deselectLocal";
             this.deselectLocal.Size = new System.Drawing.Size(75, 23);
             this.deselectLocal.TabIndex = 43;
@@ -296,7 +311,7 @@
             // 
             // selectLocal
             // 
-            this.selectLocal.Location = new System.Drawing.Point(13, 175);
+            this.selectLocal.Location = new System.Drawing.Point(13, 238);
             this.selectLocal.Name = "selectLocal";
             this.selectLocal.Size = new System.Drawing.Size(75, 23);
             this.selectLocal.TabIndex = 42;
@@ -306,7 +321,7 @@
             // 
             // localValueButton
             // 
-            this.localValueButton.Location = new System.Drawing.Point(613, 84);
+            this.localValueButton.Location = new System.Drawing.Point(613, 144);
             this.localValueButton.Name = "localValueButton";
             this.localValueButton.Size = new System.Drawing.Size(120, 37);
             this.localValueButton.TabIndex = 39;
@@ -326,7 +341,7 @@
             this.ThickeningColumn});
             this.LocalAnalyzeOptionsGrd.Location = new System.Drawing.Point(207, 26);
             this.LocalAnalyzeOptionsGrd.Name = "LocalAnalyzeOptionsGrd";
-            this.LocalAnalyzeOptionsGrd.Size = new System.Drawing.Size(383, 138);
+            this.LocalAnalyzeOptionsGrd.Size = new System.Drawing.Size(383, 198);
             this.LocalAnalyzeOptionsGrd.TabIndex = 16;
             this.CommonToolTip.SetToolTip(this.LocalAnalyzeOptionsGrd, "Global analyze options properties.");
             this.LocalAnalyzeOptionsGrd.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.LocalAnalyzeOptionsGrd_CellEndEdit);
@@ -359,7 +374,7 @@
             // ApproximationType
             // 
             this.ApproximationType.AutoSize = true;
-            this.ApproximationType.Location = new System.Drawing.Point(611, 26);
+            this.ApproximationType.Location = new System.Drawing.Point(611, 86);
             this.ApproximationType.Name = "ApproximationType";
             this.ApproximationType.Size = new System.Drawing.Size(100, 13);
             this.ApproximationType.TabIndex = 38;
@@ -368,7 +383,7 @@
             // ApproximationTypeCmb
             // 
             this.ApproximationTypeCmb.FormattingEnabled = true;
-            this.ApproximationTypeCmb.Location = new System.Drawing.Point(613, 42);
+            this.ApproximationTypeCmb.Location = new System.Drawing.Point(613, 102);
             this.ApproximationTypeCmb.Name = "ApproximationTypeCmb";
             this.ApproximationTypeCmb.Size = new System.Drawing.Size(121, 21);
             this.ApproximationTypeCmb.TabIndex = 37;
@@ -389,14 +404,14 @@
             "Triangle Trajectory"});
             this.LocalPropertiesList.Location = new System.Drawing.Point(13, 25);
             this.LocalPropertiesList.Name = "LocalPropertiesList";
-            this.LocalPropertiesList.Size = new System.Drawing.Size(183, 139);
+            this.LocalPropertiesList.Size = new System.Drawing.Size(183, 199);
             this.LocalPropertiesList.TabIndex = 36;
             this.CommonToolTip.SetToolTip(this.LocalPropertiesList, "Local analyze options.");
             this.LocalPropertiesList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.LocalPropertiesList_ItemCheck);
             // 
             // LocalDrawGraphics
             // 
-            this.LocalDrawGraphics.Location = new System.Drawing.Point(614, 127);
+            this.LocalDrawGraphics.Location = new System.Drawing.Point(614, 187);
             this.LocalDrawGraphics.Name = "LocalDrawGraphics";
             this.LocalDrawGraphics.Size = new System.Drawing.Size(120, 37);
             this.LocalDrawGraphics.TabIndex = 15;
@@ -416,14 +431,14 @@
             this.GlobalAnalyzeTab.Location = new System.Drawing.Point(4, 22);
             this.GlobalAnalyzeTab.Name = "GlobalAnalyzeTab";
             this.GlobalAnalyzeTab.Padding = new System.Windows.Forms.Padding(3);
-            this.GlobalAnalyzeTab.Size = new System.Drawing.Size(759, 211);
+            this.GlobalAnalyzeTab.Size = new System.Drawing.Size(759, 264);
             this.GlobalAnalyzeTab.TabIndex = 0;
             this.GlobalAnalyzeTab.Text = "Global Analyze";
             this.GlobalAnalyzeTab.UseVisualStyleBackColor = true;
             // 
             // deselectGlobal
             // 
-            this.deselectGlobal.Location = new System.Drawing.Point(109, 175);
+            this.deselectGlobal.Location = new System.Drawing.Point(109, 235);
             this.deselectGlobal.Name = "deselectGlobal";
             this.deselectGlobal.Size = new System.Drawing.Size(75, 23);
             this.deselectGlobal.TabIndex = 45;
@@ -433,7 +448,7 @@
             // 
             // selectGlobal
             // 
-            this.selectGlobal.Location = new System.Drawing.Point(13, 175);
+            this.selectGlobal.Location = new System.Drawing.Point(13, 235);
             this.selectGlobal.Name = "selectGlobal";
             this.selectGlobal.Size = new System.Drawing.Size(75, 23);
             this.selectGlobal.TabIndex = 44;
@@ -443,7 +458,7 @@
             // 
             // valueButton
             // 
-            this.valueButton.Location = new System.Drawing.Point(615, 84);
+            this.valueButton.Location = new System.Drawing.Point(614, 144);
             this.valueButton.Name = "valueButton";
             this.valueButton.Size = new System.Drawing.Size(120, 37);
             this.valueButton.TabIndex = 16;
@@ -469,13 +484,13 @@
             "Maximal Eigen Value"});
             this.GlobalPropertiesList.Location = new System.Drawing.Point(13, 25);
             this.GlobalPropertiesList.Name = "GlobalPropertiesList";
-            this.GlobalPropertiesList.Size = new System.Drawing.Size(577, 139);
+            this.GlobalPropertiesList.Size = new System.Drawing.Size(577, 199);
             this.GlobalPropertiesList.TabIndex = 15;
             this.CommonToolTip.SetToolTip(this.GlobalPropertiesList, "Global analyze options.");
             // 
             // GetGlobalResult
             // 
-            this.GetGlobalResult.Location = new System.Drawing.Point(615, 41);
+            this.GetGlobalResult.Location = new System.Drawing.Point(614, 101);
             this.GetGlobalResult.Name = "GetGlobalResult";
             this.GetGlobalResult.Size = new System.Drawing.Size(120, 37);
             this.GetGlobalResult.TabIndex = 12;
@@ -486,7 +501,7 @@
             // 
             // GlobalDrawGraphics
             // 
-            this.GlobalDrawGraphics.Location = new System.Drawing.Point(615, 127);
+            this.GlobalDrawGraphics.Location = new System.Drawing.Point(614, 187);
             this.GlobalDrawGraphics.Name = "GlobalDrawGraphics";
             this.GlobalDrawGraphics.Size = new System.Drawing.Size(120, 37);
             this.GlobalDrawGraphics.TabIndex = 6;
@@ -503,7 +518,7 @@
             this.selectTabControl.Location = new System.Drawing.Point(31, 360);
             this.selectTabControl.Name = "selectTabControl";
             this.selectTabControl.SelectedIndex = 0;
-            this.selectTabControl.Size = new System.Drawing.Size(767, 237);
+            this.selectTabControl.Size = new System.Drawing.Size(767, 290);
             this.selectTabControl.TabIndex = 9;
             // 
             // MotifAnalyzeTab
@@ -513,14 +528,14 @@
             this.MotifAnalyzeTab.Location = new System.Drawing.Point(4, 22);
             this.MotifAnalyzeTab.Name = "MotifAnalyzeTab";
             this.MotifAnalyzeTab.Padding = new System.Windows.Forms.Padding(3);
-            this.MotifAnalyzeTab.Size = new System.Drawing.Size(759, 211);
+            this.MotifAnalyzeTab.Size = new System.Drawing.Size(759, 264);
             this.MotifAnalyzeTab.TabIndex = 3;
             this.MotifAnalyzeTab.Text = "Motif Analyze";
             this.MotifAnalyzeTab.UseVisualStyleBackColor = true;
             // 
             // MotifDrowGraphics
             // 
-            this.MotifDrowGraphics.Location = new System.Drawing.Point(615, 127);
+            this.MotifDrowGraphics.Location = new System.Drawing.Point(614, 187);
             this.MotifDrowGraphics.Name = "MotifDrowGraphics";
             this.MotifDrowGraphics.Size = new System.Drawing.Size(120, 37);
             this.MotifDrowGraphics.TabIndex = 17;
@@ -540,7 +555,7 @@
             "Motifs of Order 6"});
             this.MotifPropertiesList.Location = new System.Drawing.Point(13, 25);
             this.MotifPropertiesList.Name = "MotifPropertiesList";
-            this.MotifPropertiesList.Size = new System.Drawing.Size(577, 139);
+            this.MotifPropertiesList.Size = new System.Drawing.Size(577, 199);
             this.MotifPropertiesList.TabIndex = 16;
             // 
             // CommonToolTip
@@ -565,9 +580,9 @@
             this.GraphicsGrp.Controls.Add(this.CurveLine);
             this.GraphicsGrp.Controls.Add(this.PointsCheck);
             this.GraphicsGrp.Controls.Add(this.CurveLineCmb);
-            this.GraphicsGrp.Location = new System.Drawing.Point(325, 239);
+            this.GraphicsGrp.Location = new System.Drawing.Point(325, 263);
             this.GraphicsGrp.Name = "GraphicsGrp";
-            this.GraphicsGrp.Size = new System.Drawing.Size(473, 106);
+            this.GraphicsGrp.Size = new System.Drawing.Size(473, 87);
             this.GraphicsGrp.TabIndex = 16;
             this.GraphicsGrp.TabStop = false;
             this.GraphicsGrp.Text = "Graphics";
@@ -584,27 +599,12 @@
             this.CommonToolTip.SetToolTip(this.GroupByOptionCheck, "Graphics in the one or saparate windows.");
             this.GroupByOptionCheck.UseVisualStyleBackColor = true;
             // 
-            // toolsToolStripMenuItem
-            // 
-            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.extendedAnalyzeToolStripMenuItem});
-            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
-            this.toolsToolStripMenuItem.Text = "Tools";
-            // 
-            // extendedAnalyzeToolStripMenuItem
-            // 
-            this.extendedAnalyzeToolStripMenuItem.Name = "extendedAnalyzeToolStripMenuItem";
-            this.extendedAnalyzeToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.extendedAnalyzeToolStripMenuItem.Text = "Extended Analyze";
-            this.extendedAnalyzeToolStripMenuItem.Click += new System.EventHandler(this.extendedAnalyzeToolStripMenuItem_Click);
-            // 
             // StatisticAnalyzer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(828, 623);
+            this.ClientSize = new System.Drawing.Size(848, 662);
             this.Controls.Add(this.ByAllJobsCheck);
             this.Controls.Add(this.GraphicsGrp);
             this.Controls.Add(this.RealizationsTxt);
