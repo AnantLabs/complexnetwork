@@ -303,6 +303,10 @@ namespace ResultStorage.Storage
                 {
                     resultAssembly.GenerationParams.Add(param, Convert.ToBoolean(paramNode.Attributes["value"].Value));
                 }
+                else if (paramInfo.Type.Equals(typeof(String)))
+                {
+                    resultAssembly.GenerationParams.Add(param, Convert.ToString(paramNode.Attributes["value"].Value));
+                }
             }
 
             log.Info("Loading analyze results.");
@@ -464,6 +468,10 @@ namespace ResultStorage.Storage
                 else if (paramInfo.Type.Equals(typeof(bool)))
                 {
                     resultAssembly.GenerationParams.Add(param, Convert.ToBoolean(paramNode.Attributes["value"].Value));
+                }
+                else if (paramInfo.Type.Equals(typeof(String)))
+                {
+                    resultAssembly.GenerationParams.Add(param, Convert.ToString(paramNode.Attributes["value"].Value));
                 }
             }
 

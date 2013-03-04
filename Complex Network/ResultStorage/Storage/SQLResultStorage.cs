@@ -609,7 +609,7 @@ namespace ResultStorage.Storage
                 log.Info("Loading data from tables Assemblies, GenerationParamValues.");
                 using (DbCommand cmd = conn.CreateCommand())
                 {
-                    string sqlQuery = "SELECT Assemblies.[Name], Assemblies.ModelID, Assemblies.NetworkSize, Assembly.FileName,GenerationParamValues.* FROM Assemblies " +
+                    string sqlQuery = "SELECT Assemblies.[Name], Assemblies.ModelID, Assemblies.NetworkSize, Assemblies.FileName,GenerationParamValues.* FROM Assemblies " +
                                         "LEFT JOIN GenerationParamValues ON GenerationParamValues.AssemblyID=Assemblies.AssemblyID " +
                                         "WHERE Assemblies.AssemblyID=@AssemblyID ORDER BY GenerationParamID";
                     cmd.CommandText = sqlQuery;
@@ -647,6 +647,10 @@ namespace ResultStorage.Storage
                             else if (paramInfo.Type.Equals(typeof(bool)))
                             {
                                 resultAssembly.GenerationParams.Add(param, Convert.ToBoolean(dr["Value"]));
+                            }
+                            else if (paramInfo.Type.Equals(typeof(String)))
+                            {
+                                resultAssembly.GenerationParams.Add(param, Convert.ToString(dr["Value"]));
                             }
                         }
                     }
