@@ -479,6 +479,18 @@
             this.trainingGroupBox.TabStop = false;
             this.trainingGroupBox.Text = "Set Training Mode configurations";
             // 
+            // BrowserDialog
+            // 
+            this.BrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            // 
+            // LoggerBrowserDialog
+            // 
+            this.LoggerBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            // 
+            // tracingBrowserDialog
+            // 
+            this.tracingBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            // 
             // SettingsOptionsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

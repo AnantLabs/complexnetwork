@@ -60,7 +60,8 @@ namespace StatisticAnalyzerUI
                 paramLine += genParams[g].ToString() + "; ";
             }
 
-            paramLine += "StepCount = " + list[0].Results[0].trajectoryStepCount.ToString() + ";";
+            paramLine += "StepCount = " + list[0].Results[0].trajectoryStepCount.ToString() + 
+                "; k = " + k.ToString() + ";";
 
             foreach (ResultAssembly resultAssembly in list)
             {

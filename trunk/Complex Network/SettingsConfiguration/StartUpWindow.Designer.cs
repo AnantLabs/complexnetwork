@@ -115,6 +115,10 @@
             this.Cancel.Text = "Cancel";
             this.Cancel.UseVisualStyleBackColor = true;
             // 
+            // BrowseDlg
+            // 
+            this.BrowseDlg.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            // 
             // AddConnection
             // 
             this.AddConnection.Location = new System.Drawing.Point(303, 112);
