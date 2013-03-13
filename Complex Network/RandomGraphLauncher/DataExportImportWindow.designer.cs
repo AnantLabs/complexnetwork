@@ -163,6 +163,10 @@
             this.SQL_into_XML_Button.UseVisualStyleBackColor = true;
             this.SQL_into_XML_Button.Click += new System.EventHandler(this.SQL_into_XML_Button_Click);
             // 
+            // BrowseDlg
+            // 
+            this.BrowseDlg.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            // 
             // mainTab
             // 
             this.mainTab.Controls.Add(this.xmlOrSqlStoreTab);

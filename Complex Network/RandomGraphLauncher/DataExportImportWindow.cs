@@ -212,6 +212,7 @@ namespace RandomGraphLauncher
         }
 
         // Значения параметров генерации и результатов анализа из внешнего файла (директории).
+        private string fileName = "";
         private int N = 0;
         private double p = 0.0;
         private double mu = 0.0;
@@ -223,6 +224,8 @@ namespace RandomGraphLauncher
         {
             DirectoryInfo d = new DirectoryInfo(fullName);
             string dictionaryName = d.Name;
+
+            this.fileName = dictionaryName;
 
             // Получение значение параметра N из имени каталога.
             int i = 1;
@@ -294,7 +297,7 @@ namespace RandomGraphLauncher
         {
             ResultAssembly result = new ResultAssembly();
 
-            result.Name = result.ID.ToString();
+            result.Name = fileName;
             result.ModelType = typeof(ERModel);
             result.ModelName = result.ModelType.Name;
             result.Size = this.N;
