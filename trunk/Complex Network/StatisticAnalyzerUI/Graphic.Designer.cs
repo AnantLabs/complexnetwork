@@ -68,9 +68,9 @@
             this.MathWaiting.BackColor = System.Drawing.Color.LightSlateGray;
             this.MathWaiting.Location = new System.Drawing.Point(6, 55);
             this.MathWaiting.Name = "MathWaiting";
-            this.MathWaiting.Size = new System.Drawing.Size(70, 13);
+            this.MathWaiting.Size = new System.Drawing.Size(100, 13);
             this.MathWaiting.TabIndex = 4;
-            this.MathWaiting.Text = "Math Waiting";
+            this.MathWaiting.Text = "Math Waiting / Avg";
             // 
             // MathWaitingTxt
             // 
@@ -102,9 +102,9 @@
             this.Dispersion.BackColor = System.Drawing.Color.LightSlateGray;
             this.Dispersion.Location = new System.Drawing.Point(6, 94);
             this.Dispersion.Name = "Dispersion";
-            this.Dispersion.Size = new System.Drawing.Size(56, 13);
+            this.Dispersion.Size = new System.Drawing.Size(96, 13);
             this.Dispersion.TabIndex = 6;
-            this.Dispersion.Text = "Dispersion";
+            this.Dispersion.Text = "Dispersion / Sigma";
             // 
             // CommonToolTip
             // 

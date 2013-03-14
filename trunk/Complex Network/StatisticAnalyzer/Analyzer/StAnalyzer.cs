@@ -103,6 +103,8 @@ namespace StatisticAnalyzer.Analyzer
                 LocalAnalyzeByOption(AnalyseOptions.DistEigenPath);
             if ((options & AnalyseOptions.Cycles) == AnalyseOptions.Cycles)
                 LocalAnalyzeByOption(AnalyseOptions.Cycles);
+            if ((options & AnalyseOptions.TriangleCountByVertex) == AnalyseOptions.TriangleCountByVertex)
+                LocalAnalyzeByOption(AnalyseOptions.TriangleCountByVertex);
             if ((options & AnalyseOptions.TriangleTrajectory) == AnalyseOptions.TriangleTrajectory)
                 LocalAnalyzeByOption(AnalyseOptions.TriangleTrajectory);
         }
@@ -226,6 +228,8 @@ namespace StatisticAnalyzer.Analyzer
                     return assemblyToAnalyze[0].Results[0].DistancesBetweenEigenValues.Count != 0;
                 case AnalyseOptions.Cycles:
                     return assemblyToAnalyze[0].Results[0].Cycles.Count != 0;
+                case AnalyseOptions.TriangleCountByVertex:
+                    return assemblyToAnalyze[0].Results[0].TriangleCount.Count != 0;
                 case AnalyseOptions.TriangleTrajectory:
                     return assemblyToAnalyze[0].Results[0].TriangleTrajectory.Count != 0;
                 default:
@@ -303,7 +307,7 @@ namespace StatisticAnalyzer.Analyzer
         private SortedDictionary<double, double> GetAverageValuesByDelta(SortedDictionary<double, double> d)
         {
             SortedDictionary<double, double> res = new SortedDictionary<double, double>();
-            int delta = 10, step = delta;
+            int delta = (int)Math.Ceiling((double)d.Count / 10), step = delta;
             while (step <= d.Count)
             {
                 double sum = 0;
@@ -373,12 +377,12 @@ namespace StatisticAnalyzer.Analyzer
         private SortedDictionary<double, double> FillLocalResultEigen()
         {
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
-            /*ArrayList l = assemblyToAnalyze[0].Results[i].EigenVector;
+            ArrayList l = assemblyToAnalyze[0].Results[0].EigenVector;
             l.Sort();
             for (int k = 0; k < l.Count; ++k)
             {
-                r.Add((double)l[k], 1);
-            }*/
+                r.Add(k, (double)l[k]);
+            }
 
             return r;
         }
@@ -403,27 +407,6 @@ namespace StatisticAnalyzer.Analyzer
             }
 
             return r;
-
-            /* // keteri mijev heravorutyun@ < difference
-            double[] keys = eigenDistanceDictionary.Keys.ToArray();
-            double difference = 
-             * m_parameters.m_localAnalyzeOptions[StatAnalyzeLocalParameters.DistancesBetweenEigenValues].m_optionValue;
-
-            int d = 0, c = 0, tempD = 0;
-            while (d < keys.Count() - 1)
-            {
-                tempD = d;
-                c = eigenDistanceDictionary[keys[d]];
-                ++d;
-                while (d < keys.Count() && (keys[d] - keys[tempD] < difference))
-                {
-                    c += eigenDistanceDictionary[keys[d]];
-                    ++d;
-                }
-                r.Add(keys[tempD], c);
-            }
-
-            return r;*/
         }
 
         private SortedDictionary<double, double> FillLocalResultCycles()
@@ -454,6 +437,7 @@ namespace StatisticAnalyzer.Analyzer
         {
             result.parameterLine += "Mu = " + assemblyToAnalyze[0].Results[0].trajectoryMu.ToString() + 
                 "; StepCount = " + assemblyToAnalyze[0].Results[0].trajectoryStepCount.ToString() + ";";
+
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
             for (int i = 0; i < assemblyToAnalyze.Count(); ++i)
             {
@@ -516,6 +500,11 @@ namespace StatisticAnalyzer.Analyzer
                         case AnalyseOptions.MinPathDist:
                             {
                                 tempDictionary = assemblyToAnalyze[i].Results[j].DistanceBetweenVertices;
+                                break;
+                            }
+                        case AnalyseOptions.TriangleCountByVertex:
+                            {
+                                tempDictionary = assemblyToAnalyze[i].Results[j].TriangleCount;
                                 break;
                             }
                         default:
@@ -645,6 +634,14 @@ namespace StatisticAnalyzer.Analyzer
                         result.resultMathWaitings.Add(option, avg);
                         result.resultDispersions.Add(option, sigma);
 
+                        break;
+                    }
+                case AnalyseOptions.EigenValue:
+                    {
+                        break;
+                    }
+                case AnalyseOptions.ClusteringCoefficient:
+                    {
                         break;
                     }
                 default:

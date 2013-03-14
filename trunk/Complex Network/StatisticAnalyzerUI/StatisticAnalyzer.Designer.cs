@@ -401,6 +401,7 @@
             "Eigen Values",
             "Distance between Eigen Values",
             "Cycles",
+            "Triangle Count by Vertex",
             "Triangle Trajectory"});
             this.LocalPropertiesList.Location = new System.Drawing.Point(13, 25);
             this.LocalPropertiesList.Name = "LocalPropertiesList";
