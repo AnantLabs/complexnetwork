@@ -104,29 +104,35 @@ namespace RandomGraph.Common.Model
         // Для получения матрицы смежности (статическая генерация) используется NeighbourshipMatrix ArrayList.
         protected void GenerateModel()
         {
-            InvokeProgressEvent(GraphProgress.StartingGeneration, 5);
+            InvokeProgressEvent(GraphProgress.StartingGeneration, 0);
 
             try
             {
                 if (GenerationParamValues != null)
                 {
-                    if (GenerationParamValues.ContainsKey(GenerationParam.Permanent) && (bool)GenerationParamValues[GenerationParam.Permanent])
-                        //Permanent Generation
+                    if (GenerationParamValues.ContainsKey(GenerationParam.Permanent)
+                        && (bool)GenerationParamValues[GenerationParam.Permanent])
+                    {
+                        // Динамическая генерация с параметром Permanent
                         generator.PermanentGeneration(GenerationParamValues);
+                    }
                     else
                     {
                         // Динамическая генерация
                         generator.RandomGeneration(GenerationParamValues);
                     }
                 }
-                else if (NeighbourshipMatrix != null)   // Статическая генерация
+                else if (NeighbourshipMatrix != null)
+                {
+                    // Статическая генерация
                     generator.StaticGeneration(NeighbourshipMatrix);
+                }
                 else
                 {
                     throw new SystemException("Generation type is not correct!");
                 }
 
-                InvokeProgressEvent(GraphProgress.GenerationDone, 30);
+                InvokeProgressEvent(GraphProgress.GenerationDone, 10);
             }
             catch (ThreadAbortException) { }
             catch (Exception ex)
@@ -145,7 +151,7 @@ namespace RandomGraph.Common.Model
         // После окончания анализа обьект Result должен иметь значение.
         protected void AnalyzeModel()
         {
-            InvokeProgressEvent(GraphProgress.StartingAnalizing);
+            InvokeProgressEvent(GraphProgress.StartingAnalyzing);
 
             analyzer.Container = generator.Container;
 
@@ -153,79 +159,79 @@ namespace RandomGraph.Common.Model
             {
                 if ((AnalyzeOptions & AnalyseOptions.AveragePath) == AnalyseOptions.AveragePath)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 10, "Average Path");
+                    InvokeProgressEvent(GraphProgress.Analyzing, 15, "Average Path");
                     Result.Result[AnalyseOptions.AveragePath] = analyzer.GetAveragePath();
                 }
 
                 if ((AnalyzeOptions & AnalyseOptions.Diameter) == AnalyseOptions.Diameter)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 20, "Diameter");
+                    InvokeProgressEvent(GraphProgress.Analyzing, 20, "Diameter");
                     Result.Result[AnalyseOptions.Diameter] = analyzer.GetDiameter();
                 }
  
                 if ((AnalyzeOptions & AnalyseOptions.Cycles3) == AnalyseOptions.Cycles3)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 30, "Cycles of order 3");
+                    InvokeProgressEvent(GraphProgress.Analyzing, 25, "Cycles of order 3");
                     Result.Result[AnalyseOptions.Cycles3] = analyzer.GetCycles3();
                 }
 
                 if ((AnalyzeOptions & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 40, "Cycles of order 4");
+                    InvokeProgressEvent(GraphProgress.Analyzing, 30, "Cycles of order 4");
                     Result.Result[AnalyseOptions.Cycles4] = analyzer.GetCycles4();
                 }
 
                 if ((AnalyzeOptions & AnalyseOptions.CycleEigen3) == AnalyseOptions.CycleEigen3)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 40, "Cycles of order 3 (Eigen)");
+                    InvokeProgressEvent(GraphProgress.Analyzing, 35, "Cycles of order 3 (Eigen)");
                     Result.Result[AnalyseOptions.CycleEigen3] = analyzer.GetCyclesEigen3();
                 }
 
                 if ((AnalyzeOptions & AnalyseOptions.CycleEigen4) == AnalyseOptions.CycleEigen4)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 40, "Cycles of order 4 (Eigen)");
+                    InvokeProgressEvent(GraphProgress.Analyzing, 40, "Cycles of order 4 (Eigen)");
                     Result.Result[AnalyseOptions.CycleEigen4] = analyzer.GetCyclesEigen4();
                 }
 
                 if ((AnalyzeOptions & AnalyseOptions.EigenValue) == AnalyseOptions.EigenValue)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 50, "Calculating EigenValues");
+                    InvokeProgressEvent(GraphProgress.Analyzing, 45, "Calculating EigenValues");
                     Result.EigenVector = analyzer.GetEigenValues();
                 }
 
                 if ((AnalyzeOptions & AnalyseOptions.DistEigenPath) == AnalyseOptions.DistEigenPath)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 60, "Distances between Eigen Values");
+                    InvokeProgressEvent(GraphProgress.Analyzing, 50, "Distances between Eigen Values");
                     Result.DistancesBetweenEigenValues = analyzer.GetDistEigenPath();
                 }
 
                 if ((AnalyzeOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 60, "Degree Distribution");
+                    InvokeProgressEvent(GraphProgress.Analyzing, 55, "Degree Distribution");
                     Result.VertexDegree = analyzer.GetDegreeDistribution();
                 }
 
                 if ((AnalyzeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 70, "Clustering Coefficient");
+                    InvokeProgressEvent(GraphProgress.Analyzing, 60, "Clustering Coefficient");
                     Result.Coefficient = analyzer.GetClusteringCoefficient();
                 }
 
                 if ((AnalyzeOptions & AnalyseOptions.ConnSubGraph) == AnalyseOptions.ConnSubGraph)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 70, "Connected Subgraphs Orders");
+                    InvokeProgressEvent(GraphProgress.Analyzing, 65, "Connected Subgraphs Orders");
                     Result.Subgraphs = analyzer.GetConnSubGraph();
                 }
 
                 if ((AnalyzeOptions & AnalyseOptions.FullSubGraph) == AnalyseOptions.FullSubGraph)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 70, "Full Subgraphs Orders");
+                    InvokeProgressEvent(GraphProgress.Analyzing, 65, "Full Subgraphs Orders");
                     Result.FullSubgraphs = analyzer.GetFullSubGraph();
                 }
 
                 if ((AnalyzeOptions & AnalyseOptions.MinPathDist) == AnalyseOptions.MinPathDist)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 80, "Minimal Path Distance Distribution");
+                    InvokeProgressEvent(GraphProgress.Analyzing, 70, "Minimal Path Distance Distribution");
                     Result.DistanceBetweenVertices = analyzer.GetMinPathDist();
                 }
 
@@ -234,19 +240,19 @@ namespace RandomGraph.Common.Model
                     int maxValue = Int32.Parse((String)AnalyzeOptionsValues["CyclesHigh"]);
                     int minvalue = Int32.Parse((String)AnalyzeOptionsValues["CyclesLow"]);
 
-                    InvokeProgressEvent(GraphProgress.Analizing, 85, "Cycles of " + minvalue + "-" + maxValue + "degree");
+                    InvokeProgressEvent(GraphProgress.Analyzing, 75, "Cycles of " + minvalue + "-" + maxValue + "degree");
                     Result.Cycles = analyzer.GetCycles(minvalue, maxValue);
                 }
 
                 if ((AnalyzeOptions & AnalyseOptions.TriangleCountByVertex) == AnalyseOptions.TriangleCountByVertex)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 90, "Triangles Distribution");
+                    InvokeProgressEvent(GraphProgress.Analyzing, 80, "Triangles Distribution");
                     Result.TriangleCount = analyzer.GetTrianglesDistribution();
                 }
 
                 if ((AnalyzeOptions & AnalyseOptions.TriangleTrajectory) == AnalyseOptions.TriangleTrajectory)
                 {
-                    InvokeProgressEvent(GraphProgress.Analizing, 93, "Triangle Trajectory");
+                    InvokeProgressEvent(GraphProgress.Analyzing, 85, "Triangle Trajectory");
                     try
                     {
                         double constant = Double.Parse((String)AnalyzeOptionsValues["Constant"]);
@@ -265,16 +271,16 @@ namespace RandomGraph.Common.Model
                 {
                     int maxValue = Int32.Parse((String)AnalyzeOptionsValues["MotiveHigh"]);
                     int minvalue = Int32.Parse((String)AnalyzeOptionsValues["MotiveLow"]);
-                    InvokeProgressEvent(GraphProgress.Analizing, 95, "Motiv of " + minvalue + "-" + maxValue + "degree");
+                    InvokeProgressEvent(GraphProgress.Analyzing, 90, "Motiv of " + minvalue + "-" + maxValue + "degree");
                     Result.MotivesCount = analyzer.GetMotivs(minvalue, maxValue);
                 }
 
-                InvokeProgressEvent(GraphProgress.AnalizingDone, 95);
+                InvokeProgressEvent(GraphProgress.AnalyzingDone, 90);
 
             }
             catch (Exception ex)
             {
-                InvokeFailureProgressEvent(GraphProgress.AnalizingFailed, ex.Message);
+                InvokeFailureProgressEvent(GraphProgress.AnalyzingFailed, ex.Message);
                 //RETHROW EXCEPTION
             }
             finally

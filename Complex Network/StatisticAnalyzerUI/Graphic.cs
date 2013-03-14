@@ -141,6 +141,7 @@ namespace StatisticAnalyzerUI
                 points.Add(x, y);
             }
 
+            zedGraph.GraphPane.Legend.FontSpec.Size = 8;
             LineItem l = zedGraph.GraphPane.AddCurve(resultsList[resultsList.Count -1].parameterLine,
                 points, currentColor, SymbolType.Circle);
             l.Line.IsVisible = this.currentPointView;

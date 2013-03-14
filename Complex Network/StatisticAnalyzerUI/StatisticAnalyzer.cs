@@ -71,7 +71,6 @@ namespace StatisticAnalyzerUI
         {
             this.JobsCmb.Enabled = true;
             this.DeleteJob.Enabled = true;
-            this.RefreshBtn.Enabled = false;
             this.GenerationParametersGrp.Enabled = false;
             this.ByAllJobsCheck.Enabled = false;
 
@@ -98,7 +97,6 @@ namespace StatisticAnalyzerUI
         {
             this.JobsCmb.Enabled = false;
             this.DeleteJob.Enabled = false;
-            this.RefreshBtn.Enabled = true;
             this.GenerationParametersGrp.Enabled = true;
             this.ByAllJobsCheck.Enabled = true;
 
@@ -479,6 +477,7 @@ namespace StatisticAnalyzerUI
         private void RefreshAssemblies()
         {
             loader.InitAssemblies();
+            FillJobs();
             FillFirstGenerationParameterCombo();
         }
 
@@ -668,6 +667,11 @@ namespace StatisticAnalyzerUI
             }
             if (this.LocalPropertiesList.GetItemChecked(7))
             {
+                analyzer.options |= AnalyseOptions.TriangleCountByVertex;
+                checkedOptions.Add(AnalyseOptions.TriangleCountByVertex);
+            }
+            if (this.LocalPropertiesList.GetItemChecked(8))
+            {
                 analyzer.options |= AnalyseOptions.TriangleTrajectory;
                 checkedOptions.Add(AnalyseOptions.TriangleTrajectory);
             }
@@ -729,6 +733,11 @@ namespace StatisticAnalyzerUI
                                 break;
                             }
                         case 7:
+                            {
+                                param = AnalyseOptions.TriangleCountByVertex;
+                                break;
+                            }
+                        case 8:
                             {
                                 param = AnalyseOptions.TriangleTrajectory;
                                 break;

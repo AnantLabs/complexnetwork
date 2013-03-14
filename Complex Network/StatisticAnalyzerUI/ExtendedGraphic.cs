@@ -47,6 +47,7 @@ namespace StatisticAnalyzerUI
             graphic.GraphPane.XAxis.Title.Text = "Mu";
             graphic.GraphPane.YAxis.Title.Text = yAxis;
 
+            graphic.GraphPane.Legend.FontSpec.Size = 8;
             LineItem l = graphic.GraphPane.AddCurve(parameterLine, values, Color.Black, SymbolType.Circle);
 
             graphic.AxisChange();
