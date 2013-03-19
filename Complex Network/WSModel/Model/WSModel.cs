@@ -42,14 +42,16 @@ namespace Model.WSModel
 
         public WSModel() { }
 
-        public WSModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+        public WSModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, 
+            Dictionary<AnalyzeOptionParam, Object> analizeOptionsValues)
             : base(genParam, options, analizeOptionsValues)
         {
             log.Info("Creating WSModel object with generation parameters.");
             InitModel();
         }
 
-        public WSModel(ArrayList matrix, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+        public WSModel(ArrayList matrix, AnalyseOptions options, 
+            Dictionary<AnalyzeOptionParam, Object> analizeOptionsValues)
             : base(matrix, options, analizeOptionsValues)
         {
             log.Info("Creating WSModel object from matrix.");

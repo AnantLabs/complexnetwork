@@ -160,7 +160,7 @@ namespace RandomGraphLauncher.Controllers
         }
 
         // Передача значений некоторых свойств анализа для job-а в сессии с данным именем.
-        public static void SetAnalyzeOptionValue(string jobName, string optName, object value)
+        public static void SetAnalyzeOptionValue(string jobName, AnalyzeOptionParam optName, object value)
         {
             log.Info("Setting analyze option values for a job in the session.");
             session[jobName].AnalyzeOptionValues[optName] = value;
@@ -273,7 +273,7 @@ namespace RandomGraphLauncher.Controllers
         }
 
         // ??
-        public static Dictionary<String, Object> GetAnalyzeOptionsValues(string jobName)
+        public static Dictionary<AnalyzeOptionParam, Object> GetAnalyzeOptionsValues(string jobName)
         {
             return session[jobName].AnalyzeOptionValues;
         }

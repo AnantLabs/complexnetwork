@@ -490,7 +490,8 @@ namespace Model.HierarchicModel.Realization
                 {
                     for (int j = (i + 1); j < (nodeNumber + 1) * bIndex; ++j)
                     {
-                        if (container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex))
+                        if (container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, 
+                            j - nodeNumber * bIndex))
                         {
                             arrayReturned[0] += Math.Pow(powPK * (powPK - 1) / 2, 2);
 
@@ -508,6 +509,9 @@ namespace Model.HierarchicModel.Realization
                             {
                                 if (container.IsConnectedTwoBlocks(node, 
                                     j - nodeNumber * bIndex, 
+                                    k - nodeNumber * bIndex) ||
+                                    container.IsConnectedTwoBlocks(node,    // Mihran
+                                    i - nodeNumber * bIndex,
                                     k - nodeNumber * bIndex))
                                 {
                                     arrayReturned[0] += powPK * powPK * powPK * (powPK - 1) / 2;

@@ -36,7 +36,8 @@ namespace RandomGraphLauncher.Controllers
         // Выбранные свойства для анализа.
         private AnalyseOptions selectedOptions = AnalyseOptions.None;
         // Значения для некоторых свойств анализа.
-        private Dictionary<string, object> analyzeOptionValues = new Dictionary<string, object>();
+        private Dictionary<AnalyzeOptionParam, object> analyzeOptionValues = 
+            new Dictionary<AnalyzeOptionParam, object>();
         // Число реализаций.
         private int instanceCount;
         // Manager графа.
@@ -59,7 +60,7 @@ namespace RandomGraphLauncher.Controllers
             {
                 Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), 
                     typeof(AnalyseOptions), 
-                    typeof(Dictionary<String, Object>) };
+                    typeof(Dictionary<AnalyzeOptionParam, Object>) };
                 object[] invokeParams = new object[] { genParamValues, selectedOptions, null };
 
                 AbstractGraphModel graphModel = (AbstractGraphModel)this.modelType.GetConstructor(constructTypes).
@@ -77,7 +78,7 @@ namespace RandomGraphLauncher.Controllers
             {
                 Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), 
                     typeof(AnalyseOptions), 
-                    typeof(Dictionary<String, Object>) };
+                    typeof(Dictionary<AnalyzeOptionParam, Object>) };
                 AbstractGraphModel graphModel = 
                     (AbstractGraphModel)modelType.GetConstructor(constructTypes).Invoke(invokeParams);
                 graphModel.TracingPath = Options.TracingDirectory;
@@ -87,7 +88,7 @@ namespace RandomGraphLauncher.Controllers
             {
                 Type[] constructTypes = new Type[] { typeof(ArrayList), 
                     typeof(AnalyseOptions), 
-                    typeof(Dictionary<String, Object>) };
+                    typeof(Dictionary<AnalyzeOptionParam, Object>) };
                 invokeParams[0] = MatrixFileReader.MatrixReader(filePath);
                 AbstractGraphModel graphModel = 
                     (AbstractGraphModel)modelType.GetConstructor(constructTypes).Invoke(invokeParams);
@@ -152,7 +153,7 @@ namespace RandomGraphLauncher.Controllers
             set { selectedOptions = value; }
         }
 
-        public Dictionary<string, object> AnalyzeOptionValues
+        public Dictionary<AnalyzeOptionParam, object> AnalyzeOptionValues
         {
             get { return analyzeOptionValues; }
         }

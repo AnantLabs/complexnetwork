@@ -51,14 +51,16 @@ namespace Model.ERModel
 
         public ERModel() { }
 
-        public ERModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+        public ERModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, 
+            Dictionary<AnalyzeOptionParam, Object> analizeOptionsValues)
             : base(genParam, options, analizeOptionsValues)
         {
             log.Info("Creating ERModel object with generation parameters.");
             InitModel();
         }
 
-        public ERModel(ArrayList matrix, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+        public ERModel(ArrayList matrix, AnalyseOptions options, 
+            Dictionary<AnalyzeOptionParam, Object> analizeOptionsValues)
             : base(matrix, options, analizeOptionsValues)
         {
             log.Info("Creating ERModel object from matrix.");
