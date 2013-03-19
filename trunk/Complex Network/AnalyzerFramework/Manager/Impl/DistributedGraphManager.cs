@@ -156,6 +156,7 @@ namespace AnalyzerFramework.Manager.Impl
 
             Assembly.AnalizeOptions = model.AnalyzeOptions;
             Assembly.GenerationParams = model.GenerationParamValues;
+            Assembly.AnalyzeOptionParams = model.AnalyzeOptionsValues;
             Assembly.ModelType = model.GetType();
             Assembly.ModelName = Assembly.ModelType.Name;
             Assembly.Name = name;

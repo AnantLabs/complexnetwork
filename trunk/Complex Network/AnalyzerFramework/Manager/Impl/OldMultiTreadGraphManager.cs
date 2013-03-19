@@ -49,6 +49,7 @@ namespace AnalyzerFramework.Manager.Impl
 
             Assembly.AnalizeOptions = origineModel.AnalyzeOptions;
             Assembly.GenerationParams = origineModel.GenerationParamValues;
+            Assembly.AnalyzeOptionParams = origineModel.AnalyzeOptionsValues;
             Assembly.ModelType = origineModel.GetType();
             Assembly.Name = name;
             if (!(Options.GenerationMode.staticGeneration == GenerationMode))
