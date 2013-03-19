@@ -149,7 +149,7 @@ namespace ResultStorage.Storage
 
                     DbParameter dpValue = provider.CreateParameter();
                     dpValue.ParameterName = "Value";
-                    dpValue.Value = assembly.Results[0].trajectoryMu.ToString();
+                    dpValue.Value = assembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryMu].ToString();
                     cmd.Parameters.Add(dpValue);
 
                     cmd.ExecuteNonQuery();
@@ -174,7 +174,7 @@ namespace ResultStorage.Storage
 
                     DbParameter dpValue = provider.CreateParameter();
                     dpValue.ParameterName = "Value";
-                    dpValue.Value = assembly.Results[0].trajectoryStepCount.ToString();
+                    dpValue.Value = assembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryStepCount].ToString();
                     cmd.Parameters.Add(dpValue);
 
                     cmd.ExecuteNonQuery();

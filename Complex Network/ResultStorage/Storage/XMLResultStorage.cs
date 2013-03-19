@@ -217,9 +217,8 @@ namespace ResultStorage.Storage
 
                     log.Info("Saving results for triangle trajectory.");
                     writer.WriteStartElement("triangletrajectory");
-                    // !исправить!
-                    writer.WriteAttributeString("mu", result.trajectoryMu.ToString());
-                    writer.WriteAttributeString("stepcount", result.trajectoryStepCount.ToString());
+                    writer.WriteAttributeString("mu", assembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryMu].ToString());
+                    writer.WriteAttributeString("stepcount", assembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryStepCount].ToString());
                     foreach (int count in result.TriangleTrajectory.Keys)
                     {
                         writer.WriteStartElement("tt");
@@ -405,8 +404,10 @@ namespace ResultStorage.Storage
                 log.Info("Loading triangle trajectory.");
                 // !исправить!
                 XmlNode it = paramNode.SelectSingleNode("triangletrajectory");
-                result.trajectoryMu = Double.Parse(it.Attributes["mu"].Value);
-                result.trajectoryStepCount = BigInteger.Parse(it.Attributes["stepcount"].Value);
+                resultAssembly.AnalyzeOptionParams.Add(AnalyzeOptionParam.TrajectoryMu, 
+                    Double.Parse(it.Attributes["mu"].Value));
+                resultAssembly.AnalyzeOptionParams.Add(AnalyzeOptionParam.TrajectoryStepCount,
+                    BigInteger.Parse(it.Attributes["stepcount"].Value));
                 foreach (XmlNode item in paramNode.SelectNodes("triangletrajectory/tt"))
                 {
                     tempInt1 = int.Parse(item.Attributes["time"].Value);
@@ -571,8 +572,10 @@ namespace ResultStorage.Storage
                 log.Info("Loading triangle trajectory.");
                 // !исправить!
                 XmlNode it = paramNode.SelectSingleNode("triangletrajectory");
-                result.trajectoryMu = Double.Parse(it.Attributes["mu"].Value);
-                result.trajectoryStepCount = BigInteger.Parse(it.Attributes["stepcount"].Value);
+                resultAssembly.AnalyzeOptionParams.Add(AnalyzeOptionParam.TrajectoryMu, 
+                    Double.Parse(it.Attributes["mu"].Value));
+                resultAssembly.AnalyzeOptionParams.Add(AnalyzeOptionParam.TrajectoryStepCount,
+                    BigInteger.Parse(it.Attributes["stepcount"].Value));
                 foreach (XmlNode item in paramNode.SelectNodes("triangletrajectory/tt"))
                 {
                     tempInt1 = int.Parse(item.Attributes["time"].Value);

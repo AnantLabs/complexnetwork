@@ -15,6 +15,8 @@ using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model.Result;
 using ResultStorage.Storage;
 using System.Configuration;
+
+using RandomGraph.Common.Model;
 using CommonLibrary.Model.Result;
 using RandomGraph.Settings;
 using Model.ERModel;
@@ -306,13 +308,15 @@ namespace RandomGraphLauncher
             result.GenerationParams.Add(GenerationParam.P, this.p);
             result.GenerationParams.Add(GenerationParam.Permanent, this.perm);
 
+            result.AnalyzeOptionParams.Add(AnalyzeOptionParam.TrajectoryMu, (double)this.mu);
+            result.AnalyzeOptionParams.Add(AnalyzeOptionParam.TrajectoryStepCount, 0);
+
             foreach (SortedDictionary<int, double> t in this.dictionaries)
             {
                 AnalizeResult r = new AnalizeResult();
 
                 r.TriangleTrajectory = t;
-                r.trajectoryMu = (double)this.mu;
-                r.trajectoryStepCount = (BigInteger)t.Count;
+                result.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryStepCount] = (BigInteger)t.Count;
 
                 result.Results.Add(r);
             }

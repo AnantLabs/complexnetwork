@@ -52,10 +52,12 @@ namespace AnalyzerFramework.Manager.Impl
             Assembly.AnalyzeOptionParams = origineModel.AnalyzeOptionsValues;
             Assembly.ModelType = origineModel.GetType();
             Assembly.Name = name;
-            if (!(Options.GenerationMode.staticGeneration == GenerationMode))
+            if (Options.GenerationMode.staticGeneration == GenerationMode)
             {
-                Assembly.Size = origineModel.GetNetworkSize();
+                Assembly.Size = origineModel.NeighbourshipMatrix.Count;
             }
+            else
+                Assembly.Size = origineModel.GetNetworkSize();
 
             OnExecutionStatusChange(new ExecutionStatusEventArgs(ExecutionStatus.Starting));
 
