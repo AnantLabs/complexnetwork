@@ -40,14 +40,16 @@ namespace Model.HierarchicModel
 
         public HierarchicModel() { }
 
-        public HierarchicModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+        public HierarchicModel(Dictionary<GenerationParam, object> genParam, 
+            AnalyseOptions options, Dictionary<AnalyzeOptionParam, Object> analizeOptionsValues)
             : base(genParam, options, analizeOptionsValues)
         {
             log.Info("Creating Block-Hierarchic model object with generation parameters.");
             InitModel();
         }
 
-        public HierarchicModel(ArrayList matrix, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+        public HierarchicModel(ArrayList matrix, AnalyseOptions options, 
+            Dictionary<AnalyzeOptionParam, Object> analizeOptionsValues)
             : base(matrix, options, analizeOptionsValues)
         {
             log.Info("Creating Block-Hierarchic object from matrix.");

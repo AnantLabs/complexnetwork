@@ -16,6 +16,7 @@ namespace CommonLibrary.Model.Result
             FileName = "none";
             Results = new List<AnalizeResult>();
             GenerationParams = new Dictionary<GenerationParam, object>();
+            AnalyzeOptionParams = new Dictionary<AnalyzeOptionParam, object>();
         }
 
         public Guid ID { get; set; }
@@ -27,5 +28,6 @@ namespace CommonLibrary.Model.Result
         public string ModelName { get; set; }
         public Dictionary<GenerationParam, object> GenerationParams { get; set; }
         public AnalyseOptions AnalizeOptions { get; set; }
+        public Dictionary<AnalyzeOptionParam, object> AnalyzeOptionParams;
     }
 }

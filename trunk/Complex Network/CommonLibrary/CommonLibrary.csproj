@@ -82,6 +82,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\AnalyseOptions\AnalyzeOptionParam.cs" />
+    <Compile Include="Model\Attributes\AnalyzeOptionParamsInfo.cs" />
     <Compile Include="Model\Attributes\GraphModel.cs" />
     <Compile Include="Model\IGraphContainer.cs" />
     <Compile Include="Model\IGraphGenerator.cs" />

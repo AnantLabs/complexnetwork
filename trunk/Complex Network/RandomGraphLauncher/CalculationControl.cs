@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Numerics;
 
 using Flash.External;
 using Newtonsoft.Json;
@@ -266,33 +267,39 @@ namespace RandomGraphLauncher
 
         private void motiveLow_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SessionController.SetAnalyzeOptionValue(jobName, "MotiveLow", motiveLowCmb.SelectedItem);
+            SessionController.SetAnalyzeOptionValue(jobName, AnalyzeOptionParam.MotifsLow, 
+                Convert.ToInt16(motiveLowCmb.SelectedItem));
         }
 
         private void motiveHi_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SessionController.SetAnalyzeOptionValue(jobName, "MotiveHigh", motiveHighCmb.SelectedItem);
+            SessionController.SetAnalyzeOptionValue(jobName, AnalyzeOptionParam.MotifsHigh,
+                Convert.ToInt16(motiveHighCmb.SelectedItem));
         }
 
         private void constant_InputChange(object sender, EventArgs e)
         {
-            SessionController.SetAnalyzeOptionValue(jobName, "Constant", this.constantInput.Text);
+            SessionController.SetAnalyzeOptionValue(jobName, AnalyzeOptionParam.TrajectoryMu,
+                Convert.ToDouble(this.constantInput.Text));
         }
 
         private void cyclesLow_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SessionController.SetAnalyzeOptionValue(jobName, "CyclesLow", cyclesLowCmb.SelectedItem);
+            SessionController.SetAnalyzeOptionValue(jobName, AnalyzeOptionParam.CyclesLow,
+                Convert.ToInt16(cyclesLowCmb.SelectedItem));
         }
 
         private void stepcount_InputChange(object sender, EventArgs e)
         {
-            SessionController.SetAnalyzeOptionValue(jobName, "StepCount", this.stepcountInput.Text);
+            SessionController.SetAnalyzeOptionValue(jobName, AnalyzeOptionParam.TrajectoryStepCount,
+                this.stepcountInput.Text);
         }
     
 
         private void cyclesHi_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SessionController.SetAnalyzeOptionValue(jobName, "CyclesHigh", cyclesHighCmb.SelectedItem);
+            SessionController.SetAnalyzeOptionValue(jobName, AnalyzeOptionParam.CyclesHigh,
+                Convert.ToInt16(cyclesHighCmb.SelectedItem));
         }
 
         private void manager_OverallProgress(object sender, GraphProgressEventArgs e)

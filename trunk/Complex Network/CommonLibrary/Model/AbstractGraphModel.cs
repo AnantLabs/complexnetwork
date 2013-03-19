@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Runtime.Serialization;
 using System.Numerics;
+
 using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model.Result;
 using RandomGraph.Common.Model.Status;
@@ -33,7 +34,7 @@ namespace RandomGraph.Common.Model
         // Передаются параметры генерации (подразумевается динамическая генерация).
         public AbstractGraphModel(Dictionary<GenerationParam, object> genParam, 
             AnalyseOptions options, 
-            Dictionary<String, Object> analyzeOptionsValues)
+            Dictionary<AnalyzeOptionParam, Object> analyzeOptionsValues)
         {
             GenerationParamValues = genParam;
             AnalyzeOptions = options;
@@ -47,7 +48,7 @@ namespace RandomGraph.Common.Model
         // Передается матрица (подразумевается статическая генерация).
         public AbstractGraphModel(ArrayList matrix, 
             AnalyseOptions options, 
-            Dictionary<String, Object> analyzeOptionsValues)
+            Dictionary<AnalyzeOptionParam, Object> analyzeOptionsValues)
         {
             NeighbourshipMatrix = matrix;
             AnalyzeOptions = options;
@@ -90,7 +91,7 @@ namespace RandomGraph.Common.Model
         // Свойства, которые должны вычисляться.
         public AnalyseOptions AnalyzeOptions { get; set; }
         // Значения свойств.
-        public Dictionary<String, Object> AnalyzeOptionsValues { get; set; }
+        public Dictionary<AnalyzeOptionParam, Object> AnalyzeOptionsValues { get; set; }
         // Результат вычислений.
         public AnalizeResult Result { get; set; }
 
@@ -237,8 +238,8 @@ namespace RandomGraph.Common.Model
 
                 if ((AnalyzeOptions & AnalyseOptions.Cycles) == AnalyseOptions.Cycles)
                 {
-                    int maxValue = Int32.Parse((String)AnalyzeOptionsValues["CyclesHigh"]);
-                    int minvalue = Int32.Parse((String)AnalyzeOptionsValues["CyclesLow"]);
+                    int maxValue = (Int16)AnalyzeOptionsValues[AnalyzeOptionParam.CyclesHigh];
+                    int minvalue = (Int16)AnalyzeOptionsValues[AnalyzeOptionParam.CyclesLow];
 
                     InvokeProgressEvent(GraphProgress.Analyzing, 75, "Cycles of " + minvalue + "-" + maxValue + "degree");
                     Result.Cycles = analyzer.GetCycles(minvalue, maxValue);
@@ -255,8 +256,8 @@ namespace RandomGraph.Common.Model
                     InvokeProgressEvent(GraphProgress.Analyzing, 85, "Triangle Trajectory");
                     try
                     {
-                        double constant = Double.Parse((String)AnalyzeOptionsValues["Constant"]);
-                        BigInteger stepCount = BigInteger.Parse((String)AnalyzeOptionsValues["StepCount"]);
+                        double constant = (Double)AnalyzeOptionsValues[AnalyzeOptionParam.TrajectoryMu];
+                        BigInteger stepCount = BigInteger.Parse(AnalyzeOptionsValues[AnalyzeOptionParam.TrajectoryStepCount].ToString());
                         Result.TriangleTrajectory = analyzer.GetTrianglesTrajectory(constant, stepCount);
                         Result.trajectoryMu = constant;
                         Result.trajectoryStepCount = stepCount;
@@ -269,8 +270,8 @@ namespace RandomGraph.Common.Model
 
                 if ((AnalyzeOptions & AnalyseOptions.Motifs) == AnalyseOptions.Motifs)
                 {
-                    int maxValue = Int32.Parse((String)AnalyzeOptionsValues["MotiveHigh"]);
-                    int minvalue = Int32.Parse((String)AnalyzeOptionsValues["MotiveLow"]);
+                    int maxValue = (Int16)AnalyzeOptionsValues[AnalyzeOptionParam.MotifsHigh];
+                    int minvalue = (Int16)AnalyzeOptionsValues[AnalyzeOptionParam.MotifsLow];
                     InvokeProgressEvent(GraphProgress.Analyzing, 90, "Motiv of " + minvalue + "-" + maxValue + "degree");
                     Result.MotivesCount = analyzer.GetMotivs(minvalue, maxValue);
                 }

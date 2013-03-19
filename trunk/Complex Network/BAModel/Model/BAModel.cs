@@ -40,14 +40,16 @@ namespace Model.BAModel
 
         public BAModel() { }
 
-        public BAModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+        public BAModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, 
+            Dictionary<AnalyzeOptionParam, Object> analizeOptionsValues)
             : base(genParam, options, analizeOptionsValues)
         {
             log.Info("Creating BAModel object with generation parameters.");
             InitModel();
         }
 
-        public BAModel(ArrayList matrix, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+        public BAModel(ArrayList matrix, AnalyseOptions options, 
+            Dictionary<AnalyzeOptionParam, Object> analizeOptionsValues)
             : base(matrix, options, analizeOptionsValues)
         {
             log.Info("Creating BAModel object from matrix.");

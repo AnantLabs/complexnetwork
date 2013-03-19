@@ -191,7 +191,7 @@ namespace StatisticAnalyzer.Analyzer
                         }
                     case AnalyseOptions.Cycles:
                         {
-                            tempResult = FillLocalResultCycles();
+                            tempResult = new SortedDictionary<double, double>(); //FillLocalResultCycles();
                             break;
                         }
                     case AnalyseOptions.TriangleTrajectory:
@@ -504,7 +504,7 @@ namespace StatisticAnalyzer.Analyzer
                             }
                         case AnalyseOptions.TriangleCountByVertex:
                             {
-                                tempDictionary = assemblyToAnalyze[i].Results[j].TriangleCount;
+                                tempDictionary = new SortedDictionary<int, int>(); //assemblyToAnalyze[i].Results[j].TriangleCount;
                                 break;
                             }
                         default:
@@ -614,6 +614,10 @@ namespace StatisticAnalyzer.Analyzer
             SortedDictionary<double, double>.KeyCollection keys = r.Keys;
             switch(option)
             {
+                case AnalyseOptions.ClusteringCoefficient:
+                    {
+                        break;
+                    }
                 case AnalyseOptions.TriangleTrajectory:
                     {
                         double avg = 0, sigma = 0;
@@ -637,13 +641,11 @@ namespace StatisticAnalyzer.Analyzer
                         break;
                     }
                 case AnalyseOptions.EigenValue:
+                case AnalyseOptions.Cycles:
+                case AnalyseOptions.TriangleCountByVertex:
                     {
                         break;
-                    }
-                case AnalyseOptions.ClusteringCoefficient:
-                    {
-                        break;
-                    }
+                    }                
                 default:
                     {
                         double mathWaiting = 0, mathWaitingSquare = 0;

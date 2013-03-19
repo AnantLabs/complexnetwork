@@ -35,14 +35,16 @@ namespace Model.NonRegularHierarchicModel
 
         public NonRegularHierarchicModel() { }
 
-        public NonRegularHierarchicModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+        public NonRegularHierarchicModel(Dictionary<GenerationParam, object> genParam, 
+            AnalyseOptions options, Dictionary<AnalyzeOptionParam, Object> analizeOptionsValues)
             : base(genParam, options, analizeOptionsValues)
         {
             log.Info("Creating Block-Hierarchic Non Regular model object from matrix.");
             InitModel();
         }
 
-        public NonRegularHierarchicModel(ArrayList matrix, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+        public NonRegularHierarchicModel(ArrayList matrix, AnalyseOptions options, 
+            Dictionary<AnalyzeOptionParam, Object> analizeOptionsValues)
             : base(matrix, options, analizeOptionsValues)
         {
             log.Info("Creating Block-Hierarchic Non Regular model object from matrix.");

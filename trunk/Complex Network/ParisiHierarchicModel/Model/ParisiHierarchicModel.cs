@@ -39,14 +39,16 @@ namespace Model.ParisiHierarchicModel
 
         public ParisiHierarchicModel() { }
 
-        public ParisiHierarchicModel(Dictionary<GenerationParam, object> genParam, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+        public ParisiHierarchicModel(Dictionary<GenerationParam, object> genParam, 
+            AnalyseOptions options, Dictionary<AnalyzeOptionParam, Object> analizeOptionsValues)
             : base(genParam, options, analizeOptionsValues)
         {
             log.Info("Creating Block-Hierarchic Parisi model object from matrix.");
             InitModel();
         }
 
-        public ParisiHierarchicModel(ArrayList matrix, AnalyseOptions options, Dictionary<String, Object> analizeOptionsValues)
+        public ParisiHierarchicModel(ArrayList matrix, AnalyseOptions options, 
+            Dictionary<AnalyzeOptionParam, Object> analizeOptionsValues)
             : base(matrix, options, analizeOptionsValues)
         {
             log.Info("Creating Block-Hierarchic Parisi model object from matrix.");
