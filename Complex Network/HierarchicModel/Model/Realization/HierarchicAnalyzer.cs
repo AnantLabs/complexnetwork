@@ -486,55 +486,60 @@ namespace Model.HierarchicModel.Realization
                 BitArray node = container.TreeNode(level, nodeNumber);
                 double powPK = Math.Pow(container.BranchIndex, container.Level - level - 1);
 
-                for (int i = nodeNumber * bIndex; i < (nodeNumber + 1) * bIndex; ++i)
+                for (int i = nodeNumber * bIndex; i < (nodeNumber + 1) * bIndex; ++i )
                 {
-                    for (int j = (i + 1); j < (nodeNumber + 1) * bIndex; ++j)
+                    for (int j = i + 1; j < (nodeNumber + 1) * bIndex; ++j )
                     {
-                        if (container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, 
-                            j - nodeNumber * bIndex))
+                        if(container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex))
                         {
+                            arrayReturned[0] += (array[i][2] + array[j][2]) * powPK;
+                            arrayReturned[0] += 2 * array[i][1] * array[j][1];
+
                             arrayReturned[0] += Math.Pow(powPK * (powPK - 1) / 2, 2);
 
-                            if (level < container.Level)
+                            arrayReturned[1] += powPK * powPK;
+
+                            arrayReturned[2] += powPK * powPK * powPK * (array[i][1] + array[j][1]);
+                        }
+
+                        for (int k = j + 1; k < (nodeNumber + 1) * bIndex; ++k )
+                        {
+                            if(container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
+                                container.IsConnectedTwoBlocks(node, j - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
+                                container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex))
                             {
-                                arrayReturned[0] += 2 * array[i][1] * array[j][1];
-                                arrayReturned[0] += (array[i][2] + array[j][2]) * powPK;
-
-                                arrayReturned[1] += powPK * powPK;
-
-                                arrayReturned[2] += powPK * powPK * powPK * (array[i][1] + array[j][1]);
+                                arrayReturned[0] += (array[i][1] + array[j][1] + array[k][1]) * powPK * powPK;
                             }
 
-                            for (int k = (j + 1); k < (nodeNumber + 1) * bIndex; ++k)
+                            if((container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
+                                container.IsConnectedTwoBlocks(node, j - nodeNumber * bIndex, k - nodeNumber * bIndex)) ||
+                                (container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
+                                container.IsConnectedTwoBlocks(node, k - nodeNumber * bIndex, j - nodeNumber * bIndex)) ||
+                                (container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
+                                container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex)))
                             {
-                                if (container.IsConnectedTwoBlocks(node, 
-                                    j - nodeNumber * bIndex, 
-                                    k - nodeNumber * bIndex) ||
-                                    container.IsConnectedTwoBlocks(node,    // Mihran
-                                    i - nodeNumber * bIndex,
-                                    k - nodeNumber * bIndex))
+                                arrayReturned[0] += powPK * powPK * powPK * (powPK - 1) / 2;
+
+                                arrayReturned[2] += powPK * powPK * powPK;
+                            }
+
+                            for (int l = k + 1; l < (nodeNumber + 1) * bIndex; ++l)
+                            {
+                                bool b1 = container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
+                                    container.IsConnectedTwoBlocks(node, j - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
+                                    container.IsConnectedTwoBlocks(node, k - nodeNumber * bIndex, l - nodeNumber * bIndex) &&
+                                    container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, l - nodeNumber * bIndex);
+                                bool b2 = container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
+                                    container.IsConnectedTwoBlocks(node, j - nodeNumber * bIndex, l - nodeNumber * bIndex) &&
+                                    container.IsConnectedTwoBlocks(node, l - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
+                                    container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex);
+                                bool b3 = container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, l - nodeNumber * bIndex) &&
+                                    container.IsConnectedTwoBlocks(node, l - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
+                                    container.IsConnectedTwoBlocks(node, j - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
+                                    container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex);
+                                if(b1 || b2 ||b3)
                                 {
-                                    arrayReturned[0] += powPK * powPK * powPK * (powPK - 1) / 2;
-
-                                    arrayReturned[2] += powPK * powPK * powPK;
-
-                                    if (container.IsConnectedTwoBlocks(node,
-                                        i - nodeNumber * bIndex,
-                                        k - nodeNumber * bIndex))
-                                    {
-                                        arrayReturned[0] += (array[i][1] + array[j][1] + array[k][1]) * powPK * powPK;
-                                    }
-
-                                    for (int l = (k + 1); l < (nodeNumber + 1) * bIndex; ++l)
-                                    {
-                                        if (container.IsConnectedTwoBlocks(node,
-                                            k - nodeNumber * bIndex, l - nodeNumber * bIndex) &&
-                                            container.IsConnectedTwoBlocks(node,
-                                            i - nodeNumber * bIndex, l - nodeNumber * bIndex))
-                                        {
-                                            arrayReturned[0] += powPK * powPK * powPK * powPK;
-                                        }
-                                    }
+                                    arrayReturned[0] += powPK * powPK * powPK * powPK;
                                 }
                             }
                         }
