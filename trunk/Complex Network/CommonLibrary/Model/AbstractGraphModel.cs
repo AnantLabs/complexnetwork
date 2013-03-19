@@ -259,8 +259,6 @@ namespace RandomGraph.Common.Model
                         double constant = (Double)AnalyzeOptionsValues[AnalyzeOptionParam.TrajectoryMu];
                         BigInteger stepCount = BigInteger.Parse(AnalyzeOptionsValues[AnalyzeOptionParam.TrajectoryStepCount].ToString());
                         Result.TriangleTrajectory = analyzer.GetTrianglesTrajectory(constant, stepCount);
-                        Result.trajectoryMu = constant;
-                        Result.trajectoryStepCount = stepCount;
                     }
                     catch(Exception ex)
                     {

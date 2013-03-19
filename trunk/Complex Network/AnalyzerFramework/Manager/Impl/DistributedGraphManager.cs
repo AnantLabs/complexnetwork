@@ -160,7 +160,12 @@ namespace AnalyzerFramework.Manager.Impl
             Assembly.ModelType = model.GetType();
             Assembly.ModelName = Assembly.ModelType.Name;
             Assembly.Name = name;
-            Assembly.Size = model.GetNetworkSize();
+            if (Options.GenerationMode.staticGeneration == GenerationMode)
+            {
+                Assembly.Size = model.NeighbourshipMatrix.Count;
+            }
+            else
+                Assembly.Size = model.GetNetworkSize();
 
             OnExecutionStatusChange(new ExecutionStatusEventArgs(ExecutionStatus.Starting));
 

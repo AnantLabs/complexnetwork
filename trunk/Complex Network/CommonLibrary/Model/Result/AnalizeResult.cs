@@ -61,8 +61,5 @@ namespace RandomGraph.Common.Model.Result
         public int Cycles4 { get; set; }
 
         public SortedDictionary<int, double> TriangleTrajectory { get; set; }
-        // !исправить!
-        public double trajectoryMu { get; set; }
-        public BigInteger trajectoryStepCount { get; set; }
     }
 }

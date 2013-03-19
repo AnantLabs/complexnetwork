@@ -11,6 +11,7 @@ using System.Numerics;
 using CommonLibrary.Model.Result;
 using RandomGraph.Common.Model.Generation;
 using CommonLibrary.Model.Attributes;
+using RandomGraph.Common.Model;
 using StatisticAnalyzer;
 using StatisticAnalyzer.Loader;
 
@@ -60,7 +61,7 @@ namespace StatisticAnalyzerUI
                 paramLine += genParams[g].ToString() + "; ";
             }
 
-            paramLine += "StepCount = " + list[0].Results[0].trajectoryStepCount.ToString() + 
+            paramLine += "StepCount = " + list[0].AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryStepCount].ToString() + 
                 "; k = " + k.ToString() + ";";
 
             foreach (ResultAssembly resultAssembly in list)
@@ -127,8 +128,8 @@ namespace StatisticAnalyzerUI
                 sigma /= resultKeys.Count();
                 sigma = Math.Sqrt(sigma);
 
-                avgs.Add(resultAssembly.Results[0].trajectoryMu, avg);
-                sigmas.Add(resultAssembly.Results[0].trajectoryMu, sigma);
+                avgs.Add(Convert.ToDouble(resultAssembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryMu]), avg);
+                sigmas.Add(Convert.ToDouble(resultAssembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryMu]), sigma);
             }
 
             ExtendedGraphic avgsGraphic = new ExtendedGraphic(avgs, paramLine, "Average");
