@@ -511,12 +511,24 @@ namespace Model.HierarchicModel.Realization
                                 arrayReturned[0] += (array[i][1] + array[j][1] + array[k][1]) * powPK * powPK;
                             }
 
-                            if((container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
-                                container.IsConnectedTwoBlocks(node, j - nodeNumber * bIndex, k - nodeNumber * bIndex)) ||
-                                (container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
-                                container.IsConnectedTwoBlocks(node, k - nodeNumber * bIndex, j - nodeNumber * bIndex)) ||
-                                (container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
-                                container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex)))
+                            if(container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
+                                container.IsConnectedTwoBlocks(node, j - nodeNumber * bIndex, k - nodeNumber * bIndex))
+                            {
+                                arrayReturned[0] += powPK * powPK * powPK * (powPK - 1) / 2;
+
+                                arrayReturned[2] += powPK * powPK * powPK;
+                            }
+
+                            if (container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
+                                container.IsConnectedTwoBlocks(node, k - nodeNumber * bIndex, j - nodeNumber * bIndex))
+                            {
+                                arrayReturned[0] += powPK * powPK * powPK * (powPK - 1) / 2;
+
+                                arrayReturned[2] += powPK * powPK * powPK;
+                            }
+
+                            if (container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
+                                container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex))
                             {
                                 arrayReturned[0] += powPK * powPK * powPK * (powPK - 1) / 2;
 
@@ -537,7 +549,17 @@ namespace Model.HierarchicModel.Realization
                                     container.IsConnectedTwoBlocks(node, l - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
                                     container.IsConnectedTwoBlocks(node, j - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
                                     container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex);
-                                if(b1 || b2 ||b3)
+                                if(b1)
+                                {
+                                    arrayReturned[0] += powPK * powPK * powPK * powPK;
+                                }
+
+                                if (b2)
+                                {
+                                    arrayReturned[0] += powPK * powPK * powPK * powPK;
+                                }
+
+                                if (b3)
                                 {
                                     arrayReturned[0] += powPK * powPK * powPK * powPK;
                                 }

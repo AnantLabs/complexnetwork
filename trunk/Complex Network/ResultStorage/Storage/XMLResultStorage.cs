@@ -217,8 +217,11 @@ namespace ResultStorage.Storage
 
                     log.Info("Saving results for triangle trajectory.");
                     writer.WriteStartElement("triangletrajectory");
-                    writer.WriteAttributeString("mu", assembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryMu].ToString());
-                    writer.WriteAttributeString("stepcount", assembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryStepCount].ToString());
+                    if (result.TriangleTrajectory.Count != 0)
+                    {
+                        writer.WriteAttributeString("mu", assembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryMu].ToString());
+                        writer.WriteAttributeString("stepcount", assembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryStepCount].ToString());
+                    }
                     foreach (int count in result.TriangleTrajectory.Keys)
                     {
                         writer.WriteStartElement("tt");
