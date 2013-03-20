@@ -268,6 +268,8 @@
             this.constantInput.Name = "constantInput";
             this.constantInput.Size = new System.Drawing.Size(80, 20);
             this.constantInput.TabIndex = 10;
+            this.constantInput.Text = "0";
+            this.constantInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.constantInput.Visible = false;
             this.constantInput.TextChanged += new System.EventHandler(this.constant_InputChange);
             // 
@@ -277,6 +279,8 @@
             this.stepcountInput.Name = "stepcountInput";
             this.stepcountInput.Size = new System.Drawing.Size(80, 20);
             this.stepcountInput.TabIndex = 11;
+            this.stepcountInput.Text = "0";
+            this.stepcountInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.stepcountInput.Visible = false;
             this.stepcountInput.TextChanged += new System.EventHandler(this.stepcount_InputChange);
             // 
@@ -376,6 +380,7 @@
             this.optionsCheckList.Sorted = true;
             this.optionsCheckList.TabIndex = 0;
             this.optionsCheckList.ThreeDCheckBoxes = true;
+            this.optionsCheckList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.optionsCheckList_ItemCheck);
             // 
             // splitContainer2
             // 

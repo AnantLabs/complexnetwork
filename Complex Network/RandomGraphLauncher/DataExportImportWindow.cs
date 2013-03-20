@@ -308,8 +308,7 @@ namespace RandomGraphLauncher
             result.GenerationParams.Add(GenerationParam.P, this.p);
             result.GenerationParams.Add(GenerationParam.Permanent, this.perm);
 
-            result.AnalyzeOptionParams.Add(AnalyzeOptionParam.TrajectoryMu, (double)this.mu);
-            result.AnalyzeOptionParams.Add(AnalyzeOptionParam.TrajectoryStepCount, 0);
+            result.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryMu] = (double)this.mu;
 
             foreach (SortedDictionary<int, double> t in this.dictionaries)
             {

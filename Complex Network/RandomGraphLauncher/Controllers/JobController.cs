@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Numerics;
 
 using RandomGraph.Core.Manager.Impl;
 using RandomGraph.Core.Events;
@@ -177,6 +178,13 @@ namespace RandomGraphLauncher.Controllers
 
         private void InitializeGraphManager()
         {
+            AnalyzeOptionValues.Add(AnalyzeOptionParam.CyclesLow, (Int16)0);
+            AnalyzeOptionValues.Add(AnalyzeOptionParam.CyclesHigh, (Int16)0);
+            AnalyzeOptionValues.Add(AnalyzeOptionParam.MotifsLow, (Int16)0);
+            AnalyzeOptionValues.Add(AnalyzeOptionParam.MotifsHigh, (Int16)0);
+            AnalyzeOptionValues.Add(AnalyzeOptionParam.TrajectoryMu, (Double)0);
+            AnalyzeOptionValues.Add(AnalyzeOptionParam.TrajectoryStepCount, (BigInteger)0);
+
             if (Options.DistributedMode)
             {
                 manager = new DistributedGraphManager(Options.StorageManager);
