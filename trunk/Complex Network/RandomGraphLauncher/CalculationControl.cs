@@ -94,6 +94,7 @@ namespace RandomGraphLauncher
             generationParamsControls[GenerationParam.InitialProbability].Show();
             genParamsGrp.Controls[8].Show();
         }
+
         private void selectallcheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (selectAllCheck.Checked)
@@ -271,6 +272,57 @@ namespace RandomGraphLauncher
                 Convert.ToInt16(motiveLowCmb.SelectedItem));
         }
 
+        private void optionsCheckList_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            /*if (e.Index == 2)    // cycles
+            {
+                if (e.NewValue == CheckState.Checked)
+                {
+                    this.cycles.Visible = true;
+                    this.cyclesLowCmb.Visible = true;
+                    this.cyclesHighCmb.Visible = true;
+                }
+                else
+                {
+                    this.cycles.Visible = false;
+                    this.cyclesLowCmb.Visible = false;
+                    this.cyclesHighCmb.Visible = false;
+                }
+            }
+            else if (e.Index == 10)   // motivs
+            {
+                if (e.NewValue == CheckState.Checked)
+                {
+                    this.motives.Visible = true;
+                    this.motiveLowCmb.Visible = true;
+                    this.motiveHighCmb.Visible = true;
+                }
+                else
+                {
+                    this.motives.Visible = false;
+                    this.motiveLowCmb.Visible = false;
+                    this.motiveHighCmb.Visible = false;
+                }
+            }
+            else if (e.Index == 11)   // triangletrajectory
+            {
+                if (e.NewValue == CheckState.Checked)
+                {
+                    this.constantInputLabel.Visible = true;
+                    this.constantInput.Visible = true;
+                    this.stepcountLabel.Visible = true;
+                    this.stepcountInput.Visible = true;
+                }
+                else
+                {
+                    this.constantInputLabel.Visible = false;
+                    this.constantInput.Visible = false;
+                    this.stepcountLabel.Visible = false;
+                    this.stepcountInput.Visible = false;
+                }
+            }*/
+        }
+
         private void motiveHi_SelectedIndexChanged(object sender, EventArgs e)
         {
             SessionController.SetAnalyzeOptionValue(jobName, AnalyzeOptionParam.MotifsHigh,
@@ -293,8 +345,7 @@ namespace RandomGraphLauncher
         {
             SessionController.SetAnalyzeOptionValue(jobName, AnalyzeOptionParam.TrajectoryStepCount,
                 this.stepcountInput.Text);
-        }
-    
+        }    
 
         private void cyclesHi_SelectedIndexChanged(object sender, EventArgs e)
         {

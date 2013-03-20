@@ -195,6 +195,10 @@ namespace ResultStorage.Storage
 
                     log.Info("Saving results for cycles.");
                     writer.WriteStartElement("cycles");
+                    writer.WriteAttributeString("cycleslow",
+                        assembly.AnalyzeOptionParams[AnalyzeOptionParam.CyclesLow].ToString());
+                    writer.WriteAttributeString("cycleshigh",
+                            assembly.AnalyzeOptionParams[AnalyzeOptionParam.CyclesHigh].ToString());
                     foreach (int sub in result.Cycles.Keys)
                     {
                         writer.WriteStartElement("cs");
@@ -217,11 +221,10 @@ namespace ResultStorage.Storage
 
                     log.Info("Saving results for triangle trajectory.");
                     writer.WriteStartElement("triangletrajectory");
-                    if (result.TriangleTrajectory.Count != 0)
-                    {
-                        writer.WriteAttributeString("mu", assembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryMu].ToString());
-                        writer.WriteAttributeString("stepcount", assembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryStepCount].ToString());
-                    }
+                    writer.WriteAttributeString("mu", 
+                        assembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryMu].ToString());
+                    writer.WriteAttributeString("stepcount", 
+                            assembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryStepCount].ToString());
                     foreach (int count in result.TriangleTrajectory.Keys)
                     {
                         writer.WriteStartElement("tt");
@@ -233,6 +236,10 @@ namespace ResultStorage.Storage
 
                     log.Info("Saving results for motivs.");
                     writer.WriteStartElement("motives");
+                    writer.WriteAttributeString("motivslow",
+                        assembly.AnalyzeOptionParams[AnalyzeOptionParam.MotifsLow].ToString());
+                    writer.WriteAttributeString("motivshigh",
+                            assembly.AnalyzeOptionParams[AnalyzeOptionParam.MotifsHigh].ToString());
                     foreach (int sub in result.MotivesCount.Keys)
                     {
                         writer.WriteStartElement("mf");
@@ -389,6 +396,11 @@ namespace ResultStorage.Storage
                 }
 
                 log.Info("Loading cycles.");
+                XmlNode it = paramNode.SelectSingleNode("cycles");
+                resultAssembly.AnalyzeOptionParams[AnalyzeOptionParam.CyclesLow] =
+                    Int16.Parse(it.Attributes["cycleslow"].Value);
+                resultAssembly.AnalyzeOptionParams[AnalyzeOptionParam.CyclesHigh] =
+                    Int16.Parse(it.Attributes["cycleshigh"].Value);
                 foreach (XmlNode item in paramNode.SelectNodes("cycles/cs"))
                 {
                     tempInt1 = int.Parse(item.Attributes["order"].Value);
@@ -405,12 +417,11 @@ namespace ResultStorage.Storage
                 }
 
                 log.Info("Loading triangle trajectory.");
-                // !исправить!
-                XmlNode it = paramNode.SelectSingleNode("triangletrajectory");
-                resultAssembly.AnalyzeOptionParams.Add(AnalyzeOptionParam.TrajectoryMu, 
-                    Double.Parse(it.Attributes["mu"].Value));
-                resultAssembly.AnalyzeOptionParams.Add(AnalyzeOptionParam.TrajectoryStepCount,
-                    BigInteger.Parse(it.Attributes["stepcount"].Value));
+                it = paramNode.SelectSingleNode("triangletrajectory");
+                resultAssembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryMu] = 
+                    Double.Parse(it.Attributes["mu"].Value);
+                resultAssembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryStepCount] =
+                    BigInteger.Parse(it.Attributes["stepcount"].Value);
                 foreach (XmlNode item in paramNode.SelectNodes("triangletrajectory/tt"))
                 {
                     tempInt1 = int.Parse(item.Attributes["time"].Value);
@@ -419,7 +430,12 @@ namespace ResultStorage.Storage
                 }
 
                 log.Info("Loading motifs.");
-                foreach (XmlNode item in paramNode.SelectNodes("motif/mf"))
+                it = paramNode.SelectSingleNode("motives");
+                resultAssembly.AnalyzeOptionParams[AnalyzeOptionParam.MotifsLow] =
+                    Int16.Parse(it.Attributes["motivslow"].Value);
+                resultAssembly.AnalyzeOptionParams[AnalyzeOptionParam.MotifsHigh] =
+                    Int16.Parse(it.Attributes["motivshigh"].Value);
+                foreach (XmlNode item in paramNode.SelectNodes("motives/mf"))
                 {
                     tempInt1 = int.Parse(item.Attributes["id"].Value);
                     tempInt2 = int.Parse(item.Attributes["count"].Value);
@@ -557,6 +573,11 @@ namespace ResultStorage.Storage
                 }
 
                 log.Info("Loading cycles.");
+                XmlNode it = paramNode.SelectSingleNode("cycles");
+                resultAssembly.AnalyzeOptionParams[AnalyzeOptionParam.CyclesLow] =
+                    Int16.Parse(it.Attributes["cycleslow"].Value);
+                resultAssembly.AnalyzeOptionParams[AnalyzeOptionParam.CyclesHigh] =
+                    Int16.Parse(it.Attributes["cycleshigh"].Value);
                 foreach (XmlNode item in paramNode.SelectNodes("cycles/cs"))
                 {
                     tempInt1 = int.Parse(item.Attributes["order"].Value);
@@ -573,8 +594,7 @@ namespace ResultStorage.Storage
                 }
 
                 log.Info("Loading triangle trajectory.");
-                // !исправить!
-                XmlNode it = paramNode.SelectSingleNode("triangletrajectory");
+                it = paramNode.SelectSingleNode("triangletrajectory");
                 resultAssembly.AnalyzeOptionParams.Add(AnalyzeOptionParam.TrajectoryMu, 
                     Double.Parse(it.Attributes["mu"].Value));
                 resultAssembly.AnalyzeOptionParams.Add(AnalyzeOptionParam.TrajectoryStepCount,
@@ -587,7 +607,12 @@ namespace ResultStorage.Storage
                 }
 
                 log.Info("Loading motifs.");
-                foreach (XmlNode item in paramNode.SelectNodes("motif/mf"))
+                it = paramNode.SelectSingleNode("motives");
+                resultAssembly.AnalyzeOptionParams[AnalyzeOptionParam.MotifsLow] =
+                    Int16.Parse(it.Attributes["motivslow"].Value);
+                resultAssembly.AnalyzeOptionParams[AnalyzeOptionParam.MotifsHigh] =
+                    Int16.Parse(it.Attributes["motivshigh"].Value);
+                foreach (XmlNode item in paramNode.SelectNodes("motives/mf"))
                 {
                     tempInt1 = int.Parse(item.Attributes["id"].Value);
                     tempInt2 = int.Parse(item.Attributes["count"].Value);

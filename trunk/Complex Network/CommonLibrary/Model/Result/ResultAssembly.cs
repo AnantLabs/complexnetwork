@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Numerics;
+
 using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model;
 using RandomGraph.Common.Model.Result;
@@ -16,7 +18,14 @@ namespace CommonLibrary.Model.Result
             FileName = "none";
             Results = new List<AnalizeResult>();
             GenerationParams = new Dictionary<GenerationParam, object>();
+
             AnalyzeOptionParams = new Dictionary<AnalyzeOptionParam, object>();
+            AnalyzeOptionParams.Add(AnalyzeOptionParam.CyclesLow, (Int16)0);
+            AnalyzeOptionParams.Add(AnalyzeOptionParam.CyclesHigh, (Int16)0);
+            AnalyzeOptionParams.Add(AnalyzeOptionParam.MotifsLow, (Int16)0);
+            AnalyzeOptionParams.Add(AnalyzeOptionParam.MotifsHigh, (Int16)0);
+            AnalyzeOptionParams.Add(AnalyzeOptionParam.TrajectoryMu, (Double)0);
+            AnalyzeOptionParams.Add(AnalyzeOptionParam.TrajectoryStepCount, (BigInteger)0);
         }
 
         public Guid ID { get; set; }
