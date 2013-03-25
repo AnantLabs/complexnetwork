@@ -355,6 +355,7 @@ namespace StatisticAnalyzer.Analyzer
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
             for (int i = 0; i < assemblyToAnalyze.Count(); ++i)
             {
+                int size = assemblyToAnalyze[i].Size;
                 int instanceCount = assemblyToAnalyze[i].Results.Count;
                 for (int j = 0; j < instanceCount; ++j)
                 {
@@ -364,9 +365,9 @@ namespace StatisticAnalyzer.Analyzer
                     foreach (double key in keyColl)
                     {
                         if (r.Keys.Contains(key))
-                            r[key] += CCDictionary[key];
+                            r[key] += (double)CCDictionary[key] / size;
                         else
-                            r.Add(key, CCDictionary[key]);
+                            r.Add(key, (double)CCDictionary[key] / size);
                     }
                 }
             }
@@ -616,10 +617,6 @@ namespace StatisticAnalyzer.Analyzer
             SortedDictionary<double, double>.KeyCollection keys = r.Keys;
             switch(option)
             {
-                case AnalyseOptions.ClusteringCoefficient:
-                    {
-                        break;
-                    }
                 case AnalyseOptions.TriangleTrajectory:
                     {
                         double avg = 0, sigma = 0;

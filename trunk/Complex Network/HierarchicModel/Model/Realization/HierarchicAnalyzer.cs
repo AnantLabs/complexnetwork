@@ -508,7 +508,7 @@ namespace Model.HierarchicModel.Realization
                                 container.IsConnectedTwoBlocks(node, j - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
                                 container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex))
                             {
-                                arrayReturned[0] += (array[i][1] + array[j][1] + array[k][1]) * powPK * powPK;
+                                arrayReturned[0] += 2 * (array[i][1] + array[j][1] + array[k][1]) * powPK * powPK;
                             }
 
                             if(container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
