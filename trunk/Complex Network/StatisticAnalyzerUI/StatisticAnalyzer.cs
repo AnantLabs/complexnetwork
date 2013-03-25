@@ -370,7 +370,8 @@ namespace StatisticAnalyzerUI
 
         private void extendedAnalyzeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ExtendedAnalyze extendedAnalyzeWnd = new ExtendedAnalyze();
+            ExtendedAnalyze extendedAnalyzeWnd = new ExtendedAnalyze(GetAssembliesToAnalyze());
+            extendedAnalyzeWnd.ModelName = this.ModelNameCmb.Text;
             extendedAnalyzeWnd.ShowDialog();
         }   
 

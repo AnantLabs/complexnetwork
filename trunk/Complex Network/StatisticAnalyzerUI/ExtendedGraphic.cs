@@ -15,49 +15,77 @@ namespace StatisticAnalyzerUI
     public partial class ExtendedGraphic : Form
     {
         string parameterLine;
-        string yAxis;
-        ZedGraphControl graphic;
-        PointPairList values;
+        ZedGraphControl avgsGraphic;
+        ZedGraphControl sigmasGraphic;
+        PointPairList avgsValues;
+        PointPairList sigmasValues;
 
-        public ExtendedGraphic(SortedDictionary<double, double> dict, string paramLine, string text)
+        public ExtendedGraphic(SortedDictionary<double, double> avgsDict, 
+            SortedDictionary<double, double> sigmasDict, string paramLine)
         {
             InitializeComponent();
 
             parameterLine = paramLine;
-            yAxis = text;
 
-            graphic = new ZedGraphControl();
-            graphic.Dock = DockStyle.Fill;
-            this.graphicPanel.Controls.Add(graphic);
+            avgsGraphic = new ZedGraphControl();
+            avgsGraphic.Dock = DockStyle.Fill;
+            this.resultsTab.TabPages[0].Controls.Add(avgsGraphic);
+            avgsValues = new PointPairList();
 
-            values = new PointPairList();
-
-            SortedDictionary<double, double>.KeyCollection keys = dict.Keys;
+            SortedDictionary<double, double>.KeyCollection keys = avgsDict.Keys;
             foreach (double i in keys)
             {
-                values.Add(Convert.ToDouble(i.ToString()), dict[i]);
+                avgsValues.Add(Convert.ToDouble(i.ToString()), avgsDict[i]);
+            }
+
+            sigmasGraphic = new ZedGraphControl();
+            sigmasGraphic.Dock = DockStyle.Fill;
+            this.resultsTab.TabPages[1].Controls.Add(sigmasGraphic);
+            sigmasValues = new PointPairList();
+
+            keys = sigmasDict.Keys;
+            foreach (double i in keys)
+            {
+                sigmasValues.Add(Convert.ToDouble(i.ToString()), sigmasDict[i]);
             }
         }
 
         private void ExtendedGraphic_Load(object sender, EventArgs e)
         {
-            this.Text += " " + yAxis;
+            avgsGraphic.GraphPane.Title.Text = "Avgs";
+            avgsGraphic.GraphPane.XAxis.Title.Text = "Mu";
+            avgsGraphic.GraphPane.YAxis.Title.Text = "Avgs";
 
-            graphic.GraphPane.Title.Text = yAxis;
-            graphic.GraphPane.XAxis.Title.Text = "Mu";
-            graphic.GraphPane.YAxis.Title.Text = yAxis;
+            avgsGraphic.GraphPane.Legend.FontSpec.Size = 8;
+            LineItem avgsL = avgsGraphic.GraphPane.AddCurve(parameterLine, 
+                avgsValues, Color.Black, SymbolType.Circle);
 
-            graphic.GraphPane.Legend.FontSpec.Size = 8;
-            LineItem l = graphic.GraphPane.AddCurve(parameterLine, values, Color.Black, SymbolType.Circle);
+            avgsGraphic.AxisChange();
+            avgsGraphic.Invalidate();
+            avgsGraphic.Refresh();
 
-            graphic.AxisChange();
-            graphic.Invalidate();
-            graphic.Refresh();
+            sigmasGraphic.GraphPane.Title.Text = "Sigmas";
+            sigmasGraphic.GraphPane.XAxis.Title.Text = "Mu";
+            sigmasGraphic.GraphPane.YAxis.Title.Text = "Sigmas";
+
+            sigmasGraphic.GraphPane.Legend.FontSpec.Size = 8;
+            LineItem sigmasL = sigmasGraphic.GraphPane.AddCurve(parameterLine,
+                sigmasValues, Color.Black, SymbolType.Circle);
+
+            sigmasGraphic.AxisChange();
+            sigmasGraphic.Invalidate();
+            sigmasGraphic.Refresh();
         }
 
-        private void save_Click(object sender, EventArgs e)
+        private void ExtendedGraphic_FormClosing(object sender, FormClosingEventArgs e)
         {
-            graphic.SaveAs();
+
         }
+
+        /*private void save_Click(object sender, EventArgs e)
+        {
+            avgsGraphic.SaveAs();
+            sigmasGraphic.SaveAs();
+        }*/
     }
 }
