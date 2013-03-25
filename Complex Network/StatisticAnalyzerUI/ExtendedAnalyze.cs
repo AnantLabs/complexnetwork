@@ -14,129 +14,57 @@ using CommonLibrary.Model.Attributes;
 using RandomGraph.Common.Model;
 using StatisticAnalyzer;
 using StatisticAnalyzer.Loader;
+using StatisticAnalyzer.Analyzer;
 
 namespace StatisticAnalyzerUI
 {
     public partial class ExtendedAnalyze : Form
     {
-        public ExtendedAnalyze()
+        public string ModelName = "";
+        private List<ResultAssembly> assembliesToAnalyze;
+
+        public ExtendedAnalyze(List<ResultAssembly> assemblies)
         {
             InitializeComponent();
+
+            assembliesToAnalyze = assemblies;
+        }
+
+        private void ExtendedAnalyze_Load(object sender, EventArgs e)
+        {
+            this.modelNameTxt.Text = ModelName;
         }
 
         private void trajectoryAnalyze_Click(object sender, EventArgs e)
         {
-            int k;
-            try
+            StAnalyzer analyzer = new StAnalyzer(assembliesToAnalyze);
+            analyzer.options |= AnalyseOptions.TriangleTrajectory;
+            analyzer.ExtendedAnalyze(Convert.ToUInt32(this.stepsToRemoveTxt.Text));
+            if (analyzer.Result.trajectoryAvgs.Keys.Count == 0)
             {
-                k = Convert.ToInt32(this.parameterKTxt.Text);
-            }
-            catch (SystemException ex)
-            {
-                MessageBox.Show("Parameter k must be an integer!", "Error");
-                this.parameterKTxt.SelectAll();
-                this.parameterKTxt.Focus();
+                MessageBox.Show("There are no results!");
                 return;
             }
 
-            // !исправить!
-            StLoader loader = new StLoader();
-            loader.ModelName = "ERModel";
-            loader.InitAssemblies();
-            List<ResultAssembly> list = loader.SelectAllAssemblies();
+            ExtendedGraphic graphic = new ExtendedGraphic(analyzer.Result.trajectoryAvgs,
+                analyzer.Result.trajectorySigmas,
+                analyzer.Result.parameterLine);
+            graphic.Show();         
+        }
 
-            SortedDictionary<double, double> avgs = new SortedDictionary<double,double>();
-            SortedDictionary<double, double> sigmas = new SortedDictionary<double,double>();
-
-            string paramLine = "";
-
-            Dictionary<GenerationParam, object> genParams = list[0].GenerationParams;
-            Dictionary<GenerationParam, object>.KeyCollection genKeys = genParams.Keys;
-            foreach (GenerationParam g in genKeys)
+        private void stepsToRemoveTxt_Leave(object sender, EventArgs e)
+        {
+            try
             {
-                GenerationParamInfo paramInfo =
-                    (GenerationParamInfo)(g.GetType().GetField(g.ToString()).
-                    GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);
-                paramLine += paramInfo.Name += " = ";
-                paramLine += genParams[g].ToString() + "; ";
+                Convert.ToUInt32(this.stepsToRemoveTxt.Text);
             }
-
-            paramLine += "StepCount = " + list[0].AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryStepCount].ToString() + 
-                "; k = " + k.ToString() + ";";
-
-            foreach (ResultAssembly resultAssembly in list)
+            catch (SystemException)
             {
-                SortedDictionary<double, double> r = new SortedDictionary<double, double>();
-                int instanceCount = resultAssembly.Results.Count();
-                for (int j = 0; j < instanceCount; ++j)
-                {
-                    SortedDictionary<int, double> tempDictionary = resultAssembly.Results[j].TriangleTrajectory;
-                    SortedDictionary<int, double>.KeyCollection keyColl = tempDictionary.Keys;
-                    int limit = 1;
-                    int previousKey = -1;
-                    foreach (int key in keyColl)
-                    {
-                        if (limit >= k)
-                        {
-                            if (key - 1 == previousKey)
-                            {
-                                if (r.Keys.Contains(key))
-                                    r[key] += tempDictionary[key];
-                                else
-                                    r.Add(key, tempDictionary[key]);
-                            }
-                            else
-                            {
-                                for (int tempIndex = previousKey + 1; tempIndex <= key - previousKey; ++tempIndex)
-                                {
-                                    if (r.Keys.Contains(tempIndex))
-                                        r[tempIndex] += tempDictionary[key];
-                                    else
-                                        r.Add(tempIndex, tempDictionary[key]);
-                                }
-                            }
-
-                            previousKey = key;
-                        }
-                        else
-                        {
-                            ++limit;
-                        }
-                    }
-                }
-
-                SortedDictionary<double, double> result = new SortedDictionary<double, double>();
-                SortedDictionary<double, double>.KeyCollection keys = r.Keys;
-                foreach (double key in keys)
-                {
-                    result.Add(key, r[key] / instanceCount);
-                }
-
-                SortedDictionary<double, double>.KeyCollection resultKeys = result.Keys;
-                double avg = 0, sigma = 0;
-
-                foreach (double key in resultKeys)
-                {
-                    avg += result[key];
-                }
-                avg /= resultKeys.Count();
-
-                foreach (double key in resultKeys)
-                {
-                    sigma += Math.Pow((avg - result[key]), 2); 
-                }
-                sigma /= resultKeys.Count();
-                sigma = Math.Sqrt(sigma);
-
-                avgs.Add(Convert.ToDouble(resultAssembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryMu]), avg);
-                sigmas.Add(Convert.ToDouble(resultAssembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryMu]), sigma);
+                MessageBox.Show("Count of steps to remove must be a none negative integer!", "Error");
+                this.stepsToRemoveTxt.SelectAll();
+                this.stepsToRemoveTxt.Focus();
+                return;
             }
-
-            ExtendedGraphic avgsGraphic = new ExtendedGraphic(avgs, paramLine, "Average");
-            avgsGraphic.Show();
-
-            ExtendedGraphic sigmasGraphic = new ExtendedGraphic(sigmas, paramLine, "Sigma");
-            sigmasGraphic.Show();            
         }
     }
 }

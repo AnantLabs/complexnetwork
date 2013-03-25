@@ -109,6 +109,12 @@ namespace StatisticAnalyzer.Analyzer
                 LocalAnalyzeByOption(AnalyseOptions.TriangleTrajectory);
         }
 
+        public void ExtendedAnalyze(UInt32 stepsToRemove)
+        {
+            if ((options & AnalyseOptions.TriangleTrajectory) == AnalyseOptions.TriangleTrajectory)
+                ExtendedAnalyzeByOption(AnalyseOptions.TriangleTrajectory, stepsToRemove);
+        }
+
         // Utilities //
 
         private string GetParameterLine()
@@ -207,6 +213,23 @@ namespace StatisticAnalyzer.Analyzer
                 }
 
                 result.result.Add(option, GetLocalResult(option, tempResult));
+            }
+        }
+
+        private void ExtendedAnalyzeByOption(AnalyseOptions option, UInt32 stepsToRemove)
+        {
+            if (ContainsOption(option))
+            {
+                switch (option)
+                {
+                    case AnalyseOptions.TriangleTrajectory:
+                        {
+                            FillExtendedResultTrajectory(stepsToRemove);
+                            break;
+                        }
+                    default:
+                        break;
+                }
             }
         }
         
@@ -434,11 +457,87 @@ namespace StatisticAnalyzer.Analyzer
             return r;
         }
 
-        protected SortedDictionary<double, double> FillLocalResultTrajectory()
+        private void FillExtendedResultTrajectory(UInt32 stepsToRemove)
         {
-            result.parameterLine += "Mu = " + 
-                assemblyToAnalyze[0].AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryMu].ToString() + 
-                "; StepCount = " + 
+            result.parameterLine += " StepCount = " +
+                assemblyToAnalyze[0].AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryStepCount].ToString() +
+                "; k = " + stepsToRemove.ToString() + ";";
+
+            SortedDictionary<double, double> r = new SortedDictionary<double, double>();
+            for (int i = 0; i < assemblyToAnalyze.Count(); ++i)
+            {
+                int instanceCount = assemblyToAnalyze[i].Results.Count();
+                for (int j = 0; j < instanceCount; ++j)
+                {
+                    SortedDictionary<int, double> tempDictionary = assemblyToAnalyze[i].Results[j].TriangleTrajectory;
+                    SortedDictionary<int, double>.KeyCollection keyColl = tempDictionary.Keys;
+                    int limit = 1;
+                    int previousKey = -1;
+                    foreach (int key in keyColl)
+                    {
+                        if (limit >= stepsToRemove)
+                        {
+                            if (key - 1 == previousKey)
+                            {
+                                if (r.Keys.Contains(key))
+                                    r[key] += tempDictionary[key];
+                                else
+                                    r.Add(key, tempDictionary[key]);
+                            }
+                            else
+                            {
+                                for (int tempIndex = previousKey + 1; tempIndex <= key - previousKey; ++tempIndex)
+                                {
+                                    if (r.Keys.Contains(tempIndex))
+                                        r[tempIndex] += tempDictionary[key];
+                                    else
+                                        r.Add(tempIndex, tempDictionary[key]);
+                                }
+                            }
+
+                            previousKey = key;
+                        }
+                        else
+                        {
+                            ++limit;
+                        }
+                    }
+                }
+
+                SortedDictionary<double, double> res = new SortedDictionary<double, double>();
+                SortedDictionary<double, double>.KeyCollection keys = r.Keys;
+                foreach (double key in keys)
+                {
+                    res.Add(key, r[key] / instanceCount);
+                }
+
+                SortedDictionary<double, double>.KeyCollection resultKeys = res.Keys;
+                double avg = 0, sigma = 0;
+
+                foreach (double key in resultKeys)
+                {
+                    avg += res[key];
+                }
+                avg /= resultKeys.Count();
+
+                foreach (double key in resultKeys)
+                {
+                    sigma += Math.Pow((avg - res[key]), 2);
+                }
+                sigma /= resultKeys.Count();
+                sigma = Math.Sqrt(sigma);
+
+                double mu = Convert.ToDouble(assemblyToAnalyze[i].AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryMu]);
+                result.trajectoryAvgs.Add(mu, avg);
+                result.trajectorySigmas.Add(mu, sigma);
+            }
+        }
+
+        private SortedDictionary<double, double> FillLocalResultTrajectory()
+        {
+            result.parameterLine += "Mu = " +
+                assemblyToAnalyze[0].AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryMu].ToString() +
+                "; StepCount = " +
                 assemblyToAnalyze[0].AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryStepCount].ToString() + ";";
 
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
@@ -472,7 +571,7 @@ namespace StatisticAnalyzer.Analyzer
 
                         previousKey = key;
                     }
-                }
+                }                
             }
 
             return r;

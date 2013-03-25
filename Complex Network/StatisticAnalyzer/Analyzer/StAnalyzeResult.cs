@@ -28,6 +28,8 @@ namespace StatisticAnalyzer.Analyzer
         public Dictionary<AnalyseOptions, double> resultAvgValues;
         public Dictionary<AnalyseOptions, double> resultMathWaitings;
         public Dictionary<AnalyseOptions, double> resultDispersions;
+        public SortedDictionary<double, double> trajectoryAvgs;
+        public SortedDictionary<double, double> trajectorySigmas;
 
         public StAnalyzeResult()
         {
@@ -44,6 +46,8 @@ namespace StatisticAnalyzer.Analyzer
             resultAvgValues = new Dictionary<AnalyseOptions, double>();
             resultMathWaitings = new Dictionary<AnalyseOptions, double>();
             resultDispersions = new Dictionary<AnalyseOptions, double>();
+            trajectoryAvgs = new SortedDictionary<double, double>();
+            trajectorySigmas = new SortedDictionary<double, double>();
         }
     }
 }

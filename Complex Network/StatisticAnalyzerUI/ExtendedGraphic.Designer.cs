@@ -28,47 +28,66 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.save = new System.Windows.Forms.Button();
-            this.graphicPanel = new System.Windows.Forms.Panel();
+            this.resultsTab = new System.Windows.Forms.TabControl();
+            this.avgsTab = new System.Windows.Forms.TabPage();
+            this.sigmasTab = new System.Windows.Forms.TabPage();
+            this.resultsTab.SuspendLayout();
             this.SuspendLayout();
             // 
-            // save
+            // resultsTab
             // 
-            this.save.Location = new System.Drawing.Point(728, 411);
-            this.save.Name = "save";
-            this.save.Size = new System.Drawing.Size(75, 23);
-            this.save.TabIndex = 1;
-            this.save.Text = "Save";
-            this.save.UseVisualStyleBackColor = true;
-            this.save.Click += new System.EventHandler(this.save_Click);
+            this.resultsTab.Controls.Add(this.avgsTab);
+            this.resultsTab.Controls.Add(this.sigmasTab);
+            this.resultsTab.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.resultsTab.Location = new System.Drawing.Point(0, 0);
+            this.resultsTab.Name = "resultsTab";
+            this.resultsTab.SelectedIndex = 0;
+            this.resultsTab.Size = new System.Drawing.Size(853, 511);
+            this.resultsTab.TabIndex = 2;
             // 
-            // graphicPanel
+            // avgsTab
             // 
-            this.graphicPanel.Location = new System.Drawing.Point(12, 12);
-            this.graphicPanel.Name = "graphicPanel";
-            this.graphicPanel.Size = new System.Drawing.Size(710, 422);
-            this.graphicPanel.TabIndex = 2;
+            this.avgsTab.Location = new System.Drawing.Point(4, 22);
+            this.avgsTab.Name = "avgsTab";
+            this.avgsTab.Padding = new System.Windows.Forms.Padding(3);
+            this.avgsTab.Size = new System.Drawing.Size(845, 485);
+            this.avgsTab.TabIndex = 0;
+            this.avgsTab.Text = "Avgs";
+            this.avgsTab.UseVisualStyleBackColor = true;
+            // 
+            // sigmasTab
+            // 
+            this.sigmasTab.Location = new System.Drawing.Point(4, 22);
+            this.sigmasTab.Name = "sigmasTab";
+            this.sigmasTab.Padding = new System.Windows.Forms.Padding(3);
+            this.sigmasTab.Size = new System.Drawing.Size(845, 485);
+            this.sigmasTab.TabIndex = 1;
+            this.sigmasTab.Text = "Sigmas";
+            this.sigmasTab.UseVisualStyleBackColor = true;
             // 
             // ExtendedGraphic
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(815, 446);
-            this.Controls.Add(this.graphicPanel);
-            this.Controls.Add(this.save);
+            this.ClientSize = new System.Drawing.Size(853, 511);
+            this.Controls.Add(this.resultsTab);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ExtendedGraphic";
             this.Text = "Extended Graphic";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExtendedGraphic_FormClosing);
             this.Load += new System.EventHandler(this.ExtendedGraphic_Load);
+            this.resultsTab.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button save;
-        private System.Windows.Forms.Panel graphicPanel;
+        private System.Windows.Forms.TabControl resultsTab;
+        private System.Windows.Forms.TabPage avgsTab;
+        private System.Windows.Forms.TabPage sigmasTab;
 
     }
 }
