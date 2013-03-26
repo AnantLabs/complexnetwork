@@ -79,6 +79,11 @@
             this.PointsCheck = new System.Windows.Forms.CheckBox();
             this.GraphicsGrp = new System.Windows.Forms.GroupBox();
             this.GroupByOptionCheck = new System.Windows.Forms.CheckBox();
+            this.analyzeOptionsParamsGrp = new System.Windows.Forms.GroupBox();
+            this.bySecondParamCmb = new System.Windows.Forms.ComboBox();
+            this.bySecondParamCheck = new System.Windows.Forms.CheckBox();
+            this.byFirstParamCmb = new System.Windows.Forms.ComboBox();
+            this.byFirstParamCheck = new System.Windows.Forms.CheckBox();
             this.MenuStrip.SuspendLayout();
             this.LocalAnalyzeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalAnalyzeOptionsGrd)).BeginInit();
@@ -86,6 +91,7 @@
             this.selectTabControl.SuspendLayout();
             this.MotifAnalyzeTab.SuspendLayout();
             this.GraphicsGrp.SuspendLayout();
+            this.analyzeOptionsParamsGrp.SuspendLayout();
             this.SuspendLayout();
             // 
             // MenuStrip
@@ -160,7 +166,7 @@
             // 
             this.GenerationParametersGrp.Location = new System.Drawing.Point(325, 51);
             this.GenerationParametersGrp.Name = "GenerationParametersGrp";
-            this.GenerationParametersGrp.Size = new System.Drawing.Size(374, 206);
+            this.GenerationParametersGrp.Size = new System.Drawing.Size(330, 206);
             this.GenerationParametersGrp.TabIndex = 4;
             this.GenerationParametersGrp.TabStop = false;
             this.GenerationParametersGrp.Text = "Generation Parameters";
@@ -169,7 +175,7 @@
             // ByAllJobsCheck
             // 
             this.ByAllJobsCheck.AutoSize = true;
-            this.ByAllJobsCheck.Location = new System.Drawing.Point(717, 240);
+            this.ByAllJobsCheck.Location = new System.Drawing.Point(674, 240);
             this.ByAllJobsCheck.Name = "ByAllJobsCheck";
             this.ByAllJobsCheck.Size = new System.Drawing.Size(77, 17);
             this.ByAllJobsCheck.TabIndex = 7;
@@ -600,12 +606,66 @@
             this.CommonToolTip.SetToolTip(this.GroupByOptionCheck, "Graphics in the one or saparate windows.");
             this.GroupByOptionCheck.UseVisualStyleBackColor = true;
             // 
+            // analyzeOptionsParamsGrp
+            // 
+            this.analyzeOptionsParamsGrp.Controls.Add(this.bySecondParamCmb);
+            this.analyzeOptionsParamsGrp.Controls.Add(this.bySecondParamCheck);
+            this.analyzeOptionsParamsGrp.Controls.Add(this.byFirstParamCmb);
+            this.analyzeOptionsParamsGrp.Controls.Add(this.byFirstParamCheck);
+            this.analyzeOptionsParamsGrp.Location = new System.Drawing.Point(668, 51);
+            this.analyzeOptionsParamsGrp.Name = "analyzeOptionsParamsGrp";
+            this.analyzeOptionsParamsGrp.Size = new System.Drawing.Size(130, 177);
+            this.analyzeOptionsParamsGrp.TabIndex = 17;
+            this.analyzeOptionsParamsGrp.TabStop = false;
+            this.analyzeOptionsParamsGrp.Text = "Analyze Option Params";
+            // 
+            // bySecondParamCmb
+            // 
+            this.bySecondParamCmb.Enabled = false;
+            this.bySecondParamCmb.FormattingEnabled = true;
+            this.bySecondParamCmb.Location = new System.Drawing.Point(5, 121);
+            this.bySecondParamCmb.Name = "bySecondParamCmb";
+            this.bySecondParamCmb.Size = new System.Drawing.Size(121, 21);
+            this.bySecondParamCmb.TabIndex = 3;
+            // 
+            // bySecondParamCheck
+            // 
+            this.bySecondParamCheck.AutoSize = true;
+            this.bySecondParamCheck.Location = new System.Drawing.Point(6, 98);
+            this.bySecondParamCheck.Name = "bySecondParamCheck";
+            this.bySecondParamCheck.Size = new System.Drawing.Size(94, 17);
+            this.bySecondParamCheck.TabIndex = 2;
+            this.bySecondParamCheck.Text = "By Step Count";
+            this.bySecondParamCheck.UseVisualStyleBackColor = true;
+            this.bySecondParamCheck.CheckedChanged += new System.EventHandler(this.bySecondParamCheck_CheckedChanged);
+            // 
+            // byFirstParamCmb
+            // 
+            this.byFirstParamCmb.Enabled = false;
+            this.byFirstParamCmb.FormattingEnabled = true;
+            this.byFirstParamCmb.Location = new System.Drawing.Point(5, 60);
+            this.byFirstParamCmb.Name = "byFirstParamCmb";
+            this.byFirstParamCmb.Size = new System.Drawing.Size(121, 21);
+            this.byFirstParamCmb.TabIndex = 1;
+            // 
+            // byFirstParamCheck
+            // 
+            this.byFirstParamCheck.AutoSize = true;
+            this.byFirstParamCheck.Location = new System.Drawing.Point(6, 37);
+            this.byFirstParamCheck.Name = "byFirstParamCheck";
+            this.byFirstParamCheck.Size = new System.Drawing.Size(56, 17);
+            this.byFirstParamCheck.TabIndex = 0;
+            this.byFirstParamCheck.Text = "By Mu";
+            this.byFirstParamCheck.UseVisualStyleBackColor = true;
+            this.byFirstParamCheck.CheckedChanged += new System.EventHandler(this.byFirstParamCheck_CheckedChanged);
+            // 
             // StatisticAnalyzer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(848, 662);
+            this.Controls.Add(this.analyzeOptionsParamsGrp);
             this.Controls.Add(this.ByAllJobsCheck);
             this.Controls.Add(this.GraphicsGrp);
             this.Controls.Add(this.RealizationsTxt);
@@ -638,6 +698,8 @@
             this.MotifAnalyzeTab.ResumeLayout(false);
             this.GraphicsGrp.ResumeLayout(false);
             this.GraphicsGrp.PerformLayout();
+            this.analyzeOptionsParamsGrp.ResumeLayout(false);
+            this.analyzeOptionsParamsGrp.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -692,6 +754,11 @@
         private System.Windows.Forms.Button selectGlobal;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem extendedAnalyzeToolStripMenuItem;
+        private System.Windows.Forms.GroupBox analyzeOptionsParamsGrp;
+        private System.Windows.Forms.ComboBox bySecondParamCmb;
+        private System.Windows.Forms.CheckBox bySecondParamCheck;
+        private System.Windows.Forms.ComboBox byFirstParamCmb;
+        private System.Windows.Forms.CheckBox byFirstParamCheck;
     }
 }
 

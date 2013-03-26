@@ -79,13 +79,21 @@ namespace StatisticAnalyzerUI
 
         private void ExtendedGraphic_FormClosing(object sender, FormClosingEventArgs e)
         {
-
+            DialogResult dr = MessageBox.Show("Do you want to save graphics?", "Save graphics",
+                MessageBoxButtons.YesNoCancel);
+            if (dr == DialogResult.No)
+            {
+                e.Cancel = false;
+            }
+            else if (dr == DialogResult.Yes)
+            {
+                avgsGraphic.SaveAs();
+                sigmasGraphic.SaveAs();
+            }
+            else if(dr == DialogResult.Cancel)
+            {
+                e.Cancel = true;
+            }
         }
-
-        /*private void save_Click(object sender, EventArgs e)
-        {
-            avgsGraphic.SaveAs();
-            sigmasGraphic.SaveAs();
-        }*/
     }
 }

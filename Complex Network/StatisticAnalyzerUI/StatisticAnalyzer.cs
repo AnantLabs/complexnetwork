@@ -72,6 +72,7 @@ namespace StatisticAnalyzerUI
             this.JobsCmb.Enabled = true;
             this.DeleteJob.Enabled = true;
             this.GenerationParametersGrp.Enabled = false;
+            this.analyzeOptionsParamsGrp.Enabled = false;
             this.ByAllJobsCheck.Enabled = false;
 
             RefreshParameters();
@@ -98,6 +99,7 @@ namespace StatisticAnalyzerUI
             this.JobsCmb.Enabled = false;
             this.DeleteJob.Enabled = false;
             this.GenerationParametersGrp.Enabled = true;
+            this.analyzeOptionsParamsGrp.Enabled = true;
             this.ByAllJobsCheck.Enabled = true;
 
             Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
@@ -559,13 +561,20 @@ namespace StatisticAnalyzerUI
                 res.Add(loader.SelectAssemblyByJob(this.JobsCmb.Text));
             else
             {
-                Dictionary<GenerationParam, string> values = new Dictionary<GenerationParam, string>();
+                Dictionary<GenerationParam, string> gValues = new Dictionary<GenerationParam, string>();
                 Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
                 foreach (GenerationParam g in keys)
                 {
-                    values[g] = generationParamatersControls[g].Text;
+                    gValues[g] = generationParamatersControls[g].Text;
                 }
-                res = loader.SelectAssemblyByParameters(values, this.ByAllJobsCheck.Checked);
+
+                Dictionary<AnalyzeOptionParam, string> aValues = new Dictionary<AnalyzeOptionParam, string>();
+                if (this.byFirstParamCheck.Checked == true)
+                    aValues.Add(AnalyzeOptionParam.TrajectoryMu, this.byFirstParamCmb.Text);
+                if (this.bySecondParamCheck.Checked == true)
+                    aValues.Add(AnalyzeOptionParam.TrajectoryStepCount, this.bySecondParamCmb.Text);
+
+                res = loader.SelectAssemblyByParameters(gValues, aValues, this.ByAllJobsCheck.Checked);
             }
 
             return res;
@@ -816,6 +825,56 @@ namespace StatisticAnalyzerUI
             for (int i = 0; i < LocalPropertiesList.Items.Count; ++i)
             {
                 LocalPropertiesList.SetItemChecked(i, false);
+            }
+        }
+
+        private void byFirstParamCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.byFirstParamCheck.Checked == true)
+            {
+                this.byFirstParamCmb.Enabled = true;
+                Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
+                Dictionary<GenerationParam, string> values = new Dictionary<GenerationParam, string>();
+                foreach (GenerationParam g in keys)
+                {
+                    values[g] = generationParamatersControls[g].Text;
+                }
+
+                List<string> v = loader.GetOptionParameterValues(values, AnalyzeOptionParam.TrajectoryMu);
+                for (int i = 0; i < v.Count; ++i)
+                    this.byFirstParamCmb.Items.Add(v[i]);
+                if (this.byFirstParamCmb.Items.Count != 0)
+                    this.byFirstParamCmb.SelectedIndex = 0;
+            }
+            else
+            {
+                this.byFirstParamCmb.Items.Clear();
+                this.byFirstParamCmb.Enabled = false;
+            }
+        }
+
+        private void bySecondParamCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.bySecondParamCheck.Checked == true)
+            {
+                this.bySecondParamCmb.Enabled = true;
+                Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
+                Dictionary<GenerationParam, string> values = new Dictionary<GenerationParam, string>();
+                foreach (GenerationParam g in keys)
+                {
+                    values[g] = generationParamatersControls[g].Text;
+                }
+
+                List<string> v = loader.GetOptionParameterValues(values, AnalyzeOptionParam.TrajectoryStepCount);
+                for (int i = 0; i < v.Count; ++i)
+                    this.bySecondParamCmb.Items.Add(v[i]);
+                if (this.bySecondParamCmb.Items.Count != 0)
+                    this.bySecondParamCmb.SelectedIndex = 0;
+            }
+            else
+            {
+                this.bySecondParamCmb.Items.Clear();
+                this.bySecondParamCmb.Enabled = false;
             }
         }
     }
