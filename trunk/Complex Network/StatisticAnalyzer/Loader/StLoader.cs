@@ -10,6 +10,7 @@ using CommonLibrary.Model.Result;
 using CommonLibrary.Model.Attributes;
 using RandomGraph.Common.Storage;
 using RandomGraph.Common.Model.Generation;
+using RandomGraph.Common.Model;
 using ResultStorage.Storage;
 
 namespace StatisticAnalyzer.Loader
@@ -174,6 +175,37 @@ namespace StatisticAnalyzer.Loader
             return result;
         }
 
+        // ??
+        public List<string> GetOptionParameterValues(Dictionary<GenerationParam, string> gValues,
+            AnalyzeOptionParam parameter)
+        {
+            List<string> result = new List<string>();
+            foreach (string resultName in assembliesID)
+            {
+                ResultAssembly r = resultStorage.Load(assemblies.Find(i => i.Name == resultName).ID);
+                Dictionary<GenerationParam, string>.KeyCollection gKeys = gValues.Keys;
+                bool b = true;
+                foreach (GenerationParam key in gKeys)
+                {
+                    if (r.GenerationParams.Count != 0)
+                        b = b && (r.GenerationParams[key].ToString() == gValues[key]);
+                    else
+                    {
+                        b = false;
+                        break;
+                    }
+                }
+                if (b)
+                {
+                    result.Add(r.AnalyzeOptionParams[parameter].ToString());
+                }
+            }
+
+            result.Sort();
+            result = result.Distinct().ToList();
+            return result;
+        }
+
         // Возвращает список всех сборок.
         public List<ResultAssembly> SelectAllAssemblies()
         {
@@ -196,26 +228,36 @@ namespace StatisticAnalyzer.Loader
         // Возвращает список сборок, выбранных по параметрам генерации.
         // Если allAssemblies == true, то в список поподают все соответствыющие сборки.
         // В обратном случае, только первая соответствующая сборка.
-        public List<ResultAssembly> SelectAssemblyByParameters(Dictionary<GenerationParam, string> values, bool allAssemblies)
+        // ??
+        public List<ResultAssembly> SelectAssemblyByParameters(Dictionary<GenerationParam, string> gValues,
+            Dictionary<AnalyzeOptionParam, string> aValues,
+            bool allAssemblies)
         {
             List<ResultAssembly> result = new List<ResultAssembly>();
 
             foreach (string resultName in assembliesID)
             {
                 ResultAssembly r = resultStorage.Load(assemblies.Find(i => i.Name == resultName).ID);
-                
-                Dictionary<GenerationParam, string>.KeyCollection keys = values.Keys;
+
+                Dictionary<GenerationParam, string>.KeyCollection keys = gValues.Keys;
                 bool b = true;
                 foreach (GenerationParam key in keys)
                 {
                     if (r.GenerationParams.Count != 0)
-                        b = b && (r.GenerationParams[key].ToString() == values[key]);
+                        b = b && (r.GenerationParams[key].ToString() == gValues[key]);
                     else
                     {
                         b = false;
                         break;
                     }
                 }
+
+                Dictionary<AnalyzeOptionParam, string>.KeyCollection aKeys = aValues.Keys;
+                foreach (AnalyzeOptionParam key in aKeys)
+                {
+                    b = b && (r.AnalyzeOptionParams[key].ToString() == aValues[key]);
+                }
+
                 if (b)
                     result.Add(r);
             }
