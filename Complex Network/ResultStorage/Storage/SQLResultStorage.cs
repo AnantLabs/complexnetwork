@@ -5,6 +5,7 @@ using System.Text;
 using System.Data.Common;
 using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 
 using RandomGraph.Common.Storage;
 using CommonLibrary.Model.Result;
@@ -196,7 +197,7 @@ namespace ResultStorage.Storage
                         dpAssemblyID.Value = assembly.ID;
                         cmd.Parameters.Add(dpAssemblyID);
 
-                        resultsID = (int) cmd.ExecuteScalar();
+                        resultsID = (int)cmd.ExecuteScalar();
                     }
 
                     log.Info("Saving data to AnalyzeResults table.");
@@ -228,319 +229,206 @@ namespace ResultStorage.Storage
                         }
                     }
 
+                    SqlBulkCopy cp = new SqlBulkCopy(GetConnectionString(),
+                        SqlBulkCopyOptions.CheckConstraints);
+
                     log.Info("Saving data to VertexDegree table.");
+                    DataTable vertexDegreeTable = new DataTable("VertexDegree");
+                    vertexDegreeTable.Columns.Add("ResultsID", typeof(Int32));
+                    vertexDegreeTable.Columns.Add("Degree", typeof(Int32));
+                    vertexDegreeTable.Columns.Add("Count", typeof(Int32));
+
                     foreach (int degree in result.VertexDegree.Keys)
-	                {
-                        using (DbCommand cmd = conn.CreateCommand())
-                        {
-                            string sqlQuery = "INSERT INTO VertexDegree(ResultsID,Degree,Count) " +
-                                                "VALUES(@ResultsID,@Degree,@Count)";
-                            cmd.CommandText = sqlQuery;
-                            cmd.CommandType = CommandType.Text;
-
-                            DbParameter dpResultsID = provider.CreateParameter();
-                            dpResultsID.ParameterName = "ResultsID";
-                            dpResultsID.Value = resultsID;
-                            cmd.Parameters.Add(dpResultsID);
-
-                            DbParameter dpDegree = provider.CreateParameter();
-                            dpDegree.ParameterName = "Degree";
-                            dpDegree.Value = degree;
-                            cmd.Parameters.Add(dpDegree);
-
-                            DbParameter dpCount = provider.CreateParameter();
-                            dpCount.ParameterName = "Count";
-                            dpCount.Value = result.VertexDegree[degree];
-                            cmd.Parameters.Add(dpCount);
-
-                            cmd.ExecuteNonQuery();
-                        }
+                    {
+                        DataRow r = vertexDegreeTable.NewRow();
+                        r[0] = resultsID;
+                        r[1] = degree;
+                        r[2] = result.VertexDegree[degree];
+                        vertexDegreeTable.Rows.Add(r);
                     }
+
+                    cp.DestinationTableName = "VertexDegree";
+                    cp.WriteToServer(vertexDegreeTable);
 
                     log.Info("Saving data to Coefficients table.");
+                    DataTable coefficientsTable = new DataTable("Coefficients");
+                    coefficientsTable.Columns.Add("ResultsID", typeof(Int32));
+                    coefficientsTable.Columns.Add("Coefficient", typeof(Double));
+                    coefficientsTable.Columns.Add("Count", typeof(Int32));
+
                     foreach (double coefficient in result.Coefficient.Keys)
                     {
-                        using (DbCommand cmd = conn.CreateCommand())
-                        {
-                            string sqlQuery = "INSERT INTO Coefficients(ResultsID,Coefficient,Count) " +
-                                                "VALUES(@ResultsID,@Coefficient,@Count)";
-                            cmd.CommandText = sqlQuery;
-                            cmd.CommandType = CommandType.Text;
-
-                            DbParameter dpResultsID = provider.CreateParameter();
-                            dpResultsID.ParameterName = "ResultsID";
-                            dpResultsID.Value = resultsID;
-                            cmd.Parameters.Add(dpResultsID);
-
-                            DbParameter dpCoefficient = provider.CreateParameter();
-                            dpCoefficient.ParameterName = "Coefficient";
-                            dpCoefficient.Value = coefficient;
-                            cmd.Parameters.Add(dpCoefficient);
-
-                            DbParameter dpCount = provider.CreateParameter();
-                            dpCount.ParameterName = "Count";
-                            dpCount.Value = result.Coefficient[coefficient];
-                            cmd.Parameters.Add(dpCount);
-
-                            cmd.ExecuteNonQuery();
-                        }
+                        DataRow r = coefficientsTable.NewRow();
+                        r[0] = resultsID;
+                        r[1] = coefficient;
+                        r[2] = result.Coefficient[coefficient];
+                        coefficientsTable.Rows.Add(r);
                     }
+
+                    cp.DestinationTableName = "Coefficients";
+                    cp.WriteToServer(coefficientsTable);
 
                     log.Info("Saving data to ConSubgraphs table.");
+                    DataTable conSubgraphsTable = new DataTable("ConSubgraphs");
+                    conSubgraphsTable.Columns.Add("ResultsID", typeof(Int32));
+                    conSubgraphsTable.Columns.Add("VX", typeof(Int32));
+                    conSubgraphsTable.Columns.Add("Count", typeof(Int32));
+
                     foreach (int subgraph in result.Subgraphs.Keys)
                     {
-                        using (DbCommand cmd = conn.CreateCommand())
-                        {
-                            string sqlQuery = "INSERT INTO ConSubgraphs(ResultsID,VX,Count) " +
-                                                "VALUES(@ResultsID,@VX,@Count)";
-                            cmd.CommandText = sqlQuery;
-                            cmd.CommandType = CommandType.Text;
-
-                            DbParameter dpResultsID = provider.CreateParameter();
-                            dpResultsID.ParameterName = "ResultsID";
-                            dpResultsID.Value = resultsID;
-                            cmd.Parameters.Add(dpResultsID);
-
-                            DbParameter dpSub = provider.CreateParameter();
-                            dpSub.ParameterName = "VX";
-                            dpSub.Value = subgraph;
-                            cmd.Parameters.Add(dpSub);
-
-                            DbParameter dpCount = provider.CreateParameter();
-                            dpCount.ParameterName = "Count";
-                            dpCount.Value = result.Subgraphs[subgraph];
-                            cmd.Parameters.Add(dpCount);
-
-                            cmd.ExecuteNonQuery();
-                        }
+                        DataRow r = conSubgraphsTable.NewRow();
+                        r[0] = resultsID;
+                        r[1] = subgraph;
+                        r[2] = result.Subgraphs[subgraph];
+                        conSubgraphsTable.Rows.Add(r);
                     }
+
+                    cp.DestinationTableName = "ConSubgraphs";
+                    cp.WriteToServer(conSubgraphsTable);
 
                     log.Info("Saving data to FullSubgraphs table.");
+                    DataTable fullSubgraphsTable = new DataTable("FullSubgraphs");
+                    fullSubgraphsTable.Columns.Add("ResultsID", typeof(Int32));
+                    fullSubgraphsTable.Columns.Add("VX", typeof(Int32));
+                    fullSubgraphsTable.Columns.Add("Count", typeof(Int32));
+
                     foreach (int subgraph in result.FullSubgraphs.Keys)
                     {
-                        using (DbCommand cmd = conn.CreateCommand())
-                        {
-                            string sqlQuery = "INSERT INTO FullSubgraphs(ResultsID,VX,Count) " +
-                                                "VALUES(@ResultsID,@VX,@Count)";
-                            cmd.CommandText = sqlQuery;
-                            cmd.CommandType = CommandType.Text;
-
-                            DbParameter dpResultsID = provider.CreateParameter();
-                            dpResultsID.ParameterName = "ResultsID";
-                            dpResultsID.Value = resultsID;
-                            cmd.Parameters.Add(dpResultsID);
-
-                            DbParameter dpSub = provider.CreateParameter();
-                            dpSub.ParameterName = "VX";
-                            dpSub.Value = subgraph;
-                            cmd.Parameters.Add(dpSub);
-
-                            DbParameter dpCount = provider.CreateParameter();
-                            dpCount.ParameterName = "Count";
-                            dpCount.Value = result.FullSubgraphs[subgraph];
-                            cmd.Parameters.Add(dpCount);
-
-                            cmd.ExecuteNonQuery();
-                        }
+                        DataRow r = fullSubgraphsTable.NewRow();
+                        r[0] = resultsID;
+                        r[1] = subgraph;
+                        r[2] = result.FullSubgraphs[subgraph];
+                        fullSubgraphsTable.Rows.Add(r);
                     }
+
+                    cp.DestinationTableName = "FullSubgraphs";
+                    cp.WriteToServer(fullSubgraphsTable);
 
                     log.Info("Saving data to VertexDistance table.");
+                    DataTable vertexDistanceTable = new DataTable("VertexDistance");
+                    vertexDistanceTable.Columns.Add("ResultsID", typeof(Int32));
+                    vertexDistanceTable.Columns.Add("Distance", typeof(Int32));
+                    vertexDistanceTable.Columns.Add("Count", typeof(Int32));
+
                     foreach (int dist in result.DistanceBetweenVertices.Keys)
                     {
-                        using (DbCommand cmd = conn.CreateCommand())
-                        {
-                            string sqlQuery = "INSERT INTO VertexDistance(ResultsID,Distance,Count) " +
-                                                "VALUES(@ResultsID,@Distance,@Count)";
-                            cmd.CommandText = sqlQuery;
-                            cmd.CommandType = CommandType.Text;
-
-                            DbParameter dpResultsID = provider.CreateParameter();
-                            dpResultsID.ParameterName = "ResultsID";
-                            dpResultsID.Value = resultsID;
-                            cmd.Parameters.Add(dpResultsID);
-
-                            DbParameter dpSub = provider.CreateParameter();
-                            dpSub.ParameterName = "Distance";
-                            dpSub.Value = dist;
-                            cmd.Parameters.Add(dpSub);
-
-                            DbParameter dpCount = provider.CreateParameter();
-                            dpCount.ParameterName = "Count";
-                            dpCount.Value = result.DistanceBetweenVertices[dist];
-                            cmd.Parameters.Add(dpCount);
-
-                            cmd.ExecuteNonQuery();
-                        }
+                        DataRow r = vertexDistanceTable.NewRow();
+                        r[0] = resultsID;
+                        r[1] = dist;
+                        r[2] = result.DistanceBetweenVertices[dist];
+                        vertexDistanceTable.Rows.Add(r);
                     }
+
+                    cp.DestinationTableName = "VertexDistance";
+                    cp.WriteToServer(vertexDistanceTable);
 
                     log.Info("Saving data to EigenValues table.");
+                    DataTable eigenValuesTable = new DataTable("EigenValues");
+                    eigenValuesTable.Columns.Add("ResultsID", typeof(Int32));
+                    eigenValuesTable.Columns.Add("EigenValue", typeof(Double));
+
                     foreach (double value in result.EigenVector)
                     {
-                        using (DbCommand cmd = conn.CreateCommand())
-                        {
-                            string sqlQuery = "INSERT INTO EigenValues(ResultsID,EigenValue) " +
-                                                    "VALUES(@ResultsID,@EigenValue)";
-                            cmd.CommandText = sqlQuery;
-                            cmd.CommandType = CommandType.Text;
-
-                            DbParameter dpResultsID = provider.CreateParameter();
-                            dpResultsID.ParameterName = "ResultsID";
-                            dpResultsID.Value = resultsID;
-                            cmd.Parameters.Add(dpResultsID);
-
-                            DbParameter dpSub = provider.CreateParameter();
-                            dpSub.ParameterName = "EigenValue";
-                            dpSub.Value = value;
-                            cmd.Parameters.Add(dpSub);
-
-                            cmd.ExecuteNonQuery();
-                        }
+                        DataRow r = eigenValuesTable.NewRow();
+                        r[0] = resultsID;
+                        r[1] = value;
+                        eigenValuesTable.Rows.Add(r);
                     }
+
+                    cp.DestinationTableName = "EigenValues";
+                    cp.WriteToServer(eigenValuesTable);
 
                     log.Info("Saving data to EigenValuesDistance table.");
+                    DataTable eigenValuesDistanceTable = new DataTable("EigenValuesDistance");
+                    eigenValuesDistanceTable.Columns.Add("ResultsID", typeof(Int32));
+                    eigenValuesDistanceTable.Columns.Add("Distance", typeof(Double));
+                    eigenValuesDistanceTable.Columns.Add("Count", typeof(Int32));
+
                     foreach (double dist in result.DistancesBetweenEigenValues.Keys)
                     {
-                        using (DbCommand cmd = conn.CreateCommand())
-                        {
-                            string sqlQuery = "INSERT INTO EigenValuesDistance(ResultsID,Distance,Count) " +
-                                                "VALUES(@ResultsID,@Distance,@Count)";
-                            cmd.CommandText = sqlQuery;
-                            cmd.CommandType = CommandType.Text;
-
-                            DbParameter dpResultsID = provider.CreateParameter();
-                            dpResultsID.ParameterName = "ResultsID";
-                            dpResultsID.Value = resultsID;
-                            cmd.Parameters.Add(dpResultsID);
-
-                            DbParameter dpSub = provider.CreateParameter();
-                            dpSub.ParameterName = "Distance";
-                            dpSub.Value = dist;
-                            cmd.Parameters.Add(dpSub);
-
-                            DbParameter dpCount = provider.CreateParameter();
-                            dpCount.ParameterName = "Count";
-                            dpCount.Value = result.DistancesBetweenEigenValues[dist];
-                            cmd.Parameters.Add(dpCount);
-
-                            cmd.ExecuteNonQuery();
-                        }
+                        DataRow r = eigenValuesDistanceTable.NewRow();
+                        r[0] = resultsID;
+                        r[1] = dist;
+                        r[2] = result.DistancesBetweenEigenValues[dist];
+                        eigenValuesDistanceTable.Rows.Add(r);
                     }
+
+                    cp.DestinationTableName = "EigenValuesDistance";
+                    cp.WriteToServer(eigenValuesDistanceTable);
 
                     log.Info("Saving data to Cycles table.");
+                    DataTable cyclesTable = new DataTable("Cycles");
+                    cyclesTable.Columns.Add("ResultsID", typeof(Int32));
+                    cyclesTable.Columns.Add("Order", typeof(Int32));
+                    cyclesTable.Columns.Add("Count", typeof(long));
+
                     foreach (int order in result.Cycles.Keys)
                     {
-                        using (DbCommand cmd = conn.CreateCommand())
-                        {
-                            string sqlQuery = "INSERT INTO Cycles(ResultsID,[Order],Count) " +
-                                                "VALUES(@ResultsID,@Order,@Count)";
-                            cmd.CommandText = sqlQuery;
-                            cmd.CommandType = CommandType.Text;
-
-                            DbParameter dpResultsID = provider.CreateParameter();
-                            dpResultsID.ParameterName = "ResultsID";
-                            dpResultsID.Value = resultsID;
-                            cmd.Parameters.Add(dpResultsID);
-
-                            DbParameter dpSub = provider.CreateParameter();
-                            dpSub.ParameterName = "Order";
-                            dpSub.Value = order;
-                            cmd.Parameters.Add(dpSub);
-
-                            DbParameter dpCount = provider.CreateParameter();
-                            dpCount.ParameterName = "Count";
-                            dpCount.Value = result.Cycles[order];
-                            cmd.Parameters.Add(dpCount);
-
-                            cmd.ExecuteNonQuery();
-                        }
+                        DataRow r = cyclesTable.NewRow();
+                        r[0] = resultsID;
+                        r[1] = order;
+                        r[2] = result.Cycles[order];
+                        cyclesTable.Rows.Add(r);
                     }
+
+                    cp.DestinationTableName = "Cycles";
+                    cp.WriteToServer(cyclesTable);
 
                     log.Info("Saving data to Triangles table.");
+                    DataTable trianglesTable = new DataTable("Triangles");
+                    trianglesTable.Columns.Add("ResultsID", typeof(Int32));
+                    trianglesTable.Columns.Add("TriangleCount", typeof(Int32));
+                    trianglesTable.Columns.Add("Count", typeof(Int32));
+
                     foreach (int tr in result.TriangleCount.Keys)
                     {
-                        using (DbCommand cmd = conn.CreateCommand())
-                        {
-                            string sqlQuery = "INSERT INTO Triangles(ResultsID,TriangleCount,Count) " +
-                                                "VALUES(@ResultsID,@TriangleCount,@Count)";
-                            cmd.CommandText = sqlQuery;
-                            cmd.CommandType = CommandType.Text;
-
-                            DbParameter dpResultsID = provider.CreateParameter();
-                            dpResultsID.ParameterName = "ResultsID";
-                            dpResultsID.Value = resultsID;
-                            cmd.Parameters.Add(dpResultsID);
-
-                            DbParameter dpSub = provider.CreateParameter();
-                            dpSub.ParameterName = "TriangleCount";
-                            dpSub.Value = tr;
-                            cmd.Parameters.Add(dpSub);
-
-                            DbParameter dpCount = provider.CreateParameter();
-                            dpCount.ParameterName = "Count";
-                            dpCount.Value = result.TriangleCount[tr];
-                            cmd.Parameters.Add(dpCount);
-
-                            cmd.ExecuteNonQuery();
-                        }
+                        DataRow r = trianglesTable.NewRow();
+                        r[0] = resultsID;
+                        r[1] = tr;
+                        r[2] = result.TriangleCount[tr];
+                        trianglesTable.Rows.Add(r);
                     }
+
+                    cp.DestinationTableName = "Triangles";
+                    cp.WriteToServer(trianglesTable);
 
                     log.Info("Saving data to TriangleTrajectory table.");
+                    DataTable triangleTrajectoryTable = new DataTable("TriangleTrajectory");
+                    triangleTrajectoryTable.Columns.Add("ResultsID", typeof(Int32));
+                    triangleTrajectoryTable.Columns.Add("Time", typeof(Int32));
+                    triangleTrajectoryTable.Columns.Add("TriangleCount", typeof(Double));
+
                     foreach (int time in result.TriangleTrajectory.Keys)
                     {
-                        using (DbCommand cmd = conn.CreateCommand())
-                        {
-                            string sqlQuery = "INSERT INTO TriangleTrajectory(ResultsID,Time,TriangleCount) " +
-                                                "VALUES(@ResultsID,@Time,@TriangleCount)";
-                            cmd.CommandText = sqlQuery;
-                            cmd.CommandType = CommandType.Text;
-
-                            DbParameter dpResultsID = provider.CreateParameter();
-                            dpResultsID.ParameterName = "ResultsID";
-                            dpResultsID.Value = resultsID;
-                            cmd.Parameters.Add(dpResultsID);
-
-                            DbParameter dpSub = provider.CreateParameter();
-                            dpSub.ParameterName = "Time";
-                            dpSub.Value = time;
-                            cmd.Parameters.Add(dpSub);
-
-                            DbParameter dpCount = provider.CreateParameter();
-                            dpCount.ParameterName = "TriangleCount";
-                            dpCount.Value = result.TriangleTrajectory[time];
-                            cmd.Parameters.Add(dpCount);
-
-                            cmd.ExecuteNonQuery();
-                        }
+                        DataRow r = triangleTrajectoryTable.NewRow();
+                        r[0] = resultsID;
+                        r[1] = time;
+                        r[2] = result.TriangleTrajectory[time];
+                        triangleTrajectoryTable.Rows.Add(r);
                     }
+
+                    cp.DestinationTableName = "TriangleTrajectory";
+                    cp.WriteToServer(triangleTrajectoryTable);
 
                     log.Info("Saving data to Motifs table.");
+                    DataTable motifsTable = new DataTable("Motifs");
+                    motifsTable.Columns.Add("ResultsID", typeof(Int32));
+                    motifsTable.Columns.Add("ID", typeof(Int32));
+                    motifsTable.Columns.Add("Count", typeof(float));
+
                     foreach (int id in result.MotivesCount.Keys)
                     {
-                        using (DbCommand cmd = conn.CreateCommand())
-                        {
-                            string sqlQuery = "INSERT INTO Motifs(ResultsID,ID,Count) " +
-                                                "VALUES(@ResultsID,@ID,@Count)";
-                            cmd.CommandText = sqlQuery;
-                            cmd.CommandType = CommandType.Text;
-
-                            DbParameter dpResultsID = provider.CreateParameter();
-                            dpResultsID.ParameterName = "ResultsID";
-                            dpResultsID.Value = resultsID;
-                            cmd.Parameters.Add(dpResultsID);
-
-                            DbParameter dpSub = provider.CreateParameter();
-                            dpSub.ParameterName = "ID";
-                            dpSub.Value = id;
-                            cmd.Parameters.Add(dpSub);
-
-                            DbParameter dpCount = provider.CreateParameter();
-                            dpCount.ParameterName = "Count";
-                            dpCount.Value = result.MotivesCount[id];
-                            cmd.Parameters.Add(dpCount);
-
-                            cmd.ExecuteNonQuery();
-                        }
+                        DataRow r = motifsTable.NewRow();
+                        r[0] = resultsID;
+                        r[1] = id;
+                        r[2] = result.MotivesCount[id];
+                        motifsTable.Rows.Add(r);
                     }
+
+                    cp.DestinationTableName = "Motifs";
+                    cp.WriteToServer(motifsTable);
+
+                    cp.Close();
                 }
             }
         }
