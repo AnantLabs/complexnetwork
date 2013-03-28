@@ -459,6 +459,7 @@ namespace ResultStorage.Storage
                         "DELETE FROM Motifs WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
                         "DELETE FROM AssemblyResults WHERE AssemblyID=@AssemblyID " +
                         "DELETE FROM GenerationParamValues WHERE AssemblyID=@AssemblyID " +
+                        "DELETE FROM AnalyzeOptionParamValues WHERE AssemblyID=@AssemblyID " +
                         "DELETE FROM Assemblies WHERE AssemblyID=@AssemblyID";
                     cmd.CommandText = sqlQuery;
                     cmd.CommandType = CommandType.Text;
@@ -560,16 +561,16 @@ namespace ResultStorage.Storage
                             AnalyzeOptionParamInfo paramInfo = (AnalyzeOptionParamInfo)(param.GetType().GetField(param.ToString()).GetCustomAttributes(typeof(AnalyzeOptionParamInfo), false)[0]);
                             if (paramInfo.Type.Equals(typeof(Double)))
                             {
-                                resultAssembly.AnalyzeOptionParams.Add(param, Convert.ToDouble(dr["Value"], 
-                                    CultureInfo.InvariantCulture));
+                                resultAssembly.AnalyzeOptionParams[param] = Convert.ToDouble(dr["Value"], 
+                                    CultureInfo.InvariantCulture);
                             }
                             else if (paramInfo.Type.Equals(typeof(Int16)))
                             {
-                                resultAssembly.AnalyzeOptionParams.Add(param, Convert.ToInt16(dr["Value"]));
+                                resultAssembly.AnalyzeOptionParams[param] = Convert.ToInt16(dr["Value"]);
                             }
                             else if (paramInfo.Type.Equals(typeof(BigInteger)))
                             {
-                                resultAssembly.AnalyzeOptionParams.Add(param, Convert.ToString(dr["Value"]));
+                                resultAssembly.AnalyzeOptionParams[param] = Convert.ToString(dr["Value"]);
                             }
                         }
                     }
@@ -847,7 +848,7 @@ namespace ResultStorage.Storage
                             {
                                 while (dr.Read())
                                 {
-                                    result.MotivesCount.Add(Convert.ToInt32(dr["ID"]), (float)dr["Count"]);
+                                    result.MotivesCount.Add(Convert.ToInt32(dr["ID"]), float.Parse(dr["Count"].ToString()));
                                 }
                             }
                         }
