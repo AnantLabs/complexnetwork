@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Numerics;
 using System.Data.Common;
 using System.Configuration;
 using System.Data;
@@ -494,7 +495,7 @@ namespace ResultStorage.Storage
                     return new ResultAssembly();
                 }
 
-                log.Info("Loading data from tables Assemblies, GenerationParamValues.");
+                log.Info("Loading data from tables Assemblies, GenerationParamValues, AnalyzeOptionParamValues.");
                 using (DbCommand cmd = conn.CreateCommand())
                 {
                     string sqlQuery = "SELECT Assemblies.[Name], Assemblies.ModelID, Assemblies.NetworkSize, Assemblies.FileName,GenerationParamValues.* FROM Assemblies " +
@@ -542,9 +543,37 @@ namespace ResultStorage.Storage
                             }
                         }
                     }
-                }
 
-                // load mu stepcount !исправить!
+                    sqlQuery = "SELECT Assemblies.[Name],AnalyzeOptionParamValues.* FROM Assemblies " +
+                        "LEFT JOIN AnalyzeOptionParamValues ON AnalyzeOptionParamValues.AssemblyID=Assemblies.AssemblyID " +
+                        "WHERE Assemblies.AssemblyID=@AssemblyID ORDER BY AnalyzeOptionParamID";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    using (DbDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            AnalyzeOptionParam param = (AnalyzeOptionParam)Enum.ToObject(typeof(AnalyzeOptionParam),
+                                (int)dr["AnalyzeOptionParamID"]);
+
+                            AnalyzeOptionParamInfo paramInfo = (AnalyzeOptionParamInfo)(param.GetType().GetField(param.ToString()).GetCustomAttributes(typeof(AnalyzeOptionParamInfo), false)[0]);
+                            if (paramInfo.Type.Equals(typeof(Double)))
+                            {
+                                resultAssembly.AnalyzeOptionParams.Add(param, Convert.ToDouble(dr["Value"], 
+                                    CultureInfo.InvariantCulture));
+                            }
+                            else if (paramInfo.Type.Equals(typeof(Int16)))
+                            {
+                                resultAssembly.AnalyzeOptionParams.Add(param, Convert.ToInt16(dr["Value"]));
+                            }
+                            else if (paramInfo.Type.Equals(typeof(BigInteger)))
+                            {
+                                resultAssembly.AnalyzeOptionParams.Add(param, Convert.ToString(dr["Value"]));
+                            }
+                        }
+                    }
+                }
 
                 log.Info("Loading analyze results data.");
                 using (DbCommand mainCmd = conn.CreateCommand())
