@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Numerics;
 
+using StatisticAnalyzer.Analyzer;
 using ZedGraph;
 
 namespace StatisticAnalyzerUI
@@ -20,22 +21,23 @@ namespace StatisticAnalyzerUI
         PointPairList avgsValues;
         PointPairList sigmasValues;
 
-        public ExtendedGraphic(SortedDictionary<double, double> avgsDict, 
-            SortedDictionary<double, double> sigmasDict, string paramLine)
+        public ExtendedGraphic(StAnalyzeResult stResult,
+            Color color,
+            bool pointView)
         {
             InitializeComponent();
 
-            parameterLine = paramLine;
+            parameterLine = stResult.parameterLine;
 
             avgsGraphic = new ZedGraphControl();
             avgsGraphic.Dock = DockStyle.Fill;
             this.resultsTab.TabPages[0].Controls.Add(avgsGraphic);
             avgsValues = new PointPairList();
 
-            SortedDictionary<double, double>.KeyCollection keys = avgsDict.Keys;
+            SortedDictionary<double, double>.KeyCollection keys = stResult.trajectoryAvgs.Keys;
             foreach (double i in keys)
             {
-                avgsValues.Add(Convert.ToDouble(i.ToString()), avgsDict[i]);
+                avgsValues.Add(Convert.ToDouble(i.ToString()), stResult.trajectoryAvgs[i]);
             }
 
             sigmasGraphic = new ZedGraphControl();
@@ -43,10 +45,10 @@ namespace StatisticAnalyzerUI
             this.resultsTab.TabPages[1].Controls.Add(sigmasGraphic);
             sigmasValues = new PointPairList();
 
-            keys = sigmasDict.Keys;
+            keys = stResult.trajectorySigmas.Keys;
             foreach (double i in keys)
             {
-                sigmasValues.Add(Convert.ToDouble(i.ToString()), sigmasDict[i]);
+                sigmasValues.Add(Convert.ToDouble(i.ToString()), stResult.trajectorySigmas[i]);
             }
         }
 
@@ -77,22 +79,15 @@ namespace StatisticAnalyzerUI
             sigmasGraphic.Refresh();
         }
 
-        private void ExtendedGraphic_FormClosing(object sender, FormClosingEventArgs e)
+        private void saveButton_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageBox.Show("Do you want to save graphics?", "Save graphics",
-                MessageBoxButtons.YesNoCancel);
-            if (dr == DialogResult.No)
-            {
-                e.Cancel = false;
-            }
-            else if (dr == DialogResult.Yes)
+            if (0 == this.resultsTab.SelectedIndex)
             {
                 avgsGraphic.SaveAs();
-                sigmasGraphic.SaveAs();
             }
-            else if(dr == DialogResult.Cancel)
+            else
             {
-                e.Cancel = true;
+                sigmasGraphic.SaveAs();
             }
         }
     }

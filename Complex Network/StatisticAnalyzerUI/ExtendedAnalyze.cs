@@ -46,9 +46,7 @@ namespace StatisticAnalyzerUI
                 return;
             }
 
-            ExtendedGraphic graphic = new ExtendedGraphic(analyzer.Result.trajectoryAvgs,
-                analyzer.Result.trajectorySigmas,
-                analyzer.Result.parameterLine);
+            ExtendedGraphic graphic = new ExtendedGraphic(analyzer.Result, Color.Black, true);
             graphic.Show();         
         }
 

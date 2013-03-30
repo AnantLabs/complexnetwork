@@ -28,7 +28,10 @@ namespace StatisticAnalyzerUI
 
         // Constructor and Load event handler
 
-        public Graphic(StAnalyzeResult stAnalyzeResult, Color color, bool pointView, GraphicCondition graphicCondition)
+        public Graphic(StAnalyzeResult stAnalyzeResult, 
+            Color color, 
+            bool pointView, 
+            GraphicCondition graphicCondition)
         {
             this.resultsList = new List<StAnalyzeResult>();
             this.resultsList.Add(stAnalyzeResult);
