@@ -94,12 +94,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExtendedAnalyze.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExtendedAnalyze.Designer.cs">
-      <DependentUpon>ExtendedAnalyze.cs</DependentUpon>
-    </Compile>
     <Compile Include="ExtendedGraphic.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,9 +126,6 @@
     <Compile Include="ValueTable.Designer.cs">
       <DependentUpon>ValueTable.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ExtendedAnalyze.resx">
-      <DependentUpon>ExtendedAnalyze.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ExtendedGraphic.resx">
       <DependentUpon>ExtendedGraphic.cs</DependentUpon>
     </EmbeddedResource>

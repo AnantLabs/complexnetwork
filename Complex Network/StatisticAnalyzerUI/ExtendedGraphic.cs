@@ -15,68 +15,59 @@ namespace StatisticAnalyzerUI
 {
     public partial class ExtendedGraphic : Form
     {
-        string parameterLine;
+        public List<StAnalyzeResult> resultsList; // Contains all StAnalyzeResults
+
+        private Color currentColor; // Color of last graph line
+        private bool currentPointView; // When true, points of the line are linked
+        private ExtendedGraphicCondition parent;
+
         ZedGraphControl avgsGraphic;
         ZedGraphControl sigmasGraphic;
-        PointPairList avgsValues;
-        PointPairList sigmasValues;
 
-        public ExtendedGraphic(StAnalyzeResult stResult,
+        public ExtendedGraphic(StAnalyzeResult stAnalyzeResult,
             Color color,
-            bool pointView)
+            bool pointView,
+            ExtendedGraphicCondition graphicCondition)
         {
             InitializeComponent();
 
-            parameterLine = stResult.parameterLine;
+            this.resultsList = new List<StAnalyzeResult>();
+            this.resultsList.Add(stAnalyzeResult);
+            this.currentColor = color;
+            this.currentPointView = pointView;
+            this.parent = graphicCondition;
 
             avgsGraphic = new ZedGraphControl();
             avgsGraphic.Dock = DockStyle.Fill;
             this.resultsTab.TabPages[0].Controls.Add(avgsGraphic);
-            avgsValues = new PointPairList();
-
-            SortedDictionary<double, double>.KeyCollection keys = stResult.trajectoryAvgs.Keys;
-            foreach (double i in keys)
-            {
-                avgsValues.Add(Convert.ToDouble(i.ToString()), stResult.trajectoryAvgs[i]);
-            }
-
-            sigmasGraphic = new ZedGraphControl();
-            sigmasGraphic.Dock = DockStyle.Fill;
-            this.resultsTab.TabPages[1].Controls.Add(sigmasGraphic);
-            sigmasValues = new PointPairList();
-
-            keys = stResult.trajectorySigmas.Keys;
-            foreach (double i in keys)
-            {
-                sigmasValues.Add(Convert.ToDouble(i.ToString()), stResult.trajectorySigmas[i]);
-            }
-        }
-
-        private void ExtendedGraphic_Load(object sender, EventArgs e)
-        {
             avgsGraphic.GraphPane.Title.Text = "Avgs";
             avgsGraphic.GraphPane.XAxis.Title.Text = "Mu";
             avgsGraphic.GraphPane.YAxis.Title.Text = "Avgs";
 
-            avgsGraphic.GraphPane.Legend.FontSpec.Size = 8;
-            LineItem avgsL = avgsGraphic.GraphPane.AddCurve(parameterLine, 
-                avgsValues, Color.Black, SymbolType.Circle);
-
-            avgsGraphic.AxisChange();
-            avgsGraphic.Invalidate();
-            avgsGraphic.Refresh();
-
+            sigmasGraphic = new ZedGraphControl();
+            sigmasGraphic.Dock = DockStyle.Fill;
+            this.resultsTab.TabPages[1].Controls.Add(sigmasGraphic);
             sigmasGraphic.GraphPane.Title.Text = "Sigmas";
             sigmasGraphic.GraphPane.XAxis.Title.Text = "Mu";
             sigmasGraphic.GraphPane.YAxis.Title.Text = "Sigmas";
+        }
 
-            sigmasGraphic.GraphPane.Legend.FontSpec.Size = 8;
-            LineItem sigmasL = sigmasGraphic.GraphPane.AddCurve(parameterLine,
-                sigmasValues, Color.Black, SymbolType.Circle);
+        public void Add(StAnalyzeResult stAnalyzeResult, Color color, bool pointView)
+        {
+            this.resultsList.Add(stAnalyzeResult);
+            this.currentColor = color;
+            this.currentPointView = pointView;
 
-            sigmasGraphic.AxisChange();
-            sigmasGraphic.Invalidate();
-            sigmasGraphic.Refresh();
+            this.MaximizeBox = true;
+            this.WindowState = FormWindowState.Maximized;
+            this.MaximizeBox = false;
+
+            DrawGraphics();
+        }
+
+        private void ExtendedGraphic_Load(object sender, EventArgs e)
+        {
+            DrawGraphics();
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -88,6 +79,49 @@ namespace StatisticAnalyzerUI
             else
             {
                 sigmasGraphic.SaveAs();
+            }
+        }
+
+        private void DrawGraphics()
+        {
+            int length = resultsList.Count();
+            PointPairList avgsValues = new PointPairList();
+            PointPairList sigmasValues = new PointPairList();
+
+            foreach (double d in resultsList[length - 1].trajectoryAvgs.Keys)
+            {
+                avgsValues.Add(d, resultsList[length - 1].trajectoryAvgs[d]);
+            }
+
+            foreach (double d in resultsList[length - 1].trajectorySigmas.Keys)
+            {
+                sigmasValues.Add(d, resultsList[length - 1].trajectorySigmas[d]);
+            }
+
+            avgsGraphic.GraphPane.Legend.FontSpec.Size = 8;
+            LineItem avgsL = avgsGraphic.GraphPane.AddCurve(resultsList[length - 1].parameterLine,
+                avgsValues, currentColor, SymbolType.Circle);
+            avgsL.IsVisible = this.currentPointView;
+
+            avgsGraphic.AxisChange();
+            avgsGraphic.Invalidate();
+            avgsGraphic.Refresh();            
+
+            sigmasGraphic.GraphPane.Legend.FontSpec.Size = 8;
+            LineItem sigmasL = sigmasGraphic.GraphPane.AddCurve(resultsList[length - 1].parameterLine,
+                sigmasValues, currentColor, SymbolType.Circle);
+            sigmasL.IsVisible = this.currentPointView;
+
+            sigmasGraphic.AxisChange();
+            sigmasGraphic.Invalidate();
+            sigmasGraphic.Refresh();
+        }
+
+        private void ExtendedGraphic_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.parent != null)
+            {
+                this.parent.isOpen = false;
             }
         }
     }

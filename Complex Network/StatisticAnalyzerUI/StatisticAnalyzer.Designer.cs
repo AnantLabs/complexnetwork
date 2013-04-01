@@ -31,12 +31,11 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StatisticAnalyzer));
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.MenuSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuSetProvider = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.extendedAnalyzeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.ModelName = new System.Windows.Forms.Label();
             this.ModelNameCmb = new System.Windows.Forms.ComboBox();
@@ -71,10 +70,13 @@
             this.GlobalPropertiesList = new System.Windows.Forms.CheckedListBox();
             this.GetGlobalResult = new System.Windows.Forms.Button();
             this.GlobalDrawGraphics = new System.Windows.Forms.Button();
-            this.selectTabControl = new System.Windows.Forms.TabControl();
-            this.MotifAnalyzeTab = new System.Windows.Forms.TabPage();
-            this.MotifDrowGraphics = new System.Windows.Forms.Button();
-            this.MotifPropertiesList = new System.Windows.Forms.CheckedListBox();
+            this.AnalyzeTabs = new System.Windows.Forms.TabControl();
+            this.ExtendedAnalyzeTab = new System.Windows.Forms.TabPage();
+            this.ExtendedAnalyzeOptionsGrd = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ExtendedPropertiesList = new System.Windows.Forms.CheckedListBox();
+            this.extendedDrawGraphics = new System.Windows.Forms.Button();
             this.CommonToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.PointsCheck = new System.Windows.Forms.CheckBox();
             this.GraphicsGrp = new System.Windows.Forms.GroupBox();
@@ -88,8 +90,9 @@
             this.LocalAnalyzeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalAnalyzeOptionsGrd)).BeginInit();
             this.GlobalAnalyzeTab.SuspendLayout();
-            this.selectTabControl.SuspendLayout();
-            this.MotifAnalyzeTab.SuspendLayout();
+            this.AnalyzeTabs.SuspendLayout();
+            this.ExtendedAnalyzeTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ExtendedAnalyzeOptionsGrd)).BeginInit();
             this.GraphicsGrp.SuspendLayout();
             this.analyzeOptionsParamsGrp.SuspendLayout();
             this.SuspendLayout();
@@ -99,7 +102,6 @@
             this.MenuStrip.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuSettings,
-            this.toolsToolStripMenuItem,
             this.MenuHelp});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
@@ -121,21 +123,6 @@
             this.MenuSetProvider.Size = new System.Drawing.Size(223, 22);
             this.MenuSetProvider.Text = "Set/Change Storage Provider...";
             this.MenuSetProvider.Click += new System.EventHandler(this.MenuSetProvider_Click);
-            // 
-            // toolsToolStripMenuItem
-            // 
-            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.extendedAnalyzeToolStripMenuItem});
-            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
-            this.toolsToolStripMenuItem.Text = "Tools";
-            // 
-            // extendedAnalyzeToolStripMenuItem
-            // 
-            this.extendedAnalyzeToolStripMenuItem.Name = "extendedAnalyzeToolStripMenuItem";
-            this.extendedAnalyzeToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.extendedAnalyzeToolStripMenuItem.Text = "Extended Analyze";
-            this.extendedAnalyzeToolStripMenuItem.Click += new System.EventHandler(this.extendedAnalyzeToolStripMenuItem_Click);
             // 
             // MenuHelp
             // 
@@ -307,7 +294,7 @@
             // 
             // deselectLocal
             // 
-            this.deselectLocal.Location = new System.Drawing.Point(109, 238);
+            this.deselectLocal.Location = new System.Drawing.Point(109, 235);
             this.deselectLocal.Name = "deselectLocal";
             this.deselectLocal.Size = new System.Drawing.Size(75, 23);
             this.deselectLocal.TabIndex = 43;
@@ -317,7 +304,7 @@
             // 
             // selectLocal
             // 
-            this.selectLocal.Location = new System.Drawing.Point(13, 238);
+            this.selectLocal.Location = new System.Drawing.Point(13, 235);
             this.selectLocal.Name = "selectLocal";
             this.selectLocal.Size = new System.Drawing.Size(75, 23);
             this.selectLocal.TabIndex = 42;
@@ -517,53 +504,83 @@
             this.GlobalDrawGraphics.UseVisualStyleBackColor = true;
             this.GlobalDrawGraphics.Click += new System.EventHandler(this.GlobalDrawGraphics_Click);
             // 
-            // selectTabControl
+            // AnalyzeTabs
             // 
-            this.selectTabControl.Controls.Add(this.GlobalAnalyzeTab);
-            this.selectTabControl.Controls.Add(this.LocalAnalyzeTab);
-            this.selectTabControl.Controls.Add(this.MotifAnalyzeTab);
-            this.selectTabControl.Location = new System.Drawing.Point(31, 360);
-            this.selectTabControl.Name = "selectTabControl";
-            this.selectTabControl.SelectedIndex = 0;
-            this.selectTabControl.Size = new System.Drawing.Size(767, 290);
-            this.selectTabControl.TabIndex = 9;
+            this.AnalyzeTabs.Controls.Add(this.GlobalAnalyzeTab);
+            this.AnalyzeTabs.Controls.Add(this.LocalAnalyzeTab);
+            this.AnalyzeTabs.Controls.Add(this.ExtendedAnalyzeTab);
+            this.AnalyzeTabs.Location = new System.Drawing.Point(31, 360);
+            this.AnalyzeTabs.Name = "AnalyzeTabs";
+            this.AnalyzeTabs.SelectedIndex = 0;
+            this.AnalyzeTabs.Size = new System.Drawing.Size(767, 290);
+            this.AnalyzeTabs.TabIndex = 9;
             // 
-            // MotifAnalyzeTab
+            // ExtendedAnalyzeTab
             // 
-            this.MotifAnalyzeTab.Controls.Add(this.MotifDrowGraphics);
-            this.MotifAnalyzeTab.Controls.Add(this.MotifPropertiesList);
-            this.MotifAnalyzeTab.Location = new System.Drawing.Point(4, 22);
-            this.MotifAnalyzeTab.Name = "MotifAnalyzeTab";
-            this.MotifAnalyzeTab.Padding = new System.Windows.Forms.Padding(3);
-            this.MotifAnalyzeTab.Size = new System.Drawing.Size(759, 264);
-            this.MotifAnalyzeTab.TabIndex = 3;
-            this.MotifAnalyzeTab.Text = "Motif Analyze";
-            this.MotifAnalyzeTab.UseVisualStyleBackColor = true;
+            this.ExtendedAnalyzeTab.Controls.Add(this.ExtendedAnalyzeOptionsGrd);
+            this.ExtendedAnalyzeTab.Controls.Add(this.ExtendedPropertiesList);
+            this.ExtendedAnalyzeTab.Controls.Add(this.extendedDrawGraphics);
+            this.ExtendedAnalyzeTab.Location = new System.Drawing.Point(4, 22);
+            this.ExtendedAnalyzeTab.Name = "ExtendedAnalyzeTab";
+            this.ExtendedAnalyzeTab.Padding = new System.Windows.Forms.Padding(3);
+            this.ExtendedAnalyzeTab.Size = new System.Drawing.Size(759, 264);
+            this.ExtendedAnalyzeTab.TabIndex = 3;
+            this.ExtendedAnalyzeTab.Text = "Extended Analyze";
+            this.ExtendedAnalyzeTab.UseVisualStyleBackColor = true;
             // 
-            // MotifDrowGraphics
+            // ExtendedAnalyzeOptionsGrd
             // 
-            this.MotifDrowGraphics.Location = new System.Drawing.Point(614, 187);
-            this.MotifDrowGraphics.Name = "MotifDrowGraphics";
-            this.MotifDrowGraphics.Size = new System.Drawing.Size(120, 37);
-            this.MotifDrowGraphics.TabIndex = 17;
-            this.MotifDrowGraphics.Text = "Draw Graphics";
-            this.CommonToolTip.SetToolTip(this.MotifDrowGraphics, "Shows the global analyze result graphic.");
-            this.MotifDrowGraphics.UseVisualStyleBackColor = true;
-            this.MotifDrowGraphics.Click += new System.EventHandler(this.MotifDrawGraphics_Click);
+            this.ExtendedAnalyzeOptionsGrd.AllowUserToAddRows = false;
+            this.ExtendedAnalyzeOptionsGrd.AllowUserToDeleteRows = false;
+            this.ExtendedAnalyzeOptionsGrd.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ExtendedAnalyzeOptionsGrd.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2});
+            this.ExtendedAnalyzeOptionsGrd.Location = new System.Drawing.Point(207, 26);
+            this.ExtendedAnalyzeOptionsGrd.Name = "ExtendedAnalyzeOptionsGrd";
+            this.ExtendedAnalyzeOptionsGrd.Size = new System.Drawing.Size(383, 198);
+            this.ExtendedAnalyzeOptionsGrd.TabIndex = 42;
+            this.CommonToolTip.SetToolTip(this.ExtendedAnalyzeOptionsGrd, "Global analyze options properties.");
             // 
-            // MotifPropertiesList
+            // dataGridViewTextBoxColumn1
             // 
-            this.MotifPropertiesList.CheckOnClick = true;
-            this.MotifPropertiesList.FormattingEnabled = true;
-            this.MotifPropertiesList.Items.AddRange(new object[] {
-            "Motifs of Order 3",
-            "Motifs of Order 4",
-            "Motifs of Order 5",
-            "Motifs of Order 6"});
-            this.MotifPropertiesList.Location = new System.Drawing.Point(13, 25);
-            this.MotifPropertiesList.Name = "MotifPropertiesList";
-            this.MotifPropertiesList.Size = new System.Drawing.Size(577, 199);
-            this.MotifPropertiesList.TabIndex = 16;
+            this.dataGridViewTextBoxColumn1.HeaderText = "Property Name";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 160;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.NullValue = "0";
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dataGridViewTextBoxColumn2.HeaderText = "Steps to Remove";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.Width = 160;
+            // 
+            // ExtendedPropertiesList
+            // 
+            this.ExtendedPropertiesList.CheckOnClick = true;
+            this.ExtendedPropertiesList.FormattingEnabled = true;
+            this.ExtendedPropertiesList.Items.AddRange(new object[] {
+            "Triangle Trajectory"});
+            this.ExtendedPropertiesList.Location = new System.Drawing.Point(13, 25);
+            this.ExtendedPropertiesList.Name = "ExtendedPropertiesList";
+            this.ExtendedPropertiesList.Size = new System.Drawing.Size(183, 199);
+            this.ExtendedPropertiesList.TabIndex = 41;
+            this.CommonToolTip.SetToolTip(this.ExtendedPropertiesList, "Local analyze options.");
+            this.ExtendedPropertiesList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.ExtendedPropertiesList_ItemCheck);
+            // 
+            // extendedDrawGraphics
+            // 
+            this.extendedDrawGraphics.Location = new System.Drawing.Point(614, 187);
+            this.extendedDrawGraphics.Name = "extendedDrawGraphics";
+            this.extendedDrawGraphics.Size = new System.Drawing.Size(120, 37);
+            this.extendedDrawGraphics.TabIndex = 17;
+            this.extendedDrawGraphics.Text = "Draw Graphics";
+            this.CommonToolTip.SetToolTip(this.extendedDrawGraphics, "Shows the extended analyze result graphic.");
+            this.extendedDrawGraphics.UseVisualStyleBackColor = true;
+            this.extendedDrawGraphics.Click += new System.EventHandler(this.extendedDrawGraphics_Click);
             // 
             // CommonToolTip
             // 
@@ -676,7 +693,7 @@
             this.Controls.Add(this.Realizations);
             this.Controls.Add(this.ByJobsRadio);
             this.Controls.Add(this.RefreshBtn);
-            this.Controls.Add(this.selectTabControl);
+            this.Controls.Add(this.AnalyzeTabs);
             this.Controls.Add(this.GenerationParametersGrp);
             this.Controls.Add(this.ModelNameCmb);
             this.Controls.Add(this.ModelName);
@@ -694,8 +711,9 @@
             this.LocalAnalyzeTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalAnalyzeOptionsGrd)).EndInit();
             this.GlobalAnalyzeTab.ResumeLayout(false);
-            this.selectTabControl.ResumeLayout(false);
-            this.MotifAnalyzeTab.ResumeLayout(false);
+            this.AnalyzeTabs.ResumeLayout(false);
+            this.ExtendedAnalyzeTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ExtendedAnalyzeOptionsGrd)).EndInit();
             this.GraphicsGrp.ResumeLayout(false);
             this.GraphicsGrp.PerformLayout();
             this.analyzeOptionsParamsGrp.ResumeLayout(false);
@@ -728,19 +746,18 @@
         private System.Windows.Forms.Button LocalDrawGraphics;
         private System.Windows.Forms.TabPage GlobalAnalyzeTab;
         private System.Windows.Forms.Button GlobalDrawGraphics;
-        private System.Windows.Forms.TabControl selectTabControl;
+        private System.Windows.Forms.TabControl AnalyzeTabs;
         private System.Windows.Forms.ToolStripMenuItem MenuHelp;
         private System.Windows.Forms.ToolTip CommonToolTip;
         private System.Windows.Forms.Button GetGlobalResult;
         private System.Windows.Forms.CheckBox PointsCheck;
         private System.Windows.Forms.CheckedListBox GlobalPropertiesList;
-        private System.Windows.Forms.TabPage MotifAnalyzeTab;
+        private System.Windows.Forms.TabPage ExtendedAnalyzeTab;
         private System.Windows.Forms.CheckedListBox LocalPropertiesList;
         private System.Windows.Forms.Label ApproximationType;
         private System.Windows.Forms.ComboBox ApproximationTypeCmb;
         private System.Windows.Forms.DataGridView LocalAnalyzeOptionsGrd;
-        private System.Windows.Forms.Button MotifDrowGraphics;
-        private System.Windows.Forms.CheckedListBox MotifPropertiesList;
+        private System.Windows.Forms.Button extendedDrawGraphics;
         private System.Windows.Forms.DataGridViewTextBoxColumn PropertyNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn DeltaColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ThickeningColumn;
@@ -752,13 +769,15 @@
         private System.Windows.Forms.Button selectLocal;
         private System.Windows.Forms.Button deselectGlobal;
         private System.Windows.Forms.Button selectGlobal;
-        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem extendedAnalyzeToolStripMenuItem;
         private System.Windows.Forms.GroupBox analyzeOptionsParamsGrp;
         private System.Windows.Forms.ComboBox bySecondParamCmb;
         private System.Windows.Forms.CheckBox bySecondParamCheck;
         private System.Windows.Forms.ComboBox byFirstParamCmb;
         private System.Windows.Forms.CheckBox byFirstParamCheck;
+        private System.Windows.Forms.DataGridView ExtendedAnalyzeOptionsGrd;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.CheckedListBox ExtendedPropertiesList;
     }
 }
 
