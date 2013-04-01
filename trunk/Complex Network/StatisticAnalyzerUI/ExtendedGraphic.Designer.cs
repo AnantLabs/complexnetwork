@@ -124,10 +124,10 @@
             this.ClientSize = new System.Drawing.Size(853, 511);
             this.Controls.Add(this.splitContainer1);
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "ExtendedGraphic";
             this.Text = "Extended Graphic";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExtendedGraphic_FormClosing);
             this.Load += new System.EventHandler(this.ExtendedGraphic_Load);
             this.panel1.ResumeLayout(false);
             this.resultsTab.ResumeLayout(false);

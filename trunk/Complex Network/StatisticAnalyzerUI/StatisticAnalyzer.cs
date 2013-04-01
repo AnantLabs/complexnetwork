@@ -34,7 +34,7 @@ namespace StatisticAnalyzerUI
 
         private GraphicCondition globalGraphic;
         private GraphicCondition localGraphic;
-        private GraphicCondition motifGraphic;
+        private ExtendedGraphicCondition extendedGraphic;
 
         public StatisticAnalyzer()
         {
@@ -52,7 +52,7 @@ namespace StatisticAnalyzerUI
 
             this.globalGraphic = new GraphicCondition();
             this.localGraphic = new GraphicCondition();
-            this.motifGraphic = new GraphicCondition();
+            this.extendedGraphic = new ExtendedGraphicCondition();
 
             InitializeCurveLineCmb();
             InitializeModelNameCmb();
@@ -124,7 +124,8 @@ namespace StatisticAnalyzerUI
             if (e.NewValue == CheckState.Checked)
             {
                 index = this.LocalAnalyzeOptionsGrd.Rows.Add();
-                this.LocalAnalyzeOptionsGrd.Rows[index].Cells[0].Value = this.LocalPropertiesList.Items[e.Index].ToString();
+                this.LocalAnalyzeOptionsGrd.Rows[index].Cells[0].Value = 
+                    this.LocalPropertiesList.Items[e.Index].ToString();
                 this.LocalAnalyzeOptionsGrd.Rows[index].Cells[1].Value = 0;
                 this.LocalAnalyzeOptionsGrd.Rows[index].Cells[2].Value = 0;
             }
@@ -134,6 +135,32 @@ namespace StatisticAnalyzerUI
                 {
                     if (this.LocalAnalyzeOptionsGrd.Rows[i].Cells[0].Value.ToString() ==
                         this.LocalPropertiesList.Items[e.Index].ToString())
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+
+                this.LocalAnalyzeOptionsGrd.Rows.RemoveAt(index);
+            }
+        }
+
+        private void ExtendedPropertiesList_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            int index = 0;
+            if (e.NewValue == CheckState.Checked)
+            {
+                index = this.ExtendedAnalyzeOptionsGrd.Rows.Add();
+                this.ExtendedAnalyzeOptionsGrd.Rows[index].Cells[0].Value = 
+                    this.ExtendedPropertiesList.Items[e.Index].ToString();
+                this.ExtendedAnalyzeOptionsGrd.Rows[index].Cells[1].Value = 0;
+            }
+            else if (e.NewValue == CheckState.Unchecked)
+            {
+                for (int i = 0; i < this.ExtendedAnalyzeOptionsGrd.Rows.Count; ++i)
+                {
+                    if (this.ExtendedAnalyzeOptionsGrd.Rows[i].Cells[0].Value.ToString() ==
+                        this.ExtendedPropertiesList.Items[e.Index].ToString())
                     {
                         index = i;
                         break;
@@ -321,10 +348,35 @@ namespace StatisticAnalyzerUI
             valueTable.Show();
         }
 
-        private void MotifDrawGraphics_Click(object sender, EventArgs e)
+        private void extendedDrawGraphics_Click(object sender, EventArgs e)
         {
             if (!ValidateGraphicConditions())
                 return;
+
+            StAnalyzer analyzer = new StAnalyzer(GetAssembliesToAnalyze());
+            analyzer.options |= AnalyseOptions.TriangleTrajectory;
+            analyzer.ExtendedAnalyze(Convert.ToUInt32(this.ExtendedAnalyzeOptionsGrd.Rows[0].Cells[1].Value));
+            StAnalyzeResult result = analyzer.Result;
+            if (result.trajectoryAvgs.Keys.Count == 0)
+            {
+                MessageBox.Show("There are no results!");
+                return;
+            }
+
+            if (this.extendedGraphic.isOpen)
+            {
+                this.extendedGraphic.graphic.Add(result, 
+                    (Color)this.CurveLineCmb.SelectedItem, 
+                    !PointsCheck.Checked);
+            }
+            else
+            {
+                this.extendedGraphic.isOpen = true;
+                this.extendedGraphic.graphic = new ExtendedGraphic(result,
+                    (Color)this.CurveLineCmb.SelectedItem,
+                    !PointsCheck.Checked, this.extendedGraphic);
+                this.extendedGraphic.graphic.Show();
+            }
         }
 
         // Menu Event Handlers //
@@ -368,14 +420,7 @@ namespace StatisticAnalyzerUI
             loader.InitStorage();
             loader.InitAssemblies();
             FillJobs();
-        }
-
-        private void extendedAnalyzeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ExtendedAnalyze extendedAnalyzeWnd = new ExtendedAnalyze(GetAssembliesToAnalyze());
-            extendedAnalyzeWnd.ModelName = this.ModelNameCmb.Text;
-            extendedAnalyzeWnd.ShowDialog();
-        }   
+        } 
 
         // Utilities //
 
@@ -885,6 +930,18 @@ namespace StatisticAnalyzerUI
         public Graphic graphic;
 
         public GraphicCondition()
+        {
+            isOpen = false;
+            graphic = null;
+        }
+    }
+
+    public class ExtendedGraphicCondition
+    {
+        public bool isOpen;
+        public ExtendedGraphic graphic;
+
+        public ExtendedGraphicCondition()
         {
             isOpen = false;
             graphic = null;
