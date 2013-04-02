@@ -499,7 +499,8 @@ namespace Model.HierarchicModel.Realization
 
                             arrayReturned[1] += powPK * powPK;
 
-                            arrayReturned[2] += powPK * powPK * powPK * (array[i][1] + array[j][1]);
+                            arrayReturned[2] += 2 * powPK * (array[i][1] + array[j][1]);
+                            arrayReturned[2] += powPK * powPK * (powPK - 1);
                         }
 
                         for (int k = j + 1; k < (nodeNumber + 1) * bIndex; ++k )
