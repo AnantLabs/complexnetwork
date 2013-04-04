@@ -25,6 +25,9 @@ namespace RandomGraph.Common.Model
         TrajectoryMu = 5,
 
         [AnalyzeOptionParamInfo(Name = "Step Count Parameter for Trajectory", Type = typeof(BigInteger))]
-        TrajectoryStepCount = 6
+        TrajectoryStepCount = 6,
+
+        [AnalyzeOptionParamInfo(Name = "Keep degreedistibution", Type = typeof(bool))]
+        KeepDegreedistribution = 7
     }
 }

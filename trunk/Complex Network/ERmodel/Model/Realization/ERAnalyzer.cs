@@ -253,7 +253,7 @@ namespace Model.ERModel.Realization
             return pathDistribution;
         }
 
-        public override SortedDictionary<int, double> GetTrianglesTrajectory(double constant, BigInteger stepcount)
+        public override SortedDictionary<int, double> GetTrianglesTrajectory(double constant, BigInteger stepcount,bool keepdistribution)
         {
           
             log.Info("Getting triangle trajectory.");
@@ -277,7 +277,7 @@ namespace Model.ERModel.Realization
                 {
                     time++;
                     var count = 0;
-                    tempContainer = Transformations(currentContainer, randeom,out count);
+                    tempContainer = Transformations(currentContainer, randeom,keepdistribution,out count);
                 
                    
                     var counttriangle = currentcounttriangle + count;
@@ -519,7 +519,7 @@ namespace Model.ERModel.Realization
             return Math.Exp((-constant * Math.Abs(delta)));
         }
 
-        private  ERContainer Transformations(ERContainer trcontainer,Random random, out int  triangle)
+        private  ERContainer Transformations(ERContainer trcontainer,Random random, bool keepdistribution,out int  triangle)
         {
             var tranformation = trcontainer.Copy();
 
@@ -529,13 +529,43 @@ namespace Model.ERModel.Realization
             {
 
                 var removeedje = random.Next(0, tranformation.Edjes.Count - 1);
-                var addEdje = random.Next(0, tranformation.NoEdjes.Count - 1);
 
                 var removeedjeVertix1 = tranformation.Edjes[removeedje].Key;
                 var removeedjeVertix2 = tranformation.Edjes[removeedje].Value;
+                int addEdjeVertix1 = 0;
+                int addEdjeVertix2 = 0;
+                int addEdje  =0;
+                int degreeVertex1 = container.Neighbourship[removeedjeVertix1].Count();
+                int degreeVertex2 = container.Neighbourship[removeedjeVertix2].Count();
+                var posibleNoedjes = new List<KeyValuePair<int, int>>();
+                if (keepdistribution)
+                {
+                    foreach (var item in tranformation.NoEdjes)
+                    {
+                        if ((container.Neighbourship[item.Key].Count() == degreeVertex1 - 1 && container.Neighbourship[item.Value].Count() == degreeVertex2 - 1) ||
+                            (container.Neighbourship[item.Key].Count() == degreeVertex2 - 1 && container.Neighbourship[item.Value].Count() == degreeVertex1 - 1))
+                        {
+                            posibleNoedjes.Add(item);
+                        }
+                    }
+                    if (posibleNoedjes.Count != 0)
+                    {
+                        addEdje = random.Next(0, posibleNoedjes.Count - 1);
 
-                var addEdjeVertix1 = tranformation.NoEdjes[addEdje].Key;
-                var addEdjeVertix2 = tranformation.NoEdjes[addEdje].Value;
+                        addEdjeVertix1 = posibleNoedjes[addEdje].Key;
+                        addEdjeVertix2 = posibleNoedjes[addEdje].Value;
+                    }
+                    else
+                    {
+                        Transformations(trcontainer, random, keepdistribution, out triangle);
+                    }
+                }
+                else
+                {
+                    addEdje = random.Next(0, tranformation.NoEdjes.Count - 1);
+                    addEdjeVertix1 = tranformation.NoEdjes[addEdje].Key;
+                    addEdjeVertix2 = tranformation.NoEdjes[addEdje].Value;
+                }
                
 
                 //Remove edje 

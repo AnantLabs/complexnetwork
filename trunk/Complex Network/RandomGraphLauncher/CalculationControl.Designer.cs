@@ -50,6 +50,8 @@
             this.constantInput = new System.Windows.Forms.TextBox();
             this.stepcountInput = new System.Windows.Forms.TextBox();
             this.stepcountLabel = new System.Windows.Forms.Label();
+            this.keepDistributionCheckBox = new System.Windows.Forms.CheckBox();
+            this.keepDistributionLabel = new System.Windows.Forms.Label();
             this.cyclesHighCmb = new System.Windows.Forms.ComboBox();
             this.cyclesLowCmb = new System.Windows.Forms.ComboBox();
             this.motiveHighCmb = new System.Windows.Forms.ComboBox();
@@ -196,6 +198,8 @@
             this.optionsGrp.Controls.Add(this.constantInput);
             this.optionsGrp.Controls.Add(this.stepcountInput);
             this.optionsGrp.Controls.Add(this.stepcountLabel);
+            this.optionsGrp.Controls.Add(this.keepDistributionCheckBox);
+            this.optionsGrp.Controls.Add(this.keepDistributionLabel);
             this.optionsGrp.Controls.Add(this.cyclesHighCmb);
             this.optionsGrp.Controls.Add(this.cyclesLowCmb);
             this.optionsGrp.Controls.Add(this.motiveHighCmb);
@@ -292,6 +296,26 @@
             this.stepcountLabel.TabIndex = 12;
             this.stepcountLabel.Text = "Steps";
             this.stepcountLabel.Visible = false;
+            // 
+            // keepDistributionCheckBox
+            // 
+            this.keepDistributionCheckBox.Checked = false;
+            this.keepDistributionCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.keepDistributionCheckBox.Location = new System.Drawing.Point(300, 150);
+            this.keepDistributionCheckBox.Name = "keepDistributionCheckBox";
+            this.keepDistributionCheckBox.Size = new System.Drawing.Size(80, 20);
+            this.keepDistributionCheckBox.TabIndex = 14;
+            this.keepDistributionCheckBox.Visible = false;
+            this.keepDistributionCheckBox.CheckedChanged += new System.EventHandler(this.keepDistribution_CheckChange);
+            // 
+            // keepDistributionLabel
+            // 
+            this.keepDistributionLabel.Location = new System.Drawing.Point(207, 153);
+            this.keepDistributionLabel.Name = "keepDistributionLabel";
+            this.keepDistributionLabel.Size = new System.Drawing.Size(100, 14);
+            this.keepDistributionLabel.TabIndex = 13;
+            this.keepDistributionLabel.Text = "Keep Distribution";
+            this.keepDistributionLabel.Visible = false;
             // 
             // cyclesHighCmb
             // 
@@ -743,6 +767,8 @@
         private System.Windows.Forms.ComboBox cyclesLowCmb;
         private System.Windows.Forms.TextBox constantInput;
         private System.Windows.Forms.Label constantInputLabel;
+        private System.Windows.Forms.Label keepDistributionLabel;
+        private System.Windows.Forms.CheckBox keepDistributionCheckBox;
         private System.Windows.Forms.TextBox stepcountInput;
         private System.Windows.Forms.Label stepcountLabel;
         private System.Windows.Forms.ComboBox motiveHighCmb;
