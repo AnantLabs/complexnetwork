@@ -258,7 +258,12 @@ namespace RandomGraph.Common.Model
                     {
                         double constant = (Double)AnalyzeOptionsValues[AnalyzeOptionParam.TrajectoryMu];
                         BigInteger stepCount = BigInteger.Parse(AnalyzeOptionsValues[AnalyzeOptionParam.TrajectoryStepCount].ToString());
-                        Result.TriangleTrajectory = analyzer.GetTrianglesTrajectory(constant, stepCount);
+                        bool keepDistribution = true; 
+                        if (AnalyzeOptionsValues.ContainsKey(AnalyzeOptionParam.KeepDegreedistribution))
+                        {
+                            keepDistribution = (bool)AnalyzeOptionsValues[AnalyzeOptionParam.KeepDegreedistribution];
+                        }
+                        Result.TriangleTrajectory = analyzer.GetTrianglesTrajectory(constant, stepCount, keepDistribution);
                     }
                     catch(Exception ex)
                     {

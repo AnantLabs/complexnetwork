@@ -345,7 +345,14 @@ namespace RandomGraphLauncher
         {
             SessionController.SetAnalyzeOptionValue(jobName, AnalyzeOptionParam.TrajectoryStepCount,
                 this.stepcountInput.Text);
-        }    
+        }
+
+        private void keepDistribution_CheckChange(object sender, EventArgs e)
+        {
+
+            SessionController.SetAnalyzeOptionValue(jobName, AnalyzeOptionParam.KeepDegreedistribution,
+               this.keepDistributionCheckBox.Checked);
+        }
 
         private void cyclesHi_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -595,6 +602,8 @@ namespace RandomGraphLauncher
                     this.constantInput.Show();
                     this.stepcountLabel.Show();
                     this.stepcountInput.Show();
+                    this.keepDistributionCheckBox.Show();
+                    this.keepDistributionLabel.Show();
                 }
             }
         }
