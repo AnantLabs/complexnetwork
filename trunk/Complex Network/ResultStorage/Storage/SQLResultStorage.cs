@@ -44,6 +44,54 @@ namespace ResultStorage.Storage
             return connSettings.ConnectionString;
         }
 
+        // ??
+        public void GetAvgSigma(Guid id, int k, out double avg, out double sigma)
+        {
+            avg = 0;
+            sigma = 0;
+
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = GetConnectionString();
+                conn.Open();
+
+                SqlCommand command = (SqlCommand)conn.CreateCommand();
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@AssID", SqlDbType.UniqueIdentifier).Value = id;
+                command.Parameters.Add("@StepsToRemove", SqlDbType.Int).Value = k; 
+                command.CommandText = "CountTriangleTrajectoryAvgSigma";
+                command.ExecuteNonQuery();
+
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "SELECT * FROM TriangleTrajectoryAvgSigma " + 
+                        "WHERE AssemblyID=@AssemblyID AND StepsToRemove=@StepsToRemove";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter p1 = provider.CreateParameter();
+                    p1.ParameterName = "AssemblyID";
+                    p1.Value = id;
+                    cmd.Parameters.Add(p1);
+
+                    DbParameter p2 = provider.CreateParameter();
+                    p2.ParameterName = "StepsToRemove";
+                    p2.Value = k;
+                    cmd.Parameters.Add(p2);
+
+                    using (DbDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            avg = (double)dr["Average"];
+                            sigma = (double)dr["Sigma"];
+                        }
+                    }
+                }
+            }
+        }
+        // ??
+
         #region IResultStorage Members
 
         // Сохранение сборки в БД.
@@ -234,203 +282,276 @@ namespace ResultStorage.Storage
                         SqlBulkCopyOptions.CheckConstraints);
 
                     log.Info("Saving data to VertexDegree table.");
-                    DataTable vertexDegreeTable = new DataTable("VertexDegree");
-                    vertexDegreeTable.Columns.Add("ResultsID", typeof(Int32));
-                    vertexDegreeTable.Columns.Add("Degree", typeof(Int32));
-                    vertexDegreeTable.Columns.Add("Count", typeof(Int32));
+                    DataTable commonTable = new DataTable();
+                    commonTable.Columns.Add("ResultsID", typeof(Int32));
+                    commonTable.Columns.Add("Degree", typeof(Int32));
+                    commonTable.Columns.Add("Count", typeof(Int32));
 
                     foreach (int degree in result.VertexDegree.Keys)
                     {
-                        DataRow r = vertexDegreeTable.NewRow();
+                        DataRow r = commonTable.NewRow();
                         r[0] = resultsID;
                         r[1] = degree;
                         r[2] = result.VertexDegree[degree];
-                        vertexDegreeTable.Rows.Add(r);
+                        commonTable.Rows.Add(r);
                     }
 
                     cp.DestinationTableName = "VertexDegree";
-                    cp.WriteToServer(vertexDegreeTable);
+                    cp.WriteToServer(commonTable);
 
                     log.Info("Saving data to Coefficients table.");
-                    DataTable coefficientsTable = new DataTable("Coefficients");
-                    coefficientsTable.Columns.Add("ResultsID", typeof(Int32));
-                    coefficientsTable.Columns.Add("Coefficient", typeof(Double));
-                    coefficientsTable.Columns.Add("Count", typeof(Int32));
+                    commonTable.Rows.Clear();
+                    commonTable.Columns.Clear();
+                    commonTable.Columns.Add("ResultsID", typeof(Int32));
+                    commonTable.Columns.Add("Coefficient", typeof(Double));
+                    commonTable.Columns.Add("Count", typeof(Int32));
 
                     foreach (double coefficient in result.Coefficient.Keys)
                     {
-                        DataRow r = coefficientsTable.NewRow();
+                        DataRow r = commonTable.NewRow();
                         r[0] = resultsID;
                         r[1] = coefficient;
                         r[2] = result.Coefficient[coefficient];
-                        coefficientsTable.Rows.Add(r);
+                        commonTable.Rows.Add(r);
                     }
 
                     cp.DestinationTableName = "Coefficients";
-                    cp.WriteToServer(coefficientsTable);
+                    cp.WriteToServer(commonTable);
 
                     log.Info("Saving data to ConSubgraphs table.");
-                    DataTable conSubgraphsTable = new DataTable("ConSubgraphs");
-                    conSubgraphsTable.Columns.Add("ResultsID", typeof(Int32));
-                    conSubgraphsTable.Columns.Add("VX", typeof(Int32));
-                    conSubgraphsTable.Columns.Add("Count", typeof(Int32));
+                    commonTable.Rows.Clear();
+                    commonTable.Columns.Clear();
+                    commonTable.Columns.Add("ResultsID", typeof(Int32));
+                    commonTable.Columns.Add("VX", typeof(Int32));
+                    commonTable.Columns.Add("Count", typeof(Int32));
 
                     foreach (int subgraph in result.Subgraphs.Keys)
                     {
-                        DataRow r = conSubgraphsTable.NewRow();
+                        DataRow r = commonTable.NewRow();
                         r[0] = resultsID;
                         r[1] = subgraph;
                         r[2] = result.Subgraphs[subgraph];
-                        conSubgraphsTable.Rows.Add(r);
+                        commonTable.Rows.Add(r);
                     }
 
                     cp.DestinationTableName = "ConSubgraphs";
-                    cp.WriteToServer(conSubgraphsTable);
+                    cp.WriteToServer(commonTable);
 
                     log.Info("Saving data to FullSubgraphs table.");
-                    DataTable fullSubgraphsTable = new DataTable("FullSubgraphs");
-                    fullSubgraphsTable.Columns.Add("ResultsID", typeof(Int32));
-                    fullSubgraphsTable.Columns.Add("VX", typeof(Int32));
-                    fullSubgraphsTable.Columns.Add("Count", typeof(Int32));
+                    commonTable.Rows.Clear();
+                    commonTable.Columns.Clear();
+                    commonTable.Columns.Add("ResultsID", typeof(Int32));
+                    commonTable.Columns.Add("VX", typeof(Int32));
+                    commonTable.Columns.Add("Count", typeof(Int32));
 
                     foreach (int subgraph in result.FullSubgraphs.Keys)
                     {
-                        DataRow r = fullSubgraphsTable.NewRow();
+                        DataRow r = commonTable.NewRow();
                         r[0] = resultsID;
                         r[1] = subgraph;
                         r[2] = result.FullSubgraphs[subgraph];
-                        fullSubgraphsTable.Rows.Add(r);
+                        commonTable.Rows.Add(r);
                     }
 
                     cp.DestinationTableName = "FullSubgraphs";
-                    cp.WriteToServer(fullSubgraphsTable);
+                    cp.WriteToServer(commonTable);
 
                     log.Info("Saving data to VertexDistance table.");
-                    DataTable vertexDistanceTable = new DataTable("VertexDistance");
-                    vertexDistanceTable.Columns.Add("ResultsID", typeof(Int32));
-                    vertexDistanceTable.Columns.Add("Distance", typeof(Int32));
-                    vertexDistanceTable.Columns.Add("Count", typeof(Int32));
+                    commonTable.Rows.Clear();
+                    commonTable.Columns.Clear();
+                    commonTable.Columns.Add("ResultsID", typeof(Int32));
+                    commonTable.Columns.Add("Distance", typeof(Int32));
+                    commonTable.Columns.Add("Count", typeof(Int32));
 
                     foreach (int dist in result.DistanceBetweenVertices.Keys)
                     {
-                        DataRow r = vertexDistanceTable.NewRow();
+                        DataRow r = commonTable.NewRow();
                         r[0] = resultsID;
                         r[1] = dist;
                         r[2] = result.DistanceBetweenVertices[dist];
-                        vertexDistanceTable.Rows.Add(r);
+                        commonTable.Rows.Add(r);
                     }
 
                     cp.DestinationTableName = "VertexDistance";
-                    cp.WriteToServer(vertexDistanceTable);
+                    cp.WriteToServer(commonTable);
 
                     log.Info("Saving data to EigenValues table.");
-                    DataTable eigenValuesTable = new DataTable("EigenValues");
-                    eigenValuesTable.Columns.Add("ResultsID", typeof(Int32));
-                    eigenValuesTable.Columns.Add("EigenValue", typeof(Double));
+                    commonTable.Rows.Clear();
+                    commonTable.Columns.Clear();
+                    commonTable.Columns.Add("ResultsID", typeof(Int32));
+                    commonTable.Columns.Add("EigenValue", typeof(Double));
 
                     foreach (double value in result.EigenVector)
                     {
-                        DataRow r = eigenValuesTable.NewRow();
+                        DataRow r = commonTable.NewRow();
                         r[0] = resultsID;
                         r[1] = value;
-                        eigenValuesTable.Rows.Add(r);
+                        commonTable.Rows.Add(r);
                     }
 
                     cp.DestinationTableName = "EigenValues";
-                    cp.WriteToServer(eigenValuesTable);
+                    cp.WriteToServer(commonTable);
 
                     log.Info("Saving data to EigenValuesDistance table.");
-                    DataTable eigenValuesDistanceTable = new DataTable("EigenValuesDistance");
-                    eigenValuesDistanceTable.Columns.Add("ResultsID", typeof(Int32));
-                    eigenValuesDistanceTable.Columns.Add("Distance", typeof(Double));
-                    eigenValuesDistanceTable.Columns.Add("Count", typeof(Int32));
+                    commonTable.Rows.Clear();
+                    commonTable.Columns.Clear();
+                    commonTable.Columns.Add("ResultsID", typeof(Int32));
+                    commonTable.Columns.Add("Distance", typeof(Double));
+                    commonTable.Columns.Add("Count", typeof(Int32));
 
                     foreach (double dist in result.DistancesBetweenEigenValues.Keys)
                     {
-                        DataRow r = eigenValuesDistanceTable.NewRow();
+                        DataRow r = commonTable.NewRow();
                         r[0] = resultsID;
                         r[1] = dist;
                         r[2] = result.DistancesBetweenEigenValues[dist];
-                        eigenValuesDistanceTable.Rows.Add(r);
+                        commonTable.Rows.Add(r);
                     }
 
                     cp.DestinationTableName = "EigenValuesDistance";
-                    cp.WriteToServer(eigenValuesDistanceTable);
+                    cp.WriteToServer(commonTable);
 
                     log.Info("Saving data to Cycles table.");
-                    DataTable cyclesTable = new DataTable("Cycles");
-                    cyclesTable.Columns.Add("ResultsID", typeof(Int32));
-                    cyclesTable.Columns.Add("Order", typeof(Int32));
-                    cyclesTable.Columns.Add("Count", typeof(long));
+                    commonTable.Rows.Clear();
+                    commonTable.Columns.Clear();
+                    commonTable.Columns.Add("ResultsID", typeof(Int32));
+                    commonTable.Columns.Add("Order", typeof(Int32));
+                    commonTable.Columns.Add("Count", typeof(long));
 
                     foreach (int order in result.Cycles.Keys)
                     {
-                        DataRow r = cyclesTable.NewRow();
+                        DataRow r = commonTable.NewRow();
                         r[0] = resultsID;
                         r[1] = order;
                         r[2] = result.Cycles[order];
-                        cyclesTable.Rows.Add(r);
+                        commonTable.Rows.Add(r);
                     }
 
                     cp.DestinationTableName = "Cycles";
-                    cp.WriteToServer(cyclesTable);
+                    cp.WriteToServer(commonTable);
 
                     log.Info("Saving data to Triangles table.");
-                    DataTable trianglesTable = new DataTable("Triangles");
-                    trianglesTable.Columns.Add("ResultsID", typeof(Int32));
-                    trianglesTable.Columns.Add("TriangleCount", typeof(Int32));
-                    trianglesTable.Columns.Add("Count", typeof(Int32));
+                    commonTable.Rows.Clear();
+                    commonTable.Columns.Clear();
+                    commonTable.Columns.Add("ResultsID", typeof(Int32));
+                    commonTable.Columns.Add("TriangleCount", typeof(Int32));
+                    commonTable.Columns.Add("Count", typeof(Int32));
 
                     foreach (int tr in result.TriangleCount.Keys)
                     {
-                        DataRow r = trianglesTable.NewRow();
+                        DataRow r = commonTable.NewRow();
                         r[0] = resultsID;
                         r[1] = tr;
                         r[2] = result.TriangleCount[tr];
-                        trianglesTable.Rows.Add(r);
+                        commonTable.Rows.Add(r);
                     }
 
                     cp.DestinationTableName = "Triangles";
-                    cp.WriteToServer(trianglesTable);
+                    cp.WriteToServer(commonTable);
 
                     log.Info("Saving data to TriangleTrajectory table.");
-                    DataTable triangleTrajectoryTable = new DataTable("TriangleTrajectory");
-                    triangleTrajectoryTable.Columns.Add("ResultsID", typeof(Int32));
-                    triangleTrajectoryTable.Columns.Add("Time", typeof(Int32));
-                    triangleTrajectoryTable.Columns.Add("TriangleCount", typeof(Double));
+                    commonTable.Rows.Clear();
+                    commonTable.Columns.Clear();
+                    commonTable.Columns.Add("ResultsID", typeof(Int32));
+                    commonTable.Columns.Add("Time", typeof(Int32));
+                    commonTable.Columns.Add("TriangleCount", typeof(Double));
 
                     foreach (int time in result.TriangleTrajectory.Keys)
                     {
-                        DataRow r = triangleTrajectoryTable.NewRow();
+                        DataRow r = commonTable.NewRow();
                         r[0] = resultsID;
                         r[1] = time;
                         r[2] = result.TriangleTrajectory[time];
-                        triangleTrajectoryTable.Rows.Add(r);
+                        commonTable.Rows.Add(r);
                     }
 
                     cp.DestinationTableName = "TriangleTrajectory";
-                    cp.WriteToServer(triangleTrajectoryTable);
+                    cp.WriteToServer(commonTable);
 
                     log.Info("Saving data to Motifs table.");
-                    DataTable motifsTable = new DataTable("Motifs");
-                    motifsTable.Columns.Add("ResultsID", typeof(Int32));
-                    motifsTable.Columns.Add("ID", typeof(Int32));
-                    motifsTable.Columns.Add("Count", typeof(float));
+                    commonTable.Rows.Clear();
+                    commonTable.Columns.Clear();
+                    commonTable.Columns.Add("ResultsID", typeof(Int32));
+                    commonTable.Columns.Add("ID", typeof(Int32));
+                    commonTable.Columns.Add("Count", typeof(float));
 
                     foreach (int id in result.MotivesCount.Keys)
                     {
-                        DataRow r = motifsTable.NewRow();
+                        DataRow r = commonTable.NewRow();
                         r[0] = resultsID;
                         r[1] = id;
                         r[2] = result.MotivesCount[id];
-                        motifsTable.Rows.Add(r);
+                        commonTable.Rows.Add(r);
                     }
 
                     cp.DestinationTableName = "Motifs";
-                    cp.WriteToServer(motifsTable);
+                    cp.WriteToServer(commonTable);
 
                     cp.Close();
                 }
+
+                // Вызов триггера.
+                SqlCommand command = (SqlCommand)conn.CreateCommand();
+                command.CommandType = CommandType.Text;
+                command.CommandText = "UPDATE Assemblies SET Date = getDate() WHERE AssemblyID = '"
+                    + assembly.ID.ToString() + "'";
+                command.ExecuteNonQuery();
+
+                // !Исправить!
+                // Поменять вызовом триггера.
+                // Clusterring Coefficients
+                /*SqlCommand command = (SqlCommand)conn.CreateCommand();
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@AssID", SqlDbType.UniqueIdentifier).Value = assembly.ID;
+                command.Parameters.Add("@NetworkSize", SqlDbType.Int).Value = assembly.Size;
+                if ((assembly.AnalizeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
+                {                    
+                    command.CommandText = "CountAllGlobalCoefficients";
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = "CountAllLocalCoefficients";
+                    command.ExecuteNonQuery();
+                }
+
+                // Degree Distribution
+                if ((assembly.AnalizeOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
+                {
+                    command.CommandText = "CountAllGlobalVertexDegrees";
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = "CountAllLocalVertexDegrees";
+                    command.ExecuteNonQuery();
+                }
+
+                // Connected Subgraphs
+                if ((assembly.AnalizeOptions & AnalyseOptions.ConnSubGraph) == AnalyseOptions.ConnSubGraph)
+                {
+                    command.CommandText = "CountAllLocalConSubgraphs";
+                    command.ExecuteNonQuery();
+                }
+
+                // Distances between Vertices
+                if ((assembly.AnalizeOptions & AnalyseOptions.MinPathDist) == AnalyseOptions.MinPathDist)
+                {
+                    command.CommandText = "CountAllLocalVertexDistances";
+                    command.ExecuteNonQuery();
+                }
+
+                // Distances between Eigen Values
+                command.Parameters.Clear();
+                command.Parameters.Add("@AssID", SqlDbType.UniqueIdentifier).Value = assembly.ID;
+                if ((assembly.AnalizeOptions & AnalyseOptions.DistEigenPath) == AnalyseOptions.DistEigenPath)
+                {
+                    command.CommandText = "CountAllLocalEigenValuesDistances";
+                    command.ExecuteNonQuery();
+                }
+
+                // Triangle Trajectory
+                if ((assembly.AnalizeOptions & AnalyseOptions.TriangleTrajectory) == AnalyseOptions.TriangleTrajectory)
+                {
+                    command.CommandText = "CountAllLocalTriangleTrajectories";
+                    command.ExecuteNonQuery();
+                }*/
             }
         }
 
@@ -444,18 +565,26 @@ namespace ResultStorage.Storage
                 conn.Open();
                 using (DbCommand cmd = conn.CreateCommand())
                 {
-                    string sqlQuery = 
+                    string sqlQuery =
                         "DELETE FROM AnalyzeResults WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
                         "DELETE FROM VertexDegree WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
+                        "DELETE FROM VertexDegreeGlobal WHERE ResultsID IN(SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
+                        "DELETE FROM VertexDegreeLocal WHERE AssemblyID=@AssemblyID " +
                         "DELETE FROM Coefficients WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
+                        "DELETE FROM CoefficientsGlobal WHERE AssemblyID=@AssemblyID " +
+                        "DELETE FROM CoefficientsLocal WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
                         "DELETE FROM ConSubgraphs WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
+                        "DELETE FROM ConSubgraphsLocal WHERE AssemblyID=@AssemblyID " +
                         "DELETE FROM FullSubgraphs WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
                         "DELETE FROM VertexDistance WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
+                        "DELETE FROM VertexDistanceLocal WHERE AssemblyID=@AssemblyID " +
                         "DELETE FROM EigenValues WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
                         "DELETE FROM EigenValuesDistance WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
+                        "DELETE FROM EigenValuesDistanceLocal WHERE AssemblyID=@AssemblyID " +
                         "DELETE FROM Cycles WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
                         "DELETE FROM Triangles WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
                         "DELETE FROM TriangleTrajectory WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
+                        "DELETE FROM TriangleTrajectoryLocal WHERE AssemblyID=@AssemblyID " +
                         "DELETE FROM Motifs WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
                         "DELETE FROM AssemblyResults WHERE AssemblyID=@AssemblyID " +
                         "DELETE FROM GenerationParamValues WHERE AssemblyID=@AssemblyID " +
@@ -476,6 +605,441 @@ namespace ResultStorage.Storage
 
         // Загрузка сборки по данному идентификатору сборки.
         public override ResultAssembly Load(Guid assemblyID)
+        {
+            log.Info("Loading assembly with ID " + assemblyID.ToString() + ".");
+
+            ResultAssembly resultAssembly = new ResultAssembly(true);
+            resultAssembly.ID = assemblyID;
+
+            log.Info("Openning connection.");
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = GetConnectionString();
+                try
+                {
+                    conn.Open();
+                }
+                catch (Exception)
+                {
+                    log.Info("Could not open a connection with DB.");
+                    return new ResultAssembly();
+                }
+
+                log.Info("Loading data from tables Assemblies, GenerationParamValues, AnalyzeOptionParamValues.");
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "SELECT Assemblies.[Name], Assemblies.ModelID, Assemblies.NetworkSize, Assemblies.FileName,GenerationParamValues.* FROM Assemblies " +
+                                        "LEFT JOIN GenerationParamValues ON GenerationParamValues.AssemblyID=Assemblies.AssemblyID " +
+                                        "WHERE Assemblies.AssemblyID=@AssemblyID ORDER BY GenerationParamID";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter dpID = provider.CreateParameter();
+                    dpID.ParameterName = "AssemblyID";
+                    dpID.Value = assemblyID;
+                    cmd.Parameters.Add(dpID);
+
+                    using (DbDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            resultAssembly.ModelType = GetModelType((int)dr["ModelID"]);
+                            resultAssembly.Name = (string)dr["Name"];
+                            resultAssembly.Size = (int)dr["NetworkSize"];
+                            resultAssembly.FileName = (string)dr["FileName"];
+
+                            GenerationParam param = (GenerationParam)Enum.ToObject(typeof(GenerationParam),
+                                (int)dr["GenerationParamID"]);
+
+                            GenerationParamInfo paramInfo = (GenerationParamInfo)(param.GetType().GetField(param.ToString()).GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);
+                            if (paramInfo.Type.Equals(typeof(Double)))
+                            {
+                                resultAssembly.GenerationParams.Add(param, Convert.ToDouble(dr["Value"], CultureInfo.InvariantCulture));
+                            }
+                            else if (paramInfo.Type.Equals(typeof(Int16)))
+                            {
+                                resultAssembly.GenerationParams.Add(param, Convert.ToInt16(dr["Value"]));
+                            }
+                            else if (paramInfo.Type.Equals(typeof(Int32)))
+                            {
+                                resultAssembly.GenerationParams.Add(param, Convert.ToInt32(dr["Value"]));
+                            }
+                            else if (paramInfo.Type.Equals(typeof(bool)))
+                            {
+                                resultAssembly.GenerationParams.Add(param, Convert.ToBoolean(dr["Value"]));
+                            }
+                            else if (paramInfo.Type.Equals(typeof(String)))
+                            {
+                                resultAssembly.GenerationParams.Add(param, Convert.ToString(dr["Value"]));
+                            }
+                        }
+                    }
+
+                    sqlQuery = "SELECT Assemblies.[Name],AnalyzeOptionParamValues.* FROM Assemblies " +
+                        "LEFT JOIN AnalyzeOptionParamValues ON AnalyzeOptionParamValues.AssemblyID=Assemblies.AssemblyID " +
+                        "WHERE Assemblies.AssemblyID=@AssemblyID ORDER BY AnalyzeOptionParamID";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    using (DbDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            AnalyzeOptionParam param = (AnalyzeOptionParam)Enum.ToObject(typeof(AnalyzeOptionParam),
+                                (int)dr["AnalyzeOptionParamID"]);
+
+                            AnalyzeOptionParamInfo paramInfo = (AnalyzeOptionParamInfo)(param.GetType().GetField(param.ToString()).GetCustomAttributes(typeof(AnalyzeOptionParamInfo), false)[0]);
+                            if (paramInfo.Type.Equals(typeof(Double)))
+                            {
+                                resultAssembly.AnalyzeOptionParams[param] = Convert.ToDouble(dr["Value"],
+                                    CultureInfo.InvariantCulture);
+                            }
+                            else if (paramInfo.Type.Equals(typeof(Int16)))
+                            {
+                                resultAssembly.AnalyzeOptionParams[param] = Convert.ToInt16(dr["Value"]);
+                            }
+                            else if (paramInfo.Type.Equals(typeof(BigInteger)))
+                            {
+                                resultAssembly.AnalyzeOptionParams[param] = Convert.ToString(dr["Value"]);
+                            }
+                        }
+                    }
+                }
+
+                log.Info("Loading data from table CoefficientsLocal.");
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "SELECT * FROM CoefficientsLocal WHERE AssemblyID=@AssemblyID";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter dpResultsID = provider.CreateParameter();
+                    dpResultsID.ParameterName = "AssemblyID";
+                    dpResultsID.Value = assemblyID;
+                    cmd.Parameters.Add(dpResultsID);
+
+                    using (DbDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            resultAssembly.CoefficientsLocal.Add(Convert.ToDouble(dr["Coefficient"]),
+                                Convert.ToDouble(dr["Distribution"]));
+                        }
+                    }
+                }
+
+                log.Info("Loading data from table VertexDegreeLocal.");
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "SELECT * FROM VertexDegreeLocal WHERE AssemblyID=@AssemblyID";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter dpResultsID = provider.CreateParameter();
+                    dpResultsID.ParameterName = "AssemblyID";
+                    dpResultsID.Value = assemblyID;
+                    cmd.Parameters.Add(dpResultsID);
+
+                    using (DbDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            resultAssembly.VertexDegreeLocal.Add(Convert.ToDouble(dr["Degree"]), 
+                                (double)dr["Distribution"]);
+                        }
+                    }
+                }
+
+                log.Info("Loading data from table ConSubgraphsLocal.");
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "SELECT * FROM ConSubgraphsLocal WHERE AssemblyID=@AssemblyID";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter dpResultsID = provider.CreateParameter();
+                    dpResultsID.ParameterName = "AssemblyID";
+                    dpResultsID.Value = assemblyID;
+                    cmd.Parameters.Add(dpResultsID);
+
+                    using (DbDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            resultAssembly.SubgraphsLocal.Add(Convert.ToDouble(dr["VX"]), (double)dr["Distribution"]);
+                        }
+                    }
+                }
+
+                log.Info("Loading data from table VertexDistanceLocal.");
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "SELECT * FROM VertexDistanceLocal WHERE AssemblyID=@AssemblyID";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter dpResultsID = provider.CreateParameter();
+                    dpResultsID.ParameterName = "AssemblyID";
+                    dpResultsID.Value = assemblyID;
+                    cmd.Parameters.Add(dpResultsID);
+
+                    using (DbDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            resultAssembly.DistanceBetweenVerticesLocal.Add(Convert.ToDouble(dr["Distance"]), 
+                                (double)dr["Distribution"]);
+                        }
+                    }
+                }
+
+                log.Info("Loading data from table EigenValuesDistanceLocal.");
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "SELECT * FROM EigenValuesDistanceLocal WHERE AssemblyID=@AssemblyID";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter dpResultsID = provider.CreateParameter();
+                    dpResultsID.ParameterName = "AssemblyID";
+                    dpResultsID.Value = assemblyID;
+                    cmd.Parameters.Add(dpResultsID);
+
+                    using (DbDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            resultAssembly.DistancesBetweenEigenValuesLocal.Add((double)dr["Distance"], 
+                                (double)dr["Distribution"]);
+                        }
+                    }
+                }
+
+                log.Info("Loading data from table TriangleTrajectoryLocal.");
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "SELECT * FROM TriangleTrajectoryLocal WHERE AssemblyID=@AssemblyID";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter dpResultsID = provider.CreateParameter();
+                    dpResultsID.ParameterName = "AssemblyID";
+                    dpResultsID.Value = assemblyID;
+                    cmd.Parameters.Add(dpResultsID);
+
+                    using (DbDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            resultAssembly.TriangleTrajectoryLocal.Add(Convert.ToDouble(dr["Time"]), 
+                                (double)dr["Distribution"]);
+                        }
+                    }
+                }
+
+                log.Info("Loading analyze results data.");
+                using (DbCommand mainCmd = conn.CreateCommand())
+                {
+                    string sql = "SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID";
+                    mainCmd.CommandText = sql;
+                    mainCmd.CommandType = CommandType.Text;
+
+                    DbParameter dpID = provider.CreateParameter();
+                    dpID.ParameterName = "AssemblyID";
+                    dpID.Value = assemblyID;
+                    mainCmd.Parameters.Add(dpID);
+
+                    List<int> resultIDs = new List<int>();
+                    using (DbDataReader mainReader = mainCmd.ExecuteReader())
+                    {
+                        while (mainReader.Read())
+                        {
+                            resultIDs.Add((int)mainReader["ResultsID"]);
+                        }
+                    }
+
+                    foreach (int resultID in resultIDs)
+                    {
+                        AnalizeResult result = new AnalizeResult();
+                        resultAssembly.Results.Add(result);
+
+                        using (DbCommand cmd = conn.CreateCommand())
+                        {
+                            string sqlQuery = "SELECT * FROM AnalyzeResults WHERE ResultsID=@ResultsID";
+                            cmd.CommandText = sqlQuery;
+                            cmd.CommandType = CommandType.Text;
+
+                            DbParameter dpResultsID = provider.CreateParameter();
+                            dpResultsID.ParameterName = "ResultsID";
+                            dpResultsID.Value = resultID;
+                            cmd.Parameters.Add(dpResultsID);
+
+                            using (DbDataReader dr = cmd.ExecuteReader())
+                            {
+                                while (dr.Read())
+                                {
+                                    result.Result.Add((AnalyseOptions)Enum.ToObject(typeof(AnalyseOptions), dr["AnalyzeOptionID"]), Convert.ToDouble(dr["Result"]));
+                                }
+                            }
+                        }
+
+                        // Coefficient Global
+                        using (DbCommand cmd = conn.CreateCommand())
+                        {
+                            string sqlQuery = "SELECT * FROM CoefficientsGlobal WHERE ResultsID=@ResultsID";
+                            cmd.CommandText = sqlQuery;
+                            cmd.CommandType = CommandType.Text;
+
+                            DbParameter dpResultsID = provider.CreateParameter();
+                            dpResultsID.ParameterName = "ResultsID";
+                            dpResultsID.Value = resultID;
+                            cmd.Parameters.Add(dpResultsID);
+
+                            using (DbDataReader dr = cmd.ExecuteReader())
+                            {
+                                while (dr.Read())
+                                {
+                                    result.CoefficientGlobal = (double)dr["AvgCoefficient"];
+                                }
+                            }
+                        }
+
+                        // Degree Global
+                        using (DbCommand cmd = conn.CreateCommand())
+                        {
+                            string sqlQuery = "SELECT * FROM VertexDegreeGlobal WHERE ResultsID=@ResultsID";
+                            cmd.CommandText = sqlQuery;
+                            cmd.CommandType = CommandType.Text;
+
+                            DbParameter dpResultsID = provider.CreateParameter();
+                            dpResultsID.ParameterName = "ResultsID";
+                            dpResultsID.Value = resultID;
+                            cmd.Parameters.Add(dpResultsID);
+
+                            using (DbDataReader dr = cmd.ExecuteReader())
+                            {
+                                while (dr.Read())
+                                {
+                                    result.DegreeGlobal = (double)dr["AvgDegree"];
+                                }
+                            }
+                        }
+
+                        log.Info("Loading data from table FullSubgraphs.");
+                        using (DbCommand cmd = conn.CreateCommand())
+                        {
+                            string sqlQuery = "SELECT * FROM FullSubgraphs  WHERE ResultsID=@ResultsID";
+                            cmd.CommandText = sqlQuery;
+                            cmd.CommandType = CommandType.Text;
+
+                            DbParameter dpResultsID = provider.CreateParameter();
+                            dpResultsID.ParameterName = "ResultsID";
+                            dpResultsID.Value = resultID;
+                            cmd.Parameters.Add(dpResultsID);
+
+                            using (DbDataReader dr = cmd.ExecuteReader())
+                            {
+                                while (dr.Read())
+                                {
+                                    result.FullSubgraphs.Add(Convert.ToInt32(dr["VX"]), (int)dr["Count"]);
+                                }
+                            }
+                        }                        
+
+                        log.Info("Loading data from table EigenValue.");    // !проверить!
+                        using (DbCommand cmd = conn.CreateCommand())
+                        {
+                            string sqlQuery = "SELECT * FROM EigenValues  WHERE ResultsID=@ResultsID";
+                            cmd.CommandText = sqlQuery;
+                            cmd.CommandType = CommandType.Text;
+
+                            DbParameter dpResultsID = provider.CreateParameter();
+                            dpResultsID.ParameterName = "ResultsID";
+                            dpResultsID.Value = resultID;
+                            cmd.Parameters.Add(dpResultsID);
+
+                            using (DbDataReader dr = cmd.ExecuteReader())
+                            {
+                                while (dr.Read())
+                                {
+                                    result.EigenVector.Add(dr["EigenValue"]);
+                                }
+                            }
+                        }
+
+                        log.Info("Loading data from table Cycles.");    // !проверить!
+                        using (DbCommand cmd = conn.CreateCommand())
+                        {
+                            string sqlQuery = "SELECT * FROM Cycles  WHERE ResultsID=@ResultsID";
+                            cmd.CommandText = sqlQuery;
+                            cmd.CommandType = CommandType.Text;
+
+                            DbParameter dpResultsID = provider.CreateParameter();
+                            dpResultsID.ParameterName = "ResultsID";
+                            dpResultsID.Value = resultID;
+                            cmd.Parameters.Add(dpResultsID);
+
+                            using (DbDataReader dr = cmd.ExecuteReader())
+                            {
+                                while (dr.Read())
+                                {
+                                    result.Cycles.Add(Convert.ToInt32(dr["Order"]), (long)dr["Count"]);
+                                }
+                            }
+                        }
+
+                        log.Info("Loading data from table Triangles.");
+                        using (DbCommand cmd = conn.CreateCommand())
+                        {
+                            string sqlQuery = "SELECT * FROM Triangles  WHERE ResultsID=@ResultsID";
+                            cmd.CommandText = sqlQuery;
+                            cmd.CommandType = CommandType.Text;
+
+                            DbParameter dpResultsID = provider.CreateParameter();
+                            dpResultsID.ParameterName = "ResultsID";
+                            dpResultsID.Value = resultID;
+                            cmd.Parameters.Add(dpResultsID);
+
+                            using (DbDataReader dr = cmd.ExecuteReader())
+                            {
+                                while (dr.Read())
+                                {
+                                    result.TriangleCount.Add(Convert.ToInt32(dr["TriangleCount"]), (int)dr["Count"]);
+                                }
+                            }
+                        }
+
+                        
+
+                        log.Info("Loading data from table Motifs.");
+                        using (DbCommand cmd = conn.CreateCommand())
+                        {
+                            string sqlQuery = "SELECT * FROM Motifs  WHERE ResultsID=@ResultsID";
+                            cmd.CommandText = sqlQuery;
+                            cmd.CommandType = CommandType.Text;
+
+                            DbParameter dpResultsID = provider.CreateParameter();
+                            dpResultsID.ParameterName = "ResultsID";
+                            dpResultsID.Value = resultID;
+                            cmd.Parameters.Add(dpResultsID);
+
+                            using (DbDataReader dr = cmd.ExecuteReader())
+                            {
+                                while (dr.Read())
+                                {
+                                    result.MotivesCount.Add(Convert.ToInt32(dr["ID"]), float.Parse(dr["Count"].ToString()));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return resultAssembly;
+        }
+
+        // Загрузка сборки по данному идентификатору сборки.
+        /*public override ResultAssembly Load(Guid assemblyID)
         {
             log.Info("Loading assembly with ID " + assemblyID.ToString() + ".");
             
@@ -519,7 +1083,8 @@ namespace ResultStorage.Storage
                             resultAssembly.Size = (int)dr["NetworkSize"];
                             resultAssembly.FileName = (string)dr["FileName"];
 
-                            GenerationParam param = (GenerationParam)Enum.ToObject(typeof(GenerationParam), (int)dr["GenerationParamID"]);
+                            GenerationParam param = (GenerationParam)Enum.ToObject(typeof(GenerationParam), 
+                                (int)dr["GenerationParamID"]);
 
                             GenerationParamInfo paramInfo = (GenerationParamInfo)(param.GetType().GetField(param.ToString()).GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);
                             if (paramInfo.Type.Equals(typeof(Double)))
@@ -857,7 +1422,7 @@ namespace ResultStorage.Storage
             }
 
             return resultAssembly;
-        }
+        }*/
 
         // Загрузка всех сборок.
         public override List<ResultAssembly> LoadAllAssemblies()

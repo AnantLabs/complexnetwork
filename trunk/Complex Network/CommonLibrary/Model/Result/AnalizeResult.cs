@@ -61,5 +61,10 @@ namespace RandomGraph.Common.Model.Result
         public int Cycles4 { get; set; }
 
         public SortedDictionary<int, double> TriangleTrajectory { get; set; }
+
+        // !исправить!
+        // Часть для БД (результаты хранимых процедур)
+        public double CoefficientGlobal = 0;
+        public double DegreeGlobal = 0;
     }
 }

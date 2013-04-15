@@ -27,6 +27,7 @@ namespace StatisticAnalyzerUI
     {
         // Implementation members //
         private StLoader loader;
+        private AbstractStAnalyzer analyzer;
 
         // GUI members //
         private Dictionary<GenerationParam, ComboBox> generationParamatersControls = 
@@ -190,7 +191,15 @@ namespace StatisticAnalyzerUI
             if (!ValidateGraphicConditions())
                 return;
 
-            StAnalyzer analyzer = new StAnalyzer(GetAssembliesToAnalyze());
+            string provider = ConfigurationManager.AppSettings["Storage"];
+            if (provider == "XmlProvider")
+            {
+                analyzer = new StAnalyzer(GetAssembliesToAnalyze());
+            }
+            else
+            {
+                analyzer = new StAnalyzerDB(GetAssembliesToAnalyze());
+            }
             List<AnalyseOptions> checkedOptions = GetCheckedOptionsGlobal(analyzer);
             analyzer.GlobalAnalyze();
             if (analyzer.Result.result.Keys.Count == 0)
@@ -233,7 +242,15 @@ namespace StatisticAnalyzerUI
             if (!ValidateGraphicConditions())
                 return;
 
-            StAnalyzer analyzer = new StAnalyzer(GetAssembliesToAnalyze());
+            string provider = ConfigurationManager.AppSettings["Storage"];
+            if (provider == "XmlProvider")
+            {
+                analyzer = new StAnalyzer(GetAssembliesToAnalyze());
+            }
+            else
+            {
+                analyzer = new StAnalyzerDB(GetAssembliesToAnalyze());
+            }
             List<AnalyseOptions> checkedOptions = GetCheckedOptionsGlobal(analyzer);
             analyzer.GlobalAnalyze();
             if (analyzer.Result.result.Keys.Count == 0)
@@ -255,7 +272,15 @@ namespace StatisticAnalyzerUI
             if (!ValidateGraphicConditions())
                 return;
 
-            StAnalyzer analyzer = new StAnalyzer(GetAssembliesToAnalyze());
+            string provider = ConfigurationManager.AppSettings["Storage"];
+            if (provider == "XmlProvider")
+            {
+                analyzer = new StAnalyzer(GetAssembliesToAnalyze());
+            }
+            else
+            {
+                analyzer = new StAnalyzerDB(GetAssembliesToAnalyze());
+            }
             List<AnalyseOptions> checkedOptions = GetCheckedOptionsGlobal(analyzer);
             analyzer.GlobalAnalyze();
             if (analyzer.Result.result.Keys.Count == 0)
@@ -276,7 +301,15 @@ namespace StatisticAnalyzerUI
             if (!ValidateGraphicConditions())
                 return;
 
-            StAnalyzer analyzer = new StAnalyzer(GetAssembliesToAnalyze());
+            string provider = ConfigurationManager.AppSettings["Storage"];
+            if (provider == "XmlProvider")
+            {
+                analyzer = new StAnalyzer(GetAssembliesToAnalyze());
+            }
+            else
+            {
+                analyzer = new StAnalyzerDB(GetAssembliesToAnalyze());
+            }
             List<AnalyseOptions> checkedOptions = GetCheckedOptionsLocal(analyzer);
             MakeParameters(analyzer);
             analyzer.LocalAnalyze();
@@ -328,7 +361,15 @@ namespace StatisticAnalyzerUI
             if (!ValidateGraphicConditions())
                 return;
 
-            StAnalyzer analyzer = new StAnalyzer(GetAssembliesToAnalyze());
+            string provider = ConfigurationManager.AppSettings["Storage"];
+            if (provider == "XmlProvider")
+            {
+                analyzer = new StAnalyzer(GetAssembliesToAnalyze());
+            }
+            else
+            {
+                analyzer = new StAnalyzerDB(GetAssembliesToAnalyze());
+            }
             List<AnalyseOptions> checkedOptions = GetCheckedOptionsLocal(analyzer);
             MakeParameters(analyzer);
             analyzer.LocalAnalyze();
@@ -353,7 +394,15 @@ namespace StatisticAnalyzerUI
             if (!ValidateGraphicConditions())
                 return;
 
-            StAnalyzer analyzer = new StAnalyzer(GetAssembliesToAnalyze());
+            string provider = ConfigurationManager.AppSettings["Storage"];
+            if (provider == "XmlProvider")
+            {
+                analyzer = new StAnalyzer(GetAssembliesToAnalyze());
+            }
+            else
+            {
+                analyzer = new StAnalyzerDB(GetAssembliesToAnalyze());
+            }
             analyzer.options |= AnalyseOptions.TriangleTrajectory;
             analyzer.ExtendedAnalyze(Convert.ToUInt32(this.ExtendedAnalyzeOptionsGrd.Rows[0].Cells[1].Value));
             StAnalyzeResult result = analyzer.Result;
@@ -625,7 +674,7 @@ namespace StatisticAnalyzerUI
             return res;
         }
 
-        private List<AnalyseOptions> GetCheckedOptionsGlobal(StAnalyzer analyzer)
+        private List<AnalyseOptions> GetCheckedOptionsGlobal(AbstractStAnalyzer analyzer)
         {
             List<AnalyseOptions> checkedOptions = new List<AnalyseOptions>();
             if (this.GlobalPropertiesList.GetItemChecked(0))
@@ -682,7 +731,7 @@ namespace StatisticAnalyzerUI
             return checkedOptions;
         }
 
-        private List<AnalyseOptions> GetCheckedOptionsLocal(StAnalyzer analyzer)
+        private List<AnalyseOptions> GetCheckedOptionsLocal(AbstractStAnalyzer analyzer)
         {
             List<AnalyseOptions> checkedOptions = new List<AnalyseOptions>();
             if (this.LocalPropertiesList.GetItemChecked(0))
@@ -734,7 +783,7 @@ namespace StatisticAnalyzerUI
             return checkedOptions;
         }
 
-        private void MakeParameters(StAnalyzer analyzer)
+        private void MakeParameters(AbstractStAnalyzer analyzer)
         {
             Dictionary<AnalyseOptions, StAnalyzeOptions> localOptions =
                 new Dictionary<AnalyseOptions, StAnalyzeOptions>();

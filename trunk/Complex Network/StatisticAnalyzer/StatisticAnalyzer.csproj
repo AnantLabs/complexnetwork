@@ -81,6 +81,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analyzer\AbstractStAnalyzer.cs" />
+    <Compile Include="Analyzer\StAnalyzerDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Analyzer\StAnalyzeParameters.cs" />
     <Compile Include="Analyzer\StAnalyzer.cs" />
