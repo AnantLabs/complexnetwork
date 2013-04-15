@@ -52,7 +52,7 @@ namespace StatisticAnalyzer.Loader
         public StLoader()
         {
             InitStorage();
-            InitAssemblies();
+            //InitAssemblies();
         }
 
         // Свойство для доступа к списку сборок. Только чтение.
@@ -90,6 +90,21 @@ namespace StatisticAnalyzer.Loader
             assemblies = resultStorage.LoadAssembliesByModel(modelName);
             InitAssembliesID();
         }
+
+        // ??
+        public void GetAvgsSigmas(Guid id, int k, out double avg, out double sigma)
+        {
+            if (resultStorage is SQLResultStorage)
+            {
+                SQLResultStorage storage = (SQLResultStorage)resultStorage;
+                storage.GetAvgSigma(id, k, out avg, out sigma);
+            }
+            else
+            {
+                throw new SystemException("There is no method.");
+            }
+        }
+        // ??
 
         // Возвращает имена job-oв сборок (выбранных по имени модели).
         public object[] GetAvailableJobs()
