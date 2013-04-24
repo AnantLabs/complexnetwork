@@ -607,22 +607,13 @@ namespace Model.HierarchicModel.Realization
                 SortedDictionary<int, double> previousResult = Count3CycleOfVertex(vertexNumber, level + 1);
                 result[0] += previousResult[0];
                 result[1] += previousResult[1];
-
-                /*int countOne = 0;
-                for (int i = 0; i < (container.BranchIndex * (container.BranchIndex - 1) / 2); i++)
-                {
-                    countOne += (node[i]) ? 1 : 0;
-                }
-                result[1] += countOne * powPK * powPK;*/
                 
                 double degree = VertexDegree(vertexNumber, level + 1);                
                 for (int j = numberNode * container.BranchIndex; j < container.BranchIndex * (numberNode + 1); ++j)
                 {
                     if (container.IsConnectedTwoBlocks(node, vertexIndex, j - numberNode * container.BranchIndex))
                     {
-                        // j-rd blokum koxeri qanak
-                        //result[0] += previousResult[1];
-                        result[0] += container.CountEdges(j, level);
+                        result[0] += container.CountEdges(j - numberNode * container.BranchIndex, level + 1);
                         result[0] += powPK * degree;
 
                         for (int k = j + 1; k < container.BranchIndex * (numberNode + 1); ++k)

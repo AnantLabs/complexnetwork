@@ -397,22 +397,15 @@ namespace Model.HierarchicModel.Realization
         // и номером узла на данном уровне n (из диапазона [0, pow(p,l) - 1]).
         public double CountEdges(long n, int l)
         {
-            // проверка параметров на правильность
-            if (l < 0 || l >= level)
-                throw new SystemException("Wrong parameter (number of level).");
-            if (n < 0 || n >= Math.Pow(branchIndex, l))
-                throw new SystemException("Wrong parameter (number of node).");
-
-            double result = 0;
-
-            if (l < 0 || l == level)
+            if (l == level)
             {
-                return result;
+                return 0;
             }
             else
             {
+                double result = 0;
                 double res = 0;
-                BitArray node = TreeNode(level, n);
+                BitArray node = TreeNode(l, n);
 
                 for (int i = 0; i < (branchIndex * (branchIndex - 1) / 2); i++)
                 {
@@ -423,7 +416,7 @@ namespace Model.HierarchicModel.Realization
 
                 for (long i = n * branchIndex; i < branchIndex * (n + 1); ++i)
                 {
-                    result += CountEdges(i, l + 1);
+                    result += CountEdges(i - n * branchIndex, l + 1);
                 }
 
                 return result;
