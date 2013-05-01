@@ -17,6 +17,7 @@ namespace Model.ERModel.Realization
         private int size = 0;
         // Списки соседей для вершин графа.
         private SortedDictionary<int, List<int>> neighbourship;
+        private static List<List<KeyValuePair<int, int>>> motifs4Order;
         // Список степеней вершин графа.
         private List<int> degrees;
         public List<KeyValuePair<int, int>> Edjes = new List<KeyValuePair<int, int>>();
@@ -197,6 +198,42 @@ namespace Model.ERModel.Realization
         private int CountVertexDegree(int i)
         {
             return neighbourship[i].Count;
+        }
+
+        public List<List<KeyValuePair<int, int>>> Count4OrderMotifs
+        {
+            get
+            {
+                if (motifs4Order == null)
+                {
+                    Console.WriteLine("come");
+                    motifs4Order = new List<List<KeyValuePair<int, int>>>();
+                    for (int i = 0; i < Edjes.Count; i++)
+                    {
+                        var edjes1 = Edjes[i];
+                        for (int j = i + 1; j < Edjes.Count; j++)
+                        {
+                            var edjes2 = Edjes[j];
+                            if (edjes1.Key != edjes2.Value && edjes1.Key != edjes2.Key
+                                && edjes1.Value != edjes2.Key && edjes1.Value != edjes2.Value)
+                            {
+                                if (!((AreNeighbours(edjes1.Key, edjes2.Key) && AreNeighbours(edjes1.Key, edjes2.Value))
+                                    || (AreNeighbours(edjes1.Value, edjes2.Key) && AreNeighbours(edjes1.Value, edjes2.Value))
+                                    || (AreNeighbours(edjes1.Key, edjes2.Key) && AreNeighbours(edjes1.Value, edjes2.Key))
+                                    || (AreNeighbours(edjes1.Value, edjes2.Value) && AreNeighbours(edjes1.Key, edjes2.Value))))
+                                {
+                                    var list = new List<KeyValuePair<int, int>>();
+                                    list.Add(edjes1);
+                                    list.Add(edjes2);
+                                    motifs4Order.Add(list);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return motifs4Order;
+            }
         }
     }
 }
