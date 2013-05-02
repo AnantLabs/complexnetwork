@@ -397,6 +397,7 @@ namespace Model.HierarchicModel.Realization
         // и номером узла на данном уровне n (из диапазона [0, pow(p,l) - 1]).
         public double CountEdges(long n, int l)
         {
+
             if (l == level)
             {
                 return 0;
@@ -416,7 +417,7 @@ namespace Model.HierarchicModel.Realization
 
                 for (long i = n * branchIndex; i < branchIndex * (n + 1); ++i)
                 {
-                    result += CountEdges(i - n * branchIndex, l + 1);
+                    result += CountEdges(i, l + 1); // - n * branchIndex
                 }
 
                 return result;
