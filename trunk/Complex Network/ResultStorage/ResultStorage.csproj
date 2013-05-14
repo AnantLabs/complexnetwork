@@ -139,6 +139,9 @@
   <ItemGroup>
     <Content Include="SQLScripts\ComplexNetwork Create.sql" />
     <Content Include="SQLScripts\MSSQLSetup.sql" />
+    <Content Include="SQLScripts\OptimizationTablesCreation.sql" />
+    <Content Include="SQLScripts\StoredProcedures.sql" />
+    <Content Include="SQLScripts\Trigger.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
