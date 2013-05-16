@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
 using CommonLibrary.Model;
 using log4net;
 
@@ -17,11 +17,15 @@ namespace Model.ERModel.Realization
         private int size = 0;
         // Списки соседей для вершин графа.
         private SortedDictionary<int, List<int>> neighbourship;
-        private static List<List<KeyValuePair<int, int>>> motifs4Order;
+        private List<List<KeyValuePair<int, int>>> motifs4Order;
         // Список степеней вершин графа.
         private List<int> degrees;
+        private static object syncLock = new object();
         public List<KeyValuePair<int, int>> Edjes = new List<KeyValuePair<int, int>>();
         public List<KeyValuePair<int, int>> NoEdjes = new List<KeyValuePair<int, int>>();
+        public SortedDictionary<int, List<int>> Motifs4Order;
+        public List<KeyValuePair<int, int>> MotifsEdjes = new List<KeyValuePair<int, int>>();
+
 
         // Конструктор по умолчанию для контейнера.
         public ERContainer()
@@ -29,6 +33,7 @@ namespace Model.ERModel.Realization
             log.Info("Creating ERContainer default object.");
             neighbourship = new SortedDictionary<int, List<int>>();
             degrees = new List<int>();
+            Motifs4Order = new SortedDictionary<int, List<int>>();
         }
 
         public ERContainer(ERContainer cotainer)
@@ -38,9 +43,6 @@ namespace Model.ERModel.Realization
             this.Edjes = new List<KeyValuePair<int,int>>(cotainer.Edjes);
             this.NoEdjes = new List<KeyValuePair<int,int>>(cotainer.NoEdjes);
             this.degrees = new List<int>( cotainer.degrees);
-
-
-            
         }
 
         public ERContainer Copy()
@@ -52,6 +54,14 @@ namespace Model.ERModel.Realization
             {
                 other.neighbourship[item.Key] = new List<int>(item.Value);
             }
+
+            other.Motifs4Order = new SortedDictionary<int, List<int>>(this.Motifs4Order);
+            foreach (var item in this.Motifs4Order)
+            {
+                other.Motifs4Order[item.Key] = new List<int>(item.Value);
+            }
+
+            other.MotifsEdjes = new List<KeyValuePair<int, int>>(this.MotifsEdjes);
            
             other.Edjes = new List<KeyValuePair<int, int>>(this.Edjes);
             other.NoEdjes = new List<KeyValuePair<int, int>>(this.NoEdjes);
@@ -104,9 +114,6 @@ namespace Model.ERModel.Realization
                 SetDataToDictionary(i, neighbourshipOfIVertex);
             }
 
-
-
-
         }
 
         // Возвращается матрица смежности, соответсвующая графу.
@@ -148,6 +155,7 @@ namespace Model.ERModel.Realization
             ++degrees[j];
             var newEdjes = new KeyValuePair<int, int>(i, j);
             Edjes.Add(newEdjes);
+            MotifsEdjes.Add(newEdjes);
             NoEdjes.Remove(newEdjes);
         }
 
@@ -164,6 +172,7 @@ namespace Model.ERModel.Realization
                     if(!Edjes.Contains(new KeyValuePair<int,int>(j,index)))
                     {
                         Edjes.Add(new KeyValuePair<int, int>(index, j));
+                        MotifsEdjes.Add(new KeyValuePair<int, int>(index, j));
                         NoEdjes.Remove(new KeyValuePair<int, int>(index, j));
                     }
                 }
@@ -200,39 +209,151 @@ namespace Model.ERModel.Realization
             return neighbourship[i].Count;
         }
 
-        public List<List<KeyValuePair<int, int>>> Count4OrderMotifs
+        public void Get4Motifs()
         {
-            get
+            var isEmpty = false;
+
+            if (Motifs4Order.Count == 0)
             {
-                if (motifs4Order == null)
+                for (int i = 0; i < Edjes.Count; i++)
                 {
-                    Console.WriteLine("come");
-                    motifs4Order = new List<List<KeyValuePair<int, int>>>();
-                    for (int i = 0; i < Edjes.Count; i++)
+                    isEmpty = false;
+                    var edjes1 = Edjes[i];
+                    Motifs4Order.Add(i, new List<int>());
+                    for (int j = i + 1; j < Edjes.Count; j++)
                     {
-                        var edjes1 = Edjes[i];
-                        for (int j = i + 1; j < Edjes.Count; j++)
+                        var edjes2 = Edjes[j];
+
+                        if (edjes1.Key != edjes2.Value && edjes1.Key != edjes2.Key
+                            && edjes1.Value != edjes2.Key && edjes1.Value != edjes2.Value)
                         {
-                            var edjes2 = Edjes[j];
-                            if (edjes1.Key != edjes2.Value && edjes1.Key != edjes2.Key
-                                && edjes1.Value != edjes2.Key && edjes1.Value != edjes2.Value)
+                            if (!((AreNeighbours(edjes1.Key, edjes2.Key) && AreNeighbours(edjes1.Key, edjes2.Value))
+                                || (AreNeighbours(edjes1.Value, edjes2.Key) && AreNeighbours(edjes1.Value, edjes2.Value))
+                                || (AreNeighbours(edjes1.Key, edjes2.Key) && AreNeighbours(edjes1.Value, edjes2.Key))
+                                || (AreNeighbours(edjes1.Value, edjes2.Value) && AreNeighbours(edjes1.Key, edjes2.Value))))
                             {
-                                if (!((AreNeighbours(edjes1.Key, edjes2.Key) && AreNeighbours(edjes1.Key, edjes2.Value))
-                                    || (AreNeighbours(edjes1.Value, edjes2.Key) && AreNeighbours(edjes1.Value, edjes2.Value))
-                                    || (AreNeighbours(edjes1.Key, edjes2.Key) && AreNeighbours(edjes1.Value, edjes2.Key))
-                                    || (AreNeighbours(edjes1.Value, edjes2.Value) && AreNeighbours(edjes1.Key, edjes2.Value))))
-                                {
-                                    var list = new List<KeyValuePair<int, int>>();
-                                    list.Add(edjes1);
-                                    list.Add(edjes2);
-                                    motifs4Order.Add(list);
-                                }
+                                isEmpty = true;
+                                Motifs4Order[i].Add(j);
                             }
                         }
                     }
+
+                    if (!isEmpty)
+                    {
+                        Motifs4Order.Remove(i);
+                    }
+                }
+            }
+        }
+
+        public void Update4OrderMotifs(ERContainer transformation, KeyValuePair<int, int> edjes1, KeyValuePair<int, int> edjes2, int index1, int index2)
+        {
+            var motif = transformation.Motifs4Order[index1][index2];
+            var empty1 = false;
+            var empty2 = false;
+            if (transformation.Motifs4Order.ContainsKey(motif))
+            {
+                transformation.Motifs4Order.Remove(motif);
+            }
+
+            var list = new List<int>();
+            var list1 = new List<int>();
+            foreach (var dic in transformation.Motifs4Order)
+            {
+                if (dic.Value.Contains(motif))
+                {
+                    if (dic.Value.Count <= 1)
+                    {
+                        list.Add(dic.Key);
+                    }
+                    else
+                    {
+                        transformation.Motifs4Order[dic.Key].Remove(motif);
+                    }
                 }
 
-                return motifs4Order;
+                if (dic.Value.Contains(index1))
+                {
+                    if (dic.Value.Count <= 1)
+                    {
+                        list1.Add(dic.Key);
+                    }
+                    else
+                    {
+                        transformation.Motifs4Order[dic.Key].Remove(index1);
+                    }
+                }
+            }
+
+            foreach (var key in list)
+            {
+                transformation.Motifs4Order.Remove(key);
+            }
+
+            foreach (var key in list1)
+            {
+                transformation.Motifs4Order.Remove(key);
+            }
+
+
+            if (transformation.Motifs4Order.ContainsKey(index1))
+            {
+                transformation.Motifs4Order.Remove(index1);
+            }
+
+            transformation.Motifs4Order.Add(transformation.MotifsEdjes.Count - 1, new List<int>());
+            transformation.Motifs4Order.Add(transformation.MotifsEdjes.Count - 2, new List<int>());
+
+            for (int i = 0; i < transformation.MotifsEdjes.Count; i++)
+            {
+                var edjes = transformation.MotifsEdjes[i];
+                if (!edjes.Equals(new KeyValuePair<int, int>()))
+                {
+                    if (edjes1.Key != edjes.Value && edjes1.Key != edjes.Key
+                              && edjes1.Value != edjes.Key && edjes1.Value != edjes.Value)
+                    {
+                        if (!((AreNeighbours(edjes1.Key, edjes.Key) && AreNeighbours(edjes1.Key, edjes.Value))
+                            || (AreNeighbours(edjes1.Value, edjes.Key) && AreNeighbours(edjes1.Value, edjes.Value))
+                            || (AreNeighbours(edjes1.Key, edjes.Key) && AreNeighbours(edjes1.Value, edjes.Key))
+                            || (AreNeighbours(edjes1.Value, edjes.Value) && AreNeighbours(edjes1.Key, edjes.Value))))
+                        {
+                            empty1 = true;
+                            transformation.Motifs4Order[transformation.MotifsEdjes.Count - 1].Add(i);
+                        }
+                    }
+
+                    if (edjes2.Key != edjes.Value && edjes2.Key != edjes.Key
+                            && edjes2.Value != edjes.Key && edjes2.Value != edjes.Value)
+                    {
+                        if (!((AreNeighbours(edjes2.Key, edjes.Key) && AreNeighbours(edjes2.Key, edjes.Value))
+                            || (AreNeighbours(edjes2.Value, edjes.Key) && AreNeighbours(edjes2.Value, edjes.Value))
+                            || (AreNeighbours(edjes2.Key, edjes.Key) && AreNeighbours(edjes2.Value, edjes.Key))
+                            || (AreNeighbours(edjes2.Value, edjes.Value) && AreNeighbours(edjes2.Key, edjes.Value))))
+                        {
+                            transformation.Motifs4Order[transformation.MotifsEdjes.Count - 2].Add(i);
+                            empty2 = true;
+                        }
+                    }
+                }
+            }
+            if (!empty1)
+            {
+                transformation.Motifs4Order.Remove(transformation.MotifsEdjes.Count - 1);
+            }
+
+            if (!empty2)
+            {
+                transformation.Motifs4Order.Remove(transformation.MotifsEdjes.Count - 2);
+            }
+
+        }
+
+        internal void CopyMotifs(ERContainer other)
+        {
+            other.Motifs4Order = new SortedDictionary<int, List<int>>(this.Motifs4Order);
+            foreach (var item in this.Motifs4Order)
+            {
+                other.Motifs4Order[item.Key] = new List<int>(item.Value);
             }
         }
     }

@@ -20,7 +20,7 @@ namespace Model.ERModel.Realization
         private ERContainer container;
         static Random random1 = new Random();
 
-      
+        private static object syncLock = new object();
         // Конструктор, получающий контейнер графа.
         public ERAnalyzer(ERContainer c)
         {
@@ -263,6 +263,8 @@ namespace Model.ERModel.Realization
             int currentcounttriangle = GetCyclesForTringle(container);
 
             tarctory.Add(time, currentcounttriangle);
+            if (keepdistribution)
+                container.Get4Motifs();
 
             var currentContainer = container.Copy();
 
@@ -274,9 +276,13 @@ namespace Model.ERModel.Realization
                 {
                     time++;
                     var count = 0;
+
                     tempContainer = keepdistribution? TransformKeppingDistriburtion(currentContainer, random, out count) : Transformations(currentContainer, random,keepdistribution,out count);
-                
-                   
+
+                    if (currentcounttriangle < (-count))
+                    {
+                        Console.WriteLine("fuck");
+                    }
                     var counttriangle = currentcounttriangle + count;
 
                     var delta = counttriangle - currentcounttriangle;
@@ -301,6 +307,8 @@ namespace Model.ERModel.Realization
                         {
                             tarctory.Add(time, currentcounttriangle);
                         }
+
+                        Console.WriteLine(time);
                     }
                 }
                 catch (Exception ex)
@@ -315,12 +323,25 @@ namespace Model.ERModel.Realization
 
         private ERContainer TransformKeppingDistriburtion(ERContainer tranformation, Random random, out int triangle)
         {
-            var removeedjes = random.Next(0, tranformation.Count4OrderMotifs.Count - 1);
+            var removeedjesIndex1 = random.Next(0, tranformation.Motifs4Order.Count - 1);
+            var removeedjesIndex2 = 0;
+            try
+            {
+               removeedjesIndex2 = random.Next(0, tranformation.Motifs4Order.ElementAt(removeedjesIndex1).Value.Count - 1);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(removeedjesIndex1);
+                Console.WriteLine(tranformation.Motifs4Order.ElementAt(removeedjesIndex1).Value.Count);
+            }
 
-            var removeedjeVertix1 = tranformation.Count4OrderMotifs[removeedjes][0].Key;
-            var removeedjeVertix2 = tranformation.Count4OrderMotifs[removeedjes][0].Value;
-            var removeedjeVertix3 = tranformation.Count4OrderMotifs[removeedjes][1].Key; ;
-            var removeedjeVertix4 = tranformation.Count4OrderMotifs[removeedjes][1].Value;
+            var removeEdjes1 = tranformation.Motifs4Order.ElementAt(removeedjesIndex1).Key;
+            var removeEdjes2 = tranformation.Motifs4Order.ElementAt(removeedjesIndex1).Value[removeedjesIndex2];
+
+            var removeedjeVertix1 = tranformation.MotifsEdjes[removeEdjes1].Key;
+            var removeedjeVertix2 = tranformation.MotifsEdjes[removeEdjes1].Value;
+            var removeedjeVertix3 = tranformation.MotifsEdjes[removeEdjes2].Key; ;
+            var removeedjeVertix4 = tranformation.MotifsEdjes[removeEdjes2].Value;
 
             int addtriangle1 = 0;
             int addtriangle2 = 0;
@@ -330,6 +351,9 @@ namespace Model.ERModel.Realization
             tranformation.Neighbourship[removeedjeVertix2].Remove(removeedjeVertix1);
             tranformation.Neighbourship[removeedjeVertix3].Remove(removeedjeVertix4);
             tranformation.Neighbourship[removeedjeVertix4].Remove(removeedjeVertix3);
+            tranformation.MotifsEdjes[removeEdjes1] = new KeyValuePair<int, int>();
+            tranformation.MotifsEdjes[removeEdjes2] = new KeyValuePair<int, int>();
+
 
             //Count remove triangle
             int removetriangle = CountTriangle(removeedjeVertix1,
@@ -337,41 +361,39 @@ namespace Model.ERModel.Realization
 
 
             //add edje
-            if (tranformation.Neighbourship[removeedjeVertix1].Contains(removeedjeVertix3))
+            if (tranformation.Neighbourship[removeedjeVertix1].Contains(removeedjeVertix3) || tranformation.Neighbourship[removeedjeVertix2].Contains(removeedjeVertix4))
             {
                 tranformation.Neighbourship[removeedjeVertix1].Add(removeedjeVertix4);
                 tranformation.Neighbourship[removeedjeVertix4].Add(removeedjeVertix1);
-                tranformation.Edjes.Add(new KeyValuePair<int, int>(removeedjeVertix1, removeedjeVertix4));
+                tranformation.MotifsEdjes.Add(new KeyValuePair<int, int>(removeedjeVertix1, removeedjeVertix4));
                 addtriangle1 = CountTriangle(removeedjeVertix1,
                removeedjeVertix4, tranformation);
-                tranformation.Count4OrderMotifs[removeedjes][0] = new KeyValuePair<int, int>(removeedjeVertix1, removeedjeVertix4);
                 tranformation.Neighbourship[removeedjeVertix2].Add(removeedjeVertix3);
                 tranformation.Neighbourship[removeedjeVertix3].Add(removeedjeVertix2);
-                tranformation.Edjes.Add(new KeyValuePair<int, int>(removeedjeVertix2, removeedjeVertix3));
+                tranformation.MotifsEdjes.Add(new KeyValuePair<int, int>(removeedjeVertix2, removeedjeVertix3));
                 addtriangle2 = CountTriangle(removeedjeVertix2,
               removeedjeVertix3, tranformation);
-                tranformation.Count4OrderMotifs[removeedjes][1] = new KeyValuePair<int, int>(removeedjeVertix2, removeedjeVertix3);
+                container.Update4OrderMotifs(tranformation, new KeyValuePair<int, int>(removeedjeVertix2, removeedjeVertix3), new KeyValuePair<int, int>(removeedjeVertix1, removeedjeVertix4), removeEdjes1, removeedjesIndex2);
             }
 
             else
             {
                 tranformation.Neighbourship[removeedjeVertix1].Add(removeedjeVertix3);
                 tranformation.Neighbourship[removeedjeVertix3].Add(removeedjeVertix1);
-                tranformation.Edjes.Add(new KeyValuePair<int, int>(removeedjeVertix1, removeedjeVertix3));
+                tranformation.MotifsEdjes.Add(new KeyValuePair<int, int>(removeedjeVertix1, removeedjeVertix3));
                 addtriangle1 = CountTriangle(removeedjeVertix1,
               removeedjeVertix3, tranformation);
-                tranformation.Count4OrderMotifs[removeedjes][0] = new KeyValuePair<int, int>(removeedjeVertix1, removeedjeVertix3);
                 tranformation.Neighbourship[removeedjeVertix2].Add(removeedjeVertix4);
                 tranformation.Neighbourship[removeedjeVertix4].Add(removeedjeVertix2);
-                tranformation.Edjes.Add(new KeyValuePair<int, int>(removeedjeVertix2, removeedjeVertix4));
+                tranformation.MotifsEdjes.Add(new KeyValuePair<int, int>(removeedjeVertix2, removeedjeVertix4));
                 addtriangle2 = CountTriangle(removeedjeVertix2,
               removeedjeVertix4, tranformation);
-                tranformation.Count4OrderMotifs[removeedjes][1] = new KeyValuePair<int, int>(removeedjeVertix2, removeedjeVertix4);
+                container.Update4OrderMotifs(tranformation, new KeyValuePair<int, int>(removeedjeVertix2, removeedjeVertix4), new KeyValuePair<int, int>(removeedjeVertix1, removeedjeVertix3), removeEdjes1, removeedjesIndex2);
             }
 
             // Count Add triangle
-
             int addtriangle = addtriangle1 + addtriangle2;
+
             triangle = addtriangle - removetriangle;
         
             return tranformation;
