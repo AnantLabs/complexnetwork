@@ -92,6 +92,191 @@ namespace ResultStorage.Storage
         }
         // ??
 
+        // ??
+        public void SaveTT(ResultAssembly assembly)
+        {
+            log.Info("Saving analyze results int DB.");
+
+            log.Info("Openning connection.");
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = GetConnectionString();
+                try
+                {
+                    conn.Open();
+                }
+                catch (Exception)
+                {
+                    log.Info("Could not open a connection with DB.");
+                    return;
+                }
+
+                log.Info("Saving data to Assemblies table.");
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "INSERT INTO Assemblies(AssemblyID,ModelID,Name,Date,NetworkSize,FileName)" +
+                        "VALUES(@AssemblyID,@ModelID,@Name,getDate(),@NetworkSize,@FileName)";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter dpID = provider.CreateParameter();
+                    dpID.ParameterName = "AssemblyID";
+                    dpID.Value = assembly.ID;
+                    cmd.Parameters.Add(dpID);
+
+                    DbParameter dpModelID = provider.CreateParameter();
+                    dpModelID.ParameterName = "ModelID";
+                    dpModelID.Value = GetModelID(assembly.ModelType);
+                    cmd.Parameters.Add(dpModelID);
+
+                    DbParameter dpName = provider.CreateParameter();
+                    dpName.ParameterName = "Name";
+                    dpName.Value = assembly.Name;
+                    cmd.Parameters.Add(dpName);
+
+                    DbParameter dpSize = provider.CreateParameter();
+                    dpSize.ParameterName = "NetworkSize";
+                    dpSize.Value = assembly.Size;
+                    cmd.Parameters.Add(dpSize);
+
+                    DbParameter dpFileName = provider.CreateParameter();
+                    dpFileName.ParameterName = "FileName";
+                    dpFileName.Value = assembly.FileName;
+                    cmd.Parameters.Add(dpFileName);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                log.Info("Saving generation params values in DB.");
+                foreach (GenerationParam genParameter in assembly.GenerationParams.Keys)
+                {
+                    using (DbCommand cmd = conn.CreateCommand())
+                    {
+                        string sqlQuery = "INSERT INTO GenerationParamValues(AssemblyID,GenerationParamID,Value) " +
+                                            "VALUES(@AssemblyID,@GenerationParamID,@Value)";
+                        cmd.CommandText = sqlQuery;
+                        cmd.CommandType = CommandType.Text;
+
+                        DbParameter dpAssemblyID = provider.CreateParameter();
+                        dpAssemblyID.ParameterName = "AssemblyID";
+                        dpAssemblyID.Value = assembly.ID;
+                        cmd.Parameters.Add(dpAssemblyID);
+
+                        DbParameter dpGenerationParamID = provider.CreateParameter();
+                        dpGenerationParamID.ParameterName = "GenerationParamID";
+                        dpGenerationParamID.Value = Convert.ToInt32(genParameter);
+                        cmd.Parameters.Add(dpGenerationParamID);
+
+                        DbParameter dpValue = provider.CreateParameter();
+                        dpValue.ParameterName = "Value";
+                        dpValue.Value = assembly.GenerationParams[genParameter].ToString();
+                        cmd.Parameters.Add(dpValue);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                // !исправить!
+                log.Info("Saving analyze option params values in DB.");
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "INSERT INTO AnalyzeOptionParamValues(AssemblyID,AnalyzeOptionParamID,Value) " +
+                                        "VALUES(@AssemblyID,@AnalyzeOptionParamID,@Value)";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter dpAssemblyID = provider.CreateParameter();
+                    dpAssemblyID.ParameterName = "AssemblyID";
+                    dpAssemblyID.Value = assembly.ID;
+                    cmd.Parameters.Add(dpAssemblyID);
+
+                    DbParameter dpGenerationParamID = provider.CreateParameter();
+                    dpGenerationParamID.ParameterName = "AnalyzeOptionParamID";
+                    dpGenerationParamID.Value = 5;
+                    cmd.Parameters.Add(dpGenerationParamID);
+
+                    DbParameter dpValue = provider.CreateParameter();
+                    dpValue.ParameterName = "Value";
+                    dpValue.Value = assembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryMu].ToString();
+                    cmd.Parameters.Add(dpValue);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "INSERT INTO AnalyzeOptionParamValues(AssemblyID,AnalyzeOptionParamID,Value) " +
+                                        "VALUES(@AssemblyID,@AnalyzeOptionParamID,@Value)";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter dpAssemblyID = provider.CreateParameter();
+                    dpAssemblyID.ParameterName = "AssemblyID";
+                    dpAssemblyID.Value = assembly.ID;
+                    cmd.Parameters.Add(dpAssemblyID);
+
+                    DbParameter dpGenerationParamID = provider.CreateParameter();
+                    dpGenerationParamID.ParameterName = "AnalyzeOptionParamID";
+                    dpGenerationParamID.Value = 6;
+                    cmd.Parameters.Add(dpGenerationParamID);
+
+                    DbParameter dpValue = provider.CreateParameter();
+                    dpValue.ParameterName = "Value";
+                    dpValue.Value = assembly.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryStepCount].ToString();
+                    cmd.Parameters.Add(dpValue);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                log.Info("Saving data to AssemblyResults table.");
+                foreach (AnalizeResult result in assembly.Results)
+                {
+                    int resultsID = 0;
+                    using (DbCommand cmd = conn.CreateCommand())
+                    {
+                        string sqlQuery = "INSERT INTO AssemblyResults(AssemblyID) VALUES(@AssemblyID) " +
+                                            "SELECT ResultsID FROM AssemblyResults WHERE ResultsID=SCOPE_IDENTITY()";
+                        cmd.CommandText = sqlQuery;
+                        cmd.CommandType = CommandType.Text;
+
+                        DbParameter dpAssemblyID = provider.CreateParameter();
+                        dpAssemblyID.ParameterName = "AssemblyID";
+                        dpAssemblyID.Value = assembly.ID;
+                        cmd.Parameters.Add(dpAssemblyID);
+
+                        resultsID = (int)cmd.ExecuteScalar();
+                    }
+
+                    SqlBulkCopy cp = new SqlBulkCopy(GetConnectionString(),
+                           SqlBulkCopyOptions.CheckConstraints);
+
+                    log.Info("Saving data to TriangleTrajectoryLocal table.");
+                    DataTable commonTable = new DataTable();
+                    commonTable.Rows.Clear();
+                    commonTable.Columns.Clear();
+                    commonTable.Columns.Add("AssemblyID", typeof(Guid));
+                    commonTable.Columns.Add("Time", typeof(Int32));
+                    commonTable.Columns.Add("Distribution", typeof(Double));
+                    
+                    foreach (int time in result.TriangleTrajectory.Keys)
+                    {
+                        DataRow r = commonTable.NewRow();
+                        r[0] = assembly.ID;
+                        r[1] = time;
+                        r[2] = result.TriangleTrajectory[time];
+                        commonTable.Rows.Add(r);
+                    }
+
+                    cp.DestinationTableName = "TriangleTrajectoryLocal";
+                    cp.WriteToServer(commonTable);
+
+                    cp.Close();
+                }
+            }
+
+        }
+        // ??
+
         #region IResultStorage Members
 
         // Сохранение сборки в БД.
@@ -491,11 +676,11 @@ namespace ResultStorage.Storage
                 }
 
                 // Вызов триггера.
-                SqlCommand command = (SqlCommand)conn.CreateCommand();
+                /*SqlCommand command = (SqlCommand)conn.CreateCommand();
                 command.CommandType = CommandType.Text;
                 command.CommandText = "UPDATE Assemblies SET Date = getDate() WHERE AssemblyID = '"
                     + assembly.ID.ToString() + "'";
-                command.ExecuteNonQuery();
+                command.ExecuteNonQuery();*/
 
                 // !Исправить!
                 // Поменять вызовом триггера.

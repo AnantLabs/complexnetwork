@@ -41,7 +41,7 @@
             this.BrowseDlg = new System.Windows.Forms.FolderBrowserDialog();
             this.mainTab = new System.Windows.Forms.TabControl();
             this.xmlOrSqlStoreTab = new System.Windows.Forms.TabPage();
-            this.externalStoreTab = new System.Windows.Forms.TabPage();
+            this.externalStoreTTTab = new System.Windows.Forms.TabPage();
             this.xmlStoreGrp = new System.Windows.Forms.GroupBox();
             this.xmlLocation = new System.Windows.Forms.Label();
             this.xmlLocationTxt = new System.Windows.Forms.TextBox();
@@ -56,11 +56,12 @@
             this.connectionStringTxt = new System.Windows.Forms.TextBox();
             this.Connections = new System.Windows.Forms.Button();
             this.fromFileXml = new System.Windows.Forms.Button();
+            this.avgCheck = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.mainTab.SuspendLayout();
             this.xmlOrSqlStoreTab.SuspendLayout();
-            this.externalStoreTab.SuspendLayout();
+            this.externalStoreTTTab.SuspendLayout();
             this.xmlStoreGrp.SuspendLayout();
             this.externalStoreGrp.SuspendLayout();
             this.sqlStoreGrp.SuspendLayout();
@@ -170,7 +171,7 @@
             // mainTab
             // 
             this.mainTab.Controls.Add(this.xmlOrSqlStoreTab);
-            this.mainTab.Controls.Add(this.externalStoreTab);
+            this.mainTab.Controls.Add(this.externalStoreTTTab);
             this.mainTab.Location = new System.Drawing.Point(12, 12);
             this.mainTab.Name = "mainTab";
             this.mainTab.SelectedIndex = 0;
@@ -191,20 +192,20 @@
             this.xmlOrSqlStoreTab.Text = "XML or SQL store";
             this.xmlOrSqlStoreTab.UseVisualStyleBackColor = true;
             // 
-            // externalStoreTab
+            // externalStoreTTTab
             // 
-            this.externalStoreTab.Controls.Add(this.xmlStoreGrp);
-            this.externalStoreTab.Controls.Add(this.externalStoreGrp);
-            this.externalStoreTab.Controls.Add(this.fromFileSql);
-            this.externalStoreTab.Controls.Add(this.sqlStoreGrp);
-            this.externalStoreTab.Controls.Add(this.fromFileXml);
-            this.externalStoreTab.Location = new System.Drawing.Point(4, 22);
-            this.externalStoreTab.Name = "externalStoreTab";
-            this.externalStoreTab.Padding = new System.Windows.Forms.Padding(3);
-            this.externalStoreTab.Size = new System.Drawing.Size(434, 244);
-            this.externalStoreTab.TabIndex = 1;
-            this.externalStoreTab.Text = "External store";
-            this.externalStoreTab.UseVisualStyleBackColor = true;
+            this.externalStoreTTTab.Controls.Add(this.xmlStoreGrp);
+            this.externalStoreTTTab.Controls.Add(this.externalStoreGrp);
+            this.externalStoreTTTab.Controls.Add(this.fromFileSql);
+            this.externalStoreTTTab.Controls.Add(this.sqlStoreGrp);
+            this.externalStoreTTTab.Controls.Add(this.fromFileXml);
+            this.externalStoreTTTab.Location = new System.Drawing.Point(4, 22);
+            this.externalStoreTTTab.Name = "externalStoreTTTab";
+            this.externalStoreTTTab.Padding = new System.Windows.Forms.Padding(3);
+            this.externalStoreTTTab.Size = new System.Drawing.Size(434, 244);
+            this.externalStoreTTTab.TabIndex = 1;
+            this.externalStoreTTTab.Text = "External store ( for TT )";
+            this.externalStoreTTTab.UseVisualStyleBackColor = true;
             // 
             // xmlStoreGrp
             // 
@@ -221,7 +222,7 @@
             // xmlLocation
             // 
             this.xmlLocation.AutoSize = true;
-            this.xmlLocation.Location = new System.Drawing.Point(6, 23);
+            this.xmlLocation.Location = new System.Drawing.Point(6, 24);
             this.xmlLocation.Name = "xmlLocation";
             this.xmlLocation.Size = new System.Drawing.Size(73, 13);
             this.xmlLocation.TabIndex = 22;
@@ -229,7 +230,7 @@
             // 
             // xmlLocationTxt
             // 
-            this.xmlLocationTxt.Location = new System.Drawing.Point(9, 39);
+            this.xmlLocationTxt.Location = new System.Drawing.Point(9, 40);
             this.xmlLocationTxt.Name = "xmlLocationTxt";
             this.xmlLocationTxt.Size = new System.Drawing.Size(96, 20);
             this.xmlLocationTxt.TabIndex = 23;
@@ -237,7 +238,7 @@
             // 
             // xmlBrowse
             // 
-            this.xmlBrowse.Location = new System.Drawing.Point(112, 36);
+            this.xmlBrowse.Location = new System.Drawing.Point(112, 37);
             this.xmlBrowse.Name = "xmlBrowse";
             this.xmlBrowse.Size = new System.Drawing.Size(82, 23);
             this.xmlBrowse.TabIndex = 21;
@@ -247,6 +248,7 @@
             // 
             // externalStoreGrp
             // 
+            this.externalStoreGrp.Controls.Add(this.avgCheck);
             this.externalStoreGrp.Controls.Add(this.externalBrowse);
             this.externalStoreGrp.Controls.Add(this.externalLocation);
             this.externalStoreGrp.Controls.Add(this.externalLocationTxt);
@@ -309,7 +311,7 @@
             // connectionString
             // 
             this.connectionString.AutoSize = true;
-            this.connectionString.Location = new System.Drawing.Point(6, 23);
+            this.connectionString.Location = new System.Drawing.Point(3, 24);
             this.connectionString.Name = "connectionString";
             this.connectionString.Size = new System.Drawing.Size(88, 13);
             this.connectionString.TabIndex = 22;
@@ -317,14 +319,14 @@
             // 
             // connectionStringTxt
             // 
-            this.connectionStringTxt.Location = new System.Drawing.Point(9, 39);
+            this.connectionStringTxt.Location = new System.Drawing.Point(6, 40);
             this.connectionStringTxt.Name = "connectionStringTxt";
             this.connectionStringTxt.Size = new System.Drawing.Size(96, 20);
             this.connectionStringTxt.TabIndex = 23;
             // 
             // Connections
             // 
-            this.Connections.Location = new System.Drawing.Point(112, 36);
+            this.Connections.Location = new System.Drawing.Point(109, 37);
             this.Connections.Name = "Connections";
             this.Connections.Size = new System.Drawing.Size(82, 23);
             this.Connections.TabIndex = 21;
@@ -342,6 +344,16 @@
             this.fromFileXml.UseVisualStyleBackColor = true;
             this.fromFileXml.Click += new System.EventHandler(this.fromFileXml_Click);
             // 
+            // avgCheck
+            // 
+            this.avgCheck.AutoSize = true;
+            this.avgCheck.Location = new System.Drawing.Point(120, 56);
+            this.avgCheck.Name = "avgCheck";
+            this.avgCheck.Size = new System.Drawing.Size(66, 17);
+            this.avgCheck.TabIndex = 24;
+            this.avgCheck.Text = "Average";
+            this.avgCheck.UseVisualStyleBackColor = true;
+            // 
             // DataExportImportWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -357,7 +369,7 @@
             this.groupBox2.PerformLayout();
             this.mainTab.ResumeLayout(false);
             this.xmlOrSqlStoreTab.ResumeLayout(false);
-            this.externalStoreTab.ResumeLayout(false);
+            this.externalStoreTTTab.ResumeLayout(false);
             this.xmlStoreGrp.ResumeLayout(false);
             this.xmlStoreGrp.PerformLayout();
             this.externalStoreGrp.ResumeLayout(false);
@@ -383,7 +395,7 @@
         private System.Windows.Forms.FolderBrowserDialog BrowseDlg;
         private System.Windows.Forms.TabControl mainTab;
         private System.Windows.Forms.TabPage xmlOrSqlStoreTab;
-        private System.Windows.Forms.TabPage externalStoreTab;
+        private System.Windows.Forms.TabPage externalStoreTTTab;
         private System.Windows.Forms.GroupBox externalStoreGrp;
         private System.Windows.Forms.Button externalBrowse;
         private System.Windows.Forms.Label externalLocation;
@@ -398,6 +410,7 @@
         private System.Windows.Forms.Label xmlLocation;
         private System.Windows.Forms.TextBox xmlLocationTxt;
         private System.Windows.Forms.Button xmlBrowse;
+        private System.Windows.Forms.CheckBox avgCheck;
 
     }
 }
