@@ -23,7 +23,10 @@ using Model.ERModel;
 
 namespace RandomGraphLauncher
 {
-    // Реализация формы для проверки соответствия модели.
+    // Реализация формы для перенесения информации из одного хранилища данных в другое.
+    // 1-ый таб - из .xml файла в БД и обратно.
+    // 2-ой таб - из входного файла (без header) в .xml файл или БД, только для траектории (в дальнейшем убрать).
+    // 3-ий таб - из входного файла (Analyze Results File) в .xml файл или БД.
     public partial class DataExportImportWindow : Form
     {
         private DataConnectionDialog dcd = new DataConnectionDialog();
@@ -111,6 +114,12 @@ namespace RandomGraphLauncher
 
         private void fromFileXml_Click(object sender, EventArgs e)
         {
+            if (this.avgCheck.Checked == true)
+            {
+                MessageBox.Show("Cannot transfer average trajectory into xml.", "Failed");
+                return;
+            }
+
             try
             {
                 IResultStorage xmlStorage = new XMLResultStorage(this.xmlLocationTxt.Text);
@@ -124,11 +133,11 @@ namespace RandomGraphLauncher
                 }
                 FreezeButtons(false);
 
-                MessageBox.Show("Data transfer succeed", "Success");
+                MessageBox.Show("Data transfer succeed.", "Success");
             }
             catch (SystemException)
             {
-                MessageBox.Show("Data transfer failed", "Failed");
+                MessageBox.Show("Data transfer failed.", "Failed");
             }
         }
 
@@ -144,15 +153,23 @@ namespace RandomGraphLauncher
                 foreach (DirectoryInfo dir in parentDir.GetDirectories())
                 {
                     ReadDirectory(dir.FullName);
-                    sqlStorage.Save(CreateAssembly());
+                    if (this.avgCheck.Checked == true)
+                    {
+                        SQLResultStorage st = (SQLResultStorage)sqlStorage;
+                        st.SaveTT(CreateAssembly());
+                    }
+                    else
+                    {
+                        sqlStorage.Save(CreateAssembly());
+                    }
                 }
                 FreezeButtons(false);
 
-                MessageBox.Show("Data transfer succeed", "Success");
+                MessageBox.Show("Data transfer succeed.", "Success");
             }
             catch (SystemException ex)
             {
-               MessageBox.Show("Data transfer failed", "Failed");
+               MessageBox.Show("Data transfer failed.", "Failed");
             }
         }
 
@@ -175,11 +192,11 @@ namespace RandomGraphLauncher
                         into.Save(from.Load(resultID.ID));
                     }
                 }
-                MessageBox.Show("Data transfer succeed", "Success");
+                MessageBox.Show("Data transfer succeed.", "Success");
             }
             catch (Exception)
             {
-                MessageBox.Show("Data transfer failed", "Failed");
+                MessageBox.Show("Data transfer failed.", "Failed");
             }
         }
 

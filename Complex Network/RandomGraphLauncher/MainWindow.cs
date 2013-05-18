@@ -75,6 +75,12 @@ namespace RandomGraphLauncher
             matrixMixerWnd.ShowDialog();
         }
 
+        private void dBOptimizerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DBOptimizer dbOptimizerWnd = new DBOptimizer();
+            dbOptimizerWnd.ShowDialog();
+        }
+
         private void statisticAnalyzerToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Process.Start("StatisticAnalyzerUI.exe");

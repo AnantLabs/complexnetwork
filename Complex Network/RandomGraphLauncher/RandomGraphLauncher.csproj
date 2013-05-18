@@ -130,6 +130,12 @@
     <Compile Include="DataExportImportWindow.designer.cs">
       <DependentUpon>DataExportImportWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="DBOptimizer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DBOptimizer.Designer.cs">
+      <DependentUpon>DBOptimizer.cs</DependentUpon>
+    </Compile>
     <Compile Include="FlashAPI\ExternalInterfaceCall.cs" />
     <Compile Include="FlashAPI\ExternalInterfaceCallEventArgs.cs" />
     <Compile Include="FlashAPI\ExternalInterfaceProxy.cs" />
