@@ -674,69 +674,6 @@ namespace ResultStorage.Storage
 
                     cp.Close();
                 }
-
-                // Вызов триггера.
-                /*SqlCommand command = (SqlCommand)conn.CreateCommand();
-                command.CommandType = CommandType.Text;
-                command.CommandText = "UPDATE Assemblies SET Date = getDate() WHERE AssemblyID = '"
-                    + assembly.ID.ToString() + "'";
-                command.ExecuteNonQuery();*/
-
-                // !Исправить!
-                // Поменять вызовом триггера.
-                // Clusterring Coefficients
-                /*SqlCommand command = (SqlCommand)conn.CreateCommand();
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@AssID", SqlDbType.UniqueIdentifier).Value = assembly.ID;
-                command.Parameters.Add("@NetworkSize", SqlDbType.Int).Value = assembly.Size;
-                if ((assembly.AnalizeOptions & AnalyseOptions.ClusteringCoefficient) == AnalyseOptions.ClusteringCoefficient)
-                {                    
-                    command.CommandText = "CountAllGlobalCoefficients";
-                    command.ExecuteNonQuery();
-
-                    command.CommandText = "CountAllLocalCoefficients";
-                    command.ExecuteNonQuery();
-                }
-
-                // Degree Distribution
-                if ((assembly.AnalizeOptions & AnalyseOptions.DegreeDistribution) == AnalyseOptions.DegreeDistribution)
-                {
-                    command.CommandText = "CountAllGlobalVertexDegrees";
-                    command.ExecuteNonQuery();
-
-                    command.CommandText = "CountAllLocalVertexDegrees";
-                    command.ExecuteNonQuery();
-                }
-
-                // Connected Subgraphs
-                if ((assembly.AnalizeOptions & AnalyseOptions.ConnSubGraph) == AnalyseOptions.ConnSubGraph)
-                {
-                    command.CommandText = "CountAllLocalConSubgraphs";
-                    command.ExecuteNonQuery();
-                }
-
-                // Distances between Vertices
-                if ((assembly.AnalizeOptions & AnalyseOptions.MinPathDist) == AnalyseOptions.MinPathDist)
-                {
-                    command.CommandText = "CountAllLocalVertexDistances";
-                    command.ExecuteNonQuery();
-                }
-
-                // Distances between Eigen Values
-                command.Parameters.Clear();
-                command.Parameters.Add("@AssID", SqlDbType.UniqueIdentifier).Value = assembly.ID;
-                if ((assembly.AnalizeOptions & AnalyseOptions.DistEigenPath) == AnalyseOptions.DistEigenPath)
-                {
-                    command.CommandText = "CountAllLocalEigenValuesDistances";
-                    command.ExecuteNonQuery();
-                }
-
-                // Triangle Trajectory
-                if ((assembly.AnalizeOptions & AnalyseOptions.TriangleTrajectory) == AnalyseOptions.TriangleTrajectory)
-                {
-                    command.CommandText = "CountAllLocalTriangleTrajectories";
-                    command.ExecuteNonQuery();
-                }*/
             }
         }
 
@@ -1643,5 +1580,120 @@ namespace ResultStorage.Storage
         }
 
         #endregion
+
+        // Возвращает именя всех сборок в БД (не загружая их).
+        public object[] GetJobNames()
+        {
+            ArrayList result = new ArrayList();
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = GetConnectionString();
+                conn.Open();
+
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "SELECT Name FROM Assemblies";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    using (DbDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            result.Add((string)dr["Name"]);
+                        }
+                    }
+                }
+            }
+            return result.ToArray();
+        }
+
+        // Добавление строк в оптимизированные таблицы для всех сборок в БД.
+        // Вызывается в ручную перед статистическим анализом.
+        public void FillOptimizationTablesForAllJobs()
+        {
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = GetConnectionString();
+                conn.Open();
+
+                List<Guid> assemblyIDs = new List<Guid>();
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "SELECT * FROM Assemblies";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    using (DbDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            assemblyIDs.Add((Guid)dr["AssemblyID"]);
+                        }
+                    }
+                }
+
+                foreach(Guid assemblyID in assemblyIDs)
+                {
+                    FillOptimizationTables(conn, assemblyID);
+                }
+            }
+        }
+
+        // Добавление строк в оптимизированные таблицы для сбороки с данным именем.
+        // Вызывается в ручную перед статистическим анализом данной сборки.
+        public void FillOptimizationTablesForCurrentJob(string jobName)
+        {
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = GetConnectionString();
+                conn.Open();
+
+                Guid assemblyId = new Guid();
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "SELECT * FROM Assemblies WHERE Name=@Name";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter dpResultsID = provider.CreateParameter();
+                    dpResultsID.ParameterName = "Name";
+                    dpResultsID.Value = jobName;
+                    cmd.Parameters.Add(dpResultsID);
+
+                    using (DbDataReader dr = cmd.ExecuteReader())
+                    {
+                        if(dr.Read())
+                        {
+                            assemblyId = (Guid)dr["AssemblyID"];
+                        }
+                    }
+                }
+
+                FillOptimizationTables(conn, assemblyId);
+            }
+        }
+
+        // Утилиты.
+
+        // Добавление строк в оптимизированные таблицы для данной сборки.
+        private void FillOptimizationTables(DbConnection conn, Guid assemblyID)
+        {
+            // !Исправить! Подумать над тем, чтобы поменять вызовом триггера (код приведен нуже).
+            SqlCommand command = (SqlCommand)conn.CreateCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandTimeout = 3600;  // Ждать час.
+            command.Parameters.Add("@AssID", SqlDbType.UniqueIdentifier).Value = assemblyID;
+            command.CommandText = "FillOptimizationTables";
+            command.ExecuteNonQuery();
+
+            // Вызов триггера.
+            /*SqlCommand command = (SqlCommand)conn.CreateCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandTimeout = 3600;  // Ждать час.
+            command.CommandText = "UPDATE Assemblies SET Date = getDate() WHERE AssemblyID = '"
+                + assemblyID.ToString() + "'";
+            command.ExecuteNonQuery();*/
+        }
     }
 }
