@@ -9,12 +9,12 @@ using System.Windows.Forms;
 using Microsoft.Data.ConnectionUI;
 using System.Numerics;
 using System.IO;
+using System.Configuration;
 
 using RandomGraph.Common.Storage;
 using RandomGraph.Common.Model.Generation;
 using RandomGraph.Common.Model.Result;
 using ResultStorage.Storage;
-using System.Configuration;
 
 using RandomGraph.Common.Model;
 using CommonLibrary.Model.Result;

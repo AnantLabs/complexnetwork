@@ -47,7 +47,6 @@ namespace RandomGraphLauncher
             this.dBViewerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainControl = new MyControlLibrary.TabCtlEx();
-            this.dBOptimizerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -110,8 +109,7 @@ namespace RandomGraphLauncher
             this.dataExportIMportToolStripMenuItem,
             this.testerToolStripMenuItem,
             this.modelCheckingToolStripMenuItem,
-            this.matrixMixerToolStripMenuItem,
-            this.dBOptimizerToolStripMenuItem});
+            this.matrixMixerToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -179,13 +177,6 @@ namespace RandomGraphLauncher
             this.mainControl.TabStop = false;
             this.mainControl.OnClose += new MyControlLibrary.TabCtlEx.OnHeaderCloseDelegate(this.mainControl_OnClose);
             // 
-            // dBOptimizerToolStripMenuItem
-            // 
-            this.dBOptimizerToolStripMenuItem.Name = "dBOptimizerToolStripMenuItem";
-            this.dBOptimizerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
-            this.dBOptimizerToolStripMenuItem.Text = "DB Optimizer";
-            this.dBOptimizerToolStripMenuItem.Click += new System.EventHandler(this.dBOptimizerToolStripMenuItem_Click);
-            // 
             // mainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -225,7 +216,6 @@ namespace RandomGraphLauncher
         private ToolStripMenuItem matrixMixerToolStripMenuItem;
         private ToolStripMenuItem statisticAnalyzerToolStripMenuItem1;
         private ToolStripMenuItem dBViewerToolStripMenuItem1;
-        private ToolStripMenuItem dBOptimizerToolStripMenuItem;
 
     }
 }

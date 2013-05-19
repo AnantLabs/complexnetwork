@@ -77,6 +77,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Data.ConnectionUI, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SettingsConfiguration\Library\Microsoft.Data.ConnectionUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.ConnectionUI.Dialog, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SettingsConfiguration\Library\Microsoft.Data.ConnectionUI.Dialog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -94,6 +102,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBOptimizer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DBOptimizer.Designer.cs">
+      <DependentUpon>DBOptimizer.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExtendedGraphic.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,6 +140,9 @@
     <Compile Include="ValueTable.Designer.cs">
       <DependentUpon>ValueTable.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="DBOptimizer.resx">
+      <DependentUpon>DBOptimizer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ExtendedGraphic.resx">
       <DependentUpon>ExtendedGraphic.cs</DependentUpon>
     </EmbeddedResource>

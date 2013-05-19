@@ -36,6 +36,8 @@
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.MenuSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuSetProvider = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuTools = new System.Windows.Forms.ToolStripMenuItem();
+            this.dBOptimizerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.ModelName = new System.Windows.Forms.Label();
             this.ModelNameCmb = new System.Windows.Forms.ComboBox();
@@ -102,6 +104,7 @@
             this.MenuStrip.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuSettings,
+            this.MenuTools,
             this.MenuHelp});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
@@ -123,6 +126,21 @@
             this.MenuSetProvider.Size = new System.Drawing.Size(223, 22);
             this.MenuSetProvider.Text = "Set/Change Storage Provider...";
             this.MenuSetProvider.Click += new System.EventHandler(this.MenuSetProvider_Click);
+            // 
+            // MenuTools
+            // 
+            this.MenuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dBOptimizerToolStripMenuItem});
+            this.MenuTools.Name = "MenuTools";
+            this.MenuTools.Size = new System.Drawing.Size(45, 20);
+            this.MenuTools.Text = "Tools";
+            // 
+            // dBOptimizerToolStripMenuItem
+            // 
+            this.dBOptimizerToolStripMenuItem.Name = "dBOptimizerToolStripMenuItem";
+            this.dBOptimizerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.dBOptimizerToolStripMenuItem.Text = "DB Optimizer";
+            this.dBOptimizerToolStripMenuItem.Click += new System.EventHandler(this.dBOptimizerToolStripMenuItem_Click);
             // 
             // MenuHelp
             // 
@@ -778,6 +796,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.CheckedListBox ExtendedPropertiesList;
+        private System.Windows.Forms.ToolStripMenuItem MenuTools;
+        private System.Windows.Forms.ToolStripMenuItem dBOptimizerToolStripMenuItem;
     }
 }
 

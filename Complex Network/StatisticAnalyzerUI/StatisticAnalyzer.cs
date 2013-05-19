@@ -469,7 +469,13 @@ namespace StatisticAnalyzerUI
             loader.InitStorage();
             loader.InitAssemblies();
             FillJobs();
-        } 
+        }
+
+        private void dBOptimizerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DBOptimizer dbOptimizerWnd = new DBOptimizer();
+            dbOptimizerWnd.ShowDialog();
+        }
 
         // Utilities //
 
