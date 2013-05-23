@@ -82,6 +82,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StorageConverter\AbstractStorageConverter.cs" />
+    <Compile Include="StorageConverter\DictionaryStructure.cs" />
+    <Compile Include="StorageConverter\ResultsFileConverter.cs" />
+    <Compile Include="StorageConverter\TrajectoryDictionaryStructure.cs" />
+    <Compile Include="StorageConverter\TrajectoryFileConverter.cs" />
     <Compile Include="Storage\ResultStorage.cs" />
     <Compile Include="Storage\SQLResultStorage.cs" />
     <Compile Include="Storage\XMLResultStorage.cs" />
@@ -143,6 +148,7 @@
     <Content Include="SQLScripts\StoredProcedures.sql" />
     <Content Include="SQLScripts\Trigger.sql" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
