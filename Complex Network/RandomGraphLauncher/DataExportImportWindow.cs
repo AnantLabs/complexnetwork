@@ -21,6 +21,8 @@ using CommonLibrary.Model.Result;
 using RandomGraph.Settings;
 using Model.ERModel;
 
+using ResultStorage.StorageConverter;
+
 namespace RandomGraphLauncher
 {
     // Реализация формы для перенесения информации из одного хранилища данных в другое.
@@ -64,6 +66,11 @@ namespace RandomGraphLauncher
                     case 1:
                         {
                             this.connectionStringTxt.Text = dcd.ConnectionString;
+                            break;
+                        }
+                    case 2:
+                        {
+                            this.textBox3.Text = dcd.ConnectionString;
                             break;
                         }
                     default:
@@ -125,12 +132,10 @@ namespace RandomGraphLauncher
                 IResultStorage xmlStorage = new XMLResultStorage(this.xmlLocationTxt.Text);
 
                 FreezeButtons(true);
-                DirectoryInfo parentDir = new DirectoryInfo(this.externalLocationTxt.Text);
-                foreach (DirectoryInfo dir in parentDir.GetDirectories())
-                {
-                    ReadDirectory(dir.FullName);
-                    xmlStorage.Save(CreateAssembly());
-                }
+                TrajectoryFileConverter converter = 
+                    new TrajectoryFileConverter(this.externalLocationTxt.Text);
+                converter.ReadRootDirectory();
+                converter.Save(xmlStorage, this.avgCheck.Checked);
                 FreezeButtons(false);
 
                 MessageBox.Show("Data transfer succeed.", "Success");
@@ -149,20 +154,10 @@ namespace RandomGraphLauncher
                     this.connectionStringTxt.Text, "System.Data.SqlClient"));
 
                 FreezeButtons(true);
-                DirectoryInfo parentDir = new DirectoryInfo(this.externalLocationTxt.Text);
-                foreach (DirectoryInfo dir in parentDir.GetDirectories())
-                {
-                    ReadDirectory(dir.FullName);
-                    if (this.avgCheck.Checked == true)
-                    {
-                        SQLResultStorage st = (SQLResultStorage)sqlStorage;
-                        st.SaveTT(CreateAssembly());
-                    }
-                    else
-                    {
-                        sqlStorage.Save(CreateAssembly());
-                    }
-                }
+                TrajectoryFileConverter converter =
+                    new TrajectoryFileConverter(this.externalLocationTxt.Text);
+                converter.ReadRootDirectory();
+                converter.Save(sqlStorage, this.avgCheck.Checked);
                 FreezeButtons(false);
 
                 MessageBox.Show("Data transfer succeed.", "Success");
@@ -170,6 +165,77 @@ namespace RandomGraphLauncher
             catch (SystemException ex)
             {
                MessageBox.Show("Data transfer failed.", "Failed");
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (BrowseDlg.ShowDialog() == DialogResult.OK)
+            {
+                this.textBox2.Text = BrowseDlg.SelectedPath;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (BrowseDlg.ShowDialog() == DialogResult.OK)
+            {
+                this.textBox1.Text = BrowseDlg.SelectedPath;
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (this.checkBox1.Checked == true)
+            {
+                MessageBox.Show("Not supported.", "Failed");
+                return;
+            }
+
+            try
+            {
+                IResultStorage xmlStorage = new XMLResultStorage(this.textBox1.Text);
+
+                FreezeButtons(true);
+                ResultsFileConverter converter =
+                    new ResultsFileConverter(this.textBox2.Text);
+                converter.ReadRootDirectory();
+                converter.Save(xmlStorage, false);
+                FreezeButtons(false);
+
+                MessageBox.Show("Data transfer succeed.", "Success");
+            }
+            catch (SystemException)
+            {
+                MessageBox.Show("Data transfer failed.", "Failed");
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (this.checkBox1.Checked == true)
+            {
+                MessageBox.Show("Not supported.", "Failed");
+                return;
+            }
+
+            try
+            {
+                IResultStorage sqlStorage = new SQLResultStorage(new ConnectionStringSettings("a",
+                    this.textBox3.Text, "System.Data.SqlClient"));
+
+                FreezeButtons(true);
+                ResultsFileConverter converter =
+                    new ResultsFileConverter(this.textBox2.Text);
+                converter.ReadRootDirectory();
+                converter.Save(sqlStorage, false);
+                FreezeButtons(false);
+
+                MessageBox.Show("Data transfer succeed.", "Success");
+            }
+            catch (SystemException ex)
+            {
+                MessageBox.Show("Data transfer failed.", "Failed");
             }
         }
 
@@ -228,116 +294,6 @@ namespace RandomGraphLauncher
                         break;
                     }
             }
-        }
-
-        // Значения параметров генерации и результатов анализа из внешнего файла (директории).
-        private string fileName = "";
-        private int N = 0;
-        private double p = 0.0;
-        private double mu = 0.0;
-        private bool perm = false;
-        private List<SortedDictionary<int, double>> dictionaries = 
-            new List<SortedDictionary<int, double>>();
-
-        private void ReadDirectory(string fullName)
-        {
-            DirectoryInfo d = new DirectoryInfo(fullName);
-            string dictionaryName = d.Name;
-
-            this.fileName = dictionaryName;
-
-            // Получение значение параметра N из имени каталога.
-            int i = 1;
-            string paramN = "";
-            while (dictionaryName[i] != '_')
-            {
-                paramN += dictionaryName[i];
-                ++i;
-            }
-            this.N = Convert.ToInt32(paramN);
-
-            // Получение значение параметра p из имени каталога.
-            i += 2;
-            string paramP = "";
-            while (dictionaryName[i] != '_')
-            {
-                paramP += dictionaryName[i];
-                ++i;
-            }
-            this.p = Convert.ToDouble(paramP);
-
-            // Получение значение параметра mu из имени каталога.
-            i += 2;
-            string paramMu = "";
-            while (dictionaryName[i] != '_')
-            {
-                paramMu += dictionaryName[i];
-                ++i;
-            }
-            this.mu = Convert.ToDouble(paramMu);
-
-            // Получение значение параметра Permanent из имени каталога.
-            ++i;
-            string paramPerm = dictionaryName.Substring(i);
-            this.perm = (paramPerm == "F") ? false : true;
-
-            // Получение пар значений из файлов данного каталога.
-            this.dictionaries.Clear();
-            FileInfo[] f = d.GetFiles();
-            foreach (FileInfo fInfo in f)
-            {
-                SortedDictionary<int, double> dict= new SortedDictionary<int, double>();
-                StreamReader streamReader;
-                using (streamReader = new StreamReader(fInfo.FullName, System.Text.Encoding.Default))
-                {
-                    string contents;
-                    while ((contents = streamReader.ReadLine()) != null)
-                    {
-                        string first = "", second = "";
-                        int j = 0;
-                        while (contents[j] != ' ')
-                        {
-                            first += contents[j];
-                            ++j;
-                        }
-
-                        second = contents.Substring(j);
-
-                        dict.Add(Convert.ToInt32(first), Convert.ToDouble(second));
-                    }
-                }
-
-                this.dictionaries.Add(dict);
-            }
-        }
-
-        // Создание ансамбля из внешних данных.
-        private ResultAssembly CreateAssembly()
-        {
-            ResultAssembly result = new ResultAssembly();
-
-            result.Name = fileName;
-            result.ModelType = typeof(ERModel);
-            result.ModelName = result.ModelType.Name;
-            result.Size = this.N;
-
-            result.GenerationParams.Add(GenerationParam.Vertices, this.N);
-            result.GenerationParams.Add(GenerationParam.P, this.p);
-            result.GenerationParams.Add(GenerationParam.Permanent, this.perm);
-
-            result.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryMu] = (double)this.mu;
-
-            foreach (SortedDictionary<int, double> t in this.dictionaries)
-            {
-                AnalizeResult r = new AnalizeResult();
-
-                r.TriangleTrajectory = t;
-                result.AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryStepCount] = (BigInteger)t.Count;
-
-                result.Results.Add(r);
-            }
-
-            return result;
         }
     }
 }
