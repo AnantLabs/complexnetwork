@@ -114,6 +114,12 @@
     <Compile Include="ExtendedGraphic.Designer.cs">
       <DependentUpon>ExtendedGraphic.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExtendedValueTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExtendedValueTable.Designer.cs">
+      <DependentUpon>ExtendedValueTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Graphic.cs">
       <SubType>Form</SubType>
     </Compile>

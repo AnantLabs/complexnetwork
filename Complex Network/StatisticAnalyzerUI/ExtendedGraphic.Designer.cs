@@ -29,13 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.saveButton = new System.Windows.Forms.Button();
+            this.saveBtn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.resultsTab = new System.Windows.Forms.TabControl();
             this.avgTab = new System.Windows.Forms.TabPage();
             this.sigmaTab = new System.Windows.Forms.TabPage();
             this.CommonToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.valuesBtn = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.resultsTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -44,20 +45,21 @@
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // saveButton
+            // saveBtn
             // 
-            this.saveButton.Location = new System.Drawing.Point(9, 15);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(135, 31);
-            this.saveButton.TabIndex = 11;
-            this.saveButton.Text = "Save";
-            this.saveButton.UseVisualStyleBackColor = true;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            this.saveBtn.Location = new System.Drawing.Point(11, 66);
+            this.saveBtn.Name = "saveBtn";
+            this.saveBtn.Size = new System.Drawing.Size(135, 31);
+            this.saveBtn.TabIndex = 11;
+            this.saveBtn.Text = "Save";
+            this.saveBtn.UseVisualStyleBackColor = true;
+            this.saveBtn.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.LightSlateGray;
-            this.panel1.Controls.Add(this.saveButton);
+            this.panel1.Controls.Add(this.valuesBtn);
+            this.panel1.Controls.Add(this.saveBtn);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
@@ -117,6 +119,16 @@
             this.splitContainer1.SplitterDistance = 693;
             this.splitContainer1.TabIndex = 13;
             // 
+            // valuesBtn
+            // 
+            this.valuesBtn.Location = new System.Drawing.Point(11, 12);
+            this.valuesBtn.Name = "valuesBtn";
+            this.valuesBtn.Size = new System.Drawing.Size(135, 31);
+            this.valuesBtn.TabIndex = 12;
+            this.valuesBtn.Text = "Values";
+            this.valuesBtn.UseVisualStyleBackColor = true;
+            this.valuesBtn.Click += new System.EventHandler(this.valuesBtn_Click);
+            // 
             // ExtendedGraphic
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -141,13 +153,14 @@
 
         #endregion
 
-        private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.Button saveBtn;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TabControl resultsTab;
         private System.Windows.Forms.TabPage avgTab;
         private System.Windows.Forms.TabPage sigmaTab;
         private System.Windows.Forms.ToolTip CommonToolTip;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Button valuesBtn;
 
 
 

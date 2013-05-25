@@ -82,6 +82,20 @@ namespace StatisticAnalyzerUI
             }
         }
 
+        private void valuesBtn_Click(object sender, EventArgs e)
+        {
+            ExtendedValueTable extendedValueTable = new ExtendedValueTable();
+            if (0 == this.resultsTab.SelectedIndex)
+            {
+                
+            }
+            else
+            {
+                
+            }
+            extendedValueTable.Show();
+        }
+
         private void DrawGraphics()
         {
             int length = resultsList.Count();
