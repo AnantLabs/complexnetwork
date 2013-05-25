@@ -45,6 +45,7 @@ namespace ResultStorage.Storage
         }
 
         // ??
+        // Используется хранимая процедура "CountTriangleTrajectoryAvgSigma".
         public void GetAvgSigma(Guid id, int k, out double avg, out double sigma)
         {
             avg = 0;
@@ -678,6 +679,7 @@ namespace ResultStorage.Storage
         }
 
         // Удаление сборки по данному идентификатору сборки.
+        // Используется хранимая процедура "DeleteAssembly".
         public override void Delete(Guid assemblyID)
         {
             log.Info("Deleting data from DB.");
@@ -685,42 +687,14 @@ namespace ResultStorage.Storage
             {
                 conn.ConnectionString = GetConnectionString();
                 conn.Open();
-                using (DbCommand cmd = conn.CreateCommand())
+
+                using (SqlCommand command = (SqlCommand)conn.CreateCommand())
                 {
-                    string sqlQuery =
-                        "DELETE FROM AnalyzeResults WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
-                        "DELETE FROM VertexDegree WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
-                        "DELETE FROM VertexDegreeGlobal WHERE ResultsID IN(SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
-                        "DELETE FROM VertexDegreeLocal WHERE AssemblyID=@AssemblyID " +
-                        "DELETE FROM Coefficients WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
-                        "DELETE FROM CoefficientsGlobal WHERE AssemblyID=@AssemblyID " +
-                        "DELETE FROM CoefficientsLocal WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
-                        "DELETE FROM ConSubgraphs WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
-                        "DELETE FROM ConSubgraphsLocal WHERE AssemblyID=@AssemblyID " +
-                        "DELETE FROM FullSubgraphs WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
-                        "DELETE FROM VertexDistance WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
-                        "DELETE FROM VertexDistanceLocal WHERE AssemblyID=@AssemblyID " +
-                        "DELETE FROM EigenValues WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
-                        "DELETE FROM EigenValuesDistance WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
-                        "DELETE FROM EigenValuesDistanceLocal WHERE AssemblyID=@AssemblyID " +
-                        "DELETE FROM Cycles WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
-                        "DELETE FROM Triangles WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
-                        "DELETE FROM TriangleTrajectory WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
-                        "DELETE FROM TriangleTrajectoryLocal WHERE AssemblyID=@AssemblyID " +
-                        "DELETE FROM Motifs WHERE ResultsID IN (SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID) " +
-                        "DELETE FROM AssemblyResults WHERE AssemblyID=@AssemblyID " +
-                        "DELETE FROM GenerationParamValues WHERE AssemblyID=@AssemblyID " +
-                        "DELETE FROM AnalyzeOptionParamValues WHERE AssemblyID=@AssemblyID " +
-                        "DELETE FROM Assemblies WHERE AssemblyID=@AssemblyID";
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    DbParameter dpAssemblyID = provider.CreateParameter();
-                    dpAssemblyID.ParameterName = "AssemblyID";
-                    dpAssemblyID.Value = assemblyID;
-                    cmd.Parameters.Add(dpAssemblyID);
-
-                    cmd.ExecuteNonQuery();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 3600;  // Ждать час.
+                    command.Parameters.Add("@AssID", SqlDbType.UniqueIdentifier).Value = assemblyID;
+                    command.CommandText = "DeleteAssembly";
+                    command.ExecuteNonQuery();
                 }
             }
         }
@@ -1581,7 +1555,7 @@ namespace ResultStorage.Storage
 
         #endregion
 
-        // Возвращает именя всех сборок в БД (не загружая их).
+        // Возвращает имена всех сборок в БД (не загружая их).
         public object[] GetJobNames()
         {
             ArrayList result = new ArrayList();
@@ -1677,6 +1651,7 @@ namespace ResultStorage.Storage
         // Утилиты.
 
         // Добавление строк в оптимизированные таблицы для данной сборки.
+        // Используется хранимая процедура "FillOptimizationTables".
         private void FillOptimizationTables(DbConnection conn, Guid assemblyID)
         {
             // !Исправить! Подумать над тем, чтобы поменять вызовом триггера (код приведен нуже).
