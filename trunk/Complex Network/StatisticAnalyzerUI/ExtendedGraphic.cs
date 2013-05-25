@@ -84,14 +84,18 @@ namespace StatisticAnalyzerUI
 
         private void valuesBtn_Click(object sender, EventArgs e)
         {
-            ExtendedValueTable extendedValueTable = new ExtendedValueTable();
+            ExtendedValueTable extendedValueTable = null;
             if (0 == this.resultsTab.SelectedIndex)
             {
-                
+                extendedValueTable = new ExtendedValueTable("Avgs",
+                    resultsList[resultsList.Count() - 1].parameterLine,
+                    resultsList[resultsList.Count() - 1].trajectoryAvgs);         
             }
             else
             {
-                
+                extendedValueTable = new ExtendedValueTable("Sigmas",
+                    resultsList[resultsList.Count() - 1].parameterLine,
+                    resultsList[resultsList.Count() - 1].trajectorySigmas);
             }
             extendedValueTable.Show();
         }

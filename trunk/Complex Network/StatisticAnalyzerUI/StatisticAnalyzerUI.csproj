@@ -152,6 +152,9 @@
     <EmbeddedResource Include="ExtendedGraphic.resx">
       <DependentUpon>ExtendedGraphic.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ExtendedValueTable.resx">
+      <DependentUpon>ExtendedValueTable.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Graphic.resx">
       <DependentUpon>Graphic.cs</DependentUpon>
       <SubType>Designer</SubType>
