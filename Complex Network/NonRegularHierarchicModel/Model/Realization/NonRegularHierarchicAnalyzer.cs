@@ -117,5 +117,12 @@ namespace Model.NonRegularHierarchicModel.Realization
             log.Info("Getting minimal distances between vertices.");
             return container.GetMinPathDistribution();
         }
+
+        // Возвращает распределение триугольников, прикрепленных к вершине.
+        public override SortedDictionary<int, int> GetTrianglesDistribution()
+        {
+            log.Info("Getting triangles distribution.");
+            return new SortedDictionary<int, int>();
+        }
     }
 }
