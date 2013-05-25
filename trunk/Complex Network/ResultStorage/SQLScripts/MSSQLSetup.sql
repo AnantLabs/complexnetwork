@@ -77,7 +77,7 @@ ALTER TABLE [dbo].[AnalyzeOptionParams] CHECK CONSTRAINT [FK_AnalyzeOptionParams
 
 USE [ComplexNetwork]
 GO
-/****** Object:  Table [dbo].[Assemblies]    Script Date: 02/21/2013 11:31:44 ******/
+/****** Object:  Table [dbo].[Assemblies]    Script Date: 05/25/2013 15:43:55 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -89,6 +89,7 @@ CREATE TABLE [dbo].[Assemblies](
 	[Date] [datetime] NOT NULL,
 	[NetworkSize] [int] NOT NULL,
 	[FileName] [nvarchar](250) NOT NULL CONSTRAINT [DF_Assemblies_FileName]  DEFAULT (N'none'),
+	[OptTables] [bit] NOT NULL CONSTRAINT [DF_Assemblies_OptTables]  DEFAULT ((0)),
  CONSTRAINT [PK_Assemblies] PRIMARY KEY CLUSTERED 
 (
 	[AssemblyID] ASC

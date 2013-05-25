@@ -146,7 +146,6 @@
     <Content Include="SQLScripts\MSSQLSetup.sql" />
     <Content Include="SQLScripts\OptimizationTablesCreation.sql" />
     <Content Include="SQLScripts\StoredProcedures.sql" />
-    <Content Include="SQLScripts\Trigger.sql" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
