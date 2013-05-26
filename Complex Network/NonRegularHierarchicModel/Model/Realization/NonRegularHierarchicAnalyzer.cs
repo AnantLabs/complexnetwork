@@ -104,6 +104,43 @@ namespace Model.NonRegularHierarchicModel.Realization
             return result;
         }
 
+        /*     // Возвращает распределение триугольников, прикрепленных к вершине.
+             public override SortedDictionary<int, int> GetTrianglesDistribution()
+             {
+                 log.Info("Getting triangles distribution.");
+                 SortedDictionary<int, int> result = new SortedDictionary<int, int>();
+
+                 for (int i = 0; i < container.Size; ++i)
+                 {
+                     int triangleCountOfVertex = (int)Count3CycleOfVertex(i, 0)[0];
+                     if (result.Keys.Contains(triangleCountOfVertex))
+                         ++result[triangleCountOfVertex];
+                     else
+                         result.Add(triangleCountOfVertex, 1);
+                 }
+
+                 return result;
+             } */
+
+        // Возвращает распределение триугольников, прикрепленных к вершине. 
+
+        public override SortedDictionary<int, int> GetTrianglesDistribution()
+        {
+            log.Info("Getting triangles distribution.");
+            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
+
+            for (uint i = 0; i < container.Size; ++i)
+            {
+                int triangleCountOfVertex = (int)container.Get3CirclesCountWithVertex(i);
+                if (result.Keys.Contains(triangleCountOfVertex))
+                    ++result[triangleCountOfVertex];
+                else
+                    result.Add(triangleCountOfVertex, 1);
+            }
+
+            return result;
+        }
+
         // Возвращается распределение коэффициентов кластеризации графа. Реализовано.
         public override SortedDictionary<double, int> GetClusteringCoefficient()
         {
@@ -116,13 +153,6 @@ namespace Model.NonRegularHierarchicModel.Realization
         {
             log.Info("Getting minimal distances between vertices.");
             return container.GetMinPathDistribution();
-        }
-
-        // Возвращает распределение триугольников, прикрепленных к вершине.
-        public override SortedDictionary<int, int> GetTrianglesDistribution()
-        {
-            log.Info("Getting triangles distribution.");
-            return new SortedDictionary<int, int>();
         }
     }
 }

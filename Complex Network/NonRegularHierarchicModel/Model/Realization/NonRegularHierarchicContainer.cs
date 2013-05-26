@@ -81,13 +81,13 @@ namespace Model.NonRegularHierarchicModel.Realization
                 {
                     are_connected = IsConnectedBlocks(i, j);
                     if (are_connected)
-                        log.Info("blocks with numbers " + i + " and " + j + " are connected and vertex counts are " + node.children[i].node.VertexCount + " and " + node.children[j].node.VertexCount);
-                    /// Add information of connection between blocks i and j.
-                    for (k = 0; k < node.children[i].node.VertexCount; ++k)
-                        for (l = 0; l < node.children[j].node.VertexCount; ++l)
-                        {
-                            result[vi + k, vj + l] = are_connected;
-                        }
+                        //           log.Info("blocks with numbers " + i + " and " + j + " are connected and vertex counts are " + node.children[i].node.VertexCount + " and " + node.children[j].node.VertexCount);
+                        /// Add information of connection between blocks i and j.
+                        for (k = 0; k < node.children[i].node.VertexCount; ++k)
+                            for (l = 0; l < node.children[j].node.VertexCount; ++l)
+                            {
+                                result[vi + k, vj + l] = are_connected;
+                            }
                     vj += node.children[j].node.VertexCount;
                 }
                 vi += node.children[i].node.VertexCount;
@@ -224,6 +224,7 @@ namespace Model.NonRegularHierarchicModel.Realization
                 {
                     if (IsConnectedBlocks(i, j))
                         res += node.children[i].GetEdgesCount() * node.children[j].node.vertexCount;
+
                 }
             }
 
@@ -277,6 +278,7 @@ namespace Model.NonRegularHierarchicModel.Realization
                 if (IsConnectedBlocks(i, my_block))
                 {
                     res += node.children[i].GetEdgesCount();
+                    res += node.children[i].node.vertexCount * node.children[my_block].GetDegree(GetIndexInSubtree(vertex));
                 }
             }
 
@@ -599,7 +601,7 @@ namespace Model.NonRegularHierarchicModel.Realization
             int index = 0;
             for (int k = 1; k <= block1_num; k++)
             {
-                index += this.node.children.Length - k;
+                index += node.children.Length - k;
             }
             index += (int)(block2_num - block1_num - 1);
             log.Info("IN IsConnectedBlocks " + block1_num + " " + block2_num + "and result is " + node.data[index]);
@@ -642,7 +644,7 @@ namespace Model.NonRegularHierarchicModel.Realization
             return i;
         }
 
-        private double ClusteringCoefficientOfVertex(uint v)
+        public double ClusteringCoefficientOfVertex(uint v)
         {
             uint adj = GetAdjacentVertexCount(v);
 
