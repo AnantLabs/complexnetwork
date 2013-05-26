@@ -14,3 +14,11 @@ C:\Users\User\Desktop\New folder\DBViewer\obj\x86\Debug\GenerateResource.read.1.
 C:\Users\User\Desktop\New folder\DBViewer\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\User\Desktop\New folder\DBViewer\obj\x86\Debug\DBViewer.exe
 C:\Users\User\Desktop\New folder\DBViewer\obj\x86\Debug\DBViewer.pdb
+C:\Users\User\Desktop\version\DBViewer\bin\Debug\DBViewer.exe
+C:\Users\User\Desktop\version\DBViewer\bin\Debug\DBViewer.pdb
+C:\Users\User\Desktop\version\DBViewer\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\version\DBViewer\obj\x86\Debug\DBViewer.Properties.Resources.resources
+C:\Users\User\Desktop\version\DBViewer\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\User\Desktop\version\DBViewer\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\User\Desktop\version\DBViewer\obj\x86\Debug\DBViewer.exe
+C:\Users\User\Desktop\version\DBViewer\obj\x86\Debug\DBViewer.pdb
