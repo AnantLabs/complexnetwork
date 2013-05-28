@@ -20,7 +20,6 @@ namespace Model.NonRegularHierarchicModel
         AnalyseOptions.Cycles4 |
         AnalyseOptions.DegreeDistribution |
         AnalyseOptions.ClusteringCoefficient |
-        AnalyseOptions.DistEigenPath |
         AnalyseOptions.TriangleCountByVertex)]
     [RequiredGenerationParam(GenerationParam.BranchIndex, 3)]
     [RequiredGenerationParam(GenerationParam.Level, 4)]
@@ -97,7 +96,6 @@ namespace Model.NonRegularHierarchicModel
                 AnalyseOptions.Cycles4 |
                 AnalyseOptions.DegreeDistribution |
                 AnalyseOptions.ClusteringCoefficient |
-                AnalyseOptions.DistEigenPath |
                 AnalyseOptions.TriangleCountByVertex;
 
             // Определение генератора и анализатора для данной модели (Block-Hierarchic Non Regular).
