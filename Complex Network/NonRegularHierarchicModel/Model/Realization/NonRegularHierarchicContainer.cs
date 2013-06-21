@@ -210,11 +210,11 @@ namespace Model.NonRegularHierarchicModel.Realization
         /// Counts number of circles of length 3 in this graph.
         /// </summary>
         /// <returns>number of circles of length 3</returns>
-        public uint Get3CirclesCount()
+        public ulong Get3CirclesCount()
         {
             if (1 == node.vertexCount)
                 return 0;
-            uint res = 0;
+            ulong res = 0;
             uint i, j, k;
 
             /// Count one edge from one block + a vertex in another block connected to that one.
@@ -362,11 +362,11 @@ namespace Model.NonRegularHierarchicModel.Realization
         /// Counts number of circles of length 4 in this graph.
         /// </summary>
         /// <returns>number of circles of length 4</returns>
-        public uint Get4CirclesCount()
+        public ulong Get4CirclesCount()
         {
             if (1 == node.vertexCount)
                 return 0;
-            uint res = 0;
+            ulong res = 0;
             uint i1, i2, i3, i4;
 
             /// One vertex from 4 connected blocks.

@@ -65,7 +65,7 @@ namespace Model.WSModel.Realization
         }
 
         // Возвращается число циклов длиной 3 в графе. Реализовано.
-        public override int GetCycles3()
+        public override long GetCycles3()
         {
             log.Info("Getting count of cycles - order 3.");
 
@@ -79,7 +79,7 @@ namespace Model.WSModel.Realization
         }
 
         // Возвращается число циклов длиной 4 в графе. Реализовано.
-        public override int GetCycles4()
+        public override long GetCycles4()
         {
             log.Info("Getting count of cycles - order 4.");
 

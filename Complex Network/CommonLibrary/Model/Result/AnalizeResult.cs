@@ -56,9 +56,9 @@ namespace RandomGraph.Common.Model.Result
 
         public BitArray TreeVector { get; set; }
 
-        public int Cycles3 { get; set; }
+        public long Cycles3 { get; set; }
 
-        public int Cycles4 { get; set; }
+        public long Cycles4 { get; set; }
 
         public SortedDictionary<int, double> TriangleTrajectory { get; set; }
 

@@ -60,7 +60,7 @@ namespace Model.BAModel.Realization
         }
 
         // Возвращается число циклов длиной 3 в графе. Реализовано.
-        public override int GetCycles3()
+        public override long GetCycles3()
         {
             log.Info("Getting count of cycles - order 3.");
 
@@ -81,15 +81,15 @@ namespace Model.BAModel.Realization
             else
                 cycles3 /= 3;
 
-            return (int)cycles3;
+            return (long)cycles3;
         }
 
         // Возвращается число циклов длиной 4 в графе. Реализовано.
-        public override int GetCycles4()
+        public override long GetCycles4()
         {
             log.Info("Getting count of cycles - order 4.");
 
-            int count = 0;
+            long count = 0;
             for (int i = 0; i < container.Size; i++)
                 count += Get4OrderCyclesOfNode(i);
 
@@ -541,12 +541,12 @@ namespace Model.BAModel.Realization
             return k;
         }
 
-        private int Get4OrderCyclesOfNode(int j)
+        private long Get4OrderCyclesOfNode(int j)
         {
             List<int> neigboursList = container.Neighbourship[j];
             List<int> neigboursList1 = new List<int>();
             List<int> neigboursList2 = new List<int>();
-            int count = 0;
+            long count = 0;
             for (int i = 0; i < neigboursList.Count; i++)
             {
                 neigboursList1 = container.Neighbourship[neigboursList[i]];
@@ -563,6 +563,7 @@ namespace Model.BAModel.Realization
 
 
             }
+
             return count / 2;
 
         }

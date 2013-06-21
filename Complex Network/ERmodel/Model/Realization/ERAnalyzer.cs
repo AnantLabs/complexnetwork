@@ -75,10 +75,10 @@ namespace Model.ERModel.Realization
         }
 
         // Возвращается число циклов длиной 3 в графе. Реализовано.
-        public override int GetCycles3()
+        public override long GetCycles3()
         {
             log.Info("Getting count of cycles - order 3.");
-            int count = 0;
+            long count = 0;
             for (int i = 0; i < container.Size; ++i)
             {
                 List<int> nbs = container.Neighbourship[i];
@@ -91,6 +91,7 @@ namespace Model.ERModel.Realization
 
             return count / 6;
         }
+
         private  int GetCyclesForTringle(ERContainer container)
         {
            // log.Info("Getting count of cycles - order 3.");
@@ -154,10 +155,10 @@ namespace Model.ERModel.Realization
             return count /= 2;
         }
         // Возвращается число циклов длиной 4 в графе. Реализовано.
-        public override int GetCycles4()
+        public override long GetCycles4()
         {
             log.Info("Getting count of cycles - order 4.");
-            int count = 0;
+            long count = 0;
             for (int i = 0; i < container.Size; ++i)
             {
                 List<int> nbs = container.Neighbourship[i];

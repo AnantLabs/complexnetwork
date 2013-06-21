@@ -67,17 +67,17 @@ namespace Model.NonRegularHierarchicModel.Realization
         }
 
         // Возвращается число циклов длиной 3 в графе. Реализовано.
-        public override int GetCycles3()
+        public override long GetCycles3()
         {
             log.Info("Getting count of cycles - order 3.");
-            return (int)(container.Get3CirclesCount());
+            return (long)(container.Get3CirclesCount());
         }
 
         // Возвращается число циклов длиной 4 в графе. Реализовано.
-        public override int GetCycles4()
+        public override long GetCycles4()
         {
             log.Info("Getting count of cycles - order 4.");
-            return (int)container.Get4CirclesCount();
+            return (long)container.Get4CirclesCount();
         }
 
         // Возвращается степенное распределение графа. Реализовано.

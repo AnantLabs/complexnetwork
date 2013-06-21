@@ -31,14 +31,14 @@ namespace CommonLibrary.Model
         }
 
         // Возвращается число циклов длиной 3 в графе.
-        public virtual int GetCycles3()
+        public virtual long GetCycles3()
         {
             log.Error("This model does not support Cycles3 counting algorithm.");
             return 0;
         }
 
         // Возвращается число циклов длиной 4 в графе.
-        public virtual int GetCycles4()
+        public virtual long GetCycles4()
         {
             log.Error("This model does not support Cycles4 algorithm.");
             return 0;

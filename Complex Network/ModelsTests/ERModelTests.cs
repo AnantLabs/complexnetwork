@@ -134,8 +134,8 @@ namespace ModelsTests
             container.SetMatrix(matrix);
             AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
-            int actualValue = analyzer.GetCycles3();
-            int expectedValue = (int)goldResult.Results[0].Result[AnalyseOptions.Cycles3];
+            long actualValue = analyzer.GetCycles3();
+            long expectedValue = (long)goldResult.Results[0].Result[AnalyseOptions.Cycles3];
             Assert.AreEqual(actualValue, expectedValue);
         }
 
@@ -152,7 +152,7 @@ namespace ModelsTests
             container.SetMatrix(matrix);
             AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
-            int actualValue = analyzer.GetCycles4();
+            long actualValue = analyzer.GetCycles4();
             //FIXME
             //int expectedValue = goldResult.Results[0].Cycles4;
             int expectedValue = (int)goldResult.Results[0].Result[AnalyseOptions.Cycles4];
