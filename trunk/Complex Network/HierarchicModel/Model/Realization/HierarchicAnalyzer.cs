@@ -63,17 +63,17 @@ namespace Model.HierarchicModel.Realization
         }
 
         // Возвращается число циклов длиной 3 в графе. Реализовано.
-        public override int GetCycles3()
+        public override long GetCycles3()
         {
             log.Info("Getting count of cycles - order 3.");
-            return (int)Count3Cycle(0, 0)[0];
+            return (long)Count3Cycle(0, 0)[0];
         }
 
         // Возвращается число циклов длиной 4 в графе. Реализовано.
-        public override int GetCycles4()
+        public override long GetCycles4()
         {
             log.Info("Getting count of cycles - order 4.");
-            return (int)Count4Cycle(0, 0)[0];
+            return (long)Count4Cycle(0, 0)[0];
         }
 
         // Возвращается число циклов длиной 3 в графе, с помощью собственных значений. Реализовано.
