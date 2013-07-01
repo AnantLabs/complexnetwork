@@ -20,6 +20,8 @@ using Model.WSModel;
 
 namespace ResultStorage.StorageConverter
 {
+    // Реализация чтения информации из внешнего файла (Analyze Results File) и создания сборки.
+    // Используется только классом ResultsFileConverter.
     class DictionaryStructure
     {
         private ResultAssembly result;
@@ -29,12 +31,15 @@ namespace ResultStorage.StorageConverter
             get { return result; }
         }
 
+        // Чтение подкаталога с данным именем из корневого каталога 
+        // Создание соответствующей сборки (job-а).
         public void ReadDirectory(string fullName)
         {
             DirectoryInfo d = new DirectoryInfo(fullName);
 
             result = new ResultAssembly();
-            result.Name = result.ID.ToString();  // ??
+            // !Исправить!
+            result.Name = result.ID.ToString(); 
             result.FileName = d.Name;
 
             ReadHeader(d.GetFiles()[0].FullName);
@@ -48,6 +53,9 @@ namespace ResultStorage.StorageConverter
             }
         }
 
+        // Утилиты.
+
+        // Чтение header-части из внешнего файла с данным именем.
         private void ReadHeader(string firstFileFullName)
         {
             using (StreamReader streamReader =
@@ -71,9 +79,12 @@ namespace ResultStorage.StorageConverter
                 {
                     GetAnalyzeParameter(contents);
                 }
+
+                // !Исправить! число реализаций
             }
         }
 
+        // Чтение body-части из внешнего файла с данным именем.
         private void ReadBody(AnalizeResult res, string fileFullName)
         {
             // Получение пар значений из файлов данного каталога.
@@ -95,6 +106,7 @@ namespace ResultStorage.StorageConverter
 
                     second = contents.Substring(j);
 
+                    // !Исправить! получать информацию в соответствии с числом реализаций...
                     switch (this.result.AnalizeOptions)
                     {
                         case AnalyseOptions.DegreeDistribution:
@@ -149,6 +161,7 @@ namespace ResultStorage.StorageConverter
             }
         }
 
+        // Чтение параметров генерации из header-части внешнего файла.
         private void GetGenerationParameter(string p)
         {
             string genParamName = p.Substring(0, p.IndexOf('='));
@@ -180,6 +193,7 @@ namespace ResultStorage.StorageConverter
             }
         }
 
+        // Чтение параметров анализа из header-части внешнего файла.
         private void GetAnalyzeParameter(string p)
         {
             string analyzeParamName = p.Substring(0, p.IndexOf('='));
