@@ -17,6 +17,28 @@ namespace ResultStorage.Storage
     // Базовый абстрактный класс для имплементации хранилища данных.
     public abstract class ResultStorage : IResultStorage
     {
+        // Возвращает тип по имени модели графа.
+        public static Type GetModelType(string modelName)
+        {
+            switch (modelName)
+            {
+                case "HierarchicModel":
+                    return typeof(HierarchicModel);
+                case "BAModel":
+                    return typeof(Model.BAModel.BAModel);
+                case "HierarchicModelParizi":
+                    return typeof(ParisiHierarchicModel);
+                case "WSModel":
+                    return typeof(WSModel);
+                case "ERModel":
+                    return typeof(ERModel);
+                case "NonRegularHierarchicModel":
+                    return typeof(NonRegularHierarchicModel);
+                default:
+                    throw new SystemException("Model Type is not recognized.");
+            }
+        }
+
         // Возвращает идентификатор модели графа по типу.
         protected int GetModelID(Type ModelType)
         {

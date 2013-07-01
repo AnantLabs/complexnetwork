@@ -11,13 +11,6 @@ using CommonLibrary.Model.Result;
 using RandomGraph.Common.Model.Result;
 using CommonLibrary.Model.Attributes;
 
-using Model.HierarchicModel;
-using Model.ParisiHierarchicModel;
-using Model.NonRegularHierarchicModel;
-using Model.BAModel;
-using Model.ERModel;
-using Model.WSModel;
-
 namespace ResultStorage.StorageConverter
 {
     // Реализация чтения информации из внешнего файла (Analyze Results File) и создания сборки.
@@ -25,6 +18,7 @@ namespace ResultStorage.StorageConverter
     class DictionaryStructure
     {
         private ResultAssembly result;
+        private int realizationsCount;
 
         public ResultAssembly Result
         {
@@ -37,7 +31,7 @@ namespace ResultStorage.StorageConverter
         {
             DirectoryInfo d = new DirectoryInfo(fullName);
 
-            result = new ResultAssembly();
+            result = new ResultAssembly(true);
             // !Исправить!
             result.Name = result.ID.ToString(); 
             result.FileName = d.Name;
@@ -62,25 +56,26 @@ namespace ResultStorage.StorageConverter
                 new StreamReader(firstFileFullName, System.Text.Encoding.Default))
             {
                 this.result.ModelName = (streamReader.ReadLine().Substring(10));
-                this.result.ModelType = GetModelType();
+                this.result.ModelType = 
+                    ResultStorage.Storage.ResultStorage.GetModelType(this.result.ModelName);
                 
                 string contents;
-                while (!(contents = streamReader.ReadLine()).Contains("AnalyzeOptionName="))
+                while (!(contents = streamReader.ReadLine()).Contains("RealizationsCount="))
                 {
                     GetGenerationParameter(contents);
                 }
 
-                this.result.Size = GetSize();
+                this.realizationsCount = Int32.Parse(contents.Substring(18));
+                // !Исправить! размер должен быть для каждой реализации (из-за нерегулярных сетей).
+                this.result.Size = Int32.Parse(streamReader.ReadLine().Substring(5));
 
                 this.result.AnalizeOptions = (AnalyseOptions)Enum.Parse(typeof(AnalyseOptions),
-                    contents.Substring(18));
+                    streamReader.ReadLine().Substring(18));
 
                 while ((contents = streamReader.ReadLine()) != "-")
                 {
                     GetAnalyzeParameter(contents);
                 }
-
-                // !Исправить! число реализаций
             }
         }
 
@@ -106,52 +101,122 @@ namespace ResultStorage.StorageConverter
 
                     second = contents.Substring(j);
 
-                    // !Исправить! получать информацию в соответствии с числом реализаций...
+                    // !Исправить! глобальный анализ для усредненного результата.
                     switch (this.result.AnalizeOptions)
                     {
                         case AnalyseOptions.DegreeDistribution:
                             {
-                                res.VertexDegree.Add(int.Parse(first), int.Parse(second));
+                                if (this.realizationsCount == 1)
+                                {
+                                    res.VertexDegree.Add(int.Parse(first), int.Parse(second));
+                                }
+                                else
+                                {
+                                    this.result.VertexDegreeLocal.Add(double.Parse(first),
+                                        double.Parse(second));
+                                }
                                 break;
                             }
                         case AnalyseOptions.ConnSubGraph:
                             {
-                                res.Subgraphs.Add(int.Parse(first), int.Parse(second));
+                                if (this.realizationsCount == 1)
+                                {
+                                    res.Subgraphs.Add(int.Parse(first), int.Parse(second));
+                                }
+                                else
+                                {
+                                    this.result.SubgraphsLocal.Add(double.Parse(first),
+                                        double.Parse(second));
+                                }
                                 break;
                             }
                         case AnalyseOptions.FullSubGraph:
                             {
-                                res.FullSubgraphs.Add(int.Parse(first), int.Parse(second));
+                                if (this.realizationsCount == 1)
+                                {
+                                    res.FullSubgraphs.Add(int.Parse(first), int.Parse(second));
+                                }
+                                else
+                                {
+                                    // Не реализовано.
+                                }
                                 break;
                             }
                         case AnalyseOptions.MinPathDist:
                             {
-                                res.DistanceBetweenVertices.Add(int.Parse(first), int.Parse(second));
+                                if (this.realizationsCount == 1)
+                                {
+                                    res.DistanceBetweenVertices.Add(int.Parse(first), int.Parse(second));
+                                }
+                                else
+                                {
+                                    this.result.DistanceBetweenVerticesLocal.Add(double.Parse(first),
+                                        double.Parse(second));
+                                }
                                 break;
                             }
                         case AnalyseOptions.TriangleCountByVertex:
                             {
-                                res.TriangleCount.Add(int.Parse(first), int.Parse(second));
+                                if (this.realizationsCount == 1)
+                                {
+                                    res.TriangleCount.Add(int.Parse(first), int.Parse(second));
+                                }
+                                else
+                                {
+                                    // Не реализовано.
+                                }
                                 break;
                             }
                         case AnalyseOptions.ClusteringCoefficient:
                             {
-                                res.Coefficient.Add(double.Parse(first), int.Parse(second));
+                                if (this.realizationsCount == 1)
+                                {
+                                    res.Coefficient.Add(double.Parse(first), int.Parse(second));
+                                }
+                                else
+                                {
+                                    this.result.CoefficientsLocal.Add(double.Parse(first),
+                                        double.Parse(second));
+                                }
                                 break;
                             }
                         case AnalyseOptions.DistEigenPath:
                             {
-                                res.DistancesBetweenEigenValues.Add(double.Parse(first), int.Parse(second));
+                                if (this.realizationsCount == 1)
+                                {
+                                    res.DistancesBetweenEigenValues.Add(double.Parse(first),
+                                        int.Parse(second));
+                                }
+                                else
+                                {
+                                    this.result.DistancesBetweenEigenValuesLocal.Add(double.Parse(first),
+                                        double.Parse(second));
+                                }
                                 break;
                             }
                         case AnalyseOptions.Cycles:
                             {
-                                res.Cycles.Add(int.Parse(first), long.Parse(second));
+                                if (this.realizationsCount == 1)
+                                {
+                                    res.Cycles.Add(int.Parse(first), long.Parse(second));
+                                }
+                                else
+                                {
+                                    // Не реализовано.
+                                }
                                 break;
                             }
                         case AnalyseOptions.TriangleTrajectory:
                             {
-                                res.TriangleTrajectory.Add(int.Parse(first), double.Parse(second));
+                                if (this.realizationsCount == 1)
+                                {
+                                    res.TriangleTrajectory.Add(int.Parse(first), double.Parse(second));
+                                }
+                                else
+                                {
+                                    this.result.TriangleTrajectoryLocal.Add(double.Parse(first),
+                                        double.Parse(second));
+                                }
                                 break;
                             }
                         default:
@@ -218,54 +283,6 @@ namespace ResultStorage.StorageConverter
             else if (paramInfo.Type.Equals(typeof(bool)))
             {
                 this.result.AnalyzeOptionParams[param] = Boolean.Parse(analyzeParamValue);
-            }
-        }
-
-        // !Исправить!. Этот метод должен быть в другом классе!
-        // Возвращает тип по имени модели графа.
-        private Type GetModelType()
-        {
-            switch (this.result.ModelName)
-            {
-                case "HierarchicModel":
-                    return typeof(HierarchicModel);
-                case "BAModel":
-                    return typeof(Model.BAModel.BAModel);
-                case "HierarchicModelParizi":
-                    return typeof(ParisiHierarchicModel);
-                case "WSModel":
-                    return typeof(WSModel);
-                case "ERModel":
-                    return typeof(ERModel);
-                case "NonRegularHierarchicModel":
-                    return typeof(NonRegularHierarchicModel);
-                default:
-                    throw new SystemException("Model Type is not recognized.");
-            }
-        }
-
-        // !Исправить! Лучше получать размер сети из файла (из-за не регулярной сети).
-        private int GetSize()
-        {
-            switch (this.result.ModelName)
-            {
-                case "HierarchicModel":
-                    return (int)Math.Pow((Int16)this.result.GenerationParams[GenerationParam.BranchIndex],
-                        (Int16)this.result.GenerationParams[GenerationParam.Level]);
-                case "BAModel":
-                    return (Int32)this.result.GenerationParams[GenerationParam.Vertices] +
-                        (Int32)this.result.GenerationParams[GenerationParam.StepCount];
-                case "HierarchicModelParizi":
-                    return (int)Math.Pow((Int16)this.result.GenerationParams[GenerationParam.BranchIndex],
-                        (Int16)this.result.GenerationParams[GenerationParam.Level]);
-                case "WSModel":
-                    return (Int32)this.result.GenerationParams[GenerationParam.Vertices];
-                case "ERModel":
-                    return (Int32)this.result.GenerationParams[GenerationParam.Vertices];
-                case "NonRegularHierarchicModel":
-                    return 0;
-                default:
-                    throw new SystemException("Model Type is not recognized.");
             }
         }
     }
