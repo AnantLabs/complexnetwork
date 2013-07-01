@@ -26,9 +26,8 @@ using ResultStorage.StorageConverter;
 namespace RandomGraphLauncher
 {
     // Реализация формы для перенесения информации из одного хранилища данных в другое.
-    // 1-ый таб - из .xml файла в БД и обратно.
-    // 2-ой таб - из входного файла (без header) в .xml файл или БД, только для траектории (в дальнейшем убрать).
-    // 3-ий таб - из входного файла (Analyze Results File) в .xml файл или БД.
+    // 1-ый таб - из .xml файлов в БД и обратно (все job-ы).
+    // 2-ой таб - из входных файлов (Analyze Results File) в БД (все job-ы).
     public partial class DataExportImportWindow : Form
     {
         private DataConnectionDialog dcd = new DataConnectionDialog();
@@ -44,11 +43,27 @@ namespace RandomGraphLauncher
         {
             if (BrowseDlg.ShowDialog() == DialogResult.OK)
             {
-                this.LocationTxt.Text = BrowseDlg.SelectedPath;
+                switch (this.mainTab.SelectedIndex)
+                {
+                    case 0:
+                        {
+                            this.xmlStorageLocationTxt.Text = BrowseDlg.SelectedPath;
+                            break;
+                        }
+                    case 1:
+                        {
+                            this.externalStoreLocationTxt.Text = BrowseDlg.SelectedPath;
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
             }
         }
 
-        private void AddConnection_Click(object sender, EventArgs e)
+        private void sqlConnection_Click(object sender, EventArgs e)
         {
             dcd = new DataConnectionDialog();
             DataConnectionConfiguration dcs = new DataConnectionConfiguration(null);
@@ -60,17 +75,12 @@ namespace RandomGraphLauncher
                 {
                     case 0:
                         {
-                            this.textBoxConnStr.Text = dcd.ConnectionString;
+                            this.sqlStorageConnTxt.Text = dcd.ConnectionString;
                             break;
                         }
                     case 1:
                         {
                             this.connectionStringTxt.Text = dcd.ConnectionString;
-                            break;
-                        }
-                    case 2:
-                        {
-                            this.textBox3.Text = dcd.ConnectionString;
                             break;
                         }
                     default:
@@ -82,160 +92,47 @@ namespace RandomGraphLauncher
             dcs.SaveConfiguration(dcd);
         }
 
-        private void XML_into_SQL_Button_Click(object sender, EventArgs e)
+        private void xmlToSql_Click(object sender, EventArgs e)
         {
-            IResultStorage sqlStorage = new SQLResultStorage(new ConnectionStringSettings("a", 
-                textBoxConnStr.Text, "System.Data.SqlClient"));
-            IResultStorage xmlStorage = new XMLResultStorage(LocationTxt.Text);
+            IResultStorage sqlStorage = new SQLResultStorage(new ConnectionStringSettings("a",
+                this.sqlStorageConnTxt.Text, "System.Data.SqlClient"));
+            IResultStorage xmlStorage = new XMLResultStorage(this.xmlStorageLocationTxt.Text);
 
             FreezeButtons(true);
             TransferData(xmlStorage, sqlStorage);
             FreezeButtons(false);
         }
 
-        private void SQL_into_XML_Button_Click(object sender, EventArgs e)
+        private void sqlToXml_Click(object sender, EventArgs e)
         {
-            IResultStorage sqlStorage = new SQLResultStorage(new ConnectionStringSettings("a", textBoxConnStr.Text, "System.Data.SqlClient"));
-            IResultStorage xmlStorage = new XMLResultStorage(LocationTxt.Text);
+            IResultStorage sqlStorage = new SQLResultStorage(new ConnectionStringSettings("a", 
+                this.sqlStorageConnTxt.Text, "System.Data.SqlClient"));
+            IResultStorage xmlStorage = new XMLResultStorage(this.xmlStorageLocationTxt.Text);
 
             FreezeButtons(true);
             TransferData(sqlStorage, xmlStorage);
             FreezeButtons(false);
         }        
 
-        private void externalBrowse_Click(object sender, EventArgs e)
-        {
-            if (BrowseDlg.ShowDialog() == DialogResult.OK)
-            {
-                this.externalLocationTxt.Text = BrowseDlg.SelectedPath;
-            }
-        }
-
-        private void xmlBrowse_Click(object sender, EventArgs e)
-        {
-            if (BrowseDlg.ShowDialog() == DialogResult.OK)
-            {
-                this.xmlLocationTxt.Text = BrowseDlg.SelectedPath;
-            }
-        }
-
-        private void fromFileXml_Click(object sender, EventArgs e)
-        {
-            if (this.avgCheck.Checked == true)
-            {
-                MessageBox.Show("Cannot transfer average trajectory into xml.", "Failed");
-                return;
-            }
-
-            try
-            {
-                IResultStorage xmlStorage = new XMLResultStorage(this.xmlLocationTxt.Text);
-
-                FreezeButtons(true);
-                TrajectoryFileConverter converter = 
-                    new TrajectoryFileConverter(this.externalLocationTxt.Text);
-                converter.ReadRootDirectory();
-                converter.Save(xmlStorage, this.avgCheck.Checked);
-                FreezeButtons(false);
-
-                MessageBox.Show("Data transfer succeed.", "Success");
-            }
-            catch (SystemException)
-            {
-                MessageBox.Show("Data transfer failed.", "Failed");
-            }
-        }
-
         private void fromFileSql_Click(object sender, EventArgs e)
         {
             try
             {
-                IResultStorage sqlStorage = new SQLResultStorage(new ConnectionStringSettings("a",
+                SQLResultStorage sqlStorage = new SQLResultStorage(new ConnectionStringSettings("a",
                     this.connectionStringTxt.Text, "System.Data.SqlClient"));
 
                 FreezeButtons(true);
-                TrajectoryFileConverter converter =
-                    new TrajectoryFileConverter(this.externalLocationTxt.Text);
+                ResultsFileConverter converter = 
+                    new ResultsFileConverter(this.externalStoreLocationTxt.Text);
                 converter.ReadRootDirectory();
-                converter.Save(sqlStorage, this.avgCheck.Checked);
-                FreezeButtons(false);
-
-                MessageBox.Show("Data transfer succeed.", "Success");
-            }
-            catch (SystemException ex)
-            {
-               MessageBox.Show("Data transfer failed.", "Failed");
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (BrowseDlg.ShowDialog() == DialogResult.OK)
-            {
-                this.textBox2.Text = BrowseDlg.SelectedPath;
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (BrowseDlg.ShowDialog() == DialogResult.OK)
-            {
-                this.textBox1.Text = BrowseDlg.SelectedPath;
-            }
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            if (this.checkBox1.Checked == true)
-            {
-                MessageBox.Show("Not supported.", "Failed");
-                return;
-            }
-
-            try
-            {
-                IResultStorage xmlStorage = new XMLResultStorage(this.textBox1.Text);
-
-                FreezeButtons(true);
-                ResultsFileConverter converter =
-                    new ResultsFileConverter(this.textBox2.Text);
-                converter.ReadRootDirectory();
-                converter.Save(xmlStorage, false);
+                converter.Save(sqlStorage);
                 FreezeButtons(false);
 
                 MessageBox.Show("Data transfer succeed.", "Success");
             }
             catch (SystemException)
             {
-                MessageBox.Show("Data transfer failed.", "Failed");
-            }
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            if (this.checkBox1.Checked == true)
-            {
-                MessageBox.Show("Not supported.", "Failed");
-                return;
-            }
-
-            try
-            {
-                IResultStorage sqlStorage = new SQLResultStorage(new ConnectionStringSettings("a",
-                    this.textBox3.Text, "System.Data.SqlClient"));
-
-                FreezeButtons(true);
-                ResultsFileConverter converter =
-                    new ResultsFileConverter(this.textBox2.Text);
-                converter.ReadRootDirectory();
-                converter.Save(sqlStorage, false);
-                FreezeButtons(false);
-
-                MessageBox.Show("Data transfer succeed.", "Success");
-            }
-            catch (SystemException ex)
-            {
-                MessageBox.Show("Data transfer failed.", "Failed");
+               MessageBox.Show("Data transfer failed.", "Failed");
             }
         }
 
@@ -272,10 +169,10 @@ namespace RandomGraphLauncher
             {
                 case 0:
                     {
-                        this.Browse.Enabled = !freeze;
-                        this.AddConnection.Enabled = !freeze;
-                        this.XML_into_SQL_Button.Enabled = !freeze;
-                        this.SQL_into_XML_Button.Enabled = !freeze;
+                        this.xmlBrowse.Enabled = !freeze;
+                        this.sqlConnection.Enabled = !freeze;
+                        this.xmlToSql.Enabled = !freeze;
+                        this.sqlToXml.Enabled = !freeze;
 
                         break;
                     }
@@ -283,8 +180,7 @@ namespace RandomGraphLauncher
                     {
                         this.externalBrowse.Enabled = !freeze;
                         this.xmlBrowse.Enabled = !freeze;
-                        this.Connections.Enabled = !freeze;
-                        this.fromFileXml.Enabled = !freeze;
+                        this.connections.Enabled = !freeze;
                         this.fromFileSql.Enabled = !freeze;
 
                         break;
