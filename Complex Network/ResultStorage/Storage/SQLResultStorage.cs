@@ -1485,6 +1485,11 @@ namespace ResultStorage.Storage
             return results;
         }
 
+        public override List<ResultAssembly> LoadAssembliesByModel(string modelName)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         // Возвращает имена всех сборок в БД (не загружая их).
