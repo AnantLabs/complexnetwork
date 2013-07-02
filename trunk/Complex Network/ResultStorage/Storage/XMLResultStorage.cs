@@ -675,6 +675,20 @@ namespace ResultStorage.Storage
             return assemblies;
         }
 
+        public override List<ResultAssembly> LoadAssembliesByModel(string modelName)
+        {
+            List<ResultAssembly> allResults = LoadAllAssemblies();
+            List<ResultAssembly> results = new List<ResultAssembly>();
+            foreach (ResultAssembly result in allResults)
+            {
+                if (result.ModelName == modelName)
+                {
+                    results.Add(result);
+                }
+            }
+            return results;
+        }
+
         #endregion
 
         private byte[] BinarySerialization(Object obj)

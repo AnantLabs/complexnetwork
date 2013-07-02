@@ -40,7 +40,7 @@ namespace ResultStorage.Storage
         }
 
         // Возвращает идентификатор модели графа по типу.
-        protected int GetModelID(Type ModelType)
+        public static int GetModelID(Type ModelType)
         {
             string name = ModelType.Name;
             switch (name)
@@ -64,7 +64,7 @@ namespace ResultStorage.Storage
         }
 
         // Возвращает тип по идентификатору модели графа.
-        protected Type GetModelType(int ModelTypeID)
+        public static Type GetModelType(int ModelTypeID)
         {
             switch (ModelTypeID)
             {
@@ -98,18 +98,6 @@ namespace ResultStorage.Storage
         public abstract List<ResultAssembly> LoadAllAssemblies();
 
         // Метод для загрузки всех сборок из хранилища данных по данному имени модели.
-        public List<ResultAssembly> LoadAssembliesByModel(string modelName)
-        {
-            List<ResultAssembly> allResults = LoadAllAssemblies();
-            List<ResultAssembly> results = new List<ResultAssembly>();
-            foreach (ResultAssembly result in allResults)
-            {
-                if (result.ModelName == modelName)
-                {
-                    results.Add(result);
-                }
-            }
-            return results;
-        }
+        public abstract List<ResultAssembly> LoadAssembliesByModel(string modelName);
     }
 }

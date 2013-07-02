@@ -82,6 +82,7 @@ namespace RandomGraphLauncher
                         }
                 }
             }
+
             dcs.SaveConfiguration(dcd);
         }
 
