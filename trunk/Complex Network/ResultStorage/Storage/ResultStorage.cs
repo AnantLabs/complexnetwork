@@ -97,7 +97,7 @@ namespace ResultStorage.Storage
         // Абстрактный метод для загрузки всех сборок из хранилища данных.
         public abstract List<ResultAssembly> LoadAllAssemblies();
 
-        // Метод для загрузки всех сборок из хранилища данных по данному имени модели.
+        // Абстрактный метод для загрузки всех сборок из хранилища данных по данному имени модели.
         public abstract List<ResultAssembly> LoadAssembliesByModel(string modelName);
     }
 }
