@@ -65,8 +65,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParisiHierarchicModel", "Pa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelCheck", "ModelCheck\ModelCheck.csproj", "{148BCD23-EFCA-40A1-B4CB-1EED561AACAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBViewer", "DBViewer\DBViewer.csproj", "{E62AC580-F607-4A2B-9072-A01A3092C33D}"
-EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ComplexNetwork.vsmdi
@@ -341,18 +339,6 @@ Global
 		{148BCD23-EFCA-40A1-B4CB-1EED561AACAD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{148BCD23-EFCA-40A1-B4CB-1EED561AACAD}.Release|Win32.ActiveCfg = Release|Any CPU
 		{148BCD23-EFCA-40A1-B4CB-1EED561AACAD}.Release|x86.ActiveCfg = Release|Any CPU
-		{E62AC580-F607-4A2B-9072-A01A3092C33D}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{E62AC580-F607-4A2B-9072-A01A3092C33D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{E62AC580-F607-4A2B-9072-A01A3092C33D}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{E62AC580-F607-4A2B-9072-A01A3092C33D}.Debug|Win32.ActiveCfg = Debug|x86
-		{E62AC580-F607-4A2B-9072-A01A3092C33D}.Debug|x86.ActiveCfg = Debug|x86
-		{E62AC580-F607-4A2B-9072-A01A3092C33D}.Debug|x86.Build.0 = Debug|x86
-		{E62AC580-F607-4A2B-9072-A01A3092C33D}.Release|Any CPU.ActiveCfg = Release|x86
-		{E62AC580-F607-4A2B-9072-A01A3092C33D}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{E62AC580-F607-4A2B-9072-A01A3092C33D}.Release|Mixed Platforms.Build.0 = Release|x86
-		{E62AC580-F607-4A2B-9072-A01A3092C33D}.Release|Win32.ActiveCfg = Release|x86
-		{E62AC580-F607-4A2B-9072-A01A3092C33D}.Release|x86.ActiveCfg = Release|x86
-		{E62AC580-F607-4A2B-9072-A01A3092C33D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
