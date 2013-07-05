@@ -630,7 +630,8 @@ namespace ResultStorage.Storage
             List<ResultAssembly> assemblies = new List<ResultAssembly>();
             ResultAssembly assembly = null;
 
-            foreach (string file in Directory.GetFiles(directory, "*.xml", SearchOption.TopDirectoryOnly))
+            foreach (string file in Directory.GetFiles(directory, "*.xml", 
+                SearchOption.TopDirectoryOnly))
             {
                 assembly = new ResultAssembly();
                 assemblies.Add(assembly);
@@ -662,6 +663,7 @@ namespace ResultStorage.Storage
                                     assembly.ModelName = reader.ReadContentAsString();
                                     break;
                                 }
+                                // !исправить!
                             }
                         }
                     }
