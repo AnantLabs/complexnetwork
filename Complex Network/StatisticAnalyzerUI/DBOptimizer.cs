@@ -73,7 +73,7 @@ namespace StatisticAnalyzerUI
                 try
                 {
                     FreezeButtons(true);
-                    sqlStorage.FillOptimizationTablesForAllJobs();
+                    sqlStorage.FillAvgTablesForAllJobs();
                     FreezeButtons(false);
                     MessageBox.Show("Optimizations for all jobs completed with success.", "Success");
                 }
@@ -87,7 +87,7 @@ namespace StatisticAnalyzerUI
                 try
                 {
                     FreezeButtons(true); 
-                    sqlStorage.FillOptimizationTablesForCurrentJob(this.availableJobsCmb.Text);
+                    sqlStorage.FillAvgTablesForCurrentJob(this.availableJobsCmb.Text);
                     FreezeButtons(false);
                     MessageBox.Show("Optimizations for job <" +
                         this.availableJobsCmb.Text +

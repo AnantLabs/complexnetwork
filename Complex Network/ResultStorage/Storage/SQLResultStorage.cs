@@ -332,6 +332,7 @@ namespace ResultStorage.Storage
         }
 
         // Возвращает число реализаций для данного job-а.
+        // Используется функция "RealizationsCount".
         public int GetRealizationCount(string jobName)
         {
             using (DbConnection conn = provider.CreateConnection())
@@ -444,7 +445,7 @@ namespace ResultStorage.Storage
             return "";
         }
 
-        // Возвращает список строковых значений паремтра генерации с данным идентификатором по имени модели.
+        // Возвращает список строковых значений параметра генерации с данным идентификатором по имени модели.
         public List<string> GetParameterValuesByID(Type modelType, int id)
         {
             List<string> result = new List<string>();
@@ -541,7 +542,7 @@ namespace ResultStorage.Storage
 
         // Добавление строк в усредненные таблицы для всех сборок в БД.
         // Вызывается в ручную перед статистическим анализом.
-        public void FillOptimizationTablesForAllJobs()
+        public void FillAvgTablesForAllJobs()
         {
             using (DbConnection conn = provider.CreateConnection())
             {
@@ -566,14 +567,14 @@ namespace ResultStorage.Storage
 
                 foreach (Guid assemblyID in assemblyIDs)
                 {
-                    FillOptimizationTables(conn, assemblyID);
+                    FillAvgTables(conn, assemblyID);
                 }
             }
         }
 
         // Добавление строк в усредненные таблицы для сбороки с данным именем.
         // Вызывается в ручную перед статистическим анализом данной сборки.
-        public void FillOptimizationTablesForCurrentJob(string jobName)
+        public void FillAvgTablesForCurrentJob(string jobName)
         {
             using (DbConnection conn = provider.CreateConnection())
             {
@@ -601,7 +602,7 @@ namespace ResultStorage.Storage
                     }
                 }
 
-                FillOptimizationTables(conn, assemblyId);
+                FillAvgTables(conn, assemblyId);
             }
         }
 
@@ -1588,7 +1589,7 @@ namespace ResultStorage.Storage
 
         // Добавление строк в усредненные таблицы для данной сборки.
         // Используется хранимая процедура "FillOptimizationTables".
-        private void FillOptimizationTables(DbConnection conn, Guid assemblyID)
+        private void FillAvgTables(DbConnection conn, Guid assemblyID)
         {
             SqlCommand command = (SqlCommand)conn.CreateCommand();
             command.CommandType = CommandType.StoredProcedure;

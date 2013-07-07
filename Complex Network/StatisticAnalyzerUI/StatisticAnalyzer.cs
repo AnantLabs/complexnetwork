@@ -23,158 +23,173 @@ using ZedGraph;
 
 namespace StatisticAnalyzerUI
 {
+    // Реализация формы для статистического анализа.
+    // "By Jobs" mode - выбор анализируемой сборки по имени job-а.
+    // "By Parameters" mode - выбор множества анализируемых сборок по параметрам генерации.
+    // "Global Analyze" tab - статистический анализ глобальных характеристик (свойств).
+    // "Local Analyze" tab - статистический анализ локальных ьарактеристик (распределений).
+    // "Extended Analyze" tab - статистический анализ средних значений и отклонений.
+    // "Extended Analyze" реализован только для свойства Triangle Trajectory (Avg, Sigma).
     public partial class StatisticAnalyzer : Form
     {
-        // Implementation members //
-        private StLoader loader;
-        private AbstractStAnalyzer analyzer;
+        // Организация GUI-части.
 
-        // GUI members //
-        private Dictionary<GenerationParam, ComboBox> generationParamatersControls = 
+        // Control-и и значения параметров генерации (для выбранной модели).
+        private Dictionary<GenerationParam, ComboBox> generationParamatersControls =
             new Dictionary<GenerationParam, ComboBox>();
 
+        // Организация функциональной части.
+
+        // Информация о графиках соответственно глобального, локального и расширенного анализа.
         private GraphicCondition globalGraphic;
         private GraphicCondition localGraphic;
         private ExtendedGraphicCondition extendedGraphic;
 
+        // Загрузчик сборок и информации из хранилища данных.
+        private AbstractStLoader loader;
+        // Анализатор загруженных сборок.
+        private AbstractStAnalyzer analyzer;
+
+        // Конструктор по умолчанию.
         public StatisticAnalyzer()
         {
             InitializeComponent();
+
             InitializeConfigurationMembers();
-            InitializeGUIMembers();
         }
 
-        // Event Handlers //
+        // Обработчики сообщений.
 
         private void OnLoad(object sender, EventArgs e)
         {
-            this.ByJobsRadio.Checked = true;
-            this.ApproximationTypeCmb.SelectedIndex = 0;
-
-            this.globalGraphic = new GraphicCondition();
-            this.localGraphic = new GraphicCondition();
-            this.extendedGraphic = new ExtendedGraphicCondition();
-
-            InitializeCurveLineCmb();
             InitializeModelNameCmb();
+            InitializeGUIMembers();
         }
 
+        // Выбор/изменение имени модели.
         private void ModelNameSelChange(object sender, EventArgs e)
         {
-            loader.ModelName = this.ModelNameCmb.Text;
-            loader.InitAssemblies();
-            InitializeGenerationParameters();
-            FillJobs();
+            FillGenerationParameters();
+            this.loader.ModelName = this.modelNameCmb.Text;
+            RefreshInformation();
         }
 
-        // By Jobs mode //
-        private void ByJobsRadio_CheckedChanged(object sender, EventArgs e)
-        {
-            this.JobsCmb.Enabled = true;
-            this.DeleteJob.Enabled = true;
-            this.GenerationParametersGrp.Enabled = false;
-            this.analyzeOptionsParamsGrp.Enabled = false;
-            this.ByAllJobsCheck.Enabled = false;
-
-            RefreshParameters();
-        }
-
-        private void DeleteJob_Click(object sender, EventArgs e)
-        {
-            string name = (string)this.JobsCmb.SelectedItem;
-            if (name != null)
-            {
-                loader.DeleteJob(name);
-                FillJobs();
-            }
-        }
-
+        // Выбор/изменение имени job-а.
         private void JobsCmb_SelectedIndexChanged(object sender, EventArgs e)
         {
             RefreshParameters();
         }
 
-        // By Parameters mode //
-        private void ByParametersRadio_CheckedChanged(object sender, EventArgs e)
+        // Выбор/изменение mode-а.
+        private void ModeRadio_CheckedChanged(object sender, EventArgs e)
         {
-            this.JobsCmb.Enabled = false;
-            this.DeleteJob.Enabled = false;
-            this.GenerationParametersGrp.Enabled = true;
-            this.analyzeOptionsParamsGrp.Enabled = true;
-            this.ByAllJobsCheck.Enabled = true;
+            RadioButton mode = (RadioButton)sender;
+            // Выбор "By Jobs" mode.
+            if (mode.Name == "byJobsRadio")
+            {
+                this.jobsCmb.Enabled = true;
+                this.DeleteJob.Enabled = true;
+                this.generationParametersGrp.Enabled = false;
+                this.analyzeOptionsParamsGrp.Enabled = false;
+                this.ByAllJobsCheck.Enabled = false;
 
-            Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
-            foreach (GenerationParam g in keys)
-                generationParamatersControls[g].Text = "";
+                FillJobs();
+            }
+            // Выбор "By Parameters" mode.
+            else
+            {
+                this.jobsCmb.Enabled = false;
+                this.DeleteJob.Enabled = false;
+                this.generationParametersGrp.Enabled = true;
+                this.analyzeOptionsParamsGrp.Enabled = true;
+                this.ByAllJobsCheck.Enabled = true;
+
+                FillParameters();
+            }
         }
 
+        // Обнавление сборок (из хранилища данных).
         private void Refresh_Click(object sender, EventArgs e)
         {
-            RefreshAssemblies();
+            RefreshInformation();
         }
 
+        // Удаление сборки по имени job-а (из хранилища данных).
+        private void DeleteJob_Click(object sender, EventArgs e)
+        {
+            if (this.jobsCmb.Text != null)
+            {
+                this.loader.DeleteJob(this.jobsCmb.Text);
+                FillJobs();
+            }
+        }
+
+        // Выбор/изменение значения параметра генерации.
         private void control_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox cmb = (ComboBox)sender;
             FillNextGenerationParameterCombos((int)cmb.Tag);
         }
 
+        // Check/uncheck локального свойства в "Local Analyze" tab-е.
         private void LocalPropertiesList_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             int index = 0;
             if (e.NewValue == CheckState.Checked)
             {
-                index = this.LocalAnalyzeOptionsGrd.Rows.Add();
-                this.LocalAnalyzeOptionsGrd.Rows[index].Cells[0].Value = 
-                    this.LocalPropertiesList.Items[e.Index].ToString();
-                this.LocalAnalyzeOptionsGrd.Rows[index].Cells[1].Value = 0;
-                this.LocalAnalyzeOptionsGrd.Rows[index].Cells[2].Value = 0;
+                index = this.localAnalyzeOptionsGrd.Rows.Add();
+                this.localAnalyzeOptionsGrd.Rows[index].Cells[0].Value =
+                    this.localPropertiesList.Items[e.Index].ToString();
+                this.localAnalyzeOptionsGrd.Rows[index].Cells[1].Value = 0;
+                this.localAnalyzeOptionsGrd.Rows[index].Cells[2].Value = 0;
             }
             else if (e.NewValue == CheckState.Unchecked)
             {
-                for (int i = 0; i < this.LocalAnalyzeOptionsGrd.Rows.Count; ++i)
+                for (int i = 0; i < this.localAnalyzeOptionsGrd.Rows.Count; ++i)
                 {
-                    if (this.LocalAnalyzeOptionsGrd.Rows[i].Cells[0].Value.ToString() ==
-                        this.LocalPropertiesList.Items[e.Index].ToString())
+                    if (this.localAnalyzeOptionsGrd.Rows[i].Cells[0].Value.ToString() ==
+                        this.localPropertiesList.Items[e.Index].ToString())
                     {
                         index = i;
                         break;
                     }
                 }
 
-                this.LocalAnalyzeOptionsGrd.Rows.RemoveAt(index);
+                this.localAnalyzeOptionsGrd.Rows.RemoveAt(index);
             }
         }
 
+        // Check/uncheck локального свойства в "Extended Analyze" tab-е.
         private void ExtendedPropertiesList_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             int index = 0;
             if (e.NewValue == CheckState.Checked)
             {
-                index = this.ExtendedAnalyzeOptionsGrd.Rows.Add();
-                this.ExtendedAnalyzeOptionsGrd.Rows[index].Cells[0].Value = 
-                    this.ExtendedPropertiesList.Items[e.Index].ToString();
-                this.ExtendedAnalyzeOptionsGrd.Rows[index].Cells[1].Value = 0;
+                index = this.extendedAnalyzeOptionsGrd.Rows.Add();
+                this.extendedAnalyzeOptionsGrd.Rows[index].Cells[0].Value =
+                    this.extendedPropertiesList.Items[e.Index].ToString();
+                this.extendedAnalyzeOptionsGrd.Rows[index].Cells[1].Value = 0;
             }
             else if (e.NewValue == CheckState.Unchecked)
             {
-                for (int i = 0; i < this.ExtendedAnalyzeOptionsGrd.Rows.Count; ++i)
+                for (int i = 0; i < this.extendedAnalyzeOptionsGrd.Rows.Count; ++i)
                 {
-                    if (this.ExtendedAnalyzeOptionsGrd.Rows[i].Cells[0].Value.ToString() ==
-                        this.ExtendedPropertiesList.Items[e.Index].ToString())
+                    if (this.extendedAnalyzeOptionsGrd.Rows[i].Cells[0].Value.ToString() ==
+                        this.extendedPropertiesList.Items[e.Index].ToString())
                     {
                         index = i;
                         break;
                     }
                 }
 
-                this.LocalAnalyzeOptionsGrd.Rows.RemoveAt(index);
+                this.extendedAnalyzeOptionsGrd.Rows.RemoveAt(index);
             }
         }
 
+        // Ввод значения параметра статистического анализа в "Local Analyze" tab-е.
         private void LocalAnalyzeOptionsGrd_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            DataGridViewCellCollection cells = this.LocalAnalyzeOptionsGrd.Rows[e.RowIndex].Cells;
+            DataGridViewCellCollection cells = this.localAnalyzeOptionsGrd.Rows[e.RowIndex].Cells;
             if (cells[e.ColumnIndex].Value.ToString() != "0")
             {
                 for (int i = 1; i < cells.Count; ++i)
@@ -185,7 +200,77 @@ namespace StatisticAnalyzerUI
             }
         }
 
-        // Analyzers //
+        // Check всех свойств для статистического анализа.
+        private void selectAll_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            switch (btn.Name)
+            {
+                case "selectGlobal":
+                    {
+                        for (int i = 0; i < this.globalPropertiesList.Items.Count; ++i)
+                        {
+                            this.globalPropertiesList.SetItemChecked(i, true);
+                        }
+                        break;
+                    }
+                case "selectLocal":
+                    {
+                        for (int i = 0; i < this.localPropertiesList.Items.Count; ++i)
+                        {
+                            this.localPropertiesList.SetItemChecked(i, true);
+                        }
+                        break;
+                    }
+                case "selectExtended":
+                    {
+                        for (int i = 0; i < this.extendedPropertiesList.Items.Count; ++i)
+                        {
+                            this.extendedPropertiesList.SetItemChecked(i, true);
+                        }
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+
+        // Uncheck всех свойств для статистического анализа.
+        private void deselectAll_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            switch (btn.Name)
+            {
+                case "deselectGlobal":
+                    {
+                        for (int i = 0; i < this.globalPropertiesList.Items.Count; ++i)
+                        {
+                            this.globalPropertiesList.SetItemChecked(i, false);
+                        }
+                        break;
+                    }
+                case "deselectLocal":
+                    {
+                        for (int i = 0; i < this.localPropertiesList.Items.Count; ++i)
+                        {
+                            this.localPropertiesList.SetItemChecked(i, false);
+                        }
+                        break;
+                    }
+                case "deselectExtended":
+                    {
+                        for (int i = 0; i < this.extendedPropertiesList.Items.Count; ++i)
+                        {
+                            this.extendedPropertiesList.SetItemChecked(i, false);
+                        }
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+
+        // !Исправить! Анализаторы.
         private void GlobalDrawGraphics_Click(object sender, EventArgs e)
         {
             if (!ValidateGraphicConditions())
@@ -353,7 +438,7 @@ namespace StatisticAnalyzerUI
                     !PointsCheck.Checked, this.localGraphic);
                 this.localGraphic.graphic.Show();
             }
-            
+
         }
 
         private void localValueButton_Click(object sender, EventArgs e)
@@ -404,7 +489,7 @@ namespace StatisticAnalyzerUI
                 analyzer = new StAnalyzerDB(GetAssembliesToAnalyze());
             }
             analyzer.options |= AnalyseOptions.TriangleTrajectory;
-            analyzer.ExtendedAnalyze(Convert.ToUInt32(this.ExtendedAnalyzeOptionsGrd.Rows[0].Cells[1].Value));
+            analyzer.ExtendedAnalyze(Convert.ToUInt32(this.extendedAnalyzeOptionsGrd.Rows[0].Cells[1].Value));
             StAnalyzeResult result = analyzer.Result;
             if (result.trajectoryAvgs.Keys.Count == 0)
             {
@@ -414,8 +499,8 @@ namespace StatisticAnalyzerUI
 
             if (this.extendedGraphic.isOpen)
             {
-                this.extendedGraphic.graphic.Add(result, 
-                    (Color)this.CurveLineCmb.SelectedItem, 
+                this.extendedGraphic.graphic.Add(result,
+                    (Color)this.CurveLineCmb.SelectedItem,
                     !PointsCheck.Checked);
             }
             else
@@ -428,7 +513,7 @@ namespace StatisticAnalyzerUI
             }
         }
 
-        // Menu Event Handlers //
+        // Выбор хранилища данных (Menu->Settings->Set/Change Storage Provider).
         private void MenuSetProvider_Click(object sender, EventArgs e)
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
@@ -454,50 +539,67 @@ namespace StatisticAnalyzerUI
                 {
                     config.AppSettings.Settings["Storage"].Value = "XmlProvider";
                     config.AppSettings.Settings["XmlProvider"].Value = window.StorageDirectory;
+
+                    config.Save(ConfigurationSaveMode.Modified);
+                    ConfigurationManager.RefreshSection("appSettings");
+                    ConfigurationManager.RefreshSection("connectionStrings");
+
+                    this.loader = new StLoaderXML();
                 }
                 else
                 {
                     config.AppSettings.Settings["Storage"].Value = "SQLProvider";
                     config.ConnectionStrings.ConnectionStrings[config.AppSettings.Settings["SQLProvider"].Value].ConnectionString = window.ConnectionString;
-                }
 
-                config.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection("appSettings");
-                ConfigurationManager.RefreshSection("connectionStrings");
+                    config.Save(ConfigurationSaveMode.Modified);
+                    ConfigurationManager.RefreshSection("appSettings");
+                    ConfigurationManager.RefreshSection("connectionStrings");
+
+                    this.loader = new StLoaderDB();
+                }
             }
 
-            loader.InitStorage();
-            loader.InitAssemblies();
-            FillJobs();
+            FillGenerationParameters();
+            this.loader.ModelName = this.modelNameCmb.Text;
+            RefreshInformation();
         }
 
+        // Ручной вызов оптимизаций БД (Menu->Tools->DB Optimizer).
         private void dBOptimizerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DBOptimizer dbOptimizerWnd = new DBOptimizer();
             dbOptimizerWnd.ShowDialog();
         }
 
-        // Utilities //
+        // Утилиты. Загрузка.
 
+        // Инициализация функциональной части.
+        private void InitializeConfigurationMembers()
+        {
+            // Инициализация информации о графиках.
+            this.globalGraphic = new GraphicCondition();
+            this.localGraphic = new GraphicCondition();
+            this.extendedGraphic = new ExtendedGraphicCondition();
+
+            // Инициализация загрузчика по типу хранилища данных.
+            if ("XmlProvider" == ConfigurationManager.AppSettings["Storage"])
+            {
+                this.loader = new StLoaderXML();
+            }
+            else
+            {
+                this.loader = new StLoaderDB();
+            }
+        }
+
+        // Инициализация GUI-части.
         private void InitializeGUIMembers()
         {
             // Список доступных типов аппроксимаций.
             this.ApproximationTypeCmb.Items.AddRange(Enum.GetNames(typeof(ApproximationTypes)));
-        }
+            this.ApproximationTypeCmb.SelectedIndex = 0;
 
-        private void InitializeConfigurationMembers()
-        {
-            loader = new StLoader();
-        }
-
-        private void InitializeModelNameCmb()
-        {
-            this.ModelNameCmb.Items.AddRange(StLoader.GetAvailableModelNames());
-            this.ModelNameCmb.SelectedIndex = 0;
-        }
-
-        private void InitializeCurveLineCmb()
-        {
+            // Список доступных цветов графиков.
             this.CurveLineCmb.Items.Add(Color.Black);
             this.CurveLineCmb.Items.Add(Color.Blue);
             this.CurveLineCmb.Items.Add(Color.Brown);
@@ -508,20 +610,35 @@ namespace StatisticAnalyzerUI
             this.CurveLineCmb.Items.Add(Color.DarkRed);
             this.CurveLineCmb.Items.Add(Color.DarkViolet);
             this.CurveLineCmb.Items.Add(Color.ForestGreen);
-
             this.CurveLineCmb.SelectedIndex = 0;
+
+            // Выбран "By Jobs" mode.
+            this.jobsCmb.Enabled = true;
+            this.DeleteJob.Enabled = true;
+            this.generationParametersGrp.Enabled = false;
+            this.analyzeOptionsParamsGrp.Enabled = false;
+            this.ByAllJobsCheck.Enabled = false;
         }
 
-        private void InitializeGenerationParameters()
+        // Получения списка доступных имен моделей.
+        private void InitializeModelNameCmb()
         {
-            generationParamatersControls.Clear();
-            this.GenerationParametersGrp.Controls.Clear();
+            this.modelNameCmb.Items.AddRange(AvailableModels.GetAvailableModelNames());
+            this.modelNameCmb.SelectedIndex = 0;
+        }
 
-            Type modelType = StLoader.models[this.ModelNameCmb.Text];
+        // Получение списка параметров генерации для выбранной модели.
+        private void FillGenerationParameters()
+        {
+            this.generationParamatersControls.Clear();
+            this.generationParametersGrp.Controls.Clear();
+
+            Type modelType = AvailableModels.models[this.modelNameCmb.Text];
             List<RequiredGenerationParam> generationParameters =
                 new List<RequiredGenerationParam>((RequiredGenerationParam[])modelType.
                 GetCustomAttributes(typeof(RequiredGenerationParam), false));
-            generationParameters.Sort(delegate(RequiredGenerationParam arg1, RequiredGenerationParam arg2)
+            generationParameters.Sort(delegate(RequiredGenerationParam arg1,
+                RequiredGenerationParam arg2)
             {
                 return arg1.Index.CompareTo(arg2.Index);
             });
@@ -546,91 +663,117 @@ namespace StatisticAnalyzerUI
                 control.SelectedIndexChanged += new EventHandler(control_SelectedIndexChanged);
                 generationParamatersControls[requiredGenerationParam.GenParam] = control;
 
-                this.GenerationParametersGrp.Controls.Add(control);
-                this.GenerationParametersGrp.Controls.Add(comboBoxLabel);
+                this.generationParametersGrp.Controls.Add(control);
+                this.generationParametersGrp.Controls.Add(comboBoxLabel);
                 position += 30;
             }
         }
 
-        private void FillJobs()
+        // Обновление информации в соответсвтии с выбранным mode-ом.
+        private void RefreshInformation()
         {
-            this.JobsCmb.Text = "";
-
-            this.JobsCmb.Items.Clear();
-            this.JobsCmb.Items.AddRange(loader.GetAvailableJobs());
-            if (this.JobsCmb.Items.Count != 0)
-                this.JobsCmb.SelectedIndex = 0;
-        }
-
-        private void RefreshParameters()
-        {
-            string name = (string)this.JobsCmb.SelectedItem;
-            if (name != null)
+            // При "By Jobs" mode.
+            if (this.byJobsRadio.Checked)
             {
-                Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
-                foreach (GenerationParam g in keys)
-                {
-                    generationParamatersControls[g].Text = loader.GetParameterValue(name, g);
-                }
-
-                this.RealizationsTxt.Text = loader.GetRealizationCount(name).ToString();
+                FillJobs();
+            }
+            // При "By Parameters" mode.
+            else
+            {
+                FillParameters();
             }
         }
 
-        private void RefreshAssemblies()
+        // Получение списка имен job-ов для выбранной модели.
+        private void FillJobs()
         {
-            loader.InitAssemblies();
-            FillJobs();
+            this.jobsCmb.Text = "";
+
+            this.jobsCmb.Items.Clear();
+            this.jobsCmb.Items.AddRange(loader.GetAvailableJobNames());
+            if (this.jobsCmb.Items.Count != 0)
+                this.jobsCmb.SelectedIndex = 0;
+        }
+
+        // Получение списков значений параметров генерации для выбранной модели.
+        private void FillParameters()
+        {
             FillFirstGenerationParameterCombo();
         }
 
+        // Получение/обновление списков значений параметров генерации для выбранного job-а.
+        // Получение/обновление числа реализаций для выбранного job-а.
+        private void RefreshParameters()
+        {
+            if (this.jobsCmb.Text != null)
+            {
+                Dictionary<GenerationParam, ComboBox>.KeyCollection keys =
+                    this.generationParamatersControls.Keys;
+                foreach (GenerationParam g in keys)
+                {
+                    this.generationParamatersControls[g].Text =
+                        this.loader.GetParameterValue(this.jobsCmb.Text, g);
+                }
+
+                this.RealizationsTxt.Text =
+                    this.loader.GetRealizationCount(this.jobsCmb.Text).ToString();
+            }
+        }
+
+        // Получение списка значений для первого параметра генерации.
         private void FillFirstGenerationParameterCombo()
         {
-            Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
+            Dictionary<GenerationParam, ComboBox>.KeyCollection keys =
+                this.generationParamatersControls.Keys;
             foreach (GenerationParam g in keys)
             {
-                generationParamatersControls[g].Text = "";
-                generationParamatersControls[g].Items.Clear();
+                this.generationParamatersControls[g].Text = "";
+                this.generationParamatersControls[g].Items.Clear();
 
-                List<string> valuesStr = loader.GetParameterValues(g);
+                List<string> valuesStr = this.loader.GetParameterValues(g);
                 for (int i = 0; i < valuesStr.Count; ++i)
-                    generationParamatersControls[g].Items.Add(valuesStr[i]);
-                if (generationParamatersControls[g].Items.Count != 0)
-                    generationParamatersControls[g].SelectedIndex = 0;
+                    this.generationParamatersControls[g].Items.Add(valuesStr[i]);
+                if (this.generationParamatersControls[g].Items.Count != 0)
+                    this.generationParamatersControls[g].SelectedIndex = 0;
 
                 break;
             }
         }
 
+        // Получение списка значений для последующего параметра генерации.
         private void FillNextGenerationParameterCombos(int firstComboIndex)
         {
-            Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
+            Dictionary<GenerationParam, ComboBox>.KeyCollection keys =
+                this.generationParamatersControls.Keys;
             Dictionary<GenerationParam, string> values = new Dictionary<GenerationParam, string>();
             foreach (GenerationParam g in keys)
             {
-                if ((int)generationParamatersControls[g].Tag <= firstComboIndex)
+                if ((int)this.generationParamatersControls[g].Tag <= firstComboIndex)
                 {
-                    values[g] = generationParamatersControls[g].Text;
+                    values[g] = this.generationParamatersControls[g].Text;
                     continue;
                 }
 
-                generationParamatersControls[g].Text = "";
-                generationParamatersControls[g].Items.Clear();
+                this.generationParamatersControls[g].Text = "";
+                this.generationParamatersControls[g].Items.Clear();
 
-                List<string> valuesStr = loader.GetParameterValues(values, g);
+                List<string> valuesStr = this.loader.GetParameterValues(values, g);
 
                 for (int i = 0; i < valuesStr.Count; ++i)
-                    generationParamatersControls[g].Items.Add(valuesStr[i]);
-                if (generationParamatersControls[g].Items.Count != 0)
-                    generationParamatersControls[g].SelectedIndex = 0;
+                    this.generationParamatersControls[g].Items.Add(valuesStr[i]);
+                if (this.generationParamatersControls[g].Items.Count != 0)
+                    this.generationParamatersControls[g].SelectedIndex = 0;
             }
         }
 
+        // Утилиты. Анализ.
+
+        // ??
         private bool ValidateGraphicConditions()
         {
-            if (this.ByJobsRadio.Checked == true)
+            if (this.byJobsRadio.Checked == true)
             {
-                if(this.JobsCmb.Text == string.Empty)
+                if (this.jobsCmb.Text == string.Empty)
                 {
                     MessageBox.Show("Choose a job!", "Error");
                     return false;
@@ -654,18 +797,24 @@ namespace StatisticAnalyzerUI
             }
         }
 
+        // Получение списка сборок для анализа.
+        // "By Jobs" mode - единственная сборка с выбранным именем job-а.
+        // "By Parameters" mode - список сборок по выбранным параметрам (генерации и анализа).
         private List<ResultAssembly> GetAssembliesToAnalyze()
         {
+            // При "By Jobs" mode.
             List<ResultAssembly> res = new List<ResultAssembly>();
-            if (this.ByJobsRadio.Checked)
-                res.Add(loader.SelectAssemblyByJob(this.JobsCmb.Text));
+            if (this.byJobsRadio.Checked)
+                res.Add(this.loader.SelectAssemblyByJob(this.jobsCmb.Text));
+            // При "By Parameters" mode.
             else
             {
                 Dictionary<GenerationParam, string> gValues = new Dictionary<GenerationParam, string>();
-                Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
+                Dictionary<GenerationParam, ComboBox>.KeyCollection keys =
+                    this.generationParamatersControls.Keys;
                 foreach (GenerationParam g in keys)
                 {
-                    gValues[g] = generationParamatersControls[g].Text;
+                    gValues.Add(g, this.generationParamatersControls[g].Text);
                 }
 
                 Dictionary<AnalyzeOptionParam, string> aValues = new Dictionary<AnalyzeOptionParam, string>();
@@ -674,7 +823,8 @@ namespace StatisticAnalyzerUI
                 if (this.bySecondParamCheck.Checked == true)
                     aValues.Add(AnalyzeOptionParam.TrajectoryStepCount, this.bySecondParamCmb.Text);
 
-                res = loader.SelectAssemblyByParameters(gValues, aValues, this.ByAllJobsCheck.Checked);
+                res = this.loader.SelectAssemblyByParameters(gValues, aValues,
+                    this.ByAllJobsCheck.Checked);
             }
 
             return res;
@@ -683,52 +833,52 @@ namespace StatisticAnalyzerUI
         private List<AnalyseOptions> GetCheckedOptionsGlobal(AbstractStAnalyzer analyzer)
         {
             List<AnalyseOptions> checkedOptions = new List<AnalyseOptions>();
-            if (this.GlobalPropertiesList.GetItemChecked(0))
+            if (this.globalPropertiesList.GetItemChecked(0))
             {
                 analyzer.options |= AnalyseOptions.AveragePath;
                 checkedOptions.Add(AnalyseOptions.AveragePath);
             }
-            if (this.GlobalPropertiesList.GetItemChecked(1))
+            if (this.globalPropertiesList.GetItemChecked(1))
             {
                 analyzer.options |= AnalyseOptions.Diameter;
                 checkedOptions.Add(AnalyseOptions.Diameter);
             }
-            if (this.GlobalPropertiesList.GetItemChecked(2))
+            if (this.globalPropertiesList.GetItemChecked(2))
             {
                 analyzer.options |= AnalyseOptions.ClusteringCoefficient;
                 checkedOptions.Add(AnalyseOptions.ClusteringCoefficient);
             }
-            if (this.GlobalPropertiesList.GetItemChecked(3))
+            if (this.globalPropertiesList.GetItemChecked(3))
             {
                 analyzer.options |= AnalyseOptions.DegreeDistribution;
                 checkedOptions.Add(AnalyseOptions.DegreeDistribution);
             }
-            if (this.GlobalPropertiesList.GetItemChecked(4))
+            if (this.globalPropertiesList.GetItemChecked(4))
             {
                 analyzer.options |= AnalyseOptions.Cycles3;
                 checkedOptions.Add(AnalyseOptions.Cycles3);
             }
-            if (this.GlobalPropertiesList.GetItemChecked(5))
+            if (this.globalPropertiesList.GetItemChecked(5))
             {
                 analyzer.options |= AnalyseOptions.Cycles4;
                 checkedOptions.Add(AnalyseOptions.Cycles4);
             }
-            if (this.GlobalPropertiesList.GetItemChecked(6))
+            if (this.globalPropertiesList.GetItemChecked(6))
             {
                 analyzer.options |= AnalyseOptions.MaxFullSubgraph;
                 checkedOptions.Add(AnalyseOptions.MaxFullSubgraph);
             }
-            if (this.GlobalPropertiesList.GetItemChecked(7))
+            if (this.globalPropertiesList.GetItemChecked(7))
             {
                 analyzer.options |= AnalyseOptions.LargestConnectedComponent;
                 checkedOptions.Add(AnalyseOptions.LargestConnectedComponent);
             }
-            if (this.GlobalPropertiesList.GetItemChecked(8))
+            if (this.globalPropertiesList.GetItemChecked(8))
             {
                 analyzer.options |= AnalyseOptions.MinEigenValue;
                 checkedOptions.Add(AnalyseOptions.MinEigenValue);
             }
-            if (this.GlobalPropertiesList.GetItemChecked(9))
+            if (this.globalPropertiesList.GetItemChecked(9))
             {
                 analyzer.options |= AnalyseOptions.MaxEigenValue;
                 checkedOptions.Add(AnalyseOptions.MaxEigenValue);
@@ -740,47 +890,47 @@ namespace StatisticAnalyzerUI
         private List<AnalyseOptions> GetCheckedOptionsLocal(AbstractStAnalyzer analyzer)
         {
             List<AnalyseOptions> checkedOptions = new List<AnalyseOptions>();
-            if (this.LocalPropertiesList.GetItemChecked(0))
+            if (this.localPropertiesList.GetItemChecked(0))
             {
                 analyzer.options |= AnalyseOptions.ClusteringCoefficient;
                 checkedOptions.Add(AnalyseOptions.ClusteringCoefficient);
             }
-            if (this.LocalPropertiesList.GetItemChecked(1))
+            if (this.localPropertiesList.GetItemChecked(1))
             {
                 analyzer.options |= AnalyseOptions.DegreeDistribution;
                 checkedOptions.Add(AnalyseOptions.DegreeDistribution);
             }
-            if (this.LocalPropertiesList.GetItemChecked(2))
+            if (this.localPropertiesList.GetItemChecked(2))
             {
                 analyzer.options |= AnalyseOptions.ConnSubGraph;
                 checkedOptions.Add(AnalyseOptions.ConnSubGraph);
             }
-            if (this.LocalPropertiesList.GetItemChecked(3))
+            if (this.localPropertiesList.GetItemChecked(3))
             {
                 analyzer.options |= AnalyseOptions.MinPathDist;
                 checkedOptions.Add(AnalyseOptions.MinPathDist);
             }
-            if (this.LocalPropertiesList.GetItemChecked(4))
+            if (this.localPropertiesList.GetItemChecked(4))
             {
                 analyzer.options |= AnalyseOptions.EigenValue;
                 checkedOptions.Add(AnalyseOptions.EigenValue);
             }
-            if (this.LocalPropertiesList.GetItemChecked(5))
+            if (this.localPropertiesList.GetItemChecked(5))
             {
                 analyzer.options |= AnalyseOptions.DistEigenPath;
                 checkedOptions.Add(AnalyseOptions.DistEigenPath);
             }
-            if (this.LocalPropertiesList.GetItemChecked(6))
+            if (this.localPropertiesList.GetItemChecked(6))
             {
                 analyzer.options |= AnalyseOptions.Cycles;
                 checkedOptions.Add(AnalyseOptions.Cycles);
             }
-            if (this.LocalPropertiesList.GetItemChecked(7))
+            if (this.localPropertiesList.GetItemChecked(7))
             {
                 analyzer.options |= AnalyseOptions.TriangleCountByVertex;
                 checkedOptions.Add(AnalyseOptions.TriangleCountByVertex);
             }
-            if (this.LocalPropertiesList.GetItemChecked(8))
+            if (this.localPropertiesList.GetItemChecked(8))
             {
                 analyzer.options |= AnalyseOptions.TriangleTrajectory;
                 checkedOptions.Add(AnalyseOptions.TriangleTrajectory);
@@ -794,12 +944,12 @@ namespace StatisticAnalyzerUI
             Dictionary<AnalyseOptions, StAnalyzeOptions> localOptions =
                 new Dictionary<AnalyseOptions, StAnalyzeOptions>();
             int index = 0;
-            for (int i = 0; i < this.LocalPropertiesList.Items.Count; ++i)
+            for (int i = 0; i < this.localPropertiesList.Items.Count; ++i)
             {
-                if (this.LocalPropertiesList.GetItemChecked(i))
+                if (this.localPropertiesList.GetItemChecked(i))
                 {
-                    index = FindIndexByPropertyName(this.LocalPropertiesList.Items[i].ToString());
-                    DataGridViewRow row = this.LocalAnalyzeOptionsGrd.Rows[index];
+                    index = FindIndexByPropertyName(this.localPropertiesList.Items[i].ToString());
+                    DataGridViewRow row = this.localAnalyzeOptionsGrd.Rows[index];
                     double delta = Convert.ToDouble(row.Cells[1].Value), thickening = Convert.ToDouble(row.Cells[2].Value);
                     double value = delta > 0 ? delta : thickening;
                     bool useDelta = delta > 0 ? true : false;
@@ -866,9 +1016,9 @@ namespace StatisticAnalyzerUI
 
         private int FindIndexByPropertyName(string name)
         {
-            for (int i = 0; i < this.LocalAnalyzeOptionsGrd.Rows.Count; ++i)
+            for (int i = 0; i < this.localAnalyzeOptionsGrd.Rows.Count; ++i)
             {
-                if (this.LocalAnalyzeOptionsGrd.Rows[i].Cells[0].Value.ToString() == name)
+                if (this.localAnalyzeOptionsGrd.Rows[i].Cells[0].Value.ToString() == name)
                 {
                     return i;
                 }
@@ -896,41 +1046,9 @@ namespace StatisticAnalyzerUI
             }
         }
 
-        private void selectGlobal_Click(object sender, EventArgs e)
-        {
-            for(int i = 0; i < GlobalPropertiesList.Items.Count; ++i)
-            {
-                GlobalPropertiesList.SetItemChecked(i, true);
-            }
-        }
-
-        private void deselectGlobal_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < GlobalPropertiesList.Items.Count; ++i)
-            {
-                GlobalPropertiesList.SetItemChecked(i, false);
-            }
-        }
-
-        private void selectLocal_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < LocalPropertiesList.Items.Count; ++i)
-            {
-                LocalPropertiesList.SetItemChecked(i, true);
-            }
-        }
-
-        private void deselectLocal_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < LocalPropertiesList.Items.Count; ++i)
-            {
-                LocalPropertiesList.SetItemChecked(i, false);
-            }
-        }
-
         private void byFirstParamCheck_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.byFirstParamCheck.Checked == true)
+            /*if (this.byFirstParamCheck.Checked == true)
             {
                 this.byFirstParamCmb.Enabled = true;
                 Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
@@ -950,12 +1068,12 @@ namespace StatisticAnalyzerUI
             {
                 this.byFirstParamCmb.Items.Clear();
                 this.byFirstParamCmb.Enabled = false;
-            }
+            }*/
         }
 
         private void bySecondParamCheck_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.bySecondParamCheck.Checked == true)
+            /*if (this.bySecondParamCheck.Checked == true)
             {
                 this.bySecondParamCmb.Enabled = true;
                 Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
@@ -975,7 +1093,7 @@ namespace StatisticAnalyzerUI
             {
                 this.bySecondParamCmb.Items.Clear();
                 this.bySecondParamCmb.Enabled = false;
-            }
+            }*/
         }
     }
 
@@ -983,23 +1101,11 @@ namespace StatisticAnalyzerUI
     {
         public bool isOpen;
         public Graphic graphic;
-
-        public GraphicCondition()
-        {
-            isOpen = false;
-            graphic = null;
-        }
     }
 
     public class ExtendedGraphicCondition
     {
         public bool isOpen;
         public ExtendedGraphic graphic;
-
-        public ExtendedGraphicCondition()
-        {
-            isOpen = false;
-            graphic = null;
-        }
     }
 }
