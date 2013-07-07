@@ -39,45 +39,47 @@
             this.MenuTools = new System.Windows.Forms.ToolStripMenuItem();
             this.dBOptimizerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuHelp = new System.Windows.Forms.ToolStripMenuItem();
-            this.ModelName = new System.Windows.Forms.Label();
-            this.ModelNameCmb = new System.Windows.Forms.ComboBox();
-            this.GenerationParametersGrp = new System.Windows.Forms.GroupBox();
+            this.modelName = new System.Windows.Forms.Label();
+            this.modelNameCmb = new System.Windows.Forms.ComboBox();
+            this.generationParametersGrp = new System.Windows.Forms.GroupBox();
             this.ByAllJobsCheck = new System.Windows.Forms.CheckBox();
             this.RealizationsTxt = new System.Windows.Forms.TextBox();
-            this.JobsCmb = new System.Windows.Forms.ComboBox();
-            this.Jobs = new System.Windows.Forms.Label();
+            this.jobsCmb = new System.Windows.Forms.ComboBox();
+            this.jobs = new System.Windows.Forms.Label();
             this.Realizations = new System.Windows.Forms.Label();
             this.CurveLineCmb = new System.Windows.Forms.ComboBox();
             this.CurveLine = new System.Windows.Forms.Label();
             this.RefreshBtn = new System.Windows.Forms.Button();
-            this.ByJobsRadio = new System.Windows.Forms.RadioButton();
-            this.ByParametersRadio = new System.Windows.Forms.RadioButton();
+            this.byJobsRadio = new System.Windows.Forms.RadioButton();
+            this.byParametersRadio = new System.Windows.Forms.RadioButton();
             this.DeleteJob = new System.Windows.Forms.Button();
             this.LocalAnalyzeTab = new System.Windows.Forms.TabPage();
             this.deselectLocal = new System.Windows.Forms.Button();
             this.selectLocal = new System.Windows.Forms.Button();
             this.localValueButton = new System.Windows.Forms.Button();
-            this.LocalAnalyzeOptionsGrd = new System.Windows.Forms.DataGridView();
+            this.localAnalyzeOptionsGrd = new System.Windows.Forms.DataGridView();
             this.PropertyNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DeltaColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ThickeningColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ApproximationType = new System.Windows.Forms.Label();
             this.ApproximationTypeCmb = new System.Windows.Forms.ComboBox();
-            this.LocalPropertiesList = new System.Windows.Forms.CheckedListBox();
+            this.localPropertiesList = new System.Windows.Forms.CheckedListBox();
             this.LocalDrawGraphics = new System.Windows.Forms.Button();
             this.GlobalAnalyzeTab = new System.Windows.Forms.TabPage();
             this.deselectGlobal = new System.Windows.Forms.Button();
             this.selectGlobal = new System.Windows.Forms.Button();
             this.valueButton = new System.Windows.Forms.Button();
-            this.GlobalPropertiesList = new System.Windows.Forms.CheckedListBox();
+            this.globalPropertiesList = new System.Windows.Forms.CheckedListBox();
             this.GetGlobalResult = new System.Windows.Forms.Button();
             this.GlobalDrawGraphics = new System.Windows.Forms.Button();
-            this.AnalyzeTabs = new System.Windows.Forms.TabControl();
+            this.analyzeTabs = new System.Windows.Forms.TabControl();
             this.ExtendedAnalyzeTab = new System.Windows.Forms.TabPage();
-            this.ExtendedAnalyzeOptionsGrd = new System.Windows.Forms.DataGridView();
+            this.deselectExtended = new System.Windows.Forms.Button();
+            this.selectExtended = new System.Windows.Forms.Button();
+            this.extendedAnalyzeOptionsGrd = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ExtendedPropertiesList = new System.Windows.Forms.CheckedListBox();
+            this.extendedPropertiesList = new System.Windows.Forms.CheckedListBox();
             this.extendedDrawGraphics = new System.Windows.Forms.Button();
             this.CommonToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.PointsCheck = new System.Windows.Forms.CheckBox();
@@ -90,11 +92,11 @@
             this.byFirstParamCheck = new System.Windows.Forms.CheckBox();
             this.MenuStrip.SuspendLayout();
             this.LocalAnalyzeTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.LocalAnalyzeOptionsGrd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.localAnalyzeOptionsGrd)).BeginInit();
             this.GlobalAnalyzeTab.SuspendLayout();
-            this.AnalyzeTabs.SuspendLayout();
+            this.analyzeTabs.SuspendLayout();
             this.ExtendedAnalyzeTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ExtendedAnalyzeOptionsGrd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.extendedAnalyzeOptionsGrd)).BeginInit();
             this.GraphicsGrp.SuspendLayout();
             this.analyzeOptionsParamsGrp.SuspendLayout();
             this.SuspendLayout();
@@ -138,7 +140,7 @@
             // dBOptimizerToolStripMenuItem
             // 
             this.dBOptimizerToolStripMenuItem.Name = "dBOptimizerToolStripMenuItem";
-            this.dBOptimizerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.dBOptimizerToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.dBOptimizerToolStripMenuItem.Text = "DB Optimizer";
             this.dBOptimizerToolStripMenuItem.Click += new System.EventHandler(this.dBOptimizerToolStripMenuItem_Click);
             // 
@@ -148,34 +150,34 @@
             this.MenuHelp.Size = new System.Drawing.Size(41, 20);
             this.MenuHelp.Text = "Help";
             // 
-            // ModelName
+            // modelName
             // 
-            this.ModelName.AutoSize = true;
-            this.ModelName.Location = new System.Drawing.Point(28, 51);
-            this.ModelName.Name = "ModelName";
-            this.ModelName.Size = new System.Drawing.Size(67, 13);
-            this.ModelName.TabIndex = 1;
-            this.ModelName.Text = "Model Name";
+            this.modelName.AutoSize = true;
+            this.modelName.Location = new System.Drawing.Point(28, 51);
+            this.modelName.Name = "modelName";
+            this.modelName.Size = new System.Drawing.Size(67, 13);
+            this.modelName.TabIndex = 1;
+            this.modelName.Text = "Model Name";
             // 
-            // ModelNameCmb
+            // modelNameCmb
             // 
-            this.ModelNameCmb.FormattingEnabled = true;
-            this.ModelNameCmb.Location = new System.Drawing.Point(31, 67);
-            this.ModelNameCmb.Name = "ModelNameCmb";
-            this.ModelNameCmb.Size = new System.Drawing.Size(121, 21);
-            this.ModelNameCmb.TabIndex = 2;
-            this.CommonToolTip.SetToolTip(this.ModelNameCmb, "Choose the model of random network.");
-            this.ModelNameCmb.SelectedIndexChanged += new System.EventHandler(this.ModelNameSelChange);
+            this.modelNameCmb.FormattingEnabled = true;
+            this.modelNameCmb.Location = new System.Drawing.Point(31, 67);
+            this.modelNameCmb.Name = "modelNameCmb";
+            this.modelNameCmb.Size = new System.Drawing.Size(121, 21);
+            this.modelNameCmb.TabIndex = 2;
+            this.CommonToolTip.SetToolTip(this.modelNameCmb, "Choose the model of random network.");
+            this.modelNameCmb.SelectedIndexChanged += new System.EventHandler(this.ModelNameSelChange);
             // 
-            // GenerationParametersGrp
+            // generationParametersGrp
             // 
-            this.GenerationParametersGrp.Location = new System.Drawing.Point(325, 51);
-            this.GenerationParametersGrp.Name = "GenerationParametersGrp";
-            this.GenerationParametersGrp.Size = new System.Drawing.Size(330, 206);
-            this.GenerationParametersGrp.TabIndex = 4;
-            this.GenerationParametersGrp.TabStop = false;
-            this.GenerationParametersGrp.Text = "Generation Parameters";
-            this.CommonToolTip.SetToolTip(this.GenerationParametersGrp, "Generation parameters for choosed model.");
+            this.generationParametersGrp.Location = new System.Drawing.Point(325, 51);
+            this.generationParametersGrp.Name = "generationParametersGrp";
+            this.generationParametersGrp.Size = new System.Drawing.Size(330, 206);
+            this.generationParametersGrp.TabIndex = 4;
+            this.generationParametersGrp.TabStop = false;
+            this.generationParametersGrp.Text = "Generation Parameters";
+            this.CommonToolTip.SetToolTip(this.generationParametersGrp, "Generation parameters for choosed model.");
             // 
             // ByAllJobsCheck
             // 
@@ -199,25 +201,25 @@
             this.RealizationsTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.CommonToolTip.SetToolTip(this.RealizationsTxt, "Count of realizations for the job selected in \"Jobs\" combo box.");
             // 
-            // JobsCmb
+            // jobsCmb
             // 
-            this.JobsCmb.FormattingEnabled = true;
-            this.JobsCmb.Location = new System.Drawing.Point(31, 136);
-            this.JobsCmb.Name = "JobsCmb";
-            this.JobsCmb.Size = new System.Drawing.Size(121, 21);
-            this.JobsCmb.Sorted = true;
-            this.JobsCmb.TabIndex = 7;
-            this.CommonToolTip.SetToolTip(this.JobsCmb, "Choose a job to work with.");
-            this.JobsCmb.SelectedIndexChanged += new System.EventHandler(this.JobsCmb_SelectedIndexChanged);
+            this.jobsCmb.FormattingEnabled = true;
+            this.jobsCmb.Location = new System.Drawing.Point(31, 136);
+            this.jobsCmb.Name = "jobsCmb";
+            this.jobsCmb.Size = new System.Drawing.Size(121, 21);
+            this.jobsCmb.Sorted = true;
+            this.jobsCmb.TabIndex = 7;
+            this.CommonToolTip.SetToolTip(this.jobsCmb, "Choose a job to work with.");
+            this.jobsCmb.SelectedIndexChanged += new System.EventHandler(this.JobsCmb_SelectedIndexChanged);
             // 
-            // Jobs
+            // jobs
             // 
-            this.Jobs.AutoSize = true;
-            this.Jobs.Location = new System.Drawing.Point(28, 120);
-            this.Jobs.Name = "Jobs";
-            this.Jobs.Size = new System.Drawing.Size(29, 13);
-            this.Jobs.TabIndex = 6;
-            this.Jobs.Text = "Jobs";
+            this.jobs.AutoSize = true;
+            this.jobs.Location = new System.Drawing.Point(28, 120);
+            this.jobs.Name = "jobs";
+            this.jobs.Size = new System.Drawing.Size(29, 13);
+            this.jobs.TabIndex = 6;
+            this.jobs.Text = "Jobs";
             // 
             // Realizations
             // 
@@ -257,30 +259,31 @@
             this.RefreshBtn.UseVisualStyleBackColor = true;
             this.RefreshBtn.Click += new System.EventHandler(this.Refresh_Click);
             // 
-            // ByJobsRadio
+            // byJobsRadio
             // 
-            this.ByJobsRadio.AutoSize = true;
-            this.ByJobsRadio.Location = new System.Drawing.Point(210, 51);
-            this.ByJobsRadio.Name = "ByJobsRadio";
-            this.ByJobsRadio.Size = new System.Drawing.Size(62, 17);
-            this.ByJobsRadio.TabIndex = 11;
-            this.ByJobsRadio.Text = "By Jobs";
-            this.CommonToolTip.SetToolTip(this.ByJobsRadio, "Statistic analyze for the job selected in \"Jobs\" combo box.");
-            this.ByJobsRadio.UseVisualStyleBackColor = true;
-            this.ByJobsRadio.CheckedChanged += new System.EventHandler(this.ByJobsRadio_CheckedChanged);
+            this.byJobsRadio.AutoSize = true;
+            this.byJobsRadio.Checked = true;
+            this.byJobsRadio.Location = new System.Drawing.Point(210, 51);
+            this.byJobsRadio.Name = "byJobsRadio";
+            this.byJobsRadio.Size = new System.Drawing.Size(62, 17);
+            this.byJobsRadio.TabIndex = 11;
+            this.byJobsRadio.TabStop = true;
+            this.byJobsRadio.Text = "By Jobs";
+            this.CommonToolTip.SetToolTip(this.byJobsRadio, "Statistic analyze for the job selected in \"Jobs\" combo box.");
+            this.byJobsRadio.UseVisualStyleBackColor = true;
+            this.byJobsRadio.CheckedChanged += new System.EventHandler(this.ModeRadio_CheckedChanged);
             // 
-            // ByParametersRadio
+            // byParametersRadio
             // 
-            this.ByParametersRadio.AutoSize = true;
-            this.ByParametersRadio.Location = new System.Drawing.Point(210, 74);
-            this.ByParametersRadio.Name = "ByParametersRadio";
-            this.ByParametersRadio.Size = new System.Drawing.Size(93, 17);
-            this.ByParametersRadio.TabIndex = 12;
-            this.ByParametersRadio.TabStop = true;
-            this.ByParametersRadio.Text = "By Parameters";
-            this.CommonToolTip.SetToolTip(this.ByParametersRadio, "Statistic analyze for ansamble defined with generation parameters.");
-            this.ByParametersRadio.UseVisualStyleBackColor = true;
-            this.ByParametersRadio.CheckedChanged += new System.EventHandler(this.ByParametersRadio_CheckedChanged);
+            this.byParametersRadio.AutoSize = true;
+            this.byParametersRadio.Location = new System.Drawing.Point(210, 74);
+            this.byParametersRadio.Name = "byParametersRadio";
+            this.byParametersRadio.Size = new System.Drawing.Size(93, 17);
+            this.byParametersRadio.TabIndex = 12;
+            this.byParametersRadio.Text = "By Parameters";
+            this.CommonToolTip.SetToolTip(this.byParametersRadio, "Statistic analyze for ansamble defined with generation parameters.");
+            this.byParametersRadio.UseVisualStyleBackColor = true;
+            this.byParametersRadio.CheckedChanged += new System.EventHandler(this.ModeRadio_CheckedChanged);
             // 
             // DeleteJob
             // 
@@ -298,10 +301,10 @@
             this.LocalAnalyzeTab.Controls.Add(this.deselectLocal);
             this.LocalAnalyzeTab.Controls.Add(this.selectLocal);
             this.LocalAnalyzeTab.Controls.Add(this.localValueButton);
-            this.LocalAnalyzeTab.Controls.Add(this.LocalAnalyzeOptionsGrd);
+            this.LocalAnalyzeTab.Controls.Add(this.localAnalyzeOptionsGrd);
             this.LocalAnalyzeTab.Controls.Add(this.ApproximationType);
             this.LocalAnalyzeTab.Controls.Add(this.ApproximationTypeCmb);
-            this.LocalAnalyzeTab.Controls.Add(this.LocalPropertiesList);
+            this.LocalAnalyzeTab.Controls.Add(this.localPropertiesList);
             this.LocalAnalyzeTab.Controls.Add(this.LocalDrawGraphics);
             this.LocalAnalyzeTab.Location = new System.Drawing.Point(4, 22);
             this.LocalAnalyzeTab.Name = "LocalAnalyzeTab";
@@ -318,7 +321,7 @@
             this.deselectLocal.TabIndex = 43;
             this.deselectLocal.Text = "Deselect All";
             this.deselectLocal.UseVisualStyleBackColor = true;
-            this.deselectLocal.Click += new System.EventHandler(this.deselectLocal_Click);
+            this.deselectLocal.Click += new System.EventHandler(this.deselectAll_Click);
             // 
             // selectLocal
             // 
@@ -328,7 +331,7 @@
             this.selectLocal.TabIndex = 42;
             this.selectLocal.Text = "Select All";
             this.selectLocal.UseVisualStyleBackColor = true;
-            this.selectLocal.Click += new System.EventHandler(this.selectLocal_Click);
+            this.selectLocal.Click += new System.EventHandler(this.selectAll_Click);
             // 
             // localValueButton
             // 
@@ -341,21 +344,21 @@
             this.localValueButton.UseVisualStyleBackColor = true;
             this.localValueButton.Click += new System.EventHandler(this.localValueButton_Click);
             // 
-            // LocalAnalyzeOptionsGrd
+            // localAnalyzeOptionsGrd
             // 
-            this.LocalAnalyzeOptionsGrd.AllowUserToAddRows = false;
-            this.LocalAnalyzeOptionsGrd.AllowUserToDeleteRows = false;
-            this.LocalAnalyzeOptionsGrd.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.LocalAnalyzeOptionsGrd.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.localAnalyzeOptionsGrd.AllowUserToAddRows = false;
+            this.localAnalyzeOptionsGrd.AllowUserToDeleteRows = false;
+            this.localAnalyzeOptionsGrd.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.localAnalyzeOptionsGrd.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PropertyNameColumn,
             this.DeltaColumn,
             this.ThickeningColumn});
-            this.LocalAnalyzeOptionsGrd.Location = new System.Drawing.Point(207, 26);
-            this.LocalAnalyzeOptionsGrd.Name = "LocalAnalyzeOptionsGrd";
-            this.LocalAnalyzeOptionsGrd.Size = new System.Drawing.Size(383, 198);
-            this.LocalAnalyzeOptionsGrd.TabIndex = 16;
-            this.CommonToolTip.SetToolTip(this.LocalAnalyzeOptionsGrd, "Global analyze options properties.");
-            this.LocalAnalyzeOptionsGrd.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.LocalAnalyzeOptionsGrd_CellEndEdit);
+            this.localAnalyzeOptionsGrd.Location = new System.Drawing.Point(207, 26);
+            this.localAnalyzeOptionsGrd.Name = "localAnalyzeOptionsGrd";
+            this.localAnalyzeOptionsGrd.Size = new System.Drawing.Size(383, 198);
+            this.localAnalyzeOptionsGrd.TabIndex = 16;
+            this.CommonToolTip.SetToolTip(this.localAnalyzeOptionsGrd, "Global analyze options properties.");
+            this.localAnalyzeOptionsGrd.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.LocalAnalyzeOptionsGrd_CellEndEdit);
             // 
             // PropertyNameColumn
             // 
@@ -400,11 +403,11 @@
             this.ApproximationTypeCmb.TabIndex = 37;
             this.CommonToolTip.SetToolTip(this.ApproximationTypeCmb, "Choose approximation type.");
             // 
-            // LocalPropertiesList
+            // localPropertiesList
             // 
-            this.LocalPropertiesList.CheckOnClick = true;
-            this.LocalPropertiesList.FormattingEnabled = true;
-            this.LocalPropertiesList.Items.AddRange(new object[] {
+            this.localPropertiesList.CheckOnClick = true;
+            this.localPropertiesList.FormattingEnabled = true;
+            this.localPropertiesList.Items.AddRange(new object[] {
             "Clustering Coefficient",
             "Degree Distribution",
             "Connected Subgraphs by Order",
@@ -414,12 +417,12 @@
             "Cycles",
             "Triangle Count by Vertex",
             "Triangle Trajectory"});
-            this.LocalPropertiesList.Location = new System.Drawing.Point(13, 25);
-            this.LocalPropertiesList.Name = "LocalPropertiesList";
-            this.LocalPropertiesList.Size = new System.Drawing.Size(183, 199);
-            this.LocalPropertiesList.TabIndex = 36;
-            this.CommonToolTip.SetToolTip(this.LocalPropertiesList, "Local analyze options.");
-            this.LocalPropertiesList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.LocalPropertiesList_ItemCheck);
+            this.localPropertiesList.Location = new System.Drawing.Point(13, 25);
+            this.localPropertiesList.Name = "localPropertiesList";
+            this.localPropertiesList.Size = new System.Drawing.Size(183, 199);
+            this.localPropertiesList.TabIndex = 36;
+            this.CommonToolTip.SetToolTip(this.localPropertiesList, "Local analyze options.");
+            this.localPropertiesList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.LocalPropertiesList_ItemCheck);
             // 
             // LocalDrawGraphics
             // 
@@ -437,7 +440,7 @@
             this.GlobalAnalyzeTab.Controls.Add(this.deselectGlobal);
             this.GlobalAnalyzeTab.Controls.Add(this.selectGlobal);
             this.GlobalAnalyzeTab.Controls.Add(this.valueButton);
-            this.GlobalAnalyzeTab.Controls.Add(this.GlobalPropertiesList);
+            this.GlobalAnalyzeTab.Controls.Add(this.globalPropertiesList);
             this.GlobalAnalyzeTab.Controls.Add(this.GetGlobalResult);
             this.GlobalAnalyzeTab.Controls.Add(this.GlobalDrawGraphics);
             this.GlobalAnalyzeTab.Location = new System.Drawing.Point(4, 22);
@@ -456,7 +459,7 @@
             this.deselectGlobal.TabIndex = 45;
             this.deselectGlobal.Text = "Deselect All";
             this.deselectGlobal.UseVisualStyleBackColor = true;
-            this.deselectGlobal.Click += new System.EventHandler(this.deselectGlobal_Click);
+            this.deselectGlobal.Click += new System.EventHandler(this.deselectAll_Click);
             // 
             // selectGlobal
             // 
@@ -466,7 +469,7 @@
             this.selectGlobal.TabIndex = 44;
             this.selectGlobal.Text = "Select All";
             this.selectGlobal.UseVisualStyleBackColor = true;
-            this.selectGlobal.Click += new System.EventHandler(this.selectGlobal_Click);
+            this.selectGlobal.Click += new System.EventHandler(this.selectAll_Click);
             // 
             // valueButton
             // 
@@ -479,11 +482,11 @@
             this.valueButton.UseVisualStyleBackColor = true;
             this.valueButton.Click += new System.EventHandler(this.valueButton_Click);
             // 
-            // GlobalPropertiesList
+            // globalPropertiesList
             // 
-            this.GlobalPropertiesList.CheckOnClick = true;
-            this.GlobalPropertiesList.FormattingEnabled = true;
-            this.GlobalPropertiesList.Items.AddRange(new object[] {
+            this.globalPropertiesList.CheckOnClick = true;
+            this.globalPropertiesList.FormattingEnabled = true;
+            this.globalPropertiesList.Items.AddRange(new object[] {
             "Average Path Length",
             "Diameter",
             "Clustering Coefficient",
@@ -494,11 +497,11 @@
             "Largest Connected Component",
             "Minimal Eigen Value",
             "Maximal Eigen Value"});
-            this.GlobalPropertiesList.Location = new System.Drawing.Point(13, 25);
-            this.GlobalPropertiesList.Name = "GlobalPropertiesList";
-            this.GlobalPropertiesList.Size = new System.Drawing.Size(577, 199);
-            this.GlobalPropertiesList.TabIndex = 15;
-            this.CommonToolTip.SetToolTip(this.GlobalPropertiesList, "Global analyze options.");
+            this.globalPropertiesList.Location = new System.Drawing.Point(13, 25);
+            this.globalPropertiesList.Name = "globalPropertiesList";
+            this.globalPropertiesList.Size = new System.Drawing.Size(577, 199);
+            this.globalPropertiesList.TabIndex = 15;
+            this.CommonToolTip.SetToolTip(this.globalPropertiesList, "Global analyze options.");
             // 
             // GetGlobalResult
             // 
@@ -522,21 +525,23 @@
             this.GlobalDrawGraphics.UseVisualStyleBackColor = true;
             this.GlobalDrawGraphics.Click += new System.EventHandler(this.GlobalDrawGraphics_Click);
             // 
-            // AnalyzeTabs
+            // analyzeTabs
             // 
-            this.AnalyzeTabs.Controls.Add(this.GlobalAnalyzeTab);
-            this.AnalyzeTabs.Controls.Add(this.LocalAnalyzeTab);
-            this.AnalyzeTabs.Controls.Add(this.ExtendedAnalyzeTab);
-            this.AnalyzeTabs.Location = new System.Drawing.Point(31, 360);
-            this.AnalyzeTabs.Name = "AnalyzeTabs";
-            this.AnalyzeTabs.SelectedIndex = 0;
-            this.AnalyzeTabs.Size = new System.Drawing.Size(767, 290);
-            this.AnalyzeTabs.TabIndex = 9;
+            this.analyzeTabs.Controls.Add(this.GlobalAnalyzeTab);
+            this.analyzeTabs.Controls.Add(this.LocalAnalyzeTab);
+            this.analyzeTabs.Controls.Add(this.ExtendedAnalyzeTab);
+            this.analyzeTabs.Location = new System.Drawing.Point(31, 360);
+            this.analyzeTabs.Name = "analyzeTabs";
+            this.analyzeTabs.SelectedIndex = 0;
+            this.analyzeTabs.Size = new System.Drawing.Size(767, 290);
+            this.analyzeTabs.TabIndex = 9;
             // 
             // ExtendedAnalyzeTab
             // 
-            this.ExtendedAnalyzeTab.Controls.Add(this.ExtendedAnalyzeOptionsGrd);
-            this.ExtendedAnalyzeTab.Controls.Add(this.ExtendedPropertiesList);
+            this.ExtendedAnalyzeTab.Controls.Add(this.deselectExtended);
+            this.ExtendedAnalyzeTab.Controls.Add(this.selectExtended);
+            this.ExtendedAnalyzeTab.Controls.Add(this.extendedAnalyzeOptionsGrd);
+            this.ExtendedAnalyzeTab.Controls.Add(this.extendedPropertiesList);
             this.ExtendedAnalyzeTab.Controls.Add(this.extendedDrawGraphics);
             this.ExtendedAnalyzeTab.Location = new System.Drawing.Point(4, 22);
             this.ExtendedAnalyzeTab.Name = "ExtendedAnalyzeTab";
@@ -546,19 +551,39 @@
             this.ExtendedAnalyzeTab.Text = "Extended Analyze";
             this.ExtendedAnalyzeTab.UseVisualStyleBackColor = true;
             // 
-            // ExtendedAnalyzeOptionsGrd
+            // deselectExtended
             // 
-            this.ExtendedAnalyzeOptionsGrd.AllowUserToAddRows = false;
-            this.ExtendedAnalyzeOptionsGrd.AllowUserToDeleteRows = false;
-            this.ExtendedAnalyzeOptionsGrd.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ExtendedAnalyzeOptionsGrd.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.deselectExtended.Location = new System.Drawing.Point(109, 235);
+            this.deselectExtended.Name = "deselectExtended";
+            this.deselectExtended.Size = new System.Drawing.Size(75, 23);
+            this.deselectExtended.TabIndex = 45;
+            this.deselectExtended.Text = "Deselect All";
+            this.deselectExtended.UseVisualStyleBackColor = true;
+            this.deselectExtended.Click += new System.EventHandler(this.deselectAll_Click);
+            // 
+            // selectExtended
+            // 
+            this.selectExtended.Location = new System.Drawing.Point(13, 235);
+            this.selectExtended.Name = "selectExtended";
+            this.selectExtended.Size = new System.Drawing.Size(75, 23);
+            this.selectExtended.TabIndex = 44;
+            this.selectExtended.Text = "Select All";
+            this.selectExtended.UseVisualStyleBackColor = true;
+            this.selectExtended.Click += new System.EventHandler(this.selectAll_Click);
+            // 
+            // extendedAnalyzeOptionsGrd
+            // 
+            this.extendedAnalyzeOptionsGrd.AllowUserToAddRows = false;
+            this.extendedAnalyzeOptionsGrd.AllowUserToDeleteRows = false;
+            this.extendedAnalyzeOptionsGrd.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.extendedAnalyzeOptionsGrd.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2});
-            this.ExtendedAnalyzeOptionsGrd.Location = new System.Drawing.Point(207, 26);
-            this.ExtendedAnalyzeOptionsGrd.Name = "ExtendedAnalyzeOptionsGrd";
-            this.ExtendedAnalyzeOptionsGrd.Size = new System.Drawing.Size(383, 198);
-            this.ExtendedAnalyzeOptionsGrd.TabIndex = 42;
-            this.CommonToolTip.SetToolTip(this.ExtendedAnalyzeOptionsGrd, "Global analyze options properties.");
+            this.extendedAnalyzeOptionsGrd.Location = new System.Drawing.Point(207, 26);
+            this.extendedAnalyzeOptionsGrd.Name = "extendedAnalyzeOptionsGrd";
+            this.extendedAnalyzeOptionsGrd.Size = new System.Drawing.Size(383, 198);
+            this.extendedAnalyzeOptionsGrd.TabIndex = 42;
+            this.CommonToolTip.SetToolTip(this.extendedAnalyzeOptionsGrd, "Global analyze options properties.");
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -576,18 +601,18 @@
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.Width = 160;
             // 
-            // ExtendedPropertiesList
+            // extendedPropertiesList
             // 
-            this.ExtendedPropertiesList.CheckOnClick = true;
-            this.ExtendedPropertiesList.FormattingEnabled = true;
-            this.ExtendedPropertiesList.Items.AddRange(new object[] {
+            this.extendedPropertiesList.CheckOnClick = true;
+            this.extendedPropertiesList.FormattingEnabled = true;
+            this.extendedPropertiesList.Items.AddRange(new object[] {
             "Triangle Trajectory"});
-            this.ExtendedPropertiesList.Location = new System.Drawing.Point(13, 25);
-            this.ExtendedPropertiesList.Name = "ExtendedPropertiesList";
-            this.ExtendedPropertiesList.Size = new System.Drawing.Size(183, 199);
-            this.ExtendedPropertiesList.TabIndex = 41;
-            this.CommonToolTip.SetToolTip(this.ExtendedPropertiesList, "Local analyze options.");
-            this.ExtendedPropertiesList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.ExtendedPropertiesList_ItemCheck);
+            this.extendedPropertiesList.Location = new System.Drawing.Point(13, 25);
+            this.extendedPropertiesList.Name = "extendedPropertiesList";
+            this.extendedPropertiesList.Size = new System.Drawing.Size(183, 199);
+            this.extendedPropertiesList.TabIndex = 41;
+            this.CommonToolTip.SetToolTip(this.extendedPropertiesList, "Local analyze options.");
+            this.extendedPropertiesList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.ExtendedPropertiesList_ItemCheck);
             // 
             // extendedDrawGraphics
             // 
@@ -705,16 +730,16 @@
             this.Controls.Add(this.GraphicsGrp);
             this.Controls.Add(this.RealizationsTxt);
             this.Controls.Add(this.DeleteJob);
-            this.Controls.Add(this.JobsCmb);
-            this.Controls.Add(this.ByParametersRadio);
-            this.Controls.Add(this.Jobs);
+            this.Controls.Add(this.jobsCmb);
+            this.Controls.Add(this.byParametersRadio);
+            this.Controls.Add(this.jobs);
             this.Controls.Add(this.Realizations);
-            this.Controls.Add(this.ByJobsRadio);
+            this.Controls.Add(this.byJobsRadio);
             this.Controls.Add(this.RefreshBtn);
-            this.Controls.Add(this.AnalyzeTabs);
-            this.Controls.Add(this.GenerationParametersGrp);
-            this.Controls.Add(this.ModelNameCmb);
-            this.Controls.Add(this.ModelName);
+            this.Controls.Add(this.analyzeTabs);
+            this.Controls.Add(this.generationParametersGrp);
+            this.Controls.Add(this.modelNameCmb);
+            this.Controls.Add(this.modelName);
             this.Controls.Add(this.MenuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MenuStrip;
@@ -727,11 +752,11 @@
             this.MenuStrip.PerformLayout();
             this.LocalAnalyzeTab.ResumeLayout(false);
             this.LocalAnalyzeTab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.LocalAnalyzeOptionsGrd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.localAnalyzeOptionsGrd)).EndInit();
             this.GlobalAnalyzeTab.ResumeLayout(false);
-            this.AnalyzeTabs.ResumeLayout(false);
+            this.analyzeTabs.ResumeLayout(false);
             this.ExtendedAnalyzeTab.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ExtendedAnalyzeOptionsGrd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.extendedAnalyzeOptionsGrd)).EndInit();
             this.GraphicsGrp.ResumeLayout(false);
             this.GraphicsGrp.PerformLayout();
             this.analyzeOptionsParamsGrp.ResumeLayout(false);
@@ -745,36 +770,36 @@
 
         private System.Windows.Forms.MenuStrip MenuStrip;
         private System.Windows.Forms.ToolStripMenuItem MenuSettings;
-        private System.Windows.Forms.Label ModelName;
-        private System.Windows.Forms.ComboBox ModelNameCmb;
-        private System.Windows.Forms.GroupBox GenerationParametersGrp;
+        private System.Windows.Forms.Label modelName;
+        private System.Windows.Forms.ComboBox modelNameCmb;
+        private System.Windows.Forms.GroupBox generationParametersGrp;
         private System.Windows.Forms.ComboBox CurveLineCmb;
         private System.Windows.Forms.Label CurveLine;
         private System.Windows.Forms.ToolStripMenuItem MenuSetProvider;
         private System.Windows.Forms.TextBox RealizationsTxt;
         private System.Windows.Forms.Label Realizations;
-        private System.Windows.Forms.ComboBox JobsCmb;
-        private System.Windows.Forms.Label Jobs;
+        private System.Windows.Forms.ComboBox jobsCmb;
+        private System.Windows.Forms.Label jobs;
         private System.Windows.Forms.Button RefreshBtn;
-        private System.Windows.Forms.RadioButton ByJobsRadio;
-        private System.Windows.Forms.RadioButton ByParametersRadio;
+        private System.Windows.Forms.RadioButton byJobsRadio;
+        private System.Windows.Forms.RadioButton byParametersRadio;
         private System.Windows.Forms.Button DeleteJob;
         private System.Windows.Forms.CheckBox ByAllJobsCheck;
         private System.Windows.Forms.TabPage LocalAnalyzeTab;
         private System.Windows.Forms.Button LocalDrawGraphics;
         private System.Windows.Forms.TabPage GlobalAnalyzeTab;
         private System.Windows.Forms.Button GlobalDrawGraphics;
-        private System.Windows.Forms.TabControl AnalyzeTabs;
+        private System.Windows.Forms.TabControl analyzeTabs;
         private System.Windows.Forms.ToolStripMenuItem MenuHelp;
         private System.Windows.Forms.ToolTip CommonToolTip;
         private System.Windows.Forms.Button GetGlobalResult;
         private System.Windows.Forms.CheckBox PointsCheck;
-        private System.Windows.Forms.CheckedListBox GlobalPropertiesList;
+        private System.Windows.Forms.CheckedListBox globalPropertiesList;
         private System.Windows.Forms.TabPage ExtendedAnalyzeTab;
-        private System.Windows.Forms.CheckedListBox LocalPropertiesList;
+        private System.Windows.Forms.CheckedListBox localPropertiesList;
         private System.Windows.Forms.Label ApproximationType;
         private System.Windows.Forms.ComboBox ApproximationTypeCmb;
-        private System.Windows.Forms.DataGridView LocalAnalyzeOptionsGrd;
+        private System.Windows.Forms.DataGridView localAnalyzeOptionsGrd;
         private System.Windows.Forms.Button extendedDrawGraphics;
         private System.Windows.Forms.DataGridViewTextBoxColumn PropertyNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn DeltaColumn;
@@ -792,12 +817,14 @@
         private System.Windows.Forms.CheckBox bySecondParamCheck;
         private System.Windows.Forms.ComboBox byFirstParamCmb;
         private System.Windows.Forms.CheckBox byFirstParamCheck;
-        private System.Windows.Forms.DataGridView ExtendedAnalyzeOptionsGrd;
+        private System.Windows.Forms.DataGridView extendedAnalyzeOptionsGrd;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.CheckedListBox ExtendedPropertiesList;
+        private System.Windows.Forms.CheckedListBox extendedPropertiesList;
         private System.Windows.Forms.ToolStripMenuItem MenuTools;
         private System.Windows.Forms.ToolStripMenuItem dBOptimizerToolStripMenuItem;
+        private System.Windows.Forms.Button deselectExtended;
+        private System.Windows.Forms.Button selectExtended;
     }
 }
 
