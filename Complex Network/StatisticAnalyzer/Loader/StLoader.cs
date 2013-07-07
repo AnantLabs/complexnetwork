@@ -34,31 +34,23 @@ namespace StatisticAnalyzer.Loader
 
             return models.Keys.ToArray();
         }
-        
+
         // Уровень обьекта.
         // Оранизация работы с хранилищем данных.
-        private IResultStorage resultStorage; 
+        private IResultStorage resultStorage;
         // Список сборок (выбранный по критериям).
         private List<ResultAssembly> assemblies;
         // Список строковых идентификаторов сборок (assemblies).
         private List<string> assembliesID;
- 
-        // Имя модели анализируемтых сборок.
+
+        // Имя модели анализируемых сборок.
         private string modelName = "";
 
         // Конструктор по-умолчания. 
         // Организует инициализацию обьекта для работы с хранилищем данных.
-        // Организует загрузку всех сборок и их идентификаторов (выбранных по имени модели).
         public StLoader()
         {
             InitStorage();
-            //InitAssemblies();
-        }
-
-        // Свойство для доступа к списку сборок. Только чтение.
-        public List<ResultAssembly> Assemblies
-        {
-            get { return assemblies; }
         }
 
         // Свойство для доступа к имени модели. Только передача значения. 
@@ -136,7 +128,7 @@ namespace StatisticAnalyzer.Loader
                 return result.GenerationParams[p].ToString();
             }
             // Такая ситуация возникает при наличии xml-а с результатом статической генерации.
-            catch(KeyNotFoundException)
+            catch (KeyNotFoundException)
             {
                 return "Generation Parameter Error!";
             }
@@ -149,7 +141,7 @@ namespace StatisticAnalyzer.Loader
             foreach (string resultName in assembliesID)
             {
                 ResultAssembly r = resultStorage.Load(assemblies.Find(i => i.Name == resultName).ID);
-                if(r.GenerationParams.Count != 0)
+                if (r.GenerationParams.Count != 0)
                     result.Add(r.GenerationParams[p].ToString());
                 else
                     continue;
@@ -222,7 +214,7 @@ namespace StatisticAnalyzer.Loader
         }
 
         // Возвращает список всех сборок.
-        public List<ResultAssembly> SelectAllAssemblies()
+        /*public List<ResultAssembly> SelectAllAssemblies()
         {
             List<ResultAssembly> result = new List<ResultAssembly>();
 
@@ -232,7 +224,7 @@ namespace StatisticAnalyzer.Loader
             }
 
             return result;
-        }
+        }*/
 
         // Возвращает сборку, выбранную по имени job-а.
         public ResultAssembly SelectAssemblyByJob(string jobName)
@@ -241,7 +233,7 @@ namespace StatisticAnalyzer.Loader
         }
 
         // Возвращает список сборок, выбранных по параметрам генерации.
-        // Если allAssemblies == true, то в список поподают все соответствыющие сборки.
+        // Если allAssemblies == true, то в список поподают все соответствующие сборки.
         // В обратном случае, только первая соответствующая сборка.
         // ??
         public List<ResultAssembly> SelectAssemblyByParameters(Dictionary<GenerationParam, string> gValues,

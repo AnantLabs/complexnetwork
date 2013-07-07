@@ -83,6 +83,10 @@
   <ItemGroup>
     <Compile Include="Analyzer\AbstractStAnalyzer.cs" />
     <Compile Include="Analyzer\StAnalyzerDB.cs" />
+    <Compile Include="Loader\AbstractStLoader.cs" />
+    <Compile Include="Loader\AvailableModels.cs" />
+    <Compile Include="Loader\StLoaderDB.cs" />
+    <Compile Include="Loader\StLoaderXML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Analyzer\StAnalyzeParameters.cs" />
     <Compile Include="Analyzer\StAnalyzer.cs" />

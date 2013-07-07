@@ -17,8 +17,8 @@ namespace StatisticAnalyzer.Analyzer
     {
         // Конструктор, который получает список сборок для анализа.
         public StAnalyzer(List<ResultAssembly> assembly)
-            : base(assembly) {}
-        
+            : base(assembly) { }
+
         protected override bool ContainsOption(AnalyseOptions option)
         {
             switch (option)
@@ -48,7 +48,7 @@ namespace StatisticAnalyzer.Analyzer
 
         protected override void FillGlobalResultCC()
         {
-            SortedDictionary<double, double> rValues = new SortedDictionary<double,double>();
+            SortedDictionary<double, double> rValues = new SortedDictionary<double, double>();
             for (int i = 0; i < assemblyToAnalyze.Count; ++i)
             {
                 int instanceCount = assemblyToAnalyze[i].Results.Count;
@@ -59,7 +59,7 @@ namespace StatisticAnalyzer.Analyzer
                     double sumOfCoeffs = 0;
                     foreach (double key in keyColl)
                     {
-                           sumOfCoeffs += key * assemblyToAnalyze[i].Results[j].Coefficient[key];
+                        sumOfCoeffs += key * assemblyToAnalyze[i].Results[j].Coefficient[key];
                     }
                     sumOfCoeffs /= assemblyToAnalyze[i].Size;
                     double index = (rValues.Count != 0) ? rValues.Last().Key : 0;
@@ -73,13 +73,13 @@ namespace StatisticAnalyzer.Analyzer
 
         protected override void FillGlobalResultDD()
         {
-            SortedDictionary<double, double> rValues = new SortedDictionary<double,double>();
+            SortedDictionary<double, double> rValues = new SortedDictionary<double, double>();
             for (int i = 0; i < assemblyToAnalyze.Count; ++i)
             {
                 int instanceCount = assemblyToAnalyze[i].Results.Count;
                 for (int j = 0; j < instanceCount; ++j)
                 {
-                    SortedDictionary<int, int>.KeyCollection keyColl = 
+                    SortedDictionary<int, int>.KeyCollection keyColl =
                         assemblyToAnalyze[i].Results[j].VertexDegree.Keys;
                     double sumOfDegrees = 0;
                     foreach (int key in keyColl)
@@ -105,7 +105,7 @@ namespace StatisticAnalyzer.Analyzer
                 int instanceCount = assemblyToAnalyze[i].Results.Count;
                 for (int j = 0; j < instanceCount; ++j)
                 {
-                    SortedDictionary<double, int> CCDictionary = 
+                    SortedDictionary<double, int> CCDictionary =
                         assemblyToAnalyze[i].Results[j].Coefficient;
                     SortedDictionary<double, int>.KeyCollection keyColl = CCDictionary.Keys;
                     foreach (double key in keyColl)
@@ -129,7 +129,7 @@ namespace StatisticAnalyzer.Analyzer
                 int instanceCount = assemblyToAnalyze[i].Results.Count;
                 for (int j = 0; j < instanceCount; ++j)
                 {
-                    SortedDictionary<double, int> EDDictionary = 
+                    SortedDictionary<double, int> EDDictionary =
                         assemblyToAnalyze[i].Results[j].DistancesBetweenEigenValues;
                     SortedDictionary<double, int>.KeyCollection keyCol = EDDictionary.Keys;
                     foreach (double key in keyCol)
@@ -257,7 +257,7 @@ namespace StatisticAnalyzer.Analyzer
 
                         previousKey = key;
                     }
-                }                
+                }
             }
 
             return r;
@@ -297,10 +297,10 @@ namespace StatisticAnalyzer.Analyzer
                             }
                         default:
                             {
-                                throw(new SystemException("Unknown analyze option."));
+                                throw (new SystemException("Unknown analyze option."));
                             }
                     }
-                    
+
                     SortedDictionary<int, int>.KeyCollection keyColl = tempDictionary.Keys;
                     int div = (option == AnalyseOptions.MinPathDist) ? (size * (size - 1) / 2) : size;
                     foreach (int key in keyColl)
@@ -312,7 +312,7 @@ namespace StatisticAnalyzer.Analyzer
                     }
                 }
             }
-            
+
             return r;
         }
     }
