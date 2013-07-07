@@ -39,7 +39,7 @@ namespace StatisticAnalyzer.Analyzer
             networkSize = 0;
             realizationsCount = 0;
             approximationType = ApproximationTypes.None;
-            options = new Dictionary<AnalyseOptions,StAnalyzeOptions>();
+            options = new Dictionary<AnalyseOptions, StAnalyzeOptions>();
 
             result = new Dictionary<AnalyseOptions, SortedDictionary<double, double>>();
             resultValues = new Dictionary<AnalyseOptions, SortedDictionary<double, double>>();

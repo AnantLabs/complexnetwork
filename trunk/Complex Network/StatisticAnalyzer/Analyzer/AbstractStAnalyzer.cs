@@ -45,8 +45,8 @@ namespace StatisticAnalyzer.Analyzer
 
         public Dictionary<AnalyseOptions, StAnalyzeOptions> AnalyzeOptions
         {
-            set 
-            { 
+            set
+            {
                 analyzeOptions = value;
                 result.options = value;
             }
@@ -472,6 +472,6 @@ namespace StatisticAnalyzer.Analyzer
         protected abstract SortedDictionary<double, double> FillLocalResultTrajectory();
         protected abstract SortedDictionary<double, double> FillLocalResult(AnalyseOptions option);
         protected abstract void FillExtendedResultTrajectory(UInt32 stepsToRemove);
-        
+
     }
 }
