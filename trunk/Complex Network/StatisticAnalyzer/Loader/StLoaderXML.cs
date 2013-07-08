@@ -182,6 +182,40 @@ namespace StatisticAnalyzer.Loader
             return result;
         }
 
+        // !исправить! возможно нужны изменения
+        // Возвращает все значения параметра анализа p из тех сборок,
+        // для которых значения параметров генерации соответсвуют данным значениям (values).
+        // (из сборок выбранных по имени модели).
+        public override List<string> GetOptionParameterValues(Dictionary<GenerationParam, string> values,
+            AnalyzeOptionParam p)
+        {
+            List<string> result = new List<string>();
+            foreach (string resultName in assembliesID)
+            {
+                ResultAssembly r = resultStorage.Load(assemblies.Find(i => i.Name == resultName).ID);
+                Dictionary<GenerationParam, string>.KeyCollection gKeys = values.Keys;
+                bool b = true;
+                foreach (GenerationParam key in gKeys)
+                {
+                    if (r.GenerationParams.Count != 0)
+                        b = b && (r.GenerationParams[key].ToString() == values[key]);
+                    else
+                    {
+                        b = false;
+                        break;
+                    }
+                }
+                if (b)
+                {
+                    result.Add(r.AnalyzeOptionParams[p].ToString());
+                }
+            }
+
+            result.Sort();
+            result = result.Distinct().ToList();
+            return result;
+        }
+
         // Инициализация обьекта для работы с хранилищем данных.
         protected override void InitStorage()
         {

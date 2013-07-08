@@ -94,14 +94,52 @@ namespace StatisticAnalyzer.Loader
         {
             List<ResultAssembly> result = new List<ResultAssembly>();
 
-            List<Guid> resultAssembliesID = this.storage.GetAssembliesID();
+            Dictionary<int, string> gIdValues = new Dictionary<int, string>();
+            foreach (GenerationParam param in gValues.Keys)
+            {
+                gIdValues.Add((int)param, gValues[param]);
+            }
+
+            Dictionary<int, string> aIdValues = new Dictionary<int, string>();
+            foreach (AnalyzeOptionParam param in aValues.Keys)
+            {
+                aIdValues.Add((int)param, aValues[param]);
+            }
+
+            List<Guid> resultAssembliesID = this.storage.GetAssembliesID(AvailableModels.models[this.modelName],
+                gIdValues, aIdValues);
             foreach (Guid id in resultAssembliesID)
             {
                 result.Add(this.storage.Load(id));
+                if (!allAssemblies)
+                    break;
             }
 
             return result;
         }
+
+        // !исправить! возможно нужны изменения
+        // Возвращает все значения параметра анализа p из тех сборок,
+        // для которых значения параметров генерации соответсвуют данным значениям (values).
+        // (из сборок выбранных по имени модели).
+        public override List<string> GetOptionParameterValues(Dictionary<GenerationParam, string> values, 
+            AnalyzeOptionParam p)
+        {
+            Dictionary<int, string> idValues = new Dictionary<int, string>();
+            foreach (GenerationParam param in values.Keys)
+            {
+                idValues.Add((int)param, values[param]);
+            }
+            return this.storage.GetOptionParameterValuesByID(AvailableModels.models[this.modelName],
+                idValues, (int)p);
+        }
+
+        // ??
+        public void GetAvgsSigmas(Guid id, int k, out double avg, out double sigma)
+        {
+            this.storage.GetAvgSigma(id, k, out avg, out sigma);
+        }
+
 
         // Инициализация обьекта для работы с хранилищем данных.
         protected override void InitStorage()

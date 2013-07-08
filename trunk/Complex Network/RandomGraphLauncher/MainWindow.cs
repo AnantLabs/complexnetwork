@@ -80,11 +80,6 @@ namespace RandomGraphLauncher
             Process.Start("StatisticAnalyzerUI.exe");
         }
 
-        private void dBViewerToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void mainControl_OnClose(object sender, CloseEventArgs e)
         {
             TabPage tab = this.mainControl.TabPages[e.TabIndex];

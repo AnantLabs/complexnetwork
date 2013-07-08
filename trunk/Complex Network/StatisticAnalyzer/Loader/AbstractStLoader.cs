@@ -55,6 +55,12 @@ namespace StatisticAnalyzer.Loader
             Dictionary<GenerationParam, string> gValues,
             Dictionary<AnalyzeOptionParam, string> aValues,
             bool allAssemblies);
+        // !исправить! возможно нужны изменения
+        // Возвращает все значения параметра анализа p из тех сборок,
+        // для которых значения параметров генерации соответсвуют данным значениям (values).
+        // (из сборок выбранных по имени модели).
+        public abstract List<string> GetOptionParameterValues(Dictionary<GenerationParam, string> values,
+            AnalyzeOptionParam p);
 
         // Инициализация обьекта для работы с хранилищем данных.
         protected abstract void InitStorage();

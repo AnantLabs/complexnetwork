@@ -44,7 +44,6 @@ namespace RandomGraphLauncher
             this.modelCheckingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.matrixMixerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statisticAnalyzerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.dBViewerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainControl = new MyControlLibrary.TabCtlEx();
             this.mainMenu.SuspendLayout();
@@ -57,7 +56,6 @@ namespace RandomGraphLauncher
             this.settingsToolStripMenuItem,
             this.toolsToolStripMenuItem,
             this.statisticAnalyzerToolStripMenuItem1,
-            this.dBViewerToolStripMenuItem1,
             this.helpToolStripMenuItem});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
@@ -149,13 +147,6 @@ namespace RandomGraphLauncher
             this.statisticAnalyzerToolStripMenuItem1.Text = "Statistic Analyzer";
             this.statisticAnalyzerToolStripMenuItem1.Click += new System.EventHandler(this.statisticAnalyzerToolStripMenuItem1_Click);
             // 
-            // dBViewerToolStripMenuItem1
-            // 
-            this.dBViewerToolStripMenuItem1.Name = "dBViewerToolStripMenuItem1";
-            this.dBViewerToolStripMenuItem1.Size = new System.Drawing.Size(72, 20);
-            this.dBViewerToolStripMenuItem1.Text = "DB Viewer";
-            this.dBViewerToolStripMenuItem1.Click += new System.EventHandler(this.dBViewerToolStripMenuItem1_Click);
-            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
@@ -215,7 +206,6 @@ namespace RandomGraphLauncher
         private ToolStripMenuItem optionToolStripMenuItem;
         private ToolStripMenuItem matrixMixerToolStripMenuItem;
         private ToolStripMenuItem statisticAnalyzerToolStripMenuItem1;
-        private ToolStripMenuItem dBViewerToolStripMenuItem1;
 
     }
 }

@@ -564,7 +564,7 @@ namespace StatisticAnalyzerUI
             RefreshInformation();
         }
 
-        // Ручной вызов оптимизаций БД (Menu->Tools->DB Optimizer).
+        // Ручной вызов усреднений для БД (Menu->Tools->DB Optimizer).
         private void dBOptimizerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DBOptimizer dbOptimizerWnd = new DBOptimizer();
@@ -1048,7 +1048,7 @@ namespace StatisticAnalyzerUI
 
         private void byFirstParamCheck_CheckedChanged(object sender, EventArgs e)
         {
-            /*if (this.byFirstParamCheck.Checked == true)
+            if (this.byFirstParamCheck.Checked == true)
             {
                 this.byFirstParamCmb.Enabled = true;
                 Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
@@ -1068,12 +1068,12 @@ namespace StatisticAnalyzerUI
             {
                 this.byFirstParamCmb.Items.Clear();
                 this.byFirstParamCmb.Enabled = false;
-            }*/
+            }
         }
 
         private void bySecondParamCheck_CheckedChanged(object sender, EventArgs e)
         {
-            /*if (this.bySecondParamCheck.Checked == true)
+            if (this.bySecondParamCheck.Checked == true)
             {
                 this.bySecondParamCmb.Enabled = true;
                 Dictionary<GenerationParam, ComboBox>.KeyCollection keys = generationParamatersControls.Keys;
@@ -1093,7 +1093,7 @@ namespace StatisticAnalyzerUI
             {
                 this.bySecondParamCmb.Items.Clear();
                 this.bySecondParamCmb.Enabled = false;
-            }*/
+            }
         }
     }
 
