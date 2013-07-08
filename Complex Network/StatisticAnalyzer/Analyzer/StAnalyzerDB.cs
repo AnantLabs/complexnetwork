@@ -142,7 +142,7 @@ namespace StatisticAnalyzer.Analyzer
                 assemblyToAnalyze[0].AnalyzeOptionParams[AnalyzeOptionParam.TrajectoryStepCount].ToString() +
                 "; k = " + stepsToRemove.ToString() + ";";
 
-            StLoader loader = new StLoader();
+            StLoaderDB loader = new StLoaderDB();
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
             double avg = 0, sigma = 0;
             for (int i = 0; i < assemblyToAnalyze.Count(); ++i)

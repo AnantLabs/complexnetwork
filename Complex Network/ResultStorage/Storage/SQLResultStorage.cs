@@ -95,7 +95,7 @@ namespace ResultStorage.Storage
         {
             log.Info("Loading assembly with ID " + assemblyID.ToString() + ".");
 
-            ResultAssembly resultAssembly = new ResultAssembly(true);
+            ResultAssembly resultAssembly = new ResultAssembly();
             resultAssembly.ID = assemblyID;
 
             log.Info("Openning connection.");
@@ -380,34 +380,67 @@ namespace ResultStorage.Storage
             }
         }
 
-        public List<Guid> GetAssembliesID()
+        // ??
+        public List<Guid> GetAssembliesID(Type modelType, Dictionary<int, string> gValues,
+            Dictionary<int, string> aValues)
         {
             List<Guid> result = new List<Guid>();
 
-            /*using (DbConnection conn = provider.CreateConnection())
+            using (DbConnection conn = provider.CreateConnection())
             {
                 conn.ConnectionString = GetConnectionString();
                 conn.Open();
 
                 using (SqlCommand command = (SqlCommand)conn.CreateCommand())
                 {
-                    string sqlQuery = "SELECT Assemblies.AssemblyID FROM Assemblies LEFT JOIN " +
-                        "GenerationParamValues ON GenerationParamValues.AssemblyID=Assemblies.AssemblyID " +
-                        "WHERE Assemblies.ModelID=@ModelID AND GenerationParamValues.GenerationParamID=@GenerationParamID";
-                    command.CommandText = sqlQuery;
+                    string sqlQuery = "SELECT DISTINCT Assemblies.AssemblyID " +
+                        "FROM Assemblies LEFT JOIN GenerationParamValues LEFT JOIN AnalyzeOptionParamValues " +
+                        "ON Assemblies.AssemblyID=GenerationParamValues.AssemblyID AND " +
+                        "Assemblies.AssemblyID=AnalyzeOptionParamValues.AssemblyID " +
+                        "WHERE Assemblies.ModelID=@ModelID ";
+
                     command.CommandType = CommandType.Text;
                     command.Parameters.Add("@ModelID", SqlDbType.Int).Value = GetModelID(modelType);
-                    command.Parameters.Add("@GenerationParamID", SqlDbType.Int).Value = id;
+
+                    Dictionary<int, string>.KeyCollection keys = gValues.Keys;
+                    int i = 1;
+                    foreach (int key in keys)
+                    {
+                        command.Parameters.Add("@Param" + i.ToString(), SqlDbType.Int).Value = key;
+                        command.Parameters.Add("@ParamValue" + i.ToString(), SqlDbType.NVarChar).Value =
+                            gValues[key];
+
+                        sqlQuery += "AND GenerationParamID = @Param" + i.ToString() +
+                            " AND [Value] = @ParamValue" + i.ToString();
+
+                        ++i;
+                    }
+
+                    keys = aValues.Keys;
+                    i = 1;
+                    foreach (int key in keys)
+                    {
+                        command.Parameters.Add("@AnalyzeParam" + i.ToString(), SqlDbType.Int).Value = key;
+                        command.Parameters.Add("@AnalyzeParamValue" + i.ToString(), SqlDbType.NVarChar).Value =
+                            aValues[key];
+
+                        sqlQuery += "AND AnalyzeOptionParamID=@AnalyzeParam" + i.ToString() +
+                            " AND [Value] = @AnalyzeParamValue" + i.ToString();
+
+                        ++i;
+                    }
+
+                    command.CommandText = sqlQuery;
 
                     using (DbDataReader dr = command.ExecuteReader())
                     {
                         while (dr.Read())
                         {
-                            result.Add(dr["[Value]"].ToString());
+                            result.Add(Guid.Parse(dr["AssemblyID"].ToString()));
                         }
                     }
                 }
-            }*/
+            }
 
             return result;
         }
@@ -483,6 +516,7 @@ namespace ResultStorage.Storage
 
         // Возвращает список строковых значений параметра генерации с данным идентификатором
         // по имени модели и по значениям других параметров генерации.
+        // ??
         public List<string> GetParameterValuesByID(Type modelType, Dictionary<int, string> values,
             int id)
         {
@@ -534,6 +568,66 @@ namespace ResultStorage.Storage
                             result.Add(dr["Value"].ToString());
                         }
                     }
+                }
+            }
+
+            return result;
+        }
+
+        // Возвращает список строковых значений параметра анализа с данным идентификатором
+        // по имени модели и по значениям параметров генерации.
+        // ??
+        public List<string> GetOptionParameterValuesByID(Type modelType, Dictionary<int, string> values,
+            int id)
+        {
+            List<string> result = new List<string>();
+
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = GetConnectionString();
+                conn.Open();
+
+                using (SqlCommand command = (SqlCommand)conn.CreateCommand())
+                {
+                    /*string sqlQuery = "SELECT DISTINCT [Value] " +
+                        "FROM Assemblies LEFT JOIN GenerationParamValues " +
+                        "ON Assemblies.AssemblyID in (";
+
+                    command.CommandType = CommandType.Text;
+                    command.Parameters.Add("@ModelID", SqlDbType.Int).Value = GetModelID(modelType);
+                    command.Parameters.Add("@GenerationParamID", SqlDbType.Int).Value = id;
+
+                    Dictionary<int, string>.KeyCollection keys = values.Keys;
+                    int i = 1;
+                    foreach (int key in keys)
+                    {
+                        command.Parameters.Add("@Param" + i.ToString(), SqlDbType.Int).Value = key;
+                        command.Parameters.Add("@ParamValue" + i.ToString(), SqlDbType.NVarChar).Value =
+                            values[key];
+
+                        if (i > 1)
+                        {
+                            sqlQuery += " INTERSECT ";
+                        }
+
+                        sqlQuery += "SELECT DISTINCT AssemblyID " +
+                            "FROM GenerationParamValues " +
+                            "WHERE GenerationParamID = @Param" + i.ToString() +
+                            " AND [Value] = @ParamValue" + i.ToString();
+
+                        ++i;
+                    }
+
+                    sqlQuery += ") WHERE ModelID = @ModelID AND GenerationParamID = @GenerationParamID";
+                    command.CommandText = sqlQuery;
+
+                    using (DbDataReader dr = command.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            result.Add(dr["Value"].ToString());
+                        }
+                    }*/
                 }
             }
 

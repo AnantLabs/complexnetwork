@@ -92,7 +92,6 @@
     <Compile Include="Analyzer\StAnalyzer.cs" />
     <Compile Include="Analyzer\StAnalyzeResult.cs" />
     <Compile Include="Viewer\StApproximation.cs" />
-    <Compile Include="Loader\StLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLibrary\CommonLibrary.csproj">

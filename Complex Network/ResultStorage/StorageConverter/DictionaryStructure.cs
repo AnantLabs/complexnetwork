@@ -31,7 +31,7 @@ namespace ResultStorage.StorageConverter
         {
             DirectoryInfo d = new DirectoryInfo(fullName);
 
-            result = new ResultAssembly(true);
+            result = new ResultAssembly();
             // !Исправить!
             result.Name = result.ID.ToString(); 
             result.FileName = d.Name;
