@@ -139,7 +139,6 @@
     <None Include="Diagrams\ResultStorageDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SQLScripts\ComplexNetwork Create.sql" />
     <Content Include="SQLScripts\MSSQLSetup.sql" />
     <Content Include="SQLScripts\OptimizationTablesCreation.sql" />
     <Content Include="SQLScripts\StoredProcedures.sql" />
