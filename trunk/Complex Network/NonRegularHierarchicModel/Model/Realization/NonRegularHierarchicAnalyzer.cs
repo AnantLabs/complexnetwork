@@ -33,7 +33,8 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Возвращается средняя длина пути в графе. Реализовано.
         public override double GetAveragePath()
         {
-            log.Info("Getting average path length.");
+            throw new NotImplementedException();
+            /*log.Info("Getting average path length.");
 
             SortedDictionary<int, int> dist = GetMinPathDist();
             double result = 0.0, count = 0.0;
@@ -46,13 +47,14 @@ namespace Model.NonRegularHierarchicModel.Realization
 
             result /= count;
 
-            return result;
+            return result;*/
         }
 
         // Возвращается диаметр графа. Реализовано.
         public override int GetDiameter()
         {
-            log.Info("Getting diameter.");
+            throw new NotImplementedException();
+            /*log.Info("Getting diameter.");
 
             SortedDictionary<int, int> dist = GetMinPathDist();
             int result = 0;
@@ -63,27 +65,30 @@ namespace Model.NonRegularHierarchicModel.Realization
                     result = k.Key;
             }
 
-            return result;
+            return result;*/
         }
 
         // Возвращается число циклов длиной 3 в графе. Реализовано.
         public override long GetCycles3()
         {
-            log.Info("Getting count of cycles - order 3.");
-            return (long)(container.Get3CirclesCount());
+            throw new NotImplementedException();
+            /*log.Info("Getting count of cycles - order 3.");
+            return (long)(container.Get3CirclesCount());*/
         }
 
         // Возвращается число циклов длиной 4 в графе. Реализовано.
         public override long GetCycles4()
         {
-            log.Info("Getting count of cycles - order 4.");
-            return (long)container.Get4CirclesCount();
+            throw new NotImplementedException();
+            /*log.Info("Getting count of cycles - order 4.");
+            return (long)container.Get4CirclesCount();*/
         }
 
         // Возвращается степенное распределение графа. Реализовано.
         public override SortedDictionary<int, int> GetDegreeDistribution()
         {
-            log.Info("Getting degree distribution.");
+            throw new NotImplementedException();
+            /*log.Info("Getting degree distribution.");
 
             SortedDictionary<int, int> result = new SortedDictionary<int, int>();
             /// Iterate over all the vertexes and count degrees.
@@ -101,13 +106,14 @@ namespace Model.NonRegularHierarchicModel.Realization
                     ++result[degree];
                 }
             }
-            return result;
+            return result;*/
         }
 
         // Возвращает распределение триугольников, прикрепленных к вершине.
         public override SortedDictionary<int, int> GetTrianglesDistribution()
         {
-            log.Info("Getting triangles distribution.");
+            throw new NotImplementedException();
+            /*log.Info("Getting triangles distribution.");
             SortedDictionary<int, int> result = new SortedDictionary<int, int>();
 
             for (uint i = 0; i < container.Size; ++i)
@@ -119,21 +125,23 @@ namespace Model.NonRegularHierarchicModel.Realization
                     result.Add(triangleCountOfVertex, 1);
             }
 
-            return result;
+            return result;*/
         }
 
         // Возвращается распределение коэффициентов кластеризации графа. Реализовано.
         public override SortedDictionary<double, int> GetClusteringCoefficient()
         {
-            log.Info("Getting clustering coefficients.");
-            return container.GetClusteringCoefficient();
+            throw new NotImplementedException();
+            /*log.Info("Getting clustering coefficients.");
+            return container.GetClusteringCoefficient();*/
         }
 
         // Возвращается распределение длин минимальных путей в графе. Реализовано.
         public override SortedDictionary<int, int> GetMinPathDist()
         {
-            log.Info("Getting minimal distances between vertices.");
-            return container.GetMinPathDistribution();
+            throw new NotImplementedException();
+            /*log.Info("Getting minimal distances between vertices.");
+            return container.GetMinPathDistribution();*/
         }
     }
 }
