@@ -8,13 +8,14 @@ using System.Numerics;
 
 namespace CommonLibrary.Model
 {
+    // Базовый абстрактный класс для имплементации анализатора графа.
     public abstract class AbstarctGraphAnalyzer
     {
         // Организация Работы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(AbstarctGraphAnalyzer));
 
         // Контейнер, в котором содержится сгенерированный граф (полученный от генератора).
-        public abstract IGraphContainer Container { get; set; }
+        public abstract AbstractGraphContainer Container { get; set; }
 
         // Возвращается средняя длина пути в графе.
         public virtual double GetAveragePath()

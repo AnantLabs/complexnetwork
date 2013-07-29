@@ -48,32 +48,15 @@ namespace Model.HierarchicModel
             InitModel();
         }
 
-        public HierarchicModel(ArrayList matrix, AnalyseOptions options, 
-            Dictionary<AnalyzeOptionParam, Object> analizeOptionsValues)
-            : base(matrix, options, analizeOptionsValues)
-        {
-            log.Info("Creating Block-Hierarchic object from matrix.");
-            InitModel();
-        }
-
         public override int GetNetworkSize()
         {
             return (int)Math.Pow((Int16)this.GenerationParamValues[GenerationParam.BranchIndex],
                 (Int16)this.GenerationParamValues[GenerationParam.Level]);
         }
 
-        public override AbstractGraphModel CloneRandom()
+        public override AbstractGraphModel Clone()
         {
             AbstractGraphModel model = new HierarchicModel(this.GenerationParamValues,
-                this.AnalyzeOptions,
-                this.AnalyzeOptionsValues);
-            model.TracingPath = this.TracingPath;
-            return model;
-        }
-
-        public override AbstractGraphModel CloneStatic()
-        {
-            AbstractGraphModel model = new HierarchicModel(this.NeighbourshipMatrix,
                 this.AnalyzeOptions,
                 this.AnalyzeOptionsValues);
             model.TracingPath = this.TracingPath;

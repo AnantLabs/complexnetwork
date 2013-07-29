@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-
 namespace GenericAlgorithms
 {
     public static class MatrixFileReader

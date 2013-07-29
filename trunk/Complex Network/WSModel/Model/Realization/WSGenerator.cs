@@ -10,7 +10,7 @@ using log4net;
 namespace Model.WSModel.Realization
 {
     // Реализация генератор (WS).
-    public class WSGenerator : IGraphGenerator
+    public class WSGenerator : AbstractGraphGenerator
     {
         // Организация работы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(WSGenerator));
@@ -25,14 +25,20 @@ namespace Model.WSModel.Realization
         }
 
         // Контейнер, в котором содержится сгенерированный граф.
-        public IGraphContainer Container
+        public override AbstractGraphContainer Container
         {
             get { return container; }
             set { container = (WSContainer)value; }
         }
 
+        // Permanet Generation
+        public override void PermanentGeneration(Dictionary<GenerationParam, object> genParam)
+        {
+            throw new NotImplementedException();
+        }
+
         // Случайным образом генерируется граф, на основе параметров генерации.
-        public void RandomGeneration(Dictionary<GenerationParam, object> genParam)
+        protected override void RandomGeneration(Dictionary<GenerationParam, object> genParam)
         {
             log.Info("Random generation step started.");
             int numberOfVertices = (Int32)genParam[GenerationParam.Vertices];
@@ -47,10 +53,10 @@ namespace Model.WSModel.Realization
         }
 
         // Строится граф, на основе матрицы смежности.
-        public void StaticGeneration(ArrayList matrix)
+        protected override void StaticGeneration(string fileName)
         {
             log.Info("Static generation started.");
-            container.SetMatrix(matrix);
+            container.SetMatrix(fileName);
             log.Info("Static generation finished.");
         }
 
@@ -137,15 +143,5 @@ namespace Model.WSModel.Realization
                 ++currentId;
             return index;
         }
-
-        #region IGraphGenerator Members
-
-
-        public void PermanentGeneration(Dictionary<GenerationParam, object> genParam)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
     }
 }

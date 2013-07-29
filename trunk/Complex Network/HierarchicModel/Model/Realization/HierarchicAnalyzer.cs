@@ -25,7 +25,7 @@ namespace Model.HierarchicModel.Realization
         }
 
         // Контейнер, в котором содержится сгенерированный граф (полученный от генератора).
-        public override IGraphContainer Container
+        public override AbstractGraphContainer Container
         {
             get { return container; }
             set { container = (HierarchicContainer)value; }

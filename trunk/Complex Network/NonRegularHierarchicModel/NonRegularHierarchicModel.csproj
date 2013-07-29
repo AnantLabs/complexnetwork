@@ -73,6 +73,10 @@
       <Project>{9095E370-9B63-4FF8-B97C-6E3F93265D89}</Project>
       <Name>CommonLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GenericAlgorithms\GenericAlgorithms.csproj">
+      <Project>{98632726-4F62-4777-9231-2A97610DD653}</Project>
+      <Name>GenericAlgorithms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NumberGeneration\NumberGeneration.csproj">
       <Project>{E28173A7-50BC-4A15-A1EE-E5C8ACC7F735}</Project>
       <Name>NumberGeneration</Name>

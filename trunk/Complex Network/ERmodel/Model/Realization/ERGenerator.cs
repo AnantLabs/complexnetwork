@@ -10,7 +10,7 @@ using log4net;
 namespace Model.ERModel.Realization
 {
     // Реализация генератор (ER).
-    public class ERGenerator : IGraphGenerator
+    public class ERGenerator : AbstractGraphGenerator
     {
         // Организация работы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(ERGenerator));
@@ -23,7 +23,6 @@ namespace Model.ERModel.Realization
 
         //static container for permanent geretation
         private static ERContainer permanentContainer;
-
      
         // Конструктор по умолчанию, в котором создается пустой контейнер графа.
         public ERGenerator()
@@ -32,14 +31,14 @@ namespace Model.ERModel.Realization
         }
 
         // Контейнер, в котором содержится сгенерированный граф.
-        public IGraphContainer Container
+        public override AbstractGraphContainer Container
         {
             get { return container; }
             set { container = (ERContainer)value; }
         }
 
-        //Permanet Generation
-        public void PermanentGeneration(Dictionary<GenerationParam, object> genParam)
+        // Permanet Generation
+        public override void PermanentGeneration(Dictionary<GenerationParam, object> genParam)
         {
            
             if (ERModel.permanentStatus)
@@ -66,8 +65,7 @@ namespace Model.ERModel.Realization
                 }
             }
             else
-            {
-                
+            {                
                 container = permanentContainer;
             }
 
@@ -75,7 +73,7 @@ namespace Model.ERModel.Realization
         }
 
         // Случайным образом генерируется граф, на основе параметров генерации.
-        public void RandomGeneration(Dictionary<GenerationParam, object> genParam)
+        protected override void RandomGeneration(Dictionary<GenerationParam, object> genParam)
         {
             log.Info("Random generation step started.");
   
@@ -89,10 +87,10 @@ namespace Model.ERModel.Realization
         }
 
         // Строится граф, на основе матрицы смежности.
-        public void StaticGeneration(ArrayList matrix)
+        protected override void StaticGeneration(string fileName)
         {
             log.Info("Static generation started.");
-            container.SetMatrix(matrix);
+            container.SetMatrix(fileName);
             log.Info("Static generation finished.");
         }
 

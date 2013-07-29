@@ -43,36 +43,19 @@ namespace Model.NonRegularHierarchicModel
             InitModel();
         }
 
-        public NonRegularHierarchicModel(ArrayList matrix, AnalyseOptions options, 
-            Dictionary<AnalyzeOptionParam, Object> analizeOptionsValues)
-            : base(matrix, options, analizeOptionsValues)
-        {
-            log.Info("Creating Block-Hierarchic Non Regular model object from matrix.");
-            InitModel();
-        }
-
         // !исправить!
         public override int GetNetworkSize()
         {
             return 0;
         }
         
-        public override AbstractGraphModel CloneRandom()
+        public override AbstractGraphModel Clone()
         {
             AbstractGraphModel model = new NonRegularHierarchicModel(this.GenerationParamValues,
                 this.AnalyzeOptions,
                 this.AnalyzeOptionsValues);
             model.TracingPath = this.TracingPath;
             return model;    
-        }
-
-        public override AbstractGraphModel CloneStatic()
-        {
-            AbstractGraphModel model = new NonRegularHierarchicModel(this.NeighbourshipMatrix,
-                this.AnalyzeOptions,
-                this.AnalyzeOptionsValues);
-            model.TracingPath = this.TracingPath;
-            return model;
         }
 
         private void InitModel()

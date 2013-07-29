@@ -676,7 +676,9 @@ namespace RandomGraphLauncher
                 {
                     if ((string)childControl.Tag == "FilePath")
                     {
-                        SessionController.SetFilePath(jobName, childControl.Text);
+                        Dictionary<GenerationParam, object> values = new Dictionary<GenerationParam, object>();
+                        values[GenerationParam.FileName] = childControl.Text;
+                        SessionController.SetGenParamValuesForJob(jobName, values);
                         break;
                     }
                 }

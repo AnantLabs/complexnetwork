@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 using CommonLibrary.Model;
+using GenericAlgorithms;
 using log4net;
 
 namespace Model.NonRegularHierarchicModel.Realization
 {
     // Реализация контейнера (Block-Hierarchic Non Regular).
-    public class NonRegularHierarchicContainer : IGraphContainer
+    public class NonRegularHierarchicContainer : AbstractGraphContainer
     {
         // Организация pаботы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(NonRegularHierarchicContainer));
@@ -32,7 +33,7 @@ namespace Model.NonRegularHierarchicModel.Realization
         }
 
         // Размер контейнера (число вершин в графе).
-        public int Size
+        public override int Size
         {
             get { return Branches[Branches.Length - 1].Length; }   // ??
             set { } // ??
@@ -62,15 +63,18 @@ namespace Model.NonRegularHierarchicModel.Realization
         }
 
         // Строится граф на основе матрицы смежности.
-        public void SetMatrix(ArrayList matrix)
+        public override void SetMatrix(string fileName)
         {
+            // !исправить!
+            ArrayList matrix = MatrixFileReader.MatrixReader(fileName);
+
             log.Info("Creating NonRegularHierarchicContainer object from given matrix.");
 
             throw new NotImplementedException();
         }
 
         // Возвращается матрица смежности, соответсвующая графу.
-        public bool[,] GetMatrix()
+        public override bool[,] GetMatrix()
         {
             log.Info("Getting matrix from NonRegularHierarchicContainer object.");
 
@@ -84,6 +88,11 @@ namespace Model.NonRegularHierarchicModel.Realization
             }
 
             return matrix;
+        }
+
+        public override int[][] GetBranches()
+        {
+            return Branches;
         }
 
         // Закрытая часть класса (не из общего интерфейса).

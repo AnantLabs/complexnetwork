@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 
 using CommonLibrary.Model;
+using GenericAlgorithms;
 using log4net;
 
 namespace Model.WSModel.Realization
 {
     // Реализация контейнера (WS).
-    public class WSContainer : IGraphContainer
+    public class WSContainer : AbstractGraphContainer
     {
         // Организация Работы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(WSContainer));
@@ -24,7 +25,7 @@ namespace Model.WSModel.Realization
         public WSContainer() { }
 
         // Размер контейнера (число вершин в графе).
-        public int Size
+        public override int Size
         {
             get { return size; }
             set { } // ??
@@ -82,8 +83,10 @@ namespace Model.WSModel.Realization
         }
 
         // Строится граф на основе матрицы смежности.
-        public void SetMatrix(ArrayList matrix)
+        public override void SetMatrix(string fileName)
         {
+            ArrayList matrix = MatrixFileReader.MatrixReader(fileName);
+
             size = matrix.Count;
             indexes = new Dictionary<int, ArrayList>(size);
 
@@ -112,7 +115,7 @@ namespace Model.WSModel.Realization
         }
 
         // Возвращается матрица смежности, соответсвующая графу.
-        public bool[,] GetMatrix()
+        public override bool[,] GetMatrix()
         {
             Dictionary<int, List<int>> matrixDict = GetMatrixDict();
             bool[,] matrix = new bool[size, size];
@@ -133,6 +136,11 @@ namespace Model.WSModel.Realization
             }
 
             return matrix;
+        }
+
+        public override int[][] GetBranches()
+        {
+            throw new NotImplementedException();
         }
 
         // Методы не из общего интерфейса.

@@ -52,11 +52,8 @@ namespace AnalyzerFramework.Manager.Impl
             Assembly.AnalyzeOptionParams = origineModel.AnalyzeOptionsValues;
             Assembly.ModelType = origineModel.GetType();
             Assembly.Name = name;
-            if (Options.GenerationMode.staticGeneration == GenerationMode)
-            {
-                Assembly.Size = origineModel.NeighbourshipMatrix.Count;
-            }
-            else
+
+            if(Options.GenerationMode.randomGeneration == Options.Generation)
                 Assembly.Size = origineModel.GetNetworkSize();
 
             OnExecutionStatusChange(new ExecutionStatusEventArgs(ExecutionStatus.Starting));
@@ -68,15 +65,7 @@ namespace AnalyzerFramework.Manager.Impl
             log.Info("Started creating thread for each instance");
             for (int i = 0; i < iterations; i++)
             {
-                AbstractGraphModel model;
-                if (Options.GenerationMode.staticGeneration == GenerationMode) 
-                {
-                    model = origineModel.CloneStatic();
-                }
-                else 
-                {
-                    model = origineModel.CloneRandom();
-                }
+                AbstractGraphModel model = origineModel.Clone();
                 model.SetID(i);
                 model.Progress += new GraphProgressEventHandler(OnSeparateModelProgress);
                 model.GraphGenerated += new CommonLibrary.Model.Events.GraphGeneratedDelegate(model_GraphGenerated);

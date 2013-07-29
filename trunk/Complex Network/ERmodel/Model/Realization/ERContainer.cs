@@ -2,13 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
 using CommonLibrary.Model;
+using GenericAlgorithms;
 using log4net;
 
 namespace Model.ERModel.Realization
 {
     // Реализация контейнера (ER).
-    public class ERContainer : IGraphContainer
+    public class ERContainer : AbstractGraphContainer
     {
         // Организация pаботы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(ERContainer));
@@ -25,7 +27,6 @@ namespace Model.ERModel.Realization
         public List<KeyValuePair<int, int>> NoEdjes = new List<KeyValuePair<int, int>>();
         public SortedDictionary<int, List<int>> Motifs4Order;
         public List<KeyValuePair<int, int>> MotifsEdjes = new List<KeyValuePair<int, int>>();
-
 
         // Конструктор по умолчанию для контейнера.
         public ERContainer()
@@ -70,7 +71,7 @@ namespace Model.ERModel.Realization
         }
 
         // Размер контейнера (число вершин в графе).
-        public int Size 
+        public override int Size 
         {
             get { return size; }
             set 
@@ -94,14 +95,15 @@ namespace Model.ERModel.Realization
         }
 
         // Списки соседей для вершин графа.
-        public  SortedDictionary<int, List<int>> Neighbourship
+        public SortedDictionary<int, List<int>> Neighbourship
         {
             get { return neighbourship; }
         }
 
         // Строится граф на основе матрицы смежности.
-        public void SetMatrix(ArrayList matrix)
+        public override void SetMatrix(string fileName)
         {
+            ArrayList matrix = MatrixFileReader.MatrixReader(fileName);
 
             log.Info("Creating ERContainer object from given matrix.");
             size = matrix.Count;
@@ -113,11 +115,10 @@ namespace Model.ERModel.Realization
                 neighbourshipOfIVertex = (ArrayList)matrix[i];
                 SetDataToDictionary(i, neighbourshipOfIVertex);
             }
-
         }
 
         // Возвращается матрица смежности, соответсвующая графу.
-        public bool[,] GetMatrix()
+        public override bool[,] GetMatrix()
         {
             log.Info("Getting matrix from ERContainer object.");
             bool[,] matrix = new bool[neighbourship.Count, neighbourship.Count];
@@ -142,6 +143,11 @@ namespace Model.ERModel.Realization
             }
 
             return matrix;
+        }
+
+        public override int[][] GetBranches()
+        {
+            throw new NotImplementedException();
         }
 
         // Методы не из общего интерфейса.

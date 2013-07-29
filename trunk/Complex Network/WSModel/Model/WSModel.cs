@@ -50,32 +50,15 @@ namespace Model.WSModel
             InitModel();
         }
 
-        public WSModel(ArrayList matrix, AnalyseOptions options, 
-            Dictionary<AnalyzeOptionParam, Object> analizeOptionsValues)
-            : base(matrix, options, analizeOptionsValues)
-        {
-            log.Info("Creating WSModel object from matrix.");
-            InitModel();
-        }
-
         public override int GetNetworkSize()
         {
             return (Int32)this.GenerationParamValues[GenerationParam.Vertices];
         }
 
-        public override AbstractGraphModel CloneRandom()
+        public override AbstractGraphModel Clone()
         {
             AbstractGraphModel model = new WSModel(this.GenerationParamValues, 
                 this.AnalyzeOptions, 
-                this.AnalyzeOptionsValues);
-            model.TracingPath = this.TracingPath;
-            return model;
-        }
-
-        public override AbstractGraphModel CloneStatic()
-        {
-            AbstractGraphModel model = new WSModel(this.NeighbourshipMatrix,
-                this.AnalyzeOptions,
                 this.AnalyzeOptionsValues);
             model.TracingPath = this.TracingPath;
             return model;

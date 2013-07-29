@@ -10,7 +10,7 @@ using log4net;
 namespace Model.HierarchicModel.Realization
 {
     // Реализация генератор (Block-Hierarchic).
-    public class HierarchicGenerator : IGraphGenerator
+    public class HierarchicGenerator : AbstractGraphGenerator
     {
         // Организация работы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(HierarchicGenerator));
@@ -25,14 +25,20 @@ namespace Model.HierarchicModel.Realization
         }
 
         // Контейнер, в котором содержится сгенерированный граф.
-        public IGraphContainer Container
+        public override AbstractGraphContainer Container
         {
             get { return container; }
             set { container = (HierarchicContainer)value; }
         }
 
+        // Permanet Generation
+        public override void PermanentGeneration(Dictionary<GenerationParam, object> genParam)
+        {
+            throw new NotImplementedException();
+        }
+
         // Случайным образом генерируется граф, на основе параметров генерации.
-        public void RandomGeneration(Dictionary<GenerationParam, object> genParam)
+        protected override void RandomGeneration(Dictionary<GenerationParam, object> genParam)
         {
             log.Info("Random generation step started.");
             Int16 branchIndex = (Int16)genParam[GenerationParam.BranchIndex];
@@ -46,10 +52,10 @@ namespace Model.HierarchicModel.Realization
         }
 
         // Строится граф, на основе матрицы смежности.
-        public void StaticGeneration(ArrayList matrix)
+        protected override void StaticGeneration(string fileName)
         {
             log.Info("Static generation started.");
-            container.SetMatrix(matrix);
+            container.SetMatrix(fileName);
             log.Info("Static generation finished.");
         }
 
@@ -110,15 +116,5 @@ namespace Model.HierarchicModel.Realization
                 }
             }
         }
-
-        #region IGraphGenerator Members
-
-
-        public void PermanentGeneration(Dictionary<GenerationParam, object> genParam)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
     }
 }

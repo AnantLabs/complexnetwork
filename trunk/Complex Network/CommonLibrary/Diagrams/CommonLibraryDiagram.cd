@@ -151,18 +151,18 @@
       <FileName>Model\IGraphAnalyzer.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="CommonLibrary.Model.IGraphContainer" Collapsed="true">
+  <Interface Name="CommonLibrary.Model.AbstractGraphContainer" Collapsed="true">
     <Position X="2.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAgAAAAAAACACAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\IGraphContainer.cs</FileName>
+      <FileName>Model\AbstractGraphContainer.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="CommonLibrary.Model.IGraphGenerator" Collapsed="true">
+  <Interface Name="CommonLibrary.Model.AbstractGraphGenerator" Collapsed="true">
     <Position X="4" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAQAAQAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\IGraphGenerator.cs</FileName>
+      <FileName>Model\AbstractGraphGenerator.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="RandomGraph.Common.Model.IGraphModel" Collapsed="true">

@@ -57,9 +57,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("ERInput.txt");
             AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             double actualValue = analyzer.GetAveragePath();
@@ -75,9 +74,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("ERInput.txt");
             AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             SortedDictionary<double, int> actualValue = analyzer.GetClusteringCoefficient();
@@ -93,9 +91,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("ERInput.txt");
             AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetDegreeDistribution();
@@ -111,9 +108,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("ERInput.txt");
             AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             SortedDictionary<int, long> actualValue = analyzer.GetCycles(4, 6);
@@ -129,9 +125,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("ERInput.txt");
             AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             long actualValue = analyzer.GetCycles3();
@@ -147,9 +142,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("ERInput.txt");
             AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             long actualValue = analyzer.GetCycles4();
@@ -167,9 +161,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("ERInput.txt");
             AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetFullSubGraph();
@@ -185,9 +178,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("ERInput.txt");
             AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetMinPathDist();
@@ -203,9 +195,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("ERInput.txt");
             AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             SortedDictionary<double, int> actualValue = analyzer.GetDistEigenPath();
@@ -221,9 +212,8 @@ namespace ModelsTests
           {
               XMLResultStorage resultStorage = new XMLResultStorage("");
               ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
-              ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
               ERContainer container = new ERContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("ERInput.txt");
             IGraphAnalyzer analyzer = new ERAnalyzer(container);
          * 
               SortedDictionary<int, int> actualValue = analyzer.GetMotif();
@@ -238,9 +228,8 @@ namespace ModelsTests
           {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("ERInput.txt");
             IGraphAnalyzer analyzer = new ERAnalyzer(container);
          * 
               double actualValue = analyzer.GetDiameter();
@@ -256,9 +245,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("EROutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("ERInput.txt");
             ERContainer container = new ERContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("ERInput.txt");
             AbstarctGraphAnalyzer analyzer = new ERAnalyzer(container);
 
             ArrayList actualValue = analyzer.GetEigenValues();

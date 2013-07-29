@@ -21,7 +21,7 @@ namespace RandomGraph.Common.Model
     public abstract class AbstractGraphModel
     {
         // Генератор графа.
-        protected IGraphGenerator generator;
+        protected AbstractGraphGenerator generator;
         // Анализатор графа.
         protected AbstarctGraphAnalyzer analyzer;
         // События.
@@ -37,20 +37,6 @@ namespace RandomGraph.Common.Model
             Dictionary<AnalyzeOptionParam, Object> analyzeOptionsValues)
         {
             GenerationParamValues = genParam;
-            AnalyzeOptions = options;
-            AnalyzeOptionsValues = analyzeOptionsValues;
-
-            CurrentStatus = new GraphProgressStatus();
-            CurrentStatus.GraphProgress = GraphProgress.Initializing;
-        }
-
-        // Конструктор, в который входные параметры переходят от конструкторов дочерных классов.
-        // Передается матрица (подразумевается статическая генерация).
-        public AbstractGraphModel(ArrayList matrix, 
-            AnalyseOptions options, 
-            Dictionary<AnalyzeOptionParam, Object> analyzeOptionsValues)
-        {
-            NeighbourshipMatrix = matrix;
             AnalyzeOptions = options;
             AnalyzeOptionsValues = analyzeOptionsValues;
 
@@ -84,10 +70,8 @@ namespace RandomGraph.Common.Model
         public List<GenerationParam> RequiredGenerationParams { get; set; }
         // Свойства, которые доступны для вычисления для данной модели.
         public AnalyseOptions AvailableOptions { get; set; }
-        // Значения параметров генерации. null в случае статической генерации.
+        // Значения параметров генерации.
         public Dictionary<GenerationParam, object> GenerationParamValues { get; set; }
-        // Матрица смежности. null в случае динамической генерации.
-        public ArrayList NeighbourshipMatrix { get; set; }
         // Свойства, которые должны вычисляться.
         public AnalyseOptions AnalyzeOptions { get; set; }
         // Значения свойств.
@@ -119,14 +103,9 @@ namespace RandomGraph.Common.Model
                     }
                     else
                     {
-                        // Динамическая генерация
-                        generator.RandomGeneration(GenerationParamValues);
+                        // Динамическая или статическая генерация
+                        generator.Generation(GenerationParamValues);
                     }
-                }
-                else if (NeighbourshipMatrix != null)
-                {
-                    // Статическая генерация
-                    generator.StaticGeneration(NeighbourshipMatrix);
                 }
                 else
                 {
@@ -299,6 +278,11 @@ namespace RandomGraph.Common.Model
             return analyzer.Container.GetMatrix();
         }
 
+        public int[][] GetBranches()
+        {
+            return analyzer.Container.GetBranches();
+        }
+
         public abstract int GetNetworkSize();
 
         /// <summary>
@@ -314,12 +298,7 @@ namespace RandomGraph.Common.Model
         /// <summary>
         /// Create and return object of specific type
         /// </summary>
-        public abstract AbstractGraphModel CloneRandom();
-
-        /// <summary>
-        /// Create and return object of specific type
-        /// </summary>
-        public abstract AbstractGraphModel CloneStatic();
+        public abstract AbstractGraphModel Clone();
 
         /// <summary>
         /// Dump generated graph matrix into file
@@ -331,34 +310,35 @@ namespace RandomGraph.Common.Model
             System.IO.Directory.CreateDirectory(dir);
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath))
             {
-                try
+                bool[,] matrix = GetMatrix();
+                for (int i = 0; i < matrix.GetLength(0); ++i)
                 {
-                    bool[,] matrix = GetMatrix();
-                    for (int i = 0; i < matrix.GetLength(0); ++i)
+                    for (int j = 0; j < matrix.GetLength(1); ++j)
                     {
-                        for (int j = 0; j < matrix.GetLength(1); ++j)
+                        if (matrix[i, j])
                         {
-                            if (matrix[i, j])
-                            {
-                                file.Write(1 + " ");
-                            }
-                            else
-                            {
-                                file.Write(0 + " ");
-                            }
+                            file.Write(1 + " ");
                         }
-                        file.WriteLine("");
+                        else
+                        {
+                            file.Write(0 + " ");
+                        }
                     }
-                }
-                catch (Exception)
-                {
-
-                }
-                finally
-                {
-
+                    file.WriteLine("");
                 }
             }
+
+            try
+            {
+                int[][] branches = GetBranches();
+
+                filePath = dir + jobName + "_" + instanceIndex + "_dump_branches.txt";
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath))
+                {
+                    // add dump code
+                }
+            }
+            catch (NotImplementedException) { }
         }
 
         /// <summary>

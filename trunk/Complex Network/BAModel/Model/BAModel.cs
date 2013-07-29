@@ -48,33 +48,16 @@ namespace Model.BAModel
             InitModel();
         }
 
-        public BAModel(ArrayList matrix, AnalyseOptions options, 
-            Dictionary<AnalyzeOptionParam, Object> analizeOptionsValues)
-            : base(matrix, options, analizeOptionsValues)
-        {
-            log.Info("Creating BAModel object from matrix.");
-            InitModel();
-        }
-
         public override int GetNetworkSize()
         {
             return (Int32)this.GenerationParamValues[GenerationParam.Vertices] +
                 (Int32)this.GenerationParamValues[GenerationParam.StepCount];
         }
 
-        public override AbstractGraphModel CloneRandom()
+        public override AbstractGraphModel Clone()
         {
             AbstractGraphModel model = new BAModel(this.GenerationParamValues, 
                 this.AnalyzeOptions, 
-                this.AnalyzeOptionsValues);
-            model.TracingPath = this.TracingPath;
-            return model;
-        }
-
-        public override AbstractGraphModel CloneStatic()
-        {
-            AbstractGraphModel model = new BAModel(this.NeighbourshipMatrix,
-                this.AnalyzeOptions,
                 this.AnalyzeOptionsValues);
             model.TracingPath = this.TracingPath;
             return model;
