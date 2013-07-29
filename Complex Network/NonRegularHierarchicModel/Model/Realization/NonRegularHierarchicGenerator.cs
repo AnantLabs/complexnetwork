@@ -10,7 +10,7 @@ using log4net;
 namespace Model.NonRegularHierarchicModel.Realization
 {
     // Реализация генератор (Block-Hierarchic Non Regular).
-    public class NonRegularHierarchicGenerator : IGraphGenerator
+    public class NonRegularHierarchicGenerator : AbstractGraphGenerator
     {
         // Организация работы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(NonRegularHierarchicGenerator));
@@ -25,14 +25,20 @@ namespace Model.NonRegularHierarchicModel.Realization
         }
 
         // Контейнер, в котором содержится сгенерированный граф.
-        public IGraphContainer Container
+        public override AbstractGraphContainer Container
         {
             get { return container; }
             set { container = (NonRegularHierarchicContainer)value; }
         }
 
+        // Permanet Generation
+        public override void PermanentGeneration(Dictionary<GenerationParam, object> genParam)
+        {
+            throw new NotImplementedException();
+        }
+
         // Случайным образом генерируется граф, на основе параметров генерации.
-        public void RandomGeneration(Dictionary<GenerationParam, object> genParam)
+        protected override void RandomGeneration(Dictionary<GenerationParam, object> genParam)
         {
             log.Info("Random generation step started.");
             Int16 branchIndex = (Int16)genParam[GenerationParam.BranchIndex];
@@ -46,10 +52,10 @@ namespace Model.NonRegularHierarchicModel.Realization
         }
 
         // Строится граф, на основе матрицы смежности.
-        public void StaticGeneration(ArrayList matrix)
+        protected override void StaticGeneration(string fileName)
         {
             log.Info("Static generation started.");
-            container.SetMatrix(matrix);
+            container.SetMatrix(fileName);
             log.Info("Static generation finished.");
         }
 
@@ -70,15 +76,5 @@ namespace Model.NonRegularHierarchicModel.Realization
         {
             // addition
         }
-
-        #region IGraphGenerator Members
-
-
-        public void PermanentGeneration(Dictionary<GenerationParam, object> genParam)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
     }
 }

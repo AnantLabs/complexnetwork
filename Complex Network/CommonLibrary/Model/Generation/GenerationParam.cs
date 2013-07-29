@@ -45,6 +45,9 @@ namespace RandomGraph.Common.Model.Generation
         InitialProbability = 10,
 
         [GenerationParamInfo(Name = "Permanent", Type = typeof(bool))]
-        Permanent = 11
+        Permanent = 11,
+
+        [GenerationParamInfo(Name = "FileName", Type = typeof(string))]
+        FileName = 12
     }
 }

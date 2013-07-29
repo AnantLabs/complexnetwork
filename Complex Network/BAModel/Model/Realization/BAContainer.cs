@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 
 using CommonLibrary.Model;
+using GenericAlgorithms;
 using log4net;
 
 namespace Model.BAModel.Realization
 {
     // Реализация контейнера (BA).
-    public class BAContainer : IGraphContainer
+    public class BAContainer : AbstractGraphContainer
     {
         // Организация pаботы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(BAContainer));        
@@ -29,7 +30,7 @@ namespace Model.BAModel.Realization
         }
 
         // Размер контейнера (число вершин в графе).
-        public int Size
+        public override int Size
         {
             get { return size; }
             set
@@ -50,14 +51,16 @@ namespace Model.BAModel.Realization
         }
 
         // Списки соседей для вершин графа.
-        public  SortedDictionary<int, List<int>> Neighbourship
+        public SortedDictionary<int, List<int>> Neighbourship
         {
             get { return neighbourship; }
         }
 
         // Строится граф на основе матрицы смежности.
-        public void SetMatrix(ArrayList matrix)
+        public override void SetMatrix(string fileName)
         {
+            ArrayList matrix = MatrixFileReader.MatrixReader(fileName);
+
             log.Info("Creating BAContainer object from given matrix.");
             size = matrix.Count;
             neighbourship = new SortedDictionary<int, List<int>>();
@@ -70,7 +73,7 @@ namespace Model.BAModel.Realization
         }
 
         // Возвращается матрица смежности, соответсвующая графу.
-        public bool[,] GetMatrix()
+        public override bool[,] GetMatrix()
         {
             log.Info("Getting matrix from BAContainer object.");
             bool[,] matrix = new bool[neighbourship.Count, neighbourship.Count];
@@ -89,6 +92,11 @@ namespace Model.BAModel.Realization
             }
 
             return matrix;
+        }
+
+        public override int[][] GetBranches()
+        {
+            throw new NotImplementedException();
         }
 
         // Методы не из общего интерфейса.

@@ -571,31 +571,22 @@ namespace RandomGraphLauncher
             {
                 MessageBox.Show(this, "Unable load XML file", e.Message);
             }
-            ArrayList matrix;
-            try
-            {
-                matrix = MatrixFileReader.MatrixReader(inputMatrixPath.Text);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(this, "Unable load convert file to Arraylist", e.Message);
-                return;
-            }
+
             switch (modelName)
             {
                 case "Barabasi-Albert":
                     BAContainer baContainer = new BAContainer();
-                    baContainer.SetMatrix(matrix);
+                    baContainer.SetMatrix(inputMatrixPath.Text);
                     BAModelTest(baContainer);
                     break;
                 case "ERModel":
                     ERContainer erContainer = new ERContainer();
-                    erContainer.SetMatrix(matrix);
+                    erContainer.SetMatrix(inputMatrixPath.Text);
                     ERModelTest(erContainer);
                     break;
                 case "Watts-Strogatz":
                     WSContainer wsContainer = new WSContainer();
-                    wsContainer.SetMatrix(matrix);
+                    wsContainer.SetMatrix(inputMatrixPath.Text);
                     WSModelTest(wsContainer);
                     break;
                 default:

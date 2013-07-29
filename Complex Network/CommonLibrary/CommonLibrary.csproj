@@ -85,8 +85,8 @@
     <Compile Include="Model\AnalyseOptions\AnalyzeOptionParam.cs" />
     <Compile Include="Model\Attributes\AnalyzeOptionParamsInfo.cs" />
     <Compile Include="Model\Attributes\GraphModel.cs" />
-    <Compile Include="Model\IGraphContainer.cs" />
-    <Compile Include="Model\IGraphGenerator.cs" />
+    <Compile Include="Model\AbstractGraphContainer.cs" />
+    <Compile Include="Model\AbstractGraphGenerator.cs" />
     <Compile Include="Model\AbstarctGraphAnalyzer.cs" />
     <Compile Include="Model\AbstractGraphModel.cs" />
     <Compile Include="Model\AnalyseOptions\AnalyseOptions.cs" />

@@ -32,8 +32,6 @@ namespace RandomGraphLauncher.Controllers
         private Type modelType;
         // Значения параметров генерации.
         private Dictionary<GenerationParam, object> genParamValues;
-        // Имя файла для статической генерации.
-        private string filePath;
         // Выбранные свойства для анализа.
         private AnalyseOptions selectedOptions = AnalyseOptions.None;
         // Значения для некоторых свойств анализа.
@@ -75,28 +73,13 @@ namespace RandomGraphLauncher.Controllers
 
         public void Start(object[] invokeParams)
         {
-            if (Options.GenerationMode.randomGeneration == Options.Generation)
-            {
-                Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), 
+            Type[] constructTypes = new Type[] { typeof(Dictionary<GenerationParam, object>), 
                     typeof(AnalyseOptions), 
                     typeof(Dictionary<AnalyzeOptionParam, Object>) };
-                AbstractGraphModel graphModel = 
-                    (AbstractGraphModel)modelType.GetConstructor(constructTypes).Invoke(invokeParams);
-                graphModel.TracingPath = Options.TracingDirectory;
-                manager.Start(graphModel, instanceCount, jobName);
-            }
-            else if (Options.GenerationMode.staticGeneration == Options.Generation)
-            {
-                Type[] constructTypes = new Type[] { typeof(ArrayList), 
-                    typeof(AnalyseOptions), 
-                    typeof(Dictionary<AnalyzeOptionParam, Object>) };
-                invokeParams[0] = MatrixFileReader.MatrixReader(filePath);
-                AbstractGraphModel graphModel = 
-                    (AbstractGraphModel)modelType.GetConstructor(constructTypes).Invoke(invokeParams);
-                graphModel.TracingPath = Options.TracingDirectory;
-                manager.Start((AbstractGraphModel)modelType.GetConstructor(constructTypes).Invoke(invokeParams),
-                    instanceCount, jobName);
-            }
+            AbstractGraphModel graphModel =
+                (AbstractGraphModel)modelType.GetConstructor(constructTypes).Invoke(invokeParams);
+            graphModel.TracingPath = Options.TracingDirectory;
+            manager.Start(graphModel, instanceCount, jobName);
         }
 
         public void SetStatusChangedEventHandler(StatusChangedEventHandler manager_ExecutionStatusChange)
@@ -141,11 +124,6 @@ namespace RandomGraphLauncher.Controllers
         {
             get { return genParamValues; }
             set { genParamValues = value; }
-        }
-
-        public string FilePath
-        {
-            set { filePath = value; }
         }
 
         public AnalyseOptions SelectedOptions

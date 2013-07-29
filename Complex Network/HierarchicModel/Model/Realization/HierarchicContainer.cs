@@ -1,16 +1,16 @@
-﻿
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 
 using CommonLibrary.Model;
+using GenericAlgorithms;
 using ModelCheck;
 using log4net;
 
 namespace Model.HierarchicModel.Realization
 {
     // Реализация контейнера (Block-Hierarchic).
-    public class HierarchicContainer : IGraphContainer
+    public class HierarchicContainer : AbstractGraphContainer
     {
         // Организация pаботы с лог файлом.
         protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(HierarchicContainer));
@@ -31,7 +31,7 @@ namespace Model.HierarchicModel.Realization
         }
 
         // Размер контейнера (число вершин в графе).
-        public int Size 
+        public override int Size 
         {
             get { return (int)Math.Pow(branchIndex, level); }
             set { } // ??
@@ -55,8 +55,10 @@ namespace Model.HierarchicModel.Realization
         }
 
         // Строится граф на основе матрицы смежности.
-        public void SetMatrix(ArrayList matrix)
+        public override void SetMatrix(string fileName)
         {
+            ArrayList matrix = MatrixFileReader.MatrixReader(fileName);
+
             log.Info("Checking if given matrix is block-hierarchic.");
 
             // проверка на правильность входной матрицы (она должна быть иерархической)
@@ -151,7 +153,7 @@ namespace Model.HierarchicModel.Realization
         }
 
         // Возвращается матрица смежности, соответсвующая графу.
-        public bool[,] GetMatrix()
+        public override bool[,] GetMatrix()
         {
             log.Info("Getting matrix from HierarchicContainer object.");
 
@@ -165,6 +167,12 @@ namespace Model.HierarchicModel.Realization
             }
 
             return matrix;
+        }
+
+        public override int[][] GetBranches()
+        {
+            // add implementation
+            throw new NotImplementedException();
         }
 
         // Методы не из общего интерфейса.    

@@ -61,9 +61,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
             BAContainer container = new BAContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("BAInput.txt");
             AbstarctGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             double actualValue = analyzer.GetAveragePath();
@@ -79,9 +78,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
             BAContainer container = new BAContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("BAInput.txt");
             AbstarctGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             SortedDictionary<double, int> actualValue = analyzer.GetClusteringCoefficient();
@@ -97,9 +95,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
             BAContainer container = new BAContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("BAInput.txt");
             AbstarctGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetDegreeDistribution();
@@ -115,9 +112,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
             BAContainer container = new BAContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("BAInput.txt");
             AbstarctGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             SortedDictionary<int, long> actualValue = analyzer.GetCycles(4, 6);
@@ -133,9 +129,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
             BAContainer container = new BAContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("BAInput.txt");
             AbstarctGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             long actualValue = analyzer.GetCycles3();
@@ -151,9 +146,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
             BAContainer container = new BAContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("BAInput.txt");
             AbstarctGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             long actualValue = analyzer.GetCycles4();
@@ -169,9 +163,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
             BAContainer container = new BAContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("BAInput.txt");
             AbstarctGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetFullSubGraph();
@@ -187,9 +180,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
             BAContainer container = new BAContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("BAInput.txt");
             AbstarctGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetMinPathDist();
@@ -205,9 +197,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
             BAContainer container = new BAContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("BAInput.txt");
             AbstarctGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             SortedDictionary<double, int> actualValue = analyzer.GetDistEigenPath();
@@ -223,9 +214,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
             BAContainer container = new BAContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("BAInput.txt");
             AbstarctGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             SortedDictionary<int, float> actualValue = analyzer.GetMotivs(2, 4);
@@ -241,9 +231,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
             BAContainer container = new BAContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("BAInput.txt");
             AbstarctGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             double actualValue = analyzer.GetDiameter();
@@ -259,9 +248,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("BAOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("BAInput.txt");
             BAContainer container = new BAContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("BAInput.txt");
             AbstarctGraphAnalyzer analyzer = new BAAnalyzer(container);
 
             ArrayList actualValue = analyzer.GetEigenValues();

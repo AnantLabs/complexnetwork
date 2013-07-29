@@ -138,13 +138,6 @@ namespace RandomGraphLauncher.Controllers
             session[jobName].GenParamValues = values;
         }
 
-        // Передача имени файла (статическая генерация) для job-а в сессии с данным именем.
-        public static void SetFilePath(string jobName, string path)
-        {
-            log.Info("Setting file path for a job in the session.");
-            session[jobName].FilePath = path;
-        }
-
         // Передача выбранных свойств анализа для job-а в сессии с данным именем.
         public static void SetSelectedOptions(string jobName, AnalyseOptions opt)
         {

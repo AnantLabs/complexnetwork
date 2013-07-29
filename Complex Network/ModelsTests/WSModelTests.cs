@@ -61,9 +61,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
             WSContainer container = new WSContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("WSInput.txt");
             AbstarctGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             double actualValue = analyzer.GetAveragePath();
@@ -79,9 +78,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
             WSContainer container = new WSContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("WSInput.txt");
             AbstarctGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             SortedDictionary<double, int> actualValue = analyzer.GetClusteringCoefficient();
@@ -97,9 +95,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
             WSContainer container = new WSContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("WSInput.txt");
             AbstarctGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetDegreeDistribution();
@@ -115,9 +112,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
             WSContainer container = new WSContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("WSInput.txt");
             AbstarctGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             SortedDictionary<int, long> actualValue = analyzer.GetCycles(4, 6);
@@ -133,9 +129,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
             WSContainer container = new WSContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("WSInput.txt");
             AbstarctGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             long actualValue = analyzer.GetCycles3();
@@ -151,9 +146,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
             WSContainer container = new WSContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("WSInput.txt");
             AbstarctGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             long actualValue = analyzer.GetCycles3();
@@ -169,9 +163,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
             WSContainer container = new WSContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("WSInput.txt");
             AbstarctGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetFullSubGraph();
@@ -187,9 +180,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
             WSContainer container = new WSContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("WSInput.txt");
             AbstarctGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             SortedDictionary<int, int> actualValue = analyzer.GetMinPathDist();
@@ -205,9 +197,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
             WSContainer container = new WSContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("WSInput.txt");
             AbstarctGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             SortedDictionary<double, int> actualValue = analyzer.GetDistEigenPath();
@@ -223,7 +214,6 @@ namespace ModelsTests
           {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
             WSGraph graph = new WSGraph(matrix);
             IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
 
@@ -239,7 +229,6 @@ namespace ModelsTests
           {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
             WSGraph graph = new WSGraph(matrix);
             IGraphAnalyzer analyzer = new WSAnalyzer(graph.Container);
 
@@ -256,9 +245,8 @@ namespace ModelsTests
         {
             XMLResultStorage resultStorage = new XMLResultStorage("");
             ResultAssembly goldResult = resultStorage.LoadXML("WSOutput.xml");
-            ArrayList matrix = MatrixFileReader.MatrixReader("WSInput.txt");
             WSContainer container = new WSContainer();
-            container.SetMatrix(matrix);
+            container.SetMatrix("WSInput.txt");
             AbstarctGraphAnalyzer analyzer = new WSAnalyzer(container);
 
             ArrayList actualValue = analyzer.GetEigenValues();

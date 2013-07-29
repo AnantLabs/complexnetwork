@@ -47,32 +47,15 @@ namespace Model.ParisiHierarchicModel
             InitModel();
         }
 
-        public ParisiHierarchicModel(ArrayList matrix, AnalyseOptions options, 
-            Dictionary<AnalyzeOptionParam, Object> analizeOptionsValues)
-            : base(matrix, options, analizeOptionsValues)
-        {
-            log.Info("Creating Block-Hierarchic Parisi model object from matrix.");
-            InitModel();
-        }
-
         public override int GetNetworkSize()
         {
             return (int)Math.Pow((Int16)this.GenerationParamValues[GenerationParam.BranchIndex],
                 (Int16)this.GenerationParamValues[GenerationParam.Level]);
         }
 
-        public override AbstractGraphModel CloneRandom()
+        public override AbstractGraphModel Clone()
         {
             AbstractGraphModel model = new ParisiHierarchicModel(this.GenerationParamValues,
-                this.AnalyzeOptions,
-                this.AnalyzeOptionsValues);
-            model.TracingPath = this.TracingPath;
-            return model;
-        }
-
-        public override AbstractGraphModel CloneStatic()
-        {
-            AbstractGraphModel model = new ParisiHierarchicModel(this.NeighbourshipMatrix,
                 this.AnalyzeOptions,
                 this.AnalyzeOptionsValues);
             model.TracingPath = this.TracingPath;
