@@ -29,7 +29,7 @@ namespace Model.NonRegularHierarchicModel.Realization
         {
             log.Info("Creating NonRegularHierarchicContainer default object.");
             treeMatrix = new BitArray[0][];
-            branches = new int[0][];
+            //branches = new int[0][];
         }
 
         // Размер контейнера (число вершин в графе).
