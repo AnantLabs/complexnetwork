@@ -47,7 +47,7 @@ namespace Model.NonRegularHierarchicModel.Realization
 
             container.BranchIndex = branchIndex;
             container.Level = level;
-            Generate(mu);
+            container.TreeMatrix = Generate(mu);
             log.Info("Random generation step finished.");
         }
 
@@ -67,14 +67,82 @@ namespace Model.NonRegularHierarchicModel.Realization
         private const int ARRAY_MAX_SIZE = 2000000000;
 
         // Генерирует граф с данными параметрами. Сгенеририванный граф находится в контейнере.
-        private void Generate(Double m)
+        private BitArray[][] Generate(Double m)
         {
             // addition
+
+            BitArray[][] treeMatrix = new BitArray[container.Level][];
+            container.Branches = new int[container.Level][];
+
+            //for every level create datas, started with root
+            for (int i = 0; i < container.Level; ++i)
+            {
+                int levelVertexCount = 0;
+                if (i == 0)
+                {
+                    container.Branches[0] = new int[1];
+                    container.Branches[0][0] = rnd.Next(1, container.BranchIndex + 1);
+                    levelVertexCount = 1;
+                }
+                else
+                {
+                    for (int j = 0; j < container.Branches[i - 1].Length; ++j)
+                    {
+                        for (int k = 0; k < container.Branches[i - 1][j]; ++k)
+                        {
+                            ++levelVertexCount;
+                        }
+                    }
+                    container.Branches[i] = new int[levelVertexCount];
+                    for (int j = 0; j < levelVertexCount; ++j)
+                    {
+                        container.Branches[i][j] = rnd.Next(1, container.BranchIndex + 1);
+                    }
+                }
+
+                long dataLength = 0;
+                for (int j = 0; j < levelVertexCount; ++j)
+                {
+                    int nodeDataLength = container.Branches[i][j];
+                    dataLength += nodeDataLength * (nodeDataLength - 1) / 2;
+                }
+                int arrCount = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(dataLength) / ARRAY_MAX_SIZE));
+
+                treeMatrix[i] = new BitArray[arrCount];
+
+                if (arrCount > 0)
+                {
+                    int t;
+                    for (t = 0; t < arrCount - 1; ++t)
+                    {
+                        treeMatrix[i][t] = new BitArray(ARRAY_MAX_SIZE);
+                    }
+                    treeMatrix[i][t] = new BitArray(Convert.ToInt32(dataLength - (arrCount - 1) * ARRAY_MAX_SIZE));
+                }
+                //genereates data for current level nodes
+                GenerateData(treeMatrix, i, m);
+            }
+            return treeMatrix;
         }
 
-        private void GenerateData(int level, double m)
+        private void GenerateData(BitArray[][] treeMatrix, int level, double m)
         {
-            // addition
+            //loop over all elements of given level and generate him values
+            for (int i = 0; i < treeMatrix[level].Length; i++)
+            {
+                for (int j = 0; j < treeMatrix[level][i].Length; j++)
+                {
+                    double k = rnd.NextDouble();
+                    if (k <= (1 / Math.Pow(container.BranchIndex, level * m)))
+                    {
+                        treeMatrix[level][i][j] = true;
+                    }
+                    else
+                    {
+                        treeMatrix[level][i][j] = false;
+                    }
+                }
+            }
         }
     }
 }
