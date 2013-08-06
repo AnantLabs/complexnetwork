@@ -35,7 +35,18 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Размер контейнера (число вершин в графе).
         public override int Size
         {
-            get { return Branches[Branches.Length - 1].Length; }   // ??
+            get 
+            {
+                int vertexCount = 0;
+                for (int i = 0; i < Branches[Branches.Length - 1].Length; ++i)
+                {
+                    for (int j = 0; j < Branches[Branches.Length - 1][i]; ++j)
+                    {
+                        ++vertexCount;
+                    }
+                }
+                return vertexCount; 
+            }   // ??
             set { } // ??
         }
 
@@ -118,29 +129,30 @@ namespace Model.NonRegularHierarchicModel.Realization
                 {
                     --currentLevel;
                     bool groupsFound = false;
-                    int counter1 = 0, counter2 = 0;
-                    v1 = numberOfGroup1;
-                    v2 = numberOfGroup2;
+                    int counter = 0;
                     for (int i = 0; i < branches[currentLevel].Length - 1; ++i)
                     {
-                        for (int j = 0; i < branches[currentLevel][i]; ++j)
+                        for (int j = 0; j < branches[currentLevel][i]; ++j)
                         {
-                            if (counter1 == v1)
+                            if (counter == v1)
                             {
                                 numberOfGroup1 = i;
                             }
-                            if (counter2 == v2)
+                            if (counter == v2)
                             {
                                 numberOfGroup2 = i;
                                 groupsFound = true;
                                 break;
                             }
+                            ++counter;
                         }
                         if (groupsFound == true)
                         {
                             break;
                         }
                     }
+                    v1 = numberOfGroup1;
+                    v2 = numberOfGroup2;
                 } while (numberOfGroup1 != numberOfGroup2);
 
                 int branchSize = branches[currentLevel][numberOfGroup1];
