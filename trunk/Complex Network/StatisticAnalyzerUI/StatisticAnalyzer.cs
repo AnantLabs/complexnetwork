@@ -289,7 +289,7 @@ namespace StatisticAnalyzerUI
             analyzer.GlobalAnalyze();
             if (analyzer.Result.result.Keys.Count == 0)
             {
-                MessageBox.Show("There are no results!");
+                MessageBox.Show("There are no results!\nMaybe you need to run DB Optimizer tool.");
                 return;
             }
             StAnalyzeResult stResult = analyzer.Result;
@@ -340,7 +340,7 @@ namespace StatisticAnalyzerUI
             analyzer.GlobalAnalyze();
             if (analyzer.Result.result.Keys.Count == 0)
             {
-                MessageBox.Show("There are no results!");
+                MessageBox.Show("There are no results!\nMaybe you need to run DB Optimizer tool.");
                 return;
             }
             StAnalyzeResult result = analyzer.Result;
@@ -370,7 +370,7 @@ namespace StatisticAnalyzerUI
             analyzer.GlobalAnalyze();
             if (analyzer.Result.result.Keys.Count == 0)
             {
-                MessageBox.Show("There are no results!");
+                MessageBox.Show("There are no results!\nMaybe you need to run DB Optimizer tool.");
                 return;
             }
             StAnalyzeResult result = analyzer.Result;
@@ -400,7 +400,7 @@ namespace StatisticAnalyzerUI
             analyzer.LocalAnalyze();
             if (analyzer.Result.result.Keys.Count == 0)
             {
-                MessageBox.Show("There are no results!");
+                MessageBox.Show("There are no results!\nMaybe you need to run DB Optimizer tool.");
                 return;
             }
             StAnalyzeResult result = analyzer.Result;
@@ -460,7 +460,7 @@ namespace StatisticAnalyzerUI
             analyzer.LocalAnalyze();
             if (analyzer.Result.result.Keys.Count == 0)
             {
-                MessageBox.Show("There are no results!");
+                MessageBox.Show("There are no results!\nMaybe you need to run DB Optimizer tool.");
                 return;
             }
             StAnalyzeResult result = analyzer.Result;
@@ -493,7 +493,7 @@ namespace StatisticAnalyzerUI
             StAnalyzeResult result = analyzer.Result;
             if (result.trajectoryAvgs.Keys.Count == 0)
             {
-                MessageBox.Show("There are no results!");
+                MessageBox.Show("There are no results!\nMaybe you need to run DB Optimizer tool.");
                 return;
             }
 
@@ -1039,6 +1039,8 @@ namespace StatisticAnalyzerUI
                     show = true;
                 }
             }
+
+            message += "\n\nMaybe you need to run DB Optimizer tool.";
 
             if (show == true)
             {
