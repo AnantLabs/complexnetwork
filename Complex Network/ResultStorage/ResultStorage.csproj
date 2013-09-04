@@ -140,9 +140,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="SQLScripts\MSSQLSetup.sql" />
-    <Content Include="SQLScripts\OptimizationTablesCreation.sql" />
+    <Content Include="SQLScripts\OptimizationTablesCreation.sql">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="SQLScripts\StoredProcedures.sql" />
-    <Content Include="SQLScripts\UserDefinedFunctions.sql" />
+    <Content Include="SQLScripts\UserDefinedFunctions.sql">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

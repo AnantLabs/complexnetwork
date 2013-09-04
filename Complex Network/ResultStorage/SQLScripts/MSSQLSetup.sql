@@ -1,7 +1,5 @@
 /****** ComplexNetwork SQL Setup Script ******/
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[GraphModels]    Script Date: 02/21/2013 11:33:28 ******/
 SET ANSI_NULLS ON
 GO
@@ -17,8 +15,6 @@ CREATE TABLE [dbo].[GraphModels](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[GenerationParams]    Script Date: 02/21/2013 11:33:09 ******/
 SET ANSI_NULLS ON
 GO
@@ -34,8 +30,6 @@ CREATE TABLE [dbo].[GenerationParams](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[AnalyzeOptions]    Script Date: 02/21/2013 11:31:11 ******/
 SET ANSI_NULLS ON
 GO
@@ -51,8 +45,6 @@ CREATE TABLE [dbo].[AnalyzeOptions](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[AnalyzeOptionParams]    Script Date: 03/28/2013 11:22:42 ******/
 SET ANSI_NULLS ON
 GO
@@ -75,8 +67,6 @@ REFERENCES [dbo].[AnalyzeOptions] ([AnalyzeOptionID])
 GO
 ALTER TABLE [dbo].[AnalyzeOptionParams] CHECK CONSTRAINT [FK_AnalyzeOptionParams_AnalyzeOptions]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[Assemblies]    Script Date: 05/25/2013 15:43:55 ******/
 SET ANSI_NULLS ON
 GO
@@ -102,8 +92,6 @@ REFERENCES [dbo].[GraphModels] ([GraphModelID])
 GO
 ALTER TABLE [dbo].[Assemblies] CHECK CONSTRAINT [FK_Assemblies_GraphModel]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[GenerationParamValues]    Script Date: 02/21/2013 11:33:19 ******/
 SET ANSI_NULLS ON
 GO
@@ -131,8 +119,6 @@ REFERENCES [dbo].[GenerationParams] ([GenerationParamID])
 GO
 ALTER TABLE [dbo].[GenerationParamValues] CHECK CONSTRAINT [FK_GenerationParamValues_GenerationParams]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[AnalyzeOptionParamValues]    Script Date: 02/21/2013 11:34:28 ******/
 SET ANSI_NULLS ON
 GO
@@ -155,8 +141,6 @@ REFERENCES [dbo].[Assemblies] ([AssemblyID])
 GO
 ALTER TABLE [dbo].[AnalyzeOptionParamValues] CHECK CONSTRAINT [FK_AnalyzeOptionParamValues_Assemblies]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[AssemblyResults]    Script Date: 02/21/2013 11:31:57 ******/
 SET ANSI_NULLS ON
 GO
@@ -177,8 +161,6 @@ REFERENCES [dbo].[Assemblies] ([AssemblyID])
 GO
 ALTER TABLE [dbo].[AssemblyResults] CHECK CONSTRAINT [FK_AssemblyResults_Assemblies]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[AnalyzeResults]    Script Date: 02/21/2013 11:31:32 ******/
 SET ANSI_NULLS ON
 GO
@@ -206,8 +188,6 @@ REFERENCES [dbo].[AssemblyResults] ([ResultsID])
 GO
 ALTER TABLE [dbo].[AnalyzeResults] CHECK CONSTRAINT [FK_AnalyzeResults_AssemblyResults]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[Coefficients]    Script Date: 02/21/2013 11:32:09 ******/
 SET ANSI_NULLS ON
 GO
@@ -225,8 +205,6 @@ REFERENCES [dbo].[AssemblyResults] ([ResultsID])
 GO
 ALTER TABLE [dbo].[Coefficients] CHECK CONSTRAINT [FK_Coefficients_AssemblyResults]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[ConSubgraphs]    Script Date: 02/21/2013 11:32:19 ******/
 SET ANSI_NULLS ON
 GO
@@ -244,8 +222,6 @@ REFERENCES [dbo].[AssemblyResults] ([ResultsID])
 GO
 ALTER TABLE [dbo].[ConSubgraphs] CHECK CONSTRAINT [FK_ConSubgraphs_AssemblyResults]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[VertexDegree]    Script Date: 02/21/2013 11:34:00 ******/
 SET ANSI_NULLS ON
 GO
@@ -263,8 +239,6 @@ REFERENCES [dbo].[AssemblyResults] ([ResultsID])
 GO
 ALTER TABLE [dbo].[VertexDegree] CHECK CONSTRAINT [FK_VertexDegree_AssemblyResults]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[FullSubgraphs]    Script Date: 02/21/2013 11:32:59 ******/
 SET ANSI_NULLS ON
 GO
@@ -282,8 +256,6 @@ REFERENCES [dbo].[AssemblyResults] ([ResultsID])
 GO
 ALTER TABLE [dbo].[FullSubgraphs] CHECK CONSTRAINT [FK_FullSubgraphs_AssemblyResults]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[EigenValues]    Script Date: 02/21/2013 11:32:39 ******/
 SET ANSI_NULLS ON
 GO
@@ -300,8 +272,6 @@ REFERENCES [dbo].[AssemblyResults] ([ResultsID])
 GO
 ALTER TABLE [dbo].[EigenValues] CHECK CONSTRAINT [FK_EigenValues_AssemblyResults]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[EigenValuesDistance]    Script Date: 02/21/2013 11:32:48 ******/
 SET ANSI_NULLS ON
 GO
@@ -319,8 +289,6 @@ REFERENCES [dbo].[AssemblyResults] ([ResultsID])
 GO
 ALTER TABLE [dbo].[EigenValuesDistance] CHECK CONSTRAINT [FK_EigenValuesDistance_AssemblyResults]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[Cycles]    Script Date: 02/21/2013 11:32:31 ******/
 SET ANSI_NULLS ON
 GO
@@ -338,8 +306,6 @@ REFERENCES [dbo].[AssemblyResults] ([ResultsID])
 GO
 ALTER TABLE [dbo].[Cycles] CHECK CONSTRAINT [FK_Cycles_AssemblyResults]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[Motifs]    Script Date: 02/21/2013 11:33:36 ******/
 SET ANSI_NULLS ON
 GO
@@ -357,8 +323,6 @@ REFERENCES [dbo].[AssemblyResults] ([ResultsID])
 GO
 ALTER TABLE [dbo].[Motifs] CHECK CONSTRAINT [FK_Motifs_AssemblyResults]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[Triangles]    Script Date: 02/21/2013 11:33:43 ******/
 SET ANSI_NULLS ON
 GO
@@ -376,8 +340,6 @@ REFERENCES [dbo].[AssemblyResults] ([ResultsID])
 GO
 ALTER TABLE [dbo].[Triangles] CHECK CONSTRAINT [FK_Triangles_AssemblyResults]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[TriangleTrajectory]    Script Date: 02/21/2013 11:33:51 ******/
 SET ANSI_NULLS ON
 GO
@@ -395,8 +357,6 @@ REFERENCES [dbo].[AssemblyResults] ([ResultsID])
 GO
 ALTER TABLE [dbo].[TriangleTrajectory] CHECK CONSTRAINT [FK_TriangleTrajectory_AssemblyResults]
 
-USE [ComplexNetwork]
-GO
 /****** Object:  Table [dbo].[VertexDistance]    Script Date: 02/21/2013 11:34:09 ******/
 SET ANSI_NULLS ON
 GO
@@ -464,4 +424,3 @@ INSERT INTO AnalyzeOptionParams(AnalyzeOptionParamID,AnalyzeOptionID,[Name],[Typ
 INSERT INTO AnalyzeOptionParams(AnalyzeOptionParamID,AnalyzeOptionID,[Name],[Type]) VALUES(4,1024,'MotifsHigh','Int16')
 INSERT INTO AnalyzeOptionParams(AnalyzeOptionParamID,AnalyzeOptionID,[Name],[Type]) VALUES(5,1048576,'TrajectoryMu','Double')
 INSERT INTO AnalyzeOptionParams(AnalyzeOptionParamID,AnalyzeOptionID,[Name],[Type]) VALUES(6,1048576,'TrajectoryStepCount','BigInteger')
-
