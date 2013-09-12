@@ -169,7 +169,7 @@ namespace RandomGraphLauncher.Controllers
             }
             else
             {
-                manager = new MultiTreadGraphManager(Options.StorageManager);
+                manager = new MultiThreadGraphManager(Options.StorageManager);
             }
             manager.GenerationMode = Options.Generation;
             manager.TracingMode = Options.TracingMode;

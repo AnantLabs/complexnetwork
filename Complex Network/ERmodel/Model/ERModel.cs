@@ -59,11 +59,6 @@ namespace Model.ERModel
             InitModel();
         }
 
-        public override int GetNetworkSize()
-        {
-            return (Int32)this.GenerationParamValues[GenerationParam.Vertices];
-        }
-
         public override AbstractGraphModel Clone()
         {
             AbstractGraphModel model = new ERModel(this.GenerationParamValues,

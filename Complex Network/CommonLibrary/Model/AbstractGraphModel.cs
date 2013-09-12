@@ -134,6 +134,7 @@ namespace RandomGraph.Common.Model
             InvokeProgressEvent(GraphProgress.StartingAnalyzing);
 
             analyzer.Container = generator.Container;
+            Result.Size = generator.Container.Size;
 
             try
             {
@@ -282,8 +283,6 @@ namespace RandomGraph.Common.Model
         {
             return analyzer.Container.GetBranches();
         }
-
-        public abstract int GetNetworkSize();
 
         /// <summary>
         /// Check input generation parameters. 

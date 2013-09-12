@@ -48,12 +48,6 @@ namespace Model.HierarchicModel
             InitModel();
         }
 
-        public override int GetNetworkSize()
-        {
-            return (int)Math.Pow((Int16)this.GenerationParamValues[GenerationParam.BranchIndex],
-                (Int16)this.GenerationParamValues[GenerationParam.Level]);
-        }
-
         public override AbstractGraphModel Clone()
         {
             AbstractGraphModel model = new HierarchicModel(this.GenerationParamValues,

@@ -50,11 +50,6 @@ namespace Model.WSModel
             InitModel();
         }
 
-        public override int GetNetworkSize()
-        {
-            return (Int32)this.GenerationParamValues[GenerationParam.Vertices];
-        }
-
         public override AbstractGraphModel Clone()
         {
             AbstractGraphModel model = new WSModel(this.GenerationParamValues, 

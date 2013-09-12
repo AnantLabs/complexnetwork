@@ -77,8 +77,6 @@ CREATE TABLE [dbo].[Assemblies](
 	[ModelID] [int] NOT NULL,
 	[Name] [nvarchar](250) NOT NULL,
 	[Date] [datetime] NOT NULL,
-	[NetworkSize] [int] NOT NULL,
-	[FileName] [nvarchar](250) NOT NULL CONSTRAINT [DF_Assemblies_FileName]  DEFAULT (N'none'),
 	[OptTables] [bit] NOT NULL CONSTRAINT [DF_Assemblies_OptTables]  DEFAULT ((0)),
  CONSTRAINT [PK_Assemblies] PRIMARY KEY CLUSTERED 
 (
@@ -100,7 +98,7 @@ GO
 CREATE TABLE [dbo].[GenerationParamValues](
 	[AssemblyID] [uniqueidentifier] NOT NULL,
 	[GenerationParamID] [int] NOT NULL,
-	[Value] [nvarchar](50) NOT NULL,
+	[Value] [nvarchar](256) NOT NULL,
  CONSTRAINT [PK_GenerationParamValues] PRIMARY KEY CLUSTERED 
 (
 	[AssemblyID] ASC,
@@ -149,6 +147,7 @@ GO
 CREATE TABLE [dbo].[AssemblyResults](
 	[ResultsID] [int] IDENTITY(1,1) NOT NULL,
 	[AssemblyID] [uniqueidentifier] NOT NULL,
+	[NetworkSize] [int] NOT NULL,
  CONSTRAINT [PK_AssemblyResults_1] PRIMARY KEY CLUSTERED 
 (
 	[ResultsID] ASC
@@ -417,6 +416,7 @@ INSERT INTO GenerationParams(GenerationParamID,[Name],[Type]) VALUES(8,'StepCoun
 INSERT INTO GenerationParams(GenerationParamID,[Name],[Type]) VALUES(9,'InitialStep','String')
 INSERT INTO GenerationParams(GenerationParamID,[Name],[Type]) VALUES(10,'InitialProbability','Double')
 INSERT INTO GenerationParams(GenerationParamID,[Name],[Type]) VALUES(11,'Permanent','Boolean')
+INSERT INTO GenerationParams(GenerationParamID,[Name],[Type]) VALUES(12,'FileName','String')
 
 INSERT INTO AnalyzeOptionParams(AnalyzeOptionParamID,AnalyzeOptionID,[Name],[Type]) VALUES(1,262144,'CyclesLow','Int16')
 INSERT INTO AnalyzeOptionParams(AnalyzeOptionParamID,AnalyzeOptionID,[Name],[Type]) VALUES(2,262144,'CyclesHigh','Int16')
