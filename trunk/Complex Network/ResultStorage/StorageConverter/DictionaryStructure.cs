@@ -32,9 +32,9 @@ namespace ResultStorage.StorageConverter
             DirectoryInfo d = new DirectoryInfo(fullName);
 
             result = new ResultAssembly();
-            // !Исправить!
-            result.Name = result.ID.ToString(); 
-            result.FileName = d.Name;
+
+            // !Исправить! - подумать.
+            result.Name = d.Name; 
 
             ReadHeader(d.GetFiles()[0].FullName);
 
@@ -66,8 +66,7 @@ namespace ResultStorage.StorageConverter
                 }
 
                 this.realizationsCount = Int32.Parse(contents.Substring(18));
-                // !Исправить! размер должен быть для каждой реализации (из-за нерегулярных сетей).
-                this.result.Size = Int32.Parse(streamReader.ReadLine().Substring(5));
+                streamReader.ReadLine();    // Опустить строку размера реализации.
 
                 this.result.AnalizeOptions = (AnalyseOptions)Enum.Parse(typeof(AnalyseOptions),
                     streamReader.ReadLine().Substring(18));
@@ -86,9 +85,12 @@ namespace ResultStorage.StorageConverter
             using (StreamReader streamReader = 
                 new StreamReader(fileFullName, System.Text.Encoding.Default))
             {
+                string contents;
+                while (!(contents = streamReader.ReadLine()).Contains("Size=")) { }
+                res.Size = Int32.Parse(contents.Substring(5));
+
                 while (streamReader.ReadLine() != "-") { }
 
-                string contents;
                 while ((contents = streamReader.ReadLine()) != null)
                 {
                     string first = "", second = "";

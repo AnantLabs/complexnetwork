@@ -32,6 +32,8 @@ namespace RandomGraph.Common.Model.Result
 
         public int InstanceID { get; set; }
 
+        public int Size { get; set; }
+
         public SortedDictionary<AnalyseOptions, double> Result { get; set; }
 
         public SortedDictionary<int, int> VertexDegree { get; set; }

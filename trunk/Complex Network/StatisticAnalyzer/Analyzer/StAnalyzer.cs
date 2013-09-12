@@ -61,7 +61,7 @@ namespace StatisticAnalyzer.Analyzer
                     {
                         sumOfCoeffs += key * assemblyToAnalyze[i].Results[j].Coefficient[key];
                     }
-                    sumOfCoeffs /= assemblyToAnalyze[i].Size;
+                    sumOfCoeffs /= assemblyToAnalyze[i].Results[j].Size;
                     double index = (rValues.Count != 0) ? rValues.Last().Key : 0;
                     rValues.Add(index + 1, sumOfCoeffs);
                 }
@@ -86,7 +86,7 @@ namespace StatisticAnalyzer.Analyzer
                     {
                         sumOfDegrees += key * assemblyToAnalyze[i].Results[j].VertexDegree[key];
                     }
-                    sumOfDegrees /= assemblyToAnalyze[i].Size;
+                    sumOfDegrees /= assemblyToAnalyze[i].Results[j].Size;
                     double index = (rValues.Count != 0) ? rValues.Last().Key : 0;
                     rValues.Add(index + 1, sumOfDegrees);
                 }
@@ -101,10 +101,10 @@ namespace StatisticAnalyzer.Analyzer
             SortedDictionary<double, double> r = new SortedDictionary<double, double>();
             for (int i = 0; i < assemblyToAnalyze.Count(); ++i)
             {
-                int size = assemblyToAnalyze[i].Size;
-                int instanceCount = assemblyToAnalyze[i].Results.Count;
+                int size, instanceCount = assemblyToAnalyze[i].Results.Count;
                 for (int j = 0; j < instanceCount; ++j)
                 {
+                    size = assemblyToAnalyze[i].Results[j].Size;
                     SortedDictionary<double, int> CCDictionary =
                         assemblyToAnalyze[i].Results[j].Coefficient;
                     SortedDictionary<double, int>.KeyCollection keyColl = CCDictionary.Keys;
@@ -269,10 +269,10 @@ namespace StatisticAnalyzer.Analyzer
             SortedDictionary<int, int> tempDictionary;
             for (int i = 0; i < assemblyToAnalyze.Count(); ++i)
             {
-                int size = assemblyToAnalyze[i].Size;
-                int instanceCount = assemblyToAnalyze[i].Results.Count();
+                int size, instanceCount = assemblyToAnalyze[i].Results.Count();
                 for (int j = 0; j < instanceCount; ++j)
                 {
+                    size = assemblyToAnalyze[i].Results[j].Size;
                     switch (option)
                     {
                         case AnalyseOptions.DegreeDistribution:

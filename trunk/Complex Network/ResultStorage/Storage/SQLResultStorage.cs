@@ -147,8 +147,6 @@ namespace ResultStorage.Storage
                             result.ModelType = GetModelType((int)dr["ModelID"]);
                             result.ModelName = result.ModelType.Name;
                             result.Name = (string)dr["Name"];
-                            result.Size = (int)dr["NetworkSize"];
-                            result.FileName = (string)dr["FileName"];
                         }
                     }
                 }
@@ -189,8 +187,6 @@ namespace ResultStorage.Storage
                             result.ModelType = GetModelType((int)dr["ModelID"]);
                             result.ModelName = result.ModelType.Name;
                             result.Name = (string)dr["Name"];
-                            result.Size = (int)dr["NetworkSize"];
-                            result.FileName = (string)dr["FileName"];
                         }
                     }
                 }
@@ -780,8 +776,8 @@ namespace ResultStorage.Storage
             log.Info("Saving data to Assemblies table.");
             using (DbCommand cmd = conn.CreateCommand())
             {
-                string sqlQuery = "INSERT INTO Assemblies(AssemblyID,ModelID,Name,Date,NetworkSize,FileName)" +
-                    "VALUES(@AssemblyID,@ModelID,@Name,getDate(),@NetworkSize,@FileName)";
+                string sqlQuery = "INSERT INTO Assemblies(AssemblyID,ModelID,Name,Date)" +
+                    "VALUES(@AssemblyID,@ModelID,@Name,getDate())";
                 cmd.CommandText = sqlQuery;
                 cmd.CommandType = CommandType.Text;
 
@@ -799,16 +795,6 @@ namespace ResultStorage.Storage
                 dpName.ParameterName = "Name";
                 dpName.Value = assembly.Name;
                 cmd.Parameters.Add(dpName);
-
-                DbParameter dpSize = provider.CreateParameter();
-                dpSize.ParameterName = "NetworkSize";
-                dpSize.Value = assembly.Size;
-                cmd.Parameters.Add(dpSize);
-
-                DbParameter dpFileName = provider.CreateParameter();
-                dpFileName.ParameterName = "FileName";
-                dpFileName.Value = assembly.FileName;
-                cmd.Parameters.Add(dpFileName);
 
                 cmd.ExecuteNonQuery();
             }
@@ -909,7 +895,7 @@ namespace ResultStorage.Storage
                 int resultsID = 0;
                 using (DbCommand cmd = conn.CreateCommand())
                 {
-                    string sqlQuery = "INSERT INTO AssemblyResults(AssemblyID) VALUES(@AssemblyID) " +
+                    string sqlQuery = "INSERT INTO AssemblyResults(AssemblyID,NetworkSize) VALUES(@AssemblyID,@NetworkSize) " +
                                         "SELECT ResultsID FROM AssemblyResults WHERE ResultsID=SCOPE_IDENTITY()";
                     cmd.CommandText = sqlQuery;
                     cmd.CommandType = CommandType.Text;
@@ -918,6 +904,11 @@ namespace ResultStorage.Storage
                     dpAssemblyID.ParameterName = "AssemblyID";
                     dpAssemblyID.Value = assembly.ID;
                     cmd.Parameters.Add(dpAssemblyID);
+
+                    DbParameter dpNetworkSize = provider.CreateParameter();
+                    dpNetworkSize.ParameterName = "NetworkSize";
+                    dpNetworkSize.Value = result.Size;
+                    cmd.Parameters.Add(dpNetworkSize);
 
                     resultsID = (int)cmd.ExecuteScalar();
                 }
@@ -1286,7 +1277,7 @@ namespace ResultStorage.Storage
             log.Info("Loading data from tables Assemblies, GenerationParamValues, AnalyzeOptionParamValues.");
             using (DbCommand cmd = conn.CreateCommand())
             {
-                string sqlQuery = "SELECT Assemblies.[Name], Assemblies.ModelID, Assemblies.NetworkSize, Assemblies.FileName,GenerationParamValues.* FROM Assemblies " +
+                string sqlQuery = "SELECT Assemblies.[Name], Assemblies.ModelID, GenerationParamValues.* FROM Assemblies " +
                                     "LEFT JOIN GenerationParamValues ON GenerationParamValues.AssemblyID=Assemblies.AssemblyID " +
                                     "WHERE Assemblies.AssemblyID=@AssemblyID ORDER BY GenerationParamID";
                 cmd.CommandText = sqlQuery;
@@ -1303,8 +1294,6 @@ namespace ResultStorage.Storage
                     {
                         resultAssembly.ModelType = GetModelType((int)dr["ModelID"]);
                         resultAssembly.Name = (string)dr["Name"];
-                        resultAssembly.Size = (int)dr["NetworkSize"];
-                        resultAssembly.FileName = (string)dr["FileName"];
 
                         GenerationParam param = (GenerationParam)Enum.ToObject(typeof(GenerationParam),
                             (int)dr["GenerationParamID"]);
@@ -1503,7 +1492,7 @@ namespace ResultStorage.Storage
             log.Info("Loading analyze results data.");
             using (DbCommand mainCmd = conn.CreateCommand())
             {
-                string sql = "SELECT ResultsID FROM AssemblyResults WHERE AssemblyID=@AssemblyID";
+                string sql = "SELECT ResultsID, NetworkSize FROM AssemblyResults WHERE AssemblyID=@AssemblyID";
                 mainCmd.CommandText = sql;
                 mainCmd.CommandType = CommandType.Text;
 
@@ -1512,18 +1501,20 @@ namespace ResultStorage.Storage
                 dpID.Value = assemblyID;
                 mainCmd.Parameters.Add(dpID);
 
-                List<int> resultIDs = new List<int>();
+                List<KeyValuePair<int,int>> resultInfos = new List<KeyValuePair<int,int>>();
                 using (DbDataReader mainReader = mainCmd.ExecuteReader())
                 {
                     while (mainReader.Read())
                     {
-                        resultIDs.Add((int)mainReader["ResultsID"]);
+                        resultInfos.Add(new KeyValuePair<int,int>((int)mainReader["ResultsID"],
+                            (int)mainReader["NetworkSize"]));
                     }
                 }
 
-                foreach (int resultID in resultIDs)
+                foreach (KeyValuePair<int, int> info in resultInfos)
                 {
                     AnalizeResult result = new AnalizeResult();
+                    result.Size = info.Value;
                     resultAssembly.Results.Add(result);
 
                     using (DbCommand cmd = conn.CreateCommand())
@@ -1534,14 +1525,15 @@ namespace ResultStorage.Storage
 
                         DbParameter dpResultsID = provider.CreateParameter();
                         dpResultsID.ParameterName = "ResultsID";
-                        dpResultsID.Value = resultID;
+                        dpResultsID.Value = info.Key;
                         cmd.Parameters.Add(dpResultsID);
 
                         using (DbDataReader dr = cmd.ExecuteReader())
                         {
                             while (dr.Read())
                             {
-                                result.Result.Add((AnalyseOptions)Enum.ToObject(typeof(AnalyseOptions), dr["AnalyzeOptionID"]), Convert.ToDouble(dr["Result"]));
+                                result.Result.Add((AnalyseOptions)Enum.ToObject(typeof(AnalyseOptions), 
+                                    dr["AnalyzeOptionID"]), Convert.ToDouble(dr["Result"]));
                             }
                         }
                     }
@@ -1555,7 +1547,7 @@ namespace ResultStorage.Storage
 
                         DbParameter dpResultsID = provider.CreateParameter();
                         dpResultsID.ParameterName = "ResultsID";
-                        dpResultsID.Value = resultID;
+                        dpResultsID.Value = info.Key;
                         cmd.Parameters.Add(dpResultsID);
 
                         using (DbDataReader dr = cmd.ExecuteReader())
@@ -1576,7 +1568,7 @@ namespace ResultStorage.Storage
 
                         DbParameter dpResultsID = provider.CreateParameter();
                         dpResultsID.ParameterName = "ResultsID";
-                        dpResultsID.Value = resultID;
+                        dpResultsID.Value = info.Key;
                         cmd.Parameters.Add(dpResultsID);
 
                         using (DbDataReader dr = cmd.ExecuteReader())
@@ -1597,7 +1589,7 @@ namespace ResultStorage.Storage
 
                         DbParameter dpResultsID = provider.CreateParameter();
                         dpResultsID.ParameterName = "ResultsID";
-                        dpResultsID.Value = resultID;
+                        dpResultsID.Value = info.Key;
                         cmd.Parameters.Add(dpResultsID);
 
                         using (DbDataReader dr = cmd.ExecuteReader())
@@ -1618,7 +1610,7 @@ namespace ResultStorage.Storage
 
                         DbParameter dpResultsID = provider.CreateParameter();
                         dpResultsID.ParameterName = "ResultsID";
-                        dpResultsID.Value = resultID;
+                        dpResultsID.Value = info.Key;
                         cmd.Parameters.Add(dpResultsID);
 
                         using (DbDataReader dr = cmd.ExecuteReader())
@@ -1639,7 +1631,7 @@ namespace ResultStorage.Storage
 
                         DbParameter dpResultsID = provider.CreateParameter();
                         dpResultsID.ParameterName = "ResultsID";
-                        dpResultsID.Value = resultID;
+                        dpResultsID.Value = info.Key;
                         cmd.Parameters.Add(dpResultsID);
 
                         using (DbDataReader dr = cmd.ExecuteReader())
@@ -1660,7 +1652,7 @@ namespace ResultStorage.Storage
 
                         DbParameter dpResultsID = provider.CreateParameter();
                         dpResultsID.ParameterName = "ResultsID";
-                        dpResultsID.Value = resultID;
+                        dpResultsID.Value = info.Key;
                         cmd.Parameters.Add(dpResultsID);
 
                         using (DbDataReader dr = cmd.ExecuteReader())
@@ -1681,7 +1673,7 @@ namespace ResultStorage.Storage
 
                         DbParameter dpResultsID = provider.CreateParameter();
                         dpResultsID.ParameterName = "ResultsID";
-                        dpResultsID.Value = resultID;
+                        dpResultsID.Value = info.Key;
                         cmd.Parameters.Add(dpResultsID);
 
                         using (DbDataReader dr = cmd.ExecuteReader())

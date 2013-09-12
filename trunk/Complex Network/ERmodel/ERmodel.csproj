@@ -70,9 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\ERModel.cs" />
-    <Compile Include="Model\Realization\CountCylces1\CyclesCounter.cs" />
-    <Compile Include="Model\Realization\CountCylces1\CyclesCounterSingleThreaded.cs" />
-    <Compile Include="Model\Realization\CountCylces1\CyclesParrallelCounter.cs" />
+    <Compile Include="Model\Realization\CountCylces\CyclesCounter.cs" />
+    <Compile Include="Model\Realization\CountCylces\CyclesCounterSingleThreaded.cs" />
+    <Compile Include="Model\Realization\CountCylces\CyclesParrallelCounter.cs" />
     <Compile Include="Model\Realization\ERGenerator.cs" />
     <Compile Include="Model\Realization\ERAnalyzer.cs" />
     <Compile Include="Model\Realization\ERContainer.cs" />

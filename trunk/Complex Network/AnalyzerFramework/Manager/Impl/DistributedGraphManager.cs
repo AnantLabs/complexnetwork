@@ -161,9 +161,6 @@ namespace AnalyzerFramework.Manager.Impl
             Assembly.ModelName = Assembly.ModelType.Name;
             Assembly.Name = name;
 
-            if (Options.GenerationMode.randomGeneration == Options.Generation)
-                Assembly.Size = model.GetNetworkSize();
-
             OnExecutionStatusChange(new ExecutionStatusEventArgs(ExecutionStatus.Starting));
 
             modelsCountInEachService = (iterations / services.Count) ;

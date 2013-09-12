@@ -33,7 +33,7 @@ namespace StatisticAnalyzer.Analyzer
                 result = new StAnalyzeResult();
 
                 result.modelName = assemblyToAnalyze[0].ModelType.Name;
-                result.networkSize = assemblyToAnalyze[0].Size;
+                result.networkSize = assemblyToAnalyze[0].Results[0].Size;
                 result.parameterLine = GetParameterLine();
                 result.realizationsCount = GetRealizationsCount();
             }

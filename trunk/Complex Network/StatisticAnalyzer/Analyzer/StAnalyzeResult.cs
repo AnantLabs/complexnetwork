@@ -19,6 +19,7 @@ namespace StatisticAnalyzer.Analyzer
         public StAnalyzeType type;
         public string modelName;
         public string parameterLine;
+        // !Исправить! - размер сети (одной реализации)?
         public int networkSize;
         public int realizationsCount;
         public Viewer.ApproximationTypes approximationType;
