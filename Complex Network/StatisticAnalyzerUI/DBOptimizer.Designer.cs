@@ -147,6 +147,7 @@
             this.Name = "DBOptimizer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DB Optimizer";
+            this.Load += new System.EventHandler(this.DBOptimizer_Load);
             this.sqlConnectionGrp.ResumeLayout(false);
             this.sqlConnectionGrp.PerformLayout();
             this.ResumeLayout(false);
