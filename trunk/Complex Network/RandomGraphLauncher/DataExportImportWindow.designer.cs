@@ -294,6 +294,7 @@
             this.Name = "DataExportImportWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Data Export&Import";
+            this.Load += new System.EventHandler(this.DataExportImportWindow_Load);
             this.xmlStorageGrp.ResumeLayout(false);
             this.xmlStorageGrp.PerformLayout();
             this.sqlStorageGrp.ResumeLayout(false);

@@ -132,5 +132,16 @@ namespace StatisticAnalyzerUI
             this.AllJobsRadio.Enabled = !freeze;
             this.startOptimizationBtn.Enabled = !freeze;
         }
+
+        private void DBOptimizer_Load(object sender, EventArgs e)
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            string connection = config.AppSettings.Settings["SQLProvider"].Value;
+            this.connectionStringTxt.Text = 
+                config.ConnectionStrings.ConnectionStrings[connection].ConnectionString;
+
+            sqlStorage = new SQLResultStorage(new ConnectionStringSettings("temporaryconnection",
+                    this.connectionStringTxt.Text, "System.Data.SqlClient"));
+        }
     }
 }

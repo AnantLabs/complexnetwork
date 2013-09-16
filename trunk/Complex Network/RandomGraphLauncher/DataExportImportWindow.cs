@@ -15,6 +15,7 @@ using RandomGraph.Common.Storage;
 using ResultStorage.Storage;
 using CommonLibrary.Model.Result;
 using ResultStorage.StorageConverter;
+using RandomGraph.Settings;
 
 namespace RandomGraphLauncher
 {
@@ -184,6 +185,12 @@ namespace RandomGraphLauncher
                         break;
                     }
             }
+        }
+
+        private void DataExportImportWindow_Load(object sender, EventArgs e)
+        {
+            this.sqlStorageConnTxt.Text = Options.ConnectionString;
+            this.connectionStringTxt.Text = Options.ConnectionString;
         }
     }
 }
