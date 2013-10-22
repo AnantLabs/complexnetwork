@@ -166,6 +166,7 @@ namespace RandomGraphLauncher
             this.mainControl.Size = new System.Drawing.Size(1134, 638);
             this.mainControl.TabIndex = 0;
             this.mainControl.TabStop = false;
+            this.mainControl.Visible = false;
             this.mainControl.OnClose += new MyControlLibrary.TabCtlEx.OnHeaderCloseDelegate(this.mainControl_OnClose);
             // 
             // mainWindow
@@ -173,6 +174,8 @@ namespace RandomGraphLauncher
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.BackgroundImage = global::RandomGraphLauncher.Properties.Resources.networkImage;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1134, 662);
             this.Controls.Add(this.mainControl);
             this.Controls.Add(this.mainMenu);

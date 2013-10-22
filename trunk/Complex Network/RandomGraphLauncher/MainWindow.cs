@@ -32,6 +32,7 @@ namespace RandomGraphLauncher
 
             if (modelChooserWnd.ShowDialog() == DialogResult.OK)
             {
+                this.mainControl.Visible = true;
                 Options.InitializeLogManager();
                 SessionController.AddJobToSession(modelChooserWnd.modelCmb.SelectedItem.ToString(),
                     modelChooserWnd.jobNameTxt.Text);
