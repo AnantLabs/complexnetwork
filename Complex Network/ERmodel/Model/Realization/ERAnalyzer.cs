@@ -92,7 +92,7 @@ namespace Model.ERModel.Realization
             return count / 6;
         }
 
-        private  int GetCyclesForTringle(ERContainer container)
+        private int GetCyclesForTringle(ERContainer container)
         {
            // log.Info("Getting count of cycles - order 3.");
 
@@ -252,6 +252,56 @@ namespace Model.ERModel.Realization
             }
 
             return pathDistribution;
+        }
+
+        // Возвращается распределение чисел  связанных подграфов в графе.
+        public override SortedDictionary<int, int> GetConnSubGraph()
+        {
+            var connectedSubGraphDic = new SortedDictionary<int, int>();
+            Queue<int> q = new Queue<int>();
+            var nodes = new Node[container.Size];
+            for (int i = 0; i < nodes.Length; i++)
+                nodes[i] = new Node();
+            var list = new List<int>();
+
+            for (int i = 0; i < container.Size; i++)
+            {
+                int order = 0;
+                q.Enqueue(i);
+                while (q.Count != 0)
+                {
+                    var item = q.Dequeue();
+                    if (nodes[item].length != 2)
+                    {
+                        if (nodes[item].length == -1)
+                        {
+                            order++;
+                        }
+                        list = container.Neighbourship[item];
+                        nodes[item].length = 2;
+
+                        for (int j = 0; j < list.Count; j++)
+                        {
+                            if (nodes[list[j]].length == -1)
+                            {
+                                nodes[list[j]].length = 1;
+                                order++;
+                                q.Enqueue(list[j]);
+                            }
+
+                        }
+                    }
+                }
+
+                if (order != 0)
+                {
+                    if (connectedSubGraphDic.ContainsKey(order))
+                        connectedSubGraphDic[order]++;
+                    else
+                        connectedSubGraphDic.Add(order, 1);
+                }
+            }
+            return connectedSubGraphDic;
         }
 
         public override SortedDictionary<int, double> GetTrianglesTrajectory(double constant, BigInteger stepcount,bool keepdistribution)

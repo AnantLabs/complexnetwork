@@ -808,5 +808,26 @@ namespace Model.HierarchicModel.Realization
             long[] pathsInfo = GetSubgraphsPathInfo(0, 0);
             return pathsInfo[0] + pathsInfo[2];
         }
+
+        // !Исправить! подумать о включении в общий интерфейс
+        public SortedDictionary<int, int> GetConnectedSubgraphsForLevel(int currentLevel)
+        {
+            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
+
+            for (int i = 0; i < Math.Pow(container.BranchIndex, currentLevel); ++i)
+            {
+                SortedDictionary<int, int> res = AmountConnectedSubGraphs(i, currentLevel);
+
+                foreach (KeyValuePair<int, int> kvt in res)
+                {
+                    if (result.Keys.Contains(kvt.Key))
+                        result[kvt.Key] += kvt.Value;
+                    else
+                        result.Add(kvt.Key, kvt.Value);
+                }
+            }
+
+            return result;
+        }
     }
 }

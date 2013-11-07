@@ -255,6 +255,75 @@ namespace ResultStorage.Storage
             }
         }
 
+        // Сохранение исследования в xml файле.
+        public override void SaveResearch(ResultResearch research)
+        {
+            using (XmlTextWriter writer = new XmlTextWriter(
+                this.directory + research.ResearchID.ToString() + ".xml", 
+                Encoding.ASCII))
+            {
+                // Сохранение общей информации для данной сборки.
+                log.Info("Saving common info of research.");
+
+                writer.Formatting = Formatting.Indented;
+                writer.WriteStartDocument(true);
+                writer.WriteStartElement("research");
+
+                writer.WriteElementString("id", research.ResearchID.ToString());
+                writer.WriteElementString("name", research.Name);
+                writer.WriteElementString("date", DateTime.Now.ToString());
+                writer.WriteElementString("realizationcount", research.RealizationCount.ToString());
+                writer.WriteElementString("delta", research.Delta.ToString());
+                writer.WriteElementString("function", research.Function);
+                writer.WriteElementString("size", research.Size.ToString());
+
+                writer.WriteStartElement("graphmodel");
+                writer.WriteAttributeString("id", GetModelID(research.ModelType).ToString());
+                writer.WriteAttributeString("modelname", research.ModelType.Name);
+                writer.WriteEndElement();
+
+                // Сохранение значений параметров генерации для данной сборки.
+                log.Info("Saving generation parameters values of research.");
+
+                writer.WriteStartElement("generationparams");
+                if (research.GenerationParams != null)
+                {
+                    foreach (GenerationParam genParameter in research.GenerationParams.Keys)
+                    {
+                        writer.WriteStartElement("generationparam");
+                        writer.WriteAttributeString("id", Convert.ToInt32(genParameter).ToString());
+                        writer.WriteAttributeString("parametername", Enum.GetName(typeof(GenerationParam), genParameter));
+                        writer.WriteAttributeString("value", research.GenerationParams[genParameter].ToString());
+                        writer.WriteEndElement();
+                    }
+                }
+                writer.WriteEndElement();   // generationparams
+
+                // Сохранение результатов анализа для данной сборки.
+                log.Info("Saving research results.");
+
+                writer.WriteStartElement("results");
+                foreach (double l in research.Result.Keys)
+                {
+                    log.Info("Saving analyze results for level - " + l.ToString() + ".");
+
+                    writer.WriteStartElement("level" + l.ToString());
+                    SortedDictionary<double, double> r = research.Result[l];
+                    foreach (double degree in r.Keys)
+                    {
+                        writer.WriteStartElement("avgorder");
+                        writer.WriteAttributeString("q", degree.ToString());
+                        writer.WriteAttributeString("order", r[degree].ToString());
+                        writer.WriteEndElement();
+                    }
+                    writer.WriteEndElement();   // level
+                }
+
+                writer.WriteEndElement();   // results
+                writer.WriteEndElement();   // research
+            }
+        }
+
         // Удаление сборки по данному идентификатору сборки.
         public override void Delete(Guid assemblyID)
         {
@@ -264,6 +333,12 @@ namespace ResultStorage.Storage
                 log.Info("Deleting assembly with ID " + assemblyID.ToString() + ".");
                 File.Delete(fileName);
             }
+        }
+
+        // Удаление исследования по данному идентификатору исследования.
+        public override void DeleteResearch(ResultResearch research)
+        {
+            throw new NotImplementedException();
         }
 
         // Загрузка сборки по данному идентификатору сборки.
@@ -442,6 +517,75 @@ namespace ResultStorage.Storage
                 ++instanceNumber;
             }
             return resultAssembly;
+        }
+
+        // Загрузка исследования по данному идентификатору исследования.
+        public override ResultResearch LoadResearch(Guid researchID)
+        {
+            log.Info("Loading research with ID " + researchID.ToString() + ".");
+
+            log.Info("Loading common info of research.");
+
+            ResultResearch resultResearch = new ResultResearch();
+            resultResearch.ResearchID = researchID;
+
+            XmlDocument xml = new XmlDocument();
+
+            xml.Load(this.directory + researchID.ToString() + ".xml");
+            resultResearch.Name = xml.SelectSingleNode("/research/name").InnerText;
+            resultResearch.Delta = Double.Parse(xml.SelectSingleNode("/research/delta").InnerText);
+            resultResearch.RealizationCount = Int32.Parse(xml.SelectSingleNode("/research/realizationcount").InnerText);
+            resultResearch.Function = xml.SelectSingleNode("/research/function").InnerText;
+            resultResearch.ModelType = GetModelType(int.Parse(xml.SelectSingleNode("/research/graphmodel").Attributes["id"].Value));
+            resultResearch.Size = Int32.Parse(xml.SelectSingleNode("/research/size").InnerText);
+
+            log.Info("Loading generation parameters values of research.");
+            foreach (XmlNode paramNode in xml.SelectNodes("/research/generationparams/generationparam"))
+            {
+                GenerationParam param = (GenerationParam)Enum.ToObject(typeof(GenerationParam), int.Parse(paramNode.Attributes["id"].Value));
+
+                GenerationParamInfo paramInfo = (GenerationParamInfo)(param.GetType().GetField(param.ToString()).GetCustomAttributes(typeof(GenerationParamInfo), false)[0]);
+                if (paramInfo.Type.Equals(typeof(Double)))
+                {
+                    resultResearch.GenerationParams.Add(param, Convert.ToDouble(paramNode.Attributes["value"].Value, CultureInfo.InvariantCulture));
+                }
+                else if (paramInfo.Type.Equals(typeof(Int16)))
+                {
+                    resultResearch.GenerationParams.Add(param, Convert.ToInt16(paramNode.Attributes["value"].Value));
+                }
+                else if (paramInfo.Type.Equals(typeof(Int32)))
+                {
+                    resultResearch.GenerationParams.Add(param, Convert.ToInt32(paramNode.Attributes["value"].Value));
+                }
+                else if (paramInfo.Type.Equals(typeof(bool)))
+                {
+                    resultResearch.GenerationParams.Add(param, Convert.ToBoolean(paramNode.Attributes["value"].Value));
+                }
+                else if (paramInfo.Type.Equals(typeof(String)))
+                {
+                    resultResearch.GenerationParams.Add(param, Convert.ToString(paramNode.Attributes["value"].Value));
+                }
+            }
+
+            log.Info("Loading research results.");
+
+            int count = xml.SelectSingleNode("/research/results").ChildNodes.Count;
+            for (int i = 1; i <= count; ++i)
+            {
+                SortedDictionary<double, double> r = new SortedDictionary<double, double>();
+                foreach (XmlNode paramNode in xml.SelectNodes("/research/results/level" + i.ToString()))
+                {
+                    foreach (XmlNode item in paramNode.SelectNodes("avgorder"))
+                    {
+                        r.Add(Double.Parse(item.Attributes["q"].Value),
+                        Double.Parse(item.Attributes["order"].Value));
+                    }
+                }
+
+                resultResearch.Result.Add(i, r);
+            }
+
+            return resultResearch;
         }
 
         // Загрузка сборки по строковому идентификатору сборки.
@@ -667,6 +811,48 @@ namespace ResultStorage.Storage
             }
 
             return assemblies;
+        }
+
+        public override List<ResultResearch> LoadAllResearches()
+        {
+            List<ResultResearch> research = new List<ResultResearch>();
+            ResultResearch r = null;
+
+            foreach (string file in Directory.GetFiles(directory, "*.xml",
+                SearchOption.TopDirectoryOnly))
+            {
+                r = new ResultResearch();
+                research.Add(r);
+                using (XmlTextReader reader = new XmlTextReader(file))
+                {
+                    try
+                    {
+                        reader.WhitespaceHandling = WhitespaceHandling.None;
+                        while (reader.Read())
+                        {
+
+                            if (reader.NodeType == XmlNodeType.Element)
+                            {
+                                if (reader.Name == "id")
+                                {
+                                    r.ResearchID = new Guid(reader.ReadElementString());
+                                }
+                                if (reader.Name == "name")
+                                {
+                                    r.Name = reader.ReadElementString();
+                                }
+                                // !исправить!
+                            }
+                        }
+                    }
+                    catch (SystemException)
+                    {
+                        continue;
+                    }
+                }
+            }
+
+            return research;
         }
 
         public override List<ResultAssembly> LoadAssembliesByModel(string modelName)

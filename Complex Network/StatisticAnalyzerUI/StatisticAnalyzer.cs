@@ -571,6 +571,14 @@ namespace StatisticAnalyzerUI
             dbOptimizerWnd.ShowDialog();
         }
 
+        // !исправить!
+        // Просмотр исследований (Menu->Tools->Researches).
+        private void researchesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Researches researchesWnd = new Researches();
+            researchesWnd.ShowDialog();
+        }
+
         // Утилиты. Загрузка.
 
         // Инициализация функциональной части.

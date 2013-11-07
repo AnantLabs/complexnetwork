@@ -116,5 +116,78 @@ namespace Model.HierarchicModel.Realization
                 }
             }
         }
+
+        // !Исправить! подумать о включении в общий интерфейс
+
+        // Генерация иерархического дерева. 
+        public void GenerateTreeWithProbability(
+            Int16 branchingIndex,   // индекс ветвления
+            int maxLevel,   // максимальный уровень иерархии
+            double mainProbability, // вероятность появления соединений на всех уровнях (кроме currentLevel) 
+            Int16 currentLevel, // номер уровня (с особым видом генерации) - реальный
+            double probabilityCounting,    // параметр для вычисления вероятности генерации (в частном случае mu)
+            ProbabilityCounter currentProbability   // делегат на функцию вычисления вероятности генерации
+            )
+        {
+            BitArray[][] treeMatrix = new BitArray[maxLevel][];
+
+            // Для каждого уровня, начиная из корня, создаются данные (метки).
+            for (int i = maxLevel; i > 0; i--)
+            {
+                // Вычисление длины и числа данных (меток) для текущего уровня.
+                int nodeDataLength = (branchingIndex - 1) * branchingIndex / 2;
+                long dataLength = Convert.ToInt64(Math.Pow(branchingIndex, maxLevel - i) * nodeDataLength);
+                int arrCount = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(dataLength) / ARRAY_MAX_SIZE));
+
+                treeMatrix[maxLevel - i] = new BitArray[arrCount];
+                int j;
+                for (j = 0; j < arrCount - 1; j++)
+                {
+                    treeMatrix[maxLevel - i][j] = new BitArray(ARRAY_MAX_SIZE);
+                }
+                treeMatrix[maxLevel - i][j] = 
+                    new BitArray(Convert.ToInt32(dataLength - (arrCount - 1) * ARRAY_MAX_SIZE));
+
+                // Генерация для текущего уровня.
+                if (i == currentLevel)   // если генерируется уровень с особым видом генерации
+                {
+                    GenerateDataWithProbability(treeMatrix, maxLevel, i, 
+                        currentProbability(branchingIndex, currentLevel, probabilityCounting));
+                }
+                else
+                {
+                    GenerateDataWithProbability(treeMatrix, maxLevel, i, mainProbability);
+                }
+            }
+
+            container.BranchIndex = branchingIndex;
+            container.Level = maxLevel;
+            container.TreeMatrix = treeMatrix;
+        }
+
+        private void GenerateDataWithProbability(
+            BitArray[][] treeMatrix,   // иерархическое дерево
+            int maxLevel,   // максимальный уровень иерархии
+            int currentLevel,   // номер текущего уровня
+            double currentProbability   // вероятность появления соединений для текущего уровня
+            )
+        {
+            // Обход всех элементов данного уровня и генерация значений.
+            for (int i = 0; i < treeMatrix[maxLevel - currentLevel].Length; i++)
+            {
+                for (int j = 0; j < treeMatrix[maxLevel - currentLevel][i].Length; j++)
+                {
+                    double k = rand.NextDouble();
+                    if (k <= currentProbability)
+                    {
+                        treeMatrix[maxLevel - currentLevel][i][j] = true;
+                    }
+                    else
+                    {
+                        treeMatrix[maxLevel - currentLevel][i][j] = false;
+                    }
+                }
+            }
+        }
     }
 }

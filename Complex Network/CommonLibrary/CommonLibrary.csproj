@@ -101,13 +101,17 @@
     <Compile Include="Model\Events\GraphProgressEventArgs.cs" />
     <Compile Include="Model\Events\GraphsAreGenerated.cs" />
     <Compile Include="Model\Generation\GenerationParam.cs" />
+    <Compile Include="Model\Generation\GenerationProbability.cs" />
     <Compile Include="Model\ModelRepo\ModelRepository.cs" />
     <Compile Include="Model\RandomVector\IVectorGenerator.cs" />
     <Compile Include="Model\RandomVector\NativeVectorGenerator.cs" />
     <Compile Include="Model\RandomVector\VectorGenerator.cs" />
     <Compile Include="Model\RandomVector\VectorGeneratorFactory.cs" />
+    <Compile Include="Model\ResearchOptions\ResearchOptionParams.cs" />
+    <Compile Include="Model\ResearchOptions\ResearchOptions.cs" />
     <Compile Include="Model\Result\AnalizeResult.cs" />
     <Compile Include="Model\Result\ResultAssembly.cs" />
+    <Compile Include="Model\Result\ResultResearch.cs" />
     <Compile Include="Model\Status\GraphProgress.cs" />
     <Compile Include="Model\Status\GraphProgressStatus.cs" />
     <Compile Include="Model\Util\GraphTable.cs" />
