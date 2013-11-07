@@ -8,7 +8,7 @@ namespace RandomGraph.Common.Model.Generation
 {
     /// <summary>
     /// Enumeration of supported generation parameters that
-    /// should be use by graph models for generation process.
+    /// should be used by graph models for generation process.
     /// Also uses attrinute GenerationParamInfo for validation and displaying on
     /// user interface 
     /// </summary>

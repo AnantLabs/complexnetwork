@@ -88,6 +88,7 @@
     <Compile Include="Model\Realization\HierarchicGenerator.cs" />
     <Compile Include="Model\Realization\HierarchicGraphNode.cs" />
     <Compile Include="Model\HierarchicModel.cs" />
+    <Compile Include="Model\Realization\ProbabilityCounter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

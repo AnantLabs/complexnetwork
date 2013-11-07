@@ -90,6 +90,7 @@
             this.bySecondParamCheck = new System.Windows.Forms.CheckBox();
             this.byFirstParamCmb = new System.Windows.Forms.ComboBox();
             this.byFirstParamCheck = new System.Windows.Forms.CheckBox();
+            this.researchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             this.LocalAnalyzeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.localAnalyzeOptionsGrd)).BeginInit();
@@ -132,7 +133,8 @@
             // MenuTools
             // 
             this.MenuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dBOptimizerToolStripMenuItem});
+            this.dBOptimizerToolStripMenuItem,
+            this.researchesToolStripMenuItem});
             this.MenuTools.Name = "MenuTools";
             this.MenuTools.Size = new System.Drawing.Size(45, 20);
             this.MenuTools.Text = "Tools";
@@ -140,7 +142,7 @@
             // dBOptimizerToolStripMenuItem
             // 
             this.dBOptimizerToolStripMenuItem.Name = "dBOptimizerToolStripMenuItem";
-            this.dBOptimizerToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.dBOptimizerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.dBOptimizerToolStripMenuItem.Text = "DB Optimizer";
             this.dBOptimizerToolStripMenuItem.Click += new System.EventHandler(this.dBOptimizerToolStripMenuItem_Click);
             // 
@@ -719,6 +721,13 @@
             this.byFirstParamCheck.UseVisualStyleBackColor = true;
             this.byFirstParamCheck.CheckedChanged += new System.EventHandler(this.byFirstParamCheck_CheckedChanged);
             // 
+            // researchesToolStripMenuItem
+            // 
+            this.researchesToolStripMenuItem.Name = "researchesToolStripMenuItem";
+            this.researchesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.researchesToolStripMenuItem.Text = "Researches";
+            this.researchesToolStripMenuItem.Click += new System.EventHandler(this.researchesToolStripMenuItem_Click);
+            // 
             // StatisticAnalyzer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -825,6 +834,7 @@
         private System.Windows.Forms.ToolStripMenuItem dBOptimizerToolStripMenuItem;
         private System.Windows.Forms.Button deselectExtended;
         private System.Windows.Forms.Button selectExtended;
+        private System.Windows.Forms.ToolStripMenuItem researchesToolStripMenuItem;
     }
 }
 

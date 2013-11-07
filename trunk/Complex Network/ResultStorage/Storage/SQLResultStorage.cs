@@ -67,6 +67,12 @@ namespace ResultStorage.Storage
             }
         }
 
+        // Сохранение исследования в БД.
+        public override void SaveResearch(ResultResearch research)
+        {
+            throw new NotImplementedException();
+        }
+
         // Удаление сборки по данному идентификатору сборки.
         // Используется хранимая процедура "DeleteAssembly".
         public override void Delete(Guid assemblyID)
@@ -88,6 +94,12 @@ namespace ResultStorage.Storage
 
                 conn.Close();
             }
+        }
+
+        // Удаление исследования по данному идентификатору исследования.
+        public override void DeleteResearch(ResultResearch research)
+        {
+            throw new NotImplementedException();
         }
 
         // Загрузка сборки по данному идентификатору сборки.
@@ -119,6 +131,12 @@ namespace ResultStorage.Storage
             }
 
             return resultAssembly;
+        }
+
+        // Загрузка исследования по данному идентификатору исследования.
+        public override ResultResearch LoadResearch(Guid research)
+        {
+            throw new NotImplementedException();
         }
 
         // Загрузка всех сборок (информация из таблицы Assemblies).
@@ -154,6 +172,11 @@ namespace ResultStorage.Storage
                 conn.Close();
             }
             return results;
+        }
+
+        public override List<ResultResearch> LoadAllResearches()
+        {
+            throw new NotImplementedException();
         }
 
         // Загрузка всех сборок по имени модели (информация из таблицы Assemblies).

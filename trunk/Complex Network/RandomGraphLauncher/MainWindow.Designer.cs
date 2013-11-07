@@ -46,6 +46,7 @@ namespace RandomGraphLauncher
             this.statisticAnalyzerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainControl = new MyControlLibrary.TabCtlEx();
+            this.newResearchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,6 +68,7 @@ namespace RandomGraphLauncher
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newJobToolStripMenuItem,
+            this.newResearchToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -75,14 +77,14 @@ namespace RandomGraphLauncher
             // newJobToolStripMenuItem
             // 
             this.newJobToolStripMenuItem.Name = "newJobToolStripMenuItem";
-            this.newJobToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.newJobToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newJobToolStripMenuItem.Text = "New Job";
             this.newJobToolStripMenuItem.Click += new System.EventHandler(this.newJobToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -169,6 +171,13 @@ namespace RandomGraphLauncher
             this.mainControl.Visible = false;
             this.mainControl.OnClose += new MyControlLibrary.TabCtlEx.OnHeaderCloseDelegate(this.mainControl_OnClose);
             // 
+            // newResearchToolStripMenuItem
+            // 
+            this.newResearchToolStripMenuItem.Name = "newResearchToolStripMenuItem";
+            this.newResearchToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newResearchToolStripMenuItem.Text = "New Research";
+            this.newResearchToolStripMenuItem.Click += new System.EventHandler(this.newResearchToolStripMenuItem_Click);
+            // 
             // mainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -209,6 +218,7 @@ namespace RandomGraphLauncher
         private ToolStripMenuItem optionToolStripMenuItem;
         private ToolStripMenuItem matrixMixerToolStripMenuItem;
         private ToolStripMenuItem statisticAnalyzerToolStripMenuItem1;
+        private ToolStripMenuItem newResearchToolStripMenuItem;
 
     }
 }

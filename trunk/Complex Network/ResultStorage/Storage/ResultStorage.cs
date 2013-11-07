@@ -87,15 +87,25 @@ namespace ResultStorage.Storage
 
         // Абстрактный метод для сохранения результатов анализа (сборки) в хранилище данных.
         public abstract void Save(ResultAssembly assembly);
+        // Абстрактный метод для сохранения результатов исследования в хранилище данных.
+        public abstract void SaveResearch(ResultResearch research);
 
         // Абстрактный метод для удаления сборки из хранилища данных по данному идентификатору сборки.
         public abstract void Delete(Guid assemblyID);
+        // Абстрактный метод для удаления исследования из хранилище данных по данному идентификатору 
+        // исследования.
+        public abstract void DeleteResearch(ResultResearch research);
 
         // Абстрактный метод для загрузки сборки из хранилища данных по данному идентификатору сборки.
         public abstract ResultAssembly Load(Guid assemblyID);
+        // Абстрактный метод для загрузки исследования из хранилища данных по данному идентификатору 
+        // исследования.
+        public abstract ResultResearch LoadResearch(Guid research);
 
         // Абстрактный метод для загрузки всех сборок из хранилища данных.
         public abstract List<ResultAssembly> LoadAllAssemblies();
+        // Абстрактный метод для загрузки всех исследований из хранилища данных.
+        public abstract List<ResultResearch> LoadAllResearches();
 
         // Абстрактный метод для загрузки всех сборок из хранилища данных по данному имени модели.
         public abstract List<ResultAssembly> LoadAssembliesByModel(string modelName);

@@ -40,6 +40,24 @@ namespace RandomGraphLauncher
             }
         }
 
+        // !Исправить!
+        private void newResearchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            modelChooserWindow modelChooserWnd = new modelChooserWindow();
+            modelChooserWnd.ShowInTaskbar = false;
+
+            if (modelChooserWnd.ShowDialog() == DialogResult.OK)
+            {
+                Options.InitializeLogManager();
+                Percolations.PercolationCounting percolationsWindow = 
+                    new Percolations.PercolationCounting(
+                        modelChooserWnd.modelCmb.SelectedItem.ToString(),
+                        modelChooserWnd.jobNameTxt.Text);
+                percolationsWindow.Text +=  " - " + modelChooserWnd.jobNameTxt.Text;
+                percolationsWindow.ShowDialog();
+            }
+        }
+
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Environment.Exit(0);

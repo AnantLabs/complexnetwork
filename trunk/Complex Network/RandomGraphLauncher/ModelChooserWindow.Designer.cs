@@ -60,11 +60,11 @@
             // jobName
             // 
             this.jobName.AutoSize = true;
-            this.jobName.Location = new System.Drawing.Point(16, 25);
+            this.jobName.Location = new System.Drawing.Point(33, 25);
             this.jobName.Name = "jobName";
-            this.jobName.Size = new System.Drawing.Size(55, 13);
+            this.jobName.Size = new System.Drawing.Size(35, 13);
             this.jobName.TabIndex = 2;
-            this.jobName.Text = "Job Name";
+            this.jobName.Text = "Name";
             // 
             // model
             // 
