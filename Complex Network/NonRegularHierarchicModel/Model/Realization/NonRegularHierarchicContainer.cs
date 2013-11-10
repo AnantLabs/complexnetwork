@@ -38,15 +38,15 @@ namespace Model.NonRegularHierarchicModel.Realization
             get 
             {
                 int vertexCount = 0;
-                for (int i = 0; i < Branches[Branches.Length - 1].Length; ++i)
+                for (int i = 0; i < Branches[level - 2].Length; ++i)
                 {
-                    for (int j = 0; j < Branches[Branches.Length - 1][i]; ++j)
+                    for (int j = 0; j < Branches[level - 2][i]; ++j)
                     {
                         ++vertexCount;
                     }
                 }
                 return vertexCount; 
-            }   // ??
+            }   
             set { } // ??
         }
 
@@ -94,8 +94,13 @@ namespace Model.NonRegularHierarchicModel.Realization
 
             for (int i = 0; i < vertexCount; ++i)
             {
-                for (int j = 0; j < vertexCount; ++j)
-                    matrix[i, j] = (this[i, j] == 1) ? true : false;
+                for (int j = 0; j < i; ++j)
+                {
+                    if (i == j)
+                        matrix[i,i] = false;
+                    else
+                        matrix[i, j] = matrix[j, i] = (this[j, i] == 1) ? true : false;
+                }
             }
 
             return matrix;
@@ -114,23 +119,16 @@ namespace Model.NonRegularHierarchicModel.Realization
         {
             get
             {
-                if (v1 == v2)
-                    return 0;
-                if (v1 > v2)
-                {
-                    return this[v2, v1];
-                }
-
                 // проверка на принадлежение к одному поддереву (для данных вершин)
                 // поднимаемся по уровням до того уровна, где они будут принадлежать одному поддереву
                 int numberOfGroup1 = 0, numberOfGroup2 = 0;
-                int currentLevel = level;
+                int currentLevel = level - 1;
                 do
                 {
                     --currentLevel;
                     bool groupsFound = false;
                     int counter = 0;
-                    for (int i = 0; i < branches[currentLevel].Length - 1; ++i)
+                    for (int i = 0; i < branches[currentLevel].Length; ++i)
                     {
                         for (int j = 0; j < branches[currentLevel][i]; ++j)
                         {
@@ -138,7 +136,7 @@ namespace Model.NonRegularHierarchicModel.Realization
                             {
                                 numberOfGroup1 = i;
                             }
-                            if (counter == v2)
+                            else if (counter == v2)
                             {
                                 numberOfGroup2 = i;
                                 groupsFound = true;
@@ -151,13 +149,18 @@ namespace Model.NonRegularHierarchicModel.Realization
                             break;
                         }
                     }
-                    v1 = numberOfGroup1;
-                    v2 = numberOfGroup2;
+
+                    if (numberOfGroup1 != numberOfGroup2)
+                    {
+                        v1 = numberOfGroup1;
+                        v2 = numberOfGroup2;
+                    }
+
                 } while (numberOfGroup1 != numberOfGroup2);
 
                 int branchSize = branches[currentLevel][numberOfGroup1];
                 BitArray currentNode = TreeNode(currentLevel, numberOfGroup1);
-                int index = AdjacentIndex(v1 % branchSize, v2 % branchSize);
+                int index = AdjacentIndex(branchSize, v1 % branchSize, v2 % branchSize);
                 return Convert.ToInt32(currentNode[index]);
             }
         }
@@ -165,7 +168,7 @@ namespace Model.NonRegularHierarchicModel.Realization
         public BitArray TreeNode(int l, long n)
         {
             // проверка параметров на правильность
-            if (l < 0 || l >= level)
+            if (l < 0 || l >= level - 1)
                 throw new SystemException("Wrong parameter (number of level).");
             if (n < 0 || n >= Math.Pow(branchIndex, l))
                 throw new SystemException("Wrong parameter (number of node).");
@@ -174,9 +177,14 @@ namespace Model.NonRegularHierarchicModel.Realization
             int resultSize = branchesCount * (branchesCount - 1) / 2;
             BitArray result = new BitArray(resultSize);
 
-            long i = n * resultSize;
-            int ind = Convert.ToInt32(Math.Floor(Convert.ToDouble(i / ARRAY_MAX_SIZE)));
-            int rangeSt = Convert.ToInt32(i - ind * ARRAY_MAX_SIZE);
+            long count = 0;
+            for (int i = 0; i < n; ++i)
+            {
+                count += branches[l][i] * (branches[l][i] - 1) / 2;
+            }
+            
+            int ind = Convert.ToInt32(Math.Floor(Convert.ToDouble(count / ARRAY_MAX_SIZE)));
+            int rangeSt = Convert.ToInt32(count - ind * ARRAY_MAX_SIZE);
             int rangeEnd = rangeSt + resultSize;
             int secArray = 0;
 
@@ -204,8 +212,13 @@ namespace Model.NonRegularHierarchicModel.Realization
 
         // Возвращает индекс того бита (в соответствующей битовой последовательности), 
         // который определяет связность данных узлов.
-        private int AdjacentIndex(int v1, int v2)
+        private int AdjacentIndex(int branchSize, int v1, int v2)
         {
+            if (branchSize == 2)
+            {
+                return 0;
+            }
+
             if (v1 == v2)
             {
                 return 0;
@@ -214,7 +227,7 @@ namespace Model.NonRegularHierarchicModel.Realization
             int result = 0;
             for (int i = 1; i <= v1; i++)
             {
-                result += (branchIndex - i);
+                result += (branchSize - i);
             }
             --result;
             result += v2 - v1;

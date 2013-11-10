@@ -71,18 +71,19 @@ namespace Model.NonRegularHierarchicModel.Realization
         {
             // addition
 
-            BitArray[][] treeMatrix = new BitArray[container.Level][];
-            container.Branches = new int[container.Level][];
+            BitArray[][] treeMatrix = new BitArray[container.Level - 1][];
+            container.Branches = new int[container.Level - 1][];
 
             //for every level create datas, started with root
-            for (int i = 0; i < container.Level; ++i)
+            for (int i = 0; i < container.Level - 1; ++i)
             {
+
                 int levelVertexCount = 0;
                 if (i == 0)
                 {
                     container.Branches[0] = new int[1];
                     container.Branches[0][0] = rnd.Next(1, container.BranchIndex + 1);
-                    levelVertexCount = 1;
+                    ++levelVertexCount;
                 }
                 else
                 {
@@ -93,6 +94,7 @@ namespace Model.NonRegularHierarchicModel.Realization
                             ++levelVertexCount;
                         }
                     }
+                    
                     container.Branches[i] = new int[levelVertexCount];
                     for (int j = 0; j < levelVertexCount; ++j)
                     {
@@ -108,19 +110,18 @@ namespace Model.NonRegularHierarchicModel.Realization
                 }
                 int arrCount = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(dataLength) / ARRAY_MAX_SIZE));
 
-                treeMatrix[i] = new BitArray[arrCount];
-
                 if (arrCount > 0)
                 {
+                    treeMatrix[i] = new BitArray[arrCount];
                     int t;
                     for (t = 0; t < arrCount - 1; ++t)
                     {
                         treeMatrix[i][t] = new BitArray(ARRAY_MAX_SIZE);
                     }
                     treeMatrix[i][t] = new BitArray(Convert.ToInt32(dataLength - (arrCount - 1) * ARRAY_MAX_SIZE));
+                    //genereates data for current level nodes
+                    GenerateData(treeMatrix, i, m);
                 }
-                //genereates data for current level nodes
-                GenerateData(treeMatrix, i, m);
             }
             return treeMatrix;
         }
