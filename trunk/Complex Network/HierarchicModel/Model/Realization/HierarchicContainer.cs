@@ -176,8 +176,18 @@ namespace Model.HierarchicModel.Realization
 
         public override int[][] GetBranches()
         {
-            // add implementation
-            throw new NotImplementedException();
+            int[][] branches = new int[Level - 1][];
+            for (int i = 0; i < Level - 1; ++i)
+            { 
+                int levelVertexCount = Convert.ToInt32(Math.Pow(branchIndex, i));
+                branches[i] = new int[levelVertexCount];
+                for (int j = 0; j < levelVertexCount; ++j)
+                {
+                    branches[i][j] = branchIndex;
+                }
+            }
+
+            return branches;
         }
 
         // Методы не из общего интерфейса.    
