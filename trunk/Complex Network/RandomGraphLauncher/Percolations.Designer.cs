@@ -54,6 +54,7 @@
             this.probRangeLowExtendedTxt = new System.Windows.Forms.TextBox();
             this.probRangeHighExtendedTxt = new System.Windows.Forms.TextBox();
             this.startExtended = new System.Windows.Forms.Button();
+            this.startHierarchic = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.realizationCountNum)).BeginInit();
             this.SuspendLayout();
             // 
@@ -207,7 +208,7 @@
             // probabilityFunctionCmb
             // 
             this.probabilityFunctionCmb.FormattingEnabled = true;
-            this.probabilityFunctionCmb.Location = new System.Drawing.Point(303, 140);
+            this.probabilityFunctionCmb.Location = new System.Drawing.Point(268, 141);
             this.probabilityFunctionCmb.Name = "probabilityFunctionCmb";
             this.probabilityFunctionCmb.Size = new System.Drawing.Size(121, 21);
             this.probabilityFunctionCmb.TabIndex = 54;
@@ -216,7 +217,7 @@
             // probabilityFunction
             // 
             this.probabilityFunction.AutoSize = true;
-            this.probabilityFunction.Location = new System.Drawing.Point(300, 125);
+            this.probabilityFunction.Location = new System.Drawing.Point(265, 125);
             this.probabilityFunction.Name = "probabilityFunction";
             this.probabilityFunction.Size = new System.Drawing.Size(99, 13);
             this.probabilityFunction.TabIndex = 53;
@@ -342,11 +343,23 @@
             this.startExtended.Visible = false;
             this.startExtended.Click += new System.EventHandler(this.startExtended_Click);
             // 
+            // startHierarchic
+            // 
+            this.startHierarchic.Location = new System.Drawing.Point(414, 114);
+            this.startHierarchic.Name = "startHierarchic";
+            this.startHierarchic.Size = new System.Drawing.Size(100, 34);
+            this.startHierarchic.TabIndex = 55;
+            this.startHierarchic.Text = "Start Hierarchic (Opt)";
+            this.startHierarchic.UseVisualStyleBackColor = true;
+            this.startHierarchic.Visible = false;
+            this.startHierarchic.Click += new System.EventHandler(this.startHierarchic_Click);
+            // 
             // PercolationCounting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(538, 191);
+            this.Controls.Add(this.startHierarchic);
             this.Controls.Add(this.probabilityFunctionCmb);
             this.Controls.Add(this.probabilityFunction);
             this.Controls.Add(this.startER);
@@ -411,6 +424,7 @@
         private System.Windows.Forms.TextBox probRangeLowExtendedTxt;
         private System.Windows.Forms.TextBox probRangeHighExtendedTxt;
         private System.Windows.Forms.Button startExtended;
+        private System.Windows.Forms.Button startHierarchic;
     }
 }
 
