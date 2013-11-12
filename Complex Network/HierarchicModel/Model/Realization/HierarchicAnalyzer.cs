@@ -176,6 +176,29 @@ namespace Model.HierarchicModel.Realization
             return AmountConnectedSubGraphs(0, 0);
         }
 
+        // ???????? !Исправить! подумать о включении в общий интерфейс
+        public SortedDictionary<int, int> GetConnSubGraphPerLevel(Int16 currentLevel)
+        {
+            int currentLevelInTree = this.container.Level - currentLevel;
+            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
+
+            for (int i = 0; i < Math.Pow(container.BranchIndex, currentLevelInTree); ++i)
+            {
+                SortedDictionary<int, int> res = 
+                    AmountConnectedSubGraphsPerLevel(i, currentLevelInTree);
+
+                foreach (KeyValuePair<int, int> kvt in res)
+                {
+                    if (result.Keys.Contains(kvt.Key))
+                        result[kvt.Key] += kvt.Value;
+                    else
+                        result.Add(kvt.Key, kvt.Value);
+                }
+            }
+
+            return result;
+        }
+
         // Возвращается распределение чисел циклов. Реализовано.
         public override SortedDictionary<int, long> GetCycles(int lowBound, int hightBound)
         {
@@ -375,6 +398,7 @@ namespace Model.HierarchicModel.Realization
                 else
                     haveOne = true;
             }
+
             if (haveOne)
             {
                 int powPK = Convert.ToInt32(Math.Pow(container.BranchIndex, container.Level - level - 1));
@@ -389,6 +413,37 @@ namespace Model.HierarchicModel.Realization
                     else
                         retArray.Add(countConnCompi * powPK, 1);
                 }
+            }
+
+            return retArray;
+        }
+
+        // ???????????????
+        private SortedDictionary<int, int> AmountConnectedSubGraphsPerLevel(int numberNode, 
+            int level)
+        {
+            SortedDictionary<int, int> retArray = new SortedDictionary<int, int>();
+
+            if (level == this.container.Level)
+            {
+                retArray[1] = 1;
+                return retArray;
+            }
+            BitArray node = container.TreeNode(level, numberNode);
+
+            int powPK = Convert.ToInt32(Math.Pow(container.BranchIndex, 
+                container.Level - level - 1));
+            EngineForConnectedComp engForConnectedComponent = new EngineForConnectedComp();
+            ArrayList arrConnComp = 
+                engForConnectedComponent.GetCountConnSGruph(container.nodeMatrixList(node),
+                container.BranchIndex);
+            for (int i = 0; i < arrConnComp.Count; i++)
+            {
+                int countConnCompi = (int)arrConnComp[i];
+                if (retArray.Keys.Contains(countConnCompi * powPK))
+                    retArray[countConnCompi * powPK] += 1;
+                else
+                    retArray.Add(countConnCompi * powPK, 1);
             }
 
             return retArray;
@@ -807,27 +862,6 @@ namespace Model.HierarchicModel.Realization
         {
             long[] pathsInfo = GetSubgraphsPathInfo(0, 0);
             return pathsInfo[0] + pathsInfo[2];
-        }
-
-        // !Исправить! подумать о включении в общий интерфейс
-        public SortedDictionary<int, int> GetConnectedSubgraphsForLevel(int currentLevel)
-        {
-            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
-
-            for (int i = 0; i < Math.Pow(container.BranchIndex, currentLevel); ++i)
-            {
-                SortedDictionary<int, int> res = AmountConnectedSubGraphs(i, currentLevel);
-
-                foreach (KeyValuePair<int, int> kvt in res)
-                {
-                    if (result.Keys.Contains(kvt.Key))
-                        result[kvt.Key] += kvt.Value;
-                    else
-                        result.Add(kvt.Key, kvt.Value);
-                }
-            }
-
-            return result;
         }
     }
 }
