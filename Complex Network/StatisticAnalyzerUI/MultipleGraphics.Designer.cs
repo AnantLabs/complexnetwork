@@ -32,7 +32,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.saveJPG = new System.Windows.Forms.Button();
             this.saveOpj = new System.Windows.Forms.Button();
-            this.saveExcel = new System.Windows.Forms.Button();
+            this.saveTxt = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,22 +73,22 @@
             this.saveOpj.UseVisualStyleBackColor = true;
             this.saveOpj.Click += new System.EventHandler(this.saveOpj_Click);
             // 
-            // saveExcel
+            // saveTxt
             // 
-            this.saveExcel.Location = new System.Drawing.Point(1166, 116);
-            this.saveExcel.Name = "saveExcel";
-            this.saveExcel.Size = new System.Drawing.Size(116, 46);
-            this.saveExcel.TabIndex = 4;
-            this.saveExcel.Text = "Save Excel";
-            this.saveExcel.UseVisualStyleBackColor = true;
-            this.saveExcel.Click += new System.EventHandler(this.saveExcel_Click);
+            this.saveTxt.Location = new System.Drawing.Point(1166, 116);
+            this.saveTxt.Name = "saveTxt";
+            this.saveTxt.Size = new System.Drawing.Size(116, 46);
+            this.saveTxt.TabIndex = 4;
+            this.saveTxt.Text = "Save .txt";
+            this.saveTxt.UseVisualStyleBackColor = true;
+            this.saveTxt.Click += new System.EventHandler(this.saveTxt_Click);
             // 
             // MultipleGraphics
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1284, 712);
-            this.Controls.Add(this.saveExcel);
+            this.Controls.Add(this.saveTxt);
             this.Controls.Add(this.saveOpj);
             this.Controls.Add(this.saveJPG);
             this.Controls.Add(this.panel1);
@@ -106,6 +106,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button saveJPG;
         private System.Windows.Forms.Button saveOpj;
-        private System.Windows.Forms.Button saveExcel;
+        private System.Windows.Forms.Button saveTxt;
     }
 }

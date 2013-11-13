@@ -332,9 +332,17 @@ namespace RandomGraph.Common.Model
                 int[][] branches = GetBranches();
 
                 filePath = dir + jobName + "_" + instanceIndex + "_dump_branches.txt";
-                using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath))
+                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(filePath))
                 {
-                    // add dump code
+                    for (int i = 0; i < branches.Length; i++)
+                    {
+                        for (int k = 0; k < branches[i].Length; k++)
+                        {
+                            writer.Write(branches[i][k]);
+                            writer.Write(" ");
+                        }
+                        writer.WriteLine();
+                    }
                 }
             }
             catch (NotImplementedException) { }

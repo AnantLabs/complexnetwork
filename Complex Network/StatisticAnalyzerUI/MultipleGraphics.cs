@@ -5,8 +5,12 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+
+using CommonLibrary.Model.Result;
+using RandomGraph.Common.Model.Generation;
 
 //using Origin;
 
@@ -16,20 +20,21 @@ namespace Percolations
     public partial class MultipleGraphics : Form
     {
         private List<Chart> graphics = new List<Chart>();
-        SortedDictionary<double, SortedDictionary<double, double>> info;
+        ResultResearch research;
 
-        public MultipleGraphics(int size, SortedDictionary<double, SortedDictionary<double, double>> information)
+        public MultipleGraphics(ResultResearch r)
         {
             InitializeComponent();
 
-            info = information;
+            this.research = r;
+
 
             SortedDictionary<double, SortedDictionary<double, double>>.KeyCollection keys =
-                information.Keys;
+                this.research.Result.Keys;
             foreach (double k in keys)
             {
                 Chart graphic = new Chart();
-                graphic.Titles.Add("Network Size = " + size.ToString());
+                graphic.Titles.Add("Network Size = " + this.research.Size.ToString());
 
                 ChartArea chArea = new ChartArea("Current Level = " + k.ToString());
                 chArea.AxisX.Title = "Mu";
@@ -39,7 +44,7 @@ namespace Percolations
                 Series s = new Series("Current Level = " + k.ToString());
                 s.ChartType = SeriesChartType.Line;
                 s.Color = Color.Red;
-                foreach (KeyValuePair<double, double> v in information[k])
+                foreach (KeyValuePair<double, double> v in this.research.Result[k])
                 {
                     s.Points.Add(new DataPoint(v.Key, v.Value));
                 }
@@ -79,9 +84,45 @@ namespace Percolations
             }
         }
 
-        private void saveExcel_Click(object sender, EventArgs e)
+        private void saveTxt_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            SaveFileDialog sfd = new SaveFileDialog();
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamWriter writer = new StreamWriter(sfd.FileName +".txt"))
+                {
+                    int levelCount = this.research.Result.Count();
+                    int muCount = this.research.Result[1].Count();
+
+                    writer.Write("mu ");
+                    for (int i = 1; i <= levelCount; ++i)
+                    {
+                        writer.Write("level" + i.ToString());
+                        if (i != levelCount)
+                            writer.Write(" ");
+                    }
+                    writer.Write("\n");
+
+                    foreach (double mu in this.research.Result[1].Keys)
+                    {
+                        writer.Write(mu.ToString() + " ");
+                        foreach (double level in this.research.Result.Keys)
+                        {
+                            writer.Write(this.research.Result[level][mu]);
+                            writer.Write(" ");
+                        }
+                        writer.Write("\n");
+                    }
+
+                    foreach (GenerationParam p in this.research.GenerationParams.Keys)
+                    {
+                        writer.WriteLine(p.ToString() + "=" + 
+                            this.research.GenerationParams[p].ToString());
+                    }
+
+                    writer.Write("RealizationCount=" + this.research.RealizationCount.ToString());
+                }
+            }
         }
 
         /*private void SaveOrigin(int currentLevel, string fileName)

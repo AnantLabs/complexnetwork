@@ -250,7 +250,8 @@ namespace Percolations
                 {
                     double maxOrder = (hAnalyzer.GetConnSubGraphPerLevel(i).Count != 0) ? 
                         hAnalyzer.GetConnSubGraphPerLevel(i).Last().Key : 1;
-                    result[i] += maxOrder;
+                    double normMaxOrder = maxOrder / (Math.Pow(p,i));
+                    result[i] += normMaxOrder;
                 }
             }
 
