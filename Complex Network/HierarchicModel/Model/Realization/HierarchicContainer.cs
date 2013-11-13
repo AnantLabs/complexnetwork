@@ -162,13 +162,8 @@ namespace Model.HierarchicModel.Realization
 
             for (int i = 0; i < vertexCount; ++i)
             {
-                for (int j = 0; j < i; ++j)
-                {
-                    if (i == j)
-                        matrix[i, i] = false;
-                    else
-                        matrix[i, j] = matrix[j, i] = (this[i, j] == 1) ? true : false;
-                }
+                for (int j = 0; j < vertexCount; ++j)
+                    matrix[i, j] = (this[i, j] == 1) ? true : false;
             }
 
             return matrix;
@@ -691,6 +686,16 @@ namespace Model.HierarchicModel.Realization
         {
             get
             {
+                if (v1 == v2)
+                {
+                    return 0;
+                }
+
+                if (v1 > v2)
+                {
+                    return this[v2, v1];
+                }
+
                 int currentLevel = level - 1;
                 // проверка на принадлежение к одному поддереву (для данных вершин)
                 // поднимаемся по уровням до того уровна, где они будут принадлежать одному поддереву
