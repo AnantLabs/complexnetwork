@@ -65,8 +65,7 @@ namespace StatisticAnalyzerUI
 
         private void showGraphics_Click(object sender, EventArgs e)
         {
-            MultipleGraphics graphics = new MultipleGraphics(this.currentResearch.Size, 
-                this.currentResearch.Result);
+            MultipleGraphics graphics = new MultipleGraphics(this.currentResearch);
             graphics.Text = this.currentResearch.Name;
             graphics.Show();
         }

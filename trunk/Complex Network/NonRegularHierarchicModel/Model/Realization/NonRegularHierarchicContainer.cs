@@ -29,7 +29,7 @@ namespace Model.NonRegularHierarchicModel.Realization
         {
             log.Info("Creating NonRegularHierarchicContainer default object.");
             treeMatrix = new BitArray[0][];
-            //branches = new int[0][];
+            branches = new int[0][];
         }
 
         // Размер контейнера (число вершин в графе).
@@ -76,10 +76,23 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Строится граф на основе матрицы смежности.
         public override void SetMatrix(string fileName)
         {
-            // !исправить!
+            ArrayList branch = MatrixFileReader.BranchesReader(fileName.Insert(fileName.Length - 4, "_branches"));
             ArrayList matrix = MatrixFileReader.MatrixReader(fileName);
 
             log.Info("Creating NonRegularHierarchicContainer object from given matrix.");
+
+            // Fill this.branches from branch
+            this.branches = new int[branch.Count][];
+            ArrayList arr;
+            for (int i = 0; i < branch.Count; ++i)
+            {
+                arr = (ArrayList)branch[i];
+                this.branches[i] = new int[arr.Count];
+                for (int j = 0; j < arr.Count; ++j)
+                    this.branches[i][j] = (int)arr[j];
+            }
+
+            // Fill this.treeMatrix from matrix
 
             throw new NotImplementedException();
         }

@@ -110,5 +110,35 @@ namespace GenericAlgorithms
             }
             return matrix;
         }
+
+        public static ArrayList BranchesReader(String filePath)
+        {
+            ArrayList branches = new ArrayList();
+            try
+            {
+                using (StreamReader streamreader = 
+                    new StreamReader(filePath, System.Text.Encoding.Default))
+                {
+                    string contents;
+                    while ((contents = streamreader.ReadLine()) != null)
+                    {
+                        string[] split = System.Text.RegularExpressions.Regex.Split(contents, 
+                            "\\s+", System.Text.RegularExpressions.RegexOptions.None);
+                        ArrayList tmp = new ArrayList();
+                        foreach (string s in split)
+                        {
+                            if(s != "")
+                                tmp.Add(Int32.Parse(s));
+                        }
+                        branches.Add(tmp);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // error handling
+            }
+            return branches;
+        }
     }
 }

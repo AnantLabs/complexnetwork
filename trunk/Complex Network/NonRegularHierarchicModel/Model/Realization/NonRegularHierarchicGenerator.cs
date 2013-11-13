@@ -62,27 +62,24 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Закрытая часть класса (не из общего интерфейса).
 
         // Генератор случайного числа.
-        private Random rnd = new Random();
-
+        private Random innerRand = new Random();
+        private RNGCrypto rand = new RNGCrypto();
         private const int ARRAY_MAX_SIZE = 2000000000;
 
         // Генерирует граф с данными параметрами. Сгенеририванный граф находится в контейнере.
         private BitArray[][] Generate(Double m)
         {
-            // addition
-
             BitArray[][] treeMatrix = new BitArray[container.Level - 1][];
             container.Branches = new int[container.Level - 1][];
 
             //for every level create datas, started with root
             for (int i = 0; i < container.Level - 1; ++i)
             {
-
                 int levelVertexCount = 0;
                 if (i == 0)
                 {
                     container.Branches[0] = new int[1];
-                    container.Branches[0][0] = rnd.Next(1, container.BranchIndex + 1);
+                    container.Branches[0][0] = innerRand.Next(1, container.BranchIndex + 1);
                     ++levelVertexCount;
                 }
                 else
@@ -98,7 +95,7 @@ namespace Model.NonRegularHierarchicModel.Realization
                     container.Branches[i] = new int[levelVertexCount];
                     for (int j = 0; j < levelVertexCount; ++j)
                     {
-                        container.Branches[i][j] = rnd.Next(1, container.BranchIndex + 1);
+                        container.Branches[i][j] = innerRand.Next(1, container.BranchIndex + 1);
                     }
                 }
 
@@ -133,7 +130,7 @@ namespace Model.NonRegularHierarchicModel.Realization
             {
                 for (int j = 0; j < treeMatrix[level][i].Length; j++)
                 {
-                    double k = rnd.NextDouble();
+                    double k = rand.NextDouble();
                     if (k <= (1 / Math.Pow(container.BranchIndex, level * m)))
                     {
                         treeMatrix[level][i][j] = true;
