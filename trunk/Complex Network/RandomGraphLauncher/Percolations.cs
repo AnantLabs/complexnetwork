@@ -161,6 +161,46 @@ namespace Percolations
             MessageBox.Show("Results are saved succesfully!");
         }
 
+        private void startAvgHierarchic_Click(object sender, EventArgs e)
+        {
+            ResultResearch result = new ResultResearch();
+            result.Name = this.jobName;
+            result.ModelType = typeof(HierarchicModel);
+            result.Delta = Double.Parse(this.deltaExtendedTxt.Text);
+            result.RealizationCount = (Int32)this.realizationCountNum.Value;
+            result.Function = this.probabilityFunctionCmb.Text;
+            result.GenerationParams[GenerationParam.BranchIndex] = Int16.Parse(this.branchIndexCmb.Text);
+            result.GenerationParams[GenerationParam.Level] = Int16.Parse(this.maxLevelCmb.Text);
+            result.Size = (int)Math.Pow(Int16.Parse(this.branchIndexCmb.Text), Int16.Parse(this.maxLevelCmb.Text));
+
+            Int16 maxLevel = Int16.Parse(this.maxLevelCmb.Text);
+            for (Int16 g = 1; g <= maxLevel; ++g)
+            {
+                result.Result.Add(g, new SortedDictionary<double, double>());
+            }
+
+            double muLow = Double.Parse(this.muRangeLowExtendedTxt.Text);
+            double muHigh = Double.Parse(this.muRangeHighExtendedTxt.Text);
+            double muDelta = Double.Parse(this.deltaExtendedTxt.Text);
+
+            double muTemp = muLow;
+            while (muTemp < muHigh)
+            {
+                SortedDictionary<double, double> r = AnalyzeAvgHierarchic(muTemp);
+                foreach (double gamma in r.Keys)
+                {
+                    result.Result[gamma].Add(muTemp, r[gamma]);
+                }
+
+                muTemp += muDelta;
+            }
+
+            XMLResultStorage storage = new XMLResultStorage(Options.StorageDirectory);
+            storage.SaveResearch(result);
+
+            MessageBox.Show("Results are saved succesfully!");
+        }
+
         // Утилиты.
 
         private void InitializeHierarchicModel()
@@ -176,6 +216,7 @@ namespace Percolations
             this.probabilityFunctionCmb.Visible = true;
             this.startExtended.Visible = true;
             this.startHierarchic.Visible = true;
+            this.startAvgHierarchic.Visible = true;
         }
 
         private void InitializeERModel()
@@ -251,6 +292,47 @@ namespace Percolations
                     double maxOrder = (hAnalyzer.GetConnSubGraphPerLevel(i).Count != 0) ? 
                         hAnalyzer.GetConnSubGraphPerLevel(i).Last().Key : 1;
                     double normMaxOrder = maxOrder / (Math.Pow(p,i));
+                    result[i] += normMaxOrder;
+                }
+            }
+
+            for (Int16 i = 1; i <= maxLevel; ++i)
+            {
+                result[i] /= realizationCount;
+            }
+
+            return result;
+        }
+
+        private SortedDictionary<double, double> AnalyzeAvgHierarchic(double mu)
+        {
+            Int16 p = Int16.Parse(this.branchIndexCmb.Text);
+            Int16 maxLevel = Int16.Parse(this.maxLevelCmb.Text);
+            int realizationCount = (Int32)this.realizationCountNum.Value;
+
+            SortedDictionary<double, double> result = new SortedDictionary<double, double>();
+            for (Int16 i = 1; i <= maxLevel; ++i)
+            {
+                result.Add(i, 0);
+            }
+
+            Dictionary<GenerationParam, object> genParameters = new Dictionary<GenerationParam, object>();
+            genParameters.Add(GenerationParam.BranchIndex, p);
+            genParameters.Add(GenerationParam.Level, maxLevel);
+            genParameters.Add(GenerationParam.Mu, mu);
+
+            HierarchicGenerator hGenerator = new HierarchicGenerator();
+            HierarchicAnalyzer hAnalyzer;
+
+            for (int r = 0; r < realizationCount; ++r)
+            {
+                hGenerator.Generation(genParameters);
+                hAnalyzer = new HierarchicAnalyzer((HierarchicContainer)hGenerator.Container);
+
+                for (Int16 i = 1; i <= maxLevel; ++i)
+                {
+                    double maxOrder = hAnalyzer.GetAvgConnSubGraphPerLevel(i);
+                    double normMaxOrder = maxOrder / (Math.Pow(p, i));
                     result[i] += normMaxOrder;
                 }
             }

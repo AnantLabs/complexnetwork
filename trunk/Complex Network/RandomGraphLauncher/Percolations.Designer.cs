@@ -55,6 +55,7 @@
             this.probRangeHighExtendedTxt = new System.Windows.Forms.TextBox();
             this.startExtended = new System.Windows.Forms.Button();
             this.startHierarchic = new System.Windows.Forms.Button();
+            this.startAvgHierarchic = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.realizationCountNum)).BeginInit();
             this.SuspendLayout();
             // 
@@ -208,7 +209,7 @@
             // probabilityFunctionCmb
             // 
             this.probabilityFunctionCmb.FormattingEnabled = true;
-            this.probabilityFunctionCmb.Location = new System.Drawing.Point(268, 141);
+            this.probabilityFunctionCmb.Location = new System.Drawing.Point(268, 150);
             this.probabilityFunctionCmb.Name = "probabilityFunctionCmb";
             this.probabilityFunctionCmb.Size = new System.Drawing.Size(121, 21);
             this.probabilityFunctionCmb.TabIndex = 54;
@@ -217,7 +218,7 @@
             // probabilityFunction
             // 
             this.probabilityFunction.AutoSize = true;
-            this.probabilityFunction.Location = new System.Drawing.Point(265, 125);
+            this.probabilityFunction.Location = new System.Drawing.Point(265, 134);
             this.probabilityFunction.Name = "probabilityFunction";
             this.probabilityFunction.Size = new System.Drawing.Size(99, 13);
             this.probabilityFunction.TabIndex = 53;
@@ -238,7 +239,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(59, 144);
+            this.label4.Location = new System.Drawing.Point(59, 153);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(10, 13);
             this.label4.TabIndex = 51;
@@ -246,7 +247,7 @@
             // 
             // deltaExtendedTxt
             // 
-            this.deltaExtendedTxt.Location = new System.Drawing.Point(154, 141);
+            this.deltaExtendedTxt.Location = new System.Drawing.Point(154, 150);
             this.deltaExtendedTxt.Name = "deltaExtendedTxt";
             this.deltaExtendedTxt.Size = new System.Drawing.Size(101, 20);
             this.deltaExtendedTxt.TabIndex = 50;
@@ -256,7 +257,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(151, 125);
+            this.label5.Location = new System.Drawing.Point(151, 134);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(32, 13);
             this.label5.TabIndex = 49;
@@ -265,7 +266,7 @@
             // hLabel
             // 
             this.hLabel.AutoSize = true;
-            this.hLabel.Location = new System.Drawing.Point(12, 125);
+            this.hLabel.Location = new System.Drawing.Point(12, 134);
             this.hLabel.Name = "hLabel";
             this.hLabel.Size = new System.Drawing.Size(69, 13);
             this.hLabel.TabIndex = 46;
@@ -274,7 +275,7 @@
             // 
             // muRangeLowExtendedTxt
             // 
-            this.muRangeLowExtendedTxt.Location = new System.Drawing.Point(12, 141);
+            this.muRangeLowExtendedTxt.Location = new System.Drawing.Point(12, 150);
             this.muRangeLowExtendedTxt.Name = "muRangeLowExtendedTxt";
             this.muRangeLowExtendedTxt.Size = new System.Drawing.Size(47, 20);
             this.muRangeLowExtendedTxt.TabIndex = 47;
@@ -284,7 +285,7 @@
             // 
             // muRangeHighExtendedTxt
             // 
-            this.muRangeHighExtendedTxt.Location = new System.Drawing.Point(69, 141);
+            this.muRangeHighExtendedTxt.Location = new System.Drawing.Point(69, 150);
             this.muRangeHighExtendedTxt.Name = "muRangeHighExtendedTxt";
             this.muRangeHighExtendedTxt.Size = new System.Drawing.Size(47, 20);
             this.muRangeHighExtendedTxt.TabIndex = 48;
@@ -295,7 +296,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(59, 144);
+            this.label2.Location = new System.Drawing.Point(59, 153);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(10, 13);
             this.label2.TabIndex = 45;
@@ -305,7 +306,7 @@
             // erLabel
             // 
             this.erLabel.AutoSize = true;
-            this.erLabel.Location = new System.Drawing.Point(12, 125);
+            this.erLabel.Location = new System.Drawing.Point(12, 134);
             this.erLabel.Name = "erLabel";
             this.erLabel.Size = new System.Drawing.Size(110, 13);
             this.erLabel.TabIndex = 42;
@@ -314,7 +315,7 @@
             // 
             // probRangeLowExtendedTxt
             // 
-            this.probRangeLowExtendedTxt.Location = new System.Drawing.Point(12, 141);
+            this.probRangeLowExtendedTxt.Location = new System.Drawing.Point(12, 150);
             this.probRangeLowExtendedTxt.Name = "probRangeLowExtendedTxt";
             this.probRangeLowExtendedTxt.Size = new System.Drawing.Size(47, 20);
             this.probRangeLowExtendedTxt.TabIndex = 43;
@@ -324,7 +325,7 @@
             // 
             // probRangeHighExtendedTxt
             // 
-            this.probRangeHighExtendedTxt.Location = new System.Drawing.Point(69, 141);
+            this.probRangeHighExtendedTxt.Location = new System.Drawing.Point(69, 150);
             this.probRangeHighExtendedTxt.Name = "probRangeHighExtendedTxt";
             this.probRangeHighExtendedTxt.Size = new System.Drawing.Size(47, 20);
             this.probRangeHighExtendedTxt.TabIndex = 44;
@@ -354,11 +355,23 @@
             this.startHierarchic.Visible = false;
             this.startHierarchic.Click += new System.EventHandler(this.startHierarchic_Click);
             // 
+            // startAvgHierarchic
+            // 
+            this.startAvgHierarchic.Location = new System.Drawing.Point(414, 161);
+            this.startAvgHierarchic.Name = "startAvgHierarchic";
+            this.startAvgHierarchic.Size = new System.Drawing.Size(100, 34);
+            this.startAvgHierarchic.TabIndex = 56;
+            this.startAvgHierarchic.Text = "Start Hierarchic (Avg)";
+            this.startAvgHierarchic.UseVisualStyleBackColor = true;
+            this.startAvgHierarchic.Visible = false;
+            this.startAvgHierarchic.Click += new System.EventHandler(this.startAvgHierarchic_Click);
+            // 
             // PercolationCounting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(538, 191);
+            this.ClientSize = new System.Drawing.Size(538, 207);
+            this.Controls.Add(this.startAvgHierarchic);
             this.Controls.Add(this.startHierarchic);
             this.Controls.Add(this.probabilityFunctionCmb);
             this.Controls.Add(this.probabilityFunction);
@@ -425,6 +438,7 @@
         private System.Windows.Forms.TextBox probRangeHighExtendedTxt;
         private System.Windows.Forms.Button startExtended;
         private System.Windows.Forms.Button startHierarchic;
+        private System.Windows.Forms.Button startAvgHierarchic;
     }
 }
 
