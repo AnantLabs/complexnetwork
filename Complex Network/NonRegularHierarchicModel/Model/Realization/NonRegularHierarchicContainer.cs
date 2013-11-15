@@ -92,9 +92,133 @@ namespace Model.NonRegularHierarchicModel.Realization
                     this.branches[i][j] = (int)arr[j];
             }
 
-            // Fill this.treeMatrix from matrix
+            this.level = branch.Count + 1;
 
-            throw new NotImplementedException();
+            // Move the matrix to List
+
+            List<List<bool>> matrixInList = new List<List<bool>>();
+            for (int i = 0; i < matrix.Count; ++i)
+            {
+                arr = (ArrayList)matrix[i];
+                matrixInList.Add(new List<bool>());
+                for (int j = 0; j < arr.Count - 1; ++j)
+                    matrixInList[i].Add((bool)arr[j]);
+            }
+
+            // Create empty TreeMatrix
+
+            this.treeMatrix = new BitArray[Level - 1][];
+            for (int i = 0; i < level - 1; ++i)
+            {
+                long dataLength = 0;
+                for (int j = 0; j < branches[i].Length; ++j)
+                {
+                    int nodeDataLength = branches[i][j];
+                    dataLength += nodeDataLength * (nodeDataLength - 1) / 2;
+                }
+                int arrCount = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(dataLength) / ARRAY_MAX_SIZE));
+
+                if (arrCount > 0)
+                {
+                    treeMatrix[i] = new BitArray[arrCount];
+                    int t;
+                    for (t = 0; t < arrCount - 1; ++t)
+                    {
+                        treeMatrix[i][t] = new BitArray(ARRAY_MAX_SIZE);
+                    }
+                    treeMatrix[i][t] = new BitArray(Convert.ToInt32(dataLength - (arrCount - 1) * ARRAY_MAX_SIZE));
+                }
+            }
+
+            // Fill the TreeMatrix from matrixInList
+
+            for (int i = 0; i < matrixInList.Count; ++i)
+            {
+                for (int j = i + 1; j < matrixInList[i].Count; ++j)
+                {
+                    int currentLevel = level - 1;
+                    int numberOfGroup1 = 0, numberOfGroup2 = 0;
+                    int v1 = i, v2 = j; 
+                    do
+                    {
+                        --currentLevel;
+                        bool groupsFound = false;
+                        int counter = 0;
+                        for (int t = 0; t < branches[currentLevel].Length; ++t)
+                        {
+                            for (int k = 0; k < branches[currentLevel][t]; ++k)
+                            {
+                                if (counter == v1)
+                                {
+                                    numberOfGroup1 = t;
+                                }
+                                else if (counter == v2)
+                                {
+                                    numberOfGroup2 = t;
+                                    groupsFound = true;
+                                    break;
+                                }
+                                ++counter;
+                            }
+                            if (groupsFound == true)
+                            {
+                                break;
+                            }
+                        }
+
+                        if (numberOfGroup1 != numberOfGroup2)
+                        {
+                            v1 = numberOfGroup1;
+                            v2 = numberOfGroup2;
+                        }
+
+                    } while (numberOfGroup1 != numberOfGroup2);
+
+                    int branchSize = branches[currentLevel][numberOfGroup1];
+                    int index = AdjacentIndex(branchSize, v1 % branchSize, v2 % branchSize);
+                    int resultSize = branchSize * (branchSize - 1) / 2;
+
+                    long count = 0;
+                    for (int t = 0; t < numberOfGroup1; ++t)
+                    {
+                        count += branches[currentLevel][t] * (branches[currentLevel][t] - 1) / 2;
+                    }
+
+                    int ind = Convert.ToInt32(Math.Floor(Convert.ToDouble(count / ARRAY_MAX_SIZE)));
+                    int rangeSt = Convert.ToInt32(count - ind * ARRAY_MAX_SIZE);
+                    int rangeEnd = rangeSt + resultSize;
+                    int secArray = 0;
+
+                    if (rangeEnd > ARRAY_MAX_SIZE)
+                    {
+                        secArray = rangeEnd - ARRAY_MAX_SIZE;
+                        rangeEnd = ARRAY_MAX_SIZE - 1;
+                    }
+
+                    int counter1 = 0;
+                    bool result = false;
+                    for (int t = rangeSt; t < rangeEnd; t++)
+                    {
+                        if (counter1 == index)
+                        {
+                            treeMatrix[currentLevel][ind][t] = matrixInList[i][j];
+                            result = true;
+                        }
+                        counter1++;
+                    }
+
+                    if (result == false)
+                    {
+                        for (int t = 0; t < secArray; t++)
+                        {
+                            treeMatrix[currentLevel][ind + 1][t] = matrixInList[i][j];
+                            counter1++;
+                        }
+                    }
+                }
+            }
+
+            int a = 6; // I used this for to put breakpoint for the debugging mode, to make sure it is working properly.
         }
 
         // Возвращается матрица смежности, соответсвующая графу.
