@@ -199,6 +199,25 @@ namespace Model.HierarchicModel.Realization
             return result;
         }
 
+        // ?????????????????????????
+        public double GetAvgConnSubGraphPerLevel(Int16 currentLevel)
+        {
+            int currentLevelInTree = this.container.Level - currentLevel;
+            double result = 0;
+
+            double countOfClusters = Math.Pow(container.BranchIndex, currentLevelInTree);
+            for (int i = 0; i < countOfClusters; ++i)
+            {
+                SortedDictionary<int, int> res =
+                    AmountConnectedSubGraphsPerLevel(i, currentLevelInTree);
+                double maxRes = (res.Count() == 0) ? 1 : res.Last().Key;
+                result += maxRes;
+            }
+
+            result /= countOfClusters;
+            return result;
+        }
+
         // Возвращается распределение чисел циклов. Реализовано.
         public override SortedDictionary<int, long> GetCycles(int lowBound, int hightBound)
         {
