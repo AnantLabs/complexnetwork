@@ -106,9 +106,9 @@ namespace Model.NonRegularHierarchicModel.Realization
                 }
                 int arrCount = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(dataLength) / ARRAY_MAX_SIZE));
 
+                treeMatrix[i] = new BitArray[arrCount];
                 if (arrCount > 0)
                 {
-                    treeMatrix[i] = new BitArray[arrCount];
                     int t;
                     for (t = 0; t < arrCount - 1; ++t)
                     {
