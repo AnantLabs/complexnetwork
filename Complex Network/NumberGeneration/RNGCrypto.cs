@@ -6,31 +6,70 @@ using System.Security.Cryptography;
 
 namespace NumberGeneration
 {
+    // Реализация генератора криптографически сильных случайных чисел.
     public class RNGCrypto
     {
+        private const int BufferSize = 1024;  // must be a multiple of 4
+        private byte[] RandomBuffer;
+        private int BufferOffset;
         private RNGCryptoServiceProvider rng;
 
         public RNGCrypto()
         {
+            RandomBuffer = new byte[BufferSize];
             rng = new RNGCryptoServiceProvider();
+            BufferOffset = RandomBuffer.Length;
         }
 
-        public Int32 NextInt32()
+        // Возвращает случайное положительное целое число.
+        public int Next()
         {
-            byte[] data = new byte[4];
-            rng.GetBytes(data);
-            return BitConverter.ToInt32(data, 0);
+            if (BufferOffset >= RandomBuffer.Length)
+            {
+                FillBuffer();
+            }
+
+            int val = BitConverter.ToInt32(RandomBuffer, BufferOffset) & 0x7fffffff;
+            BufferOffset += sizeof(int);
+            return val;
         }
 
-        public Int32 NextInt32(Int32 a, Int32 b)
+        // Возвращает случайное положительное целое число (меньше данного значения).
+        public int Next(int maxValue)
         {
-            byte[] data = new byte[4];
-            rng.GetBytes(data);
-            return Convert.ToInt32(Math.Floor((a + (b - a) / 
-                (double)BitConverter.ToInt32(data, 0))));
+            return Next() % maxValue;
         }
 
+        // // Возвращает случайное положительное целое число из данного диапазона.
+        public int Next(int minValue, int maxValue)
+        {
+            if (maxValue < minValue)
+            {
+                throw new ArgumentOutOfRangeException("maxValue must be greater than or equal to minValue");
+            }
+            int range = maxValue - minValue;
+            return minValue + Next(range);
+        }
+
+        // Возвращает случайное положительное дейвствительное число.
         public double NextDouble()
+        {
+            int val = Next();
+            return (double)val / int.MaxValue;
+        }
+
+        // Возвращает случайное положительное дейвствительное число из данного диапазона.
+        public double NextDouble(double a, double b)
+        {
+            return a + (b - a) / NextDouble();
+        }
+
+        public void GetBytes(byte[] buff)
+        {
+            rng.GetBytes(buff);
+        }
+
+        /*public double NextDouble()
         {
             byte[] data = new byte[4];
             rng.GetBytes(data);
@@ -42,6 +81,14 @@ namespace NumberGeneration
             byte[] data = new byte[8];
             rng.GetBytes(data);
             return a + (b - a) / BitConverter.ToDouble(data, 0);
+        }*/
+
+        // Utilities
+
+        private void FillBuffer()
+        {
+            rng.GetBytes(RandomBuffer);
+            BufferOffset = 0;
         }
     }
 }

@@ -62,7 +62,6 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Закрытая часть класса (не из общего интерфейса).
 
         // Генератор случайного числа.
-        private Random innerRand = new Random();
         private RNGCrypto rand = new RNGCrypto();
         private const int ARRAY_MAX_SIZE = 2000000000;
 
@@ -79,7 +78,7 @@ namespace Model.NonRegularHierarchicModel.Realization
                 if (i == 0)
                 {
                     container.Branches[0] = new int[1];
-                    container.Branches[0][0] = innerRand.Next(1, container.BranchIndex + 1);
+                    container.Branches[0][0] = rand.Next(1, container.BranchIndex + 1);
                     ++levelVertexCount;
                 }
                 else
@@ -95,7 +94,7 @@ namespace Model.NonRegularHierarchicModel.Realization
                     container.Branches[i] = new int[levelVertexCount];
                     for (int j = 0; j < levelVertexCount; ++j)
                     {
-                        container.Branches[i][j] = innerRand.Next(1, container.BranchIndex + 1);
+                        container.Branches[i][j] = rand.Next(1, container.BranchIndex + 1);
                     }
                 }
 
