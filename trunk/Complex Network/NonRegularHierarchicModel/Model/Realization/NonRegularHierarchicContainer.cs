@@ -217,8 +217,6 @@ namespace Model.NonRegularHierarchicModel.Realization
                     }
                 }
             }
-
-            int a = 6; // I used this for to put breakpoint for the debugging mode, to make sure it is working properly.
         }
 
         // Возвращается матрица смежности, соответсвующая графу.

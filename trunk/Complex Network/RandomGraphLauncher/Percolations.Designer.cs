@@ -56,6 +56,7 @@
             this.startExtended = new System.Windows.Forms.Button();
             this.startHierarchic = new System.Windows.Forms.Button();
             this.startAvgHierarchic = new System.Windows.Forms.Button();
+            this.startGlobal = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.realizationCountNum)).BeginInit();
             this.SuspendLayout();
             // 
@@ -366,11 +367,23 @@
             this.startAvgHierarchic.Visible = false;
             this.startAvgHierarchic.Click += new System.EventHandler(this.startAvgHierarchic_Click);
             // 
+            // startGlobal
+            // 
+            this.startGlobal.Location = new System.Drawing.Point(414, 201);
+            this.startGlobal.Name = "startGlobal";
+            this.startGlobal.Size = new System.Drawing.Size(100, 34);
+            this.startGlobal.TabIndex = 57;
+            this.startGlobal.Text = "Start Global";
+            this.startGlobal.UseVisualStyleBackColor = true;
+            this.startGlobal.Visible = false;
+            this.startGlobal.Click += new System.EventHandler(this.startGlobal_Click);
+            // 
             // PercolationCounting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(538, 207);
+            this.ClientSize = new System.Drawing.Size(538, 245);
+            this.Controls.Add(this.startGlobal);
             this.Controls.Add(this.startAvgHierarchic);
             this.Controls.Add(this.startHierarchic);
             this.Controls.Add(this.probabilityFunctionCmb);
@@ -439,6 +452,7 @@
         private System.Windows.Forms.Button startExtended;
         private System.Windows.Forms.Button startHierarchic;
         private System.Windows.Forms.Button startAvgHierarchic;
+        private System.Windows.Forms.Button startGlobal;
     }
 }
 

@@ -201,6 +201,57 @@ namespace Percolations
             MessageBox.Show("Results are saved succesfully!");
         }
 
+        private void startGlobal_Click(object sender, EventArgs e)
+        {
+            Int16 p = Int16.Parse(this.branchIndexCmb.Text);
+            Int16 maxLevel = Int16.Parse(this.maxLevelCmb.Text);
+            int realizationCount = (Int32)this.realizationCountNum.Value;
+            double muLow = Double.Parse(this.muRangeLowExtendedTxt.Text);
+            double muHigh = Double.Parse(this.muRangeHighExtendedTxt.Text);
+            double muDelta = Double.Parse(this.deltaExtendedTxt.Text);
+
+            ResultResearch result = new ResultResearch();
+            result.Name = this.jobName;
+            result.ModelType = typeof(HierarchicModel);
+            result.Delta = muDelta;
+            result.RealizationCount = realizationCount;
+            result.Function = this.probabilityFunctionCmb.Text;
+            result.GenerationParams[GenerationParam.BranchIndex] = p;
+            result.GenerationParams[GenerationParam.Level] = maxLevel;
+            result.Size = (int)Math.Pow(p, maxLevel);
+            result.Result.Add(maxLevel, new SortedDictionary<double, double>());
+
+            Dictionary<GenerationParam, object> genParameters = new Dictionary<GenerationParam, object>();
+            genParameters.Add(GenerationParam.BranchIndex, p);
+            genParameters.Add(GenerationParam.Level, maxLevel);
+
+            HierarchicGenerator hGenerator = new HierarchicGenerator();
+            HierarchicAnalyzer hAnalyzer;
+
+            double muTemp = muLow;
+            while (muTemp <= muHigh)
+            {
+                double avgOrder = 0;
+                for (int r = 0; r < realizationCount; ++r)
+                {
+                    genParameters[GenerationParam.Mu] = muTemp;
+                    hGenerator.Generation(genParameters);
+                    hAnalyzer = new HierarchicAnalyzer((HierarchicContainer)hGenerator.Container);
+
+                    avgOrder += hAnalyzer.GetConnSubGraph().Last().Key;
+                }
+                double avgValue = avgOrder / (double)realizationCount;
+                result.Result[maxLevel].Add(muTemp, avgValue / result.Size);
+
+                muTemp += muDelta;
+            }
+
+            XMLResultStorage storage = new XMLResultStorage(Options.StorageDirectory);
+            storage.SaveResearch(result);
+
+            MessageBox.Show("Results are saved succesfully!");
+        }
+
         // Утилиты.
 
         private void InitializeHierarchicModel()
@@ -217,6 +268,7 @@ namespace Percolations
             this.startExtended.Visible = true;
             this.startHierarchic.Visible = true;
             this.startAvgHierarchic.Visible = true;
+            this.startGlobal.Visible = true;
         }
 
         private void InitializeERModel()
