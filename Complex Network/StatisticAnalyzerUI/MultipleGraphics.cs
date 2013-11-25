@@ -28,7 +28,6 @@ namespace Percolations
 
             this.research = r;
 
-
             SortedDictionary<double, SortedDictionary<double, double>>.KeyCollection keys =
                 this.research.Result.Keys;
             foreach (double k in keys)
