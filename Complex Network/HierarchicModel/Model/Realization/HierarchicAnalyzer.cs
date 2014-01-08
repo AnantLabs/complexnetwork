@@ -218,6 +218,29 @@ namespace Model.HierarchicModel.Realization
             return result;
         }
 
+        // ???????? !Исправить! подумать о включении в общий интерфейс
+        public SortedDictionary<int, int> GetConnSubGraphSublevels(Int16 currentLevel)
+        {
+            int currentLevelInTree = this.container.Level - currentLevel;
+            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
+
+            for (int i = 0; i < Math.Pow(container.BranchIndex, currentLevelInTree); ++i)
+            {
+                SortedDictionary<int, int> res =
+                    AmountConnectedSubGraphs(i, currentLevelInTree);
+
+                foreach (KeyValuePair<int, int> kvt in res)
+                {
+                    if (result.Keys.Contains(kvt.Key))
+                        result[kvt.Key] += kvt.Value;
+                    else
+                        result.Add(kvt.Key, kvt.Value);
+                }
+            }
+
+            return result;
+        }
+
         // Возвращается распределение чисел циклов. Реализовано.
         public override SortedDictionary<int, long> GetCycles(int lowBound, int hightBound)
         {

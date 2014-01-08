@@ -57,6 +57,7 @@
             this.startHierarchic = new System.Windows.Forms.Button();
             this.startAvgHierarchic = new System.Windows.Forms.Button();
             this.startGlobal = new System.Windows.Forms.Button();
+            this.startSublevelsHierarchic = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.realizationCountNum)).BeginInit();
             this.SuspendLayout();
             // 
@@ -378,11 +379,23 @@
             this.startGlobal.Visible = false;
             this.startGlobal.Click += new System.EventHandler(this.startGlobal_Click);
             // 
+            // startSublevelsHierarchic
+            // 
+            this.startSublevelsHierarchic.Location = new System.Drawing.Point(289, 201);
+            this.startSublevelsHierarchic.Name = "startSublevelsHierarchic";
+            this.startSublevelsHierarchic.Size = new System.Drawing.Size(100, 34);
+            this.startSublevelsHierarchic.TabIndex = 58;
+            this.startSublevelsHierarchic.Text = "Start Hierarchic (with sublevels)";
+            this.startSublevelsHierarchic.UseVisualStyleBackColor = true;
+            this.startSublevelsHierarchic.Visible = false;
+            this.startSublevelsHierarchic.Click += new System.EventHandler(this.startSublevelsHierarchic_Click);
+            // 
             // PercolationCounting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(538, 245);
+            this.Controls.Add(this.startSublevelsHierarchic);
             this.Controls.Add(this.startGlobal);
             this.Controls.Add(this.startAvgHierarchic);
             this.Controls.Add(this.startHierarchic);
@@ -453,6 +466,7 @@
         private System.Windows.Forms.Button startHierarchic;
         private System.Windows.Forms.Button startAvgHierarchic;
         private System.Windows.Forms.Button startGlobal;
+        private System.Windows.Forms.Button startSublevelsHierarchic;
     }
 }
 
