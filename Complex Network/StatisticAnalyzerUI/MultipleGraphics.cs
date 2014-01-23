@@ -28,7 +28,7 @@ namespace Percolations
 
             this.research = r;
 
-            SortedDictionary<double, SortedDictionary<double, double>>.KeyCollection keys =
+            SortedDictionary<double, SortedDictionary<double, SubGraphsInfo>>.KeyCollection keys =
                 this.research.Result.Keys;
             foreach (double k in keys)
             {
@@ -43,9 +43,9 @@ namespace Percolations
                 Series s = new Series("Current Level = " + k.ToString());
                 s.ChartType = SeriesChartType.Line;
                 s.Color = Color.Red;
-                foreach (KeyValuePair<double, double> v in this.research.Result[k])
+                foreach (KeyValuePair<double, SubGraphsInfo> v in this.research.Result[k])
                 {
-                    s.Points.Add(new DataPoint(v.Key, v.Value));
+                    s.Points.Add(new DataPoint(v.Key, v.Value.avgOrder));
                 }
                 graphic.Series.Add(s);
 
@@ -107,7 +107,11 @@ namespace Percolations
                         writer.Write(mu.ToString() + " ");
                         foreach (double level in this.research.Result.Keys)
                         {
-                            writer.Write(this.research.Result[level][mu]);
+                            writer.Write(this.research.Result[level][mu].avgOrder);
+                            writer.Write(" ");
+                            writer.Write(this.research.Result[level][mu].secondMax);
+                            writer.Write(" ");
+                            writer.Write(this.research.Result[level][mu].avgOrderRest);
                             writer.Write(" ");
                         }
                         writer.Write("\n");
@@ -122,6 +126,10 @@ namespace Percolations
                     writer.Write("RealizationCount=" + this.research.RealizationCount.ToString());
                 }
             }
+        }
+
+        private void openTable_Click(object sender, EventArgs e)
+        {
         }
 
         /*private void SaveOrigin(int currentLevel, string fileName)
