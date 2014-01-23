@@ -32,9 +32,9 @@
             this.researchNames = new System.Windows.Forms.Label();
             this.researchNamesCmb = new System.Windows.Forms.ComboBox();
             this.information = new System.Windows.Forms.Label();
-            this.informationGrd = new System.Windows.Forms.DataGridView();
-            this.field = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.field = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.informationGrd = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.informationGrd)).BeginInit();
             this.SuspendLayout();
             // 
@@ -75,6 +75,19 @@
             this.information.TabIndex = 3;
             this.information.Text = "Information";
             // 
+            // value
+            // 
+            this.value.HeaderText = "Value";
+            this.value.Name = "value";
+            this.value.ReadOnly = true;
+            this.value.Width = 230;
+            // 
+            // field
+            // 
+            this.field.HeaderText = "Field";
+            this.field.Name = "field";
+            this.field.ReadOnly = true;
+            // 
             // informationGrd
             // 
             this.informationGrd.AllowUserToAddRows = false;
@@ -88,19 +101,6 @@
             this.informationGrd.ReadOnly = true;
             this.informationGrd.Size = new System.Drawing.Size(377, 229);
             this.informationGrd.TabIndex = 4;
-            // 
-            // field
-            // 
-            this.field.HeaderText = "Field";
-            this.field.Name = "field";
-            this.field.ReadOnly = true;
-            // 
-            // value
-            // 
-            this.value.HeaderText = "Value";
-            this.value.Name = "value";
-            this.value.ReadOnly = true;
-            this.value.Width = 230;
             // 
             // Researches
             // 
@@ -128,8 +128,8 @@
         private System.Windows.Forms.Label researchNames;
         private System.Windows.Forms.ComboBox researchNamesCmb;
         private System.Windows.Forms.Label information;
-        private System.Windows.Forms.DataGridView informationGrd;
-        private System.Windows.Forms.DataGridViewTextBoxColumn field;
         private System.Windows.Forms.DataGridViewTextBoxColumn value;
+        private System.Windows.Forms.DataGridViewTextBoxColumn field;
+        private System.Windows.Forms.DataGridView informationGrd;
     }
 }

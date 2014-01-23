@@ -308,12 +308,14 @@ namespace ResultStorage.Storage
                     log.Info("Saving analyze results for level - " + l.ToString() + ".");
 
                     writer.WriteStartElement("level" + l.ToString());
-                    SortedDictionary<double, double> r = research.Result[l];
+                    SortedDictionary<double, SubGraphsInfo> r = research.Result[l];
                     foreach (double degree in r.Keys)
                     {
                         writer.WriteStartElement("avgorder");
                         writer.WriteAttributeString("q", degree.ToString());
-                        writer.WriteAttributeString("order", r[degree].ToString());
+                        writer.WriteAttributeString("order", r[degree].avgOrder.ToString());
+                        writer.WriteElementString("secondmax", r[degree].secondMax.ToString());
+                        writer.WriteElementString("avgorderrest", r[degree].avgOrderRest.ToString());
                         writer.WriteEndElement();
                     }
                     writer.WriteEndElement();   // level
@@ -572,13 +574,18 @@ namespace ResultStorage.Storage
             int count = xml.SelectSingleNode("/research/results").ChildNodes.Count;
             for (int i = 1; i <= count; ++i)
             {
-                SortedDictionary<double, double> r = new SortedDictionary<double, double>();
+                SortedDictionary<double, SubGraphsInfo> r = new SortedDictionary<double, SubGraphsInfo>();
+                SubGraphsInfo tempInfo = new SubGraphsInfo();
                 foreach (XmlNode paramNode in xml.SelectNodes("/research/results/level" + i.ToString()))
                 {
                     foreach (XmlNode item in paramNode.SelectNodes("avgorder"))
                     {
-                        r.Add(Double.Parse(item.Attributes["q"].Value),
-                        Double.Parse(item.Attributes["order"].Value));
+                        tempInfo.avgOrder = Double.Parse(item.Attributes["order"].Value);
+                        // read <secondmax> value;
+                        tempInfo.secondMax = Double.Parse(item.ChildNodes[0].InnerText);
+                        // read <avgorderrest> value
+                        tempInfo.avgOrderRest = Double.Parse(item.ChildNodes[1].InnerText); 
+                        r.Add(Double.Parse(item.Attributes["q"].Value), tempInfo);
                     }
                 }
 

@@ -7,6 +7,13 @@ using RandomGraph.Common.Model.Generation;
 
 namespace CommonLibrary.Model.Result
 {
+    public struct SubGraphsInfo
+    {
+        public double avgOrder;
+        public double secondMax;
+        public double avgOrderRest;
+    }
+
     public class ResultResearch
     {
         public Guid ResearchID { get; set; }
@@ -17,13 +24,13 @@ namespace CommonLibrary.Model.Result
         public double Delta { get; set; }
         public string Function { get; set; }
         public int Size { get; set; }
-        public SortedDictionary<double, SortedDictionary<double, double>> Result { get; set; }
+        public SortedDictionary<double, SortedDictionary<double, SubGraphsInfo>> Result { get; set; }
 
         public ResultResearch()
         {
             this.ResearchID = Guid.NewGuid();
             this.GenerationParams = new Dictionary<GenerationParam, object>();
-            this.Result = new SortedDictionary<double, SortedDictionary<double, double>>();
+            this.Result = new SortedDictionary<double, SortedDictionary<double, SubGraphsInfo>>();
             this.Function = "Classical";
         }
     }

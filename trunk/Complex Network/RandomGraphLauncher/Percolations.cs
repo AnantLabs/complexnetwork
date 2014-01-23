@@ -136,7 +136,7 @@ namespace Percolations
             Int16 maxLevel = Int16.Parse(this.maxLevelCmb.Text);
             for (Int16 g = 1; g <= maxLevel; ++g)
             {
-                result.Result.Add(g, new SortedDictionary<double, double>());
+                result.Result.Add(g, new SortedDictionary<double, SubGraphsInfo>());
             }
 
             double muLow = Double.Parse(this.muRangeLowExtendedTxt.Text);
@@ -144,12 +144,14 @@ namespace Percolations
             double muDelta = Double.Parse(this.deltaExtendedTxt.Text);
 
             double muTemp = muLow;
+            SubGraphsInfo tempInfo = new SubGraphsInfo();
             while (muTemp < muHigh)
             {
                 SortedDictionary<double, double> r = AnalyzeHierarchic(muTemp);
                 foreach (double gamma in r.Keys)
                 {
-                    result.Result[gamma].Add(muTemp, r[gamma]);
+                    tempInfo.avgOrder = r[gamma];
+                    result.Result[gamma].Add(muTemp, tempInfo);
                 }
 
                 muTemp += muDelta;
@@ -176,7 +178,7 @@ namespace Percolations
             Int16 maxLevel = Int16.Parse(this.maxLevelCmb.Text);
             for (Int16 g = 1; g <= maxLevel; ++g)
             {
-                result.Result.Add(g, new SortedDictionary<double, double>());
+                result.Result.Add(g, new SortedDictionary<double, SubGraphsInfo>());
             }
 
             double muLow = Double.Parse(this.muRangeLowExtendedTxt.Text);
@@ -184,12 +186,14 @@ namespace Percolations
             double muDelta = Double.Parse(this.deltaExtendedTxt.Text);
 
             double muTemp = muLow;
+            SubGraphsInfo tempInfo = new SubGraphsInfo();
             while (muTemp < muHigh)
             {
                 SortedDictionary<double, double> r = AnalyzeAvgHierarchic(muTemp);
                 foreach (double gamma in r.Keys)
                 {
-                    result.Result[gamma].Add(muTemp, r[gamma]);
+                    tempInfo.avgOrder = r[gamma];
+                    result.Result[gamma].Add(muTemp, tempInfo);
                 }
 
                 muTemp += muDelta;
@@ -219,7 +223,7 @@ namespace Percolations
             result.GenerationParams[GenerationParam.BranchIndex] = p;
             result.GenerationParams[GenerationParam.Level] = maxLevel;
             result.Size = (int)Math.Pow(p, maxLevel);
-            result.Result.Add(maxLevel, new SortedDictionary<double, double>());
+            result.Result.Add(maxLevel, new SortedDictionary<double, SubGraphsInfo>());
 
             Dictionary<GenerationParam, object> genParameters = new Dictionary<GenerationParam, object>();
             genParameters.Add(GenerationParam.BranchIndex, p);
@@ -229,19 +233,41 @@ namespace Percolations
             HierarchicAnalyzer hAnalyzer;
 
             double muTemp = muLow;
+            SubGraphsInfo tempInfo = new SubGraphsInfo();
+            SortedDictionary<int, int> subGraphInfo = new SortedDictionary<int,int>();
             while (muTemp <= muHigh)
             {
-                double avgOrder = 0;
                 for (int r = 0; r < realizationCount; ++r)
                 {
                     genParameters[GenerationParam.Mu] = muTemp;
                     hGenerator.Generation(genParameters);
                     hAnalyzer = new HierarchicAnalyzer((HierarchicContainer)hGenerator.Container);
+                    subGraphInfo = hAnalyzer.GetConnSubGraph();
 
-                    avgOrder += hAnalyzer.GetConnSubGraph().Last().Key;
+                    tempInfo.avgOrder += subGraphInfo.Last().Key;
+
+                    if (subGraphInfo.Count > 1)
+                    {
+                        subGraphInfo.Remove(subGraphInfo.Last().Key);
+                        tempInfo.secondMax += subGraphInfo.Last().Key;
+                    }
+
+                    if (subGraphInfo.Count > 2)
+                    {
+                        subGraphInfo.Remove(subGraphInfo.Last().Key);
+                        tempInfo.avgOrderRest += subGraphInfo.Average(x => x.Key);
+                    }
                 }
-                double avgValue = avgOrder / (double)realizationCount;
-                result.Result[maxLevel].Add(muTemp, avgValue / result.Size);
+                tempInfo.avgOrder /= (double)realizationCount;
+                tempInfo.avgOrder /= result.Size;
+
+                tempInfo.secondMax /= (double)realizationCount;
+                tempInfo.secondMax /= result.Size;
+
+                tempInfo.avgOrderRest /= (double)realizationCount;
+                tempInfo.avgOrderRest /= result.Size;
+
+                result.Result[maxLevel].Add(muTemp, tempInfo);
 
                 muTemp += muDelta;
             }
@@ -267,7 +293,7 @@ namespace Percolations
             Int16 maxLevel = Int16.Parse(this.maxLevelCmb.Text);
             for (Int16 g = 1; g <= maxLevel; ++g)
             {
-                result.Result.Add(g, new SortedDictionary<double, double>());
+                result.Result.Add(g, new SortedDictionary<double, SubGraphsInfo>());
             }
 
             double muLow = Double.Parse(this.muRangeLowExtendedTxt.Text);
@@ -275,12 +301,14 @@ namespace Percolations
             double muDelta = Double.Parse(this.deltaExtendedTxt.Text);
 
             double muTemp = muLow;
+            SubGraphsInfo tempInfo = new SubGraphsInfo();
             while (muTemp < muHigh)
             {
                 SortedDictionary<double, double> r = AnalyzeSublevelsHierarchic(muTemp);
                 foreach (double gamma in r.Keys)
                 {
-                    result.Result[gamma].Add(muTemp, r[gamma]);
+                    tempInfo.avgOrder = r[gamma];
+                    result.Result[gamma].Add(muTemp, tempInfo);
                 }
 
                 muTemp += muDelta;
@@ -321,9 +349,9 @@ namespace Percolations
             this.startER.Visible = true;
         }
 
-        private SortedDictionary<double, double> AnalyzeExtendedHierarchic(Int16 currentLevel)
+        private SortedDictionary<double, SubGraphsInfo> AnalyzeExtendedHierarchic(Int16 currentLevel)
         {
-            SortedDictionary<double, double> result = new SortedDictionary<double, double>();
+            SortedDictionary<double, SubGraphsInfo> result = new SortedDictionary<double, SubGraphsInfo>();
 
             Int16 p = Int16.Parse(this.branchIndexCmb.Text);
             Int16 maxLevel = Int16.Parse(this.maxLevelCmb.Text);
@@ -336,6 +364,7 @@ namespace Percolations
             HierarchicAnalyzer hAnalyzer;
 
             double muTemp = muLow;
+            SubGraphsInfo tempInfo = new SubGraphsInfo();
             while (muTemp <= muHigh)
             {
                 double avgOrder = 0;
@@ -347,7 +376,8 @@ namespace Percolations
                     avgOrder += hAnalyzer.GetConnSubGraph().Last().Key;
                 }
                 double avgValue = avgOrder / (double)realizationCount;
-                result.Add(muTemp, avgValue / Math.Pow(p, currentLevel));
+                tempInfo.avgOrder = avgValue / Math.Pow(p, currentLevel); 
+                result.Add(muTemp, tempInfo);
 
                 muTemp += muDelta;
             }
@@ -439,9 +469,9 @@ namespace Percolations
             return result;
         }
 
-        private SortedDictionary<double, double> AnalyzeExtendedER()
+        private SortedDictionary<double, SubGraphsInfo> AnalyzeExtendedER()
         {
-            SortedDictionary<double, double> result = new SortedDictionary<double, double>();
+            SortedDictionary<double, SubGraphsInfo> result = new SortedDictionary<double, SubGraphsInfo>();
 
             Int32 n = Int32.Parse(this.networkSizeTxt.Text);
             int realizationCount = (Int32)this.realizationCountNum.Value;
@@ -456,6 +486,7 @@ namespace Percolations
             ERAnalyzer erAnalyzer;
 
             double qTemp = qLow;
+            SubGraphsInfo tempInfo = new SubGraphsInfo();
             while (qTemp <= qHigh)
             {
                 double avgOrder = 0;
@@ -468,7 +499,8 @@ namespace Percolations
                     avgOrder += erAnalyzer.GetConnSubGraph().Last().Key;
                 }
                 double avgValue = avgOrder / (double)realizationCount;
-                result.Add(qTemp, avgValue);
+                tempInfo.avgOrder = avgValue;
+                result.Add(qTemp, tempInfo);
 
                 qTemp += qDelta;
             }
