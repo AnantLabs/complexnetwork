@@ -93,12 +93,15 @@ namespace Percolations
                     int levelCount = this.research.Result.Count();
                     int muCount = this.research.Result[1].Count();
 
-                    writer.Write("mu ");
+                    writer.Write("Mu ");
                     for (int i = 1; i <= levelCount; ++i)
                     {
-                        writer.Write("level" + i.ToString());
-                        if (i != levelCount)
-                            writer.Write(" ");
+                        writer.Write("AvgOrder" + i.ToString());
+                        writer.Write(" ");
+                        writer.Write("AvgOrderCount ");
+                        writer.Write("SecondMax ");
+                        writer.Write("SecondMaxCount ");
+                        writer.Write("AvgOrderRest ");
                     }
                     writer.Write("\n");
 
@@ -109,7 +112,11 @@ namespace Percolations
                         {
                             writer.Write(this.research.Result[level][mu].avgOrder);
                             writer.Write(" ");
+                            writer.Write(this.research.Result[level][mu].avgOrderCount);
+                            writer.Write(" ");
                             writer.Write(this.research.Result[level][mu].secondMax);
+                            writer.Write(" ");
+                            writer.Write(this.research.Result[level][mu].secondMaxCount);
                             writer.Write(" ");
                             writer.Write(this.research.Result[level][mu].avgOrderRest);
                             writer.Write(" ");
