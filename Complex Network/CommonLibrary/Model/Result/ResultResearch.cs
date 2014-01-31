@@ -7,10 +7,12 @@ using RandomGraph.Common.Model.Generation;
 
 namespace CommonLibrary.Model.Result
 {
-    public struct SubGraphsInfo
+    public class SubGraphsInfo
     {
         public double avgOrder;
+        public double avgOrderCount;
         public double secondMax;
+        public double secondMaxCount;
         public double avgOrderRest;
     }
 

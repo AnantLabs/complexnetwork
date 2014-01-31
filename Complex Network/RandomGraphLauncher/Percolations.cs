@@ -147,11 +147,10 @@ namespace Percolations
             SubGraphsInfo tempInfo = new SubGraphsInfo();
             while (muTemp < muHigh)
             {
-                SortedDictionary<double, double> r = AnalyzeHierarchic(muTemp);
+                SortedDictionary<double, SubGraphsInfo> r = AnalyzeHierarchic(muTemp);
                 foreach (double gamma in r.Keys)
                 {
-                    tempInfo.avgOrder = r[gamma];
-                    result.Result[gamma].Add(muTemp, tempInfo);
+                    result.Result[gamma].Add(muTemp, r[gamma]);
                 }
 
                 muTemp += muDelta;
@@ -245,11 +244,13 @@ namespace Percolations
                     subGraphInfo = hAnalyzer.GetConnSubGraph();
 
                     tempInfo.avgOrder += subGraphInfo.Last().Key;
+                    tempInfo.avgOrderCount += subGraphInfo.Last().Value;
 
                     if (subGraphInfo.Count > 1)
                     {
                         subGraphInfo.Remove(subGraphInfo.Last().Key);
                         tempInfo.secondMax += subGraphInfo.Last().Key;
+                        tempInfo.secondMaxCount += subGraphInfo.Last().Value;
                     }
 
                     if (subGraphInfo.Count > 2)
@@ -260,9 +261,11 @@ namespace Percolations
                 }
                 tempInfo.avgOrder /= (double)realizationCount;
                 tempInfo.avgOrder /= result.Size;
+                tempInfo.avgOrderCount /= (double)realizationCount;
 
                 tempInfo.secondMax /= (double)realizationCount;
                 tempInfo.secondMax /= result.Size;
+                tempInfo.secondMaxCount /= (double)realizationCount;
 
                 tempInfo.avgOrderRest /= (double)realizationCount;
                 tempInfo.avgOrderRest /= result.Size;
@@ -385,16 +388,16 @@ namespace Percolations
             return result;
         }
 
-        private SortedDictionary<double, double> AnalyzeHierarchic(double mu)
+        private SortedDictionary<double, SubGraphsInfo> AnalyzeHierarchic(double mu)
         {
             Int16 p = Int16.Parse(this.branchIndexCmb.Text);
             Int16 maxLevel = Int16.Parse(this.maxLevelCmb.Text);
             int realizationCount = (Int32)this.realizationCountNum.Value;
 
-            SortedDictionary<double, double> result = new SortedDictionary<double, double>();
+            SortedDictionary<double, SubGraphsInfo> result = new SortedDictionary<double, SubGraphsInfo>();
             for (Int16 i = 1; i <= maxLevel; ++i)
             {
-                result.Add(i, 0);
+                result.Add(i, new SubGraphsInfo());
             }            
 
             Dictionary<GenerationParam, object> genParameters = new Dictionary<GenerationParam, object>();
@@ -410,20 +413,41 @@ namespace Percolations
                 hGenerator.Generation(genParameters);
                 hAnalyzer = new HierarchicAnalyzer((HierarchicContainer)hGenerator.Container);
 
-                SortedDictionary<int, int> temp;
+                SortedDictionary<int, int> subGraphInfo;
                 for (Int16 i = 1; i <= maxLevel; ++i)
                 {
-                    temp = hAnalyzer.GetConnSubGraphPerLevel(i);
-                    double maxOrder = (temp.Count != 0) ? temp.Last().Key : 1;
-                    double normMaxOrder = maxOrder / (Math.Pow(p,i));
-                    result[i] += normMaxOrder;
+                    subGraphInfo = hAnalyzer.GetConnSubGraphPerLevel(i);
+
+                    result[i].avgOrder += (subGraphInfo.Count != 0) ?
+                        subGraphInfo.Last().Key / Math.Pow(p, i) : 1 / Math.Pow(p, i);
+                    result[i].avgOrderCount += (subGraphInfo.Count != 0) ? 
+                        subGraphInfo.Last().Value : 1;
+
+                    if (subGraphInfo.Count > 1)
+                    {
+                        subGraphInfo.Remove(subGraphInfo.Last().Key);
+                        result[i].secondMax += subGraphInfo.Last().Key / Math.Pow(p, i);
+                        result[i].secondMaxCount += subGraphInfo.Last().Value;
+                    }
+
+                    if (subGraphInfo.Count > 2)
+                    {
+                        subGraphInfo.Remove(subGraphInfo.Last().Key);
+                        result[i].avgOrderRest += subGraphInfo.Average(x => x.Key) / Math.Pow(p, i);
+                    }
                 }
             }
 
             for (Int16 i = 1; i <= maxLevel; ++i)
             {
-                result[i] /= realizationCount;
-            }
+                result[i].avgOrder /= (double)realizationCount;
+                result[i].avgOrderCount /= (double)realizationCount;
+
+                result[i].secondMax /= (double)realizationCount;
+                result[i].secondMaxCount /= (double)realizationCount;
+
+                result[i].avgOrderRest /= (double)realizationCount;
+            }                 
 
             return result;
         }

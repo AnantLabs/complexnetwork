@@ -314,7 +314,13 @@ namespace ResultStorage.Storage
                         writer.WriteStartElement("avgorder");
                         writer.WriteAttributeString("q", degree.ToString());
                         writer.WriteAttributeString("order", r[degree].avgOrder.ToString());
-                        writer.WriteElementString("secondmax", r[degree].secondMax.ToString());
+                        writer.WriteAttributeString("count", r[degree].avgOrderCount.ToString());
+
+                        writer.WriteStartElement("secondmax");
+                        writer.WriteAttributeString("value", r[degree].secondMax.ToString());
+                        writer.WriteAttributeString("count", r[degree].secondMaxCount.ToString());
+                        writer.WriteEndElement();
+
                         writer.WriteElementString("avgorderrest", r[degree].avgOrderRest.ToString());
                         writer.WriteEndElement();
                     }
@@ -581,10 +587,15 @@ namespace ResultStorage.Storage
                     foreach (XmlNode item in paramNode.SelectNodes("avgorder"))
                     {
                         tempInfo.avgOrder = Double.Parse(item.Attributes["order"].Value);
+                        tempInfo.avgOrderCount = Double.Parse(item.Attributes["count"].Value);
+
                         // read <secondmax> value;
-                        tempInfo.secondMax = Double.Parse(item.ChildNodes[0].InnerText);
+                        tempInfo.secondMax = Double.Parse(item.ChildNodes[0].Attributes["value"].InnerText);
+                        tempInfo.secondMaxCount = Double.Parse(item.ChildNodes[0].Attributes["count"].Value);                        
+
                         // read <avgorderrest> value
-                        tempInfo.avgOrderRest = Double.Parse(item.ChildNodes[1].InnerText); 
+                        tempInfo.avgOrderRest = Double.Parse(item.ChildNodes[1].InnerText);
+ 
                         r.Add(Double.Parse(item.Attributes["q"].Value), tempInfo);
                     }
                 }
