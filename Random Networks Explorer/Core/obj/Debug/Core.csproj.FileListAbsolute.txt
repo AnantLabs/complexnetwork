@@ -1,0 +1,5 @@
+D:\Disertation\System (code)\Random Networks Explorer\Core\obj\Debug\ResolveAssemblyReference.cache
+D:\Disertation\System (code)\Random Networks Explorer\Core\bin\Debug\Core.dll
+D:\Disertation\System (code)\Random Networks Explorer\Core\bin\Debug\Core.pdb
+D:\Disertation\System (code)\Random Networks Explorer\Core\obj\Debug\Core.dll
+D:\Disertation\System (code)\Random Networks Explorer\Core\obj\Debug\Core.pdb

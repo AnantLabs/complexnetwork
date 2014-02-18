@@ -1,0 +1,7 @@
+D:\Disertation\System (code)\Random Networks Explorer\Manager\obj\Debug\ResolveAssemblyReference.cache
+D:\Disertation\System (code)\Random Networks Explorer\Manager\bin\Debug\Manager.dll
+D:\Disertation\System (code)\Random Networks Explorer\Manager\bin\Debug\Manager.pdb
+D:\Disertation\System (code)\Random Networks Explorer\Manager\bin\Debug\Core.dll
+D:\Disertation\System (code)\Random Networks Explorer\Manager\bin\Debug\Core.pdb
+D:\Disertation\System (code)\Random Networks Explorer\Manager\obj\Debug\Manager.dll
+D:\Disertation\System (code)\Random Networks Explorer\Manager\obj\Debug\Manager.pdb
