@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{479C57F7-2B45-48F4-B434-C7E59D0B0F7B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Core</RootNamespace>
+    <AssemblyName>Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbstractNetworkModel.cs" />
+    <Compile Include="AbstractResearch.cs" />
+    <Compile Include="AbstractResearchManager.cs" />
+    <Compile Include="AbstractResult.cs" />
+    <Compile Include="AbstractResultStorage.cs" />
+    <Compile Include="Attributes\AnalyzeOptionInfo.cs" />
+    <Compile Include="Attributes\AvailableAnalyzeOption.cs" />
+    <Compile Include="Attributes\AvailableModelType.cs" />
+    <Compile Include="Attributes\GenerationParameterInfo.cs" />
+    <Compile Include="Attributes\ModelTypeInfo.cs" />
+    <Compile Include="Attributes\RequiredGenerationParameter.cs" />
+    <Compile Include="Attributes\RequiredResearchParameter.cs" />
+    <Compile Include="Attributes\ResearchParameterInfo.cs" />
+    <Compile Include="Attributes\ResearchTypeInfo.cs" />
+    <Compile Include="Attributes\StorageTypeInfo.cs" />
+    <Compile Include="Enumerations\AnalyzeOption.cs" />
+    <Compile Include="Enumerations\GenerationParameter.cs" />
+    <Compile Include="Enumerations\GenerationType.cs" />
+    <Compile Include="Enumerations\ModelType.cs" />
+    <Compile Include="Enumerations\Operation.cs" />
+    <Compile Include="Enumerations\ResearchType.cs" />
+    <Compile Include="Enumerations\ResearchParameter.cs" />
+    <Compile Include="Enumerations\Status.cs" />
+    <Compile Include="Enumerations\StorageType.cs" />
+    <Compile Include="Exceptions\CoreException.cs" />
+    <Compile Include="Model\AbstractNetworkAnalyzer.cs" />
+    <Compile Include="Model\AbstractNetworkContainer.cs" />
+    <Compile Include="Model\AbstractNetworkGenerator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SessionManager.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
