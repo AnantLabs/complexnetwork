@@ -24,6 +24,9 @@ namespace Core.Enumerations
         PermanentDistribution,
 
         [ResearchParameterInfo("", "", typeof(Single))]
-        ProbabilityMax
+        ProbabilityMax,
+
+        [ResearchParameterInfo("", "", typeof(Single))]
+        ProbabilityDelta
     }
 }

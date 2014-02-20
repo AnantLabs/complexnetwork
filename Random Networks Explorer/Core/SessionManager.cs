@@ -10,7 +10,7 @@ using Core.Exceptions;
 namespace Core
 {
     /// <summary>
-    /// Static class, which orgonizes whole work with list of researches.
+    /// Research organization and manipulation interface.
     /// </summary>
     public static class SessionManager
     {

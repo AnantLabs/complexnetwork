@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="AbstractNetworkModel.cs" />
     <Compile Include="AbstractResearch.cs" />
-    <Compile Include="AbstractResearchManager.cs" />
+    <Compile Include="AbstractEnsembleManager.cs" />
     <Compile Include="AbstractResult.cs" />
     <Compile Include="AbstractResultStorage.cs" />
     <Compile Include="Attributes\AnalyzeOptionInfo.cs" />

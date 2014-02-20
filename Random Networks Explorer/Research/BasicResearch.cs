@@ -23,13 +23,16 @@ namespace Research
         AnalyzeOption.ConnectedComponentDistribution |
         AnalyzeOption.CycleDistribution |
         AnalyzeOption.Cycles3 |
+        AnalyzeOption.Cycles3Eigen |
         AnalyzeOption.Cycles4 |
+        AnalyzeOption.Cycles4Eigen |
         AnalyzeOption.DegreeDistribution |
         AnalyzeOption.Diameter |
         AnalyzeOption.DistanceDistribution |
         AnalyzeOption.EigenDistanceDistribution |
         AnalyzeOption.EigenValues |
-        AnalyzeOption.TriangleDistribution)]    
+        AnalyzeOption.TriangleByVertexDistribution |
+        AnalyzeOption.TriangleDistribution )]    
     public class BasicResearch : AbstractResearch
     {
         public override void StartResearch()
@@ -38,6 +41,11 @@ namespace Research
         }
 
         public override void StopResearch()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void InitializeGenerationParameters(AbstractEnsembleManager m)
         {
             throw new NotImplementedException();
         }

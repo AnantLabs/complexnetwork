@@ -5,3 +5,10 @@ D:\Disertation\System (code)\Random Networks Explorer\Result\bin\Debug\Core.dll
 D:\Disertation\System (code)\Random Networks Explorer\Result\bin\Debug\Core.pdb
 D:\Disertation\System (code)\Random Networks Explorer\Result\obj\Debug\Result.dll
 D:\Disertation\System (code)\Random Networks Explorer\Result\obj\Debug\Result.pdb
+D:\Disertation\System (code)\RandomNetworkExplorer\Result\bin\Debug\Result.dll
+D:\Disertation\System (code)\RandomNetworkExplorer\Result\bin\Debug\Result.pdb
+D:\Disertation\System (code)\RandomNetworkExplorer\Result\bin\Debug\Core.dll
+D:\Disertation\System (code)\RandomNetworkExplorer\Result\bin\Debug\Core.pdb
+D:\Disertation\System (code)\RandomNetworkExplorer\Result\obj\Debug\ResolveAssemblyReference.cache
+D:\Disertation\System (code)\RandomNetworkExplorer\Result\obj\Debug\Result.dll
+D:\Disertation\System (code)\RandomNetworkExplorer\Result\obj\Debug\Result.pdb
