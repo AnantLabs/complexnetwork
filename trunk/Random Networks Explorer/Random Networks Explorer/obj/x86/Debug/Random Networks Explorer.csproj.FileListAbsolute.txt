@@ -11,3 +11,16 @@ D:\Disertation\System (code)\Random Networks Explorer\Random Networks Explorer\o
 D:\Disertation\System (code)\Random Networks Explorer\Random Networks Explorer\obj\x86\Debug\RandomNetworksExplorer.StorageSettings.resources
 D:\Disertation\System (code)\Random Networks Explorer\Random Networks Explorer\bin\Debug\Core.dll
 D:\Disertation\System (code)\Random Networks Explorer\Random Networks Explorer\bin\Debug\Core.pdb
+D:\Disertation\System (code)\RandomNetworkExplorer\Random Networks Explorer\obj\x86\Debug\Random Networks Explorer.exe
+D:\Disertation\System (code)\RandomNetworkExplorer\Random Networks Explorer\obj\x86\Debug\Random Networks Explorer.pdb
+D:\Disertation\System (code)\RandomNetworkExplorer\Random Networks Explorer\bin\Debug\Random Networks Explorer.exe
+D:\Disertation\System (code)\RandomNetworkExplorer\Random Networks Explorer\bin\Debug\Random Networks Explorer.pdb
+D:\Disertation\System (code)\RandomNetworkExplorer\Random Networks Explorer\bin\Debug\Core.dll
+D:\Disertation\System (code)\RandomNetworkExplorer\Random Networks Explorer\bin\Debug\ImageComboBox.dll
+D:\Disertation\System (code)\RandomNetworkExplorer\Random Networks Explorer\bin\Debug\Core.pdb
+D:\Disertation\System (code)\RandomNetworkExplorer\Random Networks Explorer\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\Disertation\System (code)\RandomNetworkExplorer\Random Networks Explorer\obj\x86\Debug\RandomNetworksExplorer.MainWindow.resources
+D:\Disertation\System (code)\RandomNetworkExplorer\Random Networks Explorer\obj\x86\Debug\RandomNetworksExplorer.Properties.Resources.resources
+D:\Disertation\System (code)\RandomNetworkExplorer\Random Networks Explorer\obj\x86\Debug\RandomNetworksExplorer.StorageSettings.resources
+D:\Disertation\System (code)\RandomNetworkExplorer\Random Networks Explorer\obj\x86\Debug\GenerateResource.read.1.tlog
+D:\Disertation\System (code)\RandomNetworkExplorer\Random Networks Explorer\obj\x86\Debug\GenerateResource.write.1.tlog

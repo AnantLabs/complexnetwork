@@ -9,6 +9,9 @@ using Core.Exceptions;
 
 namespace Core
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class AbstractResearch
     {
         protected ModelType modelType;
@@ -24,6 +27,21 @@ namespace Core
         protected AnalyzeOption analyzeOption;
 
         protected AbstractResult result;
+
+        protected delegate void ManagerRunner();
+
+        public AbstractResearch()
+        {
+            status = Status.NotStarted;
+
+            researchParameterValues = new Dictionary<ResearchParameter, object>();
+            generationParameterValues = new Dictionary<GenerationParameter, object>();
+            AnalyzeOption = AnalyzeOption.None;
+
+            RequiredResearchParameter[] n = (RequiredResearchParameter[])this.GetType().GetCustomAttributes(typeof(RequiredResearchParameter), true);
+            for (int i = 0; i < n.Length; ++i)
+                researchParameterValues.Add(n[i].Parameter, null);
+        }
 
         public ModelType ModelType
         {
@@ -65,7 +83,13 @@ namespace Core
         public int RealizationCount
         {
             get { return realizationCount; }
-            set { realizationCount = value; }
+            set 
+            {
+                if (value > 0)
+                    realizationCount = value;
+                else
+                    throw new CoreException("Realization count cannot be less then 1.");
+            }
         }
 
         public Status Status
@@ -89,20 +113,40 @@ namespace Core
             set { analyzeOption = value; }
         }
 
-        public AbstractResearch()
+        /// <summary>
+        /// 
+        /// </summary>
+        public abstract void StartResearch();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public abstract void StopResearch();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected AbstractEnsembleManager CreateEnsembleManager()
         {
-            status = Status.NotStarted;
+            AbstractEnsembleManager m = null;
+            /*if (true)   // local ensemble manager (read from config)
+            {
+                m = new LocalEnsembleManager();
+            }
+            else
+            {
+                m = new DistributedEnsembleManager();
+            }*/
 
-            researchParameterValues = new Dictionary<ResearchParameter, object>();
-            generationParameterValues = new Dictionary<GenerationParameter, object>();
-            AnalyzeOption = AnalyzeOption.None;
+            m.ModelType = modelType;
+            m.TracingPath = tracingPath;
+            m.RealizationCount = realizationCount;
+            m.AnalyzeOptions = analyzeOption;
+            InitializeGenerationParameters(m);
 
-            RequiredResearchParameter[] n = (RequiredResearchParameter[])this.GetType().GetCustomAttributes(typeof(RequiredResearchParameter), true);
-            for (int i = 0; i < n.Length; ++i)
-                researchParameterValues.Add(n[i].Parameter, null);
+            return m;
         }
 
-        public abstract void StartResearch();
-        public abstract void StopResearch();
+        protected abstract void InitializeGenerationParameters(AbstractEnsembleManager m);
     }
 }
