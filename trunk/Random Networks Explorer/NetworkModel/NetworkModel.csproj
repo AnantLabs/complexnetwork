@@ -40,7 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractHierarchicAnalyzer.cs" />
+    <Compile Include="AbstractHierarchicContainer.cs" />
+    <Compile Include="NonHierarchicAnalyzer.cs" />
+    <Compile Include="NonHierarchicContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{479C57F7-2B45-48F4-B434-C7E59D0B0F7B}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
