@@ -22,7 +22,7 @@ namespace Core.Enumerations
         [ModelTypeInfo("", "", "WSModel")]
         BA,
 
-        [ModelTypeInfo("", "", "HierarchicModel")]
+        [ModelTypeInfo("", "", "RegularHierarchicModel")]
         RegularHierarchic,
 
         [ModelTypeInfo("", "", "NonRegularHierarchicModel")]

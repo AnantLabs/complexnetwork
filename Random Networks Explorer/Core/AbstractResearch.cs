@@ -148,5 +148,9 @@ namespace Core
         }
 
         protected abstract void InitializeGenerationParameters(AbstractEnsembleManager m);
+
+        protected void SaveResearch()
+        {
+        }
     }
 }
