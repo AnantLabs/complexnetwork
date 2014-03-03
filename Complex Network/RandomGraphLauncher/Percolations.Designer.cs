@@ -53,11 +53,9 @@
             this.erLabel = new System.Windows.Forms.Label();
             this.probRangeLowExtendedTxt = new System.Windows.Forms.TextBox();
             this.probRangeHighExtendedTxt = new System.Windows.Forms.TextBox();
-            this.startExtended = new System.Windows.Forms.Button();
             this.startHierarchic = new System.Windows.Forms.Button();
             this.startAvgHierarchic = new System.Windows.Forms.Button();
             this.startGlobal = new System.Windows.Forms.Button();
-            this.startSublevelsHierarchic = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.realizationCountNum)).BeginInit();
             this.SuspendLayout();
             // 
@@ -335,20 +333,9 @@
             this.probRangeHighExtendedTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.probRangeHighExtendedTxt.Visible = false;
             // 
-            // startExtended
-            // 
-            this.startExtended.Location = new System.Drawing.Point(414, 64);
-            this.startExtended.Name = "startExtended";
-            this.startExtended.Size = new System.Drawing.Size(100, 34);
-            this.startExtended.TabIndex = 41;
-            this.startExtended.Text = "Start Hierarchic";
-            this.startExtended.UseVisualStyleBackColor = true;
-            this.startExtended.Visible = false;
-            this.startExtended.Click += new System.EventHandler(this.startExtended_Click);
-            // 
             // startHierarchic
             // 
-            this.startHierarchic.Location = new System.Drawing.Point(414, 114);
+            this.startHierarchic.Location = new System.Drawing.Point(414, 50);
             this.startHierarchic.Name = "startHierarchic";
             this.startHierarchic.Size = new System.Drawing.Size(100, 34);
             this.startHierarchic.TabIndex = 55;
@@ -359,7 +346,7 @@
             // 
             // startAvgHierarchic
             // 
-            this.startAvgHierarchic.Location = new System.Drawing.Point(414, 161);
+            this.startAvgHierarchic.Location = new System.Drawing.Point(414, 97);
             this.startAvgHierarchic.Name = "startAvgHierarchic";
             this.startAvgHierarchic.Size = new System.Drawing.Size(100, 34);
             this.startAvgHierarchic.TabIndex = 56;
@@ -370,7 +357,7 @@
             // 
             // startGlobal
             // 
-            this.startGlobal.Location = new System.Drawing.Point(414, 201);
+            this.startGlobal.Location = new System.Drawing.Point(414, 137);
             this.startGlobal.Name = "startGlobal";
             this.startGlobal.Size = new System.Drawing.Size(100, 34);
             this.startGlobal.TabIndex = 57;
@@ -379,23 +366,11 @@
             this.startGlobal.Visible = false;
             this.startGlobal.Click += new System.EventHandler(this.startGlobal_Click);
             // 
-            // startSublevelsHierarchic
-            // 
-            this.startSublevelsHierarchic.Location = new System.Drawing.Point(289, 201);
-            this.startSublevelsHierarchic.Name = "startSublevelsHierarchic";
-            this.startSublevelsHierarchic.Size = new System.Drawing.Size(100, 34);
-            this.startSublevelsHierarchic.TabIndex = 58;
-            this.startSublevelsHierarchic.Text = "Start Hierarchic (with sublevels)";
-            this.startSublevelsHierarchic.UseVisualStyleBackColor = true;
-            this.startSublevelsHierarchic.Visible = false;
-            this.startSublevelsHierarchic.Click += new System.EventHandler(this.startSublevelsHierarchic_Click);
-            // 
             // PercolationCounting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(538, 245);
-            this.Controls.Add(this.startSublevelsHierarchic);
+            this.ClientSize = new System.Drawing.Size(538, 184);
             this.Controls.Add(this.startGlobal);
             this.Controls.Add(this.startAvgHierarchic);
             this.Controls.Add(this.startHierarchic);
@@ -412,7 +387,6 @@
             this.Controls.Add(this.erLabel);
             this.Controls.Add(this.probRangeLowExtendedTxt);
             this.Controls.Add(this.probRangeHighExtendedTxt);
-            this.Controls.Add(this.startExtended);
             this.Controls.Add(this.realizationCountNum);
             this.Controls.Add(this.realizationCount);
             this.Controls.Add(this.maxLevelCmb);
@@ -462,11 +436,9 @@
         private System.Windows.Forms.Label erLabel;
         private System.Windows.Forms.TextBox probRangeLowExtendedTxt;
         private System.Windows.Forms.TextBox probRangeHighExtendedTxt;
-        private System.Windows.Forms.Button startExtended;
         private System.Windows.Forms.Button startHierarchic;
         private System.Windows.Forms.Button startAvgHierarchic;
         private System.Windows.Forms.Button startGlobal;
-        private System.Windows.Forms.Button startSublevelsHierarchic;
     }
 }
 

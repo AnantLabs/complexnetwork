@@ -581,11 +581,11 @@ namespace ResultStorage.Storage
             for (int i = 1; i <= count; ++i)
             {
                 SortedDictionary<double, SubGraphsInfo> r = new SortedDictionary<double, SubGraphsInfo>();
-                SubGraphsInfo tempInfo = new SubGraphsInfo();
                 foreach (XmlNode paramNode in xml.SelectNodes("/research/results/level" + i.ToString()))
                 {
                     foreach (XmlNode item in paramNode.SelectNodes("avgorder"))
                     {
+                        SubGraphsInfo tempInfo = new SubGraphsInfo();
                         tempInfo.avgOrder = Double.Parse(item.Attributes["order"].Value);
                         tempInfo.avgOrderCount = Double.Parse(item.Attributes["count"].Value);
 

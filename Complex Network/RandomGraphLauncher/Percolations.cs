@@ -79,7 +79,7 @@ namespace Percolations
             catch { }
         }
 
-        private void startExtended_Click(object sender, EventArgs e)
+        /*private void startExtended_Click(object sender, EventArgs e)
         {
             ResultResearch result = new ResultResearch();
             result.Name = this.jobName;
@@ -101,7 +101,7 @@ namespace Percolations
             storage.SaveResearch(result);
 
             MessageBox.Show("Results are saved succesfully!");
-        }
+        }*/
 
         private void startER_Click(object sender, EventArgs e)
         {
@@ -232,10 +232,11 @@ namespace Percolations
             HierarchicAnalyzer hAnalyzer;
 
             double muTemp = muLow;
-            SubGraphsInfo tempInfo = new SubGraphsInfo();
+            
             SortedDictionary<int, int> subGraphInfo = new SortedDictionary<int,int>();
             while (muTemp <= muHigh)
             {
+                SubGraphsInfo tempInfo = new SubGraphsInfo();
                 for (int r = 0; r < realizationCount; ++r)
                 {
                     genParameters[GenerationParam.Mu] = muTemp;
@@ -281,7 +282,7 @@ namespace Percolations
             MessageBox.Show("Results are saved succesfully!");
         }
 
-        private void startSublevelsHierarchic_Click(object sender, EventArgs e)
+        /*private void startSublevelsHierarchic_Click(object sender, EventArgs e)
         {
             ResultResearch result = new ResultResearch();
             result.Name = this.jobName;
@@ -321,7 +322,7 @@ namespace Percolations
             storage.SaveResearch(result);
 
             MessageBox.Show("Results are saved succesfully!");
-        }
+        }*/
 
         // Утилиты.
 
@@ -336,11 +337,9 @@ namespace Percolations
             this.muRangeHighExtendedTxt.Visible = true;
             this.probabilityFunction.Visible = true;
             this.probabilityFunctionCmb.Visible = true;
-            this.startExtended.Visible = true;
             this.startHierarchic.Visible = true;
             this.startAvgHierarchic.Visible = true;
             this.startGlobal.Visible = true;
-            this.startSublevelsHierarchic.Visible = true;
         }
 
         private void InitializeERModel()
