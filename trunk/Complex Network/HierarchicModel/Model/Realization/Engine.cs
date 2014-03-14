@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Model.HierarchicModel.Realization
 {
     // Вспомогательный класс-инженер (для реализации алгоритма Флойда).
-    class Engine
+    public class Engine
     {
         static public int[,] MinPath(int[,] graphMatrix)
         {

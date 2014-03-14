@@ -33,21 +33,14 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Возвращается средняя длина пути в графе. Реализовано.
         public override double GetAveragePath()
         {
-            throw new NotImplementedException();
-            /*log.Info("Getting average path length.");
+            log.Info("Getting average path length.");
 
-            SortedDictionary<int, int> dist = GetMinPathDist();
-            double result = 0.0, count = 0.0;
-
-            foreach (KeyValuePair<int, int> k in dist)
+            if (-1 == avgPath)
             {
-                count += k.Value;
-                result += k.Key * k.Value;
+                CountPathDistribution();
             }
 
-            result /= count;
-
-            return result;*/
+            return Math.Round(avgPath, 14);
         }
 
         // Возвращается диаметр графа. Реализовано.
@@ -142,6 +135,41 @@ namespace Model.NonRegularHierarchicModel.Realization
             throw new NotImplementedException();
             /*log.Info("Getting minimal distances between vertices.");
             return container.GetMinPathDistribution();*/
+        }
+
+        // Закрытая часть класса (не из общего интерфейса). //
+
+        private double avgPath = -1;
+        private int diameter = -1;
+        private SortedDictionary<int, int> pathDistribution = new SortedDictionary<int, int>();
+
+        private void CountPathDistribution()
+        {
+            double avgPath = 0;
+            int diameter = 0, countOfWays = 0;
+
+            for (int i = 0; i < container.Size; ++i)
+            {
+                for (int j = i + 1; j < container.Size; ++j)
+                {
+                    int way = container.MinimumWay(i, j);
+                    if (way == -1)
+                        continue;
+                    if (pathDistribution.ContainsKey(way))
+                        pathDistribution[way]++;
+                    else
+                        pathDistribution.Add(way, 1);
+
+                    if (way > diameter)
+                        diameter = way;
+
+                    avgPath += way;
+                    ++countOfWays;
+                }
+            }
+
+            this.avgPath = avgPath / countOfWays;
+            this.diameter = diameter;
         }
     }
 }

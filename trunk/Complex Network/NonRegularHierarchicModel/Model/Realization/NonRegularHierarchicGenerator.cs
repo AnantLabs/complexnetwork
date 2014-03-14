@@ -68,11 +68,11 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Генерирует граф с данными параметрами. Сгенеририванный граф находится в контейнере.
         private BitArray[][] Generate(Double m)
         {
-            BitArray[][] treeMatrix = new BitArray[container.Level - 1][];
-            container.Branches = new int[container.Level - 1][];
+            BitArray[][] treeMatrix = new BitArray[container.Level][];
+            container.Branches = new int[container.Level][];
 
             //for every level create datas, started with root
-            for (int i = 0; i < container.Level - 1; ++i)
+            for (int i = 0; i < container.Level; ++i)
             {
                 int levelVertexCount = 0;
                 if (i == 0)
