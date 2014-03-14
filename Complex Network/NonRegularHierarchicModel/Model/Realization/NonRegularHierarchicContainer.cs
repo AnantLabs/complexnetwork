@@ -6,6 +6,7 @@ using System.Linq;
 using CommonLibrary.Model;
 using GenericAlgorithms;
 using log4net;
+using Model.HierarchicModel.Realization;
 
 namespace Model.NonRegularHierarchicModel.Realization
 {
@@ -38,9 +39,9 @@ namespace Model.NonRegularHierarchicModel.Realization
             get 
             {
                 int vertexCount = 0;
-                for (int i = 0; i < Branches[level - 2].Length; ++i)
+                for (int i = 0; i < Branches[level - 1].Length; ++i)
                 {
-                    for (int j = 0; j < Branches[level - 2][i]; ++j)
+                    for (int j = 0; j < Branches[level - 1][i]; ++j)
                     {
                         ++vertexCount;
                     }
@@ -92,7 +93,7 @@ namespace Model.NonRegularHierarchicModel.Realization
                     this.branches[i][j] = (int)arr[j];
             }
 
-            this.level = branch.Count + 1;
+            this.level = branch.Count;
 
             // Move the matrix to List
 
@@ -107,8 +108,8 @@ namespace Model.NonRegularHierarchicModel.Realization
 
             // Create empty TreeMatrix
 
-            this.treeMatrix = new BitArray[Level - 1][];
-            for (int i = 0; i < level - 1; ++i)
+            this.treeMatrix = new BitArray[Level][];
+            for (int i = 0; i < level; ++i)
             {
                 long dataLength = 0;
                 for (int j = 0; j < branches[i].Length; ++j)
@@ -136,35 +137,14 @@ namespace Model.NonRegularHierarchicModel.Realization
             {
                 for (int j = i + 1; j < matrixInList[i].Count; ++j)
                 {
-                    int currentLevel = level - 1;
+                    int currentLevel = level;
                     int numberOfGroup1 = 0, numberOfGroup2 = 0;
                     int v1 = i, v2 = j; 
                     do
                     {
                         --currentLevel;
-                        bool groupsFound = false;
-                        int counter = 0;
-                        for (int t = 0; t < branches[currentLevel].Length; ++t)
-                        {
-                            for (int k = 0; k < branches[currentLevel][t]; ++k)
-                            {
-                                if (counter == v1)
-                                {
-                                    numberOfGroup1 = t;
-                                }
-                                else if (counter == v2)
-                                {
-                                    numberOfGroup2 = t;
-                                    groupsFound = true;
-                                    break;
-                                }
-                                ++counter;
-                            }
-                            if (groupsFound == true)
-                            {
-                                break;
-                            }
-                        }
+                        numberOfGroup1 = TreeIndexStep(v1, currentLevel);
+                        numberOfGroup2 = TreeIndexStep(v2, currentLevel);
 
                         if (numberOfGroup1 != numberOfGroup2)
                         {
@@ -229,12 +209,10 @@ namespace Model.NonRegularHierarchicModel.Realization
 
             for (int i = 0; i < vertexCount; ++i)
             {
+                matrix[i, i] = false;
                 for (int j = 0; j < i; ++j)
                 {
-                    if (i == j)
-                        matrix[i,i] = false;
-                    else
-                        matrix[i, j] = matrix[j, i] = (this[j, i] == 1) ? true : false;
+                    matrix[i, j] = matrix[j, i] = ((this[j, i] == 1) ? true : false);
                 }
             }
 
@@ -257,34 +235,13 @@ namespace Model.NonRegularHierarchicModel.Realization
                 // проверка на принадлежение к одному поддереву (для данных вершин)
                 // поднимаемся по уровням до того уровна, где они будут принадлежать одному поддереву
                 int numberOfGroup1 = 0, numberOfGroup2 = 0;
-                int currentLevel = level - 1;
+                int currentLevel = level;
                 do
                 {
                     --currentLevel;
-                    bool groupsFound = false;
-                    int counter = 0;
-                    for (int i = 0; i < branches[currentLevel].Length; ++i)
-                    {
-                        for (int j = 0; j < branches[currentLevel][i]; ++j)
-                        {
-                            if (counter == v1)
-                            {
-                                numberOfGroup1 = i;
-                            }
-                            else if (counter == v2)
-                            {
-                                numberOfGroup2 = i;
-                                groupsFound = true;
-                                break;
-                            }
-                            ++counter;
-                        }
-                        if (groupsFound == true)
-                        {
-                            break;
-                        }
-                    }
-
+                    numberOfGroup1 = TreeIndexStep(v1, currentLevel);
+                    numberOfGroup2 = TreeIndexStep(v2, currentLevel);
+                 
                     if (numberOfGroup1 != numberOfGroup2)
                     {
                         v1 = numberOfGroup1;
@@ -303,10 +260,8 @@ namespace Model.NonRegularHierarchicModel.Realization
         public BitArray TreeNode(int l, long n)
         {
             // проверка параметров на правильность
-            if (l < 0 || l >= level - 1)
+            if (l < 0 || l > level - 1)
                 throw new SystemException("Wrong parameter (number of level).");
-            if (n < 0 || n >= Math.Pow(branchIndex, l))
-                throw new SystemException("Wrong parameter (number of node).");
 
             int branchesCount = branches[l][n];
             int resultSize = branchesCount * (branchesCount - 1) / 2;
@@ -366,6 +321,211 @@ namespace Model.NonRegularHierarchicModel.Realization
             }
             --result;
             result += v2 - v1;
+
+            return result;
+        }
+
+        public int MinimumWay(int v1, int v2)
+        {
+            int vertex1 = v1, vertex2 = v2;
+
+            if (v1 == v2)
+                return 0;
+            if (v1 > v2)
+            {
+                return MinimumWay(v2, v1);
+            }
+           
+            // проверка на принадлежение к одному поддереву (для данных вершин)
+            // поднимаемся по уровням до того уровна, где они будут принадлежать одному поддереву
+            int numberOfGroup1 = 0, numberOfGroup2 = 0;
+            int currentLevel = level;
+            do
+            {
+                --currentLevel;
+                numberOfGroup1 = TreeIndexStep(v1, currentLevel);
+                numberOfGroup2 = TreeIndexStep(v2, currentLevel);
+
+                if (numberOfGroup1 != numberOfGroup2)
+                {
+                    v1 = numberOfGroup1;
+                    v2 = numberOfGroup2;
+                }
+
+            } while (numberOfGroup1 != numberOfGroup2);
+
+            int branchSize = branches[currentLevel][numberOfGroup1];
+            BitArray currentNode = TreeNode(currentLevel, numberOfGroup1);
+            if (currentNode[AdjacentIndex(branchSize, v1 % branchSize, v2 % branchSize)] == true)
+                return 1;
+
+            int tempCurrentLevel = currentLevel, vertexIndex, vI;
+            while (0 < tempCurrentLevel)
+            {
+                vertexIndex = TreeIndex(vertex1, tempCurrentLevel - 1);
+                branchSize = branches[tempCurrentLevel - 1][vertexIndex];
+                vI = TreeIndex(vertex1, tempCurrentLevel) % branchSize;
+                if (Links(vI, vertexIndex, tempCurrentLevel - 1) > 0)
+                    return 2;
+
+                --tempCurrentLevel;
+            }
+        
+            int[,] nodeMatrix = NodeMatrix(currentLevel, numberOfGroup1);
+            int[,] distances = Engine.MinPath(nodeMatrix);
+            if (distances[v1 % branchIndex, v2 % branchIndex] != int.MaxValue)
+                return distances[v1 % branchIndex, v2 % branchIndex];
+
+            return -1;
+        }
+
+
+
+        // Возвращает номер дерева данного уровня (levelNumber), 
+        // листом которого является данная вершина (vertexNumber).
+        public int TreeIndex(int vertexNumber, int levelNumber)
+        {
+            if (levelNumber == level)
+            {
+                return vertexNumber;
+            }
+            else
+            {
+                int currentLevel = level;
+                do
+                {
+                    --currentLevel;
+                    vertexNumber = TreeIndexStep(vertexNumber, currentLevel);
+                }
+                while (currentLevel != levelNumber);
+                return vertexNumber;
+            }
+        }
+
+        // Возвращает номер дерева данного уровня (levelNumber), 
+        // от которого выходит дерево под номером (vertexNumber) уровня (levelNumber + 1).
+        public int TreeIndexStep(int vertexNumber, int levelNumber)
+        {
+            if (levelNumber > level - 1)
+                throw new SystemException("Wrong parameter (number of level).");
+            int counter = 0;
+            bool found = false;
+            for (int i = 0; i < branches[levelNumber].Length; ++i)
+            {
+                for (int j = 0; j < branches[levelNumber][i]; ++j)
+                {
+                    if (counter == vertexNumber)
+                    {
+                        vertexNumber = i;
+                        found = true;
+                        break;
+                    }
+                    ++counter;
+                }
+                if (found == true)
+                {
+                    break;
+                }
+            }
+            return vertexNumber;
+        }
+
+        // Возвращает число непосредственных соединений между child и остальными поддеревьями 
+        // данного номера на данном уровне родителя.
+        public int Links(int child, int nodeNumber, int levelNumber)
+        {
+            int result = 0;
+            BitArray node = TreeNode(levelNumber, nodeNumber);
+            int branchSize = branches[levelNumber][nodeNumber];
+            for (int i = 0; i < branchSize; ++i)
+            {
+                if (AreConnectedTwoBlocks(node, branchSize, child, i))
+                {
+                    ++result;
+                }
+            }
+
+            return result;
+        }
+
+        // Возвращает true, если поддеревья под номерами i и j непосредственно соединены.
+        public bool AreConnectedTwoBlocks(BitArray node, int branchSize, int number1, int number2)
+        {
+            if (number1 == number2)
+            {
+                return false;
+            }
+            // number1 must be the lower number
+            if (number1 > number2)
+            {
+                int k = number2;
+                number2 = number1;
+                number1 = k;
+            }
+            // Get the index of two numbers adjacent value
+            int index = 0;
+            for (int k = 1; k <= number1; k++)
+            {
+                index += branchSize - k;
+            }
+            index += number2 - number1 - 1;
+            if (node[index])
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // Возвращает матрицу 0/1 размером p Х p, которая определяет связность данного узла дерева.
+        // Узел определяется номером уровня l (из диапазоне [0, k-1])
+        // и номером узла на данном уровне (из диапазона [0, pow(p,l) - 1]).
+        public int[,] NodeMatrix(int l, long n)
+        {
+            // проверка параметров на правильность
+            if (l < 0 || l >= level)
+                throw new SystemException("Wrong parameter (number of level).");
+
+            int branchSize = branches[l][n];
+            int[,] result = new int[branchSize, branchSize];
+            long i = n * branchSize * (branchSize - 1) / 2;
+            int ind = Convert.ToInt32(Math.Floor(Convert.ToDouble(i / ARRAY_MAX_SIZE)));
+            int rangeSt = Convert.ToInt32(i - ind * ARRAY_MAX_SIZE);
+            int rangeEnd = rangeSt + branchSize * (branchSize - 1) / 2;
+            int secArray = 0;
+
+            if (rangeEnd > ARRAY_MAX_SIZE)
+            {
+                secArray = rangeEnd - ARRAY_MAX_SIZE;
+                rangeEnd = ARRAY_MAX_SIZE - 1;
+            }
+            int counterX = 1;
+            int counterY = 0;
+            for (int j = rangeSt; j < rangeEnd; j++)
+            {
+                result[counterX, counterY] = (treeMatrix[l][ind][j] ? 1 : 0);
+                result[counterY, counterX] = (treeMatrix[l][ind][j] ? 1 : 0);
+                counterX++;
+                if (counterX == branchSize)
+                {
+                    counterX = counterY + 2;
+                    counterY++;
+                }
+            }
+
+            for (int j = 0; j < secArray; j++)
+            {
+                result[counterX, counterY] = (treeMatrix[l][ind + 1][j] ? 1 : 0);
+                result[counterY, counterX] = (treeMatrix[l][ind + 1][j] ? 1 : 0);
+                counterX++;
+                if (counterX == branchSize)
+                {
+                    counterX = 0;
+                    counterY++;
+                }
+            }
 
             return result;
         }

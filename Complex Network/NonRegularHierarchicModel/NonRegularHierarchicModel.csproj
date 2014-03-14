@@ -77,6 +77,10 @@
       <Project>{98632726-4F62-4777-9231-2A97610DD653}</Project>
       <Name>GenericAlgorithms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HierarchicModel\HierarchicModel.csproj">
+      <Project>{b94efe9e-6a35-47bd-bbd3-8a6fdc578d29}</Project>
+      <Name>HierarchicModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NumberGeneration\NumberGeneration.csproj">
       <Project>{E28173A7-50BC-4A15-A1EE-E5C8ACC7F735}</Project>
       <Name>NumberGeneration</Name>
