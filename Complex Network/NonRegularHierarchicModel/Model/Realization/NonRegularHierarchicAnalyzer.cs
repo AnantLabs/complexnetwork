@@ -46,19 +46,14 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Возвращается диаметр графа. Реализовано.
         public override int GetDiameter()
         {
-            throw new NotImplementedException();
-            /*log.Info("Getting diameter.");
+            log.Info("Getting diameter.");
 
-            SortedDictionary<int, int> dist = GetMinPathDist();
-            int result = 0;
-
-            foreach (KeyValuePair<int, int> k in dist)
+            if (-1 == diameter)
             {
-                if (k.Key > result)
-                    result = k.Key;
+                CountPathDistribution();
             }
 
-            return result;*/
+            return diameter;
         }
 
         // Возвращается число циклов длиной 3 в графе. Реализовано.
