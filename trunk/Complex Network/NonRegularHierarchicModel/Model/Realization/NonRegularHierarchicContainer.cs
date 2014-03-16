@@ -359,11 +359,11 @@ namespace Model.NonRegularHierarchicModel.Realization
             if (currentNode[AdjacentIndex(branchSize, v1 % branchSize, v2 % branchSize)] == true)
                 return 1;
 
-            int tempCurrentLevel = currentLevel, vertexIndex, vI;
+            int tempCurrentLevel = currentLevel, tempBranchSize, vertexIndex, vI;
             while (0 < tempCurrentLevel)
             {
                 vertexIndex = TreeIndex(vertex1, tempCurrentLevel - 1);
-                branchSize = branches[tempCurrentLevel - 1][vertexIndex];
+                tempBranchSize = branches[tempCurrentLevel - 1][vertexIndex];
                 vI = TreeIndex(vertex1, tempCurrentLevel) % branchSize;
                 if (Links(vI, vertexIndex, tempCurrentLevel - 1) > 0)
                     return 2;
@@ -373,12 +373,11 @@ namespace Model.NonRegularHierarchicModel.Realization
         
             int[,] nodeMatrix = NodeMatrix(currentLevel, numberOfGroup1);
             int[,] distances = Engine.MinPath(nodeMatrix);
-            if (distances[v1 % branchIndex, v2 % branchIndex] != int.MaxValue)
-                return distances[v1 % branchIndex, v2 % branchIndex];
+            if (distances[v1 % branchSize, v2 % branchSize] != int.MaxValue)
+                return distances[v1 % branchSize, v2 % branchSize];
 
             return -1;
         }
-
 
 
         // Возвращает номер дерева данного уровня (levelNumber), 
