@@ -122,21 +122,21 @@ namespace Model.NonRegularHierarchicModel.Realization
             return treeMatrix;
         }
 
-        private void GenerateData(BitArray[][] treeMatrix, int level, double m)
+        private void GenerateData(BitArray[][] treeMatrix, int currentLevel, double m)
         {
             //loop over all elements of given level and generate him values
-            for (int i = 0; i < treeMatrix[level].Length; i++)
+            for (int i = 0; i < treeMatrix[currentLevel].Length; i++)
             {
-                for (int j = 0; j < treeMatrix[level][i].Length; j++)
+                for (int j = 0; j < treeMatrix[currentLevel][i].Length; j++)
                 {
-                    double k = rand.NextDouble();
-                    if (k <= (1 / Math.Pow(container.BranchIndex, level * m)))
+                    double k = rand.NextDouble(); 
+                    if (k <= (1 / Math.Pow(container.BranchIndex, (container.Level - currentLevel) * m)))
                     {
-                        treeMatrix[level][i][j] = true;
+                        treeMatrix[currentLevel][i][j] = true;
                     }
                     else
                     {
-                        treeMatrix[level][i][j] = false;
+                        treeMatrix[currentLevel][i][j] = false;
                     }
                 }
             }
