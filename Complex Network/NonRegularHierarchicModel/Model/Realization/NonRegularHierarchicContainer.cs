@@ -335,7 +335,7 @@ namespace Model.NonRegularHierarchicModel.Realization
             {
                 return MinimumWay(v2, v1);
             }
-           
+            
             // проверка на принадлежение к одному поддереву (для данных вершин)
             // поднимаемся по уровням до того уровна, где они будут принадлежать одному поддереву
             int numberOfGroup1 = 0, numberOfGroup2 = 0;
