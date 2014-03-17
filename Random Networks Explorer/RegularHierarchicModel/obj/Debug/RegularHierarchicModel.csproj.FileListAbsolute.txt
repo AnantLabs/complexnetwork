@@ -18,3 +18,5 @@ D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierar
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\obj\Debug\RegularHierarchicModel.pdb
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\bin\Debug\ModelChecking.dll
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\bin\Debug\ModelChecking.pdb
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\bin\Debug\RandomNumberGeneration.dll
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\bin\Debug\RandomNumberGeneration.pdb
