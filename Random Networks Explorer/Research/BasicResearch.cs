@@ -31,8 +31,7 @@ namespace Research
         AnalyzeOption.DistanceDistribution |
         AnalyzeOption.EigenDistanceDistribution |
         AnalyzeOption.EigenValues |
-        AnalyzeOption.TriangleByVertexDistribution |
-        AnalyzeOption.TriangleDistribution )]    
+        AnalyzeOption.TriangleByVertexDistribution )]    
     public class BasicResearch : AbstractResearch
     {
         public override void StartResearch()

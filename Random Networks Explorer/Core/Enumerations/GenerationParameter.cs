@@ -14,28 +14,44 @@ namespace Core.Enumerations
     /// </summary>
     public enum GenerationParameter
     {
-        [GenerationParameterInfo("", "", typeof(UInt16))]
+        [GenerationParameterInfo("Number of vertices", 
+            "The initial number of vertices in the network.", 
+            typeof(UInt16))]
         Vertices = 1,
 
-        [GenerationParameterInfo("", "", typeof(Single))]
+        [GenerationParameterInfo("Connectivity probability", 
+            "The probability of existance of a connection between the nodes in the network.", 
+            typeof(Single))]
         Probability,
 
-        [GenerationParameterInfo("", "", typeof(Boolean))]
+        [GenerationParameterInfo("Permanent network", 
+            "Defines if the initial network is permanent for each generation step", 
+            typeof(Boolean))]
         PermanentNetwork,
 
-        [GenerationParameterInfo("", "", typeof(UInt32))]
+        [GenerationParameterInfo("Number of edges", 
+            "The initial number of edges in the network.", 
+            typeof(UInt32))]
         Edges,
 
-        [GenerationParameterInfo("", "", typeof(UInt16))]
+        [GenerationParameterInfo("Step count", 
+            "The number of generation steps to get each network in the ensemble.", 
+            typeof(UInt16))]
         StepCount,
 
-        [GenerationParameterInfo("", "", typeof(UInt16))]
+        [GenerationParameterInfo("Branching index", 
+            "The branching index of the block-hierarchical network.", 
+            typeof(UInt16))]
         BranchingIndex,
 
-        [GenerationParameterInfo("", "", typeof(UInt16))]
+        [GenerationParameterInfo("Γ - Level", 
+            "The level of the block-hierarchical network.", 
+            typeof(UInt16))]
         Level,
 
-        [GenerationParameterInfo("", "", typeof(Single))]
+        [GenerationParameterInfo("μ", 
+            "The density parameter of the block-hierarchical network.", 
+            typeof(Single))]
         Mu
     }
 }

@@ -13,10 +13,16 @@ namespace Core.Enumerations
     /// </summary>
     public enum StorageType
     {
-        [StorageTypeInfo("", "XMLResultStorage")]
+        [StorageTypeInfo("XML file with defined LINK structure.", 
+            "XMLResultStorage")]
         XMLStorage = 1,
 
-        [StorageTypeInfo("", "SQLResultStorage")]
-        SQLStorage
+        [StorageTypeInfo("SQL DB with defined LINK schema.", 
+            "SQLResultStorage")]
+        SQLStorage,
+
+        [StorageTypeInfo("TXT file with defined LINK structure.", 
+            "TXTResultStorage")]
+        TXTStorage
     }
 }

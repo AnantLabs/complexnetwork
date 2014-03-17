@@ -13,13 +13,19 @@ namespace Core.Enumerations
     /// </summary>
     public enum ResearchType
     {
-        [ResearchTypeInfo("", "", "BasicResearch")]
+        [ResearchTypeInfo("Basic research", 
+            "The basic analysis for random networks (single ensemble).", 
+            "BasicResearch")]
         Basic = 1,
 
-        [ResearchTypeInfo("", "", "TrajectoryResearch")]
+        [ResearchTypeInfo("Trajectory research", 
+            "Analysis of trajectories for random networks (several ensembles).", 
+            "TrajectoryResearch")]
         Trajectory,
 
-        [ResearchTypeInfo("", "", "PercolationResearch")]
+        [ResearchTypeInfo("Percolation research", 
+            "Analysis of percolation probability (critical probability) for random network (several ensembles).", 
+            "PercolationResearch")]
         Percolation
     }
 }
