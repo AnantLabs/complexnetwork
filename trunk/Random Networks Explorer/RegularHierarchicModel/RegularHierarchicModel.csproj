@@ -51,6 +51,10 @@
       <Project>{479C57F7-2B45-48F4-B434-C7E59D0B0F7B}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModelChecking\ModelChecking.csproj">
+      <Project>{8F6B53CF-9E41-4535-BAB4-CCF1F34A8238}</Project>
+      <Name>ModelChecking</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NetworkModel\NetworkModel.csproj">
       <Project>{8C7DE68F-5FCC-4779-AE38-5EACEB84A4EC}</Project>
       <Name>NetworkModel</Name>

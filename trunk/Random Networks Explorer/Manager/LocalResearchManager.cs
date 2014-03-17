@@ -7,7 +7,16 @@ using Core;
 
 namespace Manager
 {
-    class LocalResearchManager : AbstractResearchManager
+    class LocalResearchManager : AbstractEnsembleManager
     {
+        public override void Run()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Cancel()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

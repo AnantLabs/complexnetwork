@@ -7,7 +7,8 @@ using Core.Model;
 
 namespace NetworkModel
 {
-    public abstract class AbstractHierarchicAnalyzer : INetworkAnalyzer
+    public abstract class AbstractHierarchicAnalyzer// : INetworkAnalyzer
     {
+
     }
 }

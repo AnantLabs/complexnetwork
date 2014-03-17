@@ -53,6 +53,10 @@
       <Project>{8C7DE68F-5FCC-4779-AE38-5EACEB84A4EC}</Project>
       <Name>NetworkModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RandomNumberGeneration\RandomNumberGeneration.csproj">
+      <Project>{C64D64AC-5910-485F-9EE3-60E525952ECE}</Project>
+      <Name>RandomNumberGeneration</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

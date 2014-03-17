@@ -7,3 +7,14 @@ D:\Disertation\System (code)\RandomNetworkExplorer\RegularHierarchicModel\bin\De
 D:\Disertation\System (code)\RandomNetworkExplorer\RegularHierarchicModel\bin\Debug\NetworkModel.dll
 D:\Disertation\System (code)\RandomNetworkExplorer\RegularHierarchicModel\bin\Debug\Core.pdb
 D:\Disertation\System (code)\RandomNetworkExplorer\RegularHierarchicModel\bin\Debug\NetworkModel.pdb
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\bin\Debug\RegularHierarchicModel.dll
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\bin\Debug\RegularHierarchicModel.pdb
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\bin\Debug\Core.dll
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\bin\Debug\NetworkModel.dll
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\bin\Debug\Core.pdb
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\bin\Debug\NetworkModel.pdb
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\obj\Debug\ResolveAssemblyReference.cache
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\obj\Debug\RegularHierarchicModel.dll
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\obj\Debug\RegularHierarchicModel.pdb
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\bin\Debug\ModelChecking.dll
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\bin\Debug\ModelChecking.pdb
