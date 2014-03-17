@@ -118,41 +118,41 @@
             this.trajectoryToolStripMenuItem,
             this.percolationToolStripMenuItem});
             this.newResearchToolStripMenuItem.Name = "newResearchToolStripMenuItem";
-            this.newResearchToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.newResearchToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newResearchToolStripMenuItem.Text = "New Research";
             // 
             // analyzeToolStripMenuItem
             // 
             this.analyzeToolStripMenuItem.Name = "analyzeToolStripMenuItem";
-            this.analyzeToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.analyzeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.analyzeToolStripMenuItem.Text = "Analyze";
             this.analyzeToolStripMenuItem.Click += new System.EventHandler(this.analyzeToolStripMenuItem_Click);
             // 
             // trajectoryToolStripMenuItem
             // 
             this.trajectoryToolStripMenuItem.Name = "trajectoryToolStripMenuItem";
-            this.trajectoryToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.trajectoryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.trajectoryToolStripMenuItem.Text = "Trajectory";
             this.trajectoryToolStripMenuItem.Click += new System.EventHandler(this.trajectoryToolStripMenuItem_Click);
             // 
             // percolationToolStripMenuItem
             // 
             this.percolationToolStripMenuItem.Name = "percolationToolStripMenuItem";
-            this.percolationToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.percolationToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.percolationToolStripMenuItem.Text = "Percolation";
             this.percolationToolStripMenuItem.Click += new System.EventHandler(this.percolationToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
