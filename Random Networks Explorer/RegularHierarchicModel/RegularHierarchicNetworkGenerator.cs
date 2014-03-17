@@ -7,7 +7,7 @@ using Core.Model;
 
 namespace RegularHierarchicModel
 {
-    class RegularHierarchicNetworkGenerator : INetworkGenerator
+    class RegularHierarchicNetworkGenerator// : INetworkGenerator
     {
     }
 }

@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,6 +43,13 @@
   <ItemGroup>
     <Compile Include="AbstractHierarchicAnalyzer.cs" />
     <Compile Include="AbstractHierarchicContainer.cs" />
+    <Compile Include="Engine\Cycles\CyclesCounter.cs" />
+    <Compile Include="Engine\Cycles\CyclesCounterSingleThreaded.cs" />
+    <Compile Include="Engine\Cycles\CyclesParrallelCounter.cs" />
+    <Compile Include="Engine\Eigenvalues\cMatrixLib.cs" />
+    <Compile Include="Engine\Eigenvalues\EigenValueUtils.cs" />
+    <Compile Include="HierarchicEngine\Engine.cs" />
+    <Compile Include="HierarchicEngine\EngineForConnectedComp.cs" />
     <Compile Include="NonHierarchicAnalyzer.cs" />
     <Compile Include="NonHierarchicContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -52,6 +60,7 @@
       <Name>Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

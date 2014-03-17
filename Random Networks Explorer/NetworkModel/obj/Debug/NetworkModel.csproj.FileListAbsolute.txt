@@ -10,3 +10,10 @@ D:\Disertation\System (code)\RandomNetworkExplorer\NetworkModel\obj\Debug\Networ
 D:\Disertation\System (code)\RandomNetworkExplorer\NetworkModel\obj\Debug\NetworkModel.pdb
 D:\Disertation\System (code)\RandomNetworkExplorer\NetworkModel\bin\Debug\Core.dll
 D:\Disertation\System (code)\RandomNetworkExplorer\NetworkModel\bin\Debug\Core.pdb
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\NetworkModel\bin\Debug\NetworkModel.dll
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\NetworkModel\bin\Debug\NetworkModel.pdb
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\NetworkModel\bin\Debug\Core.dll
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\NetworkModel\bin\Debug\Core.pdb
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\NetworkModel\obj\Debug\ResolveAssemblyReference.cache
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\NetworkModel\obj\Debug\NetworkModel.dll
+D:\Disertation\System (code)\Last Version\Random Networks Explorer\NetworkModel\obj\Debug\NetworkModel.pdb
