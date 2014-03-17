@@ -21,62 +21,75 @@ namespace Core.Enumerations
 
         // Global properties. //
 
-        [AnalyzeOptionInfo("", "")]
+        [AnalyzeOptionInfo("Average path length", 
+            "The average length of the shortest paths for all possible pairs in the network.")]
         AvgPathLength = 0x01,
 
-        [AnalyzeOptionInfo("", "")]
+        [AnalyzeOptionInfo("Diameter", 
+            "The longest shortest path between any two nodes in the network.")]
         Diameter = 0x02,
 
-        [AnalyzeOptionInfo("", "")]
+        [AnalyzeOptionInfo("Average degree", 
+            "The average value of the degrees of nodes in the network.")]
         AvgDegree = 0x04,
 
-        [AnalyzeOptionInfo("", "")]
+        [AnalyzeOptionInfo("Average clustering coefficient", 
+            "The average value of the clustering coefficients of nodes in the network.")]
         AvgClusteringCoefficient = 0x08,
 
-        [AnalyzeOptionInfo("", "")]
+        [AnalyzeOptionInfo("3-length cycles", 
+            "Number of cycles of length 3 in the network.")]
         Cycles3 = 0x10,
 
-        [AnalyzeOptionInfo("", "")]
+        [AnalyzeOptionInfo("4-length cycles", 
+            "Number of cycles of length 4 in the network.")]
         Cycles4 = 0x20,
 
         // Eigenvalues spectra properties. //
 
-        [AnalyzeOptionInfo("", "")]
+        [AnalyzeOptionInfo("Eigenvalues",
+            "The spectrum of network's adjacency matrix’s eigenvalues.")]
         EigenValues = 0x40,
 
-        [AnalyzeOptionInfo("", "")]
+        [AnalyzeOptionInfo("3-length cycles (eigenvalues)", 
+            "Number of cycles of length 3 in the network calculated from the spectrum of eigenvalues.")]
         Cycles3Eigen = 0x80,
 
-        [AnalyzeOptionInfo("", "")]
+        [AnalyzeOptionInfo("4-length cycles (eigenvalues)",
+            "Number of cycles of length 4 in the network calculated from the spectrum of eigenvalues.")]
         Cycles4Eigen = 0x100,
 
-        [AnalyzeOptionInfo("", "")]
+        [AnalyzeOptionInfo("Eigenvalues intervals distribution",
+            "The distribution of intervals between network's adjacency matrix’s eigenvalues.")]
         EigenDistanceDistribution = 0x200,
 
         // Distributions. //
 
-        [AnalyzeOptionInfo("", "")]
+        [AnalyzeOptionInfo("Degree distribution", 
+            "Network's node degree distribution.")]
         DegreeDistribution = 0x400,
 
         [AnalyzeOptionInfo("", "")]
         ClusteringCoefficientDistribution = 0x800,
 
-        [AnalyzeOptionInfo("", "")]
+        [AnalyzeOptionInfo("Connected component distribution",
+            "Length distribution of the connected subnetworks in the network.")]
         ConnectedComponentDistribution = 0x1000,
 
-        [AnalyzeOptionInfo("", "")]
+        [AnalyzeOptionInfo("Complete component distribution", 
+            "Length distribution of the complete subnetworks in the network.")]
         CompleteComponentDistribution = 0x2000,
 
-        [AnalyzeOptionInfo("", "")]
+        [AnalyzeOptionInfo("Distance distribution", 
+            "Node-node distance distribution in the network.")]
         DistanceDistribution = 0x4000,
 
-        [AnalyzeOptionInfo("", "")]
-        TriangleDistribution = 0x8000,
+        [AnalyzeOptionInfo("Triangle distribution", 
+            "The distribution of cycles of length 3 (triangles), which contain the node x.")]
+        TriangleByVertexDistribution = 0x8000,
 
-        [AnalyzeOptionInfo("", "")]
-        TriangleByVertexDistribution = 0x10000,
-
-        [AnalyzeOptionInfo("", "")]
-        CycleDistribution = 0x20000
+        [AnalyzeOptionInfo("Cycle distribution", 
+            "Cycle length distribution in the network.")]
+        CycleDistribution = 0x10000
     }
 }

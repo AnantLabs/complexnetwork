@@ -13,19 +13,29 @@ namespace Core.Enumerations
     /// </summary>
     public enum ModelType
     {
-        [ModelTypeInfo("", "", "BAModel")]
+        [ModelTypeInfo("Erdős-Rényi model", 
+            "The classical random network.", 
+            "ERNetwork")]
         ER = 1,
 
-        [ModelTypeInfo("", "", "ERModel")]
+        [ModelTypeInfo("Watts-Strogatz model",
+            "Random network, which represents the small-world property.", 
+            "WSNetwork")]
         WS,
 
-        [ModelTypeInfo("", "", "WSModel")]
+        [ModelTypeInfo("Baraba´si-Albert model",
+            "Random network, which represents the scale-free property.", 
+            "BANetwork")]
         BA,
 
-        [ModelTypeInfo("", "", "RegularHierarchicModel")]
+        [ModelTypeInfo("Regular Hierarchical model", 
+            "Random regularly branching block-hierarchical network.", 
+            "RegularHierarchicNetwork")]
         RegularHierarchic,
 
-        [ModelTypeInfo("", "", "NonRegularHierarchicModel")]
+        [ModelTypeInfo("Non Regular Hierarchical model", 
+            "Random non-regularly branching block-hierarchical network.", 
+            "NonRegularHierarchicNetwork")]
         NonRegularHierarchic
     }
 }
