@@ -30,7 +30,7 @@ namespace NetworkModel.Engine.Eigenvalues
                 GetSortEigineValue(vector);
                 return eigenValue;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return new List<Double>();
             }
