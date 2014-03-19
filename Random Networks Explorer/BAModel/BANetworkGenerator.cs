@@ -11,7 +11,10 @@ using RandomNumberGeneration;
 
 namespace BAModel
 {
-    public class BANetworkGenerator : INetworkGenerator
+    /// <summary>
+    /// 
+    /// </summary>
+    class BANetworkGenerator : INetworkGenerator
     {
         // Организация работы с лог файлом.
         //protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(BAGenerator));
