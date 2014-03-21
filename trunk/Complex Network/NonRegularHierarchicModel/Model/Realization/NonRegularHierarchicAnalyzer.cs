@@ -75,26 +75,54 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Возвращается степенное распределение графа. Реализовано.
         public override SortedDictionary<int, int> GetDegreeDistribution()
         {
-            throw new NotImplementedException();
-            /*log.Info("Getting degree distribution.");
+            log.Info("Getting degree distribution.");
+            return ArrayCntAdjacentCntVertexes(0, 0);
+        }
 
-            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
-            /// Iterate over all the vertexes and count degrees.
-            uint v;
-            int degree;
-            for (v = 0; v < container.node.VertexCount; ++v)
+        // Возвращает распределение степеней.
+        // Распределение степеней вычисляется в данном узле данного уровня.
+        private SortedDictionary<int, int> ArrayCntAdjacentCntVertexes(int numberNode, int currentLevel)
+        {
+            if (currentLevel == container.Level)
             {
-                degree = (int)(container.GetDegree(v));
-                if (!result.ContainsKey(degree))
-                {
-                    result.Add(degree, 1);
-                }
-                else
-                {
-                    ++result[degree];
-                }
+                SortedDictionary<int, int> returned = new SortedDictionary<int, int>();
+                returned[0] = 1;
+                return returned;
             }
-            return result;*/
+            else
+            {
+                BitArray node = container.TreeNode(currentLevel, numberNode);
+
+                SortedDictionary<int, int> arraysReturned = new SortedDictionary<int, int>();
+                SortedDictionary<int, int> array = new SortedDictionary<int, int>();
+                int powPK = Convert.ToInt32(Math.Pow(container.BranchIndex, container.Level - currentLevel - 1));
+                int branchSize = container.Branches[currentLevel][numberNode];
+                int counter = 0;
+                for (int i = 0; i < numberNode; ++i)
+                {
+                    counter += container.Branches[currentLevel][i];
+                }
+                
+                for (int i = 0; i < branchSize; ++i)
+                {
+                    array = ArrayCntAdjacentCntVertexes(i + counter, currentLevel + 1);
+                    int countAjacentsThisnode = container.CountConnectedBlocks(node, i);
+                    foreach (KeyValuePair<int, int> kvt in array)
+                    {
+                        int key = kvt.Key + countAjacentsThisnode * powPK;
+                        if (arraysReturned.ContainsKey(key))
+                        {
+                            arraysReturned[key] += kvt.Value;
+                        }
+                        else
+                        {
+                            arraysReturned.Add(key, kvt.Value);
+                        }
+                    }
+                }
+                
+                return arraysReturned;
+            }
         }
 
         // Возвращает распределение триугольников, прикрепленных к вершине.
@@ -127,9 +155,14 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Возвращается распределение длин минимальных путей в графе. Реализовано.
         public override SortedDictionary<int, int> GetMinPathDist()
         {
-            throw new NotImplementedException();
-            /*log.Info("Getting minimal distances between vertices.");
-            return container.GetMinPathDistribution();*/
+            log.Info("Getting minimal distances between vertices.");
+
+            if (-1 == avgPath)
+            {
+                CountPathDistribution();
+            }
+
+            return pathDistribution;
         }
 
         // Закрытая часть класса (не из общего интерфейса). //

@@ -359,12 +359,11 @@ namespace Model.NonRegularHierarchicModel.Realization
             if (currentNode[AdjacentIndex(branchSize, v1 % branchSize, v2 % branchSize)] == true)
                 return 1;
 
-            int tempCurrentLevel = currentLevel, tempBranchSize, vertexIndex, vI;
+            int tempCurrentLevel = currentLevel, vertexIndex, vI;
             while (0 < tempCurrentLevel)
             {
                 vertexIndex = TreeIndex(vertex1, tempCurrentLevel - 1);
-                tempBranchSize = branches[tempCurrentLevel - 1][vertexIndex];
-                vI = TreeIndex(vertex1, tempCurrentLevel) % branchSize;
+                vI = TreeIndex(vertex1, tempCurrentLevel);
                 if (Links(vI, vertexIndex, tempCurrentLevel - 1) > 0)
                     return 2;
 
@@ -431,14 +430,24 @@ namespace Model.NonRegularHierarchicModel.Realization
 
         // Возвращает число непосредственных соединений между child и остальными поддеревьями 
         // данного номера на данном уровне родителя.
-        public int Links(int child, int nodeNumber, int levelNumber)
+        public int Links(int child, int parent, int parentLevel)
         {
             int result = 0;
-            BitArray node = TreeNode(levelNumber, nodeNumber);
-            int branchSize = branches[levelNumber][nodeNumber];
+            int branchSize = branches[parentLevel][parent];
+            if (branchSize == 1)
+            {
+                return 0;
+            }
+            BitArray node = TreeNode(parentLevel, parent);
+            int counter = 0;
+            for (int i = 0; i < parent; ++i) 
+            {
+                counter += branches[parentLevel][i];
+            }
+            int childIndex = (child - counter) % branchSize;
             for (int i = 0; i < branchSize; ++i)
             {
-                if (AreConnectedTwoBlocks(node, branchSize, child, i))
+                if (AreConnectedTwoBlocks(node, branchSize, childIndex, i))
                 {
                     ++result;
                 }
@@ -478,6 +487,36 @@ namespace Model.NonRegularHierarchicModel.Realization
             }
         }
 
+        /// <summary>
+        /// Возвращает число блоков, которые соединены с i блоками.
+        /// </summary>
+        /// <param name="node">nodes data</param>
+        /// <param name="i">number of the  block</param>
+        /// <returns></returns>
+        public int CountConnectedBlocks(BitArray node, int i)
+        {
+            i++;
+            int s = 1, sum = 0;
+            int findex = 0;
+            while (s < i)
+            {
+                sum += Convert.ToInt32(node[findex + i - s - 1]);
+                findex += branchIndex - s;
+                s++;
+            }
+
+            int endindex = findex + (branchIndex - s);
+            s = findex;
+
+            while (s < endindex)
+            {
+                sum += Convert.ToInt32(node[s]);
+                s++;
+            }
+
+            return sum;
+        }
+
         // Возвращает матрицу 0/1 размером p Х p, которая определяет связность данного узла дерева.
         // Узел определяется номером уровня l (из диапазоне [0, k-1])
         // и номером узла на данном уровне (из диапазона [0, pow(p,l) - 1]).
@@ -489,9 +528,13 @@ namespace Model.NonRegularHierarchicModel.Realization
 
             int branchSize = branches[l][n];
             int[,] result = new int[branchSize, branchSize];
-            long i = n * branchSize * (branchSize - 1) / 2;
-            int ind = Convert.ToInt32(Math.Floor(Convert.ToDouble(i / ARRAY_MAX_SIZE)));
-            int rangeSt = Convert.ToInt32(i - ind * ARRAY_MAX_SIZE);
+            long indexCounter = 0;
+            for (int j = 0; j < n; ++j)
+            {
+                indexCounter += (branches[l][j] * (branches[l][j] - 1) / 2);
+            }
+            int ind = Convert.ToInt32(Math.Floor(Convert.ToDouble(indexCounter / ARRAY_MAX_SIZE)));
+            int rangeSt = Convert.ToInt32(indexCounter - ind * ARRAY_MAX_SIZE);
             int rangeEnd = rangeSt + branchSize * (branchSize - 1) / 2;
             int secArray = 0;
 
