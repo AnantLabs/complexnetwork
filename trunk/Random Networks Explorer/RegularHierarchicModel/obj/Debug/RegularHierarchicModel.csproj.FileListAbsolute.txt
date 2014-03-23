@@ -20,3 +20,16 @@ D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierar
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\bin\Debug\ModelChecking.pdb
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\bin\Debug\RandomNumberGeneration.dll
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\RegularHierarchicModel\bin\Debug\RandomNumberGeneration.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\RegularHierarchicModel\bin\Debug\RegularHierarchicModel.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\RegularHierarchicModel\bin\Debug\RegularHierarchicModel.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\RegularHierarchicModel\bin\Debug\Core.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\RegularHierarchicModel\bin\Debug\ModelChecking.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\RegularHierarchicModel\bin\Debug\NetworkModel.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\RegularHierarchicModel\bin\Debug\RandomNumberGeneration.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\RegularHierarchicModel\bin\Debug\Core.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\RegularHierarchicModel\bin\Debug\ModelChecking.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\RegularHierarchicModel\bin\Debug\NetworkModel.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\RegularHierarchicModel\bin\Debug\RandomNumberGeneration.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\RegularHierarchicModel\obj\Debug\RegularHierarchicModel.csprojResolveAssemblyReference.cache
+C:\Users\Arthur\Desktop\Random Networks Explorer\RegularHierarchicModel\obj\Debug\RegularHierarchicModel.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\RegularHierarchicModel\obj\Debug\RegularHierarchicModel.pdb

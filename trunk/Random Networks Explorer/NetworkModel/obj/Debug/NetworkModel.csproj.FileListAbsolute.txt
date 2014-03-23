@@ -17,3 +17,10 @@ D:\Disertation\System (code)\Last Version\Random Networks Explorer\NetworkModel\
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\NetworkModel\obj\Debug\ResolveAssemblyReference.cache
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\NetworkModel\obj\Debug\NetworkModel.dll
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\NetworkModel\obj\Debug\NetworkModel.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\NetworkModel\bin\Debug\NetworkModel.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\NetworkModel\bin\Debug\NetworkModel.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\NetworkModel\bin\Debug\Core.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\NetworkModel\bin\Debug\Core.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\NetworkModel\obj\Debug\NetworkModel.csprojResolveAssemblyReference.cache
+C:\Users\Arthur\Desktop\Random Networks Explorer\NetworkModel\obj\Debug\NetworkModel.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\NetworkModel\obj\Debug\NetworkModel.pdb

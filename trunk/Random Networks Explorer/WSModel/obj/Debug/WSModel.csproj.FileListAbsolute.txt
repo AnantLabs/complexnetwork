@@ -9,3 +9,14 @@ D:\Disertation\System (code)\Last Version\Random Networks Explorer\WSModel\bin\D
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\WSModel\bin\Debug\Core.pdb
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\WSModel\bin\Debug\NetworkModel.pdb
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\WSModel\bin\Debug\RandomNumberGeneration.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\WSModel\obj\Debug\WSModel.csprojResolveAssemblyReference.cache
+C:\Users\Arthur\Desktop\Random Networks Explorer\WSModel\obj\Debug\WSModel.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\WSModel\bin\Debug\WSModel.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\WSModel\bin\Debug\WSModel.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\WSModel\bin\Debug\Core.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\WSModel\bin\Debug\NetworkModel.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\WSModel\bin\Debug\RandomNumberGeneration.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\WSModel\bin\Debug\Core.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\WSModel\bin\Debug\NetworkModel.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\WSModel\bin\Debug\RandomNumberGeneration.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\WSModel\obj\Debug\WSModel.pdb
