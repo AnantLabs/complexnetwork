@@ -9,3 +9,14 @@ D:\Disertation\System (code)\Last Version\Random Networks Explorer\ERModel\bin\D
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\ERModel\bin\Debug\RandomNumberGeneration.dll
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\ERModel\bin\Debug\NetworkModel.pdb
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\ERModel\bin\Debug\RandomNumberGeneration.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\ERModel\bin\Debug\ERModel.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\ERModel\bin\Debug\ERModel.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\ERModel\bin\Debug\Core.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\ERModel\bin\Debug\NetworkModel.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\ERModel\bin\Debug\RandomNumberGeneration.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\ERModel\bin\Debug\Core.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\ERModel\bin\Debug\NetworkModel.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\ERModel\bin\Debug\RandomNumberGeneration.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\ERModel\obj\Debug\ERModel.csprojResolveAssemblyReference.cache
+C:\Users\Arthur\Desktop\Random Networks Explorer\ERModel\obj\Debug\ERModel.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\ERModel\obj\Debug\ERModel.pdb

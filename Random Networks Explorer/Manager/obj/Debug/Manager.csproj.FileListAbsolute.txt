@@ -19,3 +19,10 @@ D:\Disertation\System (code)\Last Version\Random Networks Explorer\Manager\bin\D
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\Manager\bin\Debug\Manager.pdb
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\Manager\bin\Debug\Core.dll
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\Manager\bin\Debug\Core.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\Manager\bin\Debug\Manager.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\Manager\bin\Debug\Manager.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\Manager\bin\Debug\Core.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\Manager\bin\Debug\Core.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\Manager\obj\Debug\Manager.csprojResolveAssemblyReference.cache
+C:\Users\Arthur\Desktop\Random Networks Explorer\Manager\obj\Debug\Manager.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\Manager\obj\Debug\Manager.pdb

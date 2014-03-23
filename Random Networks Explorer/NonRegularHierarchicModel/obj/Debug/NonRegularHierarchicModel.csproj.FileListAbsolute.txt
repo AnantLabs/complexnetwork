@@ -16,3 +16,12 @@ D:\Disertation\System (code)\Last Version\Random Networks Explorer\NonRegularHie
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\NonRegularHierarchicModel\obj\Debug\ResolveAssemblyReference.cache
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\NonRegularHierarchicModel\obj\Debug\NonRegularHierarchicModel.dll
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\NonRegularHierarchicModel\obj\Debug\NonRegularHierarchicModel.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\NonRegularHierarchicModel\bin\Debug\NonRegularHierarchicModel.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\NonRegularHierarchicModel\bin\Debug\NonRegularHierarchicModel.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\NonRegularHierarchicModel\bin\Debug\Core.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\NonRegularHierarchicModel\bin\Debug\NetworkModel.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\NonRegularHierarchicModel\bin\Debug\Core.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\NonRegularHierarchicModel\bin\Debug\NetworkModel.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\NonRegularHierarchicModel\obj\Debug\NonRegularHierarchicModel.csprojResolveAssemblyReference.cache
+C:\Users\Arthur\Desktop\Random Networks Explorer\NonRegularHierarchicModel\obj\Debug\NonRegularHierarchicModel.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\NonRegularHierarchicModel\obj\Debug\NonRegularHierarchicModel.pdb

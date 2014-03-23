@@ -3,3 +3,7 @@ D:\Disertation\System (code)\Last Version\Random Networks Explorer\ModelChecking
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\ModelChecking\bin\Debug\ModelChecking.pdb
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\ModelChecking\obj\Debug\ModelChecking.dll
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\ModelChecking\obj\Debug\ModelChecking.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\ModelChecking\bin\Debug\ModelChecking.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\ModelChecking\bin\Debug\ModelChecking.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\ModelChecking\obj\Debug\ModelChecking.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\ModelChecking\obj\Debug\ModelChecking.pdb

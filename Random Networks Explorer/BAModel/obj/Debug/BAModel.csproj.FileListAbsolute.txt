@@ -18,3 +18,14 @@ D:\Disertation\System (code)\Last Version\Random Networks Explorer\BAModel\obj\D
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\BAModel\obj\Debug\BAModel.pdb
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\BAModel\bin\Debug\RandomNumberGeneration.dll
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\BAModel\bin\Debug\RandomNumberGeneration.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\BAModel\bin\Debug\BAModel.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\BAModel\bin\Debug\BAModel.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\BAModel\bin\Debug\Core.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\BAModel\bin\Debug\NetworkModel.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\BAModel\bin\Debug\RandomNumberGeneration.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\BAModel\bin\Debug\Core.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\BAModel\bin\Debug\NetworkModel.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\BAModel\bin\Debug\RandomNumberGeneration.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\BAModel\obj\Debug\BAModel.csprojResolveAssemblyReference.cache
+C:\Users\Arthur\Desktop\Random Networks Explorer\BAModel\obj\Debug\BAModel.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\BAModel\obj\Debug\BAModel.pdb

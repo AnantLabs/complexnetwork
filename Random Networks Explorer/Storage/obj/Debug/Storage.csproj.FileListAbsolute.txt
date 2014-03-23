@@ -12,3 +12,10 @@ D:\Disertation\System (code)\Last Version\Random Networks Explorer\Storage\bin\D
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\Storage\obj\Debug\ResolveAssemblyReference.cache
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\Storage\obj\Debug\Storage.dll
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\Storage\obj\Debug\Storage.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\Storage\bin\Debug\Storage.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\Storage\bin\Debug\Storage.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\Storage\bin\Debug\Core.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\Storage\bin\Debug\Core.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\Storage\obj\Debug\Storage.csprojResolveAssemblyReference.cache
+C:\Users\Arthur\Desktop\Random Networks Explorer\Storage\obj\Debug\Storage.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\Storage\obj\Debug\Storage.pdb

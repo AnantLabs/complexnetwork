@@ -44,7 +44,7 @@ namespace WSModel
             Single probability = (Single)genParam[GenerationParameter.Probability];
             UInt16 stepCount = (UInt16)genParam[GenerationParameter.StepCount];
 
-            container.SetParameters(numberOfVertices, numberOfEdges / 2);
+            //container.SetParameters(numberOfVertices, numberOfEdges / 2);
             Randomize();
             FillValuesByProbability(probability, stepCount);
             //log.Info("Random generation step finished.");
@@ -99,7 +99,7 @@ namespace WSModel
                             int r = WSStep(probability, nonNeighbours, neighbours[j]);
                             if (r != neighbours[j])
                             {
-                                container.Disconnect(i, neighbours[j]);
+                                //container.Disconnect(i, neighbours[j]);
                                 container.AddEdge(i, r);
                             }
                         }

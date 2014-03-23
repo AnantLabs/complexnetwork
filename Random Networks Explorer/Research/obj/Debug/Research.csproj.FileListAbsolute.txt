@@ -19,3 +19,10 @@ D:\Disertation\System (code)\Last Version\Random Networks Explorer\Research\bin\
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\Research\obj\Debug\ResolveAssemblyReference.cache
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\Research\obj\Debug\Research.dll
 D:\Disertation\System (code)\Last Version\Random Networks Explorer\Research\obj\Debug\Research.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\Research\bin\Debug\Research.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\Research\bin\Debug\Research.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\Research\bin\Debug\Core.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\Research\bin\Debug\Core.pdb
+C:\Users\Arthur\Desktop\Random Networks Explorer\Research\obj\Debug\Research.csprojResolveAssemblyReference.cache
+C:\Users\Arthur\Desktop\Random Networks Explorer\Research\obj\Debug\Research.dll
+C:\Users\Arthur\Desktop\Random Networks Explorer\Research\obj\Debug\Research.pdb
