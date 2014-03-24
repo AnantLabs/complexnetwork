@@ -6,6 +6,7 @@ using System.Text;
 using Core;
 using Core.Attributes;
 using Core.Enumerations;
+using NetworkModel;
 
 namespace WSModel
 {
@@ -29,5 +30,22 @@ namespace WSModel
         AnalyzeOption.EigenValues)]
     public class WSNetwork : AbstractNetwork
     {
+        public WSNetwork(Dictionary<GenerationParameter, object> genParams,
+            AnalyzeOption analyzeOpts, string trPath) :
+            base(genParams, analyzeOpts, trPath)
+        {
+            networkGenerator = new WSNetworkGenerator();
+            networkAnalyzer = new NonHierarchicAnalyzer();
+        }
+
+        public override void Generate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Analyze()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -15,6 +15,8 @@ namespace NetworkModel
         // Контейнер, в котором содержится граф конкретной модели (BA).
         private NonHierarchicContainer container;
 
+        public NonHierarchicAnalyzer() { }
+
         // Конструктор, получающий контейнер графа.
         public NonHierarchicAnalyzer(NonHierarchicContainer c)
         {
@@ -43,7 +45,7 @@ namespace NetworkModel
         }
 
         // Возвращается диаметр графа. Реализовано.
-        public Int32 GetDiameter()
+        public UInt32 GetDiameter()
         {
             //log.Info("Getting diameter.");
 
@@ -52,7 +54,7 @@ namespace NetworkModel
                 CountEssentialOptions();
             }
 
-            return diameter;
+            return (UInt32)diameter;
         }
 
         public Double GetAverageDegree()
@@ -152,13 +154,13 @@ namespace NetworkModel
             }
         }
 
-        public SortedDictionary<Int32, Int32> GetDegreeDistribution()
+        public SortedDictionary<UInt32, UInt32> GetDegreeDistribution()
         {
             return DegreeDistribution();
         }
 
         // Возвращается распределение коэффициентов кластеризации графа. Реализовано.
-        public SortedDictionary<Double, Int32> GetClusteringCoefficientDistribution()
+        public SortedDictionary<Double, UInt32> GetClusteringCoefficientDistribution()
         {
             //log.Info("Getting clustering coefficients.");
 
@@ -170,7 +172,8 @@ namespace NetworkModel
             double clusteringCoefficient = 0;
             int iEdgeCountForFullness = 0, iNeighbourCount = 0;
             double iclusteringCoefficient = 0;
-            SortedDictionary<double, int> m_iclusteringCoefficient = new SortedDictionary<double, int>();
+            SortedDictionary<Double, UInt32> m_iclusteringCoefficient =
+                new SortedDictionary<Double, UInt32>();
 
             SortedDictionary<int, double> iclusteringCoefficientList = new SortedDictionary<int, double>();
             for (int i = 0; i < container.Size; ++i)
@@ -203,9 +206,9 @@ namespace NetworkModel
         }
 
         // Возвращается распределение чисел  связанных подграфов в графе.
-        public SortedDictionary<Int32, Int32> GetConnectedComponentDistribution()
+        public SortedDictionary<UInt32, UInt32> GetConnectedComponentDistribution()
         {
-            var connectedSubGraphDic = new SortedDictionary<int, int>();
+            var connectedSubGraphDic = new SortedDictionary<UInt32, UInt32>();
             Queue<int> q = new Queue<int>();
             var nodes = new Node[container.Size];
             for (int i = 0; i < nodes.Length; i++)
@@ -214,7 +217,7 @@ namespace NetworkModel
 
             for (int i = 0; i < container.Size; i++)
             {
-                int order = 0;
+                UInt32 order = 0;
                 q.Enqueue(i);
                 while (q.Count != 0)
                 {
@@ -252,13 +255,13 @@ namespace NetworkModel
             return connectedSubGraphDic;
         }
 
-        public SortedDictionary<Int32, Int32> GetCompleteComponentDistribution()
+        public SortedDictionary<UInt32, UInt32> GetCompleteComponentDistribution()
         {
             throw new NotImplementedException();
         }
 
         // Возвращается распределение длин минимальных путей в графе. Реализовано.
-        public SortedDictionary<Int32, Int32> GetDistanceDistribution()
+        public SortedDictionary<UInt32, UInt32> GetDistanceDistribution()
         {
             //log.Info("Getting minimal distances between vertices.");
 
@@ -271,7 +274,7 @@ namespace NetworkModel
         }
 
         // Возвращает распределение триугольников, прикрепленных к вершине.
-        public SortedDictionary<Int32, Int32> GetTriangleByVertexDistribution()
+        public SortedDictionary<UInt32, UInt32> GetTriangleByVertexDistribution()
         {
             //log.Info("Getting triangles distribution.");
 
@@ -280,10 +283,10 @@ namespace NetworkModel
                 CountEssentialOptions();
             }
 
-            var trianglesDistribution = new SortedDictionary<int, int>();
+            var trianglesDistribution = new SortedDictionary<UInt32, UInt32>();
             for (int i = 0; i < container.Size; ++i)
             {
-                var countTringle = (int)edgesBetweenNeighbours[i];
+                var countTringle = (UInt32)edgesBetweenNeighbours[i];
                 if (trianglesDistribution.ContainsKey(countTringle))
                 {
                     trianglesDistribution[countTringle]++;
@@ -313,13 +316,18 @@ namespace NetworkModel
             return cyclesCount;
         }
 
+        public SortedDictionary<UInt16, BigInteger> GetCycleDistribution(UInt16 lowBound, UInt16 highBound)
+        {
+            throw new NotImplementedException();
+        }
+
         // Закрытая часть класса (не из общего интерфейса). //
 
         private List<double> edgesBetweenNeighbours;
 
         private double avgPath = -1;
         private int diameter = -1;
-        private SortedDictionary<int, int> pathDistribution = new SortedDictionary<int, int>();
+        private SortedDictionary<UInt32, UInt32> pathDistribution = new SortedDictionary<UInt32, UInt32>();
         private List<SortedList<int, int>> cycles4 = new List<SortedList<int, int>>();
 
         private void Initialization()
@@ -394,10 +402,10 @@ namespace NetworkModel
                     int way = MinimumWay(i, j);
                     if (way == -1)
                         continue;
-                    if (pathDistribution.ContainsKey(way))
-                        pathDistribution[way]++;
+                    if (pathDistribution.ContainsKey((UInt32)way))
+                        pathDistribution[(UInt32)way]++;
                     else
-                        pathDistribution.Add(way, 1);
+                        pathDistribution.Add((UInt32)way, 1);
 
                     if (way > diametr)
                         diametr = way;
@@ -455,17 +463,18 @@ namespace NetworkModel
         }
 
         // Возвращает распределение степеней.
-        private SortedDictionary<int, int> DegreeDistribution()
+        private SortedDictionary<UInt32, UInt32> DegreeDistribution()
         {
-            SortedDictionary<int, int> degreeDistribution = new SortedDictionary<int, int>();
-            for (int i = 0; i < container.Size; ++i)
-                degreeDistribution[i] = new int();
+            SortedDictionary<UInt32, UInt32> degreeDistribution =
+                new SortedDictionary<UInt32, UInt32>();
+            for (UInt32 i = 0; i < container.Size; ++i)
+                degreeDistribution[i] = new UInt32();
             for (int i = 0; i < container.Size; ++i)
             {
                 int degreeOfVertexI = container.Neighbourship[i].Count;
-                degreeDistribution[degreeOfVertexI]++;
+                degreeDistribution[(UInt32)degreeOfVertexI]++;
             }
-            for (int i = 0; i < container.Size; i++)
+            for (UInt32 i = 0; i < container.Size; i++)
                 if (degreeDistribution[i] == 0)
                     degreeDistribution.Remove(i);
 

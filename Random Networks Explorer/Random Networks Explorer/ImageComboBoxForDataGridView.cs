@@ -14,7 +14,7 @@ namespace RandomNetworksExplorer
         private int rowIndex;
         private bool valueChanged = false;
 
-        private System.Windows.Forms.ImageList imageList1;
+        //private System.Windows.Forms.ImageList imageList1;
 
         public ImageComboBoxForDataGridView(): base()
         {

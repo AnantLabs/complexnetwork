@@ -27,7 +27,7 @@ namespace Core.Model
         /// Calculates the diameter of the network.
         /// </summary>
         /// <returns>Diameter.</returns>
-        Int32 GetDiameter();
+        UInt32 GetDiameter();
 
         /// <summary>
         /// Calculates the average value of vertex degrees in the network.
@@ -81,37 +81,37 @@ namespace Core.Model
         /// Calculates degrees of vertices in the network.
         /// </summary>
         /// <returns>Degree distribution.</returns>
-        SortedDictionary<Int32, Int32> GetDegreeDistribution();
+        SortedDictionary<UInt32, UInt32> GetDegreeDistribution();
 
         /// <summary>
         /// Calculates clustering coefficients of vertices in the network.
         /// </summary>
         /// <returns>Distribution of clustering coefficinets.</returns>
-        SortedDictionary<Double, Int32> GetClusteringCoefficientDistribution();
+        SortedDictionary<Double, UInt32> GetClusteringCoefficientDistribution();
 
         /// <summary>
         /// Calculates counts of connected components in the network.
         /// </summary>
         /// <returns>Distribution of connected components.</returns>
-        SortedDictionary<Int32, Int32> GetConnectedComponentDistribution();
+        SortedDictionary<UInt32, UInt32> GetConnectedComponentDistribution();
 
         /// <summary>
         /// Calculates counts of complete components in the network.
         /// </summary>
         /// <returns>Distribution of complete components.</returns>
-        SortedDictionary<Int32, Int32> GetCompleteComponentDistribution();
+        SortedDictionary<UInt32, UInt32> GetCompleteComponentDistribution();
 
         /// <summary>
         /// Calculates minimal path lengths in the network.
         /// </summary>
         /// <returns>Distribution of minimal path lengths.</returns>
-        SortedDictionary<Int32, Int32> GetDistanceDistribution();
+        SortedDictionary<UInt32, UInt32> GetDistanceDistribution();
 
         /// <summary>
         /// Calculates counts of triangles by vertices in the network.
         /// </summary>
         /// <returns>Distribution of triangles by vertex.</returns>
-        SortedDictionary<Int32, Int32> GetTriangleByVertexDistribution();
+        SortedDictionary<UInt32, UInt32> GetTriangleByVertexDistribution();
 
         /// <summary>
         /// Calculates the counts of cycles in the network.
@@ -119,6 +119,6 @@ namespace Core.Model
         /// <param name="lowBound">Minimal length of cycle.</param>
         /// <param name="hightBound">Maximal length of cycle.</param>
         /// <returns>Distribution of cycles lengths.</returns>
-        SortedDictionary<Int32, BigInteger> GetCycleDistribution(Int16 lowBound, Int16 hightBound);
+        SortedDictionary<UInt16, BigInteger> GetCycleDistribution(UInt16 lowBound, UInt16 hightBound);
     }
 }

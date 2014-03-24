@@ -6,6 +6,7 @@ using System.Text;
 using Core;
 using Core.Attributes;
 using Core.Enumerations;
+using NetworkModel;
 
 namespace ERModel
 {
@@ -27,5 +28,22 @@ namespace ERModel
         AnalyzeOption.TriangleByVertexDistribution)]
     public class ERNetwork : AbstractNetwork
     {
+        public ERNetwork(Dictionary<GenerationParameter, object> genParams,
+            AnalyzeOption analyzeOpts, string trPath) :
+            base(genParams, analyzeOpts, trPath)
+        {
+            networkGenerator = new ERNetworkGenerator();
+            networkAnalyzer = new NonHierarchicAnalyzer();
+        }
+
+        public override void Generate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Analyze()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

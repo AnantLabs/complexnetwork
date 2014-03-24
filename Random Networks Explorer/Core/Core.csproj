@@ -52,6 +52,7 @@
     <Compile Include="Attributes\AvailableAnalyzeOption.cs" />
     <Compile Include="Attributes\AvailableModelType.cs" />
     <Compile Include="Attributes\GenerationParameterInfo.cs" />
+    <Compile Include="Attributes\ManagerTypeInfo.cs" />
     <Compile Include="Attributes\ModelTypeInfo.cs" />
     <Compile Include="Attributes\RequiredGenerationParameter.cs" />
     <Compile Include="Attributes\RequiredResearchParameter.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Enumerations\AnalyzeOption.cs" />
     <Compile Include="Enumerations\GenerationParameter.cs" />
     <Compile Include="Enumerations\GenerationType.cs" />
+    <Compile Include="Enumerations\ManagerType.cs" />
     <Compile Include="Enumerations\ModelType.cs" />
     <Compile Include="Enumerations\Operation.cs" />
     <Compile Include="Enumerations\ResearchType.cs" />

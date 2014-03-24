@@ -22,5 +22,22 @@ namespace NonRegularHierarchicModel
         AnalyzeOption.Diameter)]
     public class NonRegularHierarchicNetwork : AbstractNetwork
     {
+        public NonRegularHierarchicNetwork(Dictionary<GenerationParameter, object> genParams,
+            AnalyzeOption analyzeOpts, string trPath) :
+            base(genParams, analyzeOpts, trPath)
+        {
+            networkGenerator = new NonRegularHierarchicNetworkGenerator();
+            networkAnalyzer = new NonRegularHierarchicNetworkAnalyzer();
+        }
+
+        public override void Generate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Analyze()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

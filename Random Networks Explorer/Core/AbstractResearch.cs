@@ -10,7 +10,7 @@ using Core.Exceptions;
 namespace Core
 {
     /// <summary>
-    /// 
+    /// Abstract class presenting single research. 
     /// </summary>
     public abstract class AbstractResearch
     {
@@ -28,10 +28,16 @@ namespace Core
 
         protected AbstractResult result;
 
+        protected AbstractEnsembleManager currentManager;
         protected delegate void ManagerRunner();
+
+        private ManagerType managerType;
 
         public AbstractResearch()
         {
+            // TODO read from config manager type.
+            managerType = ManagerType.Local;
+
             status = Status.NotStarted;
 
             researchParameterValues = new Dictionary<ResearchParameter, object>();
@@ -114,41 +120,48 @@ namespace Core
         }
 
         /// <summary>
-        /// 
+        /// Starts research generation and analyze.
         /// </summary>
         public abstract void StartResearch();
 
         /// <summary>
-        /// 
+        /// Force stops the research.
         /// </summary>
-        public abstract void StopResearch();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        protected AbstractEnsembleManager CreateEnsembleManager()
+        public void StopResearch()
         {
-            AbstractEnsembleManager m = null;
-            /*if (true)   // local ensemble manager (read from config)
-            {
-                m = new LocalEnsembleManager();
-            }
-            else
-            {
-                m = new DistributedEnsembleManager();
-            }*/
-
-            m.ModelType = modelType;
-            m.TracingPath = tracingPath;
-            m.RealizationCount = realizationCount;
-            m.AnalyzeOptions = analyzeOption;
-            InitializeGenerationParameters(m);
-
-            return m;
+            // BUG for evolution and percolation researches canceling currentManager
+            // will not prevent cycle interruption.
+            currentManager.Cancel();
+            // TODO make existing result valid.
+            SaveResearch();
         }
 
+        /// <summary>
+        /// Creates ensemble manager of corresponding type and 
+        /// initializes from current research.
+        /// </summary>
+        protected void CreateEnsembleManager()
+        {
+            ManagerTypeInfo[] info = (ManagerTypeInfo[])managerType.GetType().GetCustomAttributes(typeof(ManagerTypeInfo), false);
+            Type t = Type.GetType(info[0].Implementation);
+            currentManager = (AbstractEnsembleManager)t.GetConstructor(null).Invoke(null);
+
+            currentManager.ModelType = modelType;
+            currentManager.TracingPath = tracingPath;
+            currentManager.RealizationCount = realizationCount;
+            currentManager.AnalyzeOptions = analyzeOption;
+            InitializeGenerationParameters(currentManager);
+        }
+
+        /// <summary>
+        /// Initializes generation parameters for single ensemble manager.
+        /// </summary>
+        /// <param name="m">Ensemble manager to initialize.</param>
         protected abstract void InitializeGenerationParameters(AbstractEnsembleManager m);
 
+        /// <summary>
+        /// Saves the results of research analyze.
+        /// </summary>
         protected void SaveResearch()
         {
         }
