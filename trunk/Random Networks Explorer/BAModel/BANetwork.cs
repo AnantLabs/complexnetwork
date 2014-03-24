@@ -6,6 +6,7 @@ using System.Text;
 using Core;
 using Core.Attributes;
 using Core.Enumerations;
+using NetworkModel;
 
 namespace BAModel
 {
@@ -28,5 +29,22 @@ namespace BAModel
         AnalyzeOption.TriangleByVertexDistribution)]
     public class BANetwork : AbstractNetwork
     {
+        public BANetwork(Dictionary<GenerationParameter, object> genParams,
+            AnalyzeOption analyzeOpts, string trPath) :
+            base(genParams, analyzeOpts, trPath)
+        {
+            networkGenerator = new BANetworkGenerator();
+            networkAnalyzer = new NonHierarchicAnalyzer();
+        }
+
+        public override void Generate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Analyze()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

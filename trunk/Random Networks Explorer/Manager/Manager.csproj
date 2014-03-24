@@ -40,8 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DistributedResearchManager.cs" />
-    <Compile Include="LocalResearchManager.cs" />
+    <Compile Include="DistributedEnsembleManager.cs" />
+    <Compile Include="LocalEnsembleManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

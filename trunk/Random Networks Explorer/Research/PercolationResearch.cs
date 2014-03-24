@@ -11,7 +11,7 @@ using Core.Enumerations;
 namespace Research
 {
     /// <summary>
-    /// 
+    /// Percolation research implementation.
     /// </summary>
     [AvailableModelType(ModelType.ER)]
     [AvailableModelType(ModelType.RegularHierarchic)]
@@ -26,10 +26,8 @@ namespace Research
         private Single maxProbability;
         private Single delta;
 
-        private AbstractEnsembleManager currentManager;
-
         /// <summary>
-        /// 
+        /// Creates multiple EnsembleManagers, running sequentially.
         /// </summary>
         public override void StartResearch()
         {
@@ -48,15 +46,10 @@ namespace Research
             StartCurrentEnsemble();
         }
 
-        public override void StopResearch()
-        {
-            currentManager.Cancel();
-        }
-
         private void RunCompleted(IAsyncResult res)
         {
             currentProbability += delta;
-            // getting result from currentManager and add to base.result
+            // TODO getting result from currentManager and add to base.result
             StartCurrentEnsemble();
         }
 
@@ -64,7 +57,7 @@ namespace Research
         {
             if (currentProbability < maxProbability)
             {
-                currentManager = base.CreateEnsembleManager();
+                base.CreateEnsembleManager();
                 ManagerRunner r = new ManagerRunner(currentManager.Run);
                 r.BeginInvoke(new AsyncCallback(RunCompleted), null);
             }

@@ -9,6 +9,9 @@ using Core.Enumerations;
 
 namespace Research
 {
+    /// <summary>
+    /// Basic research implementation.
+    /// </summary>
     [AvailableModelType(ModelType.ER)]
     [AvailableModelType(ModelType.BA)]
     [AvailableModelType(ModelType.WS)]
@@ -34,19 +37,25 @@ namespace Research
         AnalyzeOption.TriangleByVertexDistribution )]    
     public class BasicResearch : AbstractResearch
     {
+        /// <summary>
+        /// Creates a single EnsembleManager, runs in background thread.
+        /// </summary>
         public override void StartResearch()
         {
- 	        throw new NotImplementedException();
-        }
-
-        public override void StopResearch()
-        {
-            throw new NotImplementedException();
+            base.CreateEnsembleManager();
+            ManagerRunner r = new ManagerRunner(currentManager.Run);
+            r.BeginInvoke(new AsyncCallback(RunCompleted), null);
         }
 
         protected override void InitializeGenerationParameters(AbstractEnsembleManager m)
         {
-            throw new NotImplementedException();
+            m.GenerationParameterValues = base.GenerationParameterValues;
+        }
+
+        private void RunCompleted(IAsyncResult res)
+        {
+            // TODO getting result from currentManager and add to base.result
+            base.SaveResearch();
         }
     }
 }

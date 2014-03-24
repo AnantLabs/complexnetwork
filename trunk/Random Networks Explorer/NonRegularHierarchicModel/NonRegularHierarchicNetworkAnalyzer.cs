@@ -9,5 +9,6 @@ namespace NonRegularHierarchicModel
 {
     class NonRegularHierarchicNetworkAnalyzer : AbstractHierarchicAnalyzer
     {
+        public NonRegularHierarchicNetworkAnalyzer() { }
     }
 }

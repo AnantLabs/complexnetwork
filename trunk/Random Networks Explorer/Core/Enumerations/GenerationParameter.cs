@@ -25,7 +25,7 @@ namespace Core.Enumerations
         Probability,
 
         [GenerationParameterInfo("Permanent network", 
-            "Defines if the initial network is permanent for each generation step", 
+            "Defines if the initial network is permanent for each generation step.", 
             typeof(Boolean))]
         PermanentNetwork,
 

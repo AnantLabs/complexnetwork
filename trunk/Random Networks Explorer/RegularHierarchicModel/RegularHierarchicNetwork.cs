@@ -28,5 +28,22 @@ namespace RegularHierarchicModel
         AnalyzeOption.TriangleByVertexDistribution)]
     public class RegularHierarchicNetwork : AbstractNetwork
     {
+        public RegularHierarchicNetwork(Dictionary<GenerationParameter, object> genParams,
+            AnalyzeOption analyzeOpts, string trPath) :
+            base(genParams, analyzeOpts, trPath)
+        {
+            networkGenerator = new RegularHierarchicNetworkGenerator();
+            networkAnalyzer = new RegularHierarchicNetworkAnalyzer();
+        }
+
+        public override void Generate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Analyze()
+        {
+            throw new NotImplementedException();
+        }   
     }
 }

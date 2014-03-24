@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.storageGroupBox = new System.Windows.Forms.GroupBox();
-            this.Location = new System.Windows.Forms.Label();
-            this.LabelConnStr = new System.Windows.Forms.Label();
-            this.LocationTxt = new System.Windows.Forms.TextBox();
-            this.XMLRadioButton = new System.Windows.Forms.RadioButton();
-            this.textBoxConnStr = new System.Windows.Forms.TextBox();
-            this.AddConnection = new System.Windows.Forms.Button();
-            this.SQLRadioButton = new System.Windows.Forms.RadioButton();
             this.Browse = new System.Windows.Forms.Button();
+            this.SQLRadioButton = new System.Windows.Forms.RadioButton();
+            this.AddConnection = new System.Windows.Forms.Button();
+            this.textBoxConnStr = new System.Windows.Forms.TextBox();
+            this.XMLRadioButton = new System.Windows.Forms.RadioButton();
+            this.LocationTxt = new System.Windows.Forms.TextBox();
+            this.LabelConnStr = new System.Windows.Forms.Label();
+            this.location = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Button();
             this.okButton = new System.Windows.Forms.Button();
             this.storageGroupBox.SuspendLayout();
@@ -51,7 +51,7 @@
             this.storageGroupBox.Controls.Add(this.XMLRadioButton);
             this.storageGroupBox.Controls.Add(this.LocationTxt);
             this.storageGroupBox.Controls.Add(this.LabelConnStr);
-            this.storageGroupBox.Controls.Add(this.Location);
+            this.storageGroupBox.Controls.Add(this.location);
             this.storageGroupBox.Location = new System.Drawing.Point(12, 12);
             this.storageGroupBox.Name = "storageGroupBox";
             this.storageGroupBox.Size = new System.Drawing.Size(421, 171);
@@ -59,57 +59,14 @@
             this.storageGroupBox.TabStop = false;
             this.storageGroupBox.Text = "Choose data store";
             // 
-            // Location
+            // Browse
             // 
-            this.Location.AutoSize = true;
-            this.Location.Location = new System.Drawing.Point(48, 63);
-            this.Location.Name = "Location";
-            this.Location.Size = new System.Drawing.Size(84, 13);
-            this.Location.TabIndex = 20;
-            this.Location.Text = "Storage location";
-            // 
-            // LabelConnStr
-            // 
-            this.LabelConnStr.AutoSize = true;
-            this.LabelConnStr.Location = new System.Drawing.Point(47, 123);
-            this.LabelConnStr.Name = "LabelConnStr";
-            this.LabelConnStr.Size = new System.Drawing.Size(88, 13);
-            this.LabelConnStr.TabIndex = 25;
-            this.LabelConnStr.Text = "ConnectionString";
-            // 
-            // LocationTxt
-            // 
-            this.LocationTxt.Location = new System.Drawing.Point(152, 59);
-            this.LocationTxt.Name = "LocationTxt";
-            this.LocationTxt.Size = new System.Drawing.Size(140, 20);
-            this.LocationTxt.TabIndex = 21;
-            this.LocationTxt.Text = "C:\\ComplexNetwork";
-            // 
-            // XMLRadioButton
-            // 
-            this.XMLRadioButton.AutoSize = true;
-            this.XMLRadioButton.Location = new System.Drawing.Point(27, 33);
-            this.XMLRadioButton.Name = "XMLRadioButton";
-            this.XMLRadioButton.Size = new System.Drawing.Size(73, 17);
-            this.XMLRadioButton.TabIndex = 19;
-            this.XMLRadioButton.Text = "XML store";
-            this.XMLRadioButton.UseVisualStyleBackColor = true;
-            // 
-            // textBoxConnStr
-            // 
-            this.textBoxConnStr.Location = new System.Drawing.Point(152, 119);
-            this.textBoxConnStr.Name = "textBoxConnStr";
-            this.textBoxConnStr.Size = new System.Drawing.Size(140, 20);
-            this.textBoxConnStr.TabIndex = 26;
-            // 
-            // AddConnection
-            // 
-            this.AddConnection.Location = new System.Drawing.Point(315, 119);
-            this.AddConnection.Name = "AddConnection";
-            this.AddConnection.Size = new System.Drawing.Size(82, 23);
-            this.AddConnection.TabIndex = 24;
-            this.AddConnection.Text = "Connections";
-            this.AddConnection.UseVisualStyleBackColor = true;
+            this.Browse.Location = new System.Drawing.Point(315, 59);
+            this.Browse.Name = "Browse";
+            this.Browse.Size = new System.Drawing.Size(82, 23);
+            this.Browse.TabIndex = 22;
+            this.Browse.Text = "Browse";
+            this.Browse.UseVisualStyleBackColor = true;
             // 
             // SQLRadioButton
             // 
@@ -123,14 +80,57 @@
             this.SQLRadioButton.Text = "SQL store";
             this.SQLRadioButton.UseVisualStyleBackColor = true;
             // 
-            // Browse
+            // AddConnection
             // 
-            this.Browse.Location = new System.Drawing.Point(315, 59);
-            this.Browse.Name = "Browse";
-            this.Browse.Size = new System.Drawing.Size(82, 23);
-            this.Browse.TabIndex = 22;
-            this.Browse.Text = "Browse";
-            this.Browse.UseVisualStyleBackColor = true;
+            this.AddConnection.Location = new System.Drawing.Point(315, 119);
+            this.AddConnection.Name = "AddConnection";
+            this.AddConnection.Size = new System.Drawing.Size(82, 23);
+            this.AddConnection.TabIndex = 24;
+            this.AddConnection.Text = "Connections";
+            this.AddConnection.UseVisualStyleBackColor = true;
+            // 
+            // textBoxConnStr
+            // 
+            this.textBoxConnStr.Location = new System.Drawing.Point(152, 119);
+            this.textBoxConnStr.Name = "textBoxConnStr";
+            this.textBoxConnStr.Size = new System.Drawing.Size(140, 20);
+            this.textBoxConnStr.TabIndex = 26;
+            // 
+            // XMLRadioButton
+            // 
+            this.XMLRadioButton.AutoSize = true;
+            this.XMLRadioButton.Location = new System.Drawing.Point(27, 33);
+            this.XMLRadioButton.Name = "XMLRadioButton";
+            this.XMLRadioButton.Size = new System.Drawing.Size(73, 17);
+            this.XMLRadioButton.TabIndex = 19;
+            this.XMLRadioButton.Text = "XML store";
+            this.XMLRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // LocationTxt
+            // 
+            this.LocationTxt.Location = new System.Drawing.Point(152, 59);
+            this.LocationTxt.Name = "LocationTxt";
+            this.LocationTxt.Size = new System.Drawing.Size(140, 20);
+            this.LocationTxt.TabIndex = 21;
+            this.LocationTxt.Text = "C:\\ComplexNetwork";
+            // 
+            // LabelConnStr
+            // 
+            this.LabelConnStr.AutoSize = true;
+            this.LabelConnStr.Location = new System.Drawing.Point(47, 123);
+            this.LabelConnStr.Name = "LabelConnStr";
+            this.LabelConnStr.Size = new System.Drawing.Size(88, 13);
+            this.LabelConnStr.TabIndex = 25;
+            this.LabelConnStr.Text = "ConnectionString";
+            // 
+            // location
+            // 
+            this.location.AutoSize = true;
+            this.location.Location = new System.Drawing.Point(48, 63);
+            this.location.Name = "location";
+            this.location.Size = new System.Drawing.Size(84, 13);
+            this.location.TabIndex = 20;
+            this.location.Text = "Storage location";
             // 
             // cancelButton
             // 
@@ -178,7 +178,7 @@
         private System.Windows.Forms.RadioButton XMLRadioButton;
         private System.Windows.Forms.TextBox LocationTxt;
         private System.Windows.Forms.Label LabelConnStr;
-        private System.Windows.Forms.Label Location;
+        private System.Windows.Forms.Label location;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button okButton;
     }

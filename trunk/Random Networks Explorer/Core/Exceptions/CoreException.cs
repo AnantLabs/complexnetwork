@@ -10,7 +10,7 @@ namespace Core.Exceptions
     /// 
     /// </summary>
     [Serializable]
-    class CoreException : ApplicationException
+    public class CoreException : ApplicationException
     {
         public CoreException() { }
         public CoreException(string message) : base(message) { }

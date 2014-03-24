@@ -12,8 +12,6 @@ namespace RandomNetworksExplorer
 {
     public partial class MainWindow : Form
     {
-        private int currentResearchIndex = 0;
-
         public MainWindow()
         {
             InitializeComponent();
@@ -30,7 +28,7 @@ namespace RandomNetworksExplorer
 
         private void newTrajectoryMenuItem_Click(object sender, EventArgs e)
         {
-            AddResearch(ResearchType.Trajectory);
+            AddResearch(ResearchType.Evolution);
         }
 
         private void newPercolationMenuItem_Click(object sender, EventArgs e)

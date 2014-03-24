@@ -162,6 +162,24 @@ namespace NetworkModel
             ++degrees[jvertexdegree + 1];
         }
 
+        /// <summary>
+        /// Removes the edge, which connects given vertices.
+        /// </summary>
+        /// <param name="i">First vertex number.</param>
+        /// <param name="j">Second vertex number.</param>
+        public void RemoveEdge(int i, int j)
+        {
+            neighbourship[i].Remove(j);
+            neighbourship[j].Remove(i);
+
+            int iVertexDegree = CountVertexDegree(i);
+            int jVertexDegree = CountVertexDegree(j);
+            --degrees[iVertexDegree];
+            --degrees[jVertexDegree];
+            ++degrees[iVertexDegree - 1];
+            ++degrees[jVertexDegree - 1];
+        }
+
 
         // Utilities
 

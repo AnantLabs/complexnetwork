@@ -43,7 +43,7 @@
     <Compile Include="BasicResearch.cs" />
     <Compile Include="PercolationResearch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TrajectoryResearch.cs" />
+    <Compile Include="EvolutionResearch.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">

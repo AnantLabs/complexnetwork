@@ -46,5 +46,9 @@ namespace Core
 
         public abstract void Run();
         public abstract void Cancel();
+
+        private void Trace()
+        {
+        }
     }
 }
