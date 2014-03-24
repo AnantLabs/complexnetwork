@@ -1,8 +1,0 @@
-D:\Disertation\System (code)\Random Networks Explorer\Random Networks Explorer\obj\x86\Debug\ResolveAssemblyReference.cache
-D:\Disertation\System (code)\Random Networks Explorer\Random Networks Explorer\obj\x86\Debug\ComplexNetworks.MainWindow.resources
-D:\Disertation\System (code)\Random Networks Explorer\Random Networks Explorer\obj\x86\Debug\Random_Networks_Explorer.Properties.Resources.resources
-D:\Disertation\System (code)\Random Networks Explorer\Random Networks Explorer\obj\x86\Debug\ComplexNetworks.StorageSettings.resources
-D:\Disertation\System (code)\Random Networks Explorer\Random Networks Explorer\obj\x86\Debug\GenerateResource.read.1.tlog
-D:\Disertation\System (code)\Random Networks Explorer\Random Networks Explorer\obj\x86\Debug\GenerateResource.write.1.tlog
-D:\Disertation\System (code)\Random Networks Explorer\Random Networks Explorer\obj\x86\Debug\Random Networks Explorer.exe
-D:\Disertation\System (code)\Random Networks Explorer\Random Networks Explorer\obj\x86\Debug\RandomNetworksExplorer.Properties.Resources.resources
