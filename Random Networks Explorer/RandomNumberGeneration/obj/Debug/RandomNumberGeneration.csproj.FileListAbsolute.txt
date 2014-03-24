@@ -1,9 +1,0 @@
-D:\Disertation\System (code)\Last Version\Random Networks Explorer\RandomNumberGeneration\bin\Debug\RandomNumberGeneration.dll
-D:\Disertation\System (code)\Last Version\Random Networks Explorer\RandomNumberGeneration\bin\Debug\RandomNumberGeneration.pdb
-D:\Disertation\System (code)\Last Version\Random Networks Explorer\RandomNumberGeneration\obj\Debug\ResolveAssemblyReference.cache
-D:\Disertation\System (code)\Last Version\Random Networks Explorer\RandomNumberGeneration\obj\Debug\RandomNumberGeneration.dll
-D:\Disertation\System (code)\Last Version\Random Networks Explorer\RandomNumberGeneration\obj\Debug\RandomNumberGeneration.pdb
-C:\Users\Arthur\Desktop\Random Networks Explorer\RandomNumberGeneration\bin\Debug\RandomNumberGeneration.dll
-C:\Users\Arthur\Desktop\Random Networks Explorer\RandomNumberGeneration\bin\Debug\RandomNumberGeneration.pdb
-C:\Users\Arthur\Desktop\Random Networks Explorer\RandomNumberGeneration\obj\Debug\RandomNumberGeneration.dll
-C:\Users\Arthur\Desktop\Random Networks Explorer\RandomNumberGeneration\obj\Debug\RandomNumberGeneration.pdb
