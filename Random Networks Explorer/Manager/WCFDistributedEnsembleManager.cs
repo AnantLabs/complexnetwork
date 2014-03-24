@@ -7,7 +7,7 @@ using Core;
 
 namespace Manager
 {
-    class DistributedResearchManager : AbstractEnsembleManager
+    class WCFDistributedEnsembleManager : AbstractEnsembleManager
     {
         public override void Run()
         {

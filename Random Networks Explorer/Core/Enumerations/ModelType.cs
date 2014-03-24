@@ -9,7 +9,7 @@ namespace Core.Enumerations
 {
     /// <summary>
     /// Enumaration, used for indicating the model type for Research.
-    /// Uses Attribute AnalyzeTypeInfo for storing metadata about every model.
+    /// Uses Attribute ModelTypeInfo for storing metadata about every model.
     /// </summary>
     public enum ModelType
     {

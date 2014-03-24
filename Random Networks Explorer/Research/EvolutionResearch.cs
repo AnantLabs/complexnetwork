@@ -21,11 +21,6 @@ namespace Research
             throw new NotImplementedException();
         }
 
-        public override void StopResearch()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void InitializeGenerationParameters(AbstractEnsembleManager m)
         {
             throw new NotImplementedException();
