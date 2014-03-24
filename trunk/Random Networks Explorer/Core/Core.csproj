@@ -61,7 +61,6 @@
     <Compile Include="Attributes\StorageTypeInfo.cs" />
     <Compile Include="Enumerations\AnalyzeOption.cs" />
     <Compile Include="Enumerations\GenerationParameter.cs" />
-    <Compile Include="Enumerations\GenerationType.cs" />
     <Compile Include="Enumerations\ManagerType.cs" />
     <Compile Include="Enumerations\ModelType.cs" />
     <Compile Include="Enumerations\Operation.cs" />

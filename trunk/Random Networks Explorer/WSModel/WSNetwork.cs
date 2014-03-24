@@ -37,15 +37,5 @@ namespace WSModel
             networkGenerator = new WSNetworkGenerator();
             networkAnalyzer = new NonHierarchicAnalyzer();
         }
-
-        public override void Generate()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Analyze()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

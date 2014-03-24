@@ -29,8 +29,7 @@ namespace Core
             ModelType modelType,
             string researchName,
             StorageType storage,
-            string tracingPath,
-            GenerationType generationType)
+            string tracingPath)
         {
             Guid id = Guid.NewGuid();
 
@@ -39,7 +38,6 @@ namespace Core
             r.ResearchName = researchName;
             r.Storage = CreateStorage(storage);
             r.TracingPath = tracingPath;
-            r.GenerationType = generationType;
 
             existingResearches.Add(id, r);
             return id;

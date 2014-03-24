@@ -18,7 +18,6 @@ namespace Core
         protected string researchName;
         protected AbstractResultStorage storage;
         protected string tracingPath;
-        protected GenerationType generationType;
         protected int realizationCount;
         protected Status status;
 
@@ -78,12 +77,6 @@ namespace Core
         {
             get { return tracingPath; }
             set { tracingPath = value; }
-        }
-
-        public GenerationType GenerationType
-        {
-            get { return generationType; }
-            set { generationType = value; }
         }
 
         public int RealizationCount

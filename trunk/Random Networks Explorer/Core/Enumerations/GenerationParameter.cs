@@ -52,6 +52,11 @@ namespace Core.Enumerations
         [GenerationParameterInfo("μ", 
             "The density parameter of the block-hierarchical network.", 
             typeof(Single))]
-        Mu
+        Mu,
+
+        [GenerationParameterInfo("Adjacency matrix's file name",
+            "The name of file, which contains adjacency matrix of network.",
+            typeof(String))]
+        AdjacencyMatrixFile
     }
 }

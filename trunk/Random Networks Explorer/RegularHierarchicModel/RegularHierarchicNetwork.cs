@@ -34,16 +34,6 @@ namespace RegularHierarchicModel
         {
             networkGenerator = new RegularHierarchicNetworkGenerator();
             networkAnalyzer = new RegularHierarchicNetworkAnalyzer();
-        }
-
-        public override void Generate()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Analyze()
-        {
-            throw new NotImplementedException();
-        }   
+        } 
     }
 }

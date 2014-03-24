@@ -29,15 +29,5 @@ namespace NonRegularHierarchicModel
             networkGenerator = new NonRegularHierarchicNetworkGenerator();
             networkAnalyzer = new NonRegularHierarchicNetworkAnalyzer();
         }
-
-        public override void Generate()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Analyze()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
