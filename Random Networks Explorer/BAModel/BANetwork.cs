@@ -36,15 +36,5 @@ namespace BAModel
             networkGenerator = new BANetworkGenerator();
             networkAnalyzer = new NonHierarchicAnalyzer();
         }
-
-        public override void Generate()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Analyze()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
