@@ -12,57 +12,57 @@ namespace NetworkModel
     {
         public INetworkContainer Container { get; set; }
 
-        public Double GetAveragePath()
+        public Double CalculateAveragePath()
         {
             throw new NotImplementedException();
         }
 
-        public UInt32 GetDiameter()
+        public UInt32 CalculateDiameter()
         {
             throw new NotImplementedException();
         }
 
-        public Double GetAverageDegree()
+        public Double CalculateAverageDegree()
         {
             throw new NotImplementedException();
         }
 
-        public Double GetAverageClusteringCoefficient()
+        public Double CalculateAverageClusteringCoefficient()
         {
             throw new NotImplementedException();
         }
 
-        public BigInteger GetCycles3()
+        public BigInteger CalculateCycles3()
         {
             throw new NotImplementedException();
         }
 
-        public BigInteger GetCycles4()
+        public BigInteger CalculateCycles4()
         {
             throw new NotImplementedException();
         }
 
-        public List<Double> GetEigenValues()
+        public List<Double> CalculateEigenValues()
         {
             throw new NotImplementedException();
         }
 
-        public BigInteger GetCycles3Eigen()
+        public BigInteger CalculateCycles3Eigen()
         {
             throw new NotImplementedException();
         }
 
-        public BigInteger GetCycles4Eigen()
+        public BigInteger CalculateCycles4Eigen()
         {
             throw new NotImplementedException();
         }
 
-        public SortedDictionary<Double, Int32> GetEigenDistanceDistribution()
+        public SortedDictionary<Double, Int32> CalculateEigenDistanceDistribution()
         {
             throw new NotImplementedException();
         }
 
-        public SortedDictionary<UInt32, UInt32> GetDegreeDistribution()
+        public SortedDictionary<UInt32, UInt32> CalculateDegreeDistribution()
         {
             throw new NotImplementedException();
         }
@@ -72,27 +72,27 @@ namespace NetworkModel
             throw new NotImplementedException();
         }
 
-        public SortedDictionary<UInt32, UInt32> GetConnectedComponentDistribution()
+        public SortedDictionary<UInt32, UInt32> CalculateConnectedComponentDistribution()
         {
             throw new NotImplementedException();
         }
 
-        public SortedDictionary<UInt32, UInt32> GetCompleteComponentDistribution()
+        public SortedDictionary<UInt32, UInt32> CalculateCompleteComponentDistribution()
         {
             throw new NotImplementedException();
         }
 
-        public SortedDictionary<UInt32, UInt32> GetDistanceDistribution()
+        public SortedDictionary<UInt32, UInt32> CalculateDistanceDistribution()
         {
             throw new NotImplementedException();
         }
 
-        public SortedDictionary<UInt32, UInt32> GetTriangleByVertexDistribution()
+        public SortedDictionary<UInt32, UInt32> CalculateTriangleByVertexDistribution()
         {
             throw new NotImplementedException();
         }
 
-        public SortedDictionary<UInt16, BigInteger> GetCycleDistribution(UInt16 lowBound, UInt16 hightBound)
+        public SortedDictionary<UInt16, BigInteger> CalculateCycleDistribution(UInt16 lowBound, UInt16 hightBound)
         {
             throw new NotImplementedException();
         }

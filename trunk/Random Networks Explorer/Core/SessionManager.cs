@@ -36,7 +36,8 @@ namespace Core
             AbstractResearch r = CreateResearchFromType(researchType);
             r.ModelType = modelType;
             r.ResearchName = researchName;
-            r.Storage = CreateStorage(storage);
+            // TODO get storageString
+            r.Storage = CreateStorage(storage, "temporaryString");
             r.TracingPath = tracingPath;
 
             existingResearches.Add(id, r);
@@ -210,13 +211,15 @@ namespace Core
         /// Creates a storage of specified type using metadata information of enumeration value.
         /// </summary>
         /// <param name="st">Type of storage to create</param>
+        /// <param name="storageStr"></param>
         /// <returns>Newly created storage</returns>
-        private static AbstractResultStorage CreateStorage(StorageType st)
+        private static AbstractResultStorage CreateStorage(StorageType st, string storageStr)
         {
+            Type[] patametersType = { typeof(String) };
+            object[] invokeParameters = { storageStr };
             StorageTypeInfo[] info = (StorageTypeInfo[])st.GetType().GetCustomAttributes(typeof(StorageTypeInfo), false);
             Type t = Type.GetType(info[0].Implementation);
-            return (AbstractResultStorage)t.GetConstructor(null).Invoke(null);
-            // get path and connection string from attr.
+            return (AbstractResultStorage)t.GetConstructor(patametersType).Invoke(invokeParameters);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace NetworkModel
         }
 
         // Возвращается средняя длина пути в графе. Реализовано.
-        public Double GetAveragePath()
+        public Double CalculateAveragePath()
         {
             //log.Info("Getting average path length.");
 
@@ -45,7 +45,7 @@ namespace NetworkModel
         }
 
         // Возвращается диаметр графа. Реализовано.
-        public UInt32 GetDiameter()
+        public UInt32 CalculateDiameter()
         {
             //log.Info("Getting diameter.");
 
@@ -57,18 +57,18 @@ namespace NetworkModel
             return (UInt32)diameter;
         }
 
-        public Double GetAverageDegree()
+        public Double CalculateAverageDegree()
         {
             throw new NotImplementedException();
         }
 
-        public Double GetAverageClusteringCoefficient()
+        public Double CalculateAverageClusteringCoefficient()
         {
             throw new NotImplementedException();
         }
 
         // Возвращается число циклов длиной 3 в графе. Реализовано.
-        public BigInteger GetCycles3()
+        public BigInteger CalculateCycles3()
         {
             //log.Info("Getting count of cycles - order 3.");
 
@@ -93,7 +93,7 @@ namespace NetworkModel
         }
 
         // Возвращается число циклов длиной 4 в графе. Реализовано.
-        public BigInteger GetCycles4()
+        public BigInteger CalculateCycles4()
         {
             //log.Info("Getting count of cycles - order 4.");
 
@@ -105,7 +105,7 @@ namespace NetworkModel
         }
 
         // Возвращается массив собственных значений матрицы смежности. Реализовано.
-        public List<double> GetEigenValues()
+        public List<double> CalculateEigenValues()
         {
             //log.Info("Getting eigen values array.");
             bool[,] m = container.GetMatrix();
@@ -123,17 +123,17 @@ namespace NetworkModel
             }
         }
 
-        public BigInteger GetCycles3Eigen()
+        public BigInteger CalculateCycles3Eigen()
         {
             throw new NotImplementedException();
         }
 
-        public BigInteger GetCycles4Eigen()
+        public BigInteger CalculateCycles4Eigen()
         {
             throw new NotImplementedException();
         }
 
-        public SortedDictionary<Double, Int32> GetEigenDistanceDistribution()
+        public SortedDictionary<Double, Int32> CalculateEigenDistanceDistribution()
         {
             //log.Info("Getting distances between eigen values.");
 
@@ -154,7 +154,7 @@ namespace NetworkModel
             }
         }
 
-        public SortedDictionary<UInt32, UInt32> GetDegreeDistribution()
+        public SortedDictionary<UInt32, UInt32> CalculateDegreeDistribution()
         {
             return DegreeDistribution();
         }
@@ -206,7 +206,7 @@ namespace NetworkModel
         }
 
         // Возвращается распределение чисел  связанных подграфов в графе.
-        public SortedDictionary<UInt32, UInt32> GetConnectedComponentDistribution()
+        public SortedDictionary<UInt32, UInt32> CalculateConnectedComponentDistribution()
         {
             var connectedSubGraphDic = new SortedDictionary<UInt32, UInt32>();
             Queue<int> q = new Queue<int>();
@@ -255,13 +255,13 @@ namespace NetworkModel
             return connectedSubGraphDic;
         }
 
-        public SortedDictionary<UInt32, UInt32> GetCompleteComponentDistribution()
+        public SortedDictionary<UInt32, UInt32> CalculateCompleteComponentDistribution()
         {
             throw new NotImplementedException();
         }
 
         // Возвращается распределение длин минимальных путей в графе. Реализовано.
-        public SortedDictionary<UInt32, UInt32> GetDistanceDistribution()
+        public SortedDictionary<UInt32, UInt32> CalculateDistanceDistribution()
         {
             //log.Info("Getting minimal distances between vertices.");
 
@@ -274,7 +274,7 @@ namespace NetworkModel
         }
 
         // Возвращает распределение триугольников, прикрепленных к вершине.
-        public SortedDictionary<UInt32, UInt32> GetTriangleByVertexDistribution()
+        public SortedDictionary<UInt32, UInt32> CalculateTriangleByVertexDistribution()
         {
             //log.Info("Getting triangles distribution.");
 
@@ -301,7 +301,7 @@ namespace NetworkModel
         }
 
         // Возвращается распределение чисел циклов. Реализовано.
-        public SortedDictionary<Int32, BigInteger> GetCycleDistribution(Int16 lowBound, Int16 hightBound)
+        public SortedDictionary<Int32, BigInteger> CalculateCycleDistribution(Int16 lowBound, Int16 hightBound)
         {
             //log.Info("Getting cycles.");
             CyclesCounter cyclesCounter = new CyclesCounter(container);
@@ -316,7 +316,7 @@ namespace NetworkModel
             return cyclesCount;
         }
 
-        public SortedDictionary<UInt16, BigInteger> GetCycleDistribution(UInt16 lowBound, UInt16 highBound)
+        public SortedDictionary<UInt16, BigInteger> CalculateCycleDistribution(UInt16 lowBound, UInt16 highBound)
         {
             throw new NotImplementedException();
         }

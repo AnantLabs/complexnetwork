@@ -14,11 +14,16 @@ namespace Research
     [RequiredResearchParameter(ResearchParameter.Nu)]
     [RequiredResearchParameter(ResearchParameter.PermanentDistribution)]
     [AvailableAnalyzeOption(AnalyzeOption.Cycles3)]
-    public class TrajectoryResearch : AbstractResearch
+    public class EvolutionResearch : AbstractResearch
     {
         public override void StartResearch()
         {
             throw new NotImplementedException();
+        }
+
+        public override ResearchType GetResearchType()
+        {
+            return ResearchType.Evolution;
         }
 
         protected override void InitializeGenerationParameters(AbstractEnsembleManager m)

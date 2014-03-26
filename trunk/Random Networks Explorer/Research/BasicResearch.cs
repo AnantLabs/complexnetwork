@@ -47,15 +47,20 @@ namespace Research
             r.BeginInvoke(new AsyncCallback(RunCompleted), null);
         }
 
+        public override ResearchType GetResearchType()
+        {
+            return ResearchType.Basic;
+        }
+
         protected override void InitializeGenerationParameters(AbstractEnsembleManager m)
         {
             m.GenerationParameterValues = base.GenerationParameterValues;
-        }
+        }        
 
         private void RunCompleted(IAsyncResult res)
         {
             // TODO getting result from currentManager and add to base.result
-            base.SaveResearch();
+            SaveResearch();
         }
     }
 }
