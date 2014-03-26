@@ -59,17 +59,17 @@ namespace Core
             {
                 if ((analyzeOptions & AnalyzeOption.AvgClusteringCoefficient) == AnalyzeOption.AvgClusteringCoefficient)
                 {
-                    networkAnalyzer.GetAverageClusteringCoefficient();
+                    networkAnalyzer.CalculateAverageClusteringCoefficient();
                 }
 
                 if ((analyzeOptions & AnalyzeOption.AvgDegree) == AnalyzeOption.AvgDegree)
                 {
-                    networkAnalyzer.GetAverageDegree();
+                    networkAnalyzer.CalculateAverageDegree();
                 }
 
                 if ((analyzeOptions & AnalyzeOption.AvgPathLength) == AnalyzeOption.AvgPathLength)
                 {
-                    networkAnalyzer.GetAveragePath();
+                    networkAnalyzer.CalculateAveragePath();
                 }
 
                 if ((analyzeOptions & AnalyzeOption.ClusteringCoefficientDistribution) == AnalyzeOption.ClusteringCoefficientDistribution)
@@ -79,68 +79,68 @@ namespace Core
 
                 if ((analyzeOptions & AnalyzeOption.CompleteComponentDistribution) == AnalyzeOption.CompleteComponentDistribution)
                 {
-                    networkAnalyzer.GetCompleteComponentDistribution();
+                    networkAnalyzer.CalculateCompleteComponentDistribution();
                 }
 
                 if ((analyzeOptions & AnalyzeOption.ConnectedComponentDistribution) == AnalyzeOption.ConnectedComponentDistribution)
                 {
-                    networkAnalyzer.GetConnectedComponentDistribution();
+                    networkAnalyzer.CalculateConnectedComponentDistribution();
                 }
 
                 if ((analyzeOptions & AnalyzeOption.CycleDistribution) == AnalyzeOption.CycleDistribution)
                 {
                     // TODO get analyze options parameter values
-                    networkAnalyzer.GetCycleDistribution(1, 1);
+                    networkAnalyzer.CalculateCycleDistribution(1, 1);
                 }
 
                 if ((analyzeOptions & AnalyzeOption.Cycles3) == AnalyzeOption.Cycles3)
                 {
-                    networkAnalyzer.GetCycles3();
+                    networkAnalyzer.CalculateCycles3();
                 }
 
                 if ((analyzeOptions & AnalyzeOption.Cycles3Eigen) == AnalyzeOption.Cycles3Eigen)
                 {
-                    networkAnalyzer.GetCycles3Eigen();
+                    networkAnalyzer.CalculateCycles3Eigen();
                 }
 
                 if ((analyzeOptions & AnalyzeOption.Cycles4) == AnalyzeOption.Cycles4)
                 {
-                    networkAnalyzer.GetCycles4();
+                    networkAnalyzer.CalculateCycles4();
                 }
 
                 if ((analyzeOptions & AnalyzeOption.Cycles4Eigen) == AnalyzeOption.Cycles4Eigen)
                 {
-                    networkAnalyzer.GetCycles4Eigen();
+                    networkAnalyzer.CalculateCycles4Eigen();
                 }
 
                 if ((analyzeOptions & AnalyzeOption.DegreeDistribution) == AnalyzeOption.DegreeDistribution)
                 {
-                    networkAnalyzer.GetDegreeDistribution();
+                    networkAnalyzer.CalculateDegreeDistribution();
                 }
 
                 if ((analyzeOptions & AnalyzeOption.Diameter) == AnalyzeOption.Diameter)
                 {
-                    networkAnalyzer.GetDiameter();
+                    networkAnalyzer.CalculateDiameter();
                 }
 
                 if ((analyzeOptions & AnalyzeOption.DistanceDistribution) == AnalyzeOption.DistanceDistribution)
                 {
-                    networkAnalyzer.GetDistanceDistribution();
+                    networkAnalyzer.CalculateDistanceDistribution();
                 }
 
                 if ((analyzeOptions & AnalyzeOption.EigenDistanceDistribution) == AnalyzeOption.EigenDistanceDistribution)
                 {
-                    networkAnalyzer.GetEigenDistanceDistribution();
+                    networkAnalyzer.CalculateEigenDistanceDistribution();
                 }
 
                 if ((analyzeOptions & AnalyzeOption.EigenValues) == AnalyzeOption.EigenValues)
                 {
-                    networkAnalyzer.GetEigenValues();
+                    networkAnalyzer.CalculateEigenValues();
                 }
 
                 if ((analyzeOptions & AnalyzeOption.TriangleByVertexDistribution) == AnalyzeOption.TriangleByVertexDistribution)
                 {
-                    networkAnalyzer.GetAverageClusteringCoefficient();
+                    networkAnalyzer.CalculateTriangleByVertexDistribution();
                 }
 
             }

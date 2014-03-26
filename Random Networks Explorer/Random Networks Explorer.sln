@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Research", "Research\Resear
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manager", "Manager\Manager.csproj", "{815A286D-DAF5-42B6-90E6-9CB1AA73CCB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Result", "Result\Result.csproj", "{E658EAED-287E-472C-996B-D436F88D7DB7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkModel", "NetworkModel\NetworkModel.csproj", "{8C7DE68F-5FCC-4779-AE38-5EACEB84A4EC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BAModel", "BAModel\BAModel.csproj", "{EC12671D-FB67-4E24-9CB7-0785CE78BD06}"
@@ -79,16 +77,6 @@ Global
 		{815A286D-DAF5-42B6-90E6-9CB1AA73CCB2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{815A286D-DAF5-42B6-90E6-9CB1AA73CCB2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{815A286D-DAF5-42B6-90E6-9CB1AA73CCB2}.Release|x86.ActiveCfg = Release|Any CPU
-		{E658EAED-287E-472C-996B-D436F88D7DB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E658EAED-287E-472C-996B-D436F88D7DB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E658EAED-287E-472C-996B-D436F88D7DB7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{E658EAED-287E-472C-996B-D436F88D7DB7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{E658EAED-287E-472C-996B-D436F88D7DB7}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E658EAED-287E-472C-996B-D436F88D7DB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E658EAED-287E-472C-996B-D436F88D7DB7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E658EAED-287E-472C-996B-D436F88D7DB7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{E658EAED-287E-472C-996B-D436F88D7DB7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{E658EAED-287E-472C-996B-D436F88D7DB7}.Release|x86.ActiveCfg = Release|Any CPU
 		{8C7DE68F-5FCC-4779-AE38-5EACEB84A4EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8C7DE68F-5FCC-4779-AE38-5EACEB84A4EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C7DE68F-5FCC-4779-AE38-5EACEB84A4EC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

@@ -21,67 +21,67 @@ namespace Core.Model
         /// Calculates the average path length of the network.
         /// </summary>
         /// <returns>Average path length.</returns>
-        Double GetAveragePath();
+        Double CalculateAveragePath();
 
         /// <summary>
         /// Calculates the diameter of the network.
         /// </summary>
         /// <returns>Diameter.</returns>
-        UInt32 GetDiameter();
+        UInt32 CalculateDiameter();
 
         /// <summary>
         /// Calculates the average value of vertex degrees in the network.
         /// </summary>
         /// <returns>Average degree.</returns>
-        Double GetAverageDegree();
+        Double CalculateAverageDegree();
 
         /// <summary>
         /// Calculates the average value of vertex clustering coefficients in the network.  
         /// </summary>
         /// <returns>Average clustering coefficient.</returns>
-        Double GetAverageClusteringCoefficient();
+        Double CalculateAverageClusteringCoefficient();
 
         /// <summary>
         /// Calculates the number of cycles of length 3 in the network.
         /// </summary>
         /// <returns>Number of cycles 3.</returns>
-        BigInteger GetCycles3();
+        BigInteger CalculateCycles3();
 
         /// <summary>
         /// Calculates the number of cycles of length 4 in the network.
         /// </summary>
         /// <returns>Number of cycles 4.</returns>
-        BigInteger GetCycles4();
+        BigInteger CalculateCycles4();
 
         /// <summary>
         /// Calculates the eigenvalues of adjacency matrix of the network.
         /// </summary>
         /// <returns>List of eigenvalues.</returns>
-        List<Double> GetEigenValues();
+        List<Double> CalculateEigenValues();
 
         /// <summary>
         /// Calculates the number of cycles of length 3 in the network using eigenvalues.
         /// </summary>
         /// <returns>Number of cycles 3.</returns>
-        BigInteger GetCycles3Eigen();
+        BigInteger CalculateCycles3Eigen();
 
         /// <summary>
         /// Calculates the number of cycles of length 4 in the network using eigenvalues.
         /// </summary>
         /// <returns>Number of cycles 4.</returns>
-        BigInteger GetCycles4Eigen();
+        BigInteger CalculateCycles4Eigen();
 
         /// <summary>
         /// Calculates distances between eigenvalues.
         /// </summary>
         /// <returns>Distribution of distances between eigenvalues.</returns>
-        SortedDictionary<Double, Int32> GetEigenDistanceDistribution();
+        SortedDictionary<Double, Int32> CalculateEigenDistanceDistribution();
 
         /// <summary>
         /// Calculates degrees of vertices in the network.
         /// </summary>
         /// <returns>Degree distribution.</returns>
-        SortedDictionary<UInt32, UInt32> GetDegreeDistribution();
+        SortedDictionary<UInt32, UInt32> CalculateDegreeDistribution();
 
         /// <summary>
         /// Calculates clustering coefficients of vertices in the network.
@@ -93,25 +93,25 @@ namespace Core.Model
         /// Calculates counts of connected components in the network.
         /// </summary>
         /// <returns>Distribution of connected components.</returns>
-        SortedDictionary<UInt32, UInt32> GetConnectedComponentDistribution();
+        SortedDictionary<UInt32, UInt32> CalculateConnectedComponentDistribution();
 
         /// <summary>
         /// Calculates counts of complete components in the network.
         /// </summary>
         /// <returns>Distribution of complete components.</returns>
-        SortedDictionary<UInt32, UInt32> GetCompleteComponentDistribution();
+        SortedDictionary<UInt32, UInt32> CalculateCompleteComponentDistribution();
 
         /// <summary>
         /// Calculates minimal path lengths in the network.
         /// </summary>
         /// <returns>Distribution of minimal path lengths.</returns>
-        SortedDictionary<UInt32, UInt32> GetDistanceDistribution();
+        SortedDictionary<UInt32, UInt32> CalculateDistanceDistribution();
 
         /// <summary>
         /// Calculates counts of triangles by vertices in the network.
         /// </summary>
         /// <returns>Distribution of triangles by vertex.</returns>
-        SortedDictionary<UInt32, UInt32> GetTriangleByVertexDistribution();
+        SortedDictionary<UInt32, UInt32> CalculateTriangleByVertexDistribution();
 
         /// <summary>
         /// Calculates the counts of cycles in the network.
@@ -119,6 +119,6 @@ namespace Core.Model
         /// <param name="lowBound">Minimal length of cycle.</param>
         /// <param name="hightBound">Maximal length of cycle.</param>
         /// <returns>Distribution of cycles lengths.</returns>
-        SortedDictionary<UInt16, BigInteger> GetCycleDistribution(UInt16 lowBound, UInt16 hightBound);
+        SortedDictionary<UInt16, BigInteger> CalculateCycleDistribution(UInt16 lowBound, UInt16 hightBound);
     }
 }

@@ -46,6 +46,11 @@ namespace Research
             StartCurrentEnsemble();
         }
 
+        public override ResearchType GetResearchType()
+        {
+            return ResearchType.Percolation;
+        }
+
         private void RunCompleted(IAsyncResult res)
         {
             currentProbability += delta;

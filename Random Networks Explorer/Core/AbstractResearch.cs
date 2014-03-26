@@ -6,6 +6,7 @@ using System.Text;
 using Core.Enumerations;
 using Core.Attributes;
 using Core.Exceptions;
+using Core.Result;
 
 namespace Core
 {
@@ -14,6 +15,7 @@ namespace Core
     /// </summary>
     public abstract class AbstractResearch
     {
+        protected Guid researchID;
         protected ModelType modelType;
         protected string researchName;
         protected AbstractResultStorage storage;
@@ -25,7 +27,7 @@ namespace Core
         protected Dictionary<GenerationParameter, object> generationParameterValues;
         protected AnalyzeOption analyzeOption;
 
-        protected AbstractResult result;
+        protected ResearchResult result;
 
         protected AbstractEnsembleManager currentManager;
         protected delegate void ManagerRunner();
@@ -118,6 +120,12 @@ namespace Core
         public abstract void StartResearch();
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public abstract ResearchType GetResearchType();
+
+        /// <summary>
         /// Force stops the research.
         /// </summary>
         public void StopResearch()
@@ -157,6 +165,13 @@ namespace Core
         /// </summary>
         protected void SaveResearch()
         {
+            result.ResearchID = researchID;
+            result.ResearchName = researchName;
+            result.RType = GetResearchType();
+            result.MType = modelType;
+            result.RealizationCount = realizationCount;
+
+            storage.Save(result);
         }
     }
 }
