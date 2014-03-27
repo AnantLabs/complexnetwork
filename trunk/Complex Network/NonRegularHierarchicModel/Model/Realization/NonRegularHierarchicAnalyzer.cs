@@ -95,21 +95,30 @@ namespace Model.NonRegularHierarchicModel.Realization
 
                 SortedDictionary<int, int> arraysReturned = new SortedDictionary<int, int>();
                 SortedDictionary<int, int> array = new SortedDictionary<int, int>();
-                int powPK = Convert.ToInt32(Math.Pow(container.BranchIndex, container.Level - currentLevel - 1));
                 int branchSize = container.Branches[currentLevel][numberNode];
-                int counter = 0;
-                for (int i = 0; i < numberNode; ++i)
-                {
-                    counter += container.Branches[currentLevel][i];
-                }
-                
+                int branchStartPnt = container.FindBranches(currentLevel, numberNode);
+
                 for (int i = 0; i < branchSize; ++i)
                 {
-                    array = ArrayCntAdjacentCntVertexes(i + counter, currentLevel + 1);
-                    int countAjacentsThisnode = container.CountConnectedBlocks(node, i);
+                    array = ArrayCntAdjacentCntVertexes(branchStartPnt + i, currentLevel + 1);
+                    int countAjacentsNodes = container.CountConnectedBlocks(node, branchSize, i);
                     foreach (KeyValuePair<int, int> kvt in array)
                     {
-                        int key = kvt.Key + countAjacentsThisnode * powPK;
+                        int key = kvt.Key;
+                        for (int j = 0; j < branchSize; ++j)
+                        {
+                            int counter = 0;
+                            if(container.AreConnectedTwoBlocks(node, branchSize, i, j))
+                            {
+                                key += container.CountLeaves(currentLevel + 1, branchStartPnt + j);
+                                ++counter;
+                            }
+                            if (counter == countAjacentsNodes)
+                            {
+                                break;
+                            }
+                        }
+
                         if (arraysReturned.ContainsKey(key))
                         {
                             arraysReturned[key] += kvt.Value;
