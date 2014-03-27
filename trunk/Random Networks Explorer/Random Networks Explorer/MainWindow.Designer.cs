@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.researchTable = new System.Windows.Forms.DataGridView();
             this.researchColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -95,9 +95,9 @@
             // 
             this.researchTable.AllowUserToAddRows = false;
             this.researchTable.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            this.researchTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            this.researchTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.researchTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.researchTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.researchColumn,
@@ -250,7 +250,7 @@
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(2008, 34);
+            this.button3.Location = new System.Drawing.Point(2189, 34);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(79, 23);
             this.button3.TabIndex = 33;
@@ -366,21 +366,21 @@
             // analyzeToolStripMenuItem1
             // 
             this.analyzeToolStripMenuItem1.Name = "analyzeToolStripMenuItem1";
-            this.analyzeToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.analyzeToolStripMenuItem1.Size = new System.Drawing.Size(134, 22);
             this.analyzeToolStripMenuItem1.Text = "Basic";
             this.analyzeToolStripMenuItem1.Click += new System.EventHandler(this.newAnalyzeMenuItem_Click);
             // 
             // trajectoryToolStripMenuItem1
             // 
             this.trajectoryToolStripMenuItem1.Name = "trajectoryToolStripMenuItem1";
-            this.trajectoryToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.trajectoryToolStripMenuItem1.Size = new System.Drawing.Size(134, 22);
             this.trajectoryToolStripMenuItem1.Text = "Evolution";
             this.trajectoryToolStripMenuItem1.Click += new System.EventHandler(this.newTrajectoryMenuItem_Click);
             // 
             // percolationToolStripMenuItem1
             // 
             this.percolationToolStripMenuItem1.Name = "percolationToolStripMenuItem1";
-            this.percolationToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.percolationToolStripMenuItem1.Size = new System.Drawing.Size(134, 22);
             this.percolationToolStripMenuItem1.Text = "Percolation";
             this.percolationToolStripMenuItem1.Click += new System.EventHandler(this.newPercolationMenuItem_Click);
             // 
@@ -406,7 +406,7 @@
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            this.fileToolStripMenuItem.Text = "&File";
             // 
             // newResearchToolStripMenuItem
             // 
@@ -416,26 +416,26 @@
             this.percolationToolStripMenuItem});
             this.newResearchToolStripMenuItem.Name = "newResearchToolStripMenuItem";
             this.newResearchToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.newResearchToolStripMenuItem.Text = "New Research";
+            this.newResearchToolStripMenuItem.Text = "&New Research";
             // 
             // analyzeToolStripMenuItem
             // 
             this.analyzeToolStripMenuItem.Name = "analyzeToolStripMenuItem";
-            this.analyzeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.analyzeToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.analyzeToolStripMenuItem.Text = "Basic";
             this.analyzeToolStripMenuItem.Click += new System.EventHandler(this.newAnalyzeMenuItem_Click);
             // 
             // trajectoryToolStripMenuItem
             // 
             this.trajectoryToolStripMenuItem.Name = "trajectoryToolStripMenuItem";
-            this.trajectoryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.trajectoryToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.trajectoryToolStripMenuItem.Text = "Evolution";
             this.trajectoryToolStripMenuItem.Click += new System.EventHandler(this.newTrajectoryMenuItem_Click);
             // 
             // percolationToolStripMenuItem
             // 
             this.percolationToolStripMenuItem.Name = "percolationToolStripMenuItem";
-            this.percolationToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.percolationToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.percolationToolStripMenuItem.Text = "Percolation";
             this.percolationToolStripMenuItem.Click += new System.EventHandler(this.newPercolationMenuItem_Click);
             // 
@@ -443,27 +443,27 @@
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Text = "&Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Text = "&Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
-            this.toolsToolStripMenuItem.Text = "Tools";
+            this.toolsToolStripMenuItem.Text = "&Tools";
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Text = "&Help";
             // 
             // mainMenu
             // 
