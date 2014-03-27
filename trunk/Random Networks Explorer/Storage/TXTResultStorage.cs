@@ -21,11 +21,6 @@ namespace Storage
             throw new NotImplementedException();
         }
 
-        public override ResearchResult Load()
-        {
-            throw new NotImplementedException();
-        }
-
         private void SaveResearchInfo(Guid researchID,
             string researchName,
             ResearchType rType,

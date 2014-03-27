@@ -167,9 +167,10 @@ namespace Core
         {
             result.ResearchID = researchID;
             result.ResearchName = researchName;
-            result.RType = GetResearchType();
-            result.MType = modelType;
+            result.ResearchType = GetResearchType();
+            result.ModelType = modelType;
             result.RealizationCount = realizationCount;
+            result.AnalyzeOption = analyzeOption;
 
             storage.Save(result);
         }

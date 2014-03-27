@@ -25,11 +25,5 @@ namespace Core
         /// </summary>
         /// <param name="result"></param>
         public abstract void Save(ResearchResult result);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public abstract ResearchResult Load();
     }
 }
