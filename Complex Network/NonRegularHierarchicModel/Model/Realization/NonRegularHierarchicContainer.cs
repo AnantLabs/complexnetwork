@@ -439,12 +439,8 @@ namespace Model.NonRegularHierarchicModel.Realization
                 return 0;
             }
             BitArray node = TreeNode(parentLevel, parent);
-            int counter = 0;
-            for (int i = 0; i < parent; ++i) 
-            {
-                counter += branches[parentLevel][i];
-            }
-            int childIndex = (child - counter) % branchSize;
+            int branchStartPnt = FindBranches(parentLevel, parent);
+            int childIndex = (child - branchStartPnt) % branchSize;
             for (int i = 0; i < branchSize; ++i)
             {
                 if (AreConnectedTwoBlocks(node, branchSize, childIndex, i))
@@ -487,13 +483,54 @@ namespace Model.NonRegularHierarchicModel.Realization
             }
         }
 
+        // Возвращает число листьев, дерева данного уровня и номера.
+        public int CountLeaves(int currentLevel, int numberNode)
+        {
+            // проверка параметров на правильность
+            if (currentLevel < 0 || currentLevel > level)
+                throw new SystemException("Wrong parameter (number of level).");
+
+            if (currentLevel == level)
+            {
+                return 1;
+            }
+
+            else
+            {
+                int branchStartPnt = FindBranches(currentLevel, numberNode);
+                int countLeaves = 0;
+                int branchSize = branches[currentLevel][numberNode];
+                for (int i = 0; i < branchSize; ++i)
+                {
+                    countLeaves += CountLeaves(currentLevel + 1, branchStartPnt + i);
+                }
+                return countLeaves;
+            }
+        }
+
+        // Возвращает начальный номер поддеревьев дерево данного уровня и номера,
+        // количиство можно посчетать container.branches[currentLevel][numberNode]
+        public int FindBranches(int currentLevel, int numberNode)
+        {
+            // проверка параметров на правильность
+            if (currentLevel < 0 || currentLevel > level - 1)
+                throw new SystemException("Wrong parameter (number of level).");
+            int counter = 0;
+            for (int i = 0; i < numberNode; ++i)
+            {
+                counter += branches[currentLevel][i];
+            }
+            return counter;
+        }
+
         /// <summary>
         /// Возвращает число блоков, которые соединены с i блоками.
         /// </summary>
         /// <param name="node">nodes data</param>
+        /// <param name="branchSize">size of the branch</param>
         /// <param name="i">number of the  block</param>
         /// <returns></returns>
-        public int CountConnectedBlocks(BitArray node, int i)
+        public int CountConnectedBlocks(BitArray node, int branchSize, int i)
         {
             i++;
             int s = 1, sum = 0;
@@ -501,11 +538,11 @@ namespace Model.NonRegularHierarchicModel.Realization
             while (s < i)
             {
                 sum += Convert.ToInt32(node[findex + i - s - 1]);
-                findex += branchIndex - s;
+                findex += branchSize - s;
                 s++;
             }
 
-            int endindex = findex + (branchIndex - s);
+            int endindex = findex + (branchSize - s);
             s = findex;
 
             while (s < endindex)
