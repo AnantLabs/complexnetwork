@@ -38,6 +38,8 @@ namespace RandomNetworksExplorer
 
         private void settingsMenuItem_Click(object sender, EventArgs e)
         {
+            Settings settingsWindow = new Settings();
+            settingsWindow.ShowDialog(this);
         }
 
         private void exitMenuItem_Click(object sender, EventArgs e)
