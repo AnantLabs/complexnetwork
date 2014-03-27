@@ -138,7 +138,8 @@ namespace RandomNetworksExplorer
             DataGridView.HitTestInfo hit = researchTable.HitTest(e.X, e.Y);
             if (hit.RowIndex != -1)
             {
-                researchTable.CurrentCell = researchTable.Rows[hit.RowIndex].Cells[hit.ColumnIndex];
+                //researchTable.CurrentCell = researchTable.Rows[hit.RowIndex].Cells[hit.ColumnIndex];
+                researchTable.Rows[hit.RowIndex].Selected = true;
                 researchTableCSM.Items["deleteResearch"].Enabled = true;
                 researchTableCSM.Items["cloneResearch"].Enabled = true;
             }
@@ -162,7 +163,7 @@ namespace RandomNetworksExplorer
                 {
                     case "researchColumn":
                         DataGridViewComboBoxCell comboCellR = newRow.Cells[i] as DataGridViewComboBoxCell;
-                        comboCellR.Value = comboCellR.Items[(int)type];
+                        comboCellR.Value = comboCellR.Items[(int)type - 1];
                         break;
                     /*case "modelColumn":
                     case "generationColumn":
