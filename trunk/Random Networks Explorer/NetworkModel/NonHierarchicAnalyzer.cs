@@ -4,13 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Numerics;
 
+using Core.Enumerations;
 using Core.Model;
 using NetworkModel.Engine.Eigenvalues;
 using NetworkModel.Engine.Cycles;
 
 namespace NetworkModel
 {
-    public class NonHierarchicAnalyzer : INetworkAnalyzer
+    /// <summary>
+    /// 
+    /// </summary>
+    public class NonHierarchicAnalyzer : AbstractNetworkAnalyzer
     {
         // Контейнер, в котором содержится граф конкретной модели (BA).
         private NonHierarchicContainer container;
@@ -25,14 +29,14 @@ namespace NetworkModel
         }
 
         // Контейнер, в котором содержится сгенерированный граф (полученный от генератора).
-        public INetworkContainer Container
+        public override INetworkContainer Container
         {
             get { return container; }
             set { container = (NonHierarchicContainer)value; }
         }
 
         // Возвращается средняя длина пути в графе. Реализовано.
-        public Double CalculateAveragePath()
+        protected override Double CalculateAveragePath()
         {
             //log.Info("Getting average path length.");
 
@@ -45,7 +49,7 @@ namespace NetworkModel
         }
 
         // Возвращается диаметр графа. Реализовано.
-        public UInt32 CalculateDiameter()
+        protected override UInt32 CalculateDiameter()
         {
             //log.Info("Getting diameter.");
 
@@ -57,18 +61,18 @@ namespace NetworkModel
             return (UInt32)diameter;
         }
 
-        public Double CalculateAverageDegree()
+        protected override Double CalculateAverageDegree()
         {
             throw new NotImplementedException();
         }
 
-        public Double CalculateAverageClusteringCoefficient()
+        protected override Double CalculateAverageClusteringCoefficient()
         {
             throw new NotImplementedException();
         }
 
         // Возвращается число циклов длиной 3 в графе. Реализовано.
-        public BigInteger CalculateCycles3()
+        protected override BigInteger CalculateCycles3()
         {
             //log.Info("Getting count of cycles - order 3.");
 
@@ -93,7 +97,7 @@ namespace NetworkModel
         }
 
         // Возвращается число циклов длиной 4 в графе. Реализовано.
-        public BigInteger CalculateCycles4()
+        protected override BigInteger CalculateCycles4()
         {
             //log.Info("Getting count of cycles - order 4.");
 
@@ -105,7 +109,7 @@ namespace NetworkModel
         }
 
         // Возвращается массив собственных значений матрицы смежности. Реализовано.
-        public List<double> CalculateEigenValues()
+        protected override List<double> CalculateEigenValues()
         {
             //log.Info("Getting eigen values array.");
             bool[,] m = container.GetMatrix();
@@ -123,17 +127,17 @@ namespace NetworkModel
             }
         }
 
-        public BigInteger CalculateCycles3Eigen()
+        protected override BigInteger CalculateCycles3Eigen()
         {
             throw new NotImplementedException();
         }
 
-        public BigInteger CalculateCycles4Eigen()
+        protected override BigInteger CalculateCycles4Eigen()
         {
             throw new NotImplementedException();
         }
 
-        public SortedDictionary<Double, Int32> CalculateEigenDistanceDistribution()
+        protected override SortedDictionary<Double, Int32> CalculateEigenDistanceDistribution()
         {
             //log.Info("Getting distances between eigen values.");
 
@@ -154,13 +158,13 @@ namespace NetworkModel
             }
         }
 
-        public SortedDictionary<UInt32, UInt32> CalculateDegreeDistribution()
+        protected override SortedDictionary<UInt32, UInt32> CalculateDegreeDistribution()
         {
             return DegreeDistribution();
         }
 
         // Возвращается распределение коэффициентов кластеризации графа. Реализовано.
-        public SortedDictionary<Double, UInt32> GetClusteringCoefficientDistribution()
+        protected override SortedDictionary<Double, UInt32> CalculateClusteringCoefficientDistribution()
         {
             //log.Info("Getting clustering coefficients.");
 
@@ -206,7 +210,7 @@ namespace NetworkModel
         }
 
         // Возвращается распределение чисел  связанных подграфов в графе.
-        public SortedDictionary<UInt32, UInt32> CalculateConnectedComponentDistribution()
+        protected override SortedDictionary<UInt32, UInt32> CalculateConnectedComponentDistribution()
         {
             var connectedSubGraphDic = new SortedDictionary<UInt32, UInt32>();
             Queue<int> q = new Queue<int>();
@@ -255,13 +259,13 @@ namespace NetworkModel
             return connectedSubGraphDic;
         }
 
-        public SortedDictionary<UInt32, UInt32> CalculateCompleteComponentDistribution()
+        protected override SortedDictionary<UInt32, UInt32> CalculateCompleteComponentDistribution()
         {
             throw new NotImplementedException();
         }
 
         // Возвращается распределение длин минимальных путей в графе. Реализовано.
-        public SortedDictionary<UInt32, UInt32> CalculateDistanceDistribution()
+        protected override SortedDictionary<UInt32, UInt32> CalculateDistanceDistribution()
         {
             //log.Info("Getting minimal distances between vertices.");
 
@@ -274,7 +278,7 @@ namespace NetworkModel
         }
 
         // Возвращает распределение триугольников, прикрепленных к вершине.
-        public SortedDictionary<UInt32, UInt32> CalculateTriangleByVertexDistribution()
+        protected override SortedDictionary<UInt32, UInt32> CalculateTriangleByVertexDistribution()
         {
             //log.Info("Getting triangles distribution.");
 
@@ -301,7 +305,7 @@ namespace NetworkModel
         }
 
         // Возвращается распределение чисел циклов. Реализовано.
-        public SortedDictionary<Int32, BigInteger> CalculateCycleDistribution(Int16 lowBound, Int16 hightBound)
+        /*protected override SortedDictionary<Int32, BigInteger> CalculateCycleDistribution(Int16 lowBound, Int16 hightBound)
         {
             //log.Info("Getting cycles.");
             CyclesCounter cyclesCounter = new CyclesCounter(container);
@@ -314,12 +318,7 @@ namespace NetworkModel
             }
 
             return cyclesCount;
-        }
-
-        public SortedDictionary<UInt16, BigInteger> CalculateCycleDistribution(UInt16 lowBound, UInt16 highBound)
-        {
-            throw new NotImplementedException();
-        }
+        }*/
 
         // Закрытая часть класса (не из общего интерфейса). //
 

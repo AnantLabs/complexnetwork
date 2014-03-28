@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Xml;
+using System.Numerics;
 
 using Core;
 using Core.Enumerations;
+using Core.Attributes;
 using Core.Result;
 
 namespace Storage
@@ -52,7 +54,7 @@ namespace Storage
                 writer.WriteStartElement("Ensembles");
                 for (int i = 0; i < result.EnsembleResults.Count; ++i)
                 {
-                    SaveEnsembleResult(result.EnsembleResults[i], i, result.AnalyzeOption);
+                    SaveEnsembleResult(result.EnsembleResults[i], i);
                 }
                 writer.WriteEndElement();
 
@@ -100,124 +102,84 @@ namespace Storage
             writer.WriteEndElement();
         }
 
-        private void SaveEnsembleResult(EnsembleResult e, int id, AnalyzeOption opts)
+        private void SaveEnsembleResult(EnsembleResult e, int id)
         {
             writer.WriteStartElement("Ensemble");
             writer.WriteAttributeString("id", id.ToString());
 
-            /*if ((opts & AnalyzeOption.AvgPathLength) == AnalyzeOption.AvgPathLength)
+            foreach (AnalyzeOption opt in e.Result.Keys)
             {
-                writer.WriteElementString("AvgPathLength", e.AvgPathLength.ToString());
-            }
+                AnalyzeOptionInfo info = ((AnalyzeOptionInfo[])opt.GetType().GetCustomAttributes(typeof(AnalyzeOptionInfo), false))[0];
+                OptionType optionType = info.OptionType;
 
-            if ((opts & AnalyzeOption.Diameter) == AnalyzeOption.Diameter)
-            {
-                writer.WriteElementString("Diameter", e.Diameter.ToString());
-            }
-
-            if ((opts & AnalyzeOption.AvgDegree) == AnalyzeOption.AvgDegree)
-            {
-                writer.WriteElementString("AvgDegree", e.AvgDegree.ToString());
-            }
-
-            if ((opts & AnalyzeOption.AvgClusteringCoefficient) == AnalyzeOption.AvgClusteringCoefficient)
-            {
-                writer.WriteElementString("AvgClusteringCoefficient", e.AvgClusteringCoefficient.ToString());
-            }
-
-            if ((opts & AnalyzeOption.Cycles3) == AnalyzeOption.Cycles3)
-            {
-                writer.WriteElementString("Cycles3", e.Cycles3.ToString());
-            }
-
-            if ((opts & AnalyzeOption.Cycles4) == AnalyzeOption.Cycles4)
-            {
-                writer.WriteElementString("Cycles4", e.Cycles4.ToString());
-            }
-
-            if ((opts & AnalyzeOption.Cycles3Eigen) == AnalyzeOption.Cycles3Eigen)
-            {
-                writer.WriteElementString("Cycles3Eigen", e.Cycles3Eigen.ToString());
-            }
-
-            if ((opts & AnalyzeOption.Cycles3Eigen) == AnalyzeOption.Cycles3Eigen)
-            {
-                writer.WriteElementString("Cycles3Eigen", e.Cycles3Eigen.ToString());
-            }
-
-            if ((opts & AnalyzeOption.EigenValues) == AnalyzeOption.EigenValues)
-            {
-                writer.WriteStartElement("EigenValues");
-                foreach(Double d in e.EigenValues)
-                    writer.WriteElementString("EigenValue", d.ToString());
-                writer.WriteEndElement();
-            }
-
-            if ((opts & AnalyzeOption.EigenDistanceDistribution) == AnalyzeOption.EigenDistanceDistribution)
-            {
-                writer.WriteStartElement("EigenDistanceDistribution");
-                foreach (Double d in e.EigenDistanceDistribution.Keys)
+                switch(optionType)
                 {
-                    writer.WriteStartElement("pair");
-                    writer.WriteAttributeString("distance", d.ToString());
-                    writer.WriteAttributeString("count", e.EigenDistanceDistribution[d].ToString());
-                    writer.WriteEndElement();
+                    case OptionType.Global:
+                        writer.WriteElementString(opt.ToString(), e.Result[opt].ToString());
+                        break;
+                    case OptionType.ValueList:
+                        writer.WriteStartElement(opt.ToString());
+                        SaveValueList(info, e.Result[opt]);                            
+                        writer.WriteEndElement();
+                        break;
+                    case OptionType.Distribution:
+                        writer.WriteStartElement(opt.ToString());
+                        SaveDistribution(info, e.Result[opt]);
+                        writer.WriteEndElement();
+                        break;
+                    default:
+                        break;
                 }
-                writer.WriteEndElement();
             }
-
-            if ((opts & AnalyzeOption.DegreeDistribution) == AnalyzeOption.DegreeDistribution)
-            {
-                writer.WriteStartElement("DegreeDistribution");
-                foreach (UInt32 d in e.DegreeDistribution.Keys)
-                {
-                    writer.WriteStartElement("pair");
-                    writer.WriteAttributeString("degree", d.ToString());
-                    writer.WriteAttributeString("count", e.DegreeDistribution[d].ToString());
-                    writer.WriteEndElement();
-                }
-                writer.WriteEndElement();
-            }
-
-            if ((opts & AnalyzeOption.DegreeDistribution) == AnalyzeOption.DegreeDistribution)
-            {
-                writer.WriteStartElement("DegreeDistribution");
-                foreach (UInt32 d in e.DegreeDistribution.Keys)
-                {
-                    writer.WriteStartElement("pair");
-                    writer.WriteAttributeString("degree", d.ToString());
-                    writer.WriteAttributeString("count", e.DegreeDistribution[d].ToString());
-                    writer.WriteEndElement();
-                }
-                writer.WriteEndElement();
-            }
-
-            if ((opts & AnalyzeOption.Diameter) == AnalyzeOption.Diameter)
-            {
-                networkAnalyzer.CalculateDiameter();
-            }
-
-            if ((opts & AnalyzeOption.DistanceDistribution) == AnalyzeOption.DistanceDistribution)
-            {
-                networkAnalyzer.CalculateDistanceDistribution();
-            }
-
-            if ((opts & AnalyzeOption.EigenDistanceDistribution) == AnalyzeOption.EigenDistanceDistribution)
-            {
-                networkAnalyzer.CalculateEigenDistanceDistribution();
-            }
-
-            if ((opts & AnalyzeOption.EigenValues) == AnalyzeOption.EigenValues)
-            {
-                networkAnalyzer.CalculateEigenValues();
-            }
-
-            if ((opts & AnalyzeOption.TriangleByVertexDistribution) == AnalyzeOption.TriangleByVertexDistribution)
-            {
-                networkAnalyzer.CalculateTriangleByVertexDistribution();
-            }*/
 
             writer.WriteEndElement();
+        }
+
+        private void SaveValueList(AnalyzeOptionInfo info, Object value)
+        {
+            if (info.ResultType.Equals(typeof(List<Double>)))
+            {
+                List<Double> l = value as List<Double>;
+                foreach (Double d in l)
+                    writer.WriteElementString("Value", d.ToString());
+            }
+        }
+
+        private void SaveDistribution(AnalyzeOptionInfo info, Object value)
+        {
+            if (info.ResultType.Equals(typeof(SortedDictionary<Double, UInt32>)))
+            {
+                SortedDictionary<Double, UInt32> l = value as SortedDictionary<Double, UInt32>;
+                foreach (Double d in l.Keys)
+                {
+                    writer.WriteStartElement("pair");
+                    writer.WriteAttributeString(info.XAxisName, d.ToString());
+                    writer.WriteAttributeString(info.YAxixName, l[d].ToString());
+                    writer.WriteEndElement();
+                }
+            }
+            else if (info.ResultType.Equals(typeof(SortedDictionary<UInt32, UInt32>)))
+            {
+                SortedDictionary<UInt32, UInt32> l = value as SortedDictionary<UInt32, UInt32>;
+                foreach (UInt32 d in l.Keys)
+                {
+                    writer.WriteStartElement("pair");
+                    writer.WriteAttributeString(info.XAxisName, d.ToString());
+                    writer.WriteAttributeString(info.YAxixName, l[d].ToString());
+                    writer.WriteEndElement();
+                }
+            }
+            else if (info.ResultType.Equals(typeof(SortedDictionary<UInt16, BigInteger>)))
+            {
+                SortedDictionary<UInt16, BigInteger> l = value as SortedDictionary<UInt16, BigInteger>;
+                foreach (UInt16 d in l.Keys)
+                {
+                    writer.WriteStartElement("pair");
+                    writer.WriteAttributeString(info.XAxisName, d.ToString());
+                    writer.WriteAttributeString(info.YAxixName, l[d].ToString());
+                    writer.WriteEndElement();
+                }
+            }
         }
     }
 }
