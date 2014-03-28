@@ -20,7 +20,6 @@ namespace Core.Result
 
         public Dictionary<ResearchParameter, object> ResearchParameterValues { get; set; }
         public Dictionary<GenerationParameter, object> GenerationParameterValues { get; set; }
-        public AnalyzeOption AnalyzeOption { get; set; }
 
         public List<EnsembleResult> EnsembleResults { get; set; }
     }

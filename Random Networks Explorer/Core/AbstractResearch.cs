@@ -170,7 +170,6 @@ namespace Core
             result.ResearchType = GetResearchType();
             result.ModelType = modelType;
             result.RealizationCount = realizationCount;
-            result.AnalyzeOption = analyzeOption;
 
             storage.Save(result);
         }
