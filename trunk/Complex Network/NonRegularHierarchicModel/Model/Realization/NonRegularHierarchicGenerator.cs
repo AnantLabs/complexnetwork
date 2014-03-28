@@ -115,6 +115,12 @@ namespace Model.NonRegularHierarchicModel.Realization
                         treeMatrix[i][t] = new BitArray(ARRAY_MAX_SIZE);
                     }
                     treeMatrix[i][t] = new BitArray(Convert.ToInt32(dataLength - (arrCount - 1) * ARRAY_MAX_SIZE));
+                }
+            }
+            for (int i = 0; i < container.Level; ++i)
+            {
+                if (treeMatrix[i].Length > 0)
+                {
                     //genereates data for current level nodes
                     GenerateData(treeMatrix, i, m);
                 }
@@ -125,12 +131,21 @@ namespace Model.NonRegularHierarchicModel.Realization
         private void GenerateData(BitArray[][] treeMatrix, int currentLevel, double m)
         {
             //loop over all elements of given level and generate him values
+            int branchSize = container.Branches[currentLevel][0];
+            int counter = 0;
+            int nodeNumber = 0;
             for (int i = 0; i < treeMatrix[currentLevel].Length; i++)
             {
                 for (int j = 0; j < treeMatrix[currentLevel][i].Length; j++)
                 {
-                    double k = rand.NextDouble(); 
-                    if (k <= (1 / Math.Pow(container.BranchIndex, (container.Level - currentLevel) * m)))
+                    if (counter == (branchSize * (branchSize - 1) / 2))
+                    {
+                        ++nodeNumber;
+                        counter = 0;
+                        branchSize = container.Branches[currentLevel][nodeNumber];
+                    }
+                    double k = rand.NextDouble();
+                    if (k <= (1 / Math.Pow(container.CountLeaves(currentLevel, nodeNumber), m)))
                     {
                         treeMatrix[currentLevel][i][j] = true;
                     }
@@ -138,6 +153,7 @@ namespace Model.NonRegularHierarchicModel.Realization
                     {
                         treeMatrix[currentLevel][i][j] = false;
                     }
+                    ++counter;
                 }
             }
         }
