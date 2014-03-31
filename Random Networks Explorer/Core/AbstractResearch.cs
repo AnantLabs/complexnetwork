@@ -17,21 +17,10 @@ namespace Core
     {
         protected Guid researchID;
         protected ModelType modelType;
-        protected string researchName;
-        protected AbstractResultStorage storage;
-        protected string tracingPath;
         protected int realizationCount;
-        protected Status status;
-
-        protected Dictionary<ResearchParameter, object> researchParameterValues;
-        protected Dictionary<GenerationParameter, object> generationParameterValues;
-        protected AnalyzeOption analyzeOption;
-
         protected ResearchResult result;
-
         protected AbstractEnsembleManager currentManager;
         protected delegate void ManagerRunner();
-
         private ManagerType managerType;
 
         public AbstractResearch()
@@ -39,15 +28,17 @@ namespace Core
             // TODO read from config manager type.
             managerType = ManagerType.Local;
 
-            status = Status.NotStarted;
+            Status = Status.NotStarted;
 
-            researchParameterValues = new Dictionary<ResearchParameter, object>();
-            generationParameterValues = new Dictionary<GenerationParameter, object>();
+            ResearchParameterValues = new Dictionary<ResearchParameter, object>();
+            GenerationParameterValues = new Dictionary<GenerationParameter, object>();
             AnalyzeOption = AnalyzeOption.None;
 
-            RequiredResearchParameter[] n = (RequiredResearchParameter[])this.GetType().GetCustomAttributes(typeof(RequiredResearchParameter), true);
-            for (int i = 0; i < n.Length; ++i)
-                researchParameterValues.Add(n[i].Parameter, null);
+            RequiredResearchParameter[] rp = (RequiredResearchParameter[])this.GetType().GetCustomAttributes(typeof(RequiredResearchParameter), true);
+            for (int i = 0; i < rp.Length; ++i)
+                ResearchParameterValues.Add(rp[i].Parameter, null);
+
+            // TODO add GenerationParameters initialization.
         }
 
         public ModelType ModelType
@@ -63,23 +54,11 @@ namespace Core
             }
         }
 
-        public string ResearchName
-        {
-            get { return researchName; }
-            set { researchName = value; }
-        }
+        public string ResearchName { get; set; }
 
-        public AbstractResultStorage Storage
-        {
-            get { return storage; }
-            set { storage = value; }
-        }
+        public AbstractResultStorage Storage { get; set; }
 
-        public string TracingPath
-        {
-            get { return tracingPath; }
-            set { tracingPath = value; }
-        }
+        public string TracingPath { get; set; }
 
         public int RealizationCount
         {
@@ -93,26 +72,13 @@ namespace Core
             }
         }
 
-        public Status Status
-        {
-            get { return status; }
-        }
+        public Status Status { get; private set; }
 
-        public Dictionary<ResearchParameter, object> ResearchParameterValues
-        {
-            get { return researchParameterValues; }
-        }
+        public Dictionary<ResearchParameter, object> ResearchParameterValues { get; set; }
 
-        public Dictionary<GenerationParameter, object> GenerationParameterValues
-        {
-            get { return generationParameterValues; }
-        }
+        public Dictionary<GenerationParameter, object> GenerationParameterValues { get; set; }
 
-        public AnalyzeOption AnalyzeOption
-        {
-            get { return analyzeOption; }
-            set { analyzeOption = value; }
-        }
+        public AnalyzeOption AnalyzeOption { get; set; }
 
         /// <summary>
         /// Starts research generation and analyze.
@@ -147,10 +113,10 @@ namespace Core
             Type t = Type.GetType(info[0].Implementation);
             currentManager = (AbstractEnsembleManager)t.GetConstructor(null).Invoke(null);
 
-            currentManager.ModelType = modelType;
-            currentManager.TracingPath = tracingPath;
+            currentManager.ModelType =modelType;
+            currentManager.TracingPath = TracingPath;
             currentManager.RealizationCount = realizationCount;
-            currentManager.AnalyzeOptions = analyzeOption;
+            currentManager.AnalyzeOptions = AnalyzeOption;
             InitializeGenerationParameters(currentManager);
         }
 
@@ -166,12 +132,12 @@ namespace Core
         protected void SaveResearch()
         {
             result.ResearchID = researchID;
-            result.ResearchName = researchName;
+            result.ResearchName = ResearchName;
             result.ResearchType = GetResearchType();
             result.ModelType = modelType;
             result.RealizationCount = realizationCount;
 
-            storage.Save(result);
+            Storage.Save(result);
         }
     }
 }

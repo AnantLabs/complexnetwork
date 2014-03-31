@@ -28,8 +28,8 @@ namespace Core
         /// <param name="modelType">The model type of research to create.</param>
         /// <param name="researchName">The name of research.</param>
         /// <param name="storage">The storage type for saving results of analyze.</param>
-        /// <param name="storageString"></param>
-        /// <param name="tracingPath"></param>
+        /// <param name="storageString">Connection string or file path for data storage.</param>
+        /// <param name="tracingPath">Path, if tracing is on, and empty string otherwise.</param>
         /// <returns>ID of created Research.</returns>
         public static Guid CreateResearch(ResearchType researchType,
             ModelType modelType,
@@ -51,7 +51,7 @@ namespace Core
         }
 
         /// <summary>
-        /// Removes a research from existingResearches.
+        /// Removes a research from existingResearches, without save.
         /// </summary>
         /// <param name="id">ID of research to destroy.</param>
         public static void DestroyResearch(Guid id)
@@ -69,7 +69,7 @@ namespace Core
         /// <summary>
         /// Starts a research - Generation, Analyzing, Saving.
         /// </summary>
-        /// <param name="id">ID of research to start</param>
+        /// <param name="id">ID of research to start.</param>
         public static void StartResearch(Guid id)
         {
             try
@@ -77,7 +77,7 @@ namespace Core
                 if (existingResearches[id].Status == Status.NotStarted)
                     existingResearches[id].StartResearch();
                 else
-                    throw new CoreException("Unable to start the specified research");
+                    throw new CoreException("Unable to start the specified research.");
             }
             catch (KeyNotFoundException)
             {
@@ -104,14 +104,12 @@ namespace Core
             }
         }
 
-        // Getting Info from GUI //
-
         /// <summary>
         /// Gets research parameters for specified research.
         /// </summary>
-        /// <param name="id">ID of research needed</param>
-        /// <returns></returns>
-        public static Dictionary<ResearchParameter, object> GetResearchParameters(Guid id)
+        /// <param name="id">ID of research.</param>
+        /// <returns>Research parameters with values.</returns>
+        public static Dictionary<ResearchParameter, object> GetResearchParameterValues(Guid id)
         {
             try
             {
@@ -124,12 +122,14 @@ namespace Core
         }
 
         /// <summary>
-        /// 
+        /// Sets value of specified research parameter for specified research.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="p"></param>
-        /// <param name="value"></param>
-        public static void SetResearchParameterValue(Guid id, ResearchParameter p, object value)
+        /// <param name="id">ID of research.</param>
+        /// <param name="p">Research parameter.</param>
+        /// <param name="value">Value to set.</param>
+        public static void SetResearchParameterValue(Guid id, 
+            ResearchParameter p, 
+            object value)
         {
             try
             {
@@ -147,9 +147,9 @@ namespace Core
         /// <summary>
         /// Gets generation parameters for specified research.
         /// </summary>
-        /// <param name="id">ID of research needed</param>
-        /// <returns></returns>
-        public static Dictionary<GenerationParameter, object> GetGenerationParameters(Guid id)
+        /// <param name="id">ID of research.</param>
+        /// <returns>Generation parameters with values.</returns>
+        public static Dictionary<GenerationParameter, object> GetGenerationParameterValues(Guid id)
         {
             try
             {
@@ -162,12 +162,14 @@ namespace Core
         }
 
         /// <summary>
-        /// 
+        /// Sets value of specified generation parameter for specified research.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="p"></param>
-        /// <param name="value"></param>
-        public static void SetGenerationParameterValue(Guid id, GenerationParameter p, object value)
+        /// <param name="id">ID of research.</param>
+        /// <param name="p">Generation parameter.</param>
+        /// <param name="value">Value to set.</param>
+        public static void SetGenerationParameterValue(Guid id, 
+            GenerationParameter p, 
+            object value)
         {
             try
             {
@@ -185,8 +187,10 @@ namespace Core
         /// <summary>
         /// Gets available analyze options for specified research.
         /// </summary>
-        /// <param name="id">ID of research needed.</param>
-        /// <returns></returns>
+        /// <param name="id">ID of research.</param>
+        /// <returns>Available analyze options.</returns>
+        /// <note>Analyze option is available for research, if it is available 
+        /// both for research type and model type.</note>
         public static AnalyzeOption GetAvailableAnalyzeOptions(Guid id)
         {
             try
@@ -205,8 +209,8 @@ namespace Core
         /// <summary>
         /// Gets analyze options for specified research.
         /// </summary>
-        /// <param name="id">ID of research needed.</param>
-        /// <returns></returns>
+        /// <param name="id">ID of research.</param>
+        /// <returns>Analyze options (flag).</returns>
         public static AnalyzeOption GetAnalyzeOptions(Guid id)
         {
             try
@@ -222,8 +226,9 @@ namespace Core
         /// <summary>
         /// Sets analyze options for specified research.
         /// </summary>
-        /// <param name="id">ID of research needed.</param>
-        /// <param name="o">Must be subset from available analyze options</param>
+        /// <param name="id">ID of research.</param>
+        /// <param name="o">Analyze options to set (flag).</param>
+        /// <node>param o must be subset from available analyze options.</node>
         public static void SetAnalyzeOptions(Guid id, AnalyzeOption o)
         {
             try
@@ -248,8 +253,8 @@ namespace Core
         /// <summary>
         /// Creates a research of specified type using metadata information of enumeration value.
         /// </summary>
-        /// <param name="rt">Type of research to create</param>
-        /// <returns>Newly created research</returns>
+        /// <param name="rt">Type of research to create.</param>
+        /// <returns>Newly created research.</returns>
         private static AbstractResearch CreateResearchFromType(ResearchType rt)
         {
             ResearchTypeInfo[] info = (ResearchTypeInfo[])rt.GetType().GetCustomAttributes(typeof(ResearchTypeInfo), false);
@@ -260,9 +265,9 @@ namespace Core
         /// <summary>
         /// Creates a storage of specified type using metadata information of enumeration value.
         /// </summary>
-        /// <param name="st">Type of storage to create</param>
-        /// <param name="storageStr"></param>
-        /// <returns>Newly created storage</returns>
+        /// <param name="st">Type of storage to create.</param>
+        /// <param name="storageStr">Connection string or file path for data storage.</param>
+        /// <returns>Newly created storage.</returns>
         private static AbstractResultStorage CreateStorage(StorageType st, string storageStr)
         {
             Type[] patametersType = { typeof(String) };
