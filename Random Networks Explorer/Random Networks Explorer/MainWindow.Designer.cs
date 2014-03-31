@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.researchTable = new System.Windows.Forms.DataGridView();
             this.researchColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -74,9 +74,9 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.topLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.statusGroup = new System.Windows.Forms.GroupBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.topSplitLayout = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.researchTable)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -86,18 +86,24 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             this.researchTableCSM.SuspendLayout();
             this.mainMenu.SuspendLayout();
-            this.topLayoutPanel.SuspendLayout();
             this.statusGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.topSplitLayout)).BeginInit();
+            this.topSplitLayout.Panel1.SuspendLayout();
+            this.topSplitLayout.Panel2.SuspendLayout();
+            this.topSplitLayout.SuspendLayout();
             this.SuspendLayout();
             // 
             // researchTable
             // 
             this.researchTable.AllowUserToAddRows = false;
             this.researchTable.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            this.researchTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            this.researchTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
+            this.researchTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.researchTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.researchTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.researchColumn,
@@ -107,16 +113,14 @@
             this.generationColumn,
             this.tracingColumn,
             this.statusColumn});
-            this.researchTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.researchTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.researchTable.Location = new System.Drawing.Point(6, 6);
             this.researchTable.MinimumSize = new System.Drawing.Size(500, 0);
             this.researchTable.MultiSelect = false;
             this.researchTable.Name = "researchTable";
             this.researchTable.RowHeadersVisible = false;
-            this.topLayoutPanel.SetRowSpan(this.researchTable, 4);
             this.researchTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.researchTable.Size = new System.Drawing.Size(791, 566);
+            this.researchTable.Size = new System.Drawing.Size(876, 566);
             this.researchTable.TabIndex = 0;
             this.researchTable.TabStop = false;
             this.researchTable.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.researchTable_CellClick);
@@ -191,23 +195,22 @@
             // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.numericUpDown1);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.button3);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(800, 342);
+            this.panel1.Location = new System.Drawing.Point(3, 329);
             this.panel1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.panel1.MaximumSize = new System.Drawing.Size(0, 60);
-            this.panel1.MinimumSize = new System.Drawing.Size(280, 50);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(461, 60);
+            this.panel1.Size = new System.Drawing.Size(372, 60);
             this.panel1.TabIndex = 36;
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(3, 5);
+            this.numericUpDown1.Location = new System.Drawing.Point(3, 3);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(124, 20);
             this.numericUpDown1.TabIndex = 27;
@@ -241,17 +244,17 @@
             // textBox1
             // 
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(130, 7);
+            this.textBox1.Location = new System.Drawing.Point(133, 5);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(200, 13);
+            this.textBox1.Size = new System.Drawing.Size(176, 13);
             this.textBox1.TabIndex = 30;
             this.textBox1.Text = "0 of 1 is done";
             // 
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(2551, 34);
+            this.button3.Location = new System.Drawing.Point(287, 34);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(79, 23);
             this.button3.TabIndex = 33;
@@ -260,13 +263,14 @@
             // 
             // generationParametersGroup
             // 
+            this.generationParametersGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.generationParametersGroup.Controls.Add(this.dataGridView3);
-            this.generationParametersGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.generationParametersGroup.Location = new System.Drawing.Point(800, 3);
+            this.generationParametersGroup.Location = new System.Drawing.Point(3, 166);
             this.generationParametersGroup.Margin = new System.Windows.Forms.Padding(0);
             this.generationParametersGroup.MinimumSize = new System.Drawing.Size(0, 70);
             this.generationParametersGroup.Name = "generationParametersGroup";
-            this.generationParametersGroup.Size = new System.Drawing.Size(461, 168);
+            this.generationParametersGroup.Size = new System.Drawing.Size(369, 160);
             this.generationParametersGroup.TabIndex = 1;
             this.generationParametersGroup.TabStop = false;
             this.generationParametersGroup.Text = "Generation Parameters";
@@ -284,7 +288,7 @@
             this.dataGridView3.Location = new System.Drawing.Point(3, 16);
             this.dataGridView3.Name = "dataGridView3";
             this.dataGridView3.RowHeadersVisible = false;
-            this.dataGridView3.Size = new System.Drawing.Size(455, 149);
+            this.dataGridView3.Size = new System.Drawing.Size(363, 141);
             this.dataGridView3.TabIndex = 26;
             // 
             // dataGridViewTextBoxColumn5
@@ -303,13 +307,14 @@
             // 
             // analyzeOptionsGroup
             // 
+            this.analyzeOptionsGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.analyzeOptionsGroup.Controls.Add(this.dataGridView4);
-            this.analyzeOptionsGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.analyzeOptionsGroup.Location = new System.Drawing.Point(800, 171);
+            this.analyzeOptionsGroup.Location = new System.Drawing.Point(3, 6);
             this.analyzeOptionsGroup.Margin = new System.Windows.Forms.Padding(0);
             this.analyzeOptionsGroup.MinimumSize = new System.Drawing.Size(0, 70);
             this.analyzeOptionsGroup.Name = "analyzeOptionsGroup";
-            this.analyzeOptionsGroup.Size = new System.Drawing.Size(461, 168);
+            this.analyzeOptionsGroup.Size = new System.Drawing.Size(369, 160);
             this.analyzeOptionsGroup.TabIndex = 34;
             this.analyzeOptionsGroup.TabStop = false;
             this.analyzeOptionsGroup.Text = "Analyze Options";
@@ -326,7 +331,7 @@
             this.dataGridView4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView4.Location = new System.Drawing.Point(3, 16);
             this.dataGridView4.Name = "dataGridView4";
-            this.dataGridView4.Size = new System.Drawing.Size(455, 149);
+            this.dataGridView4.Size = new System.Drawing.Size(363, 141);
             this.dataGridView4.TabIndex = 32;
             // 
             // dataGridViewTextBoxColumn3
@@ -398,6 +403,10 @@
             this.cloneResearch.Size = new System.Drawing.Size(157, 22);
             this.cloneResearch.Text = "Clone Research";
             this.cloneResearch.Click += new System.EventHandler(this.cloneResearchMenuItem_Click);
+            // 
+            // folderBrowserDialog1
+            // 
+            this.folderBrowserDialog1.Description = "Choose directory for tracing output";
             // 
             // fileToolStripMenuItem
             // 
@@ -503,38 +512,17 @@
             this.dataGridViewTextBoxColumn7.HeaderText = "Column9";
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
             // 
-            // topLayoutPanel
-            // 
-            this.topLayoutPanel.ColumnCount = 2;
-            this.topLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.36534F));
-            this.topLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.63466F));
-            this.topLayoutPanel.Controls.Add(this.researchTable, 0, 0);
-            this.topLayoutPanel.Controls.Add(this.generationParametersGroup, 1, 0);
-            this.topLayoutPanel.Controls.Add(this.analyzeOptionsGroup, 1, 1);
-            this.topLayoutPanel.Controls.Add(this.panel1, 1, 2);
-            this.topLayoutPanel.Controls.Add(this.statusGroup, 1, 3);
-            this.topLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.topLayoutPanel.Location = new System.Drawing.Point(0, 24);
-            this.topLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.topLayoutPanel.Name = "topLayoutPanel";
-            this.topLayoutPanel.Padding = new System.Windows.Forms.Padding(3);
-            this.topLayoutPanel.RowCount = 4;
-            this.topLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.topLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.topLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.topLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.topLayoutPanel.Size = new System.Drawing.Size(1264, 578);
-            this.topLayoutPanel.TabIndex = 36;
-            // 
             // statusGroup
             // 
+            this.statusGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.statusGroup.Controls.Add(this.dataGridView1);
-            this.statusGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.statusGroup.Location = new System.Drawing.Point(800, 405);
+            this.statusGroup.Location = new System.Drawing.Point(3, 392);
             this.statusGroup.Margin = new System.Windows.Forms.Padding(0);
             this.statusGroup.MinimumSize = new System.Drawing.Size(0, 70);
             this.statusGroup.Name = "statusGroup";
-            this.statusGroup.Size = new System.Drawing.Size(461, 170);
+            this.statusGroup.Size = new System.Drawing.Size(369, 183);
             this.statusGroup.TabIndex = 37;
             this.statusGroup.TabStop = false;
             this.statusGroup.Text = "Status";
@@ -545,15 +533,37 @@
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(3, 16);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(455, 151);
+            this.dataGridView1.Size = new System.Drawing.Size(363, 164);
             this.dataGridView1.TabIndex = 0;
+            // 
+            // topSplitLayout
+            // 
+            this.topSplitLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.topSplitLayout.Location = new System.Drawing.Point(0, 24);
+            this.topSplitLayout.Name = "topSplitLayout";
+            // 
+            // topSplitLayout.Panel1
+            // 
+            this.topSplitLayout.Panel1.Controls.Add(this.researchTable);
+            this.topSplitLayout.Panel1MinSize = 0;
+            // 
+            // topSplitLayout.Panel2
+            // 
+            this.topSplitLayout.Panel2.Controls.Add(this.generationParametersGroup);
+            this.topSplitLayout.Panel2.Controls.Add(this.analyzeOptionsGroup);
+            this.topSplitLayout.Panel2.Controls.Add(this.panel1);
+            this.topSplitLayout.Panel2.Controls.Add(this.statusGroup);
+            this.topSplitLayout.Panel2MinSize = 0;
+            this.topSplitLayout.Size = new System.Drawing.Size(1264, 578);
+            this.topSplitLayout.SplitterDistance = 885;
+            this.topSplitLayout.TabIndex = 34;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 602);
-            this.Controls.Add(this.topLayoutPanel);
+            this.Controls.Add(this.topSplitLayout);
             this.Controls.Add(this.mainMenu);
             this.MainMenuStrip = this.mainMenu;
             this.MinimumSize = new System.Drawing.Size(900, 600);
@@ -572,9 +582,12 @@
             this.researchTableCSM.ResumeLayout(false);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
-            this.topLayoutPanel.ResumeLayout(false);
             this.statusGroup.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.topSplitLayout.Panel1.ResumeLayout(false);
+            this.topSplitLayout.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.topSplitLayout)).EndInit();
+            this.topSplitLayout.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -619,7 +632,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewButtonColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TableLayoutPanel topLayoutPanel;
         private System.Windows.Forms.GroupBox statusGroup;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewComboBoxColumn researchColumn;
@@ -629,6 +641,7 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn generationColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn tracingColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn statusColumn;
+        private System.Windows.Forms.SplitContainer topSplitLayout;
     }
 }
 
