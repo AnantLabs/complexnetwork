@@ -31,6 +31,13 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.researchTable = new System.Windows.Forms.DataGridView();
+            this.researchColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.modelColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.storageColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.generationColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.tracingColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.statusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.button1 = new System.Windows.Forms.Button();
@@ -70,13 +77,6 @@
             this.topLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.statusGroup = new System.Windows.Forms.GroupBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.researchColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.modelColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.storageColumn = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.generationColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.tracingColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.statusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.researchTable)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -125,6 +125,69 @@
             this.researchTable.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.researchTable_RowLeave);
             this.researchTable.SelectionChanged += new System.EventHandler(this.researchTable_SelectionChanged);
             this.researchTable.MouseDown += new System.Windows.Forms.MouseEventHandler(this.researchTable_MouseDown);
+            // 
+            // researchColumn
+            // 
+            this.researchColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.researchColumn.HeaderText = "Research";
+            this.researchColumn.Items.AddRange(new object[] {
+            "Basic",
+            "Evolution",
+            "Percolation"});
+            this.researchColumn.Name = "researchColumn";
+            this.researchColumn.ReadOnly = true;
+            this.researchColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // nameColumn
+            // 
+            this.nameColumn.HeaderText = "Name";
+            this.nameColumn.Name = "nameColumn";
+            this.nameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // modelColumn
+            // 
+            this.modelColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.modelColumn.HeaderText = "Model";
+            this.modelColumn.Items.AddRange(new object[] {
+            "Erdos-Renyi",
+            "Watts-Strogatz",
+            "Barabasi-Albert",
+            "Block-Hierarchical",
+            "NR Block-Hierarchical"});
+            this.modelColumn.Name = "modelColumn";
+            this.modelColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // storageColumn
+            // 
+            this.storageColumn.HeaderText = "Storage";
+            this.storageColumn.Name = "storageColumn";
+            this.storageColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.storageColumn.Text = "";
+            // 
+            // generationColumn
+            // 
+            this.generationColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.generationColumn.HeaderText = "Generation";
+            this.generationColumn.Items.AddRange(new object[] {
+            "Random",
+            "Static"});
+            this.generationColumn.Name = "generationColumn";
+            this.generationColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // tracingColumn
+            // 
+            this.tracingColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.tracingColumn.HeaderText = "Tracing";
+            this.tracingColumn.Name = "tracingColumn";
+            this.tracingColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.tracingColumn.Width = 49;
+            // 
+            // statusColumn
+            // 
+            this.statusColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.statusColumn.HeaderText = "Status";
+            this.statusColumn.Name = "statusColumn";
+            this.statusColumn.ReadOnly = true;
             // 
             // panel1
             // 
@@ -188,7 +251,7 @@
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(2370, 34);
+            this.button3.Location = new System.Drawing.Point(2551, 34);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(79, 23);
             this.button3.TabIndex = 33;
@@ -484,69 +547,6 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(455, 151);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // researchColumn
-            // 
-            this.researchColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.researchColumn.HeaderText = "Research";
-            this.researchColumn.Items.AddRange(new object[] {
-            "Basic",
-            "Evolution",
-            "Percolation"});
-            this.researchColumn.Name = "researchColumn";
-            this.researchColumn.ReadOnly = true;
-            this.researchColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // nameColumn
-            // 
-            this.nameColumn.HeaderText = "Name";
-            this.nameColumn.Name = "nameColumn";
-            this.nameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // modelColumn
-            // 
-            this.modelColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.modelColumn.HeaderText = "Model";
-            this.modelColumn.Items.AddRange(new object[] {
-            "Erdos-Renyi",
-            "Watts-Strogatz",
-            "Barabasi-Albert",
-            "Block-Hierarchical",
-            "NR Block-Hierarchical"});
-            this.modelColumn.Name = "modelColumn";
-            this.modelColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // storageColumn
-            // 
-            this.storageColumn.HeaderText = "Storage";
-            this.storageColumn.Name = "storageColumn";
-            this.storageColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.storageColumn.Text = "";
-            // 
-            // generationColumn
-            // 
-            this.generationColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.generationColumn.HeaderText = "Generation";
-            this.generationColumn.Items.AddRange(new object[] {
-            "Random",
-            "Static"});
-            this.generationColumn.Name = "generationColumn";
-            this.generationColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // tracingColumn
-            // 
-            this.tracingColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.tracingColumn.HeaderText = "Tracing";
-            this.tracingColumn.Name = "tracingColumn";
-            this.tracingColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.tracingColumn.Width = 49;
-            // 
-            // statusColumn
-            // 
-            this.statusColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.statusColumn.HeaderText = "Status";
-            this.statusColumn.Name = "statusColumn";
-            this.statusColumn.ReadOnly = true;
             // 
             // MainWindow
             // 
