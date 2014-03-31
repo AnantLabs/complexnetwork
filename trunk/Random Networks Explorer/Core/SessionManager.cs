@@ -22,13 +22,20 @@ namespace Core
         }
 
         /// <summary>
-        /// Creates a research and adds to existingResearches
+        /// Creates a research and adds to existingResearches.
         /// </summary>
-        /// <returns>ID of created Research</returns>
+        /// <param name="researchType">The type of research to create.</param>
+        /// <param name="modelType">The model type of research to create.</param>
+        /// <param name="researchName">The name of research.</param>
+        /// <param name="storage">The storage type for saving results of analyze.</param>
+        /// <param name="storageString"></param>
+        /// <param name="tracingPath"></param>
+        /// <returns>ID of created Research.</returns>
         public static Guid CreateResearch(ResearchType researchType,
             ModelType modelType,
             string researchName,
             StorageType storage,
+            string storageString,
             string tracingPath)
         {
             Guid id = Guid.NewGuid();
@@ -36,8 +43,7 @@ namespace Core
             AbstractResearch r = CreateResearchFromType(researchType);
             r.ModelType = modelType;
             r.ResearchName = researchName;
-            // TODO get storageString
-            r.Storage = CreateStorage(storage, "temporaryString");
+            r.Storage = CreateStorage(storage, storageString);
             r.TracingPath = tracingPath;
 
             existingResearches.Add(id, r);
@@ -47,7 +53,7 @@ namespace Core
         /// <summary>
         /// Removes a research from existingResearches.
         /// </summary>
-        /// <param name="id">ID of research to destroy</param>
+        /// <param name="id">ID of research to destroy.</param>
         public static void DestroyResearch(Guid id)
         {
             try
@@ -56,7 +62,7 @@ namespace Core
             }
             catch (KeyNotFoundException)
             {
-                throw new CoreException("Specified research does not existst.");
+                throw new CoreException("Specified research does not exists.");
             }
         }
 
@@ -75,7 +81,7 @@ namespace Core
             }
             catch (KeyNotFoundException)
             {
-                throw new CoreException("Specified research does not existst.");
+                throw new CoreException("Specified research does not exists.");
             }
         }
 
@@ -94,7 +100,7 @@ namespace Core
             }
             catch (KeyNotFoundException)
             {
-                throw new CoreException("Specified research does not existst.");
+                throw new CoreException("Specified research does not exists.");
             }
         }
 
@@ -107,7 +113,14 @@ namespace Core
         /// <returns></returns>
         public static Dictionary<ResearchParameter, object> GetResearchParameters(Guid id)
         {
-            return new Dictionary<ResearchParameter, object>();
+            try
+            {
+                return existingResearches[id].ResearchParameterValues;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
         }
 
         /// <summary>
@@ -127,7 +140,7 @@ namespace Core
             }
             catch (KeyNotFoundException)
             {
-                throw new CoreException("Specified research does not existst.");
+                throw new CoreException("Specified research does not exists.");
             }
         }
 
@@ -138,7 +151,14 @@ namespace Core
         /// <returns></returns>
         public static Dictionary<GenerationParameter, object> GetGenerationParameters(Guid id)
         {
-            return new Dictionary<GenerationParameter, object>();
+            try
+            {
+                return existingResearches[id].GenerationParameterValues;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
         }
 
         /// <summary>
@@ -158,42 +178,72 @@ namespace Core
             }
             catch (KeyNotFoundException)
             {
-                throw new CoreException("Specified research does not existst.");
+                throw new CoreException("Specified research does not exists.");
             }
         }
 
         /// <summary>
         /// Gets available analyze options for specified research.
         /// </summary>
-        /// <param name="id">ID of research needed</param>
+        /// <param name="id">ID of research needed.</param>
+        /// <returns></returns>
+        public static AnalyzeOption GetAvailableAnalyzeOptions(Guid id)
+        {
+            try
+            {
+                AvailableAnalyzeOption rAvailableOptions = ((AvailableAnalyzeOption[])existingResearches[id].GetType().GetCustomAttributes(typeof(AvailableAnalyzeOption), true))[0];
+                AvailableAnalyzeOption mAvailableOptions = ((AvailableAnalyzeOption[])existingResearches[id].ModelType.GetType().GetCustomAttributes(typeof(AvailableAnalyzeOption), false))[0];
+
+                return rAvailableOptions.Options & mAvailableOptions.Options;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// Gets analyze options for specified research.
+        /// </summary>
+        /// <param name="id">ID of research needed.</param>
         /// <returns></returns>
         public static AnalyzeOption GetAnalyzeOptions(Guid id)
         {
-            return AnalyzeOption.None;
+            try
+            {
+                return existingResearches[id].AnalyzeOption;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
         }
 
-        // think about //
         /// <summary>
-        /// 
+        /// Sets analyze options for specified research.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="o"></param>
-        public static void SetAnalyzeOption(Guid id, AnalyzeOption o)
+        /// <param name="id">ID of research needed.</param>
+        /// <param name="o">Must be subset from available analyze options</param>
+        public static void SetAnalyzeOptions(Guid id, AnalyzeOption o)
         {
             try
             {
                 if (existingResearches[id].Status == Status.NotStarted)
-                    existingResearches[id].AnalyzeOption = o;
+                {
+                    AnalyzeOption opt = GetAvailableAnalyzeOptions(id);
+                    if ((opt | o) != opt)
+                        throw new CoreException("Specified option is not available for current research and model type.");
+                    else
+                        existingResearches[id].AnalyzeOption = o;
+                }
                 else
                     throw new CoreException("Unable to modify research after start.");
             }
             catch (KeyNotFoundException)
             {
-                throw new CoreException("Specified research does not existst.");
+                throw new CoreException("Specified research does not exists.");
             }
         }
-
-        ///////////////////////////
 
         /// <summary>
         /// Creates a research of specified type using metadata information of enumeration value.
