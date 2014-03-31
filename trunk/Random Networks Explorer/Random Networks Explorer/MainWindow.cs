@@ -185,6 +185,5 @@ namespace RandomNetworksExplorer
             researchTable.CurrentCell = researchTable.Rows[newRowIndex].Cells[1];
             researchTable.BeginEdit(true);
         }
-
     }
 }
