@@ -31,9 +31,9 @@ namespace Research
         /// </summary>
         public override void StartResearch()
         {
-            if (base.generationParameterValues.ContainsKey(GenerationParameter.Probability))
+            if (base.GenerationParameterValues.ContainsKey(GenerationParameter.Probability))
                 probabilityParameter = GenerationParameter.Probability;
-            else if (base.generationParameterValues.ContainsKey(GenerationParameter.Mu))
+            else if (base.GenerationParameterValues.ContainsKey(GenerationParameter.Mu))
                 probabilityParameter = GenerationParameter.Mu;
             else
                 throw new SystemException("Unexpected generation parameter set.");
