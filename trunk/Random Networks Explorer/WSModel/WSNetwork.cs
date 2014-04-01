@@ -31,8 +31,7 @@ namespace WSModel
     public class WSNetwork : AbstractNetwork
     {
         public WSNetwork(Dictionary<GenerationParameter, object> genParams,
-            AnalyzeOption analyzeOpts, string trPath) :
-            base(genParams, analyzeOpts, trPath)
+            AnalyzeOption analyzeOpts) : base(genParams, analyzeOpts)
         {
             networkGenerator = new WSNetworkGenerator();
             networkAnalyzer = new NonHierarchicAnalyzer();

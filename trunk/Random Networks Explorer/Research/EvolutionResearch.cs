@@ -21,12 +21,17 @@ namespace Research
             throw new NotImplementedException();
         }
 
+        public override void StopResearch()
+        {
+            throw new NotImplementedException();
+        }
+
         public override ResearchType GetResearchType()
         {
             return ResearchType.Evolution;
         }
 
-        protected override void InitializeGenerationParameters(AbstractEnsembleManager m)
+        protected override void FillGenerationParameters(AbstractEnsembleManager m)
         {
             throw new NotImplementedException();
         }

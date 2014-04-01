@@ -23,8 +23,7 @@ namespace NonRegularHierarchicModel
     public class NonRegularHierarchicNetwork : AbstractNetwork
     {
         public NonRegularHierarchicNetwork(Dictionary<GenerationParameter, object> genParams,
-            AnalyzeOption analyzeOpts, string trPath) :
-            base(genParams, analyzeOpts, trPath)
+            AnalyzeOption analyzeOpts) : base(genParams, analyzeOpts)
         {
             networkGenerator = new NonRegularHierarchicNetworkGenerator();
             networkAnalyzer = new NonRegularHierarchicNetworkAnalyzer();

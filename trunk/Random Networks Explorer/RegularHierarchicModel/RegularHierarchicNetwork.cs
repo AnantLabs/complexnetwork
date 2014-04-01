@@ -29,8 +29,7 @@ namespace RegularHierarchicModel
     public class RegularHierarchicNetwork : AbstractNetwork
     {
         public RegularHierarchicNetwork(Dictionary<GenerationParameter, object> genParams,
-            AnalyzeOption analyzeOpts, string trPath) :
-            base(genParams, analyzeOpts, trPath)
+            AnalyzeOption analyzeOpts) : base(genParams, analyzeOpts)
         {
             networkGenerator = new RegularHierarchicNetworkGenerator();
             networkAnalyzer = new RegularHierarchicNetworkAnalyzer();

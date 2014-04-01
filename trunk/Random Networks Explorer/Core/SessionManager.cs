@@ -38,16 +38,14 @@ namespace Core
             string storageString,
             string tracingPath)
         {
-            Guid id = Guid.NewGuid();
-
             AbstractResearch r = CreateResearchFromType(researchType);
             r.ModelType = modelType;
             r.ResearchName = researchName;
             r.Storage = CreateStorage(storage, storageString);
             r.TracingPath = tracingPath;
 
-            existingResearches.Add(id, r);
-            return id;
+            existingResearches.Add(r.ResearchID, r);
+            return r.ResearchID;
         }
 
         /// <summary>

@@ -6,11 +6,12 @@ using System.Text;
 
 using Core.Enumerations;
 using Core.Model;
+using Core.Utility;
 
 namespace Core
 {
     /// <summary>
-    /// 
+    /// Abstract class presenting random network.
     /// </summary>
     public abstract class AbstractNetwork
     {
@@ -19,25 +20,25 @@ namespace Core
 
         protected Dictionary<GenerationParameter, object> generationParameterValues;
         protected AnalyzeOption analyzeOptions;
-        protected string tracingPath;
 
         public AbstractNetwork(Dictionary<GenerationParameter, object> genParams,
-            AnalyzeOption analyzeOpts, string trPath)
+            AnalyzeOption analyzeOptions)
         {
             generationParameterValues = genParams;
-            analyzeOptions = analyzeOpts;
-            tracingPath = trPath;
+            analyzeOptions = analyzeOptions;
         }
 
+        /// <summary>
+        /// Generates random network from generation parameters.
+        /// </summary>
         public void Generate()
         {
             try
             {
                 if (generationParameterValues.ContainsKey(GenerationParameter.AdjacencyMatrixFile))
                 {
-                    // TODO read matrix from file.
-                    ArrayList matrix = new ArrayList();
-                    networkGenerator.StaticGeneration(matrix);
+                    string filePath = generationParameterValues[GenerationParameter.AdjacencyMatrixFile].ToString();
+                    networkGenerator.StaticGeneration(FileManager.MatrixReader(filePath));
                 }
                 else
                 {
@@ -50,6 +51,9 @@ namespace Core
             }
         }
 
+        /// <summary>
+        /// Calculates specified analyze options values.
+        /// </summary>
         public void Analyze()
         {
             networkAnalyzer.Container = networkGenerator.Container;
@@ -62,7 +66,7 @@ namespace Core
                 {
                     if ((analyzeOptions & opt) == opt)
                     {
-                        networkAnalyzer.CalculateOption(opt);
+                        object o = networkAnalyzer.CalculateOption(opt);
                     }
                 }
             }
@@ -72,8 +76,12 @@ namespace Core
             }
         }
 
-        private void Trace()
+        /// <summary>
+        /// Traces the adjacency matrix of generated network to file.
+        /// </summary>
+        public void Trace(string tracingPath)
         {
+            FileManager.MatrixWriter(networkGenerator.Container.GetMatrix(), tracingPath);
         }
     }
 }
