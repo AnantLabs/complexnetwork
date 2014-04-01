@@ -135,10 +135,11 @@ namespace RandomNetworksExplorer
             {
                 return;
             }
+            researchTable.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            researchTable.EndEdit();
             DataGridView.HitTestInfo hit = researchTable.HitTest(e.X, e.Y);
             if (hit.RowIndex != -1)
             {
-                //researchTable.CurrentCell = researchTable.Rows[hit.RowIndex].Cells[hit.ColumnIndex];
                 researchTable.Rows[hit.RowIndex].Selected = true;
                 researchTableCSM.Items["deleteResearch"].Enabled = true;
                 researchTableCSM.Items["cloneResearch"].Enabled = true;

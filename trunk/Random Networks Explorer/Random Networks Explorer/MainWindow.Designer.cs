@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.researchTable = new System.Windows.Forms.DataGridView();
             this.researchColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -98,9 +98,9 @@
             // 
             this.researchTable.AllowUserToAddRows = false;
             this.researchTable.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            this.researchTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            this.researchTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.researchTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -113,7 +113,6 @@
             this.generationColumn,
             this.tracingColumn,
             this.statusColumn});
-            this.researchTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.researchTable.Location = new System.Drawing.Point(6, 6);
             this.researchTable.MinimumSize = new System.Drawing.Size(500, 0);
             this.researchTable.MultiSelect = false;

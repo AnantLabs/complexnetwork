@@ -25,7 +25,7 @@ namespace Core
             AnalyzeOption analyzeOptions)
         {
             generationParameterValues = genParams;
-            analyzeOptions = analyzeOptions;
+            this.analyzeOptions = analyzeOptions;
         }
 
         /// <summary>

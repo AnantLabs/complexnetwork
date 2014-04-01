@@ -19,6 +19,7 @@ namespace Manager
         private AbstractNetwork[] networks;
         private Thread[] threads;
         private AutoResetEvent[] waitHandles;
+        private ThreadEntryData[] threadData;
 
         private class ThreadEntryData
         {
@@ -36,30 +37,10 @@ namespace Manager
 
         public override void Run()
         {
-            ConstructNetworks();
+            PrepareData();
 
-            int pc = Environment.ProcessorCount;
-            threads = new Thread[pc];
-            waitHandles = new AutoResetEvent[pc];
-
-            // TODO check and correct
-            int c = networks.Length / pc;
-            int e = networks.Length % pc;
-            
-            ThreadEntryData[] threadData = new ThreadEntryData[pc];
-            for (int i = 0; i < e; ++i)
+            for (int i = 0; i < threads.Length; ++i)
             {
-                threadData[i] = new ThreadEntryData(i * (c + 1), (i + 1) * (c + 1), i);
-            }
-            for (int i = e; i < pc; ++i)
-            {
-                threadData[i] = new ThreadEntryData(i * (c + 1), (i + 1) * (c + 1), i);
-            }
-
-            for (int i = 0; i < pc; ++i)
-            {
-                waitHandles[i] = new AutoResetEvent(false);
-                threads[i] = new Thread(new ParameterizedThreadStart(ThreadEntry)) { Priority = ThreadPriority.Lowest };
                 threads[i].Start(threadData[i]);
             }
 
@@ -89,7 +70,7 @@ namespace Manager
             }
         }
 
-        private void ConstructNetworks()
+        private void PrepareData()
         {
             networks = new AbstractNetwork[RealizationCount];
             for (int i = 0; i < RealizationCount; i++)
@@ -104,6 +85,31 @@ namespace Manager
                     AnalyzeOptions };
                 networks[i] = (AbstractNetwork)t.GetConstructor(constructTypes).Invoke(invokeParams);
             }
+
+            int threadCount = Math.Min(networks.Length, Environment.ProcessorCount);
+            // Creating thread related members
+            threads = new Thread[threadCount];
+            waitHandles = new AutoResetEvent[threadCount];
+            threadData = new ThreadEntryData[threadCount];
+
+            // Initialize threadData[]
+            int c = networks.Length / threadCount;
+            int e = networks.Length % threadCount;   
+            for (int i = 0; i < e; ++i)
+            {
+                threadData[i] = new ThreadEntryData(i * (c + 1), (i + 1) * (c + 1), i);
+            }
+            for (int i = e; i < threadCount; ++i)
+            {
+                threadData[i] = new ThreadEntryData(i * c + e, (i + 1) * c + e, i);
+            }
+            
+            // Initialize threads and handles
+            for (int i = 0; i < threadCount; ++i)
+            {
+                waitHandles[i] = new AutoResetEvent(false);
+                threads[i] = new Thread(new ParameterizedThreadStart(ThreadEntry)) { Priority = ThreadPriority.Lowest };
+            }
         }
 
         private void ThreadEntry(object p)
@@ -115,7 +121,8 @@ namespace Manager
                 for (int i = d.FirstIndex; i < d.SecondIndex; ++i)
                 {
                     networks[i].Generate();
-                    networks[i].Trace(TracingPath + "_" + i.ToString());
+                    if(TracingPath != "")
+                        networks[i].Trace(TracingPath + "_" + i.ToString());
                     networks[i].Analyze();
 
                     Interlocked.Increment(ref realizationsDone);
