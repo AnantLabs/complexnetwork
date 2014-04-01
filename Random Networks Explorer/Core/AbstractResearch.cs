@@ -108,7 +108,7 @@ namespace Core
 
             currentManager.ModelType = modelType;
             // TODO correct tracing path
-            currentManager.TracingPath = TracingPath + "\\" + ResearchName;
+            currentManager.TracingPath = (TracingPath == "" ? "" : TracingPath + "\\" + ResearchName);
             currentManager.RealizationCount = realizationCount;
             currentManager.AnalyzeOptions = AnalyzeOption;
             FillGenerationParameters(currentManager);
