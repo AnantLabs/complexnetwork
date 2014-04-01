@@ -20,6 +20,8 @@ namespace Research
     [AvailableAnalyzeOption(AnalyzeOption.ConnectedComponentDistribution)]
     public class PercolationResearch : AbstractResearch
     {
+        private bool isCanceled = false;
+
         private GenerationParameter probabilityParameter;
         private Single minProbability;
         private Single currentProbability;
@@ -31,19 +33,25 @@ namespace Research
         /// </summary>
         public override void StartResearch()
         {
-            if (base.GenerationParameterValues.ContainsKey(GenerationParameter.Probability))
+            if (GenerationParameterValues.ContainsKey(GenerationParameter.Probability))
                 probabilityParameter = GenerationParameter.Probability;
-            else if (base.GenerationParameterValues.ContainsKey(GenerationParameter.Mu))
+            else if (GenerationParameterValues.ContainsKey(GenerationParameter.Mu))
                 probabilityParameter = GenerationParameter.Mu;
             else
                 throw new SystemException("Unexpected generation parameter set.");
 
-            minProbability = Convert.ToSingle(base.GenerationParameterValues[probabilityParameter]);
+            minProbability = Convert.ToSingle(GenerationParameterValues[probabilityParameter]);
             currentProbability = minProbability;
-            maxProbability = Convert.ToSingle(base.ResearchParameterValues[ResearchParameter.ProbabilityMax]);
-            delta = Convert.ToSingle(base.ResearchParameterValues[ResearchParameter.ProbabilityDelta]);
+            maxProbability = Convert.ToSingle(ResearchParameterValues[ResearchParameter.ProbabilityMax]);
+            delta = Convert.ToSingle(ResearchParameterValues[ResearchParameter.ProbabilityDelta]);
 
             StartCurrentEnsemble();
+        }
+
+        public override void StopResearch()
+        {
+            isCanceled = true;
+            currentManager.Cancel();
         }
 
         public override ResearchType GetResearchType()
@@ -53,14 +61,23 @@ namespace Research
 
         private void RunCompleted(IAsyncResult res)
         {
+            if (isCanceled)
+            {
+                // validating result
+                ResearchParameterValues[ResearchParameter.ProbabilityMax] = currentProbability;
+            }
+            else
+            {
+                result.EnsembleResults.Add(currentManager.Result);
+            }
+
             currentProbability += delta;
-            // TODO getting result from currentManager and add to base.result
             StartCurrentEnsemble();
         }
 
         private void StartCurrentEnsemble()
         {
-            if (currentProbability < maxProbability)
+            if (currentProbability < maxProbability && !isCanceled)
             {
                 base.CreateEnsembleManager();
                 ManagerRunner r = new ManagerRunner(currentManager.Run);
@@ -72,7 +89,7 @@ namespace Research
             }
         }
 
-        protected override void InitializeGenerationParameters(AbstractEnsembleManager m)
+        protected override void FillGenerationParameters(AbstractEnsembleManager m)
         {
             Dictionary<GenerationParameter, object> g = new Dictionary<GenerationParameter, object>();
             foreach (GenerationParameter p in base.GenerationParameterValues.Keys)

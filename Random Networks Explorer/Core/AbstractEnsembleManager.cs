@@ -4,51 +4,44 @@ using System.Linq;
 using System.Text;
 
 using Core.Enumerations;
+using Core.Result;
 
 namespace Core
 {
     /// <summary>
-    /// 
+    /// Abstract class presenting ensemble manager.
     /// </summary>
     public abstract class AbstractEnsembleManager
     {
-        protected ModelType modelType;
-        protected string tracingPath;
-        protected int realizationCount;
+        protected int realizationsDone;
 
-        protected Dictionary<GenerationParameter, object> generationParameterValues;
-        protected AnalyzeOption analyzeOptions;
+        public ModelType ModelType { protected get; set; }
 
-        public ModelType ModelType
+        public string TracingPath { protected get; set; }
+
+        public int RealizationCount { protected get; set; }
+
+        public Dictionary<GenerationParameter, object> GenerationParameterValues { get; set; }
+
+        public AnalyzeOption AnalyzeOptions { get; set; }
+
+        public int RealizationsDone 
         {
-            set { modelType = value; }
+            get { return realizationsDone; }
+            protected set { realizationsDone = value; }
         }
 
-        public string TracingPath
-        {
-            set { tracingPath = value; }
-        }
+        public EnsembleResult Result { get; protected set; }
 
-        public int RealizationCount
-        {
-            set { realizationCount = value; }
-        }
-
-        public Dictionary<GenerationParameter, object> GenerationParameterValues
-        {
-            set { generationParameterValues = value; }
-        }
-
-        public AnalyzeOption AnalyzeOptions
-        {
-            set { analyzeOptions = value; }
-        }
-
+        /// <summary>
+        /// Runs generation, analyze and save for each realization in single ensemble.
+        /// Blocks current thread until whole work completes.
+        /// </summary>
         public abstract void Run();
-        public abstract void Cancel();
 
-        private void Trace()
-        {
-        }
+        /// <summary>
+        /// Terminates running operations.
+        /// </summary>
+        public abstract void Cancel();
     }
 }

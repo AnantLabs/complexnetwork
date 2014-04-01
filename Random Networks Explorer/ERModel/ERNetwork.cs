@@ -29,8 +29,7 @@ namespace ERModel
     public class ERNetwork : AbstractNetwork
     {
         public ERNetwork(Dictionary<GenerationParameter, object> genParams,
-            AnalyzeOption analyzeOpts, string trPath) :
-            base(genParams, analyzeOpts, trPath)
+            AnalyzeOption analyzeOpts) : base(genParams, analyzeOpts)
         {
             networkGenerator = new ERNetworkGenerator();
             networkAnalyzer = new NonHierarchicAnalyzer();

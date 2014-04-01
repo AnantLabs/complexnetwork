@@ -12,83 +12,114 @@ using Core.Exceptions;
 namespace Manager
 {
     /// <summary>
-    /// 
+    /// Implementation of manager, which distributes work on local machine.
     /// </summary>
-    class LocalEnsembleManager : AbstractEnsembleManager
+    public class LocalEnsembleManager : AbstractEnsembleManager
     {
         private AbstractNetwork[] networks;
         private Thread[] threads;
         private AutoResetEvent[] waitHandles;
 
+        private class ThreadEntryData
+        {
+            public int FirstIndex { get; private set; }
+            public int SecondIndex { get; private set; }
+            public int ThreadIndex { get; set; }
+
+            public ThreadEntryData(int f, int s, int tIndex)
+            {
+                FirstIndex = f;
+                SecondIndex = s;
+                ThreadIndex = tIndex;
+            }
+        }
+
         public override void Run()
         {
-            networks = new AbstractNetwork[realizationCount];
-            threads = new Thread[realizationCount];
-            waitHandles = new AutoResetEvent[realizationCount];
-
-            PrepareForRun();            
+            ConstructNetworks();
 
             int pc = Environment.ProcessorCount;
-            for (int i = 0; i < realizationCount; i++)
+            threads = new Thread[pc];
+            waitHandles = new AutoResetEvent[pc];
+
+            // TODO check and correct
+            int c = networks.Length / pc;
+            int e = networks.Length % pc;
+            
+            ThreadEntryData[] threadData = new ThreadEntryData[pc];
+            for (int i = 0; i < e; ++i)
             {
-                threads[i].Start(i);
-                if ((i + 1) % pc == 0)
-                {
-                    for (int j = 0; j < pc; ++j)
-                        threads[i - j].Join();
-                }
+                threadData[i] = new ThreadEntryData(i * (c + 1), (i + 1) * (c + 1), i);
             }
-            Thread waitingThread = new Thread(new ThreadStart(Waiting));
-            waitingThread.Start();
+            for (int i = e; i < pc; ++i)
+            {
+                threadData[i] = new ThreadEntryData(i * (c + 1), (i + 1) * (c + 1), i);
+            }
+
+            for (int i = 0; i < pc; ++i)
+            {
+                waitHandles[i] = new AutoResetEvent(false);
+                threads[i] = new Thread(new ParameterizedThreadStart(ThreadEntry)) { Priority = ThreadPriority.Lowest };
+                threads[i].Start(threadData[i]);
+            }
+
+            AutoResetEvent.WaitAll(waitHandles);
         }
 
         public override void Cancel()
         {
-            for (int i = 0; i < realizationCount; i++)
+            for (int i = 0; i < Environment.ProcessorCount; ++i)
             {
-                Thread thread = threads[i];
-                if (thread.ThreadState != ThreadState.Suspended)
+                if (threads[i] != null)
                 {
                     try
                     {
-                        thread.Abort();
+                        threads[i].Abort();
                     }
-                    catch (ThreadStateException ex)
+                    catch (ThreadAbortException ex)
                     {
                         Console.WriteLine(ex.Message);
+                    }
+                    finally
+                    {
+                        foreach (AutoResetEvent handle in waitHandles)
+                            handle.Set();
                     }
                 }
             }
         }
 
-        private void PrepareForRun()
+        private void ConstructNetworks()
         {
-            for (int i = 0; i < realizationCount; i++)
+            networks = new AbstractNetwork[RealizationCount];
+            for (int i = 0; i < RealizationCount; i++)
             {
-                ModelTypeInfo[] info = (ModelTypeInfo[])modelType.GetType().GetCustomAttributes(typeof(ModelTypeInfo), false);
+                ModelTypeInfo[] info = (ModelTypeInfo[])ModelType.GetType().GetCustomAttributes(typeof(ModelTypeInfo), false);
                 Type t = Type.GetType(info[0].Implementation);
                 Type[] constructTypes = new Type[] { 
                     typeof(Dictionary<GenerationParameter, object>), 
-                    typeof(AnalyzeOption), 
-                    typeof(String) };
+                    typeof(AnalyzeOption) };
                 object[] invokeParams = new object[] { 
-                    generationParameterValues, 
-                    analyzeOptions, 
-                    tracingPath };
+                    GenerationParameterValues, 
+                    AnalyzeOptions };
                 networks[i] = (AbstractNetwork)t.GetConstructor(constructTypes).Invoke(invokeParams);
-
-                threads[i] = new Thread(new ParameterizedThreadStart(ThreadEntry)) { Priority = ThreadPriority.Lowest };
-                waitHandles[i] = new AutoResetEvent(false);
             }
         }
 
         private void ThreadEntry(object p)
         {
-            int currentIndex = (int)p;
+            ThreadEntryData d = (ThreadEntryData)p;
+
             try
             {
-                networks[currentIndex].Generate();
-                networks[currentIndex].Analyze();
+                for (int i = d.FirstIndex; i < d.SecondIndex; ++i)
+                {
+                    networks[i].Generate();
+                    networks[i].Trace(TracingPath + "_" + i.ToString());
+                    networks[i].Analyze();
+
+                    Interlocked.Increment(ref realizationsDone);
+                }
             }
             catch (CoreException ex)
             {
@@ -100,15 +131,7 @@ namespace Manager
             }
             finally
             {
-                waitHandles[currentIndex].Set();
-            }
-        }
-
-        private void Waiting()
-        {
-            foreach (WaitHandle wh in waitHandles)
-            {
-                wh.WaitOne();
+                waitHandles[d.ThreadIndex].Set();
             }
         }
     }

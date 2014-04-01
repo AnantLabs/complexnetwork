@@ -42,9 +42,14 @@ namespace Research
         /// </summary>
         public override void StartResearch()
         {
-            base.CreateEnsembleManager();
+            CreateEnsembleManager();
             ManagerRunner r = new ManagerRunner(currentManager.Run);
             r.BeginInvoke(new AsyncCallback(RunCompleted), null);
+        }
+
+        public override void StopResearch()
+        {
+            currentManager.Cancel();
         }
 
         public override ResearchType GetResearchType()
@@ -52,15 +57,16 @@ namespace Research
             return ResearchType.Basic;
         }
 
-        protected override void InitializeGenerationParameters(AbstractEnsembleManager m)
-        {
-            m.GenerationParameterValues = base.GenerationParameterValues;
-        }        
-
         private void RunCompleted(IAsyncResult res)
         {
-            // TODO getting result from currentManager and add to base.result
+            realizationCount = currentManager.RealizationsDone;
+            result.EnsembleResults.Add(currentManager.Result);
             SaveResearch();
         }
+
+        protected override void FillGenerationParameters(AbstractEnsembleManager m)
+        {
+            m.GenerationParameterValues = GenerationParameterValues;
+        }        
     }
 }

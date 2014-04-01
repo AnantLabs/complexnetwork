@@ -30,8 +30,7 @@ namespace BAModel
     public class BANetwork : AbstractNetwork
     {
         public BANetwork(Dictionary<GenerationParameter, object> genParams,
-            AnalyzeOption analyzeOpts, string trPath) :
-            base(genParams, analyzeOpts, trPath)
+            AnalyzeOption analyzeOpts) : base(genParams, analyzeOpts)
         {
             networkGenerator = new BANetworkGenerator();
             networkAnalyzer = new NonHierarchicAnalyzer();
