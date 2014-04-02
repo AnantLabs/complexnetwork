@@ -6,6 +6,7 @@ using System.Text;
 
 using Core.Enumerations;
 using Core.Model;
+using Core.Result;
 using Core.Utility;
 
 namespace Core
@@ -20,6 +21,9 @@ namespace Core
 
         protected Dictionary<GenerationParameter, object> generationParameterValues;
         protected AnalyzeOption analyzeOptions;
+
+        public bool SuccessfullyCompleted { get; private set; }
+        public RealizationResult NetworkResult { get; protected set; }
 
         public AbstractNetwork(Dictionary<GenerationParameter, object> genParams,
             AnalyzeOption analyzeOptions)
@@ -58,7 +62,6 @@ namespace Core
         {
             networkAnalyzer.Container = networkGenerator.Container;
             
-            // TODO get analyze results.
             try
             {
                 Array existingOptions = Enum.GetValues(typeof(AnalyzeOption));
@@ -66,9 +69,11 @@ namespace Core
                 {
                     if ((analyzeOptions & opt) == opt)
                     {
-                        object o = networkAnalyzer.CalculateOption(opt);
+                        NetworkResult.Result.Add(opt, networkAnalyzer.CalculateOption(opt));
                     }
                 }
+
+                SuccessfullyCompleted = true;
             }
             catch (SystemException ex)
             {

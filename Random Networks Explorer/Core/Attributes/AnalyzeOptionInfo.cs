@@ -26,21 +26,24 @@ namespace Core.Attributes
         public AnalyzeOptionInfo(string fullName, 
             string description,
             OptionType optionType,
-            Type resultType)
+            Type realizationResultType,
+            Type ensembleResultType)
         {
             FullName = fullName;
             Description = description;
             OptionType = optionType;
-            ResultType = resultType;
+            RealizationResultType = realizationResultType;
+            EnsembleResultType = ensembleResultType;
         }
 
         public AnalyzeOptionInfo(string fullName,
             string description,
             OptionType optionType,
-            Type resultType,
+            Type realizationResultType,
+            Type ensembleResultType,
             string xAxisName,
             string yAxisName)
-            : this(fullName, description, optionType, resultType)
+            : this(fullName, description, optionType, realizationResultType, ensembleResultType)
         {
             XAxisName = xAxisName;
             YAxixName = yAxisName;
@@ -49,7 +52,8 @@ namespace Core.Attributes
         public string FullName { get; private set; }
         public string Description { get; private set; }
         public OptionType OptionType { get; private set; }
-        public Type ResultType { get; private set; }
+        public Type RealizationResultType { get; private set; }
+        public Type EnsembleResultType { get; private set; }
         public string XAxisName { get; private set; }
         public string YAxixName { get; private set; }
     }

@@ -7,7 +7,7 @@ using System.Text;
 namespace Core.Model
 {
     /// <summary>
-    /// 
+    /// Interface for random network container.
     /// </summary>
     public interface INetworkContainer
     {

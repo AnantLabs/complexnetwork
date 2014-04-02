@@ -17,6 +17,7 @@ namespace Core.Result
         public ResearchType ResearchType { get; set; }
         public ModelType ModelType { get; set; }
         public int RealizationCount { get; set; }
+        public int Size { get; set; }
 
         public Dictionary<ResearchParameter, object> ResearchParameterValues { get; set; }
         public Dictionary<GenerationParameter, object> GenerationParameterValues { get; set; }

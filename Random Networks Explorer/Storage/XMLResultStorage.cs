@@ -47,7 +47,7 @@ namespace Storage
                 writer.WriteStartElement("Research");
 
                 SaveResearchInfo(result.ResearchID, result.ResearchName, 
-                    result.ResearchType, result.ModelType, result.RealizationCount);
+                    result.ResearchType, result.ModelType, result.RealizationCount, result.Size);
                 SaveResearchParameters(result.ResearchParameterValues);
                 SaveGenerationParameters(result.GenerationParameterValues);
 
@@ -66,7 +66,8 @@ namespace Storage
             string researchName,
             ResearchType rType,
             ModelType mType,
-            int realizationCount)
+            int realizationCount,
+            int size)
         {
             writer.WriteElementString("ResearchID", researchID.ToString());
             writer.WriteElementString("ResearchName", researchName);
@@ -74,6 +75,7 @@ namespace Storage
             writer.WriteElementString("ModelType", mType.ToString());
             writer.WriteElementString("RealizationCount", realizationCount.ToString());
             writer.WriteElementString("Date", DateTime.Now.ToString());
+            writer.WriteElementString("Size", size.ToString());
         }
 
         private void SaveResearchParameters(Dictionary<ResearchParameter, object> p)
@@ -137,7 +139,7 @@ namespace Storage
 
         private void SaveValueList(AnalyzeOptionInfo info, Object value)
         {
-            if (info.ResultType.Equals(typeof(List<Double>)))
+            if (info.EnsembleResultType.Equals(typeof(List<Double>)))
             {
                 List<Double> l = value as List<Double>;
                 foreach (Double d in l)
@@ -147,9 +149,9 @@ namespace Storage
 
         private void SaveDistribution(AnalyzeOptionInfo info, Object value)
         {
-            if (info.ResultType.Equals(typeof(SortedDictionary<Double, UInt32>)))
+            if (info.EnsembleResultType.Equals(typeof(SortedDictionary<Double, Double>)))
             {
-                SortedDictionary<Double, UInt32> l = value as SortedDictionary<Double, UInt32>;
+                SortedDictionary<Double, Double> l = value as SortedDictionary<Double, Double>;
                 foreach (Double d in l.Keys)
                 {
                     writer.WriteStartElement("pair");
@@ -158,9 +160,9 @@ namespace Storage
                     writer.WriteEndElement();
                 }
             }
-            else if (info.ResultType.Equals(typeof(SortedDictionary<UInt32, UInt32>)))
+            else if (info.EnsembleResultType.Equals(typeof(SortedDictionary<UInt32, Double>)))
             {
-                SortedDictionary<UInt32, UInt32> l = value as SortedDictionary<UInt32, UInt32>;
+                SortedDictionary<UInt32, Double> l = value as SortedDictionary<UInt32, Double>;
                 foreach (UInt32 d in l.Keys)
                 {
                     writer.WriteStartElement("pair");
@@ -169,9 +171,9 @@ namespace Storage
                     writer.WriteEndElement();
                 }
             }
-            else if (info.ResultType.Equals(typeof(SortedDictionary<UInt16, BigInteger>)))
+            else if (info.EnsembleResultType.Equals(typeof(SortedDictionary<UInt16, Double>)))
             {
-                SortedDictionary<UInt16, BigInteger> l = value as SortedDictionary<UInt16, BigInteger>;
+                SortedDictionary<UInt16, Double> l = value as SortedDictionary<UInt16, Double>;
                 foreach (UInt16 d in l.Keys)
                 {
                     writer.WriteStartElement("pair");
