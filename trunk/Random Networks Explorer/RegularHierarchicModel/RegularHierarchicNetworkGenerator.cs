@@ -10,6 +10,9 @@ using RandomNumberGeneration;
 
 namespace RegularHierarchicModel
 {
+    /// <summary>
+    /// Implementation of regularly branching block-hierarchic network's generator.
+    /// </summary>
     class RegularHierarchicNetworkGenerator : INetworkGenerator
     {
         // Организация работы с лог файлом.

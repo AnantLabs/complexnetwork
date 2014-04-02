@@ -11,7 +11,7 @@ using ModelChecking;
 namespace RegularHierarchicModel
 {
     /// <summary>
-    /// 
+    /// Implementation of regularly branching block-hierarchic network's container.
     /// </summary>
     class RegularHierarchicNetworkContainer : AbstractHierarchicContainer
     {

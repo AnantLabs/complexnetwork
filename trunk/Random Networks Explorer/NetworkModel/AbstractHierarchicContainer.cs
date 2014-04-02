@@ -9,7 +9,7 @@ using Core.Model;
 namespace NetworkModel
 {
     /// <summary>
-    /// 
+    /// Abstract class presenting container of hierarchic type.
     /// </summary>
     public abstract class AbstractHierarchicContainer : INetworkContainer
     {
