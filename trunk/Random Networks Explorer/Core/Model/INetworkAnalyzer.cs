@@ -10,20 +10,20 @@ using Core.Enumerations;
 namespace Core.Model
 {
     /// <summary>
-    /// Interface for analyzer of a random network.
+    /// Interface for random network analyzer.
     /// </summary>
     public interface INetworkAnalyzer
     {
         /// <summary>
-        /// Container of the generated graph.
+        /// Generated network's container.
         /// </summary>
         INetworkContainer Container { get; set; }
 
         /// <summary>
-        /// 
+        /// Calculates specified analyze option.
         /// </summary>
-        /// <param name="option"></param>
-        /// <returns></returns>
+        /// <param name="option">Analyze option</param>
+        /// <returns>Calculated value.</returns>
         Object CalculateOption(AnalyzeOption option);
     }
 }

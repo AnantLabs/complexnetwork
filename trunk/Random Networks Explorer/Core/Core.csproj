@@ -73,6 +73,7 @@
     <Compile Include="Model\INetworkGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result\EnsembleResult.cs" />
+    <Compile Include="Result\RealizationResult.cs" />
     <Compile Include="Result\ResearchResult.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="Utility\FileManager.cs" />

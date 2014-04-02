@@ -8,6 +8,7 @@ using Core;
 using Core.Attributes;
 using Core.Enumerations;
 using Core.Exceptions;
+using Core.Result;
 
 namespace Manager
 {
@@ -45,6 +46,15 @@ namespace Manager
             }
 
             AutoResetEvent.WaitAll(waitHandles);
+
+            List<RealizationResult> results = new List<RealizationResult>();
+            for (int i = 0; i < networks.Length; ++i)
+            {
+                if (networks[i].SuccessfullyCompleted)
+                    results.Add(networks[i].NetworkResult);
+            }
+
+            Result = EnsembleResult.AverageResults(results);
         }
 
         public override void Cancel()

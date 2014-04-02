@@ -107,7 +107,6 @@ namespace Core
             currentManager = (AbstractEnsembleManager)t.GetConstructor(null).Invoke(null);
 
             currentManager.ModelType = modelType;
-            // TODO correct tracing path
             currentManager.TracingPath = (TracingPath == "" ? "" : TracingPath + "\\" + ResearchName);
             currentManager.RealizationCount = realizationCount;
             currentManager.AnalyzeOptions = AnalyzeOption;
@@ -130,6 +129,7 @@ namespace Core
             result.ResearchType = GetResearchType();
             result.ModelType = modelType;
             result.RealizationCount = realizationCount;
+            result.Size = 0; // TODO calculate size
 
             Storage.Save(result);
         }
