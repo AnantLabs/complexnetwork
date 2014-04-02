@@ -9,6 +9,9 @@ using Core.Enumerations;
 
 namespace RegularHierarchicModel
 {
+    /// <summary>
+    /// Implementation of regularly branching block-hierarchic network.
+    /// </summary>
     [RequiredGenerationParameter(GenerationParameter.BranchingIndex)]
     [RequiredGenerationParameter(GenerationParameter.Level)]
     [RequiredGenerationParameter(GenerationParameter.Mu)]

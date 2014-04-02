@@ -10,7 +10,7 @@ using Core.Enumerations;
 namespace NetworkModel
 {
     /// <summary>
-    /// 
+    /// Abstract class presenting random network analyzer.
     /// </summary>
     public abstract class AbstractNetworkAnalyzer : INetworkAnalyzer
     {
@@ -144,7 +144,7 @@ namespace NetworkModel
         /// <summary>
         /// Calculates distances between eigenvalues.
         /// </summary>
-        /// <returns>Distribution of distances between eigenvalues.</returns>
+        /// <returns>(distance, count) pairs.</returns>
         protected virtual SortedDictionary<Double, Int32> CalculateEigenDistanceDistribution()
         {
             throw new NotImplementedException();
@@ -153,7 +153,7 @@ namespace NetworkModel
         /// <summary>
         /// Calculates degrees of vertices in the network.
         /// </summary>
-        /// <returns>Degree distribution.</returns>
+        /// <returns>(degree, count) pairs.</returns>
         protected virtual SortedDictionary<UInt32, UInt32> CalculateDegreeDistribution()
         {
             throw new NotImplementedException();
@@ -162,7 +162,7 @@ namespace NetworkModel
         /// <summary>
         /// Calculates clustering coefficients of vertices in the network.
         /// </summary>
-        /// <returns>Distribution of clustering coefficinets.</returns>
+        /// <returns>(clustering coefficient, count) pairs.</returns>
         protected virtual SortedDictionary<Double, UInt32> CalculateClusteringCoefficientDistribution()
         {
             throw new NotImplementedException();
@@ -171,7 +171,7 @@ namespace NetworkModel
         /// <summary>
         /// Calculates counts of connected components in the network.
         /// </summary>
-        /// <returns>Distribution of connected components.</returns>
+        /// <returns>(order of connected component, count) pairs.</returns>
         protected virtual SortedDictionary<UInt32, UInt32> CalculateConnectedComponentDistribution()
         {
             throw new NotImplementedException();
@@ -180,7 +180,7 @@ namespace NetworkModel
         /// <summary>
         /// Calculates counts of complete components in the network.
         /// </summary>
-        /// <returns>Distribution of complete components.</returns>
+        /// <returns>(order of complete component, count) pairs.</returns>
         protected virtual SortedDictionary<UInt32, UInt32> CalculateCompleteComponentDistribution()
         {
             throw new NotImplementedException();
@@ -189,7 +189,7 @@ namespace NetworkModel
         /// <summary>
         /// Calculates minimal path lengths in the network.
         /// </summary>
-        /// <returns>Distribution of minimal path lengths.</returns>
+        /// <returns>(minimal path length, count) pairs.</returns>
         protected virtual SortedDictionary<UInt32, UInt32> CalculateDistanceDistribution()
         {
             throw new NotImplementedException();
@@ -198,7 +198,7 @@ namespace NetworkModel
         /// <summary>
         /// Calculates counts of triangles by vertices in the network.
         /// </summary>
-        /// <returns>Distribution of triangles by vertex.</returns>
+        /// <returns>(triangle count, count) pairs.</returns>
         protected virtual SortedDictionary<UInt32, UInt32> CalculateTriangleByVertexDistribution()
         {
             throw new NotImplementedException();
@@ -209,7 +209,7 @@ namespace NetworkModel
         /// </summary>
         /// <param name="lowBound">Minimal length of cycle.</param>
         /// <param name="hightBound">Maximal length of cycle.</param>
-        /// <returns>Distribution of cycles lengths.</returns>
+        /// <returns>(cycle length, count) pairs.</returns>
         protected virtual SortedDictionary<UInt16, BigInteger> CalculateCycleDistribution(UInt16 lowBound, UInt16 hightBound)
         {
             throw new NotImplementedException();
