@@ -41,7 +41,7 @@ namespace ERModel
             if (p.ContainsKey(GenerationParameter.Vertices) &&
                 p[GenerationParameter.Vertices] != null)
             {
-                return Convert.ToUInt32(p[GenerationParameter.Vertices]);
+                return (UInt32)p[GenerationParameter.Vertices];
             }
             else
             {
