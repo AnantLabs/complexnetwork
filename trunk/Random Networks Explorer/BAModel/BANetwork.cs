@@ -44,8 +44,8 @@ namespace BAModel
                 p[GenerationParameter.Vertices] != null &&
                 p[GenerationParameter.StepCount] != null)
             {
-                return Convert.ToUInt32(p[GenerationParameter.Vertices]) +
-                    Convert.ToUInt32(p[GenerationParameter.StepCount]);
+                return (UInt32)p[GenerationParameter.Vertices] +
+                    (UInt32)p[GenerationParameter.StepCount];
             }
             else
             {

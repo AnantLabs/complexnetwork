@@ -38,7 +38,7 @@ namespace Core.Result
                     double temp = 0;
                     foreach (RealizationResult res in results)
                     {
-                        temp += (Convert.ToDouble(res.Result[option])) / rCount;
+                        temp += (double)(res.Result[option]) / rCount;
                     }
                     r.Result.Add(option, temp);
                 }

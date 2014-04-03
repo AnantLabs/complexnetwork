@@ -40,10 +40,10 @@ namespace Research
             else
                 throw new SystemException("Unexpected generation parameter set.");
 
-            minProbability = Convert.ToSingle(GenerationParameterValues[probabilityParameter]);
+            minProbability = (Single)GenerationParameterValues[probabilityParameter];
             currentProbability = minProbability;
-            maxProbability = Convert.ToSingle(ResearchParameterValues[ResearchParameter.ProbabilityMax]);
-            delta = Convert.ToSingle(ResearchParameterValues[ResearchParameter.ProbabilityDelta]);
+            maxProbability = (Single)ResearchParameterValues[ResearchParameter.ProbabilityMax];
+            delta = (Single)ResearchParameterValues[ResearchParameter.ProbabilityDelta];
 
             StartCurrentEnsemble();
         }
