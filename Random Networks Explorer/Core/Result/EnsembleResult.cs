@@ -16,79 +16,108 @@ namespace Core.Result
     {
         public Dictionary<AnalyzeOption, object> Result { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="results"></param>
+        /// <returns></returns>
         public static EnsembleResult AverageResults(List<RealizationResult> results)
         {
             EnsembleResult r = new EnsembleResult();
             r.Result = new Dictionary<AnalyzeOption, object>();
 
-            // TODO
+            int rCount = results.Count;
 
-            /*foreach (RealizationResult res in results)
+            foreach (AnalyzeOption option in results[0].Result.Keys)
             {
-                foreach (AnalyzeOption opt in res.Result.Keys)
-                {
-                    AnalyzeOptionInfo info = ((AnalyzeOptionInfo[])opt.GetType().GetCustomAttributes(false))[0];
-                    Type t = info.RealizationResultType;
+                AnalyzeOptionInfo info = ((AnalyzeOptionInfo[])option.GetType().GetCustomAttributes(false))[0];
+                Type t = info.RealizationResultType;
 
-                    // TODO write using LINQ algorithms if possible.
-                    if (t.Equals(typeof(Double)))
+                if(t.Equals(typeof(Double)) || t.Equals(typeof(UInt32)))
+                {
+                    double temp = 0;
+                    foreach (RealizationResult res in results)
                     {
-                        r.Result[opt] = Convert.ToDouble(res.Result[opt]);
+                        temp += (Convert.ToDouble(res.Result[option])) / rCount;
                     }
-                    else if (t.Equals(typeof(UInt32)))
+                    r.Result.Add(option, temp);
+                }
+                else if (t.Equals(typeof(BigInteger)))
+                {
+                    double temp = 0;
+                    foreach (RealizationResult res in results)
                     {
-                        result.Result.Add(opt, Convert.ToInt32(r1.Result[opt]) +
-                            Convert.ToInt32(r2.Result[opt]));
+                        //temp += (BigInteger.Parse(res.Result[option].ToString())) / rCount;
                     }
-                    else if (t.Equals(typeof(BigInteger)))
+                    r.Result.Add(option, temp);
+                }
+                else if(t.Equals(typeof(List<Double>)))
+                {
+                    List<Double> temp = new List<double>(results[0].Result[option] as List<Double>);
+                    for (int i = 0; i < temp.Count; ++i)
+                        temp[i] /= rCount;
+
+                    for (int i = 1; i < results.Count; ++i)
                     {
-                        result.Result.Add(opt, BigInteger.Parse(r1.Result[opt].ToString()) +
-                            BigInteger.Parse(r2.Result[opt].ToString()));
+                        List<Double> l = results[i].Result[option] as List<Double>;
+                        for (int j = 0; j < l.Count; ++j)
+                            temp[j] += l[j] / rCount;
                     }
-                    else if (t.Equals(typeof(List<Double>)))
+                    r.Result.Add(option, temp);
+                }
+                else if (t.Equals(typeof(SortedDictionary<Double, UInt32>)))
+                {
+                    SortedDictionary<Double, Double> temp = new SortedDictionary<double, double>();
+                    foreach (RealizationResult res in results)
                     {
-                        List<Double> l = new List<double>();
-                        List<Double> l1 = r1.Result[opt] as List<Double>;
-                        List<Double> l2 = r2.Result[opt] as List<Double>;
-                        for (int i = 0; i < l1.Count; ++i)
+                        SortedDictionary<Double, UInt32> d = res.Result[option] as SortedDictionary<Double, UInt32>;
+                        foreach (double k in d.Keys)
                         {
-                            l.Add(l1[i] + l2[i]);
+                            if (temp.ContainsKey(k))
+                                temp[k] += (double)d[k] / rCount;
+                            else
+                                temp.Add(k, (double)d[k] / rCount);
                         }
                     }
-                    else if (t.Equals(typeof(SortedDictionary<UInt32, UInt32>)))
-                    {
-                        SortedDictionary<UInt32, UInt32> d = new SortedDictionary<uint, uint>();
-                        SortedDictionary<UInt32, UInt32> d1 = r1.Result[opt] as SortedDictionary<UInt32, UInt32>;
-                        SortedDictionary<UInt32, UInt32> d2 = r1.Result[opt] as SortedDictionary<UInt32, UInt32>;
-                    }
-                    else if (t.Equals(typeof(SortedDictionary<Double, UInt32>)))
-                    {
-                    }
-                    else if (t.Equals(typeof(SortedDictionary<UInt16, BigInteger>)))
-                    {
-                    }
+                    r.Result.Add(option, temp);
                 }
-            }*/
+                else if (t.Equals(typeof(SortedDictionary<UInt32, UInt32>)))
+                {
+                    SortedDictionary<UInt32, Double> temp = new SortedDictionary<uint, double>();
+                    foreach (RealizationResult res in results)
+                    {
+                        SortedDictionary<UInt32, UInt32> d = res.Result[option] as SortedDictionary<UInt32, UInt32>;
+                        foreach (uint k in d.Keys)
+                        {
+                            if (temp.ContainsKey(k))
+                                temp[k] += (double)d[k] / rCount;
+                            else
+                                temp.Add(k, (double)d[k] / rCount);
+                        }
+                    }
+                    r.Result.Add(option, temp);
+                }
+                else if (t.Equals(typeof(SortedDictionary<UInt16, BigInteger>)))
+                {
+                    SortedDictionary<UInt16, Double> temp = new SortedDictionary<UInt16, Double>();
+                    foreach (RealizationResult res in results)
+                    {
+                        SortedDictionary<UInt16, BigInteger> d = res.Result[option] as SortedDictionary<UInt16, BigInteger>;
+                        foreach (UInt16 k in d.Keys)
+                        {
+                            if (temp.ContainsKey(k))
+                                temp[k] += 0;
+                            //temp[k] += (double)d[k] / rCount;
+                            else
+                                temp.Add(k, 0);
+                                //temp.Add(k, (double)d[k] / rCount);
+                        }
+                    }
+                    r.Result.Add(option, temp);
+                }
+            }
 
             return r;
         }
-
-        /*public Double AvgPathLength { get; set; }
-        public UInt32 Diameter { get; set; }
-        public Double AvgDegree { get; set; }
-        public Double AvgClusteringCoefficient { get; set; }
-        public BigInteger Cycles3 { get; set; }
-        public BigInteger Cycles4 { get; set; }
-        public List<Double> EigenValues { get; set; }
-        public BigInteger Cycles3Eigen { get; set; }
-        public BigInteger Cycles4Eigen { get; set; }
-        public SortedDictionary<Double, UInt32> EigenDistanceDistribution { get; set; }
-        public SortedDictionary<UInt32, UInt32> DegreeDistribution { get; set; }
-        public SortedDictionary<Double, UInt32> ClusteringCoefficientDistribution { get; set; }
-        public SortedDictionary<UInt32, UInt32> ConnectedComponentDistribution { get; set; }
-        public SortedDictionary<UInt32, UInt32> CompleteComponentDistribution { get; set; }
-        public SortedDictionary<UInt32, UInt32> DistanceDistribution { get; set; }
-        public SortedDictionary<UInt32, UInt32> TriangleByVertexDistribution { get; set; }
-        public SortedDictionary<UInt16, BigInteger> CycleDistribution { get; set; }*/
     }
 }
