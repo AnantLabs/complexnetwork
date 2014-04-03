@@ -12,6 +12,7 @@ namespace RegularHierarchicModel
     /// <summary>
     /// Implementation of regularly branching block-hierarchic network.
     /// </summary>
+    [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrixFile)]
     [RequiredGenerationParameter(GenerationParameter.BranchingIndex)]
     [RequiredGenerationParameter(GenerationParameter.Level)]
     [RequiredGenerationParameter(GenerationParameter.Mu)]
@@ -36,6 +37,22 @@ namespace RegularHierarchicModel
         {
             networkGenerator = new RegularHierarchicNetworkGenerator();
             networkAnalyzer = new RegularHierarchicNetworkAnalyzer();
-        } 
+        }
+
+        public static UInt32 CalculateSize(Dictionary<GenerationParameter, object> p)
+        {
+            if (p.ContainsKey(GenerationParameter.BranchingIndex) &&
+                p.ContainsKey(GenerationParameter.Level) &&
+                p[GenerationParameter.BranchingIndex] != null &&
+                p[GenerationParameter.Level] != null)
+            {
+                return (UInt32)Math.Pow(Convert.ToUInt16(p[GenerationParameter.BranchingIndex]),
+                    Convert.ToUInt16(p[GenerationParameter.Level]));
+            }
+            else
+            {
+                throw new SystemException("Wrong generation parameters for current model.");
+            }
+        }
     }
 }

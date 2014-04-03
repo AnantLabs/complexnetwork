@@ -129,7 +129,7 @@ namespace Core
             result.ResearchType = GetResearchType();
             result.ModelType = modelType;
             result.RealizationCount = realizationCount;
-            result.Size = 0; // TODO calculate size
+            result.Size = CalculateSize();
 
             Storage.Save(result);
         }
@@ -145,6 +145,15 @@ namespace Core
             RequiredGenerationParameter[] gp = (RequiredGenerationParameter[])t.GetCustomAttributes(typeof(RequiredGenerationParameter), false);
             for (int i = 0; i < rp.Length; ++i)
                 GenerationParameterValues.Add(gp[i].Parameter, null);
+        }
+
+        private UInt32 CalculateSize()
+        {
+            ModelTypeInfo info = ((ModelTypeInfo[])modelType.GetType().GetCustomAttributes(typeof(ModelTypeInfo), false))[0];
+            Type t = Type.GetType(info.Implementation, true);
+
+            object[] invokeParams = new object[] { GenerationParameterValues };
+            return (UInt32)t.GetMethod("CalculateSize").Invoke(null, invokeParams);
         }
     }
 }

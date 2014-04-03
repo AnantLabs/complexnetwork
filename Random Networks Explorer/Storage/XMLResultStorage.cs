@@ -67,7 +67,7 @@ namespace Storage
             ResearchType rType,
             ModelType mType,
             int realizationCount,
-            int size)
+            UInt32 size)
         {
             writer.WriteElementString("ResearchID", researchID.ToString());
             writer.WriteElementString("ResearchName", researchName);

@@ -39,7 +39,8 @@ namespace Core
         {
             try
             {
-                if (generationParameterValues.ContainsKey(GenerationParameter.AdjacencyMatrixFile))
+                if (generationParameterValues.ContainsKey(GenerationParameter.AdjacencyMatrixFile) &&
+                    (generationParameterValues[GenerationParameter.AdjacencyMatrixFile] != null))
                 {
                     string filePath = generationParameterValues[GenerationParameter.AdjacencyMatrixFile].ToString();
                     networkGenerator.StaticGeneration(FileManager.MatrixReader(filePath));
