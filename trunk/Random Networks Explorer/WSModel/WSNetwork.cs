@@ -10,6 +10,7 @@ using NetworkModel;
 
 namespace WSModel
 {
+    [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrixFile)]
     [RequiredGenerationParameter(GenerationParameter.Vertices)]
     [RequiredGenerationParameter(GenerationParameter.Edges)]
     [RequiredGenerationParameter(GenerationParameter.Probability)]
@@ -35,6 +36,19 @@ namespace WSModel
         {
             networkGenerator = new WSNetworkGenerator();
             networkAnalyzer = new NonHierarchicAnalyzer();
+        }
+
+        public static UInt32 CalculateSize(Dictionary<GenerationParameter, object> p)
+        {
+            if (p.ContainsKey(GenerationParameter.Vertices) &&
+                p[GenerationParameter.Vertices] != null)
+            {
+                return Convert.ToUInt32(p[GenerationParameter.Vertices]);
+            }
+            else
+            {
+                throw new SystemException("Wrong generation parameters for current model.");
+            }
         }
     }
 }

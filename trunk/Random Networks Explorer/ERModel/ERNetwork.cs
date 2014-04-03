@@ -10,6 +10,7 @@ using NetworkModel;
 
 namespace ERModel
 {
+    [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrixFile)]
     [RequiredGenerationParameter(GenerationParameter.Vertices)]
     [RequiredGenerationParameter(GenerationParameter.Probability)]
     [AvailableAnalyzeOption(AnalyzeOption.AvgClusteringCoefficient |
@@ -33,6 +34,19 @@ namespace ERModel
         {
             networkGenerator = new ERNetworkGenerator();
             networkAnalyzer = new NonHierarchicAnalyzer();
+        }
+
+        public static UInt32 CalculateSize(Dictionary<GenerationParameter, object> p)
+        {
+            if (p.ContainsKey(GenerationParameter.Vertices) &&
+                p[GenerationParameter.Vertices] != null)
+            {
+                return Convert.ToUInt32(p[GenerationParameter.Vertices]);
+            }
+            else
+            {
+                throw new SystemException("Wrong generation parameters for current model.");
+            }
         }
     }
 }

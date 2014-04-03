@@ -9,6 +9,7 @@ using Core.Attributes;
 
 namespace NonRegularHierarchicModel
 {
+    [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrixFile)]
     [RequiredGenerationParameter(GenerationParameter.BranchingIndex)]
     [RequiredGenerationParameter(GenerationParameter.Level)]
     [RequiredGenerationParameter(GenerationParameter.Mu)]
@@ -27,6 +28,12 @@ namespace NonRegularHierarchicModel
         {
             networkGenerator = new NonRegularHierarchicNetworkGenerator();
             networkAnalyzer = new NonRegularHierarchicNetworkAnalyzer();
+        }
+
+        public static UInt32 CalculateSize(Dictionary<GenerationParameter, object> p)
+        {
+            // TODO
+            return 0;
         }
     }
 }
