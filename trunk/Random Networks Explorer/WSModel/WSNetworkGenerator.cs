@@ -12,53 +12,39 @@ using RandomNumberGeneration;
 namespace WSModel
 {
     /// <summary>
-    /// 
+    /// Implementation of generator of random network of Watts-Strogatz's model.
     /// </summary>
     class WSNetworkGenerator : INetworkGenerator
     {
-        // Организация работы с лог файлом.
-        //protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(WSGenerator));
-
-        // Контейнер, в котором содержится граф конкретной модели (WS).
         private NonHierarchicContainer container;
 
-        // Конструктор по умолчанию, в котором создается пустой контейнер графа.
         public WSNetworkGenerator()
         {
             container = new NonHierarchicContainer();
         }
 
-        // Контейнер, в котором содержится сгенерированный граф.
         public INetworkContainer Container
         {
             get { return container; }
             set { container = (NonHierarchicContainer)value; }
         }
 
-        // Случайным образом генерируется граф, на основе параметров генерации.
         public void RandomGeneration(Dictionary<GenerationParameter, object> genParam)
         {
-            //log.Info("Random generation step started.");
-            Int16 numberOfVertices = (Int16)genParam[GenerationParameter.Vertices];
-            Int32 numberOfEdges = (Int32)genParam[GenerationParameter.Edges];
+            UInt16 numberOfVertices = (UInt16)genParam[GenerationParameter.Vertices];
+            UInt32 numberOfEdges = (UInt32)genParam[GenerationParameter.Edges];
             Single probability = (Single)genParam[GenerationParameter.Probability];
             UInt16 stepCount = (UInt16)genParam[GenerationParameter.StepCount];
 
             //container.SetParameters(numberOfVertices, numberOfEdges / 2);
             Randomize();
             FillValuesByProbability(probability, stepCount);
-            //log.Info("Random generation step finished.");
         }
 
-        // Строится граф, на основе матрицы смежности.
         public void StaticGeneration(ArrayList matrix)
         {
-            //log.Info("Static generation started.");
             container.SetMatrix(matrix);
-            //log.Info("Static generation finished.");
         }
-
-        // Закрытая часть класса (не из общего интерфейса).
 
         private int currentId = 0;
         private List<int> collectRandoms = new List<int>();
@@ -70,7 +56,7 @@ namespace WSModel
 
             for (int i = 0; i < container.Size; ++i)
             {
-                double rand_number = rand.Next(0, container.Size);
+                double rand_number = 0;// rand.Next(0, container.Size);
                 collectRandoms.Add((int)rand_number);
             }
         }
@@ -85,7 +71,7 @@ namespace WSModel
                     List<int> nonNeighbours = new List<int>();
                     for (int k = 0; k < container.Size && k < i; ++k)
                     {
-                        if (container.AreNeighbours(i, k))
+                        if (container.AreConnected(i, k))
                             neighbours.Add(k);
                         else
                             nonNeighbours.Add(k);
@@ -100,7 +86,7 @@ namespace WSModel
                             if (r != neighbours[j])
                             {
                                 //container.Disconnect(i, neighbours[j]);
-                                container.AddEdge(i, r);
+                                container.AreConnected(i, r);
                             }
                         }
                     }

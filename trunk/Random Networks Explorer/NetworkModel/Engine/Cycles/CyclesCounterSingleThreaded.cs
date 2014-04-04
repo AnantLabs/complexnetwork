@@ -24,7 +24,7 @@ namespace NetworkModel.Engine.Cycles
         public CyclesCounterSingleThreaded(NonHierarchicContainer container)
         {
             _container = container;
-            _verticesCount = _container.Size;
+            _verticesCount = (int)_container.Size;
             _marked = new bool[_verticesCount];
             for (int i = 0; i < _verticesCount; ++i)
             {

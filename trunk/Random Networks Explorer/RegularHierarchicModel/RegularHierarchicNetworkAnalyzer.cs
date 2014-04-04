@@ -211,11 +211,11 @@ namespace RegularHierarchicModel
             int vertexIndex = 0, nodeNumber = 0;
             for (int i = container.Level - 1; i >= level; --i)
             {
-                vertexIndex = container.TreeIndex(vertexNumber, i + 1) % container.BranchIndex;
+                vertexIndex = container.TreeIndex(vertexNumber, i + 1) % container.BranchingIndex;
                 nodeNumber = container.TreeIndex(vertexNumber, i);
                 BitArray node = container.TreeNode(i, nodeNumber);
                 result += container.Links(vertexIndex, nodeNumber, i) *
-                    Math.Pow(container.BranchIndex, container.Level - i - 1);
+                    Math.Pow(container.BranchingIndex, container.Level - i - 1);
             }
 
             return result;
@@ -237,11 +237,11 @@ namespace RegularHierarchicModel
 
                 SortedDictionary<int, int> arraysReturned = new SortedDictionary<int, int>();
                 SortedDictionary<int, int> array = new SortedDictionary<int, int>();
-                int powPK = Convert.ToInt32(Math.Pow(container.BranchIndex, container.Level - level - 1));
+                int powPK = Convert.ToInt32(Math.Pow(container.BranchingIndex, container.Level - level - 1));
 
-                for (int i = numberNode * container.BranchIndex; i < container.BranchIndex * (numberNode + 1); i++)
+                for (int i = numberNode * container.BranchingIndex; i < container.BranchingIndex * (numberNode + 1); i++)
                 {
-                    int nodeNumberi = i - numberNode * container.BranchIndex;
+                    int nodeNumberi = i - numberNode * container.BranchingIndex;
                     array = ArrayCntAdjacentCntVertexes(i, level + 1);
                     int countAjacentsThisnode = container.CountConnectedBlocks(node, nodeNumberi);
                     foreach (KeyValuePair<int, int> kvt in array)
@@ -272,9 +272,9 @@ namespace RegularHierarchicModel
             // Если это не лист дерева, то проход по всем дочерным узлам (рекурсивный вызов).
             if (level < container.Level - 1)
             {
-                for (int i = 0; i < container.BranchIndex; i++)
+                for (int i = 0; i < container.BranchingIndex; i++)
                 {
-                    tempInfo = GetSubgraphsPathInfo(level + 1, nodeNumber * container.BranchIndex + i);
+                    tempInfo = GetSubgraphsPathInfo(level + 1, nodeNumber * container.BranchingIndex + i);
 
                     resultArr[0] += tempInfo[0];
                     if (container.NodeChildAdjacentsCount(level, nodeNumber, i) > 0)
@@ -292,7 +292,7 @@ namespace RegularHierarchicModel
             // Получение суммы длин минимальных путей (и дополнительной информации) для данного узла.
             tempInfo = Engine.FloydMinPath(container.NodeMatrix(level, nodeNumber));
 
-            double tempPow = Math.Pow(container.BranchIndex, container.Level - level - 1);
+            double tempPow = Math.Pow(container.BranchingIndex, container.Level - level - 1);
             resultArr[0] += tempInfo[0] * Convert.ToInt64(Math.Pow(tempPow, 2));
             resultArr[1] += tempInfo[1] * Convert.ToInt64(Math.Pow(tempPow, 2));
             resultArr[2] += tempInfo[2] * Convert.ToInt64(Math.Pow(tempPow, 2));
@@ -312,11 +312,11 @@ namespace RegularHierarchicModel
             BitArray node = container.TreeNode(level, numberNode);
 
             bool haveOne = false;
-            for (int i = 0; i < container.BranchIndex; i++)
+            for (int i = 0; i < container.BranchingIndex; i++)
             {
                 if (container.CountConnectedBlocks(node, i) == 0)
                 {
-                    SortedDictionary<int, int> array = AmountConnectedSubGraphs(numberNode * container.BranchIndex + i,
+                    SortedDictionary<int, int> array = AmountConnectedSubGraphs(numberNode * container.BranchingIndex + i,
                         level + 1);
 
                     foreach (KeyValuePair<int, int> kvt in array)
@@ -333,10 +333,10 @@ namespace RegularHierarchicModel
 
             if (haveOne)
             {
-                int powPK = Convert.ToInt32(Math.Pow(container.BranchIndex, container.Level - level - 1));
+                int powPK = Convert.ToInt32(Math.Pow(container.BranchingIndex, container.Level - level - 1));
                 EngineForConnectedComp engForConnectedComponent = new EngineForConnectedComp();
                 ArrayList arrConnComp = engForConnectedComponent.GetCountConnSGruph(container.nodeMatrixList(node),
-                    container.BranchIndex);
+                    container.BranchingIndex);
                 for (int i = 0; i < arrConnComp.Count; i++)
                 {
                     int countConnCompi = (int)arrConnComp[i];
@@ -363,12 +363,12 @@ namespace RegularHierarchicModel
             }
             BitArray node = container.TreeNode(level, numberNode);
 
-            int powPK = Convert.ToInt32(Math.Pow(container.BranchIndex,
+            int powPK = Convert.ToInt32(Math.Pow(container.BranchingIndex,
                 container.Level - level - 1));
             EngineForConnectedComp engForConnectedComponent = new EngineForConnectedComp();
             ArrayList arrConnComp =
                 engForConnectedComponent.GetCountConnSGruph(container.nodeMatrixList(node),
-                container.BranchIndex);
+                container.BranchingIndex);
             for (int i = 0; i < arrConnComp.Count; i++)
             {
                 int countConnCompi = (int)arrConnComp[i];
@@ -396,42 +396,42 @@ namespace RegularHierarchicModel
             else
             {
                 double countCycle = 0;
-                double[] countEdge = new double[container.BranchIndex];
+                double[] countEdge = new double[container.BranchingIndex];
                 int countOne = 0;
-                double powPK = Math.Pow(container.BranchIndex, container.Level - level - 1);
+                double powPK = Math.Pow(container.BranchingIndex, container.Level - level - 1);
                 BitArray node = container.TreeNode(level, numberNode);
 
-                for (int i = numberNode * container.BranchIndex; i < container.BranchIndex * (numberNode + 1); i++)
+                for (int i = numberNode * container.BranchingIndex; i < container.BranchingIndex * (numberNode + 1); i++)
                 {
                     SortedDictionary<int, double> arr = new SortedDictionary<int, double>();
                     arr = Count3Cycle(i, level + 1);
-                    countEdge[i - numberNode * container.BranchIndex] = arr[1];
+                    countEdge[i - numberNode * container.BranchingIndex] = arr[1];
                     retArray[0] += arr[0];
                     retArray[1] += arr[1];
                 }
-                for (int i = 0; i < (container.BranchIndex * (container.BranchIndex - 1) / 2); i++)
+                for (int i = 0; i < (container.BranchingIndex * (container.BranchingIndex - 1) / 2); i++)
                 {
                     countOne += (node[i]) ? 1 : 0;
                 }
                 retArray[1] += countOne * powPK * powPK;
 
 
-                for (int i = numberNode * container.BranchIndex; i < container.BranchIndex * (numberNode + 1); i++)
+                for (int i = numberNode * container.BranchingIndex; i < container.BranchingIndex * (numberNode + 1); i++)
                 {
-                    for (int j = (i + 1); j < container.BranchIndex * (numberNode + 1); j++)
+                    for (int j = (i + 1); j < container.BranchingIndex * (numberNode + 1); j++)
                     {
-                        if (container.IsConnectedTwoBlocks(node, i - numberNode * container.BranchIndex,
-                            j - numberNode * container.BranchIndex))
+                        if (container.IsConnectedTwoBlocks(node, i - numberNode * container.BranchingIndex,
+                            j - numberNode * container.BranchingIndex))
                         {
-                            countCycle += (countEdge[i - numberNode * container.BranchIndex] +
-                                countEdge[j - numberNode * container.BranchIndex]) * powPK;
+                            countCycle += (countEdge[i - numberNode * container.BranchingIndex] +
+                                countEdge[j - numberNode * container.BranchingIndex]) * powPK;
 
-                            for (int k = (j + 1); k < container.BranchIndex * (numberNode + 1); k++)
+                            for (int k = (j + 1); k < container.BranchingIndex * (numberNode + 1); k++)
                             {
-                                if (container.IsConnectedTwoBlocks(node, j - numberNode * container.BranchIndex,
-                                    k - numberNode * container.BranchIndex)
-                                    && container.IsConnectedTwoBlocks(node, i - numberNode * container.BranchIndex,
-                                    k - numberNode * container.BranchIndex))
+                                if (container.IsConnectedTwoBlocks(node, j - numberNode * container.BranchingIndex,
+                                    k - numberNode * container.BranchingIndex)
+                                    && container.IsConnectedTwoBlocks(node, i - numberNode * container.BranchingIndex,
+                                    k - numberNode * container.BranchingIndex))
                                     countCycle += powPK * powPK * powPK;
                             }
                         }
@@ -460,7 +460,7 @@ namespace RegularHierarchicModel
             {
                 SortedDictionary<int, SortedDictionary<int, double>> array =
                     new SortedDictionary<int, SortedDictionary<int, double>>();
-                int bIndex = container.BranchIndex;
+                int bIndex = container.BranchingIndex;
 
                 for (int i = nodeNumber * bIndex; i < (nodeNumber + 1) * bIndex; ++i)
                 {
@@ -471,7 +471,7 @@ namespace RegularHierarchicModel
                 }
 
                 BitArray node = container.TreeNode(level, nodeNumber);
-                double powPK = Math.Pow(container.BranchIndex, container.Level - level - 1);
+                double powPK = Math.Pow(container.BranchingIndex, container.Level - level - 1);
 
                 for (int i = nodeNumber * bIndex; i < (nodeNumber + 1) * bIndex; ++i)
                 {
@@ -587,27 +587,27 @@ namespace RegularHierarchicModel
             else
             {
                 int numberNode = container.TreeIndex(vertexNumber, level);
-                int vertexIndex = container.TreeIndex(vertexNumber, level + 1) % container.BranchIndex;
+                int vertexIndex = container.TreeIndex(vertexNumber, level + 1) % container.BranchingIndex;
                 BitArray node = container.TreeNode(level, numberNode);
-                double powPK = Math.Pow(container.BranchIndex, container.Level - level - 1);
+                double powPK = Math.Pow(container.BranchingIndex, container.Level - level - 1);
 
                 SortedDictionary<int, double> previousResult = Count3CycleOfVertex(vertexNumber, level + 1);
                 result[0] += previousResult[0];
                 result[1] += previousResult[1];
 
                 double degree = VertexDegree(vertexNumber, level + 1);
-                for (int j = numberNode * container.BranchIndex; j < container.BranchIndex * (numberNode + 1); ++j)
+                for (int j = numberNode * container.BranchingIndex; j < container.BranchingIndex * (numberNode + 1); ++j)
                 {
-                    if (container.IsConnectedTwoBlocks(node, vertexIndex, j - numberNode * container.BranchIndex))
+                    if (container.IsConnectedTwoBlocks(node, vertexIndex, j - numberNode * container.BranchingIndex))
                     {
-                        result[0] += container.CountEdges(j, level + 1);//- numberNode * container.BranchIndex
+                        result[0] += container.CountEdges(j, level + 1);//- numberNode * container.BranchingIndex
                         result[0] += powPK * degree;
 
-                        for (int k = j + 1; k < container.BranchIndex * (numberNode + 1); ++k)
+                        for (int k = j + 1; k < container.BranchingIndex * (numberNode + 1); ++k)
                         {
-                            if (container.IsConnectedTwoBlocks(node, j - numberNode * container.BranchIndex,
-                                k - numberNode * container.BranchIndex) &&
-                                container.IsConnectedTwoBlocks(node, k - numberNode * container.BranchIndex,
+                            if (container.IsConnectedTwoBlocks(node, j - numberNode * container.BranchingIndex,
+                                k - numberNode * container.BranchingIndex) &&
+                                container.IsConnectedTwoBlocks(node, k - numberNode * container.BranchingIndex,
                                 vertexIndex))
                             {
                                 result[0] += powPK * powPK;
@@ -633,32 +633,32 @@ namespace RegularHierarchicModel
             for (int level = container.Level - 1; level >= 0; level--)
             {
                 //get vertex position in current level
-                long vertNodeNum = Convert.ToInt64(Math.Floor(Convert.ToDouble(vert / container.BranchIndex)));
-                int vertNodeInd = Convert.ToInt32(vert % container.BranchIndex);
+                long vertNodeNum = Convert.ToInt64(Math.Floor(Convert.ToDouble(vert / container.BranchingIndex)));
+                int vertNodeInd = Convert.ToInt32(vert % container.BranchingIndex);
 
                 //get vertex adjacent vertexes in current node
                 List<int> adjIndexes = container.NodeChildAdjacentsArray(level, vertNodeNum, vertNodeInd);
 
-                long levelVertexCount = Convert.ToInt64(Math.Pow(container.BranchIndex, container.Level - level - 1));
+                long levelVertexCount = Convert.ToInt64(Math.Pow(container.BranchingIndex, container.Level - level - 1));
                 //vertex subtree vertexes with adjacent subtrees vertexes
                 long vertexSubTreeWithAdjSubTrees = adjCount * levelVertexCount * adjIndexes.Count;
                 sum += vertexSubTreeWithAdjSubTrees;
                 //add adjacent vertexes count
                 adjCount += levelVertexCount * adjIndexes.Count;
                 //adjacent subtrees weights
-                for (int i = 0; i < container.BranchIndex; i++)
+                for (int i = 0; i < container.BranchingIndex; i++)
                 {
                     if (adjIndexes.IndexOf(i) != -1)
                     {
-                        sum += container.CountEdges(vertNodeNum * container.BranchIndex + i, level + 1);
+                        sum += container.CountEdges(vertNodeNum * container.BranchingIndex + i, level + 1);
                     }
                 }
                 //connectivity of adjacent subtrees
-                for (int i = 0; i < container.BranchIndex; i++)
+                for (int i = 0; i < container.BranchingIndex; i++)
                 {
                     if (adjIndexes.IndexOf(i) != -1)
                     {
-                        for (int j = i; j < container.BranchIndex; j++)
+                        for (int j = i; j < container.BranchingIndex; j++)
                         {
                             if (i != j && i != vertNodeInd && j != vertNodeInd)
                             {
@@ -773,7 +773,7 @@ namespace RegularHierarchicModel
         // Возвращает число циклов данного порядка, с помощью собственных значений.
         public double CalcCyclesCount(int cycleLength)
         {
-            List<double> eigValue = CalcEigenValue(container.TreeVector(), container.BranchIndex);
+            List<double> eigValue = CalcEigenValue(container.TreeVector(), container.BranchingIndex);
 
             double total = 0;
             foreach (int i in eigValue)

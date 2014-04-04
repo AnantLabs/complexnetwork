@@ -12,61 +12,46 @@ using RandomNumberGeneration;
 namespace BAModel
 {
     /// <summary>
-    /// 
+    /// Implementation of generator of random network of Baraba´si-Albert's model.
     /// </summary>
     class BANetworkGenerator : INetworkGenerator
     {
-        // Организация работы с лог файлом.
-        //protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(BAGenerator));
-        
-        // Контейнер, в котором содержится граф конкретной модели (BA).
         private NonHierarchicContainer container;
         private NonHierarchicContainer initialcontainer;
         private int edges;
 
-        // Конструктор по умолчанию, в котором создается пустой контейнер графа.
         public BANetworkGenerator()
         {
             container = new NonHierarchicContainer();
             initialcontainer = new NonHierarchicContainer();
         }
 
-        // Контейнер, в котором содержится сгенерированный граф.
         public INetworkContainer Container
         {
             get { return container; }
             set { container = (NonHierarchicContainer)value; }
         }
 
-        // Случайным образом генерируется граф, на основе параметров генерации.
         public void RandomGeneration(Dictionary<GenerationParameter, object> genParam)
         {
-            //log.Info("Random generation step started.");
-            Int16 numberOfVertices = (Int16)genParam[GenerationParameter.Vertices];
+            UInt16 numberOfVertices = (UInt16)genParam[GenerationParameter.Vertices];
             edges = (Int32)genParam[GenerationParameter.Edges];
             Single probability = (Single)genParam[GenerationParameter.Probability];
-            Int16 stepCount = (Int16)genParam[GenerationParameter.StepCount];
+            UInt16 stepCount = (UInt16)genParam[GenerationParameter.StepCount];
 
             container.Size = numberOfVertices;
             initialcontainer.Size = numberOfVertices;
             Generate(stepCount, probability);
-            //log.Info("Random generation step finished.");
         }
 
-        // Строится граф, на основе матрицы смежности.
         public void StaticGeneration(ArrayList matrix)
         {
-            //log.Info("Static generation started.");
             container.SetMatrix(matrix);
-            //log.Info("Static generation finished.");
         }
 
-        // Закрытая часть класса (не из общего интерфейса).
-
-        // Генератор случайного числа.
         private RNGCrypto rand = new RNGCrypto();
 
-        private void Generate(long stepCount,double probability)
+        private void Generate(long stepCount, double probability)
         {
             GenereateInitialGraph(probability);
             container = initialcontainer;
@@ -82,18 +67,17 @@ namespace BAModel
 
         private void GenereateInitialGraph(double probability)
         {
-            for(int i = 0;i<container.Size;i++)
-                for(int j = i+1;j<container.Size;j++)
+            for(int i = 0; i < container.Size; ++i)
+                for(int j = i + 1; j < container.Size; ++j)
                 {
                     if (rand.NextDouble() < probability)
-                        initialcontainer.AddEdge(i, j);
-
+                        initialcontainer.AddConnection(i, j);
                 }
         }
 
         private bool[] MakeGenerationStep(double[] probabilityArray)
         {
-            Dictionary<int,double> resultDic = new Dictionary<int,double>();
+            Dictionary<int, double> resultDic = new Dictionary<int, double>();
             int count = 0;
             for (int i = 0; i < probabilityArray.Length; ++i)
                 resultDic.Add(i, probabilityArray[i] - rand.NextDouble());
@@ -104,11 +88,13 @@ namespace BAModel
             
             bool[] result = new bool[container.Neighbourship.Count];
             foreach (var item in items)
+            {
                 if (count < edges)
                 {
                     result[item.Key] = true;
                     count++;
                 }
+            }
 
             return result;
         }

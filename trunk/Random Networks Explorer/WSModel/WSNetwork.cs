@@ -10,6 +10,9 @@ using NetworkModel;
 
 namespace WSModel
 {
+    /// <summary>
+    /// Implementation of random network of Watts-Strogatz's model.
+    /// </summary>
     [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrixFile)]
     [RequiredGenerationParameter(GenerationParameter.Vertices)]
     [RequiredGenerationParameter(GenerationParameter.Edges)]

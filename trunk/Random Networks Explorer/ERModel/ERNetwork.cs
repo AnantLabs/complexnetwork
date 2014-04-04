@@ -10,6 +10,9 @@ using NetworkModel;
 
 namespace ERModel
 {
+    /// <summary>
+    /// Implementation of random network of Erdős-Rényi model's model.
+    /// </summary>
     [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrixFile)]
     [RequiredGenerationParameter(GenerationParameter.Vertices)]
     [RequiredGenerationParameter(GenerationParameter.Probability)]

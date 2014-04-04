@@ -10,6 +10,9 @@ using NetworkModel;
 
 namespace BAModel
 {
+    /// <summary>
+    /// Implementation of random network of Baraba´si-Albert's model.
+    /// </summary>
     [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrixFile)]
     [RequiredGenerationParameter(GenerationParameter.Vertices)]
     [RequiredGenerationParameter(GenerationParameter.Edges)]
@@ -20,6 +23,7 @@ namespace BAModel
         AnalyzeOption.AvgPathLength |
         AnalyzeOption.ClusteringCoefficientDistribution |
         AnalyzeOption.ConnectedComponentDistribution |
+        AnalyzeOption.CycleDistribution |
         AnalyzeOption.Cycles3 |
         AnalyzeOption.Cycles4 |
         AnalyzeOption.DegreeDistribution |

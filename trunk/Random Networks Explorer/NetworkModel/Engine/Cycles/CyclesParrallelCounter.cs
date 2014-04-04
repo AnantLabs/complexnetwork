@@ -30,7 +30,7 @@ namespace NetworkModel.Engine.Cycles
         public CyclesParallelCounter(NonHierarchicContainer container)
         {
             _container = container;
-            _verticesCount = _container.Size;
+            _verticesCount = (int)_container.Size;
             _counters = new PivotsCyclesCounter[_verticesCount];
         }
 
@@ -203,7 +203,7 @@ namespace NetworkModel.Engine.Cycles
         private void initialise()
         {
             _cyclesCount = 0;
-            _verticesCount = _container.Size;
+            _verticesCount = (int)_container.Size;
             _marked = new bool[_verticesCount];
             for (int i = 0; i < _verticesCount; ++i)
             {

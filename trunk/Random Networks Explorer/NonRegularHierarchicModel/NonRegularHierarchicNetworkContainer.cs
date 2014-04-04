@@ -9,7 +9,7 @@ namespace NonRegularHierarchicModel
 {
     class NonRegularHierarchicNetworkContainer : AbstractHierarchicContainer
     {
-        public override int Size
+        public override UInt32 Size
         {
             get
             {

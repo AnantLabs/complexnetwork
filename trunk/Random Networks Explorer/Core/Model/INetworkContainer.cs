@@ -14,7 +14,7 @@ namespace Core.Model
         /// <summary>
         /// The size of the graph (number if vertices).
         /// </summary>
-        int Size { get; set; }
+        UInt32 Size { get; set; }
 
         // Строится граф на основе матрицы смежности.
         /// <summary>

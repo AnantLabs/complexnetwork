@@ -13,7 +13,7 @@ namespace NetworkModel
     /// </summary>
     public abstract class AbstractHierarchicContainer : INetworkContainer
     {
-        public abstract int Size { get; set; }
+        public abstract UInt32 Size { get; set; }
 
         public abstract void SetMatrix(ArrayList matrix);
         public abstract bool[,] GetMatrix();
