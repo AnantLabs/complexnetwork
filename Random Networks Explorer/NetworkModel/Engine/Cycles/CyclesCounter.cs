@@ -33,7 +33,7 @@ namespace NetworkModel.Engine.Cycles
         public CyclesCounter(NonHierarchicContainer container)
         {
             _container = container;
-            _verticesCount = _container.Size;
+            _verticesCount = (int)_container.Size;
             _counter = new CyclesParallelCounter(container);
         }
 

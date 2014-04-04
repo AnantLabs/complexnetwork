@@ -12,57 +12,39 @@ using RandomNumberGeneration;
 namespace ERModel
 {
     /// <summary>
-    /// 
+    /// Implementation of generator of random network of Erdős-Rényi's model.
     /// </summary>
     class ERNetworkGenerator : INetworkGenerator
     {
-        // Организация работы с лог файлом.
-        //protected static readonly ILog log = log4net.LogManager.GetLogger(typeof(ERGenerator));
-
-        // Контейнер, в котором содержится граф конкретной модели (ER).
         private NonHierarchicContainer container;
      
-        // Конструктор по умолчанию, в котором создается пустой контейнер графа.
         public ERNetworkGenerator()
         {
             container = new NonHierarchicContainer();
         }
 
-        // Контейнер, в котором содержится сгенерированный граф.
         public INetworkContainer Container
         {
             get { return container; }
             set { container = (NonHierarchicContainer)value; }
         }
 
-        // Случайным образом генерируется граф, на основе параметров генерации.
         public void RandomGeneration(Dictionary<GenerationParameter, object> genParam)
         {
-            //log.Info("Random generation step started.");
-
-            Int16 numberOfVertices = (Int16)genParam[GenerationParameter.Vertices];
+            UInt16 numberOfVertices = (UInt16)genParam[GenerationParameter.Vertices];
             Single probability = (Single)genParam[GenerationParameter.Probability];
             
-            container.Size = numberOfVertices;
-           
+            container.Size = numberOfVertices;           
             FillValuesByProbability(probability);
-            //log.Info("Random generation step finished.");
         }
 
-        // Строится граф, на основе матрицы смежности.
         public void StaticGeneration(ArrayList matrix)
         {
-            //log.Info("Static generation started.");
             container.SetMatrix(matrix);
-            //log.Info("Static generation finished.");
         }
 
-        // Закрытая часть класса (не из общего интерфейса).
-
-        // Генератор случайного числа.
         private RNGCrypto r = new RNGCrypto();
 
-        // Добовляет ребра в граф (контейнер) по данной вероятности.
         private void FillValuesByProbability(double p)
         {            
             for (int i = 0; i < container.Size; ++i)
@@ -72,7 +54,7 @@ namespace ERModel
                     double a = r.NextDouble();
                     if (a < p)
                     {
-                        container.AddEdge(i, j);
+                        container.AddConnection(i, j);
                     }
                 }
             }

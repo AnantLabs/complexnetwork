@@ -37,9 +37,9 @@ namespace RegularHierarchicModel
             UInt16 level = (UInt16)genParam[GenerationParameter.Level];
             Single mu = (Single)genParam[GenerationParameter.Mu];
 
-            container.BranchIndex = branchingIndex;
+            container.BranchingIndex = branchingIndex;
             container.Level = level;
-            container.TreeMatrix = GenerateTree(branchingIndex, level, mu);
+            container.HierarchicMatrix = GenerateTree(branchingIndex, level, mu);
         }
 
         public void StaticGeneration(ArrayList matrix)

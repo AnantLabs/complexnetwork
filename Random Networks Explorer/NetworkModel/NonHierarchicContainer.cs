@@ -9,7 +9,7 @@ using Core.Model;
 namespace NetworkModel
 {
     /// <summary>
-    /// 
+    /// Implementation of non hierarchic network's container.
     /// </summary>
     public class NonHierarchicContainer : INetworkContainer
     {
@@ -23,9 +23,9 @@ namespace NetworkModel
             degrees = new List<int>();
         }
 
-        public int Size
+        public UInt32 Size
         {
-            get { return size; }
+            get { return (UInt32)size; }
             set
             {
                 neighbourship.Clear();
@@ -40,7 +40,7 @@ namespace NetworkModel
                     degrees.Add(0);
                 }
 
-                size = value;
+                size = (int)value;
             }
         }
 
@@ -81,62 +81,84 @@ namespace NetworkModel
             return matrix;
         }
 
-        // Методы не из общего интерфейса.
-
-        // Добавление вершины (не имеющий соседей).
+        /// <summary>
+        /// Adds a new vertex with no connections.
+        /// </summary>
         public void AddVertex()
         {
-            neighbourship.Add(size, new List<int>());
+            neighbourship.Add((int)size, new List<int>());
             ++size;
             degrees.Add(0);
         }
 
-        // Возвращает число соседей данной вершины.
-        public int CountVertexDegree(int i)
+        /// <summary>
+        /// Adds a connection between specified vertices.
+        /// </summary>
+        /// <param name="i">First vertex number.</param>
+        /// <param name="j">Second vertex number.</param>
+        public void AddConnection(int i, int j)
         {
-            return neighbourship[i].Count;
+            if (!AreConnected(i, j))
+            {
+                int ivertexdegree = GetVertexDegree(i);
+                int jvertexdegree = GetVertexDegree(j);
+
+                neighbourship[i].Add(j);
+                neighbourship[j].Add(i);
+
+                --degrees[ivertexdegree];
+                --degrees[jvertexdegree];
+                ++degrees[ivertexdegree + 1];
+                ++degrees[jvertexdegree + 1];
+            }
         }
 
-        // Проверяет являются ли данные вершины соседями (true - если да).
-        public bool AreNeighbours(int i, int j)
+        /// <summary>
+        /// Removes the connection between specified vertices.
+        /// </summary>
+        /// <param name="i">First vertex number.</param>
+        /// <param name="j">Second vertex number.</param>
+        public void RemoveConnection(int i, int j)
+        {
+            if (AreConnected(i, j))
+            {
+                neighbourship[i].Remove(j);
+                neighbourship[j].Remove(i);
+
+                int iVertexDegree = GetVertexDegree(i);
+                int jVertexDegree = GetVertexDegree(j);
+                --degrees[iVertexDegree];
+                --degrees[jVertexDegree];
+                ++degrees[iVertexDegree - 1];
+                ++degrees[jVertexDegree - 1];
+            }
+        }
+
+        public bool AreConnected(int i, int j)
         {
             return neighbourship[i].Contains(j);
         }
 
-        // Возвращает массив вероятностей для данного состояния графа.
-        public double[] CountProbabilities()
+        public int GetVertexDegree(int i)
         {
-            double[] result = new double[this.size];
-
-            double graphDegree = (double)CountGraphDegree();
-            if (graphDegree != 0)
-            {
-                for (int i = 0; i < result.Length; ++i)
-                    result[i] = (double)CountVertexDegree(i) / graphDegree;
-            }
-            else
-            {
-                for (int i = 0; i < result.Length; ++i)
-                    result[i] = (double)1 / result.Length;
-            }
-
-            return result;
+            return neighbourship[i].Count;
         }
 
-        // Обновляет сявзи в графе по сгенерированному вектору.
+        /// <summary>
+        /// Refreshes the neighbourship information.
+        /// </summary>
+        /// <param name="generatedVector">New neighourhip information.</param>
         public void RefreshNeighbourships(bool[] generatedVector)
         {
-            int newVertexDegree = 0, iVertexDegree = 0;
+            int newVertexDegree = 0;
 
             for (int i = 0; i < generatedVector.Length; ++i)
             {
                 if (generatedVector[i])
                 {
                     ++newVertexDegree;
-                    AddEdge(i, size - 1);
-                    iVertexDegree = CountVertexDegree(i);
-                    --degrees[iVertexDegree];
-                    ++degrees[iVertexDegree + 1];
+                    AddConnection(i, size - 1);
+                    // TODO check if code is removed correclty
                 }
             }
 
@@ -144,44 +166,28 @@ namespace NetworkModel
         }
 
         /// <summary>
-        /// Adds an edge connecting given vertices.
+        /// Retrieves probabilities for current state of network.
         /// </summary>
-        /// <param name="i">First vertex number.</param>
-        /// <param name="j">Second vertex number.</param>
-        public void AddEdge(int i, int j)
+        /// <returns>Array of probabilities.</returns>
+        /// <note>For BAModel generation step.</note>
+        public double[] CountProbabilities()
         {
-            int ivertexdegree = CountVertexDegree(i);
-            int jvertexdegree = CountVertexDegree(j);
+            double[] result = new double[this.size];
 
-            neighbourship[i].Add(j);
-            neighbourship[j].Add(i);
+            double graphDegree = (double)CalculateSumOfDegrees();
+            if (graphDegree != 0)
+            {
+                for (int i = 0; i < result.Length; ++i)
+                    result[i] = (double)GetVertexDegree(i) / graphDegree;
+            }
+            else
+            {
+                for (int i = 0; i < result.Length; ++i)
+                    result[i] = 1.0 / result.Length;
+            }
 
-            --degrees[ivertexdegree];
-            --degrees[jvertexdegree];
-            ++degrees[ivertexdegree + 1];
-            ++degrees[jvertexdegree + 1];
+            return result;
         }
-
-        /// <summary>
-        /// Removes the edge, which connects given vertices.
-        /// </summary>
-        /// <param name="i">First vertex number.</param>
-        /// <param name="j">Second vertex number.</param>
-        public void RemoveEdge(int i, int j)
-        {
-            neighbourship[i].Remove(j);
-            neighbourship[j].Remove(i);
-
-            int iVertexDegree = CountVertexDegree(i);
-            int jVertexDegree = CountVertexDegree(j);
-            --degrees[iVertexDegree];
-            --degrees[jVertexDegree];
-            ++degrees[iVertexDegree - 1];
-            ++degrees[jVertexDegree - 1];
-        }
-
-
-        // Utilities
 
         private void SetDataToDictionary(int index, ArrayList neighbourshipOfIVertex)
         {
@@ -191,12 +197,11 @@ namespace NetworkModel
                     neighbourship[index].Add(j);
         }
 
-        // Возвращает суммарное число степеней в графе.
-        private int CountGraphDegree()
+        private int CalculateSumOfDegrees()
         {
             int sum = 0;
             for (int i = 0; i < size; ++i)
-                sum += CountVertexDegree(i);
+                sum += GetVertexDegree(i);
 
             return sum;
         }

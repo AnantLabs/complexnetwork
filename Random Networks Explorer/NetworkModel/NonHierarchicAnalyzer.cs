@@ -12,23 +12,20 @@ using NetworkModel.Engine.Cycles;
 namespace NetworkModel
 {
     /// <summary>
-    /// 
+    /// Implementation of non hierarchic network's analyzer.
     /// </summary>
     public class NonHierarchicAnalyzer : AbstractNetworkAnalyzer
     {
-        // Контейнер, в котором содержится граф конкретной модели (BA).
         private NonHierarchicContainer container;
 
         public NonHierarchicAnalyzer() { }
 
-        // Конструктор, получающий контейнер графа.
         public NonHierarchicAnalyzer(NonHierarchicContainer c)
         {
             container = c;
             Initialization();
         }
 
-        // Контейнер, в котором содержится сгенерированный граф (полученный от генератора).
         public override INetworkContainer Container
         {
             get { return container; }
@@ -182,7 +179,7 @@ namespace NetworkModel
             SortedDictionary<int, double> iclusteringCoefficientList = new SortedDictionary<int, double>();
             for (int i = 0; i < container.Size; ++i)
             {
-                iNeighbourCount = container.CountVertexDegree(i);
+                iNeighbourCount = container.GetVertexDegree(i);
                 if (iNeighbourCount != 0)
                 {
                     iEdgeCountForFullness = (iNeighbourCount == 1) ? 1 : iNeighbourCount * (iNeighbourCount - 1) / 2;
@@ -417,7 +414,7 @@ namespace NetworkModel
             for (int t = 0; t < container.Size; ++t)
                 nodes[t] = new Node();
 
-            BFS(container.Size - 1, nodes);
+            BFS((int)container.Size - 1, nodes);
             avg /= k;
 
             avgPath = avg;
@@ -498,7 +495,7 @@ namespace NetworkModel
                 {
                     t = true;
                     for (int j = 0; j < n2.Count; j++)
-                        if (container.AreNeighbours(n1[i], n2[j]) == false)
+                        if (container.AreConnected(n1[i], n2[j]) == false)
                         {
                             t = false;
                             break;
@@ -556,7 +553,7 @@ namespace NetworkModel
                     {
                         neigboursList2 = container.Neighbourship[neigboursList1[t]];
                         for (int k = 0; k < neigboursList2.Count; k++)
-                            if (container.AreNeighbours(neigboursList2[k], j) && neigboursList2[k] != neigboursList1[t] && neigboursList2[k] != neigboursList[i])
+                            if (container.AreConnected(neigboursList2[k], j) && neigboursList2[k] != neigboursList1[t] && neigboursList2[k] != neigboursList[i])
                                 count++;
                     }
                 }
