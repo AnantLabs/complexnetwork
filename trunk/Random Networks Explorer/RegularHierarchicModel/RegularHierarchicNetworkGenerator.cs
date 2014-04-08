@@ -39,7 +39,7 @@ namespace RegularHierarchicModel
 
             container.BranchingIndex = branchingIndex;
             container.Level = level;
-            container.HierarchicMatrix = GenerateTree(branchingIndex, level, mu);
+            container.HierarchicTree = GenerateTree(branchingIndex, level, mu);
         }
 
         public void StaticGeneration(ArrayList matrix)

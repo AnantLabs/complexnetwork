@@ -15,10 +15,11 @@ namespace RegularHierarchicModel
     /// </summary>
     class RegularHierarchicNetworkContainer : AbstractHierarchicContainer
     {
+        private const int ARRAY_MAX_SIZE = 2000000000;
+
         private UInt32 size = 0;
         private UInt16 branchingIndex = 0;
-        private UInt16 level = 0;
-        private const int ARRAY_MAX_SIZE = 2000000000;
+        private UInt16 level = 0;        
         private BitArray[][] hierarchicTree;
 
         public RegularHierarchicNetworkContainer()
@@ -47,8 +48,9 @@ namespace RegularHierarchicModel
             set { level = value; }
         }
 
-        public BitArray[][] HierarchicMatrix
+        public BitArray[][] HierarchicTree
         {
+            get { return hierarchicTree; }
             set { hierarchicTree = value; }
         }
 
@@ -273,15 +275,16 @@ namespace RegularHierarchicModel
         }
 
         /// <summary>
-        /// Возвращает список матриц смежности узлов.
+        /// Retrieves adjacency lists for specified node's mark (bit sequence).
         /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
-        public Dictionary<int, ArrayList> nodeMatrixList(BitArray node)
+        /// <param name="nodeInformation">The mark of node (bit sequence).</param>
+        /// <returns>Adjacency lists.</returns>
+        public Dictionary<int, ArrayList> NodeAdjacencyLists(BitArray nodeInformation)
         {
             Dictionary<int, ArrayList> matrixList = new Dictionary<int, ArrayList>();
             for (int i = 0; i < branchingIndex; i++)
                 matrixList.Add(i, new ArrayList());
+
             for (int i = 0; i < branchingIndex - 1; i++)
             {
                 int s = i + 1;
@@ -289,7 +292,7 @@ namespace RegularHierarchicModel
                     j < (i + 1) * (branchingIndex - i - 1) + i * (i + 1) / 2; 
                     j++)
                 {
-                    if (node[j] == true)
+                    if (nodeInformation[j] == true)
                     {
                         matrixList[i].Add(s);
                         matrixList[s].Add(i);
@@ -302,28 +305,38 @@ namespace RegularHierarchicModel
         }
 
         /// <summary>
-        /// Возвращает число смежных дочерных узлов данного узла.
+        /// Calculates number of connected nodes (clusters) with specified node.
         /// </summary>
-        /// <param name="level"></param>
-        /// <param name="nodeNumber"></param>
-        /// <returns></returns>
+        /// <param name="currentLevel">Index of level of specified node.</param>
+        /// <note>currentLevel must be in [0, level - 1] range.</note>
+        /// <param name="currentNodeNumber">Index of specified node in currentLevel.</param>
+        /// <note>currentNodeNumber must be in [0, pow(branchingIndex, currentLevel) - 1] range.</note>
+        /// <param name="childNodeNumber">Index of child node.</param>
+        /// <note>childNodeNumber must be in [0, pow(branchingIndex, currentLevel + 1) - 1] range.</note>
+        /// <returns>Number of connected nodes with specified child node.</returns>
         public int NodeChildAdjacentsCount(int currentLevel, 
             long currentNodeNumber, 
-            int childNumber)
+            int childNodeNumber)
         {
-            BitArray tempNode = TreeNode(currentLevel, currentNodeNumber);
+            if (currentLevel < 0 || currentLevel >= level)
+                throw new SystemException("Wrong parameter - currentLevel.");
+            if (currentNodeNumber < 0 || currentNodeNumber >= Math.Pow(branchingIndex, currentLevel))
+                throw new SystemException("Wrong parameter - currentNodeNumber.");
+            if (childNodeNumber < 0 || childNodeNumber >= Math.Pow(branchingIndex, currentLevel + 1))
+                throw new SystemException("Wrong parameter - childNodeNumber.");
 
+            BitArray tempNode = TreeNode(currentLevel, currentNodeNumber);
             int tempCount = 0, j = 0;
 
             //adds values until current child part 
-            for (int i = 1; i <= childNumber; i++)
+            for (int i = 1; i <= childNodeNumber; i++)
             {
-                tempCount += (tempNode[j + childNumber - i] ? 1 : 0);
+                tempCount += (tempNode[j + childNodeNumber - i] ? 1 : 0);
                 j += branchingIndex - i;
             }
 
             //adds child part values
-            int curChildEnd = j + branchingIndex - childNumber - 1;
+            int curChildEnd = j + branchingIndex - childNodeNumber - 1;
             while (j < curChildEnd)
             {
                 tempCount += (tempNode[j] ? 1 : 0);
@@ -334,34 +347,47 @@ namespace RegularHierarchicModel
         }
 
         /// <summary>
-        /// Возвращает список смежных дочерных узлов данного узла.
+        /// Retrieves indices of connected nodes (clusters) with specified node.
         /// </summary>
-        /// <param name="level"></param>
-        /// <param name="nodeNumber"></param>
-        /// <returns></returns>
-        public List<int> NodeChildAdjacentsArray(int level, long nodeNumber, int childNumber)
+        /// <param name="currentLevel">Index of level of specified node.</param>
+        /// <note>currentLevel must be in [0, level - 1] range.</note>
+        /// <param name="currentNodeNumber">Index of specified node in currentLevel.</param>
+        /// <note>currentNodeNumber must be in [0, pow(branchingIndex, currentLevel) - 1] range.</note>
+        /// <param name="childNodeNumber">Index of child node.</param>
+        /// <note>childNodeNumber must be in [0, pow(branchingIndex, currentLevel + 1) - 1] range.</note>
+        /// <returns>List of indices.</returns>
+        public List<int> NodeChildAdjacentsArray(int currentLevel,
+            long currentNodeNumber,
+            int childNodeNumber)
         {
-            BitArray tempNode = TreeNode(level, nodeNumber);
+            if (currentLevel < 0 || currentLevel >= level)
+                throw new SystemException("Wrong parameter - currentLevel.");
+            if (currentNodeNumber < 0 || currentNodeNumber >= Math.Pow(branchingIndex, currentLevel))
+                throw new SystemException("Wrong parameter - currentNodeNumber.");
+            if (childNodeNumber < 0 || childNodeNumber >= Math.Pow(branchingIndex, currentLevel + 1))
+                throw new SystemException("Wrong parameter - childNodeNumber.");
 
+            BitArray tempNode = TreeNode(currentLevel, currentNodeNumber);
             List<int> tempIndexes = new List<int>();
             int j = 0;
             //adds values until current child part 
-            for (int i = 1; i <= childNumber; i++)
+            for (int i = 1; i <= childNodeNumber; i++)
             {
-                if (tempNode[j + childNumber - i])
+                if (tempNode[j + childNodeNumber - i])
                 {
                     tempIndexes.Add(i - 1);
                 }
                 j += branchingIndex - i;
             }
+
             //adds child part values
             int curChildSt = j;
-            int curChildEnd = j + branchingIndex - childNumber - 1;
+            int curChildEnd = j + branchingIndex - childNodeNumber - 1;
             while (j < curChildEnd)
             {
                 if (tempNode[j])
                 {
-                    tempIndexes.Add(j - curChildSt + childNumber + 1);
+                    tempIndexes.Add(j - curChildSt + childNodeNumber + 1);
                 }
                 j++;
             }
@@ -370,32 +396,45 @@ namespace RegularHierarchicModel
         }
 
         /// <summary>
-        /// Возвращает 1, если данные вершины смежны.
+        /// Defines if specified vertices are connected in specified cluster.
         /// </summary>
-        /// <param name="level"></param>
-        /// <param name="nodeNumber"></param>
-        /// <param name="vert1"></param>
-        /// <param name="vert2"></param>
-        /// <returns></returns>
-        public int AreAdjacent(int level, long nodeNumber, int vert1, int vert2)
+        /// <param name="currentLevel">Index of level of specified node.</param>
+        /// <note>currentLevel must be in [0, level - 1] range.</note>
+        /// <param name="currentNodeNumber">Index of specified node in currentLevel.</param>
+        /// <note>currentNodeNumber must be in [0, pow(branchingIndex, currentLevel) - 1] range.</note>
+        /// <param name="v1">Index of first vertex.</param>
+        /// <param name="v2">Index of second vertex.</param>
+        /// <note>Indices of vertices must be in [0, branchingIndex - 1] range.</note>
+        /// <returns>1, if specified vertices are connected. 0 otherwise.</returns>
+        public int AreAdjacent(int currentLevel,
+            long currentNodeNumber, 
+            int v1, 
+            int v2)
         {
-            BitArray tempNode = TreeNode(level, nodeNumber);
+            if (currentLevel < 0 || currentLevel >= level)
+                throw new SystemException("Wrong parameter - currentLevel.");
+            if (currentNodeNumber < 0 || currentNodeNumber >= Math.Pow(branchingIndex, currentLevel))
+                throw new SystemException("Wrong parameter - currentNodeNumber.");
+            if ((v1 < 0 || v1 > branchingIndex - 1) || (v2 < 0 || v2 > branchingIndex - 1))
+                throw new SystemException("Wrong parameter - v1 or v2.");
 
-            if (vert1 > vert2)
+            BitArray tempNode = TreeNode(currentLevel, currentNodeNumber);
+            if (v1 > v2)
             {
-                int temp = vert2;
-                vert2 = vert1;
-                vert1 = temp;
+                int temp = v2;
+                v2 = v1;
+                v1 = temp;
             }
+
             var i = 0;
             var ind = 0;
-            while (i < vert1)
+            while (i < v1)
             {
                 ind += branchingIndex - i - 1;
                 i++;
             }
-            //ind += branchingIndex - vert1 - 1;
-            if (tempNode[ind + vert2 - vert1 - 1])
+
+            if (tempNode[ind + v2 - v1 - 1])
             {
                 return 1;
             }
@@ -403,12 +442,22 @@ namespace RegularHierarchicModel
             return 0;
         }
 
-        // Возвращает число ребер в данном кластере (определяется по l и nodeNumber).
-        // Кластер определяется номером уровня l (из диапазоне [0, k-1])
-        // и номером узла на данном уровне n (из диапазона [0, pow(p,l) - 1]).
-        public double CountEdges(long n, int l)
+        /// <summary>
+        /// Recoursively calculates number of edges in specified cluster.
+        /// </summary>
+        /// <param name="currentLevel">Index of level of specified node.</param>
+        /// <note>currentLevel must be in [0, level] range.</note>
+        /// <param name="currentNodeNumber">Index of specified node in currentLevel.</param>
+        /// <note>currentNodeNumber must be in [0, pow(branchingIndex, currentLevel) - 1] range.</note>
+        /// <returns>Number of edges.</returns>
+        public double CalculateNumberOfEdges(int currentLevel, long currentNodeNumber)
         {
-            if (l == level)
+            if (currentLevel < 0 || currentLevel > level)
+                throw new SystemException("Wrong parameter - currentLevel.");
+            if (currentNodeNumber < 0 || currentNodeNumber >= Math.Pow(branchingIndex, currentLevel))
+                throw new SystemException("Wrong parameter - currentNodeNumber.");
+
+            if (currentLevel == level)
             {
                 return 0;
             }
@@ -416,49 +465,66 @@ namespace RegularHierarchicModel
             {
                 double result = 0;
                 double res = 0;
-                BitArray node = TreeNode(l, n);
+                BitArray node = TreeNode(currentLevel, currentNodeNumber);
 
                 for (int i = 0; i < (branchingIndex * (branchingIndex - 1) / 2); i++)
                 {
                     res += (node[i]) ? 1 : 0;
                 }
-                double t = Math.Pow(branchingIndex, level - l - 1);
+                double t = Math.Pow(branchingIndex, level - currentLevel - 1);
                 result = res * t * t;
 
-                for (long i = n * branchingIndex; i < branchingIndex * (n + 1); ++i)
+                for (long i = currentNodeNumber * branchingIndex; i < branchingIndex * (currentNodeNumber + 1); ++i)
                 {
-                    result += CountEdges(i, l + 1); // - n * branchingIndex
+                    result += CalculateNumberOfEdges(currentLevel + 1, i);
                 }
 
                 return result;
             }
         }
 
-        // Возвращает число связей длиной 2 в данном кластере (определяется по l и nodeNumber). ??
-        public double CountEdges2(int nodeNumber, int l)
+        /// ??
+        /// <summary>
+        /// Recoursively calculates number of 2-length paths in specified cluster.
+        /// </summary>
+        /// <param name="currentLevel">Index of level of specified node.</param>
+        /// <note>currentLevel must be in [0, level] range.</note>
+        /// <param name="currentNodeNumber">Index of specified node in currentLevel.</param>
+        /// <note>currentNodeNumber must be in [0, pow(branchingIndex, currentLevel) - 1] range.</note>
+        /// <returns>Number of edges.</returns>
+        public double CalculateNumberOf2LengthPaths(int currentLevel, int currentNodeNumber)
         {
-            double result = 0;
+            if (currentLevel < 0 || currentLevel > level)
+                throw new SystemException("Wrong parameter - currentLevel.");
+            if (currentNodeNumber < 0 || currentNodeNumber >= Math.Pow(branchingIndex, currentLevel))
+                throw new SystemException("Wrong parameter - currentNodeNumber.");
 
-            if (l < 0 || l == level)
+            double result = 0;
+            if (currentLevel == level)
                 return result;
             else
             {
-                BitArray node = TreeNode(l, nodeNumber);
-                double powPK = Math.Pow(branchingIndex, level - l - 1);
+                BitArray node = TreeNode(currentLevel, currentNodeNumber);
+                double powPK = Math.Pow(branchingIndex, level - currentLevel - 1);
 
-                for (int i = nodeNumber * branchingIndex; i < (nodeNumber + 1) * branchingIndex; ++i)
+                for (int i = currentNodeNumber * branchingIndex; i < (currentNodeNumber + 1) * branchingIndex; ++i)
                 {
-                    result += CountEdges2(i, l + 1);
+                    result += CalculateNumberOf2LengthPaths(currentLevel + 1, i);
 
-                    for (int j = i + 1; j < (nodeNumber + 1) * branchingIndex; ++j)
+                    for (int j = i + 1; j < (currentNodeNumber + 1) * branchingIndex; ++j)
                     {
-                        if (IsConnectedTwoBlocks(node, i - nodeNumber * branchingIndex, j - nodeNumber * branchingIndex))
+                        if (IsConnectedTwoBlocks(node, 
+                            i - currentNodeNumber * branchingIndex, 
+                            j - currentNodeNumber * branchingIndex))
                         {
-                            result += (CountEdges(i, l + 1) + CountEdges(j, l + 1)) * powPK * powPK * powPK;
+                            result += (CalculateNumberOfEdges(currentLevel + 1, i) + 
+                                CalculateNumberOfEdges(currentLevel + 1, j)) * powPK * powPK * powPK;
 
-                            for (int k = j + 1; k < (nodeNumber + 1) * branchingIndex; ++k)
+                            for (int k = j + 1; k < (currentNodeNumber + 1) * branchingIndex; ++k)
                             {
-                                if (IsConnectedTwoBlocks(node, j - nodeNumber * branchingIndex, k - nodeNumber * branchingIndex))
+                                if (IsConnectedTwoBlocks(node, 
+                                    j - currentNodeNumber * branchingIndex, 
+                                    k - currentNodeNumber * branchingIndex))
                                 {
                                     result += powPK * powPK * powPK;
                                 }
@@ -471,8 +537,11 @@ namespace RegularHierarchicModel
             return result;
         }
 
-        // Возвращает число ребер графа.
-        public double CountEdgesAllGraph()
+        /// <summary>
+        /// Calculates number of edges in whole network.
+        /// </summary>
+        /// <returns>Number of edges.</returns>
+        public double CalculateNumberOfEdges()
         {
             int countOne = 0;
             double count = 0;
@@ -491,47 +560,65 @@ namespace RegularHierarchicModel
             return count;
         }
 
-        // Возвращает true, если поддеревья под номерами i и j непосредственно соединены.
-        public bool IsConnectedTwoBlocks(BitArray node, int number1, int number2)
+        /// <summary>
+        /// Defines if specified subtrees are connected in specified nodes's mark.
+        /// </summary>
+        /// <param name="nodeInformation">The mark of node (bit sequence).</param>
+        /// <param name="n1">Index of first subtree.</param>
+        /// <param name="n2">Index of second subtree.</param>
+        /// <note>Indices of subtrees must be in [0, branchingIndex - 1] range.</note>
+        /// <returns>true, if specifed subtrees are connected. false atherwise.</returns>
+        public bool IsConnectedTwoBlocks(BitArray nodeInformation, int n1, int n2)
         {
-            if (number1 == number2)
+            if((n1 < 0 || n1 > branchingIndex - 1) || (n2 < 0 || n2 > branchingIndex - 1))
+                throw new SystemException("Wrong parameter - n1 or n2.");
+
+            if (n1 == n2)
             {
                 return false;
             }
-            // number1 must have min number
-            if (number1 > number2)
+
+            if (n1 > n2)
             {
-                int k = number2;
-                number2 = number1;
-                number1 = k;
+                int k = n2;
+                n2 = n1;
+                n1 = k;
             }
+
             // Get the index of two numberes adjacent value
             int index = 0;
-            for (int k = 1; k <= number1; k++)
+            for (int k = 1; k <= n1; k++)
             {
                 index += branchingIndex - k;
             }
-            index += number2 - number1 - 1;
-            if (node[index])
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            index += n2 - n1 - 1;
+            return nodeInformation[index] ? true : false;
         }
 
-        // Возвращает число непосредственных соединений между всеми поддеревьями данного номера на данном уровне.
-        public int Links(int nodeNumber, int levelNumber)
+        /// <summary>
+        /// Calculates the number of connections between subtrees for specified node.
+        /// </summary>
+        /// <param name="currentLevel">Index of level of specified node.</param>
+        /// <note>currentLevel must be in [0, level] range.</note>
+        /// <param name="currentNodeNumber">Index of specified node in currentLevel.</param>
+        /// <note>currentNodeNumber must be in [0, pow(branchingIndex, currentLevel) - 1] range.</note>
+        /// <returns>Number of connections.</returns>
+        public int Links(int currentLevel, int currentNodeNumber)
         {
+            if (currentLevel < 0 || currentLevel > level)
+                throw new SystemException("Wrong parameter - currentLevel.");
+            if (currentNodeNumber < 0 || currentNodeNumber >= Math.Pow(branchingIndex, currentLevel))
+                throw new SystemException("Wrong parameter - currentNodeNumber.");
+
             int result = 0;
-            BitArray node = TreeNode(levelNumber, nodeNumber);
-            for (int i = branchingIndex * nodeNumber; i < branchingIndex * (nodeNumber + 1) - 1; ++i)
+            BitArray node = TreeNode(currentLevel, currentNodeNumber);
+            for (int i = branchingIndex * currentNodeNumber; i < branchingIndex * (currentNodeNumber + 1) - 1; ++i)
             {
-                for (int j = i + 1; j < branchingIndex * (nodeNumber + 1); ++j)
+                for (int j = i + 1; j < branchingIndex * (currentNodeNumber + 1); ++j)
                 {
-                    if(IsConnectedTwoBlocks(node, i - branchingIndex * nodeNumber, j - branchingIndex * nodeNumber))
+                    if (IsConnectedTwoBlocks(node, 
+                        i - branchingIndex * currentNodeNumber, 
+                        j - branchingIndex * currentNodeNumber))
                         ++result;
                 }
             }
@@ -539,15 +626,31 @@ namespace RegularHierarchicModel
             return result;
         }
 
-        // Возвращает число непосредственных соединений между i и остальными поддеревьями 
-        // данного номера на данном уровне.
-        public int Links(int i, int nodeNumber, int levelNumber)
+        /// <summary>
+        /// Calculates the number of connections between specified subtree with other subtrees 
+        /// for specified node.
+        /// </summary>
+        /// <param name="i">Index of specified subtree.</param>
+        /// <note>Index must be in [0, branchingIndex - 1] range.</note>
+        /// <param name="currentLevel">Index of level of specified node.</param>
+        /// <note>currentLevel must be in [0, level] range.</note>
+        /// <param name="currentNodeNumber">Index of specified node in currentLevel.</param>
+        /// <note>currentNodeNumber must be in [0, pow(branchingIndex, currentLevel) - 1] range.</note>
+        /// <returns>Number of connections.</returns>
+        public int Links(int i, int currentLevel, int currentNodeNumber)
         {
+            if(i < 0 || i > branchingIndex - 1)
+                throw new SystemException("Wrong parameter - i.");
+            if (currentLevel < 0 || currentLevel > level)
+                throw new SystemException("Wrong parameter - currentLevel.");
+            if (currentNodeNumber < 0 || currentNodeNumber >= Math.Pow(branchingIndex, currentLevel))
+                throw new SystemException("Wrong parameter - currentNodeNumber.");
+
             int result = 0;
-            BitArray node = TreeNode(levelNumber, nodeNumber);
-            for (int j = branchingIndex * nodeNumber; j < branchingIndex * (nodeNumber + 1); ++j)
+            BitArray node = TreeNode(currentLevel, currentNodeNumber);
+            for (int j = branchingIndex * currentNodeNumber; j < branchingIndex * (currentNodeNumber + 1); ++j)
             {
-                if (IsConnectedTwoBlocks(node, i, j - branchingIndex * nodeNumber))
+                if (IsConnectedTwoBlocks(node, i, j - branchingIndex * currentNodeNumber))
                     ++result;
             }
 
@@ -560,14 +663,25 @@ namespace RegularHierarchicModel
         /// <param name="node">nodes data</param>
         /// <param name="i">number of the  block</param>
         /// <returns></returns>
-        public int CountConnectedBlocks(BitArray node, int i)
+
+        /// <summary>
+        /// Calculates number of subtrees, which are connected with specified subtree.
+        /// </summary>
+        /// <param name="nodeInformation">The mark of node (bit sequence).</param>
+        /// <param name="subtreeIndex">Index of subtree.</param>
+        /// <note>Index of subtree must be in [0, branchingIndex- 1] range.</note>
+        /// <returns>Number of subtrees.</returns>
+        public int CountConnectedBlocks(BitArray nodeInformation, int subtreeIndex)
         {
-            i++;
+            if (subtreeIndex < 0 || subtreeIndex > branchingIndex - 1)
+                throw new SystemException("Wrong parameter - subtreeIndex.");
+
+            subtreeIndex++;
             int s = 1, sum = 0;
             int findex = 0;
-            while (s < i)
+            while (s < subtreeIndex)
             {
-                sum += Convert.ToInt32(node[findex + i - s - 1]);
+                sum += Convert.ToInt32(nodeInformation[findex + subtreeIndex - s - 1]);
                 findex += branchingIndex - s;
                 s++;
             }
@@ -577,62 +691,53 @@ namespace RegularHierarchicModel
 
             while (s < endindex)
             {
-                sum += Convert.ToInt32(node[s]);
+                sum += Convert.ToInt32(nodeInformation[s]);
                 s++;
             }
 
             return sum;
         }
 
-        // Вычисление факториала данного числа.
-        public double Factorial(double n)
+        /// <summary>
+        /// Recoursively retrieves the index of subtree on specified level, 
+        /// which contains the specified vertex.
+        /// </summary>
+        /// <param name="v">Index of vertex (as leave).</param>
+        /// <note>Index of vertex must be in [0, pow(branchingIndex, level) - 1] range.</note>
+        /// <param name="currentLevel">Index of level.</param>
+        /// <returns>Index of subtree.</returns>
+        public int TreeIndex(int v, int currentLevel)
         {
-            if (n <= 0) return 0;
-            double tempResult = 1;
-            for (int i = 1; i <= n; i++)
-            {
-                tempResult *= i;
-            }
-            return tempResult;
+            if (v < 0 || v > (int)Math.Pow(branchingIndex, level) - 1)
+                throw new SystemException("Wrong parameter - v.");
+
+            if (currentLevel == level)
+                return v;
+            else
+                return TreeIndex(v, currentLevel + 1) / branchingIndex;
         }
 
         /// <summary>
-        /// Возвращает столбец дерева по уровням.
+        /// Calculates the length of shortest path between specified vertices.
         /// </summary>
-        /// <returns></returns>
-        public BitArray TreeVector()
+        /// <param name="v1">Index of first vertex.</param>
+        /// <param name="v2">Index of second vertex.</param>
+        /// <note>Indices of vertices must be in [0, pow(branchingIndex, level) - 1] range.</note>
+        /// <returns>-1, if there is no path between specified vertices.</returns>
+        public int CalculateMinimalPathLength(int v1, int v2)
         {
-            BitArray vector = new BitArray(level);
-
-            for (int i = 0; i < hierarchicTree.Length; i++)
-            {
-                vector[i] = hierarchicTree[i][0][0];
-            }
-
-            return vector;
-        }
-
-        // Возвращает номер дерева данного уровня (levelNumber), 
-        // листом которого является данная вершина (vertexNumber).
-        public int TreeIndex(int vertexNumber, int levelNumber)
-        {
-            if (levelNumber == level)
-                return vertexNumber;
-            else
-                return TreeIndex(vertexNumber, levelNumber + 1) / branchingIndex;
-        }
-
-        public int MinimumWay(int v1, int v2)
-        {
-            int vertex1 = v1, vertex2 = v2;
+            int highBound = (int)Math.Pow(branchingIndex, level) - 1;
+            if ((v1 < 0 || v1 > highBound) || (v2 < 0 || v2 > highBound))
+                throw new SystemException("Wrong parameter - v1 or v2.");
 
             if (v1 == v2)
                 return 0;
             if (v1 > v2)
             {
-                return MinimumWay(v2, v1);
+                return CalculateMinimalPathLength(v2, v1);
             }
-            
+
+            int vertex1 = v1, vertex2 = v2;
             int currentLevel = level - 1;
             // проверка на принадлежение к одному поддереву (для данных вершин)
             // поднимаемся по уровням до того уровна, где они будут принадлежать одному поддереву
@@ -656,7 +761,7 @@ namespace RegularHierarchicModel
             {
                 vertexIndex = TreeIndex(vertex1, tempCurrentLevel - 1);
                 vI = TreeIndex(vertex1, tempCurrentLevel) % branchingIndex;
-                if (Links(vI, vertexIndex, tempCurrentLevel - 1) >= 1)
+                if (Links(vI, tempCurrentLevel - 1, vertexIndex) >= 1)
                     return 2;
 
                 --tempCurrentLevel;
@@ -670,12 +775,21 @@ namespace RegularHierarchicModel
             return -1;
         }
         
-        // Возвращает 1, если данные вершины соединены, и 0 - в обратном случае.
-        // Номера вершин задаются из диапазона [0, pow(p,k) - 1].
+        /// <summary>
+        /// Defines if specified vertices are connected (are neighbours).
+        /// </summary>
+        /// <param name="v1">Index of first vertex.</param>
+        /// <param name="v2">Index of second vertex.</param>
+        /// <note>Indices of vertices must be in [0, pow(branchingIndex, level) - 1] range.</note>
+        /// <returns>1, if specified vertices are connected. 0 otherwise.</returns>
         public int this[int v1, int v2]
         {
             get
             {
+                int highBound = (int)Math.Pow(branchingIndex, level) - 1;
+                if((v1 < 0 || v1 > highBound) || (v2 < 0 || v2 > highBound))
+                    throw new SystemException("Wrong parameter - v1 or v2.");
+
                 if (v1 == v2)
                 {
                     return 0;
@@ -706,11 +820,18 @@ namespace RegularHierarchicModel
             }
         }
 
-        // Возвращает индекс того бита (в соответствующей битовой последовательности), 
-        // который определяет связность данных узлов.
-        // Номера узлов задаются из диапазона [0, p-1]. 
+        /// <summary>
+        /// Retrieves information about connectness (neighbourship) of specified vertices.
+        /// </summary>
+        /// <param name="v1">Index of first vertex.</param>
+        /// <param name="v2">Index of second vertex.</param>
+        /// <note>Indices of vertices must be in [0, branchingIndex - 1] range.</note>
+        /// <returns>Index of a bit, which defines connectness of specified vertices.</returns>
         public int AdjacentIndex(int v1, int v2)
         {
+            if ((v1 < 0 || v1 > branchingIndex - 1) || (v2 < 0 || v2 > branchingIndex - 1))
+                throw new SystemException("Wrong parameter - v1 or v2.");
+
             if (v1 == v2)
             {
                 return 0;
