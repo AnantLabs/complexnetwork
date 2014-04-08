@@ -184,7 +184,7 @@ namespace RegularHierarchicModel
             {
                 for (int j = i + 1; j < container.Size; ++j)
                 {
-                    int way = container.MinimumWay(i, j);
+                    int way = container.CalculateMinimalPathLength(i, j);
                     if (way == -1)
                         continue;
                     if (pathDistribution.ContainsKey(way))
@@ -214,7 +214,7 @@ namespace RegularHierarchicModel
                 vertexIndex = container.TreeIndex(vertexNumber, i + 1) % container.BranchingIndex;
                 nodeNumber = container.TreeIndex(vertexNumber, i);
                 BitArray node = container.TreeNode(i, nodeNumber);
-                result += container.Links(vertexIndex, nodeNumber, i) *
+                result += container.Links(vertexIndex, i, nodeNumber) *
                     Math.Pow(container.BranchingIndex, container.Level - i - 1);
             }
 
@@ -335,7 +335,7 @@ namespace RegularHierarchicModel
             {
                 int powPK = Convert.ToInt32(Math.Pow(container.BranchingIndex, container.Level - level - 1));
                 EngineForConnectedComp engForConnectedComponent = new EngineForConnectedComp();
-                ArrayList arrConnComp = engForConnectedComponent.GetCountConnSGruph(container.nodeMatrixList(node),
+                ArrayList arrConnComp = engForConnectedComponent.GetCountConnSGruph(container.NodeAdjacencyLists(node),
                     container.BranchingIndex);
                 for (int i = 0; i < arrConnComp.Count; i++)
                 {
@@ -367,7 +367,7 @@ namespace RegularHierarchicModel
                 container.Level - level - 1));
             EngineForConnectedComp engForConnectedComponent = new EngineForConnectedComp();
             ArrayList arrConnComp =
-                engForConnectedComponent.GetCountConnSGruph(container.nodeMatrixList(node),
+                engForConnectedComponent.GetCountConnSGruph(container.NodeAdjacencyLists(node),
                 container.BranchingIndex);
             for (int i = 0; i < arrConnComp.Count; i++)
             {
@@ -600,7 +600,7 @@ namespace RegularHierarchicModel
                 {
                     if (container.IsConnectedTwoBlocks(node, vertexIndex, j - numberNode * container.BranchingIndex))
                     {
-                        result[0] += container.CountEdges(j, level + 1);//- numberNode * container.BranchingIndex
+                        result[0] += container.CalculateNumberOfEdges(level + 1, j);//- numberNode * container.BranchingIndex
                         result[0] += powPK * degree;
 
                         for (int k = j + 1; k < container.BranchingIndex * (numberNode + 1); ++k)
@@ -650,7 +650,8 @@ namespace RegularHierarchicModel
                 {
                     if (adjIndexes.IndexOf(i) != -1)
                     {
-                        sum += container.CountEdges(vertNodeNum * container.BranchingIndex + i, level + 1);
+                        sum += container.CalculateNumberOfEdges(level + 1, 
+                            vertNodeNum * container.BranchingIndex + i);
                     }
                 }
                 //connectivity of adjacent subtrees
@@ -773,7 +774,14 @@ namespace RegularHierarchicModel
         // Возвращает число циклов данного порядка, с помощью собственных значений.
         public double CalcCyclesCount(int cycleLength)
         {
-            List<double> eigValue = CalcEigenValue(container.TreeVector(), container.BranchingIndex);
+            BitArray vector = new BitArray(container.Level);
+
+            for (int i = 0; i < container.HierarchicTree.Length; i++)
+            {
+                vector[i] = container.HierarchicTree[i][0][0];
+            }
+
+            List<double> eigValue = CalcEigenValue(vector, container.BranchingIndex);
 
             double total = 0;
             foreach (int i in eigValue)
@@ -786,7 +794,7 @@ namespace RegularHierarchicModel
         // Возвращает среднее степеней. Не используется.
         public double AverageDegree()
         {
-            return container.CountEdgesAllGraph() * 2 / container.Size;
+            return container.CalculateNumberOfEdges() * 2 / container.Size;
         }
 
         // Возвращает сумму минимальных путей. Не используется.
