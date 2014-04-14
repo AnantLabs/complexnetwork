@@ -609,6 +609,33 @@ namespace Model.NonRegularHierarchicModel.Realization
             return result;
         }
 
+        // Возвращает число ребер графа.
+        public double CountEdgesAllGraph()
+        {
+            double count = 0;
+            for (int i = 0; i < Level; ++i)
+            {
+                for (int j = 0; j < branches[i].Length; ++j)
+                {
+                    int branchSize = branches[i][j];
+                    BitArray node = TreeNode(i, j);
+                    int StartPoint = FindBranches(i, j);
+                    for (int k = 0; k < branches[i][j]; ++k)
+                    {
+                        for (int h = k + 1; h < branches[i][j]; ++h)
+                        {
+                            if (AreConnectedTwoBlocks(node, branchSize, k, h))
+                            {
+                                count += CountLeaves(i + 1, k + StartPoint) * CountLeaves(i + 1, h + StartPoint);
+                            } 
+                        }
+                    }
+                }
+            }
+
+            return count;
+        }
+
         /*
         // Методы не из общего интерфейса.   
 

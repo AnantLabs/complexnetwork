@@ -72,6 +72,12 @@ namespace Model.NonRegularHierarchicModel.Realization
             return (long)container.Get4CirclesCount();*/
         }
 
+        // Возвращает среднее степеней. Не используется.
+        public double GetAverageDegree()
+        {
+            return container.CountEdgesAllGraph() * 2 / container.Size;
+        }
+
         // Возвращается степенное распределение графа. Реализовано.
         public override SortedDictionary<int, int> GetDegreeDistribution()
         {
