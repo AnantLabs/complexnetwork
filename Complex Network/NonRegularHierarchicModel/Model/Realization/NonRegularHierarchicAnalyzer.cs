@@ -59,9 +59,8 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Возвращается число циклов длиной 3 в графе. Реализовано.
         public override long GetCycles3()
         {
-            throw new NotImplementedException();
-            /*log.Info("Getting count of cycles - order 3.");
-            return (long)(container.Get3CirclesCount());*/
+            log.Info("Getting count of cycles - order 3.");
+            return (long)Count3Cycle(0, 0);
         }
 
         // Возвращается число циклов длиной 4 в графе. Реализовано.
@@ -75,7 +74,7 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Возвращает среднее степеней. Не используется.
         public double GetAverageDegree()
         {
-            return container.CountEdgesAllGraph() * 2 / container.Size;
+            return (double)container.CountEdges(0, 0) * 2 / container.Size;
         }
 
         // Возвращается степенное распределение графа. Реализовано.
@@ -213,6 +212,50 @@ namespace Model.NonRegularHierarchicModel.Realization
 
             this.avgPath = avgPath / countOfWays;
             this.diameter = diameter;
+        }
+
+        // Возвращает число циклов порядка 3 в нулевом элементе SortedDictionary<int, double>.
+        // Число циклов вычисляется в данном узле данного уровня.
+        private int Count3Cycle(int level, int numberNode)
+        {
+            if (level == container.Level)
+            {
+                return 0;
+            }
+            else
+            {
+                int countCycle = 0;
+                int branchSize = container.Branches[level][numberNode];
+                int branchStart = container.FindBranches(level, numberNode);
+                BitArray node = container.TreeNode(level, numberNode);
+
+                for (int i = 0; i < branchSize; ++i)
+                {
+                    countCycle += Count3Cycle(level + 1, i + branchStart);
+                    for (int j = i + 1; j < branchSize; ++j)
+                    {
+                        if (container.AreConnectedTwoBlocks(node, branchSize, i, j))
+                        {
+                            countCycle += container.CountLeaves(level + 1, i + branchStart) *
+                                container.CountEdges(level + 1, j + branchStart) +
+                                container.CountLeaves(level + 1, j + branchStart) *
+                                container.CountEdges(level + 1, i + branchStart);
+
+                            for (int k = j + 1; k < branchSize; ++k)
+                            {
+                                if (container.AreConnectedTwoBlocks(node, branchSize, i, k)
+                                    && container.AreConnectedTwoBlocks(node, branchSize, j, k))
+                                {
+                                    countCycle += container.CountLeaves(level + 1, i + branchStart) *
+                                        container.CountLeaves(level + 1, j + branchStart) *
+                                        container.CountLeaves(level + 1, k + branchStart);
+                                }
+                            }
+                        }
+                    }
+                }
+                return countCycle;
+            }
         }
     }
 }

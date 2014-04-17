@@ -609,30 +609,33 @@ namespace Model.NonRegularHierarchicModel.Realization
             return result;
         }
 
-        // Возвращает число ребер графа.
-        public double CountEdgesAllGraph()
+        // Возвращает число ребер  дерево данного уровня и номера.
+        public int CountEdges(int currentLevel, int numberNode)
         {
-            double count = 0;
-            for (int i = 0; i < Level; ++i)
+            if (currentLevel < 0 || currentLevel > level)
+                throw new SystemException("Wrong parameter (number of level).");
+
+            if (currentLevel == level)
             {
-                for (int j = 0; j < branches[i].Length; ++j)
+                return 0;
+            }
+
+            int count = 0;
+            int branchSize = branches[currentLevel][numberNode];
+            BitArray node = TreeNode(currentLevel, numberNode);
+            int StartPoint = FindBranches(currentLevel, numberNode);
+            for (int i = 0; i < branchSize; ++i)
+            {
+                count += CountEdges(currentLevel + 1, i + StartPoint);
+                for (int j = i + 1; j < branchSize; ++j)
                 {
-                    int branchSize = branches[i][j];
-                    BitArray node = TreeNode(i, j);
-                    int StartPoint = FindBranches(i, j);
-                    for (int k = 0; k < branches[i][j]; ++k)
+                    if (AreConnectedTwoBlocks(node, branchSize, i, j))
                     {
-                        for (int h = k + 1; h < branches[i][j]; ++h)
-                        {
-                            if (AreConnectedTwoBlocks(node, branchSize, k, h))
-                            {
-                                count += CountLeaves(i + 1, k + StartPoint) * CountLeaves(i + 1, h + StartPoint);
-                            } 
-                        }
+                        count += CountLeaves(currentLevel + 1, i + StartPoint) * 
+                            CountLeaves(currentLevel + 1, j + StartPoint);
                     }
                 }
             }
-
             return count;
         }
 
