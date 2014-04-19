@@ -60,7 +60,7 @@ namespace Model.NonRegularHierarchicModel.Realization
         public override long GetCycles3()
         {
             log.Info("Getting count of cycles - order 3.");
-            return (long)Count3Cycle(0, 0);
+            return (long)Count3Cycle(0, 0)[0];
         }
 
         // Возвращается число циклов длиной 4 в графе. Реализовано.
@@ -216,46 +216,70 @@ namespace Model.NonRegularHierarchicModel.Realization
 
         // Возвращает число циклов порядка 3 в нулевом элементе SortedDictionary<int, double>.
         // Число циклов вычисляется в данном узле данного уровня.
-        private int Count3Cycle(int level, int numberNode)
+        private SortedDictionary<int, double> Count3Cycle(int level, int numberNode)
         {
+            SortedDictionary<int, double> retArray = new SortedDictionary<int, double>();
+            retArray[0] = 0; // count cycles
+            retArray[1] = 0; // count edges
+            retArray[2] = 0; // count leaves
+
             if (level == container.Level)
             {
-                return 0;
+                retArray[2] = 1;
+                return retArray;
             }
             else
             {
-                int countCycle = 0;
                 int branchSize = container.Branches[level][numberNode];
                 int branchStart = container.FindBranches(level, numberNode);
                 BitArray node = container.TreeNode(level, numberNode);
+                double[] countEdge = new double[branchSize];
+                double[] countLeaves = new double[branchSize];
 
                 for (int i = 0; i < branchSize; ++i)
                 {
-                    countCycle += Count3Cycle(level + 1, i + branchStart);
+                    SortedDictionary<int, double> arr = new SortedDictionary<int, double>();
+                    arr = Count3Cycle(level + 1, i + branchStart);
+                    countEdge[i] = arr[1];
+                    countLeaves[i] = arr[2];
+                    retArray[0] += arr[0];
+                    retArray[1] += arr[1];
+                    retArray[2] += arr[2];
+                }
+                for (int i = 0; i < branchSize; ++i)
+                {
                     for (int j = i + 1; j < branchSize; ++j)
                     {
                         if (container.AreConnectedTwoBlocks(node, branchSize, i, j))
                         {
-                            countCycle += container.CountLeaves(level + 1, i + branchStart) *
-                                container.CountEdges(level + 1, j + branchStart) +
-                                container.CountLeaves(level + 1, j + branchStart) *
-                                container.CountEdges(level + 1, i + branchStart);
+                            retArray[1] += countLeaves[i] * countLeaves[j];
+                        }
+                    }
+                }
+
+                for (int i = 0; i < branchSize; ++i)
+                {
+                    for (int j = i + 1; j < branchSize; ++j)
+                    {
+                        if (container.AreConnectedTwoBlocks(node, branchSize, i, j))
+                        {
+                            retArray[0] += countLeaves[i] * countEdge[j] +
+                                countLeaves[j] * countEdge[i];
 
                             for (int k = j + 1; k < branchSize; ++k)
                             {
                                 if (container.AreConnectedTwoBlocks(node, branchSize, i, k)
                                     && container.AreConnectedTwoBlocks(node, branchSize, j, k))
                                 {
-                                    countCycle += container.CountLeaves(level + 1, i + branchStart) *
-                                        container.CountLeaves(level + 1, j + branchStart) *
-                                        container.CountLeaves(level + 1, k + branchStart);
+                                    retArray[0] += countLeaves[i] * countLeaves[j] * countLeaves[k];
                                 }
                             }
                         }
                     }
                 }
-                return countCycle;
+                return retArray;
             }
         }
+        
     }
 }
