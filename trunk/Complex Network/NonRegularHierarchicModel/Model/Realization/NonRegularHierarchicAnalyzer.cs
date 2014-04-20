@@ -142,20 +142,19 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Возвращает распределение триугольников, прикрепленных к вершине.
         public override SortedDictionary<int, int> GetTrianglesDistribution()
         {
-            throw new NotImplementedException();
-            /*log.Info("Getting triangles distribution.");
-            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
+            log.Info("Getting triangles distribution.");
 
-            for (uint i = 0; i < container.Size; ++i)
+            SortedDictionary<int, int> result = new SortedDictionary<int, int>();
+            for (int i = 0; i < container.Size; ++i)
             {
-                int triangleCountOfVertex = (int)container.Get3CirclesCountWithVertex(i);
+                int triangleCountOfVertex = (int)Count3CycleOfVertex(i, 0)[0];
                 if (result.Keys.Contains(triangleCountOfVertex))
                     ++result[triangleCountOfVertex];
                 else
                     result.Add(triangleCountOfVertex, 1);
             }
 
-            return result;*/
+            return result;
         }
 
         // Возвращается распределение коэффициентов кластеризации графа. Реализовано.
@@ -280,6 +279,87 @@ namespace Model.NonRegularHierarchicModel.Realization
                 return retArray;
             }
         }
-        
+
+        // Возвращает число циклов порядка 3 прикрепленных к данному узлу 
+        // в нулевом элементе SortedDictionary<int, double>.
+        // Число циклов вычисляется в данном узле данного уровня.
+        private SortedDictionary<int, double> Count3CycleOfVertex(int vertexNumber, int level)
+        {
+            SortedDictionary<int, double> result = new SortedDictionary<int, double>();
+            result[0] = 0;  // число циклов 3 прикрепленных к данному узлу
+            result[1] = 0;  // степень узла в данном подграфе
+            result[2] = 0;  // индекс узла в данном подграфе
+
+            if (level == container.Level)
+            {
+                result[2] = vertexNumber;
+                return result;
+            }
+            else
+            {
+                SortedDictionary<int, double> previousResult = Count3CycleOfVertex(vertexNumber, level + 1);
+                int vertexIndex = (int)previousResult[2];
+                int numberNode = container.TreeIndexStep(vertexIndex, level);
+                int branchStart = container.FindBranches(level, numberNode);
+                int branchSize = container.Branches[level][numberNode];
+                int currentVertexIndex = vertexIndex - branchStart;
+                BitArray node = container.TreeNode(level, numberNode);
+
+                result[0] += previousResult[0];
+                result[1] += previousResult[1];
+                result[2] = numberNode;
+                double degree = previousResult[1];
+                for (int i = 0; i < branchSize; ++i)
+                {
+                    if (container.AreConnectedTwoBlocks(node, branchSize, currentVertexIndex, i))
+                    {
+                        result[1] += container.CountLeaves(level + 1, i + branchStart);
+                        result[0] += container.CountEdges(level + 1, i + branchStart);
+                        result[0] += container.CountLeaves(level + 1, i + branchStart) * degree;
+                        for (int j = i + 1; j < branchSize; ++j)
+                        {
+                            if (container.AreConnectedTwoBlocks(node, branchSize, i, j) &&
+                                container.AreConnectedTwoBlocks(node, branchSize, j, currentVertexIndex))
+                            {
+                                result[0] += container.CountLeaves(level + 1, i + branchStart) *
+                                    container.CountLeaves(level + 1, j + branchStart);
+                            }
+                        }
+                    }
+                } 
+
+                return result;
+            }
+        }
+
+        // Возвращает степень данного узла на данном уровне (в соответствующем кластере).
+        private double VertexDegree(int vertexNumber, int level)
+        {
+            if (level == container.Level)
+            {
+                return 0;
+            }
+            else
+            {
+                double result = 0;
+                int nodeNumber = container.TreeIndex(vertexNumber, level);
+                int branchStart = container.FindBranches(level, nodeNumber);
+                int branchSize = container.Branches[level][nodeNumber];
+                int vertexIndex = container.TreeIndex(vertexNumber, level + 1) - branchStart;
+                BitArray node = container.TreeNode(level, nodeNumber);
+                for (int i = 0; i < branchSize; ++i)
+                {
+                    if (i != vertexIndex)
+                    {
+                        if (container.AreConnectedTwoBlocks(node, branchSize, i, vertexIndex))
+                        {
+                            result += container.CountLeaves(level + 1, i + branchStart);
+                        }
+                    }
+                }
+
+                return result + VertexDegree(vertexNumber, level + 1);
+            }
+        }
     }
 }
