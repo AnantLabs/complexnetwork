@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 using RandomGraph.Common.Model;
 using RandomGraph.Common.Model.Generation;
@@ -108,12 +109,64 @@ namespace Percolations
             ResultResearch result = new ResultResearch();
             result.Name = this.jobName;
             result.ModelType = typeof(ERModel);
-            result.Delta = Double.Parse(this.deltaExtendedTxt.Text);
-            result.RealizationCount = (Int32)this.realizationCountNum.Value;
-            result.GenerationParams[GenerationParam.Vertices] = Int32.Parse(this.networkSizeTxt.Text);
-            result.Size = Int32.Parse(this.networkSizeTxt.Text);
 
-            result.Result.Add(1, AnalyzeExtendedER());
+            // TODO remove hardcoded data
+            result.Delta = 0.00001;
+            result.RealizationCount = 100;
+            result.GenerationParams[GenerationParam.Vertices] = 65536;
+            SortedDictionary<double, SubGraphsInfo> pInfo = 
+                new SortedDictionary<double, SubGraphsInfo>();
+
+            this.folderBrowserDialog1.ShowDialog();
+            string dirName = this.folderBrowserDialog1.SelectedPath;
+
+            DirectoryInfo parentDir = new DirectoryInfo(dirName);
+            foreach (FileInfo f in parentDir.GetFiles())
+            {
+                double p = Double.Parse(f.Name.Remove(f.Name.Length - 4));
+                SubGraphsInfo value = new SubGraphsInfo();
+
+                SortedDictionary<int, double> r = new SortedDictionary<int, double>();
+                using (StreamReader streamReader = new StreamReader(f.FullName, System.Text.Encoding.Default))
+                {
+                    string contents;
+
+                    while ((contents = streamReader.ReadLine()) != null)
+                    {
+                        string first = "", second = "";
+                        int j = 0;
+                        while (contents[j] != ' ')
+                        {
+                            first += contents[j];
+                            ++j;
+                        }
+
+                        second = contents.Substring(j);
+
+                        r.Add(int.Parse(first), double.Parse(second));
+                    }
+                }
+
+                value.avgOrder = r.First().Value;
+                value.avgOrderCount = r.First().Key;
+
+                if (r.Count > 1)
+                {
+                    r.Remove(r.First().Key);
+                    value.secondMax = r.First().Value;
+                    value.secondMaxCount = r.First().Key;
+                }
+
+                if (r.Count > 2)
+                {
+                    r.Remove(r.First().Key);
+                    value.avgOrderRest = r.Average(x => x.Value);
+                }
+
+                pInfo.Add(p, value);
+            }
+
+            result.Result.Add(1, pInfo);
 
             XMLResultStorage storage = new XMLResultStorage(Options.StorageDirectory);
             storage.SaveResearch(result);
@@ -492,7 +545,7 @@ namespace Percolations
             return result;
         }
 
-        private SortedDictionary<double, SubGraphsInfo> AnalyzeExtendedER()
+        /*private SortedDictionary<double, SubGraphsInfo> AnalyzeExtendedER()
         {
             SortedDictionary<double, SubGraphsInfo> result = new SortedDictionary<double, SubGraphsInfo>();
 
@@ -529,7 +582,7 @@ namespace Percolations
             }
 
             return result;
-        }
+        }*/
 
         private SortedDictionary<double, double> AnalyzeSublevelsHierarchic(double mu)
         {

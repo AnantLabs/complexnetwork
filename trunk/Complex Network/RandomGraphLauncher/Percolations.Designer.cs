@@ -56,6 +56,7 @@
             this.startHierarchic = new System.Windows.Forms.Button();
             this.startAvgHierarchic = new System.Windows.Forms.Button();
             this.startGlobal = new System.Windows.Forms.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.realizationCountNum)).BeginInit();
             this.SuspendLayout();
             // 
@@ -439,6 +440,7 @@
         private System.Windows.Forms.Button startHierarchic;
         private System.Windows.Forms.Button startAvgHierarchic;
         private System.Windows.Forms.Button startGlobal;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }
 
