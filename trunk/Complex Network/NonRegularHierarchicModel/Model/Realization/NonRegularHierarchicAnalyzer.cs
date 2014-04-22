@@ -66,9 +66,8 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Возвращается число циклов длиной 4 в графе. Реализовано.
         public override long GetCycles4()
         {
-            throw new NotImplementedException();
-            /*log.Info("Getting count of cycles - order 4.");
-            return (long)container.Get4CirclesCount();*/
+            log.Info("Getting count of cycles - order 4.");
+            return (long)Count4Cycle(0, 0)[0];
         }
 
         // Возвращает среднее степеней. Не используется.
@@ -245,16 +244,6 @@ namespace Model.NonRegularHierarchicModel.Realization
                     retArray[1] += arr[1];
                     retArray[2] += arr[2];
                 }
-                for (int i = 0; i < branchSize; ++i)
-                {
-                    for (int j = i + 1; j < branchSize; ++j)
-                    {
-                        if (container.AreConnectedTwoBlocks(node, branchSize, i, j))
-                        {
-                            retArray[1] += countLeaves[i] * countLeaves[j];
-                        }
-                    }
-                }
 
                 for (int i = 0; i < branchSize; ++i)
                 {
@@ -264,6 +253,8 @@ namespace Model.NonRegularHierarchicModel.Realization
                         {
                             retArray[0] += countLeaves[i] * countEdge[j] +
                                 countLeaves[j] * countEdge[i];
+
+                            retArray[1] += countLeaves[i] * countLeaves[j];
 
                             for (int k = j + 1; k < branchSize; ++k)
                             {
@@ -276,6 +267,142 @@ namespace Model.NonRegularHierarchicModel.Realization
                         }
                     }
                 }
+                return retArray;
+            }
+        }
+
+        // Возвращает число циклов порядка 4 в нулевом элементе SortedDictionary<int, double>.
+        // Число циклов вычисляется в данном узле данного уровня.
+        private SortedDictionary<int, double> Count4Cycle(int level, int nodeNumber)
+        {
+            SortedDictionary<int, double> retArray = new SortedDictionary<int, double>();
+            retArray[0] = 0; // число циклов порядка 4
+            retArray[1] = 0; // число путей длиной 1 (ребер)
+            retArray[2] = 0; // число путей длиной 2
+            retArray[3] = 0; // count leaves
+
+            if (level == container.Level)
+            {
+                retArray[3] = 1;
+                return retArray;
+            }
+            else
+            {
+                SortedDictionary<int, double> array = new SortedDictionary<int, double>();
+
+                int branchSize = container.Branches[level][nodeNumber];
+                int branchStart = container.FindBranches(level, nodeNumber);
+                BitArray node = container.TreeNode(level, nodeNumber);
+
+                double[] countEdge = new double[branchSize];
+                double[] countLeaves = new double[branchSize];
+                double[] countDoubleEdge = new double[branchSize];
+
+                for (int i = 0; i < branchSize; ++i)
+                {
+                    array = Count4Cycle(level + 1, i + branchStart);
+                    retArray[0] += array[0];
+                    retArray[1] += array[1];
+                    retArray[2] += array[2];
+                    retArray[3] += array[3];
+                    countEdge[i] = array[1];
+                    countDoubleEdge[i] = array[2];
+                    countLeaves[i] = array[3];
+                }
+
+                for (int i = 0; i < branchSize; ++i)
+                {
+                    for (int j = i + 1; j < branchSize; ++j)
+                    {
+                        if (container.AreConnectedTwoBlocks(node, branchSize, i, j))
+                        {
+                            retArray[0] += countDoubleEdge[i] * countLeaves[j] 
+                                + countDoubleEdge[j] * countLeaves[i];
+                            retArray[0] += 2 * countEdge[i] * countEdge[j];
+
+                            retArray[0] += countLeaves[i] * (countLeaves[i] - 1) *
+                                countLeaves[j] * (countLeaves[j] - 1) / 4;
+
+                            retArray[1] += countLeaves[i] * countLeaves[j];
+
+                            retArray[2] += 2 * (countEdge[i] * countLeaves[j] +
+                                countEdge[j] * countLeaves[i]);
+                            retArray[2] += (countLeaves[i] * (countLeaves[i] - 1) * countLeaves[j] +
+                                countLeaves[j] * (countLeaves[j] - 1) * countLeaves[i]) / 2;
+                        }
+
+                        for (int k = j + 1; k < branchSize; ++k)
+                        {
+                            int countDouble = 0;
+                            if (container.AreConnectedTwoBlocks(node, branchSize, i, j) &&
+                                container.AreConnectedTwoBlocks(node, branchSize, j, k) &&
+                                container.AreConnectedTwoBlocks(node, branchSize, i, k))
+                            {
+                                retArray[0] += 2 * (countEdge[i] * countLeaves[j] * countLeaves[k] +
+                                    countEdge[j] * countLeaves[i] * countLeaves[k] +
+                                    countEdge[k] * countLeaves[i] * countLeaves[j]);
+                            }
+
+                            if (container.AreConnectedTwoBlocks(node, branchSize, i, j) &&
+                                container.AreConnectedTwoBlocks(node, branchSize, j, k))
+                            {
+                                retArray[0] += countLeaves[i] * countLeaves[k] * 
+                                    (countLeaves[j] * (countLeaves[j] - 1) / 2);
+
+                                ++countDouble;
+                            }
+
+                            if (container.AreConnectedTwoBlocks(node, branchSize, i, k) &&
+                                container.AreConnectedTwoBlocks(node, branchSize, j, k))
+                            {
+                                retArray[0] += countLeaves[i] * countLeaves[j] *
+                                    (countLeaves[k] * (countLeaves[k] - 1) / 2);
+
+                                ++countDouble;
+                            }
+
+                            if (container.AreConnectedTwoBlocks(node, branchSize, i, j) &&
+                                container.AreConnectedTwoBlocks(node, branchSize, i, k))
+                            {
+                                retArray[0] += countLeaves[j] * countLeaves[k] *
+                                    (countLeaves[i] * (countLeaves[i] - 1) / 2);
+
+                                ++countDouble;                                
+                            }
+
+                            retArray[2] += countDouble * countLeaves[i] * countLeaves[j] * countLeaves[k];
+
+                            for (int l = k + 1; l < branchSize; ++l)
+                            {
+                                int count4clusters = 0;
+                                if (container.AreConnectedTwoBlocks(node, branchSize, i, j) &&
+                                    container.AreConnectedTwoBlocks(node, branchSize, j, k) &&
+                                    container.AreConnectedTwoBlocks(node, branchSize, k, l) &&
+                                    container.AreConnectedTwoBlocks(node, branchSize, i, l))
+                                {
+                                    ++count4clusters;
+                                }
+                                if (container.AreConnectedTwoBlocks(node, branchSize, i, j) &&
+                                    container.AreConnectedTwoBlocks(node, branchSize, j, l) &&
+                                    container.AreConnectedTwoBlocks(node, branchSize, k, l) &&
+                                    container.AreConnectedTwoBlocks(node, branchSize, i, k))
+                                {
+                                    ++count4clusters;
+                                }
+                                if (container.AreConnectedTwoBlocks(node, branchSize, i, l) &&
+                                    container.AreConnectedTwoBlocks(node, branchSize, j, l) &&
+                                    container.AreConnectedTwoBlocks(node, branchSize, j, k) &&
+                                    container.AreConnectedTwoBlocks(node, branchSize, i, k))
+                                {
+                                    ++count4clusters;
+                                }
+                                retArray[0] += count4clusters * countLeaves[i] * countLeaves[j] * countLeaves[k] *
+                                        countLeaves[l];
+                            }
+                        }
+                    }
+                }
+
                 return retArray;
             }
         }
@@ -361,5 +488,7 @@ namespace Model.NonRegularHierarchicModel.Realization
                 return result + VertexDegree(vertexNumber, level + 1);
             }
         }
+
+        public int bIndex { get; set; }
     }
 }
