@@ -159,9 +159,19 @@ namespace Model.NonRegularHierarchicModel.Realization
         // Возвращается распределение коэффициентов кластеризации графа. Реализовано.
         public override SortedDictionary<double, int> GetClusteringCoefficient()
         {
-            throw new NotImplementedException();
-            /*log.Info("Getting clustering coefficients.");
-            return container.GetClusteringCoefficient();*/
+            log.Info("Getting clustering coefficients.");
+            SortedDictionary<double, int> result = new SortedDictionary<double, int>();
+
+            for (int i = 0; i < container.Size; ++i)
+            {
+                double dresult = Math.Round(ClusterringCoefficientOfVertex(i), 4);
+                if (result.Keys.Contains(dresult))
+                    ++result[dresult];
+                else
+                    result.Add(dresult, 1);
+            }
+
+            return result;
         }
 
         // Возвращается распределение длин минимальных путей в графе. Реализовано.
@@ -405,6 +415,19 @@ namespace Model.NonRegularHierarchicModel.Realization
 
                 return retArray;
             }
+        }
+
+        // Возвращает коэффициент класстеризации для данной вершины (vertexNumber).
+        // Вычисляется с помощью числа циклов порядка 3, прикрепленных к данной вершине.
+        private double ClusterringCoefficientOfVertex(int vertexNumber)
+        {
+            SortedDictionary<int, double> result = Count3CycleOfVertex(vertexNumber, 0);
+            double count3CyclesOfVertex = result[0];
+            double degree = result[1];
+            if (degree == 0 || degree == 1)
+                return 0;
+            else
+                return (2 * count3CyclesOfVertex) / (degree * (degree - 1));
         }
 
         // Возвращает число циклов порядка 3 прикрепленных к данному узлу 
