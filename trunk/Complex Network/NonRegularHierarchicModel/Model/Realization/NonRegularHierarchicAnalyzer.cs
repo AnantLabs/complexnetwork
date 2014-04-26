@@ -83,61 +83,6 @@ namespace Model.NonRegularHierarchicModel.Realization
             return ArrayCntAdjacentCntVertexes(0, 0);
         }
 
-        // Возвращает распределение степеней.
-        // Распределение степеней вычисляется в данном узле данного уровня.
-        private SortedDictionary<int, int> ArrayCntAdjacentCntVertexes(int numberNode, int currentLevel)
-        {
-            if (currentLevel == container.Level)
-            {
-                SortedDictionary<int, int> returned = new SortedDictionary<int, int>();
-                returned[0] = 1;
-                return returned;
-            }
-            else
-            {
-                BitArray node = container.TreeNode(currentLevel, numberNode);
-
-                SortedDictionary<int, int> arraysReturned = new SortedDictionary<int, int>();
-                SortedDictionary<int, int> array = new SortedDictionary<int, int>();
-                int branchSize = container.Branches[currentLevel][numberNode];
-                int branchStartPnt = container.FindBranches(currentLevel, numberNode);
-
-                for (int i = 0; i < branchSize; ++i)
-                {
-                    array = ArrayCntAdjacentCntVertexes(branchStartPnt + i, currentLevel + 1);
-                    int countAjacentsNodes = container.CountConnectedBlocks(node, branchSize, i);
-                    foreach (KeyValuePair<int, int> kvt in array)
-                    {
-                        int key = kvt.Key;
-                        for (int j = 0; j < branchSize; ++j)
-                        {
-                            int counter = 0;
-                            if(container.AreConnectedTwoBlocks(node, branchSize, i, j))
-                            {
-                                key += container.CountLeaves(currentLevel + 1, branchStartPnt + j);
-                                ++counter;
-                            }
-                            if (counter == countAjacentsNodes)
-                            {
-                                break;
-                            }
-                        }
-
-                        if (arraysReturned.ContainsKey(key))
-                        {
-                            arraysReturned[key] += kvt.Value;
-                        }
-                        else
-                        {
-                            arraysReturned.Add(key, kvt.Value);
-                        }
-                    }
-                }
-                
-                return arraysReturned;
-            }
-        }
-
         // Возвращает распределение триугольников, прикрепленных к вершине.
         public override SortedDictionary<int, int> GetTrianglesDistribution()
         {
@@ -174,6 +119,19 @@ namespace Model.NonRegularHierarchicModel.Realization
             return result;
         }
 
+        // Возвращается коэффициент кластеризации графа. Реализовано.
+        public double GetAverageClusteringCoefficient()
+        {
+            double cycles3 = GetCycles3(), sum = 0, degree = 0;
+            for (int i = 0; i < container.Size; ++i)
+            {
+                degree = VertexDegree(i, 0);
+                sum += degree * (degree - 1);
+            }
+
+            return 6 * cycles3 / sum;
+        }
+
         // Возвращается распределение длин минимальных путей в графе. Реализовано.
         public override SortedDictionary<int, int> GetMinPathDist()
         {
@@ -192,6 +150,61 @@ namespace Model.NonRegularHierarchicModel.Realization
         private double avgPath = -1;
         private int diameter = -1;
         private SortedDictionary<int, int> pathDistribution = new SortedDictionary<int, int>();
+
+        // Возвращает распределение степеней.
+        // Распределение степеней вычисляется в данном узле данного уровня.
+        private SortedDictionary<int, int> ArrayCntAdjacentCntVertexes(int numberNode, int currentLevel)
+        {
+            if (currentLevel == container.Level)
+            {
+                SortedDictionary<int, int> returned = new SortedDictionary<int, int>();
+                returned[0] = 1;
+                return returned;
+            }
+            else
+            {
+                BitArray node = container.TreeNode(currentLevel, numberNode);
+
+                SortedDictionary<int, int> arraysReturned = new SortedDictionary<int, int>();
+                SortedDictionary<int, int> array = new SortedDictionary<int, int>();
+                int branchSize = container.Branches[currentLevel][numberNode];
+                int branchStartPnt = container.FindBranches(currentLevel, numberNode);
+
+                for (int i = 0; i < branchSize; ++i)
+                {
+                    array = ArrayCntAdjacentCntVertexes(branchStartPnt + i, currentLevel + 1);
+                    int countAjacentsNodes = container.CountConnectedBlocks(node, branchSize, i);
+                    foreach (KeyValuePair<int, int> kvt in array)
+                    {
+                        int key = kvt.Key;
+                        for (int j = 0; j < branchSize; ++j)
+                        {
+                            int counter = 0;
+                            if (container.AreConnectedTwoBlocks(node, branchSize, i, j))
+                            {
+                                key += container.CountLeaves(currentLevel + 1, branchStartPnt + j);
+                                ++counter;
+                            }
+                            if (counter == countAjacentsNodes)
+                            {
+                                break;
+                            }
+                        }
+
+                        if (arraysReturned.ContainsKey(key))
+                        {
+                            arraysReturned[key] += kvt.Value;
+                        }
+                        else
+                        {
+                            arraysReturned.Add(key, kvt.Value);
+                        }
+                    }
+                }
+
+                return arraysReturned;
+            }
+        }
 
         private void CountPathDistribution()
         {
