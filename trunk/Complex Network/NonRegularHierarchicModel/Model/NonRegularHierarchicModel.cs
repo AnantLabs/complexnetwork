@@ -24,7 +24,7 @@ namespace Model.NonRegularHierarchicModel
         AnalyseOptions.ConnSubGraph |
         AnalyseOptions.MinPathDist)]
     [RequiredGenerationParam(GenerationParam.BranchIndex, 3)]
-    [RequiredGenerationParam(GenerationParam.Level, 4)]
+    [RequiredGenerationParam(GenerationParam.Vertices, 1)]
     [RequiredGenerationParam(GenerationParam.Mu, 6)]
 
     // Реализация модели (Block-Hierarchic Non Regular).
@@ -63,7 +63,7 @@ namespace Model.NonRegularHierarchicModel
             // Определение параметров генерации.
             List<GenerationParam> genParams = new List<GenerationParam>();
             genParams.Add(GenerationParam.BranchIndex);
-            genParams.Add(GenerationParam.Level);
+            genParams.Add(GenerationParam.Vertices);
             genParams.Add(GenerationParam.Mu);
             RequiredGenerationParams = genParams;
 
@@ -91,6 +91,7 @@ namespace Model.NonRegularHierarchicModel
         // Проверка параметров генерации.
         public override bool CheckGenerationParams(int instances)
         {
+            // TODO check for logic
             System.Diagnostics.PerformanceCounter ramCounter = new System.Diagnostics.PerformanceCounter("Memory", 
                 "Available Bytes");
             int branch = (Int16)GenerationParamValues[GenerationParam.BranchIndex];

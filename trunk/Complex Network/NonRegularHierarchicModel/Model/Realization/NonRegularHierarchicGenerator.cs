@@ -42,11 +42,12 @@ namespace Model.NonRegularHierarchicModel.Realization
         {
             log.Info("Random generation step started.");
             Int16 branchIndex = (Int16)genParam[GenerationParam.BranchIndex];
-            Int16 level = (Int16)genParam[GenerationParam.Level];
+            Int32 vertices = (Int32)genParam[GenerationParam.Vertices];
             double mu = (Double)genParam[GenerationParam.Mu];
 
+            // TODO check for logic
             container.BranchIndex = branchIndex;
-            container.Level = level;
+            //container.Level = level;
             container.TreeMatrix = Generate(mu);
             log.Info("Random generation step finished.");
         }

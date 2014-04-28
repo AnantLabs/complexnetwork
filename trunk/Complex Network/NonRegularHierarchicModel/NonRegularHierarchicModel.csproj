@@ -65,7 +65,6 @@
     <Compile Include="Model\Realization\NonRegularHierarchicAnalyzer.cs" />
     <Compile Include="Model\Realization\NonRegularHierarchicContainer.cs" />
     <Compile Include="Model\Realization\NonRegularHierarchicGenerator.cs" />
-    <Compile Include="Model\Realization\NonRegularHierarchicGraphNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
