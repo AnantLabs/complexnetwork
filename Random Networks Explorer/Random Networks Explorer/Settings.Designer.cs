@@ -28,32 +28,113 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.LoggingCheckBox = new System.Windows.Forms.CheckBox();
-            this.LoggingSettingsGroup = new System.Windows.Forms.GroupBox();
+            this.settingsTab = new System.Windows.Forms.TabControl();
+            this.generalPage = new System.Windows.Forms.TabPage();
+            this.workingModePage = new System.Windows.Forms.TabPage();
+            this.loggingSettingsGroup = new System.Windows.Forms.GroupBox();
             this.DirectoryLabel = new System.Windows.Forms.Label();
-            this.DirectoryPathTextBox = new System.Windows.Forms.TextBox();
+            this.directoryPathTxt = new System.Windows.Forms.TextBox();
             this.BrowseLogDirButton = new System.Windows.Forms.Button();
+            this.LoggingCheckBox = new System.Windows.Forms.CheckBox();
             this.StorageSettingsGroup = new System.Windows.Forms.GroupBox();
             this.BrowseDatabaseButton = new System.Windows.Forms.Button();
             this.BrowseFileStorageButton = new System.Windows.Forms.Button();
-            this.DatabaseTextBox = new System.Windows.Forms.TextBox();
-            this.TextStorageTextBox = new System.Windows.Forms.TextBox();
+            this.databaseTxt = new System.Windows.Forms.TextBox();
+            this.textStorageTxt = new System.Windows.Forms.TextBox();
             this.DatabaseLabel = new System.Windows.Forms.Label();
             this.StorageDirLabel = new System.Windows.Forms.Label();
-            this.TopFlowLayout = new System.Windows.Forms.FlowLayoutPanel();
-            this.WorkingModeGroup = new System.Windows.Forms.GroupBox();
-            this.NetworkDistributeRadio = new System.Windows.Forms.RadioButton();
-            this.LocalDistributeRadio = new System.Windows.Forms.RadioButton();
-            this.ButtonPanel = new System.Windows.Forms.Panel();
-            this.SefaultSettingsButton = new System.Windows.Forms.Button();
             this.SaveSettingsButton = new System.Windows.Forms.Button();
             this.CancelSettingsButton = new System.Windows.Forms.Button();
-            this.LoggingSettingsGroup.SuspendLayout();
+            this.tracingSettingsGrp = new System.Windows.Forms.GroupBox();
+            this.tracingDirectory = new System.Windows.Forms.Label();
+            this.tracingDirectoryTxt = new System.Windows.Forms.TextBox();
+            this.browseTracingBtn = new System.Windows.Forms.Button();
+            this.distributingSettingsGrp = new System.Windows.Forms.GroupBox();
+            this.distributedLabel = new System.Windows.Forms.Label();
+            this.RefreshButton = new System.Windows.Forms.Button();
+            this.discoveredServices = new System.Windows.Forms.CheckedListBox();
+            this.distributedCheckBox = new System.Windows.Forms.CheckBox();
+            this.settingsTab.SuspendLayout();
+            this.generalPage.SuspendLayout();
+            this.workingModePage.SuspendLayout();
+            this.loggingSettingsGroup.SuspendLayout();
             this.StorageSettingsGroup.SuspendLayout();
-            this.TopFlowLayout.SuspendLayout();
-            this.WorkingModeGroup.SuspendLayout();
-            this.ButtonPanel.SuspendLayout();
+            this.tracingSettingsGrp.SuspendLayout();
+            this.distributingSettingsGrp.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // settingsTab
+            // 
+            this.settingsTab.Controls.Add(this.generalPage);
+            this.settingsTab.Controls.Add(this.workingModePage);
+            this.settingsTab.Location = new System.Drawing.Point(12, 12);
+            this.settingsTab.Name = "settingsTab";
+            this.settingsTab.SelectedIndex = 0;
+            this.settingsTab.Size = new System.Drawing.Size(610, 289);
+            this.settingsTab.TabIndex = 1;
+            // 
+            // generalPage
+            // 
+            this.generalPage.Controls.Add(this.tracingSettingsGrp);
+            this.generalPage.Controls.Add(this.loggingSettingsGroup);
+            this.generalPage.Controls.Add(this.StorageSettingsGroup);
+            this.generalPage.Location = new System.Drawing.Point(4, 22);
+            this.generalPage.Name = "generalPage";
+            this.generalPage.Padding = new System.Windows.Forms.Padding(3);
+            this.generalPage.Size = new System.Drawing.Size(602, 263);
+            this.generalPage.TabIndex = 0;
+            this.generalPage.Text = "General";
+            this.generalPage.UseVisualStyleBackColor = true;
+            // 
+            // workingModePage
+            // 
+            this.workingModePage.Controls.Add(this.distributingSettingsGrp);
+            this.workingModePage.Location = new System.Drawing.Point(4, 22);
+            this.workingModePage.Name = "workingModePage";
+            this.workingModePage.Padding = new System.Windows.Forms.Padding(3);
+            this.workingModePage.Size = new System.Drawing.Size(602, 263);
+            this.workingModePage.TabIndex = 1;
+            this.workingModePage.Text = "Working Mode";
+            this.workingModePage.UseVisualStyleBackColor = true;
+            // 
+            // loggingSettingsGroup
+            // 
+            this.loggingSettingsGroup.Controls.Add(this.DirectoryLabel);
+            this.loggingSettingsGroup.Controls.Add(this.directoryPathTxt);
+            this.loggingSettingsGroup.Controls.Add(this.BrowseLogDirButton);
+            this.loggingSettingsGroup.Controls.Add(this.LoggingCheckBox);
+            this.loggingSettingsGroup.Location = new System.Drawing.Point(6, 6);
+            this.loggingSettingsGroup.Name = "loggingSettingsGroup";
+            this.loggingSettingsGroup.Size = new System.Drawing.Size(590, 83);
+            this.loggingSettingsGroup.TabIndex = 2;
+            this.loggingSettingsGroup.TabStop = false;
+            this.loggingSettingsGroup.Text = "Logging";
+            // 
+            // DirectoryLabel
+            // 
+            this.DirectoryLabel.AutoSize = true;
+            this.DirectoryLabel.Location = new System.Drawing.Point(24, 44);
+            this.DirectoryLabel.Name = "DirectoryLabel";
+            this.DirectoryLabel.Size = new System.Drawing.Size(85, 13);
+            this.DirectoryLabel.TabIndex = 1;
+            this.DirectoryLabel.Text = "Output directory:";
+            // 
+            // directoryPathTxt
+            // 
+            this.directoryPathTxt.Location = new System.Drawing.Point(115, 41);
+            this.directoryPathTxt.Name = "directoryPathTxt";
+            this.directoryPathTxt.Size = new System.Drawing.Size(388, 20);
+            this.directoryPathTxt.TabIndex = 1;
+            // 
+            // BrowseLogDirButton
+            // 
+            this.BrowseLogDirButton.Location = new System.Drawing.Point(509, 38);
+            this.BrowseLogDirButton.Name = "BrowseLogDirButton";
+            this.BrowseLogDirButton.Size = new System.Drawing.Size(75, 23);
+            this.BrowseLogDirButton.TabIndex = 2;
+            this.BrowseLogDirButton.Text = "Browse...";
+            this.BrowseLogDirButton.UseVisualStyleBackColor = true;
+            this.BrowseLogDirButton.Click += new System.EventHandler(this.BrowseLogDirButton_Click);
             // 
             // LoggingCheckBox
             // 
@@ -65,90 +146,54 @@
             this.LoggingCheckBox.Text = "Enable logging";
             this.LoggingCheckBox.UseVisualStyleBackColor = true;
             // 
-            // LoggingSettingsGroup
-            // 
-            this.LoggingSettingsGroup.Controls.Add(this.DirectoryLabel);
-            this.LoggingSettingsGroup.Controls.Add(this.DirectoryPathTextBox);
-            this.LoggingSettingsGroup.Controls.Add(this.BrowseLogDirButton);
-            this.LoggingSettingsGroup.Controls.Add(this.LoggingCheckBox);
-            this.LoggingSettingsGroup.Location = new System.Drawing.Point(3, 3);
-            this.LoggingSettingsGroup.Name = "LoggingSettingsGroup";
-            this.LoggingSettingsGroup.Size = new System.Drawing.Size(625, 67);
-            this.LoggingSettingsGroup.TabIndex = 0;
-            this.LoggingSettingsGroup.TabStop = false;
-            this.LoggingSettingsGroup.Text = "Logging";
-            // 
-            // DirectoryLabel
-            // 
-            this.DirectoryLabel.AutoSize = true;
-            this.DirectoryLabel.Location = new System.Drawing.Point(24, 44);
-            this.DirectoryLabel.Name = "DirectoryLabel";
-            this.DirectoryLabel.Size = new System.Drawing.Size(85, 13);
-            this.DirectoryLabel.TabIndex = 1;
-            this.DirectoryLabel.Text = "Output directory:";
-            // 
-            // DirectoryPathTextBox
-            // 
-            this.DirectoryPathTextBox.Location = new System.Drawing.Point(115, 41);
-            this.DirectoryPathTextBox.Name = "DirectoryPathTextBox";
-            this.DirectoryPathTextBox.Size = new System.Drawing.Size(423, 20);
-            this.DirectoryPathTextBox.TabIndex = 1;
-            // 
-            // BrowseLogDirButton
-            // 
-            this.BrowseLogDirButton.Location = new System.Drawing.Point(544, 39);
-            this.BrowseLogDirButton.Name = "BrowseLogDirButton";
-            this.BrowseLogDirButton.Size = new System.Drawing.Size(75, 23);
-            this.BrowseLogDirButton.TabIndex = 2;
-            this.BrowseLogDirButton.Text = "Browse...";
-            this.BrowseLogDirButton.UseVisualStyleBackColor = true;
-            // 
             // StorageSettingsGroup
             // 
             this.StorageSettingsGroup.Controls.Add(this.BrowseDatabaseButton);
             this.StorageSettingsGroup.Controls.Add(this.BrowseFileStorageButton);
-            this.StorageSettingsGroup.Controls.Add(this.DatabaseTextBox);
-            this.StorageSettingsGroup.Controls.Add(this.TextStorageTextBox);
+            this.StorageSettingsGroup.Controls.Add(this.databaseTxt);
+            this.StorageSettingsGroup.Controls.Add(this.textStorageTxt);
             this.StorageSettingsGroup.Controls.Add(this.DatabaseLabel);
             this.StorageSettingsGroup.Controls.Add(this.StorageDirLabel);
-            this.StorageSettingsGroup.Location = new System.Drawing.Point(3, 76);
+            this.StorageSettingsGroup.Location = new System.Drawing.Point(6, 95);
             this.StorageSettingsGroup.Name = "StorageSettingsGroup";
-            this.StorageSettingsGroup.Size = new System.Drawing.Size(625, 76);
-            this.StorageSettingsGroup.TabIndex = 1;
+            this.StorageSettingsGroup.Size = new System.Drawing.Size(590, 79);
+            this.StorageSettingsGroup.TabIndex = 3;
             this.StorageSettingsGroup.TabStop = false;
             this.StorageSettingsGroup.Text = "Default storage locations";
             // 
             // BrowseDatabaseButton
             // 
-            this.BrowseDatabaseButton.Location = new System.Drawing.Point(544, 48);
+            this.BrowseDatabaseButton.Location = new System.Drawing.Point(509, 48);
             this.BrowseDatabaseButton.Name = "BrowseDatabaseButton";
             this.BrowseDatabaseButton.Size = new System.Drawing.Size(75, 23);
             this.BrowseDatabaseButton.TabIndex = 3;
             this.BrowseDatabaseButton.Text = "Browse...";
             this.BrowseDatabaseButton.UseVisualStyleBackColor = true;
+            this.BrowseDatabaseButton.Click += new System.EventHandler(this.BrowseDatabaseButton_Click);
             // 
             // BrowseFileStorageButton
             // 
-            this.BrowseFileStorageButton.Location = new System.Drawing.Point(544, 21);
+            this.BrowseFileStorageButton.Location = new System.Drawing.Point(509, 21);
             this.BrowseFileStorageButton.Name = "BrowseFileStorageButton";
             this.BrowseFileStorageButton.Size = new System.Drawing.Size(75, 23);
             this.BrowseFileStorageButton.TabIndex = 1;
             this.BrowseFileStorageButton.Text = "Browse...";
             this.BrowseFileStorageButton.UseVisualStyleBackColor = true;
+            this.BrowseFileStorageButton.Click += new System.EventHandler(this.BrowseFileStorageButton_Click);
             // 
-            // DatabaseTextBox
+            // databaseTxt
             // 
-            this.DatabaseTextBox.Location = new System.Drawing.Point(115, 50);
-            this.DatabaseTextBox.Name = "DatabaseTextBox";
-            this.DatabaseTextBox.Size = new System.Drawing.Size(423, 20);
-            this.DatabaseTextBox.TabIndex = 2;
+            this.databaseTxt.Location = new System.Drawing.Point(115, 50);
+            this.databaseTxt.Name = "databaseTxt";
+            this.databaseTxt.Size = new System.Drawing.Size(388, 20);
+            this.databaseTxt.TabIndex = 2;
             // 
-            // TextStorageTextBox
+            // textStorageTxt
             // 
-            this.TextStorageTextBox.Location = new System.Drawing.Point(115, 24);
-            this.TextStorageTextBox.Name = "TextStorageTextBox";
-            this.TextStorageTextBox.Size = new System.Drawing.Size(423, 20);
-            this.TextStorageTextBox.TabIndex = 0;
+            this.textStorageTxt.Location = new System.Drawing.Point(115, 24);
+            this.textStorageTxt.Name = "textStorageTxt";
+            this.textStorageTxt.Size = new System.Drawing.Size(388, 20);
+            this.textStorageTxt.TabIndex = 0;
             // 
             // DatabaseLabel
             // 
@@ -168,135 +213,175 @@
             this.StorageDirLabel.TabIndex = 0;
             this.StorageDirLabel.Text = "File directory:";
             // 
-            // TopFlowLayout
-            // 
-            this.TopFlowLayout.Controls.Add(this.LoggingSettingsGroup);
-            this.TopFlowLayout.Controls.Add(this.StorageSettingsGroup);
-            this.TopFlowLayout.Controls.Add(this.WorkingModeGroup);
-            this.TopFlowLayout.Controls.Add(this.ButtonPanel);
-            this.TopFlowLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TopFlowLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.TopFlowLayout.Location = new System.Drawing.Point(0, 0);
-            this.TopFlowLayout.Name = "TopFlowLayout";
-            this.TopFlowLayout.Size = new System.Drawing.Size(634, 244);
-            this.TopFlowLayout.TabIndex = 0;
-            this.TopFlowLayout.WrapContents = false;
-            // 
-            // WorkingModeGroup
-            // 
-            this.WorkingModeGroup.Controls.Add(this.NetworkDistributeRadio);
-            this.WorkingModeGroup.Controls.Add(this.LocalDistributeRadio);
-            this.WorkingModeGroup.Location = new System.Drawing.Point(3, 158);
-            this.WorkingModeGroup.Name = "WorkingModeGroup";
-            this.WorkingModeGroup.Size = new System.Drawing.Size(625, 44);
-            this.WorkingModeGroup.TabIndex = 2;
-            this.WorkingModeGroup.TabStop = false;
-            this.WorkingModeGroup.Text = "Working mode";
-            // 
-            // NetworkDistributeRadio
-            // 
-            this.NetworkDistributeRadio.AutoSize = true;
-            this.NetworkDistributeRadio.Location = new System.Drawing.Point(349, 19);
-            this.NetworkDistributeRadio.Name = "NetworkDistributeRadio";
-            this.NetworkDistributeRadio.Size = new System.Drawing.Size(231, 17);
-            this.NetworkDistributeRadio.TabIndex = 1;
-            this.NetworkDistributeRadio.TabStop = true;
-            this.NetworkDistributeRadio.Text = "Distribute jobs in available hosts on network";
-            this.NetworkDistributeRadio.UseVisualStyleBackColor = true;
-            // 
-            // LocalDistributeRadio
-            // 
-            this.LocalDistributeRadio.AutoSize = true;
-            this.LocalDistributeRadio.Location = new System.Drawing.Point(115, 19);
-            this.LocalDistributeRadio.Name = "LocalDistributeRadio";
-            this.LocalDistributeRadio.Size = new System.Drawing.Size(174, 17);
-            this.LocalDistributeRadio.TabIndex = 0;
-            this.LocalDistributeRadio.TabStop = true;
-            this.LocalDistributeRadio.Text = "Distribute jobs on local machine";
-            this.LocalDistributeRadio.UseVisualStyleBackColor = true;
-            // 
-            // ButtonPanel
-            // 
-            this.ButtonPanel.Controls.Add(this.SefaultSettingsButton);
-            this.ButtonPanel.Controls.Add(this.SaveSettingsButton);
-            this.ButtonPanel.Controls.Add(this.CancelSettingsButton);
-            this.ButtonPanel.Location = new System.Drawing.Point(3, 208);
-            this.ButtonPanel.Name = "ButtonPanel";
-            this.ButtonPanel.Size = new System.Drawing.Size(625, 26);
-            this.ButtonPanel.TabIndex = 3;
-            // 
-            // SefaultSettingsButton
-            // 
-            this.SefaultSettingsButton.Location = new System.Drawing.Point(9, 3);
-            this.SefaultSettingsButton.Name = "SefaultSettingsButton";
-            this.SefaultSettingsButton.Size = new System.Drawing.Size(75, 23);
-            this.SefaultSettingsButton.TabIndex = 2;
-            this.SefaultSettingsButton.Text = "Defaults";
-            this.SefaultSettingsButton.UseVisualStyleBackColor = true;
-            // 
             // SaveSettingsButton
             // 
-            this.SaveSettingsButton.Location = new System.Drawing.Point(463, 3);
+            this.SaveSettingsButton.Location = new System.Drawing.Point(462, 307);
             this.SaveSettingsButton.Name = "SaveSettingsButton";
             this.SaveSettingsButton.Size = new System.Drawing.Size(75, 23);
-            this.SaveSettingsButton.TabIndex = 0;
+            this.SaveSettingsButton.TabIndex = 3;
             this.SaveSettingsButton.Text = "Save";
             this.SaveSettingsButton.UseVisualStyleBackColor = true;
+            this.SaveSettingsButton.Click += new System.EventHandler(this.SaveSettingsButton_Click);
             // 
             // CancelSettingsButton
             // 
-            this.CancelSettingsButton.Location = new System.Drawing.Point(544, 3);
+            this.CancelSettingsButton.Location = new System.Drawing.Point(543, 307);
             this.CancelSettingsButton.Name = "CancelSettingsButton";
             this.CancelSettingsButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelSettingsButton.TabIndex = 1;
+            this.CancelSettingsButton.TabIndex = 4;
             this.CancelSettingsButton.Text = "Cancel";
             this.CancelSettingsButton.UseVisualStyleBackColor = true;
+            this.CancelSettingsButton.Click += new System.EventHandler(this.CancelSettingsButton_Click);
+            // 
+            // tracingSettingsGrp
+            // 
+            this.tracingSettingsGrp.Controls.Add(this.tracingDirectory);
+            this.tracingSettingsGrp.Controls.Add(this.tracingDirectoryTxt);
+            this.tracingSettingsGrp.Controls.Add(this.browseTracingBtn);
+            this.tracingSettingsGrp.Location = new System.Drawing.Point(6, 180);
+            this.tracingSettingsGrp.Name = "tracingSettingsGrp";
+            this.tracingSettingsGrp.Size = new System.Drawing.Size(590, 69);
+            this.tracingSettingsGrp.TabIndex = 4;
+            this.tracingSettingsGrp.TabStop = false;
+            this.tracingSettingsGrp.Text = "Tracing";
+            // 
+            // tracingDirectory
+            // 
+            this.tracingDirectory.AutoSize = true;
+            this.tracingDirectory.Location = new System.Drawing.Point(24, 31);
+            this.tracingDirectory.Name = "tracingDirectory";
+            this.tracingDirectory.Size = new System.Drawing.Size(85, 13);
+            this.tracingDirectory.TabIndex = 1;
+            this.tracingDirectory.Text = "Output directory:";
+            // 
+            // tracingDirectoryTxt
+            // 
+            this.tracingDirectoryTxt.Location = new System.Drawing.Point(115, 28);
+            this.tracingDirectoryTxt.Name = "tracingDirectoryTxt";
+            this.tracingDirectoryTxt.Size = new System.Drawing.Size(388, 20);
+            this.tracingDirectoryTxt.TabIndex = 1;
+            // 
+            // browseTracingBtn
+            // 
+            this.browseTracingBtn.Location = new System.Drawing.Point(509, 25);
+            this.browseTracingBtn.Name = "browseTracingBtn";
+            this.browseTracingBtn.Size = new System.Drawing.Size(75, 23);
+            this.browseTracingBtn.TabIndex = 2;
+            this.browseTracingBtn.Text = "Browse...";
+            this.browseTracingBtn.UseVisualStyleBackColor = true;
+            this.browseTracingBtn.Click += new System.EventHandler(this.browseTracingBtn_Click);
+            // 
+            // distributingSettingsGrp
+            // 
+            this.distributingSettingsGrp.Controls.Add(this.distributedLabel);
+            this.distributingSettingsGrp.Controls.Add(this.RefreshButton);
+            this.distributingSettingsGrp.Controls.Add(this.discoveredServices);
+            this.distributingSettingsGrp.Controls.Add(this.distributedCheckBox);
+            this.distributingSettingsGrp.Location = new System.Drawing.Point(6, 6);
+            this.distributingSettingsGrp.Name = "distributingSettingsGrp";
+            this.distributingSettingsGrp.Size = new System.Drawing.Size(590, 251);
+            this.distributingSettingsGrp.TabIndex = 12;
+            this.distributingSettingsGrp.TabStop = false;
+            this.distributingSettingsGrp.Text = "Distributing";
+            // 
+            // distributedLabel
+            // 
+            this.distributedLabel.Location = new System.Drawing.Point(212, 31);
+            this.distributedLabel.Name = "distributedLabel";
+            this.distributedLabel.Size = new System.Drawing.Size(372, 20);
+            this.distributedLabel.TabIndex = 7;
+            this.distributedLabel.Text = "Please select computers which will be used during distributed calculation.";
+            // 
+            // RefreshButton
+            // 
+            this.RefreshButton.Location = new System.Drawing.Point(23, 54);
+            this.RefreshButton.Name = "RefreshButton";
+            this.RefreshButton.Size = new System.Drawing.Size(75, 23);
+            this.RefreshButton.TabIndex = 10;
+            this.RefreshButton.Text = "Refresh";
+            this.RefreshButton.UseVisualStyleBackColor = true;
+            this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
+            // 
+            // discoveredServices
+            // 
+            this.discoveredServices.BackColor = System.Drawing.SystemColors.Control;
+            this.discoveredServices.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.discoveredServices.FormattingEnabled = true;
+            this.discoveredServices.Location = new System.Drawing.Point(215, 54);
+            this.discoveredServices.Name = "discoveredServices";
+            this.discoveredServices.Size = new System.Drawing.Size(369, 180);
+            this.discoveredServices.TabIndex = 8;
+            // 
+            // distributedCheckBox
+            // 
+            this.distributedCheckBox.AutoSize = true;
+            this.distributedCheckBox.Location = new System.Drawing.Point(23, 30);
+            this.distributedCheckBox.Name = "distributedCheckBox";
+            this.distributedCheckBox.Size = new System.Drawing.Size(156, 17);
+            this.distributedCheckBox.TabIndex = 9;
+            this.distributedCheckBox.Text = "Use distributed calculation?";
+            this.distributedCheckBox.UseVisualStyleBackColor = true;
+            this.distributedCheckBox.CheckedChanged += new System.EventHandler(this.distributedCheckBox_CheckedChanged);
             // 
             // Settings
             // 
+            this.AcceptButton = this.SaveSettingsButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(634, 244);
-            this.Controls.Add(this.TopFlowLayout);
+            this.ClientSize = new System.Drawing.Size(634, 337);
+            this.Controls.Add(this.SaveSettingsButton);
+            this.Controls.Add(this.CancelSettingsButton);
+            this.Controls.Add(this.settingsTab);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Settings";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Settings";
-            this.LoggingSettingsGroup.ResumeLayout(false);
-            this.LoggingSettingsGroup.PerformLayout();
+            this.Load += new System.EventHandler(this.Settings_Load);
+            this.settingsTab.ResumeLayout(false);
+            this.generalPage.ResumeLayout(false);
+            this.workingModePage.ResumeLayout(false);
+            this.loggingSettingsGroup.ResumeLayout(false);
+            this.loggingSettingsGroup.PerformLayout();
             this.StorageSettingsGroup.ResumeLayout(false);
             this.StorageSettingsGroup.PerformLayout();
-            this.TopFlowLayout.ResumeLayout(false);
-            this.WorkingModeGroup.ResumeLayout(false);
-            this.WorkingModeGroup.PerformLayout();
-            this.ButtonPanel.ResumeLayout(false);
+            this.tracingSettingsGrp.ResumeLayout(false);
+            this.tracingSettingsGrp.PerformLayout();
+            this.distributingSettingsGrp.ResumeLayout(false);
+            this.distributingSettingsGrp.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.CheckBox LoggingCheckBox;
-        private System.Windows.Forms.GroupBox LoggingSettingsGroup;
+        private System.Windows.Forms.TabControl settingsTab;
+        private System.Windows.Forms.TabPage generalPage;
+        private System.Windows.Forms.GroupBox tracingSettingsGrp;
+        private System.Windows.Forms.Label tracingDirectory;
+        private System.Windows.Forms.TextBox tracingDirectoryTxt;
+        private System.Windows.Forms.Button browseTracingBtn;
+        private System.Windows.Forms.GroupBox loggingSettingsGroup;
         private System.Windows.Forms.Label DirectoryLabel;
-        private System.Windows.Forms.GroupBox StorageSettingsGroup;
-        private System.Windows.Forms.TextBox DirectoryPathTextBox;
+        private System.Windows.Forms.TextBox directoryPathTxt;
         private System.Windows.Forms.Button BrowseLogDirButton;
-        private System.Windows.Forms.FlowLayoutPanel TopFlowLayout;
+        private System.Windows.Forms.CheckBox LoggingCheckBox;
+        private System.Windows.Forms.GroupBox StorageSettingsGroup;
         private System.Windows.Forms.Button BrowseDatabaseButton;
         private System.Windows.Forms.Button BrowseFileStorageButton;
-        private System.Windows.Forms.TextBox DatabaseTextBox;
-        private System.Windows.Forms.TextBox TextStorageTextBox;
+        private System.Windows.Forms.TextBox databaseTxt;
+        private System.Windows.Forms.TextBox textStorageTxt;
         private System.Windows.Forms.Label DatabaseLabel;
         private System.Windows.Forms.Label StorageDirLabel;
-        private System.Windows.Forms.Panel ButtonPanel;
-        private System.Windows.Forms.Button SefaultSettingsButton;
+        private System.Windows.Forms.TabPage workingModePage;
+        private System.Windows.Forms.GroupBox distributingSettingsGrp;
+        private System.Windows.Forms.Label distributedLabel;
+        private System.Windows.Forms.Button RefreshButton;
+        private System.Windows.Forms.CheckedListBox discoveredServices;
+        public System.Windows.Forms.CheckBox distributedCheckBox;
         private System.Windows.Forms.Button SaveSettingsButton;
         private System.Windows.Forms.Button CancelSettingsButton;
-        private System.Windows.Forms.GroupBox WorkingModeGroup;
-        private System.Windows.Forms.RadioButton NetworkDistributeRadio;
-        private System.Windows.Forms.RadioButton LocalDistributeRadio;
+
     }
 }

@@ -103,6 +103,38 @@ namespace Core
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public static void StopAllRunningResearches()
+        {
+            foreach (Guid id in existingResearches.Keys)
+            {
+                if (existingResearches[id].Status == Status.Running)
+                    existingResearches[id].StopResearch();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static bool ExistsAnyRunningResearch()
+        {
+            if (existingResearches.Count == 0)
+                return false;
+            else
+            {
+                foreach (Guid id in existingResearches.Keys)
+                {
+                    if (existingResearches[id].Status == Status.Running)
+                        return true;
+                }
+
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Gets research parameters for specified research.
         /// </summary>
         /// <param name="id">ID of research.</param>
@@ -246,6 +278,16 @@ namespace Core
             {
                 throw new CoreException("Specified research does not exists.");
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static Status GetStatus(Guid id)
+        {
+            return existingResearches[id].Status;
         }
 
         /// <summary>
