@@ -55,6 +55,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel.Discovery" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,11 +67,23 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HelpWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelpWindow.Designer.cs">
+      <DependentUpon>HelpWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainWindow.designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModelCheckWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModelCheckWindow.designer.cs">
+      <DependentUpon>ModelCheckWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,8 +99,14 @@
     <Compile Include="StorageSettings.designer.cs">
       <DependentUpon>StorageSettings.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="HelpWindow.resx">
+      <DependentUpon>HelpWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModelCheckWindow.resx">
+      <DependentUpon>ModelCheckWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -120,6 +139,10 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{479C57F7-2B45-48F4-B434-C7E59D0B0F7B}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModelChecking\ModelChecking.csproj">
+      <Project>{8F6B53CF-9E41-4535-BAB4-CCF1F34A8238}</Project>
+      <Name>ModelChecking</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

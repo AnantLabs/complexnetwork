@@ -6,12 +6,16 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+
+using Core;
 using Core.Enumerations;
 
 namespace RandomNetworksExplorer
 {
     public partial class MainWindow : Form
     {
+        private static List<Guid> researchIDs = new List<Guid>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -19,14 +23,15 @@ namespace RandomNetworksExplorer
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            
         }
 
-        private void newAnalyzeMenuItem_Click(object sender, EventArgs e)
+        private void newBasicMenuItem_Click(object sender, EventArgs e)
         {
             AddResearch(ResearchType.Basic);
         }
 
-        private void newTrajectoryMenuItem_Click(object sender, EventArgs e)
+        private void newEvolutionMenuItem_Click(object sender, EventArgs e)
         {
             AddResearch(ResearchType.Evolution);
         }
@@ -44,7 +49,33 @@ namespace RandomNetworksExplorer
 
         private void exitMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            if (SessionManager.ExistsAnyRunningResearch())
+            {
+                DialogResult res = MessageBox.Show("There are running researches. \nDo you want to abort them and close?",
+                       "Warning",
+                       MessageBoxButtons.OKCancel);
+                if (DialogResult.OK == res)
+                {
+                    SessionManager.StopAllRunningResearches();
+                    Application.Exit();
+                }
+                else if (DialogResult.Cancel == res)
+                    return;
+            }
+            else
+                Application.Exit();
+        }
+
+        private void modelCheckingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelCheckWindow modelCheckWnd = new ModelCheckWindow();
+            modelCheckWnd.ShowDialog();
+        }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HelpWindow helpWindow = new HelpWindow(@"HELP/main.html");
+            helpWindow.Show();
         }
 
         private void deleteResearchMenuItem_Click(object sender, EventArgs e)
@@ -108,7 +139,7 @@ namespace RandomNetworksExplorer
                     DataGridViewCheckBoxCell;
                 if ((bool)(cell.Value) == true)
                 {
-                    folderBrowserDialog1.ShowDialog();
+                    browserDialog.ShowDialog();
                 }
             }
         }
@@ -151,10 +182,13 @@ namespace RandomNetworksExplorer
             }
             researchTableCSM.Show(researchTable, e.X, e.Y);
         }
+
         // Utilities
 
         void AddResearch(ResearchType type)
         {
+            //researchIDs.Add(SessionManager.CreateResearch(type));
+
             int newRowIndex = this.researchTable.Rows.Add();
             DataGridViewRow newRow = researchTable.Rows[newRowIndex];
 
@@ -164,13 +198,13 @@ namespace RandomNetworksExplorer
                 {
                     case "researchColumn":
                         DataGridViewComboBoxCell comboCellR = newRow.Cells[i] as DataGridViewComboBoxCell;
-                        comboCellR.Value = comboCellR.Items[(int)type - 1];
+                        comboCellR.Value = type.ToString();
                         break;
-                    /*case "modelColumn":
+                    case "modelColumn": // TODO dinamyc fill model types for each research
                     case "generationColumn":
                         DataGridViewComboBoxCell comboCell = newRow.Cells[i] as DataGridViewComboBoxCell;
                         comboCell.Value = comboCell.Items[0];
-                        break;*/
+                        break;
                     case "storageColumn":
                         DataGridViewButtonCell buttonCell = newRow.Cells[i] as DataGridViewButtonCell;
                         buttonCell.Value = "XML Store";
