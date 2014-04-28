@@ -111,7 +111,7 @@ namespace Storage
 
             foreach (AnalyzeOption opt in e.Result.Keys)
             {
-                AnalyzeOptionInfo info = ((AnalyzeOptionInfo[])opt.GetType().GetCustomAttributes(typeof(AnalyzeOptionInfo), false))[0];
+                AnalyzeOptionInfo info = ((AnalyzeOptionInfo[])opt.GetType().GetField(opt.ToString()).GetCustomAttributes(typeof(AnalyzeOptionInfo), false))[0];
                 OptionType optionType = info.OptionType;
 
                 switch(optionType)

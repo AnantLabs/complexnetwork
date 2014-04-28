@@ -1,6 +1,6 @@
 ﻿namespace RandomNetworksExplorer
 {
-    partial class Settings
+    partial class SettingsWindow
     {
         /// <summary>
         /// Required designer variable.

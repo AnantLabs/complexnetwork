@@ -22,6 +22,21 @@ namespace Core
         }
 
         /// <summary>
+        /// Creates a default research and adds to existingResearches.
+        /// </summary>
+        /// <param name="type">The type of research to create.</param>
+        /// <returns>ID of created Research.</returns>
+        public static Guid CreateResearch(ResearchType type)
+        {
+            return CreateResearch(type,
+                ModelType.ER,
+                "DefaultResearchName",
+                StorageType.XMLStorage,
+                "", //Settings.StorageDirectory,
+                "");
+        }
+
+        /// <summary>
         /// Creates a research and adds to existingResearches.
         /// </summary>
         /// <param name="researchType">The type of research to create.</param>
@@ -65,6 +80,23 @@ namespace Core
         }
 
         /// <summary>
+        /// Clones the specified research.
+        /// </summary>
+        /// <param name="id">ID of research to clone.</param>
+        /// <returns>ID of created Research.</returns>
+        public static Guid CloneResearch(Guid id)
+        {
+            AbstractResearch temp = existingResearches[id];
+            // TODO correct the call
+            return CreateResearch(ResearchType.Basic,
+                temp.ModelType,
+                "DefaultResearchName",
+                StorageType.XMLStorage,
+                "",
+                temp.TracingPath);
+        }
+
+        /// <summary>
         /// Starts a research - Generation, Analyzing, Saving.
         /// </summary>
         /// <param name="id">ID of research to start.</param>
@@ -103,7 +135,7 @@ namespace Core
         }
 
         /// <summary>
-        /// 
+        /// Stops all running researches.
         /// </summary>
         public static void StopAllRunningResearches()
         {
@@ -115,9 +147,9 @@ namespace Core
         }
 
         /// <summary>
-        /// 
+        /// Checks if exists any running research.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>true, if exists. false otherwise.</returns>
         public static bool ExistsAnyRunningResearch()
         {
             if (existingResearches.Count == 0)
@@ -131,6 +163,92 @@ namespace Core
                 }
 
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Sets model type for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <param name="modelType">Model type to set.</param>
+        public static void SetModelType(Guid id, ModelType modelType)
+        {
+            try
+            {
+                existingResearches[id].ModelType = modelType;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// Sets name for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <param name="modelType">Name to set.</param>
+        public static void SetResearchName(Guid id, string researchName)
+        {
+            try
+            {
+                existingResearches[id].ResearchName = researchName;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// Sets storage for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <param name="storage">The storage type for saving results of analyze.</param>
+        /// <param name="storageString">Connection string or file path for data storage.</param>
+        public static void SetStorage(Guid id, StorageType storageType, string storageString)
+        {
+            try
+            {
+                existingResearches[id].Storage = CreateStorage(storageType, storageString);
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// Sets tracing path for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <param name="modelType">Path to set. Empty, if tracing is off.</param>
+        public static void SetTracingPath(Guid id, string tracingPath)
+        {
+            try
+            {
+                existingResearches[id].TracingPath = tracingPath;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// Sets realization count for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <param name="modelType">Realization count to set. Not less then 1.</param>
+        public static void SetRealizationCount(Guid id, int realizationCount)
+        {
+            try
+            {
+                existingResearches[id].RealizationCount = realizationCount;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
             }
         }
 
@@ -226,7 +344,8 @@ namespace Core
             try
             {
                 AvailableAnalyzeOption rAvailableOptions = ((AvailableAnalyzeOption[])existingResearches[id].GetType().GetCustomAttributes(typeof(AvailableAnalyzeOption), true))[0];
-                AvailableAnalyzeOption mAvailableOptions = ((AvailableAnalyzeOption[])existingResearches[id].ModelType.GetType().GetCustomAttributes(typeof(AvailableAnalyzeOption), false))[0];
+                ModelType t = existingResearches[id].ModelType;
+                AvailableAnalyzeOption mAvailableOptions = ((AvailableAnalyzeOption[])t.GetType().GetField(t.ToString()).GetCustomAttributes(typeof(AvailableAnalyzeOption), false))[0];
 
                 return rAvailableOptions.Options & mAvailableOptions.Options;
             }
@@ -281,14 +400,16 @@ namespace Core
         }
 
         /// <summary>
-        /// 
+        /// Gets status for specified research.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">ID of research.</param>
+        /// <returns>Status.</returns>
         public static Status GetStatus(Guid id)
         {
             return existingResearches[id].Status;
         }
+
+        #region Utilities
 
         /// <summary>
         /// Creates a research of specified type using metadata information of enumeration value.
@@ -297,9 +418,9 @@ namespace Core
         /// <returns>Newly created research.</returns>
         private static AbstractResearch CreateResearchFromType(ResearchType rt)
         {
-            ResearchTypeInfo[] info = (ResearchTypeInfo[])rt.GetType().GetCustomAttributes(typeof(ResearchTypeInfo), false);
-            Type t = Type.GetType(info[0].Implementation);
-            return (AbstractResearch)t.GetConstructor(null).Invoke(null);
+            ResearchTypeInfo[] info = (ResearchTypeInfo[])rt.GetType().GetField(rt.ToString()).GetCustomAttributes(typeof(ResearchTypeInfo), false);
+            Type t = Type.GetType(info[0].Implementation, true);
+            return (AbstractResearch)t.GetConstructor(Type.EmptyTypes).Invoke(new object[0]);
         }
 
         /// <summary>
@@ -312,9 +433,11 @@ namespace Core
         {
             Type[] patametersType = { typeof(String) };
             object[] invokeParameters = { storageStr };
-            StorageTypeInfo[] info = (StorageTypeInfo[])st.GetType().GetCustomAttributes(typeof(StorageTypeInfo), false);
-            Type t = Type.GetType(info[0].Implementation);
+            StorageTypeInfo[] info = (StorageTypeInfo[])st.GetType().GetField(st.ToString()).GetCustomAttributes(typeof(StorageTypeInfo), false);
+            Type t = Type.GetType(info[0].Implementation, true);
             return (AbstractResultStorage)t.GetConstructor(patametersType).Invoke(invokeParameters);
         }
+
+        #endregion
     }
 }

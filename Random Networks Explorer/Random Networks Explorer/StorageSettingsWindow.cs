@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace RandomNetworksExplorer
 {
-    public partial class StorageSettings : Form
+    public partial class StorageSettingsWindow : Form
     {
-        public StorageSettings()
+        public StorageSettingsWindow()
         {
             InitializeComponent();
         }

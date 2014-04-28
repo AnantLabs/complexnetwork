@@ -12,11 +12,11 @@ using Core;
 
 namespace RandomNetworksExplorer
 {
-    public partial class Settings : Form
+    public partial class SettingsWindow : Form
     {
         private Dictionary<string, EndpointDiscoveryMetadata> services;
 
-        public Settings()
+        public SettingsWindow()
         {
             InitializeComponent();
 

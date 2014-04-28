@@ -15,27 +15,27 @@ namespace Core.Enumerations
     {
         [ModelTypeInfo("Erdős-Rényi model", 
             "The classical random network.", 
-            "ERNetwork")]
+            "ERModel.ERNetwork, ERNetwork")]
         ER = 1,
 
         [ModelTypeInfo("Watts-Strogatz model",
             "Random network, which represents the small-world property.", 
-            "WSNetwork")]
+            "WSModel.WSNetwork, WSNetwork")]
         WS,
 
         [ModelTypeInfo("Baraba´si-Albert model",
             "Random network, which represents the scale-free property.", 
-            "BANetwork")]
+            "BAModel.BANetwork, BANetwork")]
         BA,
 
         [ModelTypeInfo("Regular Hierarchical model", 
             "Random regularly branching block-hierarchical network.", 
-            "RegularHierarchicNetwork")]
+            "RegularHierarchicModel.RegularHierarchicNetwork, RegularHierarchicNetwork")]
         RegularHierarchic,
 
         [ModelTypeInfo("Non Regular Hierarchical model", 
-            "Random non-regularly branching block-hierarchical network.", 
-            "NonRegularHierarchicNetwork")]
+            "Random non-regularly branching block-hierarchical network.",
+            "NonRegularHierarchicModel.NonRegularHierarchicNetwork, NonRegularHierarchicNetwork")]
         NonRegularHierarchic
     }
 }
