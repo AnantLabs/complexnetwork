@@ -1,6 +1,6 @@
 ﻿namespace RandomNetworksExplorer
 {
-    partial class StorageSettings
+    partial class StorageSettingsWindow
     {
         /// <summary>
         /// Required designer variable.

@@ -15,7 +15,7 @@ namespace Core
     /// </summary>
     public abstract class AbstractResearch
     {
-        protected ModelType modelType;
+        protected ModelType modelType = ModelType.ER;
         protected int realizationCount;
 
         protected ResearchResult result;
@@ -102,9 +102,9 @@ namespace Core
         /// </summary>
         protected void CreateEnsembleManager()
         {
-            ManagerTypeInfo[] info = (ManagerTypeInfo[])managerType.GetType().GetCustomAttributes(typeof(ManagerTypeInfo), false);
+            ManagerTypeInfo[] info = (ManagerTypeInfo[])managerType.GetType().GetField(managerType.ToString()).GetCustomAttributes(typeof(ManagerTypeInfo), false);
             Type t = Type.GetType(info[0].Implementation);
-            currentManager = (AbstractEnsembleManager)t.GetConstructor(null).Invoke(null);
+            currentManager = (AbstractEnsembleManager)t.GetConstructor(Type.EmptyTypes).Invoke(new object[0]);
 
             currentManager.ModelType = modelType;
             currentManager.TracingPath = (TracingPath == "" ? "" : TracingPath + "\\" + ResearchName);
@@ -140,7 +140,7 @@ namespace Core
             for (int i = 0; i < rp.Length; ++i)
                 ResearchParameterValues.Add(rp[i].Parameter, null);
 
-            ModelTypeInfo info = ((ModelTypeInfo[])modelType.GetType().GetCustomAttributes(typeof(ModelTypeInfo), false))[0];
+            ModelTypeInfo info = ((ModelTypeInfo[])modelType.GetType().GetField(modelType.ToString()).GetCustomAttributes(typeof(ModelTypeInfo), false))[0];
             Type t = Type.GetType(info.Implementation, true);
             RequiredGenerationParameter[] gp = (RequiredGenerationParameter[])t.GetCustomAttributes(typeof(RequiredGenerationParameter), false);
             for (int i = 0; i < rp.Length; ++i)
@@ -149,7 +149,7 @@ namespace Core
 
         private UInt32 CalculateSize()
         {
-            ModelTypeInfo info = ((ModelTypeInfo[])modelType.GetType().GetCustomAttributes(typeof(ModelTypeInfo), false))[0];
+            ModelTypeInfo info = ((ModelTypeInfo[])modelType.GetType().GetField(modelType.ToString()).GetCustomAttributes(typeof(ModelTypeInfo), false))[0];
             Type t = Type.GetType(info.Implementation, true);
 
             object[] invokeParams = new object[] { GenerationParameterValues };

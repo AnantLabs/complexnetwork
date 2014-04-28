@@ -15,12 +15,12 @@ namespace Core.Enumerations
     {
         [ManagerTypeInfo("Local manager",
             "...",
-            "LocalEnsembleManager")]
+            "Manager.LocalEnsembleManager, Manager")]
         Local = 1,
 
         [ManagerTypeInfo("WCF distributed manager",
             "...",
-            "DistributedEnsembleManager")]
+            "Manager.WCFDistributedEnsembleManager, Manager")]
         WCFDistributed
     }
 }

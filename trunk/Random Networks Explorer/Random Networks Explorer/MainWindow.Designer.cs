@@ -29,14 +29,20 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.researchTable = new System.Windows.Forms.DataGridView();
+            this.researchColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.modelColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.storageColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.generationColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.tracingColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.statusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.realizationCountTxt = new System.Windows.Forms.NumericUpDown();
             this.startResearch = new System.Windows.Forms.Button();
             this.stopResearch = new System.Windows.Forms.Button();
             this.researchesDoneTxt = new System.Windows.Forms.TextBox();
-            this.delete = new System.Windows.Forms.Button();
             this.generationParametersGroup = new System.Windows.Forms.GroupBox();
             this.generationParametersTable = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -48,7 +54,7 @@
             this.percolationNewResearch = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteResearch = new System.Windows.Forms.ToolStripMenuItem();
             this.cloneResearch = new System.Windows.Forms.ToolStripMenuItem();
-            this.browserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.browserDlg = new System.Windows.Forms.FolderBrowserDialog();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newResearchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.basicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,6 +63,7 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modelCheckingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -70,14 +77,6 @@
             this.analyzeOptionsTable = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.statusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tracingColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.generationColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.storageColumn = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.modelColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.researchColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.modelCheckingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.researchTable)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.realizationCountTxt)).BeginInit();
@@ -99,9 +98,9 @@
             // 
             this.researchTable.AllowUserToAddRows = false;
             this.researchTable.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            this.researchTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            this.researchTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.researchTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
@@ -126,9 +125,71 @@
             this.researchTable.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.researchTable_CellClick);
             this.researchTable.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.researchTable_CellValueChanged);
             this.researchTable.CurrentCellDirtyStateChanged += new System.EventHandler(this.researchTable_CurrentCellDirtyStateChanged);
-            this.researchTable.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.researchTable_RowLeave);
             this.researchTable.SelectionChanged += new System.EventHandler(this.researchTable_SelectionChanged);
             this.researchTable.MouseDown += new System.Windows.Forms.MouseEventHandler(this.researchTable_MouseDown);
+            // 
+            // researchColumn
+            // 
+            this.researchColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.researchColumn.HeaderText = "Research";
+            this.researchColumn.Items.AddRange(new object[] {
+            "Basic",
+            "Evolution",
+            "Percolation"});
+            this.researchColumn.Name = "researchColumn";
+            this.researchColumn.ReadOnly = true;
+            this.researchColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // nameColumn
+            // 
+            this.nameColumn.HeaderText = "Name";
+            this.nameColumn.Name = "nameColumn";
+            this.nameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // modelColumn
+            // 
+            this.modelColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.modelColumn.HeaderText = "Model";
+            this.modelColumn.Items.AddRange(new object[] {
+            "Erdos-Renyi",
+            "Watts-Strogatz",
+            "Barabasi-Albert",
+            "Block-Hierarchical",
+            "NR Block-Hierarchical"});
+            this.modelColumn.Name = "modelColumn";
+            this.modelColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // storageColumn
+            // 
+            this.storageColumn.HeaderText = "Storage";
+            this.storageColumn.Name = "storageColumn";
+            this.storageColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.storageColumn.Text = "";
+            // 
+            // generationColumn
+            // 
+            this.generationColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.generationColumn.HeaderText = "Generation";
+            this.generationColumn.Items.AddRange(new object[] {
+            "Random",
+            "Static"});
+            this.generationColumn.Name = "generationColumn";
+            this.generationColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // tracingColumn
+            // 
+            this.tracingColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.tracingColumn.HeaderText = "Tracing";
+            this.tracingColumn.Name = "tracingColumn";
+            this.tracingColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.tracingColumn.Width = 49;
+            // 
+            // statusColumn
+            // 
+            this.statusColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.statusColumn.HeaderText = "Status";
+            this.statusColumn.Name = "statusColumn";
+            this.statusColumn.ReadOnly = true;
             // 
             // panel1
             // 
@@ -138,7 +199,6 @@
             this.panel1.Controls.Add(this.startResearch);
             this.panel1.Controls.Add(this.stopResearch);
             this.panel1.Controls.Add(this.researchesDoneTxt);
-            this.panel1.Controls.Add(this.delete);
             this.panel1.Location = new System.Drawing.Point(3, 329);
             this.panel1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.panel1.Name = "panel1";
@@ -167,6 +227,7 @@
             this.startResearch.TabIndex = 28;
             this.startResearch.Text = "Start";
             this.startResearch.UseVisualStyleBackColor = true;
+            this.startResearch.Click += new System.EventHandler(this.startResearch_Click);
             // 
             // stopResearch
             // 
@@ -177,6 +238,7 @@
             this.stopResearch.TabIndex = 29;
             this.stopResearch.Text = "Stop";
             this.stopResearch.UseVisualStyleBackColor = true;
+            this.stopResearch.Click += new System.EventHandler(this.stopResearch_Click);
             // 
             // researchesDoneTxt
             // 
@@ -187,16 +249,6 @@
             this.researchesDoneTxt.Size = new System.Drawing.Size(176, 13);
             this.researchesDoneTxt.TabIndex = 30;
             this.researchesDoneTxt.Text = "0 of 1 is done";
-            // 
-            // delete
-            // 
-            this.delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.delete.Location = new System.Drawing.Point(287, 34);
-            this.delete.Name = "delete";
-            this.delete.Size = new System.Drawing.Size(79, 23);
-            this.delete.TabIndex = 33;
-            this.delete.Text = "Delete";
-            this.delete.UseVisualStyleBackColor = true;
             // 
             // generationParametersGroup
             // 
@@ -264,21 +316,21 @@
             // basicNewResearch
             // 
             this.basicNewResearch.Name = "basicNewResearch";
-            this.basicNewResearch.Size = new System.Drawing.Size(152, 22);
+            this.basicNewResearch.Size = new System.Drawing.Size(134, 22);
             this.basicNewResearch.Text = "Basic";
             this.basicNewResearch.Click += new System.EventHandler(this.newBasicMenuItem_Click);
             // 
             // evolutionNewResearch
             // 
             this.evolutionNewResearch.Name = "evolutionNewResearch";
-            this.evolutionNewResearch.Size = new System.Drawing.Size(152, 22);
+            this.evolutionNewResearch.Size = new System.Drawing.Size(134, 22);
             this.evolutionNewResearch.Text = "Evolution";
             this.evolutionNewResearch.Click += new System.EventHandler(this.newEvolutionMenuItem_Click);
             // 
             // percolationNewResearch
             // 
             this.percolationNewResearch.Name = "percolationNewResearch";
-            this.percolationNewResearch.Size = new System.Drawing.Size(152, 22);
+            this.percolationNewResearch.Size = new System.Drawing.Size(134, 22);
             this.percolationNewResearch.Text = "Percolation";
             this.percolationNewResearch.Click += new System.EventHandler(this.newPercolationMenuItem_Click);
             // 
@@ -296,9 +348,9 @@
             this.cloneResearch.Text = "Clone Research";
             this.cloneResearch.Click += new System.EventHandler(this.cloneResearchMenuItem_Click);
             // 
-            // browserDialog
+            // browserDlg
             // 
-            this.browserDialog.Description = "Choose directory for tracing output";
+            this.browserDlg.Description = "Choose directory for tracing output";
             // 
             // fileToolStripMenuItem
             // 
@@ -317,41 +369,41 @@
             this.evolutionToolStripMenuItem,
             this.percolationToolStripMenuItem});
             this.newResearchToolStripMenuItem.Name = "newResearchToolStripMenuItem";
-            this.newResearchToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newResearchToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.newResearchToolStripMenuItem.Text = "&New Research";
             // 
             // basicToolStripMenuItem
             // 
             this.basicToolStripMenuItem.Name = "basicToolStripMenuItem";
-            this.basicToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.basicToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.basicToolStripMenuItem.Text = "Basic";
             this.basicToolStripMenuItem.Click += new System.EventHandler(this.newBasicMenuItem_Click);
             // 
             // evolutionToolStripMenuItem
             // 
             this.evolutionToolStripMenuItem.Name = "evolutionToolStripMenuItem";
-            this.evolutionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.evolutionToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.evolutionToolStripMenuItem.Text = "Evolution";
             this.evolutionToolStripMenuItem.Click += new System.EventHandler(this.newEvolutionMenuItem_Click);
             // 
             // percolationToolStripMenuItem
             // 
             this.percolationToolStripMenuItem.Name = "percolationToolStripMenuItem";
-            this.percolationToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.percolationToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.percolationToolStripMenuItem.Text = "Percolation";
             this.percolationToolStripMenuItem.Click += new System.EventHandler(this.newPercolationMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.settingsToolStripMenuItem.Text = "&Settings...";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.exitToolStripMenuItem.Text = "&Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
             // 
@@ -362,6 +414,13 @@
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
+            // 
+            // modelCheckingToolStripMenuItem
+            // 
+            this.modelCheckingToolStripMenuItem.Name = "modelCheckingToolStripMenuItem";
+            this.modelCheckingToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.modelCheckingToolStripMenuItem.Text = "&Model checking...";
+            this.modelCheckingToolStripMenuItem.Click += new System.EventHandler(this.modelCheckingToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -498,76 +557,6 @@
             this.dataGridViewTextBoxColumn4.Text = "Stop";
             this.dataGridViewTextBoxColumn4.UseColumnTextForButtonValue = true;
             // 
-            // statusColumn
-            // 
-            this.statusColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.statusColumn.HeaderText = "Status";
-            this.statusColumn.Name = "statusColumn";
-            this.statusColumn.ReadOnly = true;
-            // 
-            // tracingColumn
-            // 
-            this.tracingColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.tracingColumn.HeaderText = "Tracing";
-            this.tracingColumn.Name = "tracingColumn";
-            this.tracingColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.tracingColumn.Width = 49;
-            // 
-            // generationColumn
-            // 
-            this.generationColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.generationColumn.HeaderText = "Generation";
-            this.generationColumn.Items.AddRange(new object[] {
-            "Random",
-            "Static"});
-            this.generationColumn.Name = "generationColumn";
-            this.generationColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // storageColumn
-            // 
-            this.storageColumn.HeaderText = "Storage";
-            this.storageColumn.Name = "storageColumn";
-            this.storageColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.storageColumn.Text = "";
-            // 
-            // modelColumn
-            // 
-            this.modelColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.modelColumn.HeaderText = "Model";
-            this.modelColumn.Items.AddRange(new object[] {
-            "Erdos-Renyi",
-            "Watts-Strogatz",
-            "Barabasi-Albert",
-            "Block-Hierarchical",
-            "NR Block-Hierarchical"});
-            this.modelColumn.Name = "modelColumn";
-            this.modelColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // nameColumn
-            // 
-            this.nameColumn.HeaderText = "Name";
-            this.nameColumn.Name = "nameColumn";
-            this.nameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // researchColumn
-            // 
-            this.researchColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.researchColumn.HeaderText = "Research";
-            this.researchColumn.Items.AddRange(new object[] {
-            "Basic",
-            "Evolution",
-            "Percolation"});
-            this.researchColumn.Name = "researchColumn";
-            this.researchColumn.ReadOnly = true;
-            this.researchColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // modelCheckingToolStripMenuItem
-            // 
-            this.modelCheckingToolStripMenuItem.Name = "modelCheckingToolStripMenuItem";
-            this.modelCheckingToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.modelCheckingToolStripMenuItem.Text = "&Model checking...";
-            this.modelCheckingToolStripMenuItem.Click += new System.EventHandler(this.modelCheckingToolStripMenuItem_Click);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -580,7 +569,6 @@
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Main";
-            this.Load += new System.EventHandler(this.MainWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.researchTable)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -611,7 +599,7 @@
         private System.Windows.Forms.ToolStripMenuItem cloneResearch;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.FolderBrowserDialog browserDialog;
+        private System.Windows.Forms.FolderBrowserDialog browserDlg;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -632,7 +620,6 @@
         private System.Windows.Forms.Button startResearch;
         private System.Windows.Forms.Button stopResearch;
         private System.Windows.Forms.TextBox researchesDoneTxt;
-        private System.Windows.Forms.Button delete;
         private System.Windows.Forms.GroupBox generationParametersGroup;
         private System.Windows.Forms.DataGridView generationParametersTable;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;

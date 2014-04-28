@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using Core;
+using Core.Exceptions;
 using Core.Enumerations;
 
 namespace RandomNetworksExplorer
@@ -21,10 +22,7 @@ namespace RandomNetworksExplorer
             InitializeComponent();
         }
 
-        private void MainWindow_Load(object sender, EventArgs e)
-        {
-            
-        }
+        #region Event Handlers
 
         private void newBasicMenuItem_Click(object sender, EventArgs e)
         {
@@ -43,7 +41,7 @@ namespace RandomNetworksExplorer
 
         private void settingsMenuItem_Click(object sender, EventArgs e)
         {
-            Settings settingsWindow = new Settings();
+            SettingsWindow settingsWindow = new SettingsWindow();
             settingsWindow.ShowDialog(this);
         }
 
@@ -80,42 +78,12 @@ namespace RandomNetworksExplorer
 
         private void deleteResearchMenuItem_Click(object sender, EventArgs e)
         {
-            this.researchTable.Rows.Remove(this.researchTable.SelectedRows[0]);
+            RemoveResearch(researchTable.SelectedRows[0]);
         }
 
         private void cloneResearchMenuItem_Click(object sender, EventArgs e)
         {
-            int newRowIndex = this.researchTable.Rows.Add();
-            DataGridViewRow r = this.researchTable.Rows[newRowIndex];
-
-            for (int i = 0; i < r.Cells.Count; ++i)
-            {
-                switch (r.Cells[i].OwningColumn.Name)
-                {
-                    case "nameColumn":
-                        break;
-                    case "statusColumn":
-                        r.Cells[i].Value = "Not Started";
-                        break;
-                    default:
-                        r.Cells[i].Value = researchTable.SelectedRows[0].Cells[i].Value;
-                        break;
-                }
-            }
-
-            researchTable.CurrentCell = researchTable.Rows[newRowIndex].Cells[1];
-            researchTable.BeginEdit(true);
-        }
-
-        private void researchTable_RowLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            /*if (researchesTable.Rows[e.RowIndex].Cells["nameColumn"].Value == null)
-            {
-                MessageBox.Show("Please, enter the research name.", "Error");
-
-                researchesTable.CurrentCell = researchesTable.Rows[e.RowIndex].Cells["nameColumn"];
-                researchesTable.BeginEdit(true);
-            }*/
+            CloneResearch(researchTable.SelectedRows[0]);
         }
 
         private void researchTable_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -123,8 +91,8 @@ namespace RandomNetworksExplorer
             if (e.RowIndex != -1 &&
                 e.ColumnIndex == researchTable.Rows[e.RowIndex].Cells["storageColumn"].ColumnIndex)
             {
-                StorageSettings storageSettingsDlg = new StorageSettings();
-                storageSettingsDlg.ShowDialog();
+                StorageSettingsWindow storageSettingsDlg = new StorageSettingsWindow();
+                storageSettingsDlg.ShowDialog(this);
             }
         }
 
@@ -139,7 +107,7 @@ namespace RandomNetworksExplorer
                     DataGridViewCheckBoxCell;
                 if ((bool)(cell.Value) == true)
                 {
-                    browserDialog.ShowDialog();
+                    browserDlg.ShowDialog(this);
                 }
             }
         }
@@ -183,11 +151,28 @@ namespace RandomNetworksExplorer
             researchTableCSM.Show(researchTable, e.X, e.Y);
         }
 
-        // Utilities
-
-        void AddResearch(ResearchType type)
+        private void startResearch_Click(object sender, EventArgs e)
         {
-            //researchIDs.Add(SessionManager.CreateResearch(type));
+            int currentResearchIndex = researchTable.SelectedRows[0].Index;
+            SessionManager.StartResearch(researchIDs[currentResearchIndex]);
+        }
+
+        private void stopResearch_Click(object sender, EventArgs e)
+        {
+            int currentResearchIndex = researchTable.SelectedRows[0].Index;
+            SessionManager.StartResearch(researchIDs[currentResearchIndex]);
+        }
+
+        #endregion
+
+        #region Utilities
+
+        private void AddResearch(ResearchType type)
+        {
+            Guid id = SessionManager.CreateResearch(type);
+            researchIDs.Add(id);
+            FillGenerationParametersTable(id);
+            FillAnalyzeOptionsTable(id);
 
             int newRowIndex = this.researchTable.Rows.Add();
             DataGridViewRow newRow = researchTable.Rows[newRowIndex];
@@ -199,6 +184,9 @@ namespace RandomNetworksExplorer
                     case "researchColumn":
                         DataGridViewComboBoxCell comboCellR = newRow.Cells[i] as DataGridViewComboBoxCell;
                         comboCellR.Value = type.ToString();
+                        break;
+                    case "namaColumn":
+                        newRow.Cells[i].Value = "DefaultResearchName";
                         break;
                     case "modelColumn": // TODO dinamyc fill model types for each research
                     case "generationColumn":
@@ -217,8 +205,84 @@ namespace RandomNetworksExplorer
                 }
             }
 
-            researchTable.CurrentCell = researchTable.Rows[newRowIndex].Cells[1];
+            researchTable.CurrentCell = researchTable.Rows[newRowIndex].Cells["nameColumn"];
             researchTable.BeginEdit(true);
         }
+
+        private void RemoveResearch(DataGridViewRow rowToRemove)
+        {
+            try
+            {
+                SessionManager.StopResearch(researchIDs[rowToRemove.Index]);
+            }
+            catch (CoreException) { }
+            SessionManager.DestroyResearch(researchIDs[rowToRemove.Index]);
+
+            researchIDs.Remove(researchIDs[rowToRemove.Index]);
+            researchTable.Rows.Remove(rowToRemove);
+        }
+
+        private void CloneResearch(DataGridViewRow rowToClone)
+        {
+            researchIDs.Add(SessionManager.CloneResearch(researchIDs[rowToClone.Index]));
+
+            int newRowIndex = this.researchTable.Rows.Add();
+            DataGridViewRow newRow = this.researchTable.Rows[newRowIndex];
+
+            for (int i = 0; i < newRow.Cells.Count; ++i)
+            {
+                switch (newRow.Cells[i].OwningColumn.Name)
+                {
+                    case "namaColumn":
+                        newRow.Cells[i].Value = "DefaultResearchName";
+                        break;
+                    case "statusColumn":
+                        newRow.Cells[i].Value = "Not Started";
+                        break;
+                    default:
+                        newRow.Cells[i].Value = rowToClone.Cells[i].Value;
+                        break;
+                }
+            }
+
+            researchTable.CurrentCell = researchTable.Rows[newRowIndex].Cells["nameColumn"];
+            researchTable.BeginEdit(true);
+        }
+
+        private void FillGenerationParametersTable(Guid id)
+        {
+            generationParametersTable.Rows.Clear();
+
+            Dictionary<GenerationParameter, object> gValues =
+                SessionManager.GetGenerationParameterValues(id);
+            foreach (GenerationParameter g in gValues.Keys)
+            {
+                generationParametersTable.Rows.Add(g.ToString(), gValues[g].ToString());
+            }
+
+            Dictionary<ResearchParameter, object> rValues = 
+                SessionManager.GetResearchParameterValues(id);
+            foreach (ResearchParameter r in rValues.Keys)
+            {
+                generationParametersTable.Rows.Add(r.ToString(), rValues[r].ToString());
+            }
+        }
+
+        private void FillAnalyzeOptionsTable(Guid id)
+        {
+            analyzeOptionsTable.Rows.Clear();
+
+            AnalyzeOption opts = SessionManager.GetAvailableAnalyzeOptions(id);
+            Array existingOptions = Enum.GetValues(typeof(AnalyzeOption));
+            foreach (AnalyzeOption opt in existingOptions)
+            {
+                if ((opts & opt) == opt)
+                {
+                    analyzeOptionsTable.Rows.Add(opt.ToString());
+                }
+            }
+        }
+
+        #endregion
     }
 }

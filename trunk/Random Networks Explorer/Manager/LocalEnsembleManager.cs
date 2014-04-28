@@ -85,7 +85,7 @@ namespace Manager
             networks = new AbstractNetwork[RealizationCount];
             for (int i = 0; i < RealizationCount; i++)
             {
-                ModelTypeInfo[] info = (ModelTypeInfo[])ModelType.GetType().GetCustomAttributes(typeof(ModelTypeInfo), false);
+                ModelTypeInfo[] info = (ModelTypeInfo[])ModelType.GetType().GetField(ModelType.ToString()).GetCustomAttributes(typeof(ModelTypeInfo), false);
                 Type t = Type.GetType(info[0].Implementation);
                 Type[] constructTypes = new Type[] { 
                     typeof(Dictionary<GenerationParameter, object>), 
