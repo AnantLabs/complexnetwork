@@ -14,7 +14,7 @@ namespace RandomGraph.Common.Model.Generation
     /// </summary>
     public enum GenerationParam
     {
-        [GenerationParamInfo(Name = "Number", Type = typeof(Int32))]
+        [GenerationParamInfo(Name = "Number of Vertices", Type = typeof(Int32))]
         Vertices = 1,
 
         [GenerationParamInfo(Name = "Number of Edges", Type = typeof(Int32))]
