@@ -16,7 +16,7 @@ namespace Core
     public abstract class AbstractResearch
     {
         protected ModelType modelType = ModelType.ER;
-        protected int realizationCount;
+        protected int realizationCount = 1;
 
         protected ResearchResult result;
         protected AbstractEnsembleManager currentManager;
@@ -143,7 +143,7 @@ namespace Core
             ModelTypeInfo info = ((ModelTypeInfo[])modelType.GetType().GetField(modelType.ToString()).GetCustomAttributes(typeof(ModelTypeInfo), false))[0];
             Type t = Type.GetType(info.Implementation, true);
             RequiredGenerationParameter[] gp = (RequiredGenerationParameter[])t.GetCustomAttributes(typeof(RequiredGenerationParameter), false);
-            for (int i = 0; i < rp.Length; ++i)
+            for (int i = 0; i < gp.Length; ++i)
                 GenerationParameterValues.Add(gp[i].Parameter, null);
         }
 

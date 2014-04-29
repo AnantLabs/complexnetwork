@@ -30,23 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.researchTable = new System.Windows.Forms.DataGridView();
-            this.researchColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.modelColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.storageColumn = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.generationColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.tracingColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.statusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.researchesTable = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.realizationCountTxt = new System.Windows.Forms.NumericUpDown();
             this.startResearch = new System.Windows.Forms.Button();
             this.stopResearch = new System.Windows.Forms.Button();
             this.researchesDoneTxt = new System.Windows.Forms.TextBox();
-            this.generationParametersGroup = new System.Windows.Forms.GroupBox();
+            this.generationParametersGrp = new System.Windows.Forms.GroupBox();
             this.generationParametersTable = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.researchTableCSM = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.newResearch = new System.Windows.Forms.ToolStripMenuItem();
             this.basicNewResearch = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,42 +64,53 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.statusGroup = new System.Windows.Forms.GroupBox();
+            this.statusGrp = new System.Windows.Forms.GroupBox();
             this.statusTable = new System.Windows.Forms.DataGridView();
             this.topSplitLayout = new System.Windows.Forms.SplitContainer();
-            this.analyzeOptionsGroup = new System.Windows.Forms.GroupBox();
+            this.analyzeOptionsGrp = new System.Windows.Forms.GroupBox();
             this.analyzeOptionsTable = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewButtonColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.researchTable)).BeginInit();
+            this.researchColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.modelColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.storageColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.generationColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.tracingColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.statusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.generationParameterNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.generationParameterValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.analyzeOptionNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.analyzeOptionCheckedColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.statusStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.statusStopColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.researchesTable)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.realizationCountTxt)).BeginInit();
-            this.generationParametersGroup.SuspendLayout();
+            this.generationParametersGrp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.generationParametersTable)).BeginInit();
             this.researchTableCSM.SuspendLayout();
             this.mainMenu.SuspendLayout();
-            this.statusGroup.SuspendLayout();
+            this.statusGrp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.statusTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.topSplitLayout)).BeginInit();
             this.topSplitLayout.Panel1.SuspendLayout();
             this.topSplitLayout.Panel2.SuspendLayout();
             this.topSplitLayout.SuspendLayout();
-            this.analyzeOptionsGroup.SuspendLayout();
+            this.analyzeOptionsGrp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.analyzeOptionsTable)).BeginInit();
             this.SuspendLayout();
             // 
-            // researchTable
+            // researchesTable
             // 
-            this.researchTable.AllowUserToAddRows = false;
-            this.researchTable.AllowUserToDeleteRows = false;
+            this.researchesTable.AllowUserToAddRows = false;
+            this.researchesTable.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            this.researchTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.researchTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.researchesTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.researchesTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.researchTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.researchTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.researchesTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.researchesTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.researchColumn,
             this.nameColumn,
             this.modelColumn,
@@ -113,83 +118,21 @@
             this.generationColumn,
             this.tracingColumn,
             this.statusColumn});
-            this.researchTable.Location = new System.Drawing.Point(6, 6);
-            this.researchTable.MinimumSize = new System.Drawing.Size(500, 0);
-            this.researchTable.MultiSelect = false;
-            this.researchTable.Name = "researchTable";
-            this.researchTable.RowHeadersVisible = false;
-            this.researchTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.researchTable.Size = new System.Drawing.Size(876, 566);
-            this.researchTable.TabIndex = 0;
-            this.researchTable.TabStop = false;
-            this.researchTable.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.researchTable_CellClick);
-            this.researchTable.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.researchTable_CellValueChanged);
-            this.researchTable.CurrentCellDirtyStateChanged += new System.EventHandler(this.researchTable_CurrentCellDirtyStateChanged);
-            this.researchTable.SelectionChanged += new System.EventHandler(this.researchTable_SelectionChanged);
-            this.researchTable.MouseDown += new System.Windows.Forms.MouseEventHandler(this.researchTable_MouseDown);
-            // 
-            // researchColumn
-            // 
-            this.researchColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.researchColumn.HeaderText = "Research";
-            this.researchColumn.Items.AddRange(new object[] {
-            "Basic",
-            "Evolution",
-            "Percolation"});
-            this.researchColumn.Name = "researchColumn";
-            this.researchColumn.ReadOnly = true;
-            this.researchColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // nameColumn
-            // 
-            this.nameColumn.HeaderText = "Name";
-            this.nameColumn.Name = "nameColumn";
-            this.nameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // modelColumn
-            // 
-            this.modelColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.modelColumn.HeaderText = "Model";
-            this.modelColumn.Items.AddRange(new object[] {
-            "Erdos-Renyi",
-            "Watts-Strogatz",
-            "Barabasi-Albert",
-            "Block-Hierarchical",
-            "NR Block-Hierarchical"});
-            this.modelColumn.Name = "modelColumn";
-            this.modelColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // storageColumn
-            // 
-            this.storageColumn.HeaderText = "Storage";
-            this.storageColumn.Name = "storageColumn";
-            this.storageColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.storageColumn.Text = "";
-            // 
-            // generationColumn
-            // 
-            this.generationColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.generationColumn.HeaderText = "Generation";
-            this.generationColumn.Items.AddRange(new object[] {
-            "Random",
-            "Static"});
-            this.generationColumn.Name = "generationColumn";
-            this.generationColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // tracingColumn
-            // 
-            this.tracingColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.tracingColumn.HeaderText = "Tracing";
-            this.tracingColumn.Name = "tracingColumn";
-            this.tracingColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.tracingColumn.Width = 49;
-            // 
-            // statusColumn
-            // 
-            this.statusColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.statusColumn.HeaderText = "Status";
-            this.statusColumn.Name = "statusColumn";
-            this.statusColumn.ReadOnly = true;
+            this.researchesTable.Location = new System.Drawing.Point(6, 6);
+            this.researchesTable.MinimumSize = new System.Drawing.Size(500, 0);
+            this.researchesTable.MultiSelect = false;
+            this.researchesTable.Name = "researchesTable";
+            this.researchesTable.RowHeadersVisible = false;
+            this.researchesTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.researchesTable.Size = new System.Drawing.Size(776, 679);
+            this.researchesTable.TabIndex = 0;
+            this.researchesTable.TabStop = false;
+            this.researchesTable.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.researchTable_CellClick);
+            this.researchesTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.researchesTable_CellEndEdit);
+            this.researchesTable.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.researchTable_CellValueChanged);
+            this.researchesTable.CurrentCellDirtyStateChanged += new System.EventHandler(this.researchTable_CurrentCellDirtyStateChanged);
+            this.researchesTable.SelectionChanged += new System.EventHandler(this.researchTable_SelectionChanged);
+            this.researchesTable.MouseDown += new System.Windows.Forms.MouseEventHandler(this.researchTable_MouseDown);
             // 
             // panel1
             // 
@@ -199,10 +142,10 @@
             this.panel1.Controls.Add(this.startResearch);
             this.panel1.Controls.Add(this.stopResearch);
             this.panel1.Controls.Add(this.researchesDoneTxt);
-            this.panel1.Location = new System.Drawing.Point(3, 329);
+            this.panel1.Location = new System.Drawing.Point(3, 390);
             this.panel1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(372, 60);
+            this.panel1.Size = new System.Drawing.Size(472, 60);
             this.panel1.TabIndex = 36;
             // 
             // realizationCountTxt
@@ -246,23 +189,23 @@
             this.researchesDoneTxt.Location = new System.Drawing.Point(133, 5);
             this.researchesDoneTxt.Name = "researchesDoneTxt";
             this.researchesDoneTxt.ReadOnly = true;
-            this.researchesDoneTxt.Size = new System.Drawing.Size(176, 13);
+            this.researchesDoneTxt.Size = new System.Drawing.Size(333, 13);
             this.researchesDoneTxt.TabIndex = 30;
             this.researchesDoneTxt.Text = "0 of 1 is done";
             // 
-            // generationParametersGroup
+            // generationParametersGrp
             // 
-            this.generationParametersGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.generationParametersGrp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.generationParametersGroup.Controls.Add(this.generationParametersTable);
-            this.generationParametersGroup.Location = new System.Drawing.Point(3, 6);
-            this.generationParametersGroup.Margin = new System.Windows.Forms.Padding(0);
-            this.generationParametersGroup.MinimumSize = new System.Drawing.Size(0, 70);
-            this.generationParametersGroup.Name = "generationParametersGroup";
-            this.generationParametersGroup.Size = new System.Drawing.Size(369, 160);
-            this.generationParametersGroup.TabIndex = 1;
-            this.generationParametersGroup.TabStop = false;
-            this.generationParametersGroup.Text = "Generation Parameters";
+            this.generationParametersGrp.Controls.Add(this.generationParametersTable);
+            this.generationParametersGrp.Location = new System.Drawing.Point(3, 6);
+            this.generationParametersGrp.Margin = new System.Windows.Forms.Padding(0);
+            this.generationParametersGrp.MinimumSize = new System.Drawing.Size(0, 70);
+            this.generationParametersGrp.Name = "generationParametersGrp";
+            this.generationParametersGrp.Size = new System.Drawing.Size(469, 160);
+            this.generationParametersGrp.TabIndex = 1;
+            this.generationParametersGrp.TabStop = false;
+            this.generationParametersGrp.Text = "Generation Parameters";
             // 
             // generationParametersTable
             // 
@@ -271,28 +214,15 @@
             this.generationParametersTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.generationParametersTable.ColumnHeadersVisible = false;
             this.generationParametersTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn5,
-            this.dataGridViewCheckBoxColumn1});
+            this.generationParameterNameColumn,
+            this.generationParameterValueColumn});
             this.generationParametersTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.generationParametersTable.Location = new System.Drawing.Point(3, 16);
             this.generationParametersTable.Name = "generationParametersTable";
             this.generationParametersTable.RowHeadersVisible = false;
-            this.generationParametersTable.Size = new System.Drawing.Size(363, 141);
+            this.generationParametersTable.Size = new System.Drawing.Size(463, 141);
             this.generationParametersTable.TabIndex = 26;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn5.HeaderText = "Column8";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            // 
-            // dataGridViewCheckBoxColumn1
-            // 
-            this.dataGridViewCheckBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewCheckBoxColumn1.HeaderText = "Column9";
-            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-            this.dataGridViewCheckBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewCheckBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.generationParametersTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.generationParametersTable_CellEndEdit);
             // 
             // researchTableCSM
             // 
@@ -466,28 +396,34 @@
             this.dataGridViewTextBoxColumn7.HeaderText = "Column9";
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
             // 
-            // statusGroup
+            // statusGrp
             // 
-            this.statusGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.statusGrp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.statusGroup.Controls.Add(this.statusTable);
-            this.statusGroup.Location = new System.Drawing.Point(3, 392);
-            this.statusGroup.Margin = new System.Windows.Forms.Padding(0);
-            this.statusGroup.MinimumSize = new System.Drawing.Size(0, 70);
-            this.statusGroup.Name = "statusGroup";
-            this.statusGroup.Size = new System.Drawing.Size(369, 183);
-            this.statusGroup.TabIndex = 37;
-            this.statusGroup.TabStop = false;
-            this.statusGroup.Text = "Status";
+            this.statusGrp.Controls.Add(this.statusTable);
+            this.statusGrp.Location = new System.Drawing.Point(3, 453);
+            this.statusGrp.Margin = new System.Windows.Forms.Padding(0);
+            this.statusGrp.MinimumSize = new System.Drawing.Size(0, 70);
+            this.statusGrp.Name = "statusGrp";
+            this.statusGrp.Size = new System.Drawing.Size(469, 235);
+            this.statusGrp.TabIndex = 37;
+            this.statusGrp.TabStop = false;
+            this.statusGrp.Text = "Status";
             // 
             // statusTable
             // 
+            this.statusTable.AllowUserToAddRows = false;
+            this.statusTable.AllowUserToDeleteRows = false;
             this.statusTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.statusTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.statusStatusColumn,
+            this.statusStopColumn});
             this.statusTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.statusTable.Location = new System.Drawing.Point(3, 16);
             this.statusTable.Name = "statusTable";
-            this.statusTable.Size = new System.Drawing.Size(363, 164);
+            this.statusTable.RowHeadersVisible = false;
+            this.statusTable.Size = new System.Drawing.Size(463, 216);
             this.statusTable.TabIndex = 0;
             // 
             // topSplitLayout
@@ -498,33 +434,33 @@
             // 
             // topSplitLayout.Panel1
             // 
-            this.topSplitLayout.Panel1.Controls.Add(this.researchTable);
+            this.topSplitLayout.Panel1.Controls.Add(this.researchesTable);
             this.topSplitLayout.Panel1MinSize = 0;
             // 
             // topSplitLayout.Panel2
             // 
-            this.topSplitLayout.Panel2.Controls.Add(this.analyzeOptionsGroup);
-            this.topSplitLayout.Panel2.Controls.Add(this.generationParametersGroup);
+            this.topSplitLayout.Panel2.Controls.Add(this.analyzeOptionsGrp);
+            this.topSplitLayout.Panel2.Controls.Add(this.generationParametersGrp);
             this.topSplitLayout.Panel2.Controls.Add(this.panel1);
-            this.topSplitLayout.Panel2.Controls.Add(this.statusGroup);
+            this.topSplitLayout.Panel2.Controls.Add(this.statusGrp);
             this.topSplitLayout.Panel2MinSize = 0;
-            this.topSplitLayout.Size = new System.Drawing.Size(1264, 578);
-            this.topSplitLayout.SplitterDistance = 885;
+            this.topSplitLayout.Size = new System.Drawing.Size(1264, 691);
+            this.topSplitLayout.SplitterDistance = 785;
             this.topSplitLayout.TabIndex = 34;
             // 
-            // analyzeOptionsGroup
+            // analyzeOptionsGrp
             // 
-            this.analyzeOptionsGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.analyzeOptionsGrp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.analyzeOptionsGroup.Controls.Add(this.analyzeOptionsTable);
-            this.analyzeOptionsGroup.Location = new System.Drawing.Point(3, 166);
-            this.analyzeOptionsGroup.Margin = new System.Windows.Forms.Padding(0);
-            this.analyzeOptionsGroup.MinimumSize = new System.Drawing.Size(0, 70);
-            this.analyzeOptionsGroup.Name = "analyzeOptionsGroup";
-            this.analyzeOptionsGroup.Size = new System.Drawing.Size(369, 160);
-            this.analyzeOptionsGroup.TabIndex = 35;
-            this.analyzeOptionsGroup.TabStop = false;
-            this.analyzeOptionsGroup.Text = "Analyze Options";
+            this.analyzeOptionsGrp.Controls.Add(this.analyzeOptionsTable);
+            this.analyzeOptionsGrp.Location = new System.Drawing.Point(3, 166);
+            this.analyzeOptionsGrp.Margin = new System.Windows.Forms.Padding(0);
+            this.analyzeOptionsGrp.MinimumSize = new System.Drawing.Size(0, 70);
+            this.analyzeOptionsGrp.Name = "analyzeOptionsGrp";
+            this.analyzeOptionsGrp.Size = new System.Drawing.Size(469, 221);
+            this.analyzeOptionsGrp.TabIndex = 35;
+            this.analyzeOptionsGrp.TabStop = false;
+            this.analyzeOptionsGrp.Text = "Analyze Options";
             // 
             // analyzeOptionsTable
             // 
@@ -533,35 +469,127 @@
             this.analyzeOptionsTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.analyzeOptionsTable.ColumnHeadersVisible = false;
             this.analyzeOptionsTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn4});
+            this.analyzeOptionNameColumn,
+            this.analyzeOptionCheckedColumn});
             this.analyzeOptionsTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.analyzeOptionsTable.Location = new System.Drawing.Point(3, 16);
             this.analyzeOptionsTable.Name = "analyzeOptionsTable";
-            this.analyzeOptionsTable.Size = new System.Drawing.Size(363, 141);
+            this.analyzeOptionsTable.RowHeadersVisible = false;
+            this.analyzeOptionsTable.Size = new System.Drawing.Size(463, 202);
             this.analyzeOptionsTable.TabIndex = 32;
+            this.analyzeOptionsTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.analyzeOptionsTable_CellEndEdit);
             // 
-            // dataGridViewTextBoxColumn3
+            // researchColumn
             // 
-            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn3.HeaderText = "Column8";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.researchColumn.HeaderText = "Research";
+            this.researchColumn.Name = "researchColumn";
+            this.researchColumn.ReadOnly = true;
+            this.researchColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.researchColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // dataGridViewTextBoxColumn4
+            // nameColumn
             // 
-            this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dataGridViewTextBoxColumn4.HeaderText = "Column9";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dataGridViewTextBoxColumn4.Text = "Stop";
-            this.dataGridViewTextBoxColumn4.UseColumnTextForButtonValue = true;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.NullValue = "DefaultResearchName";
+            this.nameColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.nameColumn.HeaderText = "Name";
+            this.nameColumn.Name = "nameColumn";
+            this.nameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // modelColumn
+            // 
+            this.modelColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.modelColumn.HeaderText = "Model";
+            this.modelColumn.Name = "modelColumn";
+            this.modelColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // storageColumn
+            // 
+            this.storageColumn.HeaderText = "Storage";
+            this.storageColumn.Name = "storageColumn";
+            this.storageColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.storageColumn.Text = "";
+            // 
+            // generationColumn
+            // 
+            this.generationColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.generationColumn.HeaderText = "Generation";
+            this.generationColumn.Items.AddRange(new object[] {
+            "Random",
+            "Static"});
+            this.generationColumn.Name = "generationColumn";
+            this.generationColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // tracingColumn
+            // 
+            this.tracingColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.tracingColumn.HeaderText = "Tracing";
+            this.tracingColumn.Name = "tracingColumn";
+            this.tracingColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.tracingColumn.Width = 49;
+            // 
+            // statusColumn
+            // 
+            this.statusColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.statusColumn.HeaderText = "Status";
+            this.statusColumn.Name = "statusColumn";
+            this.statusColumn.ReadOnly = true;
+            // 
+            // generationParameterNameColumn
+            // 
+            this.generationParameterNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.generationParameterNameColumn.FillWeight = 98.47716F;
+            this.generationParameterNameColumn.HeaderText = "Name";
+            this.generationParameterNameColumn.Name = "generationParameterNameColumn";
+            this.generationParameterNameColumn.ReadOnly = true;
+            // 
+            // generationParameterValueColumn
+            // 
+            this.generationParameterValueColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.NullValue = null;
+            this.generationParameterValueColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            this.generationParameterValueColumn.FillWeight = 101.5228F;
+            this.generationParameterValueColumn.HeaderText = "Value";
+            this.generationParameterValueColumn.Name = "generationParameterValueColumn";
+            this.generationParameterValueColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // analyzeOptionNameColumn
+            // 
+            this.analyzeOptionNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.analyzeOptionNameColumn.HeaderText = "Name";
+            this.analyzeOptionNameColumn.Name = "analyzeOptionNameColumn";
+            this.analyzeOptionNameColumn.ReadOnly = true;
+            // 
+            // analyzeOptionCheckedColumn
+            // 
+            this.analyzeOptionCheckedColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.NullValue = "False";
+            this.analyzeOptionCheckedColumn.DefaultCellStyle = dataGridViewCellStyle4;
+            this.analyzeOptionCheckedColumn.HeaderText = "";
+            this.analyzeOptionCheckedColumn.Name = "analyzeOptionCheckedColumn";
+            this.analyzeOptionCheckedColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.analyzeOptionCheckedColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // statusStatusColumn
+            // 
+            this.statusStatusColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.statusStatusColumn.HeaderText = "Status";
+            this.statusStatusColumn.Name = "statusStatusColumn";
+            this.statusStatusColumn.ReadOnly = true;
+            // 
+            // statusStopColumn
+            // 
+            this.statusStopColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.statusStopColumn.HeaderText = "";
+            this.statusStopColumn.Name = "statusStopColumn";
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1264, 602);
+            this.ClientSize = new System.Drawing.Size(1264, 715);
             this.Controls.Add(this.topSplitLayout);
             this.Controls.Add(this.mainMenu);
             this.MainMenuStrip = this.mainMenu;
@@ -569,22 +597,22 @@
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Main";
-            ((System.ComponentModel.ISupportInitialize)(this.researchTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.researchesTable)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.realizationCountTxt)).EndInit();
-            this.generationParametersGroup.ResumeLayout(false);
+            this.generationParametersGrp.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.generationParametersTable)).EndInit();
             this.researchTableCSM.ResumeLayout(false);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
-            this.statusGroup.ResumeLayout(false);
+            this.statusGrp.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.statusTable)).EndInit();
             this.topSplitLayout.Panel1.ResumeLayout(false);
             this.topSplitLayout.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.topSplitLayout)).EndInit();
             this.topSplitLayout.ResumeLayout(false);
-            this.analyzeOptionsGroup.ResumeLayout(false);
+            this.analyzeOptionsGrp.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.analyzeOptionsTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -593,7 +621,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView researchTable;
+        private System.Windows.Forms.DataGridView researchesTable;
         private System.Windows.Forms.ToolStripMenuItem newResearch;
         private System.Windows.Forms.ToolStripMenuItem deleteResearch;
         private System.Windows.Forms.ToolStripMenuItem cloneResearch;
@@ -620,26 +648,28 @@
         private System.Windows.Forms.Button startResearch;
         private System.Windows.Forms.Button stopResearch;
         private System.Windows.Forms.TextBox researchesDoneTxt;
-        private System.Windows.Forms.GroupBox generationParametersGroup;
+        private System.Windows.Forms.GroupBox generationParametersGrp;
         private System.Windows.Forms.DataGridView generationParametersTable;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.GroupBox statusGroup;
+        private System.Windows.Forms.GroupBox statusGrp;
         private System.Windows.Forms.DataGridView statusTable;
         private System.Windows.Forms.SplitContainer topSplitLayout;
-        private System.Windows.Forms.GroupBox analyzeOptionsGroup;
+        private System.Windows.Forms.GroupBox analyzeOptionsGrp;
         private System.Windows.Forms.DataGridView analyzeOptionsTable;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewButtonColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewComboBoxColumn researchColumn;
+        private System.Windows.Forms.ToolStripMenuItem modelCheckingToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn researchColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn modelColumn;
         private System.Windows.Forms.DataGridViewButtonColumn storageColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn generationColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn tracingColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn statusColumn;
-        private System.Windows.Forms.ToolStripMenuItem modelCheckingToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn generationParameterNameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn generationParameterValueColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn statusStatusColumn;
+        private System.Windows.Forms.DataGridViewButtonColumn statusStopColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn analyzeOptionNameColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn analyzeOptionCheckedColumn;
     }
 }
 
