@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.ServiceModel.Discovery;
 
 using Core;
+using Core.Enumerations;
 
 namespace RandomNetworksExplorer
 {
@@ -27,43 +28,55 @@ namespace RandomNetworksExplorer
 
         private void Settings_Load(object sender, EventArgs e)
         {
+            InitializeWorkingModes();
+
             if (SessionManager.ExistsAnyRunningResearch())
                 workingModePage.Enabled = false;
 
-            /*directoryPathTxt.Text = Settings.LoggingPath;
-            textStorageTxt.Text = Settings.OutputPath;
-            databaseTxt.Text = Settings.ConnectionString;
-            tracingDirectoryTxt.Text = Settings.TracingPath;
-
-            distributedCheckBox.Checked = Settings.DistributedMode ? true : false;*/
+            loggingDirectoryTxt.Text = Settings.LoggingDirectory;
+            storageDirectoryTxt.Text = Settings.StorageDirectory;
+            //databaseTxt.Text = Settings.ConnectionString;
+            tracingDirectoryTxt.Text = Settings.TracingDirectory;
+            managerTypeCmb.SelectedIndex = (int)Settings.WorkingMode - 1;
         }
 
-        private void BrowseLogDirButton_Click(object sender, EventArgs e)
+        private void loggingBrowseButton_Click(object sender, EventArgs e)
         {
-
+            if (browserDlg.ShowDialog() == DialogResult.OK)
+            {
+                loggingDirectoryTxt.Text = browserDlg.SelectedPath;
+            }
         }
 
-        private void BrowseFileStorageButton_Click(object sender, EventArgs e)
+        private void storageBrowseButton_Click(object sender, EventArgs e)
         {
-
+            if (browserDlg.ShowDialog() == DialogResult.OK)
+            {
+                storageDirectoryTxt.Text = browserDlg.SelectedPath;
+            }
         }
 
-        private void BrowseDatabaseButton_Click(object sender, EventArgs e)
+        private void tracingBrowseBtn_Click(object sender, EventArgs e)
         {
-
+            if (browserDlg.ShowDialog() == DialogResult.OK)
+            {
+                tracingDirectoryTxt.Text = browserDlg.SelectedPath;
+            }
         }
 
-        private void browseTracingBtn_Click(object sender, EventArgs e)
+        private void managerTypeCmb_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-        }
-
-        private void distributedCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (distributedCheckBox.Checked == true)
-                DistributedModeOn();
-            else
-                DistributedModeOff();
+            switch (managerTypeCmb.SelectedItem.ToString())
+            {
+                case "Local":
+                    DistributedModeOff();
+                    break;
+                case "WCFDistributed":
+                    DistributedModeOn();
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void RefreshButton_Click(object sender, EventArgs e)
@@ -73,17 +86,53 @@ namespace RandomNetworksExplorer
 
         private void SaveSettingsButton_Click(object sender, EventArgs e)
         {
+            /*Settings.Logger = debugCheckBox.Checked ?
+                Settings.LoggerMode.debug :
+                Settings.LoggerMode.info;*/
+            Settings.LoggingDirectory = loggingDirectoryTxt.Text;
+            Settings.StorageDirectory = storageDirectoryTxt.Text;
+            //Settings.ConnectionString = textBoxConnStr.Text;
+            Settings.TracingDirectory = tracingDirectoryTxt.Text;
 
-        }
+            Settings.WorkingMode = (ManagerType)Enum.Parse(typeof(ManagerType),
+                managerTypeCmb.SelectedItem.ToString());
 
-        private void CancelSettingsButton_Click(object sender, EventArgs e)
-        {
+            if (Settings.WorkingMode == ManagerType.WCFDistributed)
+            {
+                if (discoveredServices.CheckedItems.Count == 0)
+                {
+                    MessageBox.Show("Warning", "Please, select at least one computer.");
+                    return;
+                }
+                IList<EndpointDiscoveryMetadata> selectedEndpoints = new List<EndpointDiscoveryMetadata>();
+                foreach (var item in discoveredServices.CheckedItems)
+                {
+                    selectedEndpoints.Add(services[(string)item]);
+                }
+                //ServiceDiscoveryManager.SelectedServices = selectedEndpoints;
+            }
 
+            Settings.Refresh();
+            Close();
         }
 
         #endregion 
 
         #region Utilities
+
+        private void InitializeWorkingModes()
+        {
+            managerTypeCmb.Items.Clear();
+
+            Array availableManagerTypes = Enum.GetValues(typeof(ManagerType));
+            foreach (ManagerType t in availableManagerTypes)
+            {
+                managerTypeCmb.Items.Add(t.ToString());
+            }
+
+            if(managerTypeCmb.Items.Count != 0)
+                managerTypeCmb.SelectedIndex = 0;
+        }
 
         private void DistributedModeOn()
         {
