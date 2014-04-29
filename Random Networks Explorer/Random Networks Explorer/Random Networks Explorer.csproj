@@ -67,6 +67,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataConvertionsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataConvertionsWindow.Designer.cs">
+      <DependentUpon>DataConvertionsWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="HelpWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +105,9 @@
     <Compile Include="StorageSettingsWindow.Designer.cs">
       <DependentUpon>StorageSettingsWindow.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="DataConvertionsWindow.resx">
+      <DependentUpon>DataConvertionsWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HelpWindow.resx">
       <DependentUpon>HelpWindow.cs</DependentUpon>
     </EmbeddedResource>
