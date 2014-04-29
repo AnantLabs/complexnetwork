@@ -9,37 +9,99 @@ using System.IO;
 //using log4net.Appender;
 //using log4net;
 
+using Core.Exceptions;
+using Core.Enumerations;
+
 namespace Core
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class Settings
     {
-        // public members that indicate current settings.
-        static private StorageProvider storage;
-        static private string storageDirectory;
-        static private string connectionString;
-
-        static private bool trainingMode;
-
-        static private bool tracingMode;
-        static private string tracingDirectory;
-
-        static private GenerationMode generation;
-
-        static private bool distributedMode;
-
-        static private LoggerMode logger;
-        static private string loggerDirectory;
-
-        // private member
         static private Configuration config;
 
-        // Properties
+        //static private LoggerMode logger;
+        static private string loggingDirectory;        
+        static private string storageDirectory;
+        //static private StorageProvider storage;
+        //static private string connectionString;
+        static private string tracingDirectory;
+        static private ManagerType workingMode;       
+
+        static Settings()
+        {
+            config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            try
+            {
+                /*if (config.AppSettings.Settings["LoggerMode"].Value == "info")
+                    logger = LoggerMode.info;
+                else if (config.AppSettings.Settings["LoggerMode"].Value == "debug")
+                    logger = LoggerMode.debug;
+                else throw new Exception("LoggerMode is set improperly.");*/
+
+                loggingDirectory = config.AppSettings.Settings["LoggingDirectory"].Value;
+                storageDirectory = config.AppSettings.Settings["StorageDirectory"].Value;
+                //connectionString = config.ConnectionStrings.ConnectionStrings[config.AppSettings.Settings["SQLProvider"].Value].ConnectionString;
+                tracingDirectory = config.AppSettings.Settings["TracingDirectory"].Value;
+                workingMode = (ManagerType)Enum.Parse(typeof(ManagerType), 
+                    config.AppSettings.Settings["WorkingMode"].Value);
+            }
+            catch
+            {
+                throw new CoreException("The structure of Configuration file is not correct.");
+            }
+        }
+
+        /*static public LoggerMode Logger
+        {
+            get
+            {
+                return logger;
+            }
+            set
+            {
+                logger = value;
+                config.AppSettings.Settings["LoggerMode"].Value = (logger == LoggerMode.info) ? "info" : "debug";
+            }
+        }*/
+
+        static public string LoggingDirectory
+        {
+            get
+            {
+                return (loggingDirectory == "") ? 
+                    Directory.GetCurrentDirectory() : 
+                    loggingDirectory;
+            }
+            set
+            {
+                if (value.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                {
+                    loggingDirectory = value;
+                }
+                else
+                {
+                    loggingDirectory = value + Path.DirectorySeparatorChar;
+                }
+
+                if (Directory.Exists(storageDirectory) == false)
+                {
+                    Directory.CreateDirectory(loggingDirectory);
+                }
+                
+                config.AppSettings.Settings["LoggingDirectory"].Value = loggingDirectory;
+            }
+        }
 
         static public string StorageDirectory
         {
             get
             {
-                return storageDirectory;
+                return (storageDirectory == "") ?
+                    Directory.GetCurrentDirectory() :
+                    storageDirectory;
             }
             set
             {
@@ -56,11 +118,12 @@ namespace Core
                 {
                     Directory.CreateDirectory(storageDirectory);
                 }
-                config.AppSettings.Settings["XmlProvider"].Value = storageDirectory;
+
+                config.AppSettings.Settings["StorageDirectory"].Value = storageDirectory;
             }
         }
 
-        static public string ConnectionString 
+        /*static public string ConnectionString 
         {
             get
             {
@@ -72,13 +135,15 @@ namespace Core
                 config.ConnectionStrings.ConnectionStrings[config.AppSettings.Settings["SQLProvider"].Value].ConnectionString
                     = connectionString;
             }
-        }
+        }*/
 
         static public string TracingDirectory
         {
             get
             {
-                return tracingDirectory;
+                return (tracingDirectory == "") ?
+                    Directory.GetCurrentDirectory() :
+                    tracingDirectory;
             }
             set
             {
@@ -95,99 +160,27 @@ namespace Core
                 {
                     Directory.CreateDirectory(tracingDirectory);
                 }
+
                 config.AppSettings.Settings["TracingDirectory"].Value = tracingDirectory;
             }
         }
 
-        static public bool DistributedMode 
+        static public ManagerType WorkingMode 
         {
             get
             {
-                return distributedMode;
+                return workingMode;
             }
             set
             {
-                distributedMode = value;
-                config.AppSettings.Settings["Distributed"].Value = distributedMode ? "yes" : "no";
+                workingMode = value;
+                config.AppSettings.Settings["WorkingMode"].Value = workingMode.ToString(); ;
             }
         }
 
-        static public LoggerMode Logger 
-        {
-            get
-            {
-                return logger;
-            }
-            set
-            {
-                logger = value;
-                config.AppSettings.Settings["LoggerMode"].Value = (logger == LoggerMode.info) ? "info": "debug";
-            }
-        }
-        static public string LoggerDirectory
-        {
-            get
-            {
-                return loggerDirectory;
-            }
-            set
-            {
-                loggerDirectory = value;
-                config.AppSettings.Settings["LoggerDirectory"].Value = loggerDirectory;
-            }
-        }
-
-        static Settings()
-        {
-            config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-
-            if (config.AppSettings.Settings["Storage"].Value == "XmlProvider")
-                storage = StorageProvider.XMLProvider;
-            else if (config.AppSettings.Settings["Storage"].Value == "SQLProvider")
-                storage = StorageProvider.SQLProvider;
-            else throw new Exception("StorageProvider is set improperly.");
-
-            storageDirectory = config.AppSettings.Settings["XmlProvider"].Value;
-
-            connectionString =
-                    config.ConnectionStrings.ConnectionStrings[config.AppSettings.Settings["SQLProvider"].Value].ConnectionString;
-
-            if (config.AppSettings.Settings["Training"].Value == "yes")
-                trainingMode = true;
-            else if (config.AppSettings.Settings["Training"].Value == "no")
-                trainingMode = false;
-            else throw new Exception("Training is set improperly.");
-
-            if (config.AppSettings.Settings["Tracing"].Value == "yes")
-                tracingMode = true;
-            else if (config.AppSettings.Settings["Tracing"].Value == "no")
-                tracingMode = false;
-            else throw new Exception("Tracing is set improperly.");
-
-            tracingDirectory = config.AppSettings.Settings["TracingDirectory"].Value;
-
-            if (config.AppSettings.Settings["Generation"].Value == "random")
-                generation = GenerationMode.randomGeneration;
-            else if (config.AppSettings.Settings["Generation"].Value == "static")
-                generation = GenerationMode.staticGeneration;
-            else throw new Exception("GenerationMode is set improperly.");
-
-            if (config.AppSettings.Settings["Distributed"].Value == "yes")
-                distributedMode = true;
-            else if (config.AppSettings.Settings["Distributed"].Value == "no")
-                distributedMode = false;
-            else throw new Exception("Distributed  is set improperly.");
-
-            if (config.AppSettings.Settings["LoggerMode"].Value == "info")
-                logger = LoggerMode.info;
-            else if (config.AppSettings.Settings["LoggerMode"].Value == "debug")
-                logger = LoggerMode.debug;
-            else throw new Exception("LoggerMode is set improperly.");
-
-            loggerDirectory = config.AppSettings.Settings["LoggerDirectory"].Value;
-        }
-
-        // Other function
+        /// <summary>
+        /// Refreshes app.config file content.
+        /// </summary>
         static public void Refresh()
         {
             config.Save(ConfigurationSaveMode.Modified);
@@ -248,22 +241,16 @@ namespace Core
             rootLogger.Level = h.LevelMap[strLogLevel];*/
         }
         
-        public enum StorageProvider
+        /*public enum StorageProvider
         {
             XMLProvider,
             SQLProvider
-        }
-
-        public enum GenerationMode
-        {
-            randomGeneration,
-            staticGeneration
         }
 
         public enum LoggerMode
         {
             info,
             debug
-        }
+        }*/
     }
 }
