@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Library\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -76,7 +76,6 @@
     <Compile Include="Result\EnsembleResult.cs" />
     <Compile Include="Result\RealizationResult.cs" />
     <Compile Include="Result\ResearchResult.cs" />
-    <Compile Include="SessionManager.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Utility\FileManager.cs" />
   </ItemGroup>

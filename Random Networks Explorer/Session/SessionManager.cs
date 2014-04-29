@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Core;
 using Core.Enumerations;
 using Core.Attributes;
 using Core.Exceptions;
 
-namespace Core
+namespace Session
 {
     /// <summary>
     /// Research organization and manipulation interface.
@@ -344,10 +345,10 @@ namespace Core
             try
             {
                 AvailableAnalyzeOption rAvailableOptions = ((AvailableAnalyzeOption[])existingResearches[id].GetType().GetCustomAttributes(typeof(AvailableAnalyzeOption), true))[0];
-                ModelType t = existingResearches[id].ModelType;
-                AvailableAnalyzeOption mAvailableOptions = ((AvailableAnalyzeOption[])t.GetType().GetField(t.ToString()).GetCustomAttributes(typeof(AvailableAnalyzeOption), false))[0];
+                //ModelType t = existingResearches[id].ModelType;
+                //AvailableAnalyzeOption mAvailableOptions = ((AvailableAnalyzeOption[])t.GetType().GetField(t.ToString()).GetCustomAttributes(typeof(AvailableAnalyzeOption), false))[0];
 
-                return rAvailableOptions.Options & mAvailableOptions.Options;
+                return rAvailableOptions.Options;// & mAvailableOptions.Options;
             }
             catch (KeyNotFoundException)
             {

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.ServiceModel.Discovery;
 
+using Session;
 using Core;
 using Core.Enumerations;
 
