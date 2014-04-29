@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F5E77D3F-86E7-435B-B269-C1F618EB829C}</ProjectGuid>
+    <ProjectGuid>{CCFA6E32-253E-4E0D-A8FA-5856069268F9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WSModel</RootNamespace>
-    <AssemblyName>WSModel</AssemblyName>
+    <RootNamespace>Session</RootNamespace>
+    <AssemblyName>Session</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,21 +41,48 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WSNetwork.cs" />
-    <Compile Include="WSNetworkGenerator.cs" />
+    <Compile Include="SessionManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BAModel\BAModel.csproj">
+      <Project>{EC12671D-FB67-4E24-9CB7-0785CE78BD06}</Project>
+      <Name>BAModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{479C57F7-2B45-48F4-B434-C7E59D0B0F7B}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ERModel\ERModel.csproj">
+      <Project>{F89973D5-0B32-4DAA-80B7-8A5A7F717168}</Project>
+      <Name>ERModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Manager\Manager.csproj">
+      <Project>{815A286D-DAF5-42B6-90E6-9CB1AA73CCB2}</Project>
+      <Name>Manager</Name>
     </ProjectReference>
     <ProjectReference Include="..\NetworkModel\NetworkModel.csproj">
       <Project>{8C7DE68F-5FCC-4779-AE38-5EACEB84A4EC}</Project>
       <Name>NetworkModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RandomNumberGeneration\RandomNumberGeneration.csproj">
-      <Project>{C64D64AC-5910-485F-9EE3-60E525952ECE}</Project>
-      <Name>RandomNumberGeneration</Name>
+    <ProjectReference Include="..\NonRegularHierarchicModel\NonRegularHierarchicModel.csproj">
+      <Project>{09ADFD58-61A9-4A46-B9CF-4B7BA6466EC0}</Project>
+      <Name>NonRegularHierarchicModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RegularHierarchicModel\RegularHierarchicModel.csproj">
+      <Project>{14D01A9A-6A57-4E91-B06A-FB9F4E674924}</Project>
+      <Name>RegularHierarchicModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Research\Research.csproj">
+      <Project>{9EAE0FEA-76B8-4C94-9580-6D0902D9D328}</Project>
+      <Name>Research</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Storage\Storage.csproj">
+      <Project>{0F69615E-50D1-40D9-896A-2887A8C68B09}</Project>
+      <Name>Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WSModel\WSModel.csproj">
+      <Project>{F5E77D3F-86E7-435B-B269-C1F618EB829C}</Project>
+      <Name>WSModel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

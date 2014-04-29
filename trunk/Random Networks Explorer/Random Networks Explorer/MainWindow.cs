@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using Session;
 using Core;
 using Core.Exceptions;
 using Core.Enumerations;
