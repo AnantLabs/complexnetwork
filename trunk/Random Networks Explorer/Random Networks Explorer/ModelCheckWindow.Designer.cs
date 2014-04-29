@@ -70,7 +70,8 @@
             // 
             // notExactCheckBtn
             // 
-            this.notExactCheckBtn.Location = new System.Drawing.Point(20, 198);
+            this.notExactCheckBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.notExactCheckBtn.Location = new System.Drawing.Point(6, 168);
             this.notExactCheckBtn.Name = "notExactCheckBtn";
             this.notExactCheckBtn.Size = new System.Drawing.Size(196, 30);
             this.notExactCheckBtn.TabIndex = 4;
@@ -80,8 +81,9 @@
             // 
             // notExactResult
             // 
+            this.notExactResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.notExactResult.AutoSize = true;
-            this.notExactResult.Location = new System.Drawing.Point(272, 207);
+            this.notExactResult.Location = new System.Drawing.Point(258, 177);
             this.notExactResult.Name = "notExactResult";
             this.notExactResult.Size = new System.Drawing.Size(37, 13);
             this.notExactResult.TabIndex = 5;
@@ -89,7 +91,8 @@
             // 
             // notExactResultTxt
             // 
-            this.notExactResultTxt.Location = new System.Drawing.Point(315, 204);
+            this.notExactResultTxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.notExactResultTxt.Location = new System.Drawing.Point(301, 174);
             this.notExactResultTxt.Name = "notExactResultTxt";
             this.notExactResultTxt.ReadOnly = true;
             this.notExactResultTxt.Size = new System.Drawing.Size(258, 20);
@@ -98,12 +101,15 @@
             // 
             // checkersTab
             // 
+            this.checkersTab.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.checkersTab.Controls.Add(this.notExactTab);
             this.checkersTab.Controls.Add(this.exactTab);
-            this.checkersTab.Location = new System.Drawing.Point(15, 58);
+            this.checkersTab.Location = new System.Drawing.Point(12, 51);
             this.checkersTab.Name = "checkersTab";
             this.checkersTab.SelectedIndex = 0;
-            this.checkersTab.Size = new System.Drawing.Size(603, 269);
+            this.checkersTab.Size = new System.Drawing.Size(574, 233);
             this.checkersTab.TabIndex = 9;
             // 
             // notExactTab
@@ -115,13 +121,16 @@
             this.notExactTab.Location = new System.Drawing.Point(4, 22);
             this.notExactTab.Name = "notExactTab";
             this.notExactTab.Padding = new System.Windows.Forms.Padding(3);
-            this.notExactTab.Size = new System.Drawing.Size(595, 243);
+            this.notExactTab.Size = new System.Drawing.Size(566, 207);
             this.notExactTab.TabIndex = 0;
             this.notExactTab.Text = "Not Exact Method";
             this.notExactTab.UseVisualStyleBackColor = true;
             // 
             // notExactDataGrp
             // 
+            this.notExactDataGrp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.notExactDataGrp.Controls.Add(this.notExactBrowseBtn);
             this.notExactDataGrp.Controls.Add(this.notExactFilePath);
             this.notExactDataGrp.Controls.Add(this.notExactFilePathTxt);
@@ -129,7 +138,7 @@
             this.notExactDataGrp.Controls.Add(this.degreesRadio);
             this.notExactDataGrp.Controls.Add(this.degrees);
             this.notExactDataGrp.Controls.Add(this.degreesTxt);
-            this.notExactDataGrp.Location = new System.Drawing.Point(20, 24);
+            this.notExactDataGrp.Location = new System.Drawing.Point(6, 6);
             this.notExactDataGrp.Name = "notExactDataGrp";
             this.notExactDataGrp.Size = new System.Drawing.Size(552, 156);
             this.notExactDataGrp.TabIndex = 8;
@@ -212,14 +221,14 @@
             this.exactTab.Location = new System.Drawing.Point(4, 22);
             this.exactTab.Name = "exactTab";
             this.exactTab.Padding = new System.Windows.Forms.Padding(3);
-            this.exactTab.Size = new System.Drawing.Size(595, 243);
+            this.exactTab.Size = new System.Drawing.Size(566, 207);
             this.exactTab.TabIndex = 1;
             this.exactTab.Text = "Exact Method";
             this.exactTab.UseVisualStyleBackColor = true;
             // 
             // exactCheckBtn
             // 
-            this.exactCheckBtn.Location = new System.Drawing.Point(21, 198);
+            this.exactCheckBtn.Location = new System.Drawing.Point(6, 168);
             this.exactCheckBtn.Name = "exactCheckBtn";
             this.exactCheckBtn.Size = new System.Drawing.Size(196, 30);
             this.exactCheckBtn.TabIndex = 10;
@@ -229,7 +238,7 @@
             // 
             // exactResultTxt
             // 
-            this.exactResultTxt.Location = new System.Drawing.Point(316, 204);
+            this.exactResultTxt.Location = new System.Drawing.Point(301, 174);
             this.exactResultTxt.Name = "exactResultTxt";
             this.exactResultTxt.ReadOnly = true;
             this.exactResultTxt.Size = new System.Drawing.Size(258, 20);
@@ -239,7 +248,7 @@
             // exactResult
             // 
             this.exactResult.AutoSize = true;
-            this.exactResult.Location = new System.Drawing.Point(273, 207);
+            this.exactResult.Location = new System.Drawing.Point(258, 177);
             this.exactResult.Name = "exactResult";
             this.exactResult.Size = new System.Drawing.Size(37, 13);
             this.exactResult.TabIndex = 11;
@@ -250,7 +259,7 @@
             this.exactDataGrp.Controls.Add(this.exactBrowseBtn);
             this.exactDataGrp.Controls.Add(this.exactFilePath);
             this.exactDataGrp.Controls.Add(this.exactFilePathTxt);
-            this.exactDataGrp.Location = new System.Drawing.Point(20, 24);
+            this.exactDataGrp.Location = new System.Drawing.Point(6, 6);
             this.exactDataGrp.Name = "exactDataGrp";
             this.exactDataGrp.Size = new System.Drawing.Size(552, 156);
             this.exactDataGrp.TabIndex = 9;
@@ -285,7 +294,7 @@
             // 
             // modelNameTxt
             // 
-            this.modelNameTxt.Location = new System.Drawing.Point(15, 25);
+            this.modelNameTxt.Location = new System.Drawing.Point(12, 25);
             this.modelNameTxt.Name = "modelNameTxt";
             this.modelNameTxt.ReadOnly = true;
             this.modelNameTxt.Size = new System.Drawing.Size(171, 20);
@@ -296,15 +305,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(634, 349);
+            this.ClientSize = new System.Drawing.Size(594, 293);
             this.Controls.Add(this.modelNameTxt);
             this.Controls.Add(this.checkersTab);
             this.Controls.Add(this.modelName);
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "ModelCheckWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Model Check Window";
+            this.Text = "Model Check Tool";
             this.Load += new System.EventHandler(this.ModelCheckWindow_Load);
             this.checkersTab.ResumeLayout(false);
             this.notExactTab.ResumeLayout(false);

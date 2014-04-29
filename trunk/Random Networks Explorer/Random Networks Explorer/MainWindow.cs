@@ -68,7 +68,13 @@ namespace RandomNetworksExplorer
         private void modelCheckingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ModelCheckWindow modelCheckWnd = new ModelCheckWindow();
-            modelCheckWnd.ShowDialog();
+            modelCheckWnd.Show();
+        }
+
+        private void dataConvertionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataConvertionsWindow dataConvertionsWnd = new DataConvertionsWindow();
+            dataConvertionsWnd.Show();
         }
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
@@ -207,12 +213,39 @@ namespace RandomNetworksExplorer
 
         private void generationParametersTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            if (generationParametersTable[e.ColumnIndex, e.RowIndex].OwningColumn.Name ==
+                "generationParameterValueColumn")
+            {
+                int currentResearchIndex = researchesTable.SelectedRows[0].Index;
+                GenerationParameter currentGenerationParameter = 
+                    (GenerationParameter)Enum.Parse(typeof(GenerationParameter),
+                    generationParametersTable["generationParameterNameColumn", e.RowIndex].Value.ToString());
 
+                SessionManager.SetGenerationParameterValue(researchIDs[currentResearchIndex],
+                    currentGenerationParameter, 
+                    generationParametersTable[e.ColumnIndex, e.RowIndex].Value);
+            }
         }
 
         private void analyzeOptionsTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            if (analyzeOptionsTable[e.ColumnIndex, e.RowIndex].OwningColumn.Name ==
+                "analyzeOptionCheckedColumn")
+            {
+                int currentResearchIndex = researchesTable.SelectedRows[0].Index;
+                AnalyzeOption currentAnalyzeOption = 
+                    (AnalyzeOption)Enum.Parse(typeof(AnalyzeOption),
+                    analyzeOptionsTable["analyzeOptionNameColumn", e.RowIndex].Value.ToString());
+                AnalyzeOption opts = SessionManager.GetAnalyzeOptions(researchIDs[currentResearchIndex]);
+              
+                DataGridViewCheckBoxCell c = analyzeOptionsTable[e.ColumnIndex, e.RowIndex] as DataGridViewCheckBoxCell;
+                if ((bool)(c.Value) == true)
+                    opts |= currentAnalyzeOption;
+                else
+                    opts ^= currentAnalyzeOption;
 
+                SessionManager.SetAnalyzeOptions(researchIDs[currentResearchIndex], opts);
+            }
         }
 
         private void startResearch_Click(object sender, EventArgs e)
