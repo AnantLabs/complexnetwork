@@ -15,10 +15,21 @@ namespace Core
     {
         protected string storageStr;
 
+        public string StorageString
+        {
+            get { return storageStr; }
+        }
+
         public AbstractResultStorage(string str)
         {
             storageStr = str;
         }
+
+        /// <summary>
+        /// Returns storage type.
+        /// </summary>
+        /// <returns>Storage type.</returns>
+        public abstract StorageType GetStorageType();
 
         /// <summary>
         /// 

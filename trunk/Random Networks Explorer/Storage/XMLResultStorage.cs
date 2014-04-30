@@ -29,6 +29,11 @@ namespace Storage
             }
         }
 
+        public override StorageType GetStorageType()
+        {
+            return StorageType.XMLStorage;
+        }
+
         public override void Save(ResearchResult result)
         {
             if (!Directory.Exists(storageStr))
