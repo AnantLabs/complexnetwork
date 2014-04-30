@@ -609,6 +609,38 @@ namespace Model.NonRegularHierarchicModel.Realization
             return result;
         }
 
+        /// <summary>
+        /// Возвращает список матриц смежности узлов.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public Dictionary<int, ArrayList> nodeMatrixList(BitArray node, int branchSize)
+        {
+            Dictionary<int, ArrayList> matrixList = new Dictionary<int, ArrayList>();
+            for (int i = 0; i < branchSize; ++i)
+            {
+                matrixList.Add(i, new ArrayList());
+            }
+
+            for (int i = 0; i < branchSize - 1; ++i)
+            {
+                int s = i + 1;
+                for (int j = i * (branchSize - (i - 1) - 1) + i * (i - 1) / 2;
+                    j < (i + 1) * (branchSize - i - 1) + i * (i + 1) / 2;
+                    ++j)
+                {
+                    if (node[j] == true)
+                    {
+                        matrixList[i].Add(s);
+                        matrixList[s].Add(i);
+                    }
+                    ++s;
+                }
+            }
+
+            return matrixList;
+        }
+
         // Возвращает число ребер  дерево данного уровня и номера.
         public int CountEdges(int currentLevel, int numberNode)
         {

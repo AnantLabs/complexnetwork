@@ -5,6 +5,7 @@ using System.Linq;
 
 using CommonLibrary.Model;
 using log4net;
+using Model.HierarchicModel.Realization;
 
 namespace Model.NonRegularHierarchicModel.Realization
 {
@@ -52,8 +53,15 @@ namespace Model.NonRegularHierarchicModel.Realization
             {
                 CountPathDistribution();
             }
-
+            
             return diameter;
+        }
+
+        // Возвращается распределение чисел связанных подграфов в графе. Реализовано.
+        public override SortedDictionary<int, int> GetConnSubGraph()
+        {
+            log.Info("Getting connected subgraphs.");
+            return AmountConnectedSubGraphs(0, 0);
         }
 
         // Возвращается число циклов длиной 3 в графе. Реализовано.
@@ -526,5 +534,73 @@ namespace Model.NonRegularHierarchicModel.Realization
         }
 
         public int bIndex { get; set; }
+
+        private SortedDictionary<int, int> AmountConnectedSubGraphs(int level, int numberNode)
+        {
+            SortedDictionary<int, int> retArray = new SortedDictionary<int, int>();
+
+            if (level == container.Level)
+            {
+                retArray[1] = 1;
+                return retArray;
+            }
+
+            int branchSize = container.Branches[level][numberNode];
+            int branchStart = container.FindBranches(level, numberNode);
+            BitArray node = container.TreeNode(level, numberNode);
+
+            bool haveOne = false;
+            for (int i = 0; i < branchSize; ++i)
+            {
+                if (container.CountConnectedBlocks(node, branchSize, i) == 0)
+                {
+                    SortedDictionary<int, int> array = AmountConnectedSubGraphs(level + 1, branchStart + i);
+
+                    foreach (KeyValuePair<int, int> kvt in array)
+                    {
+                        if (retArray.Keys.Contains(kvt.Key))
+                            retArray[kvt.Key] += kvt.Value;
+                        else
+                            retArray.Add(kvt.Key, kvt.Value);
+                    }
+                }
+                else
+                {
+                    haveOne = true;
+                }
+            }
+
+            if (haveOne)
+            {
+                EngineForConnectedComp engForConnectedComponent = new EngineForConnectedComp();
+                Dictionary<int, ArrayList> nodeMadrixList = container.nodeMatrixList(node, branchSize);
+
+                Dictionary<int, ArrayList> connComp = engForConnectedComponent.
+                    GetConnSGruph(nodeMadrixList, branchSize);
+                int countConnElements = 0;
+                for (int i = 0; i < connComp.Count; ++i)
+                {
+                    if (connComp[i].Count > 1)
+                    {
+                        countConnElements = 0;
+                        for (int j = 0; j < connComp[i].Count; ++j)
+                        {
+                            countConnElements += container.CountLeaves(level + 1, branchStart + (int)connComp[i][j]);
+                        }
+
+                        if (retArray.Keys.Contains(countConnElements))
+                        {
+                            retArray[countConnElements] += 1;
+                        }
+                        else
+                        {
+                            retArray.Add(countConnElements, 1);
+                        }
+                    }
+                }
+            }
+
+            return retArray;
+        }
     }
 }
