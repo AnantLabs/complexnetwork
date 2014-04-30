@@ -5,7 +5,7 @@ using System.Collections;
 namespace Model.HierarchicModel.Realization
 {
     // Вспомогательный класс-инженер (для вычисления связанных компонентов).
-    class EngineForConnectedComp
+    public class EngineForConnectedComp
     {
         // Количество вершин в графе.
         private int N;
@@ -43,6 +43,21 @@ namespace Model.HierarchicModel.Realization
                 if (conn_comp[i].Count > 1)
                     arr.Add(conn_comp[i].Count);
             return arr;
+        }
+
+        // Added by Mikayel Samvelyan 
+        public Dictionary<int, ArrayList> GetConnSGruph(Dictionary<int, ArrayList> graph, int countNodes)
+        {
+            int[][] grp = new int[countNodes][];
+            for (int i = 0; i < countNodes; ++i)
+            {
+                grp[i] = new int[graph[i].Count];
+                for (int j = 0; j < grp[i].Length; ++j)
+                    grp[i][j] = Convert.ToInt32(graph[i][j]);
+            }
+            FindConnSGruph(grp, countNodes);
+            Dictionary<int, ArrayList> retconn_comp = conn_comp;
+            return retconn_comp;
         }
         
         // Утилиты.
