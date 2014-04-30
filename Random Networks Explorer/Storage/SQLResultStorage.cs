@@ -16,6 +16,11 @@ namespace Storage
     {
         public SQLResultStorage(string str) : base(str) { }
 
+        public override StorageType GetStorageType()
+        {
+            return StorageType.SQLStorage;
+        }
+
         public override void Save(ResearchResult result)
         {
             throw new NotImplementedException();

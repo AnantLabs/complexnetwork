@@ -16,6 +16,11 @@ namespace Storage
     {
         public TXTResultStorage(string str) : base(str) { }
 
+        public override StorageType GetStorageType()
+        {
+            return StorageType.TXTStorage;
+        }
+
         public override void Save(ResearchResult result)
         {
             throw new NotImplementedException();

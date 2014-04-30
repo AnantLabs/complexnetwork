@@ -74,9 +74,9 @@ namespace Core
 
         public Status Status { get; private set; }
 
-        public Dictionary<ResearchParameter, object> ResearchParameterValues { get; private set; }
+        public Dictionary<ResearchParameter, object> ResearchParameterValues { get; set; }
 
-        public Dictionary<GenerationParameter, object> GenerationParameterValues { get; private set; }
+        public Dictionary<GenerationParameter, object> GenerationParameterValues { get; set; }
 
         public AnalyzeOption AnalyzeOption { get; set; }
 

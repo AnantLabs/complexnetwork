@@ -25,16 +25,18 @@ namespace Session
         /// <summary>
         /// Creates a default research and adds to existingResearches.
         /// </summary>
-        /// <param name="type">The type of research to create.</param>
+        /// <param name="researchType">The type of research to create.</param>
         /// <returns>ID of created Research.</returns>
-        public static Guid CreateResearch(ResearchType type)
+        public static Guid CreateResearch(ResearchType researchType)
         {
-            return CreateResearch(type,
-                ModelType.ER,
-                "DefaultResearchName",
-                StorageType.XMLStorage,
-                "", //Settings.StorageDirectory,
-                "");
+            AbstractResearch r = CreateResearchFromType(researchType);
+            existingResearches.Add(r.ResearchID, r);
+            r.ModelType = GetAvailableModelTypes(r.ResearchID)[0];
+            r.ResearchName = "Default";
+            r.Storage = CreateStorage(StorageType.XMLStorage, Settings.StorageDirectory);
+            r.TracingPath = "";
+
+            return r.ResearchID;
         }
 
         /// <summary>
@@ -55,12 +57,12 @@ namespace Session
             string tracingPath)
         {
             AbstractResearch r = CreateResearchFromType(researchType);
+            existingResearches.Add(r.ResearchID, r);
             r.ModelType = modelType;
             r.ResearchName = researchName;
             r.Storage = CreateStorage(storage, storageString);
             r.TracingPath = tracingPath;
 
-            existingResearches.Add(r.ResearchID, r);
             return r.ResearchID;
         }
 
@@ -87,14 +89,30 @@ namespace Session
         /// <returns>ID of created Research.</returns>
         public static Guid CloneResearch(Guid id)
         {
-            AbstractResearch temp = existingResearches[id];
-            // TODO correct the call
-            return CreateResearch(ResearchType.Basic,
-                temp.ModelType,
-                "DefaultResearchName",
-                StorageType.XMLStorage,
-                "",
-                temp.TracingPath);
+            try
+            {
+                AbstractResearch researchToClone = existingResearches[id];
+
+                AbstractResearch r = CreateResearchFromType(researchToClone.GetResearchType());
+                existingResearches.Add(r.ResearchID, r);
+                r.ModelType = researchToClone.ModelType;
+                r.ResearchName = "Cloned";
+                r.Storage = CreateStorage(researchToClone.Storage.GetStorageType(),
+                    researchToClone.Storage.StorageString);
+                r.TracingPath = researchToClone.TracingPath;
+
+                r.RealizationCount = researchToClone.RealizationCount;
+
+                r.ResearchParameterValues = researchToClone.ResearchParameterValues;
+                r.GenerationParameterValues = researchToClone.GenerationParameterValues;
+                r.AnalyzeOption = researchToClone.AnalyzeOption;
+
+                return r.ResearchID;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
         }
 
         /// <summary>
@@ -150,7 +168,7 @@ namespace Session
         /// <summary>
         /// Checks if exists any running research.
         /// </summary>
-        /// <returns>true, if exists. false otherwise.</returns>
+        /// <returns>'true', if exists. 'false' otherwise.</returns>
         public static bool ExistsAnyRunningResearch()
         {
             if (existingResearches.Count == 0)
@@ -168,15 +186,32 @@ namespace Session
         }
 
         /// <summary>
-        /// Sets model type for specified research.
+        /// Retrieved the type of specified research.
         /// </summary>
         /// <param name="id">ID of research.</param>
-        /// <param name="modelType">Model type to set.</param>
-        public static void SetModelType(Guid id, ModelType modelType)
+        /// <returns>Type of research.</returns>
+        public static ResearchType GetResearchType(Guid id)
         {
             try
             {
-                existingResearches[id].ModelType = modelType;
+                return existingResearches[id].GetResearchType();
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// Gets the name of specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <returns>Name of research.</returns>
+        public static string GetResearchName(Guid id)
+        {
+            try
+            {
+                return existingResearches[id].ResearchName;
             }
             catch (KeyNotFoundException)
             {
@@ -202,12 +237,85 @@ namespace Session
         }
 
         /// <summary>
+        /// Retrieves available model types for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <returns>List of available model types.</returns>
+        public static List<ModelType> GetAvailableModelTypes(Guid id)
+        {
+            try
+            {
+                List<ModelType> r = new List<ModelType>();
+                AvailableModelType[] rAvailableModelTypes = (AvailableModelType[])existingResearches[id].GetType().GetCustomAttributes(typeof(AvailableModelType), true);
+                for (int i = 0; i < rAvailableModelTypes.Length; ++i)
+                    r.Add(rAvailableModelTypes[i].ModelType);
+
+                return r;
+            }
+            catch(KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// Gets model type for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <returns>Model type.</returns>
+        public static ModelType GetResearchModelType(Guid id)
+        {
+            try
+            {
+                return existingResearches[id].ModelType;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// Sets model type for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <param name="modelType">Model type to set.</param>
+        public static void SetResearchModelType(Guid id, ModelType modelType)
+        {
+            try
+            {
+                existingResearches[id].ModelType = modelType;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the storage type for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <returns>Storage type of research.</returns>
+        public static StorageType GetResearchStorageType(Guid id)
+        {
+            try
+            {
+                return existingResearches[id].Storage.GetStorageType();
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
         /// Sets storage for specified research.
         /// </summary>
         /// <param name="id">ID of research.</param>
         /// <param name="storage">The storage type for saving results of analyze.</param>
         /// <param name="storageString">Connection string or file path for data storage.</param>
-        public static void SetStorage(Guid id, StorageType storageType, string storageString)
+        public static void SetResearchStorage(Guid id, StorageType storageType, string storageString)
         {
             try
             {
@@ -220,11 +328,28 @@ namespace Session
         }
 
         /// <summary>
+        /// Gets the tracing path for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <returns>Tracing path of research.</returns>
+        public static string GetResearchTracingPath(Guid id)
+        {
+            try
+            {
+                return existingResearches[id].TracingPath;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
         /// Sets tracing path for specified research.
         /// </summary>
         /// <param name="id">ID of research.</param>
         /// <param name="modelType">Path to set. Empty, if tracing is off.</param>
-        public static void SetTracingPath(Guid id, string tracingPath)
+        public static void SetResearchTracingPath(Guid id, string tracingPath)
         {
             try
             {
@@ -237,11 +362,28 @@ namespace Session
         }
 
         /// <summary>
+        /// Gets the realization count for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <returns>Realization count of research.</returns>
+        public static int GetResearchRealizationCount(Guid id)
+        {
+            try
+            {
+                return existingResearches[id].RealizationCount;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
         /// Sets realization count for specified research.
         /// </summary>
         /// <param name="id">ID of research.</param>
         /// <param name="modelType">Realization count to set. Not less then 1.</param>
-        public static void SetRealizationCount(Guid id, int realizationCount)
+        public static void SetResearchRealizationCount(Guid id, int realizationCount)
         {
             try
             {
@@ -251,6 +393,16 @@ namespace Session
             {
                 throw new CoreException("Specified research does not exists.");
             }
+        }
+
+        /// <summary>
+        /// Gets status for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <returns>Status.</returns>
+        public static Status GetResearchStatus(Guid id)
+        {
+            return existingResearches[id].Status;
         }
 
         /// <summary>
@@ -398,16 +550,6 @@ namespace Session
             {
                 throw new CoreException("Specified research does not exists.");
             }
-        }
-
-        /// <summary>
-        /// Gets status for specified research.
-        /// </summary>
-        /// <param name="id">ID of research.</param>
-        /// <returns>Status.</returns>
-        public static Status GetStatus(Guid id)
-        {
-            return existingResearches[id].Status;
         }
 
         #region Utilities
