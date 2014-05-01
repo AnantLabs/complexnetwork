@@ -96,7 +96,7 @@ namespace Session
                 AbstractResearch r = CreateResearchFromType(researchToClone.GetResearchType());
                 existingResearches.Add(r.ResearchID, r);
                 r.ModelType = researchToClone.ModelType;
-                r.ResearchName = "Cloned";
+                r.ResearchName = "Cloned from " + researchToClone.ResearchName;
                 r.Storage = CreateStorage(researchToClone.Storage.GetStorageType(),
                     researchToClone.Storage.StorageString);
                 r.TracingPath = researchToClone.TracingPath;
@@ -302,6 +302,23 @@ namespace Session
             try
             {
                 return existingResearches[id].Storage.GetStorageType();
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the storage string for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <returns>Storage string.</returns>
+        public static string GetResearchStorageString(Guid id)
+        {
+            try
+            {
+                return existingResearches[id].Storage.StorageString;
             }
             catch (KeyNotFoundException)
             {

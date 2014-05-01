@@ -116,7 +116,10 @@ namespace RandomNetworksExplorer
 
             if (researchesTable[e.ColumnIndex, e.RowIndex].OwningColumn.Name == "storageColumn")
             {
-                StorageSettingsWindow storageSettingsDlg = new StorageSettingsWindow();
+                StorageSettingsWindow storageSettingsDlg = new StorageSettingsWindow(
+                    SessionManager.GetResearchStorageType(researchIDs[e.RowIndex]), 
+                    SessionManager.GetResearchStorageString(researchIDs[e.RowIndex]));
+
                 if (storageSettingsDlg.ShowDialog() == DialogResult.OK)
                 {
                     DataGridViewButtonCell btn = researchesTable.Rows[e.RowIndex].Cells["storageColumn"] as DataGridViewButtonCell;
@@ -189,7 +192,7 @@ namespace RandomNetworksExplorer
                         (ModelType)Enum.Parse(typeof(ModelType), editedCell.Value.ToString()));
                     break;
                 case "generationColumn":
-                    // TODO change generation mode
+                    FillGenerationParametersTable(researchIDs[e.RowIndex], e.RowIndex);
                     break;
                 default:
                     break;
@@ -231,17 +234,33 @@ namespace RandomNetworksExplorer
 
         private void generationParametersTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (generationParametersTable[e.ColumnIndex, e.RowIndex].OwningColumn.Name ==
-                "generationParameterValueColumn")
+            DataGridViewCell editedCell = generationParametersTable[e.ColumnIndex, e.RowIndex];
+            if (editedCell.OwningColumn.Name == "generationParameterValueColumn")
             {
                 int currentResearchIndex = researchesTable.SelectedRows[0].Index;
-                GenerationParameter currentGenerationParameter = 
-                    (GenerationParameter)Enum.Parse(typeof(GenerationParameter),
-                    generationParametersTable["generationParameterNameColumn", e.RowIndex].Value.ToString());
+                string parameterName = generationParametersTable.Rows[e.RowIndex].
+                    Cells["generationParameterNameColumn"].Value.ToString();
 
-                SessionManager.SetGenerationParameterValue(researchIDs[currentResearchIndex],
-                    currentGenerationParameter, 
-                    generationParametersTable[e.ColumnIndex, e.RowIndex].Value);
+                if (Enum.IsDefined(typeof(GenerationParameter), parameterName))
+                {
+                    GenerationParameter currentGenerationParameter =
+                        (GenerationParameter)Enum.Parse(typeof(GenerationParameter),
+                        parameterName);
+
+                    SessionManager.SetGenerationParameterValue(researchIDs[currentResearchIndex],
+                        currentGenerationParameter, editedCell.Value);
+                }
+                else if (Enum.IsDefined(typeof(ResearchParameter), parameterName))
+                {
+                    ResearchParameter currentResearchParameter =
+                        (ResearchParameter)Enum.Parse(typeof(ResearchParameter),
+                        parameterName);
+
+                    SessionManager.SetResearchParameterValue(researchIDs[currentResearchIndex],
+                        currentResearchParameter, editedCell.Value);
+                }
+                else
+                    throw new SystemException("Parameter name is not correct.");
             }
         }
 
@@ -365,7 +384,7 @@ namespace RandomNetworksExplorer
             }
 
             // filling specified research generation parameters and analyze options
-            FillGenerationParametersTable(researchID);
+            FillGenerationParametersTable(researchID, rowIndex);
             FillAnalyzeOptionsTable(researchID);
 
             realizationCountTxt.Value = SessionManager.GetResearchRealizationCount(researchID);
@@ -384,30 +403,53 @@ namespace RandomNetworksExplorer
 
             researchIDs.Remove(researchIDs[rowToRemove.Index]);
             researchesTable.Rows.Remove(rowToRemove);
+
+            if (researchesTable.Rows.Count == 0)
+            {
+                generationParametersTable.Rows.Clear();
+                analyzeOptionsTable.Rows.Clear();
+                realizationCountTxt.Value = 1;
+                statusTable.Rows.Clear();
+            }
         }
 
-        private void FillGenerationParametersTable(Guid id)
+        private void FillGenerationParametersTable(Guid id, int rowIndex)
         {
             generationParametersTable.Rows.Clear();
 
             Dictionary<GenerationParameter, object> gValues =
                 SessionManager.GetGenerationParameterValues(id);
-            foreach (GenerationParameter g in gValues.Keys)
-            {
-                if (gValues[g] != null)
-                    generationParametersTable.Rows.Add(g.ToString(), gValues[g].ToString());
-                else
-                    generationParametersTable.Rows.Add(g.ToString());
-            }
-
-            Dictionary<ResearchParameter, object> rValues = 
+            Dictionary<ResearchParameter, object> rValues =
                 SessionManager.GetResearchParameterValues(id);
-            foreach (ResearchParameter r in rValues.Keys)
+
+            if (researchesTable.Rows[rowIndex].Cells["generationColumn"].Value.ToString() == "Static")
             {
-                if (rValues[r] != null)
-                    generationParametersTable.Rows.Add(r.ToString(), rValues[r].ToString());
+                if (gValues[GenerationParameter.AdjacencyMatrixFile] != null)
+                    generationParametersTable.Rows.Add("AdjacencyMatrixFile",
+                        gValues[GenerationParameter.AdjacencyMatrixFile].ToString());
                 else
-                    generationParametersTable.Rows.Add(r.ToString());
+                    generationParametersTable.Rows.Add("AdjacencyMatrixFile");
+            }
+            else
+            {
+                foreach (GenerationParameter g in gValues.Keys)
+                {
+                    if (g != GenerationParameter.AdjacencyMatrixFile)
+                    {
+                        if (gValues[g] != null)
+                            generationParametersTable.Rows.Add(g.ToString(), gValues[g].ToString());
+                        else
+                            generationParametersTable.Rows.Add(g.ToString());
+                    }
+                }
+
+                foreach (ResearchParameter r in rValues.Keys)
+                {
+                    if (rValues[r] != null)
+                        generationParametersTable.Rows.Add(r.ToString(), rValues[r].ToString());
+                    else
+                        generationParametersTable.Rows.Add(r.ToString());
+                }
             }
         }
 
