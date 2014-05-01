@@ -14,9 +14,15 @@ namespace RandomNetworksExplorer
 {
     public partial class StorageSettingsWindow : Form
     {
-        public StorageSettingsWindow()
+        StorageType initialStorageType;
+        string initialStorageString;
+
+        public StorageSettingsWindow(StorageType type, string storageString)
         {
             InitializeComponent();
+
+            initialStorageType = type;
+            initialStorageString = storageString;
         }
 
         public StorageType StorageType
@@ -30,7 +36,7 @@ namespace RandomNetworksExplorer
                 else if (sqlRadioButton.Checked)
                     return StorageType.SQLStorage;
                 else
-                    throw new SystemException("Storage type is not set");
+                    throw new SystemException("Storage type is not set.");
             }
             private set { }
         }
@@ -54,10 +60,29 @@ namespace RandomNetworksExplorer
 
         private void StorageSettingsWindow_Load(object sender, EventArgs e)
         {
-            xmlRadioButton.Checked = true;
-            xmlOutputDirectoryTxt.Text = Settings.StorageDirectory;
-            txtOutputDirectoryTxt.Text = Settings.StorageDirectory;
-            //connectionStrTxt.Text = Settings.ConnectionString;
+            switch (initialStorageType)
+            {
+                case StorageType.XMLStorage:
+                    xmlRadioButton.Checked = true;
+                    xmlOutputDirectoryTxt.Text = initialStorageString;
+                    txtOutputDirectoryTxt.Text = Settings.StorageDirectory;
+                    //connectionStrTxt.Text = Settings.ConnectionString;
+                    break;
+                case StorageType.TXTStorage:
+                    txtRadioButton.Checked = true;
+                    xmlOutputDirectoryTxt.Text = Settings.StorageDirectory;
+                    txtOutputDirectoryTxt.Text = initialStorageString;
+                    //connectionStrTxt.Text = Settings.ConnectionString;
+                    break;
+                case StorageType.SQLStorage:
+                    sqlRadioButton.Checked = true;
+                    xmlOutputDirectoryTxt.Text = Settings.StorageDirectory;
+                    txtOutputDirectoryTxt.Text = Settings.StorageDirectory;
+                    //connectionStrTxt.Text = initialStorageString;
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void store_checkedChanged(object sender, EventArgs e)
