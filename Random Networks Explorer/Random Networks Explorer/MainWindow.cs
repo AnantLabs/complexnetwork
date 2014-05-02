@@ -264,24 +264,35 @@ namespace RandomNetworksExplorer
             }
         }
 
-        private void analyzeOptionsTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        private void analyzeOptionsTable_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
             if (analyzeOptionsTable[e.ColumnIndex, e.RowIndex].OwningColumn.Name ==
                 "analyzeOptionCheckedColumn")
             {
                 int currentResearchIndex = researchesTable.SelectedRows[0].Index;
-                AnalyzeOption currentAnalyzeOption = 
+                AnalyzeOption currentAnalyzeOption =
                     (AnalyzeOption)Enum.Parse(typeof(AnalyzeOption),
                     analyzeOptionsTable["analyzeOptionNameColumn", e.RowIndex].Value.ToString());
                 AnalyzeOption opts = SessionManager.GetAnalyzeOptions(researchIDs[currentResearchIndex]);
-              
+
                 DataGridViewCheckBoxCell c = analyzeOptionsTable[e.ColumnIndex, e.RowIndex] as DataGridViewCheckBoxCell;
                 if ((bool)(c.Value) == true)
                     opts |= currentAnalyzeOption;
                 else
-                    opts ^= currentAnalyzeOption;
+                    opts &= ~currentAnalyzeOption;
 
                 SessionManager.SetAnalyzeOptions(researchIDs[currentResearchIndex], opts);
+            }
+        }
+
+        private void analyzeOptionsTable_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (analyzeOptionsTable.IsCurrentCellDirty)
+            {
+                analyzeOptionsTable.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
 
@@ -457,13 +468,18 @@ namespace RandomNetworksExplorer
         {
             analyzeOptionsTable.Rows.Clear();
 
-            AnalyzeOption opts = SessionManager.GetAvailableAnalyzeOptions(id);
+            AnalyzeOption availableOptions = SessionManager.GetAvailableAnalyzeOptions(id);
+            AnalyzeOption checkedOptions = SessionManager.GetAnalyzeOptions(id);
+
             Array existingOptions = Enum.GetValues(typeof(AnalyzeOption));
             foreach (AnalyzeOption opt in existingOptions)
             {
-                if ((opts & opt) == opt)
+                if ((availableOptions & opt) == opt && opt != AnalyzeOption.None)
                 {
-                    analyzeOptionsTable.Rows.Add(opt.ToString(), true);
+                    if((checkedOptions & opt) == opt)
+                        analyzeOptionsTable.Rows.Add(opt.ToString(), true);
+                    else
+                        analyzeOptionsTable.Rows.Add(opt.ToString(), false);
                 }
             }
         }
@@ -472,6 +488,6 @@ namespace RandomNetworksExplorer
         {
         }
 
-        #endregion        
+        #endregion
     }
 }
