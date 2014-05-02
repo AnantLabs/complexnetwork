@@ -514,10 +514,14 @@ namespace Session
             try
             {
                 AvailableAnalyzeOption rAvailableOptions = ((AvailableAnalyzeOption[])existingResearches[id].GetType().GetCustomAttributes(typeof(AvailableAnalyzeOption), true))[0];
-                //ModelType t = existingResearches[id].ModelType;
-                //AvailableAnalyzeOption mAvailableOptions = ((AvailableAnalyzeOption[])t.GetType().GetField(t.ToString()).GetCustomAttributes(typeof(AvailableAnalyzeOption), false))[0];
 
-                return rAvailableOptions.Options;// & mAvailableOptions.Options;
+                ModelType t = existingResearches[id].ModelType;
+                ModelTypeInfo[] info = (ModelTypeInfo[])t.GetType().GetField(t.ToString()).GetCustomAttributes(typeof(ModelTypeInfo), false);
+                Type mt = Type.GetType(info[0].Implementation, true);
+
+                AvailableAnalyzeOption mAvailableOptions = ((AvailableAnalyzeOption[])mt.GetCustomAttributes(typeof(AvailableAnalyzeOption), true))[0];
+
+                return rAvailableOptions.Options & mAvailableOptions.Options;
             }
             catch (KeyNotFoundException)
             {
