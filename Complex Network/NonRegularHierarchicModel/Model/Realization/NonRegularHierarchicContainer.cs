@@ -52,7 +52,8 @@ namespace Model.NonRegularHierarchicModel.Realization
                     vertices = vertexCount;
                 }
                 return vertices;
-            }   
+            }
+            set { } 
         }
 
         public int BranchIndex
