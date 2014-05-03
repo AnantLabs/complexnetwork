@@ -137,6 +137,9 @@ namespace Core
             result.RealizationCount = realizationCount;
             result.Size = CalculateSize();
 
+            result.ResearchParameterValues = ResearchParameterValues;
+            result.GenerationParameterValues = GenerationParameterValues;
+
             Storage.Save(result);
         }
 
