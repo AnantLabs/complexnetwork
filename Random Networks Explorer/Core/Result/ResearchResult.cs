@@ -23,5 +23,10 @@ namespace Core.Result
         public Dictionary<GenerationParameter, object> GenerationParameterValues { get; set; }
 
         public List<EnsembleResult> EnsembleResults { get; set; }
+
+        public ResearchResult()
+        {
+            EnsembleResults = new List<EnsembleResult>();
+        }
     }
 }

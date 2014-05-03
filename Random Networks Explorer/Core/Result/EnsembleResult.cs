@@ -30,8 +30,8 @@ namespace Core.Result
 
             foreach (AnalyzeOption option in results[0].Result.Keys)
             {
-                AnalyzeOptionInfo info = ((AnalyzeOptionInfo[])option.GetType().GetField(option.ToString()).GetCustomAttributes(false))[0];
-                Type t = info.RealizationResultType;
+                AnalyzeOptionInfo[] info = (AnalyzeOptionInfo[])option.GetType().GetField(option.ToString()).GetCustomAttributes(typeof(AnalyzeOptionInfo), false);
+                Type t = info[0].RealizationResultType;
 
                 if(t.Equals(typeof(Double)) || t.Equals(typeof(UInt32)))
                 {

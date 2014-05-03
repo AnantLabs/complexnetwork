@@ -33,9 +33,13 @@ namespace RegularHierarchicModel
 
         public void RandomGeneration(Dictionary<GenerationParameter, object> genParam)
         {
-            UInt16 branchingIndex = (UInt16)genParam[GenerationParameter.BranchingIndex];
-            UInt16 level = (UInt16)genParam[GenerationParameter.Level];
-            Single mu = (Single)genParam[GenerationParameter.Mu];
+            // TODO change without parse
+            //UInt16 branchingIndex = (UInt16)genParam[GenerationParameter.BranchingIndex];
+            //UInt16 level = (UInt16)genParam[GenerationParameter.Level];
+            //Single mu = (Single)genParam[GenerationParameter.Mu];
+            UInt16 branchingIndex = UInt16.Parse(genParam[GenerationParameter.BranchingIndex].ToString());
+            UInt16 level = UInt16.Parse(genParam[GenerationParameter.Level].ToString());
+            Single mu = Single.Parse(genParam[GenerationParameter.Mu].ToString());
 
             container.BranchingIndex = branchingIndex;
             container.Level = level;

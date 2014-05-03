@@ -42,7 +42,7 @@ namespace Storage
             }
 
             string fileName = storageStr + result.ResearchName;
-            if (!File.Exists(fileName + ".xml"))
+            if (File.Exists(fileName + ".xml"))
                 fileName += result.ResearchID;
 
             using (writer = new XmlTextWriter(fileName + ".xml", Encoding.ASCII))
@@ -88,10 +88,13 @@ namespace Storage
             writer.WriteStartElement("ResearchParameterValues");
             foreach (ResearchParameter rp in p.Keys)
             {
-                writer.WriteStartElement("ResearchParameter");
-                writer.WriteAttributeString("name", rp.ToString());
-                writer.WriteAttributeString("value", p[rp].ToString());
-                writer.WriteEndElement();
+                if (p[rp] != null)
+                {
+                    writer.WriteStartElement("ResearchParameter");
+                    writer.WriteAttributeString("name", rp.ToString());
+                    writer.WriteAttributeString("value", p[rp].ToString());
+                    writer.WriteEndElement();
+                }
             }
             writer.WriteEndElement();
         }
@@ -101,10 +104,13 @@ namespace Storage
             writer.WriteStartElement("GenerationParameterValues");
             foreach (GenerationParameter gp in p.Keys)
             {
-                writer.WriteStartElement("GenerationParameter");
-                writer.WriteAttributeString("name", gp.ToString());
-                writer.WriteAttributeString("value", p[gp].ToString());
-                writer.WriteEndElement();
+                if (p[gp] != null)
+                {
+                    writer.WriteStartElement("GenerationParameter");
+                    writer.WriteAttributeString("name", gp.ToString());
+                    writer.WriteAttributeString("value", p[gp].ToString());
+                    writer.WriteEndElement();
+                }
             }
             writer.WriteEndElement();
         }

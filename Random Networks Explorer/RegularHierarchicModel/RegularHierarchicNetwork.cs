@@ -46,8 +46,9 @@ namespace RegularHierarchicModel
                 p[GenerationParameter.BranchingIndex] != null &&
                 p[GenerationParameter.Level] != null)
             {
-                return (UInt32)Math.Pow((UInt16)p[GenerationParameter.BranchingIndex],
-                    (UInt16)p[GenerationParameter.Level]);
+                // TODO change without parse
+                return (UInt32)Math.Pow(UInt16.Parse(p[GenerationParameter.BranchingIndex].ToString()),
+                    UInt16.Parse(p[GenerationParameter.Level].ToString()));
             }
             else
             {

@@ -30,6 +30,8 @@ namespace Core
         {
             generationParameterValues = genParams;
             this.analyzeOptions = analyzeOptions;
+
+            NetworkResult = new RealizationResult();
         }
 
         /// <summary>
@@ -68,7 +70,7 @@ namespace Core
                 Array existingOptions = Enum.GetValues(typeof(AnalyzeOption));
                 foreach (AnalyzeOption opt in existingOptions)
                 {
-                    if ((analyzeOptions & opt) == opt)
+                    if ((analyzeOptions & opt) == analyzeOptions)
                     {
                         NetworkResult.Result.Add(opt, networkAnalyzer.CalculateOption(opt));
                     }
