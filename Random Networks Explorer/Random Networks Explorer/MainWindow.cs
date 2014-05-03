@@ -190,8 +190,11 @@ namespace RandomNetworksExplorer
                 case "modelColumn":
                     SessionManager.SetResearchModelType(researchIDs[e.RowIndex],
                         (ModelType)Enum.Parse(typeof(ModelType), editedCell.Value.ToString()));
+                    FillGenerationParametersTable(researchIDs[e.RowIndex], e.RowIndex);
                     break;
                 case "generationColumn":
+                    SessionManager.SetResearchGenerationType(researchIDs[e.RowIndex],
+                        (GenerationType)Enum.Parse(typeof(GenerationType), editedCell.Value.ToString()));
                     FillGenerationParametersTable(researchIDs[e.RowIndex], e.RowIndex);
                     break;
                 default:
@@ -319,12 +322,6 @@ namespace RandomNetworksExplorer
 
         #region Utilities
 
-        private enum GenerationType
-        {
-            Random,
-            Static
-        }
-
         private void InitializeGenerationTypeColumn()
         {
             DataGridViewComboBoxColumn generationColumn =
@@ -376,8 +373,7 @@ namespace RandomNetworksExplorer
                         row.Cells[i].Value = SessionManager.GetResearchStorageType(researchID).ToString();
                         break;
                     case "generationColumn":
-                        DataGridViewComboBoxCell comboCellG = row.Cells[i] as DataGridViewComboBoxCell;
-                        comboCellG.Value = comboCellG.Items[0];
+                        row.Cells[i].Value = SessionManager.GetResearchGenerationType(researchID).ToString();
                         break;
                     case "tracingColumn":
                         DataGridViewCheckBoxCell checkCell = row.Cells[i] as DataGridViewCheckBoxCell;
@@ -433,7 +429,7 @@ namespace RandomNetworksExplorer
             Dictionary<ResearchParameter, object> rValues =
                 SessionManager.GetResearchParameterValues(id);
 
-            if (researchesTable.Rows[rowIndex].Cells["generationColumn"].Value.ToString() == "Static")
+            if (SessionManager.GetResearchGenerationType(id) == GenerationType.Static)
             {
                 if (gValues[GenerationParameter.AdjacencyMatrixFile] != null)
                     generationParametersTable.Rows.Add("AdjacencyMatrixFile",

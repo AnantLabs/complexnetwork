@@ -54,6 +54,7 @@ namespace Session
             string researchName,
             StorageType storage,
             string storageString,
+            GenerationType generationType,
             string tracingPath)
         {
             AbstractResearch r = CreateResearchFromType(researchType);
@@ -61,6 +62,7 @@ namespace Session
             r.ModelType = modelType;
             r.ResearchName = researchName;
             r.Storage = CreateStorage(storage, storageString);
+            r.GenerationType = generationType;
             r.TracingPath = tracingPath;
 
             return r.ResearchID;
@@ -337,6 +339,40 @@ namespace Session
             try
             {
                 existingResearches[id].Storage = CreateStorage(storageType, storageString);
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// Gets the type of generation for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <returns>Generation type.</returns>
+        public static GenerationType GetResearchGenerationType(Guid id)
+        {
+            try
+            {
+                return existingResearches[id].GenerationType;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// Sets the type of generation for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <param name="generationType">Generation type to set.</param>
+        public static void SetResearchGenerationType(Guid id, GenerationType generationType)
+        {
+            try
+            {
+                existingResearches[id].GenerationType = generationType;
             }
             catch (KeyNotFoundException)
             {
