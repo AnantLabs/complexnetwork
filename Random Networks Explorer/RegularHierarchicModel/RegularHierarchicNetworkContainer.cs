@@ -441,6 +441,34 @@ namespace RegularHierarchicModel
 
             return 0;
         }
+        
+        /// <summary>
+        /// Gets the degree of specified node in specified level.
+        /// </summary>
+        /// <param name="currentLevel">Index of level of specified node.</param>
+        /// <note>currentLevel must be in [0, level] range.</note>
+        /// <param name="currentVertexNumber">Index of specified node.</param>
+        /// <note>currentVertexNumber must be in [0, pow(branchingIndex, level)] range.</note>
+        /// <returns>The degree of node.</returns>
+        public double VertexDegree(int currentLevel, int currentVertexNumber)
+        {
+            // TODO check what is wrong
+            /*if (currentLevel < 0 || currentLevel > level)
+                throw new SystemException("Wrong parameter - currentLevel.");
+            if (currentVertexNumber < 0 || currentVertexNumber >= Math.Pow(branchingIndex, level))
+                throw new SystemException("Wrong parameter - currentNodeNumber.");*/
+
+            double result = 0;
+            int vertexIndex = 0, nodeNumber = 0;
+            for (int i = level - 1; i >= currentLevel; --i)
+            {
+                vertexIndex = TreeIndex(currentVertexNumber, i + 1) % branchingIndex;
+                nodeNumber = TreeIndex(currentVertexNumber, i);
+                result += Links(vertexIndex, i, nodeNumber) * Math.Pow(branchingIndex, level - i - 1);
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Recoursively calculates number of edges in specified cluster.
@@ -483,7 +511,7 @@ namespace RegularHierarchicModel
             }
         }
 
-        /// ??
+        // TODO test this method
         /// <summary>
         /// Recoursively calculates number of 2-length paths in specified cluster.
         /// </summary>
@@ -656,13 +684,6 @@ namespace RegularHierarchicModel
 
             return result;
         }
-
-        /// <summary>
-        /// Возвращает число блоков, которые соединены с i блоками.
-        /// </summary>
-        /// <param name="node">nodes data</param>
-        /// <param name="i">number of the  block</param>
-        /// <returns></returns>
 
         /// <summary>
         /// Calculates number of subtrees, which are connected with specified subtree.
@@ -847,6 +868,5 @@ namespace RegularHierarchicModel
 
             return result;
         }
-
     }
 }

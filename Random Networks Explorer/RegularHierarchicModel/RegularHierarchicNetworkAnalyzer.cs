@@ -32,14 +32,12 @@ namespace RegularHierarchicModel
 
         protected override double CalculateAveragePath()
         {
-            if (-1 == avgPath)
-            {
+            if (!calledPaths)
                 CountPathDistribution();
-            }
 
-            return Math.Round(avgPath, 14);
+            return Math.Round(averagePathLength, 14);
 
-            // TODO
+            // TODO !optimize!
             //long[] pathsInfo = GetSubgraphsPathInfo(0, 0);
             // !petq e bajanel chanaparhneri qanaki vra!
             //return 2 * (pathsInfo[0] + pathsInfo[2]) / ((double)container.Size *
@@ -48,25 +46,27 @@ namespace RegularHierarchicModel
 
         protected override uint CalculateDiameter()
         {
-            if (-1 == diameter)
-            {
+            if (!calledPaths)
                 CountPathDistribution();
-            }
 
-            // TODO return diameter;
-            return 0;
+            return diameter;
         }
 
         protected override double CalculateAverageDegree()
         {
-            // TODO
-            return 0;
+            return AverageDegree();
         }
 
         protected override double CalculateAverageClusteringCoefficient()
         {
-            // TODO
-            return 0;
+            double cycles3 = Count3Cycle(0, 0)[0], sum = 0, degree = 0;
+            for (int i = 0; i < container.Size; ++i)
+            {
+                degree = container.VertexDegree(i, 0);
+                sum += degree * (degree - 1);
+            }
+
+            return 6 * cycles3 / sum;
         }
 
         protected override BigInteger CalculateCycles3()
@@ -88,34 +88,37 @@ namespace RegularHierarchicModel
             EigenValueUtils eg = new EigenValueUtils();
             try
             {
-                return eg.CalculateEigenValue(m);
+                eigenValues = eg.CalculateEigenValue(m);
+                calledEigens = true;
+                return eigenValues;
             }
-            catch (SystemException ex)
+            catch (SystemException)
             {
                 return new List<double>();
             }
         }
 
-        protected override SortedDictionary<Double, Int32> CalculateEigenDistanceDistribution()
+        protected override SortedDictionary<Double, UInt32> CalculateEigenDistanceDistribution()
         {
             bool[,] m = container.GetMatrix();
 
             EigenValueUtils eg = new EigenValueUtils();
             try
             {
-                eg.CalculateEigenValue(m);
-                return eg.CalcEigenValuesDist();
+                if(!calledEigens)
+                    eg.CalculateEigenValue(m);
+
+                return eg.CalcEigenValuesDist(eigenValues);
             }
-            catch (SystemException ex)
+            catch (SystemException)
             {
-                return new SortedDictionary<double, int>();
+                return new SortedDictionary<Double, UInt32>();
             }
         }
 
         protected override SortedDictionary<UInt32, UInt32> CalculateDegreeDistribution()
         {
-            // TODO return ArrayCntAdjacentCntVertexes(0, 0);
-            return new SortedDictionary<uint, uint>();
+            return DegreeDistributionInCluster(0, 0);
         }
 
         protected override SortedDictionary<Double, UInt32> CalculateClusteringCoefficientDistribution()
@@ -136,49 +139,48 @@ namespace RegularHierarchicModel
 
         protected override SortedDictionary<UInt32, UInt32> CalculateConnectedComponentDistribution()
         {
-            // TODO return AmountConnectedSubGraphs(0, 0);
-            return new SortedDictionary<uint, uint>();
+            return ConnectedSubgraphsInCluster(0, 0);
         }
 
         protected override SortedDictionary<UInt32, UInt32> CalculateDistanceDistribution()
         {
-            if (-1 == avgPath)
-            {
+            if (!calledPaths)
                 CountPathDistribution();
-            }
 
-            // TODO return pathDistribution;
-            return new SortedDictionary<uint, uint>();
+            return distanceDistribution;
         }
 
         protected override SortedDictionary<UInt32, UInt32> CalculateTriangleByVertexDistribution()
         {
-            // TODO
-            /*SortedDictionary<int, int> result = new SortedDictionary<int, int>();
+            SortedDictionary<uint, uint> result = new SortedDictionary<uint, uint>();
             for (int i = 0; i < container.Size; ++i)
             {
-                int triangleCountOfVertex = (int)Count3CycleOfVertex(i, 0)[0];
+                uint triangleCountOfVertex = (uint)Count3CycleOfVertex(i, 0)[0];
                 if (result.Keys.Contains(triangleCountOfVertex))
                     ++result[triangleCountOfVertex];
                 else
                     result.Add(triangleCountOfVertex, 1);
             }
 
-            return result;*/
-            return new SortedDictionary<uint, uint>();
+            return result;
         }
 
-        // TODO TODO TODO
-        // Закрытая часть класса (не из общего интерфейса). //
+        #region Utilities
 
-        private double avgPath = -1;
-        private int diameter = -1;
-        private SortedDictionary<int, int> pathDistribution = new SortedDictionary<int, int>();
+        bool calledPaths = false;
+        private double averagePathLength;
+        private uint diameter;
+        private SortedDictionary<uint, uint> distanceDistribution = 
+            new SortedDictionary<uint, uint>();
+
+        bool calledEigens = false;
+        private List<double> eigenValues = new List<double>();
 
         private void CountPathDistribution()
         {
-            double avgPath = 0;
-            int diameter = 0, countOfWays = 0;
+            double avg = 0;
+            uint d = 0, uWay = 0; 
+            int countOfWays = 0;
 
             for (int i = 0; i < container.Size; ++i)
             {
@@ -187,47 +189,35 @@ namespace RegularHierarchicModel
                     int way = container.CalculateMinimalPathLength(i, j);
                     if (way == -1)
                         continue;
-                    if (pathDistribution.ContainsKey(way))
-                        pathDistribution[way]++;
                     else
-                        pathDistribution.Add(way, 1);
+                        uWay = (uint)way;
 
-                    if (way > diameter)
-                        diameter = way;
+                    if (distanceDistribution.ContainsKey(uWay))
+                        distanceDistribution[uWay]++;
+                    else
+                        distanceDistribution.Add(uWay, 1);
 
-                    avgPath += way;
+                    if (uWay > d)
+                        d = uWay;
+
+                    avg += uWay;
                     ++countOfWays;
                 }
             }
 
-            this.avgPath = avgPath / countOfWays;
-            this.diameter = diameter;
-        }
-
-        // Возвращает степень данного узла на данном уровне (в соответствующем кластере).
-        private double VertexDegree(int vertexNumber, int level)
-        {
-            double result = 0;
-            int vertexIndex = 0, nodeNumber = 0;
-            for (int i = container.Level - 1; i >= level; --i)
-            {
-                vertexIndex = container.TreeIndex(vertexNumber, i + 1) % container.BranchingIndex;
-                nodeNumber = container.TreeIndex(vertexNumber, i);
-                BitArray node = container.TreeNode(i, nodeNumber);
-                result += container.Links(vertexIndex, i, nodeNumber) *
-                    Math.Pow(container.BranchingIndex, container.Level - i - 1);
-            }
-
-            return result;
-        }
+            averagePathLength = avg / countOfWays;
+            diameter = d;
+            calledPaths = true;
+        }        
 
         // Возвращает распределение степеней.
         // Распределение степеней вычисляется в данном узле данного уровня.
-        private SortedDictionary<int, int> ArrayCntAdjacentCntVertexes(int numberNode, int level)
+        private SortedDictionary<uint, uint> DegreeDistributionInCluster(int numberNode, 
+            int level)
         {
             if (level == container.Level)
             {
-                SortedDictionary<int, int> returned = new SortedDictionary<int, int>();
+                SortedDictionary<uint, uint> returned = new SortedDictionary<uint, uint>();
                 returned[0] = 1;
                 return returned;
             }
@@ -235,18 +225,18 @@ namespace RegularHierarchicModel
             {
                 BitArray node = container.TreeNode(level, numberNode);
 
-                SortedDictionary<int, int> arraysReturned = new SortedDictionary<int, int>();
-                SortedDictionary<int, int> array = new SortedDictionary<int, int>();
+                SortedDictionary<uint, uint> arraysReturned = new SortedDictionary<uint, uint>();
+                SortedDictionary<uint, uint> array = new SortedDictionary<uint, uint>();
                 int powPK = Convert.ToInt32(Math.Pow(container.BranchingIndex, container.Level - level - 1));
 
                 for (int i = numberNode * container.BranchingIndex; i < container.BranchingIndex * (numberNode + 1); i++)
                 {
                     int nodeNumberi = i - numberNode * container.BranchingIndex;
-                    array = ArrayCntAdjacentCntVertexes(i, level + 1);
+                    array = DegreeDistributionInCluster(i, level + 1);
                     int countAjacentsThisnode = container.CountConnectedBlocks(node, nodeNumberi);
-                    foreach (KeyValuePair<int, int> kvt in array)
+                    foreach (KeyValuePair<uint, uint> kvt in array)
                     {
-                        int key = kvt.Key + countAjacentsThisnode * powPK;
+                        uint key = (uint)(kvt.Key + countAjacentsThisnode * powPK);
                         if (arraysReturned.ContainsKey(key))
                             arraysReturned[key] += kvt.Value;
                         else
@@ -300,9 +290,9 @@ namespace RegularHierarchicModel
             return resultArr;
         }
 
-        private SortedDictionary<int, int> AmountConnectedSubGraphs(int numberNode, int level)
+        private SortedDictionary<uint, uint> ConnectedSubgraphsInCluster(int numberNode, int level)
         {
-            SortedDictionary<int, int> retArray = new SortedDictionary<int, int>();
+            SortedDictionary<uint, uint> retArray = new SortedDictionary<uint, uint>();
 
             if (level == container.Level)
             {
@@ -316,10 +306,11 @@ namespace RegularHierarchicModel
             {
                 if (container.CountConnectedBlocks(node, i) == 0)
                 {
-                    SortedDictionary<int, int> array = AmountConnectedSubGraphs(numberNode * container.BranchingIndex + i,
+                    SortedDictionary<uint, uint> array = 
+                        ConnectedSubgraphsInCluster(numberNode * container.BranchingIndex + i,
                         level + 1);
 
-                    foreach (KeyValuePair<int, int> kvt in array)
+                    foreach (KeyValuePair<uint, uint> kvt in array)
                     {
                         if (retArray.Keys.Contains(kvt.Key))
                             retArray[kvt.Key] += kvt.Value;
@@ -337,45 +328,15 @@ namespace RegularHierarchicModel
                 EngineForConnectedComp engForConnectedComponent = new EngineForConnectedComp();
                 ArrayList arrConnComp = engForConnectedComponent.GetCountConnSGruph(container.NodeAdjacencyLists(node),
                     container.BranchingIndex);
+                uint uKey = 0;
                 for (int i = 0; i < arrConnComp.Count; i++)
                 {
-                    int countConnCompi = (int)arrConnComp[i];
-                    if (retArray.Keys.Contains(countConnCompi * powPK))
-                        retArray[countConnCompi * powPK] += 1;
+                    uKey = (uint)((int)arrConnComp[i] * powPK);
+                    if (retArray.Keys.Contains(uKey))
+                        retArray[uKey] += 1;
                     else
-                        retArray.Add(countConnCompi * powPK, 1);
+                        retArray.Add(uKey, 1);
                 }
-            }
-
-            return retArray;
-        }
-
-        // ???????????????
-        private SortedDictionary<int, int> AmountConnectedSubGraphsPerLevel(int numberNode,
-            int level)
-        {
-            SortedDictionary<int, int> retArray = new SortedDictionary<int, int>();
-
-            if (level == this.container.Level)
-            {
-                retArray[1] = 1;
-                return retArray;
-            }
-            BitArray node = container.TreeNode(level, numberNode);
-
-            int powPK = Convert.ToInt32(Math.Pow(container.BranchingIndex,
-                container.Level - level - 1));
-            EngineForConnectedComp engForConnectedComponent = new EngineForConnectedComp();
-            ArrayList arrConnComp =
-                engForConnectedComponent.GetCountConnSGruph(container.NodeAdjacencyLists(node),
-                container.BranchingIndex);
-            for (int i = 0; i < arrConnComp.Count; i++)
-            {
-                int countConnCompi = (int)arrConnComp[i];
-                if (retArray.Keys.Contains(countConnCompi * powPK))
-                    retArray[countConnCompi * powPK] += 1;
-                else
-                    retArray.Add(countConnCompi * powPK, 1);
             }
 
             return retArray;
@@ -564,7 +525,8 @@ namespace RegularHierarchicModel
         // Вычисляется с помощью числа циклов порядка 3, прикрепленных к данной вершине.
         private double ClusterringCoefficientOfVertex(int vertexNumber)
         {
-            double degree = VertexDegree(vertexNumber, 0);
+            // TODO !optimize!
+            double degree = container.VertexDegree(vertexNumber, 0);
             if (degree == 0 || degree == 1)
                 return 0;
             else
@@ -595,12 +557,12 @@ namespace RegularHierarchicModel
                 result[0] += previousResult[0];
                 result[1] += previousResult[1];
 
-                double degree = VertexDegree(vertexNumber, level + 1);
+                double degree = container.VertexDegree(vertexNumber, level + 1);
                 for (int j = numberNode * container.BranchingIndex; j < container.BranchingIndex * (numberNode + 1); ++j)
                 {
                     if (container.IsConnectedTwoBlocks(node, vertexIndex, j - numberNode * container.BranchingIndex))
                     {
-                        result[0] += container.CalculateNumberOfEdges(level + 1, j);//- numberNode * container.BranchingIndex
+                        result[0] += container.CalculateNumberOfEdges(level + 1, j);
                         result[0] += powPK * degree;
 
                         for (int k = j + 1; k < container.BranchingIndex * (numberNode + 1); ++k)
@@ -620,11 +582,7 @@ namespace RegularHierarchicModel
             }
         }
 
-        /// <summary>
-        /// Возвращает коэффициент кластеризации графа.
-        /// </summary>
-        /// <param name="tree"></param>
-        /// <returns></returns>
+        // Возвращает коэффициент кластеризации графа.
         private double ClusteringCoefficientOfVertex(long vert)
         {
             double sum = 0;
@@ -684,12 +642,7 @@ namespace RegularHierarchicModel
             return vertClustCoef;
         }
 
-        /// <summary>
-        /// Возвращает собственные значения.
-        /// </summary>
-        /// <param name="bitArr"></param>
-        /// <param name="mBase"></param>
-        /// <param name="EigValue"></param>
+        // Возвращает собственные значения.
         private List<double> CalcEigenValue(BitArray bitArr, int mBase)
         {
             List<double> EigValue = new List<double>();
@@ -791,7 +744,7 @@ namespace RegularHierarchicModel
             return total / (2 * cycleLength);
         }
 
-        // Возвращает среднее степеней. Не используется.
+        // Возвращает среднее степеней.
         public double AverageDegree()
         {
             return container.CalculateNumberOfEdges() * 2 / container.Size;
@@ -803,5 +756,7 @@ namespace RegularHierarchicModel
             long[] pathsInfo = GetSubgraphsPathInfo(0, 0);
             return pathsInfo[0] + pathsInfo[2];
         }
+
+        #endregion
     }
 }

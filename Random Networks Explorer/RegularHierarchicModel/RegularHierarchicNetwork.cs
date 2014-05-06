@@ -21,7 +21,6 @@ namespace RegularHierarchicModel
         AnalyzeOption.AvgPathLength |
         AnalyzeOption.ClusteringCoefficientDistribution |
         AnalyzeOption.ConnectedComponentDistribution |
-        AnalyzeOption.CycleDistribution |
         AnalyzeOption.Cycles3 |
         AnalyzeOption.Cycles4 |
         AnalyzeOption.DegreeDistribution |
