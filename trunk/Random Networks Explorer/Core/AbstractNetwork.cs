@@ -70,7 +70,7 @@ namespace Core
                 Array existingOptions = Enum.GetValues(typeof(AnalyzeOption));
                 foreach (AnalyzeOption opt in existingOptions)
                 {
-                    if ((analyzeOptions & opt) == analyzeOptions)
+                    if ((analyzeOptions & opt) == opt)
                     {
                         NetworkResult.Result.Add(opt, networkAnalyzer.CalculateOption(opt));
                     }

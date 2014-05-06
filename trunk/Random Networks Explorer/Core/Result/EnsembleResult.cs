@@ -33,12 +33,23 @@ namespace Core.Result
                 AnalyzeOptionInfo[] info = (AnalyzeOptionInfo[])option.GetType().GetField(option.ToString()).GetCustomAttributes(typeof(AnalyzeOptionInfo), false);
                 Type t = info[0].RealizationResultType;
 
-                if(t.Equals(typeof(Double)) || t.Equals(typeof(UInt32)))
+                if(t.Equals(typeof(Double)))
                 {
                     double temp = 0;
                     foreach (RealizationResult res in results)
                     {
                         temp += (double)(res.Result[option]) / rCount;
+                    }
+                    r.Result.Add(option, temp);
+                }
+                else if(t.Equals(typeof(UInt32)))
+                {
+                    double temp = 0;
+                    uint uTemp = 0;
+                    foreach (RealizationResult res in results)
+                    {
+                        uTemp = (UInt32)res.Result[option];
+                        temp += (double)uTemp / rCount;
                     }
                     r.Result.Add(option, temp);
                 }
@@ -57,12 +68,13 @@ namespace Core.Result
                     for (int i = 0; i < temp.Count; ++i)
                         temp[i] /= rCount;
 
-                    for (int i = 1; i < results.Count; ++i)
+                    // TODO check the theory logic of averaging eigen values
+                    /*for (int i = 1; i < results.Count; ++i)
                     {
                         List<Double> l = results[i].Result[option] as List<Double>;
                         for (int j = 0; j < l.Count; ++j)
                             temp[j] += l[j] / rCount;
-                    }
+                    }*/
                     r.Result.Add(option, temp);
                 }
                 else if (t.Equals(typeof(SortedDictionary<Double, UInt32>)))

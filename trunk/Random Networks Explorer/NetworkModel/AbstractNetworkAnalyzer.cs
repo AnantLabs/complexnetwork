@@ -145,7 +145,7 @@ namespace NetworkModel
         /// Calculates distances between eigenvalues.
         /// </summary>
         /// <returns>(distance, count) pairs.</returns>
-        protected virtual SortedDictionary<Double, Int32> CalculateEigenDistanceDistribution()
+        protected virtual SortedDictionary<Double, UInt32> CalculateEigenDistanceDistribution()
         {
             throw new NotImplementedException();
         }

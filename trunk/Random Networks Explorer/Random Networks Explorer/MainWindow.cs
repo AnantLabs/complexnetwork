@@ -183,7 +183,7 @@ namespace RandomNetworksExplorer
             DataGridViewCell editedCell = researchesTable[e.ColumnIndex, e.RowIndex];
             switch (editedCell.OwningColumn.Name)
             {
-                case "namaColumn":
+                case "nameColumn":
                     SessionManager.SetResearchName(researchIDs[e.RowIndex],
                         editedCell.Value.ToString());
                     break;

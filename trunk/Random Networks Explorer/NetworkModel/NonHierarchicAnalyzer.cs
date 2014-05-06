@@ -134,7 +134,7 @@ namespace NetworkModel
             throw new NotImplementedException();
         }
 
-        protected override SortedDictionary<Double, Int32> CalculateEigenDistanceDistribution()
+        protected override SortedDictionary<Double, UInt32> CalculateEigenDistanceDistribution()
         {
             //log.Info("Getting distances between eigen values.");
 
@@ -144,14 +144,14 @@ namespace NetworkModel
 
             try
             {
+                // TODO correct
                 eg.CalculateEigenValue(m);
-                return eg.CalcEigenValuesDist();
-
+                return eg.CalcEigenValuesDist(new List<double>());
             }
             catch (Exception)
             {
                 //log.Error(ex);
-                return new SortedDictionary<double, int>();
+                return new SortedDictionary<Double, UInt32>();
             }
         }
 

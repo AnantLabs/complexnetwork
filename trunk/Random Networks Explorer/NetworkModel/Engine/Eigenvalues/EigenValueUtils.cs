@@ -85,24 +85,24 @@ namespace NetworkModel.Engine.Eigenvalues
             return eigenValue;
         }
 
-        public SortedDictionary<double, int> CalcEigenValuesDist()
+        public SortedDictionary<double, uint> CalcEigenValuesDist(List<double> eigenValues)
         {
-            var  dist = new List<double>();
-            var  rezultdist = new SortedDictionary<double, int>();
-            for (int i = 0; i < eigenValue.Count - 1; ++i)
+            var dist = new List<double>();
+            var resultdist = new SortedDictionary<double, uint>();
+            for (int i = 0; i < eigenValues.Count - 1; ++i)
             {
-                dist.Add(Math.Round((double)eigenValue[i + 1] - (double)eigenValue[i],4));
+                dist.Add(Math.Round((double)eigenValues[i + 1] - (double)eigenValues[i], 4));
             }
            
             for (int i = 0; i < dist.Count; i++)
             {
-                if (!rezultdist.ContainsKey(dist[i]))
+                if (!resultdist.ContainsKey(dist[i]))
                 {
-                    rezultdist.Add(dist[i], dist.FindAll(m => m.Equals(dist[i])).Count);
+                    resultdist.Add(dist[i], (uint)dist.FindAll(m => m.Equals(dist[i])).Count);
                 }
             }
-          
-            return rezultdist;
+
+            return resultdist;
         }
     }
 }
