@@ -41,8 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractHierarchicContainer.cs" />
-    <Compile Include="AbstractNetworkAnalyzer.cs" />
     <Compile Include="Engine\Cycles\CyclesCounter.cs" />
     <Compile Include="Engine\Cycles\CyclesCounterSingleThreaded.cs" />
     <Compile Include="Engine\Cycles\CyclesParrallelCounter.cs" />

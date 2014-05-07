@@ -90,6 +90,9 @@ namespace Core
         public void Trace(string tracingPath)
         {
             FileManager.MatrixWriter(networkGenerator.Container.GetMatrix(), tracingPath);
+
+            if (networkGenerator.Container is AbstractHierarchicContainer)
+                FileManager.BranchesWriter((networkGenerator.Container as AbstractHierarchicContainer).GetBranches(), tracingPath);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Core.Enumerations
         [ModelTypeInfo("Erdős-Rényi model", 
             "The classical random network.", 
             "ERModel.ERNetwork, ERModel")]
-        ER = 1,
+        ER,
 
         [ModelTypeInfo("Watts-Strogatz model",
             "Random network, which represents the small-world property.", 

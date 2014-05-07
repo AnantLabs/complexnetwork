@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Numerics;
 
-using Core.Model;
 using Core.Enumerations;
 
-namespace NetworkModel
+namespace Core.Model
 {
     /// <summary>
     /// Abstract class presenting random network analyzer.

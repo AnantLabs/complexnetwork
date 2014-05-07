@@ -15,7 +15,7 @@ namespace Core.Enumerations
     {
         [StorageTypeInfo("XML file with defined LINK structure.", 
             "Storage.XMLResultStorage, Storage")]
-        XMLStorage = 1,
+        XMLStorage,
 
         [StorageTypeInfo("SQL DB with defined LINK schema.", 
             "Storage.SQLResultStorage, Storage")]

@@ -6,7 +6,7 @@ using System.Text;
 namespace Core.Attributes
 {
     /// <summary>
-    /// 
+    /// Enumeration used for inticating the logical type of statistical property.
     /// </summary>
     public enum OptionType
     {

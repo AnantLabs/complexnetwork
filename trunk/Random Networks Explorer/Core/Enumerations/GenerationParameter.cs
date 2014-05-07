@@ -17,7 +17,7 @@ namespace Core.Enumerations
         [GenerationParameterInfo("Number of vertices", 
             "The initial number of vertices in the network.", 
             typeof(UInt16))]
-        Vertices = 1,
+        Vertices,
 
         [GenerationParameterInfo("Connectivity probability", 
             "The probability of existance of a connection between the nodes in the network.", 

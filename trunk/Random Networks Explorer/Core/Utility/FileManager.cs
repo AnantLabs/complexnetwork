@@ -72,11 +72,6 @@ namespace Core.Utility
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
         public static ArrayList BranchesReader(String filePath)
         {
             ArrayList branches = new ArrayList();
@@ -108,11 +103,6 @@ namespace Core.Utility
             return branches;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="branches"></param>
-        /// <param name="filePath"></param>
         public static void BranchesWriter(int[][] branches, String filePath)
         {
             using (System.IO.StreamWriter writer = new System.IO.StreamWriter(filePath + "_branches.txt"))
