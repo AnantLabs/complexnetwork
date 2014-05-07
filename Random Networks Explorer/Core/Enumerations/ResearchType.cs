@@ -16,7 +16,7 @@ namespace Core.Enumerations
         [ResearchTypeInfo("Basic research", 
             "The basic analysis for random networks (single ensemble).", 
             "Research.BasicResearch, Research")]
-        Basic = 1,
+        Basic,
 
         [ResearchTypeInfo("Evolution research", 
             "Analysis the evolution of trajectories for random networks (several ensembles).", 

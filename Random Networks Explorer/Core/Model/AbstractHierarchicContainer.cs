@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Core.Model;
-
-namespace NetworkModel
+namespace Core.Model
 {
     /// <summary>
     /// Abstract class presenting container of hierarchic type.

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using NetworkModel;
+using Core.Model;
 using NetworkModel.HierarchicEngine;
 using ModelChecking;
 

@@ -16,7 +16,7 @@ namespace Core.Enumerations
         [ManagerTypeInfo("Local manager",
             "...",
             "Manager.LocalEnsembleManager, Manager")]
-        Local = 1,
+        Local,
 
         [ManagerTypeInfo("WCF distributed manager",
             "...",

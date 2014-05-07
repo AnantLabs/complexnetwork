@@ -17,10 +17,10 @@ namespace Core.Result
         public Dictionary<AnalyzeOption, object> Result { get; set; }
 
         /// <summary>
-        /// 
+        /// Averages specified results by realization count.
         /// </summary>
-        /// <param name="results"></param>
-        /// <returns></returns>
+        /// <param name="results">List of results for realizations.</param>
+        /// <returns>Ensemble result, which represents avereged values of realizations results.</returns>
         public static EnsembleResult AverageResults(List<RealizationResult> results)
         {
             EnsembleResult r = new EnsembleResult();

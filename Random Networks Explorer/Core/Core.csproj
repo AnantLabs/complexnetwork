@@ -70,6 +70,8 @@
     <Compile Include="Enumerations\Status.cs" />
     <Compile Include="Enumerations\StorageType.cs" />
     <Compile Include="Exceptions\CoreException.cs" />
+    <Compile Include="Model\AbstractHierarchicContainer.cs" />
+    <Compile Include="Model\AbstractNetworkAnalyzer.cs" />
     <Compile Include="Model\INetworkAnalyzer.cs" />
     <Compile Include="Model\INetworkContainer.cs" />
     <Compile Include="Model\INetworkGenerator.cs" />
@@ -81,6 +83,11 @@
     <Compile Include="Utility\FileManager.cs" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <None Include="Class Diagram\Attributes.cd" />
+    <None Include="Class Diagram\Enumerations.cd" />
+    <None Include="Class Diagram\Result.cd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using NetworkModel;
+using Core.Model;
 
 namespace NonRegularHierarchicModel
 {
