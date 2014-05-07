@@ -33,9 +33,9 @@ namespace RegularHierarchicModel
         protected override double CalculateAveragePath()
         {
             if (!calledPaths)
-                CountPathDistribution();
+                CountEssentialOptions();
 
-            return Math.Round(averagePathLength, 14);
+            return Math.Round(averagePathLength, 4);
 
             // TODO !optimize!
             //long[] pathsInfo = GetSubgraphsPathInfo(0, 0);
@@ -47,7 +47,7 @@ namespace RegularHierarchicModel
         protected override uint CalculateDiameter()
         {
             if (!calledPaths)
-                CountPathDistribution();
+                CountEssentialOptions();
 
             return diameter;
         }
@@ -145,7 +145,7 @@ namespace RegularHierarchicModel
         protected override SortedDictionary<UInt32, UInt32> CalculateDistanceDistribution()
         {
             if (!calledPaths)
-                CountPathDistribution();
+                CountEssentialOptions();
 
             return distanceDistribution;
         }
@@ -176,7 +176,7 @@ namespace RegularHierarchicModel
         bool calledEigens = false;
         private List<double> eigenValues = new List<double>();
 
-        private void CountPathDistribution()
+        private void CountEssentialOptions()
         {
             double avg = 0;
             uint d = 0, uWay = 0; 
@@ -193,7 +193,7 @@ namespace RegularHierarchicModel
                         uWay = (uint)way;
 
                     if (distanceDistribution.ContainsKey(uWay))
-                        distanceDistribution[uWay]++;
+                        ++distanceDistribution[uWay];
                     else
                         distanceDistribution.Add(uWay, 1);
 

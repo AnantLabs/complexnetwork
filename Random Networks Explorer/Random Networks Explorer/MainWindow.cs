@@ -191,6 +191,7 @@ namespace RandomNetworksExplorer
                     SessionManager.SetResearchModelType(researchIDs[e.RowIndex],
                         (ModelType)Enum.Parse(typeof(ModelType), editedCell.Value.ToString()));
                     FillGenerationParametersTable(researchIDs[e.RowIndex], e.RowIndex);
+                    FillAnalyzeOptionsTable(researchIDs[e.RowIndex]);
                     break;
                 case "generationColumn":
                     SessionManager.SetResearchGenerationType(researchIDs[e.RowIndex],

@@ -32,51 +32,44 @@ namespace NetworkModel
             set { container = (NonHierarchicContainer)value; }
         }
 
-        // Возвращается средняя длина пути в графе. Реализовано.
         protected override Double CalculateAveragePath()
         {
-            //log.Info("Getting average path length.");
-
-            if (-1 == avgPath)
-            {
+            if(!calledPaths)
                 CountEssentialOptions();
-            }
 
-            return Math.Round(avgPath, 14);
+            return Math.Round(averagePathLength, 4);
         }
 
-        // Возвращается диаметр графа. Реализовано.
         protected override UInt32 CalculateDiameter()
         {
-            //log.Info("Getting diameter.");
-
-            if (-1 == diameter)
-            {
+            if (!calledPaths)
                 CountEssentialOptions();
-            }
 
-            return (UInt32)diameter;
+            return diameter;
         }
 
         protected override Double CalculateAverageDegree()
         {
-            throw new NotImplementedException();
+            return AverageDegree();
         }
 
         protected override Double CalculateAverageClusteringCoefficient()
         {
-            throw new NotImplementedException();
+            double cycles3 = (double)CalculateCycles3(), sum = 0, degree = 0;
+            for (int i = 0; i < container.Size; ++i)
+            {
+                degree = container.GetVertexDegree(i);
+                sum += degree * (degree - 1);
+            }
+
+            return 6 * cycles3 / sum;
         }
 
-        // Возвращается число циклов длиной 3 в графе. Реализовано.
         protected override BigInteger CalculateCycles3()
         {
-            //log.Info("Getting count of cycles - order 3.");
-
-            if (-1 == avgPath)
-            {
+            // TODO get BigInteger result
+            if (!calledPaths)
                 CountEssentialOptions();
-            }
 
             double cycles3 = 0;
             for (int i = 0; i < container.Size; ++i)
@@ -93,11 +86,9 @@ namespace NetworkModel
             return (BigInteger)cycles3;
         }
 
-        // Возвращается число циклов длиной 4 в графе. Реализовано.
         protected override BigInteger CalculateCycles4()
         {
-            //log.Info("Getting count of cycles - order 4.");
-
+            // TODO get BigInteger result
             long count = 0;
             for (int i = 0; i < container.Size; i++)
                 count += Get4OrderCyclesOfNode(i);
@@ -105,52 +96,37 @@ namespace NetworkModel
             return (BigInteger)count / 4;
         }
 
-        // Возвращается массив собственных значений матрицы смежности. Реализовано.
         protected override List<double> CalculateEigenValues()
         {
-            //log.Info("Getting eigen values array.");
             bool[,] m = container.GetMatrix();
 
-            EigenValueUtils eg = new EigenValueUtils();
-            
+            EigenValueUtils eg = new EigenValueUtils();            
             try
             {
-                return eg.CalculateEigenValue(m);
+                eigenValues = eg.CalculateEigenValue(m);
+                calledEigens = true;
+                return eigenValues;
             }
-            catch (Exception)
+            catch (SystemException)
             {
-                //log.Error(ex);
                 return new List<double>();
             }
         }
 
-        protected override BigInteger CalculateCycles3Eigen()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override BigInteger CalculateCycles4Eigen()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override SortedDictionary<Double, UInt32> CalculateEigenDistanceDistribution()
         {
-            //log.Info("Getting distances between eigen values.");
-
             bool[,] m = container.GetMatrix();
 
             EigenValueUtils eg = new EigenValueUtils();
-
             try
             {
-                // TODO correct
-                eg.CalculateEigenValue(m);
-                return eg.CalcEigenValuesDist(new List<double>());
+                if (!calledEigens)
+                    eg.CalculateEigenValue(m);
+
+                return eg.CalcEigenValuesDist(eigenValues);
             }
-            catch (Exception)
+            catch (SystemException)
             {
-                //log.Error(ex);
                 return new SortedDictionary<Double, UInt32>();
             }
         }
@@ -160,15 +136,10 @@ namespace NetworkModel
             return DegreeDistribution();
         }
 
-        // Возвращается распределение коэффициентов кластеризации графа. Реализовано.
         protected override SortedDictionary<Double, UInt32> CalculateClusteringCoefficientDistribution()
         {
-            //log.Info("Getting clustering coefficients.");
-
-            if (-1 == avgPath)
-            {
+            if (!calledPaths)
                 CountEssentialOptions();
-            }
 
             double clusteringCoefficient = 0;
             int iEdgeCountForFullness = 0, iNeighbourCount = 0;
@@ -200,13 +171,11 @@ namespace NetworkModel
                     m_iclusteringCoefficient[iclusteringCoefficientList[i]]++;
                 else
                     m_iclusteringCoefficient[iclusteringCoefficientList[i]] = 1;
-
-                
             }
+
             return m_iclusteringCoefficient;
         }
 
-        // Возвращается распределение чисел  связанных подграфов в графе.
         protected override SortedDictionary<UInt32, UInt32> CalculateConnectedComponentDistribution()
         {
             var connectedSubGraphDic = new SortedDictionary<UInt32, UInt32>();
@@ -256,33 +225,18 @@ namespace NetworkModel
             return connectedSubGraphDic;
         }
 
-        protected override SortedDictionary<UInt32, UInt32> CalculateCompleteComponentDistribution()
-        {
-            throw new NotImplementedException();
-        }
-
-        // Возвращается распределение длин минимальных путей в графе. Реализовано.
         protected override SortedDictionary<UInt32, UInt32> CalculateDistanceDistribution()
         {
-            //log.Info("Getting minimal distances between vertices.");
-
-            if (-1 == avgPath)
-            {
+            if (!calledPaths)
                 CountEssentialOptions();
-            }
 
-            return pathDistribution;
+            return distanceDistribution;
         }
 
-        // Возвращает распределение триугольников, прикрепленных к вершине.
         protected override SortedDictionary<UInt32, UInt32> CalculateTriangleByVertexDistribution()
         {
-            //log.Info("Getting triangles distribution.");
-
-            if (-1 == avgPath)
-            {
+            if (!calledPaths)
                 CountEssentialOptions();
-            }
 
             var trianglesDistribution = new SortedDictionary<UInt32, UInt32>();
             for (int i = 0; i < container.Size; ++i)
@@ -301,39 +255,40 @@ namespace NetworkModel
             return trianglesDistribution;
         }
 
-        // Возвращается распределение чисел циклов. Реализовано.
-        /*protected override SortedDictionary<Int32, BigInteger> CalculateCycleDistribution(Int16 lowBound, Int16 hightBound)
+        protected override SortedDictionary<UInt16, BigInteger> CalculateCycleDistribution(UInt16 lowBound, UInt16 hightBound)
         {
-            //log.Info("Getting cycles.");
+            // TODO get BigInteger result
             CyclesCounter cyclesCounter = new CyclesCounter(container);
-            SortedDictionary<int, BigInteger> cyclesCount = new SortedDictionary<int, BigInteger>();
+            SortedDictionary<UInt16, BigInteger> cyclesCount =
+                new SortedDictionary<UInt16, BigInteger>();
             long count = 0;
             for (int i = lowBound; i <= hightBound; i++)
             {
                 count = cyclesCounter.getCyclesCount(i);
-                cyclesCount.Add(i, (BigInteger)count);
+                cyclesCount.Add((UInt16)i, (BigInteger)count);
             }
 
             return cyclesCount;
-        }*/
+        }
 
-        // Закрытая часть класса (не из общего интерфейса). //
+        #region Utilities
 
-        private List<double> edgesBetweenNeighbours;
+        bool calledPaths = false;
+        private double averagePathLength;
+        private uint diameter;
+        private SortedDictionary<uint, uint> distanceDistribution =
+            new SortedDictionary<uint, uint>();
+        private List<double> edgesBetweenNeighbours = new List<double>();
 
-        private double avgPath = -1;
-        private int diameter = -1;
-        private SortedDictionary<UInt32, UInt32> pathDistribution = new SortedDictionary<UInt32, UInt32>();
-        private List<SortedList<int, int>> cycles4 = new List<SortedList<int, int>>();
-
+        bool calledEigens = false;
+        private List<double> eigenValues = new List<double>();
+        
         private void Initialization()
         {
-            edgesBetweenNeighbours = new List<double>();
             for (int i = 0; i < container.Size; ++i)
                 edgesBetweenNeighbours.Add(-1);
         }
 
-        // Внутренный тип для работы BFS алгоритма.
         private class Node
         {
             public int ancestor = -1;
@@ -342,7 +297,6 @@ namespace NetworkModel
             public Node() { }
         }
 
-        // Реализация BFS алгоритма.
         private void BFS(int i, Node[] nodes)
         {
             nodes[i].lenght = 0;
@@ -388,8 +342,10 @@ namespace NetworkModel
                 for (int i = 0; i < container.Size; ++i)
                     edgesBetweenNeighbours.Add(-1);
             }
+
             double avg = 0;
-            int diametr = 0, k = 0;
+            uint d = 0, uWay = 0;
+            int k = 0;
 
             for (int i = 0; i < container.Size; ++i)
             {
@@ -398,18 +354,22 @@ namespace NetworkModel
                     int way = MinimumWay(i, j);
                     if (way == -1)
                         continue;
-                    if (pathDistribution.ContainsKey((UInt32)way))
-                        pathDistribution[(UInt32)way]++;
                     else
-                        pathDistribution.Add((UInt32)way, 1);
+                        uWay = (uint)way;
 
-                    if (way > diametr)
-                        diametr = way;
+                    if (distanceDistribution.ContainsKey(uWay))
+                        ++distanceDistribution[uWay];
+                    else
+                        distanceDistribution.Add(uWay, 1);
 
-                    avg += way;
+                    if (uWay > d)
+                        d = uWay;
+
+                    avg += uWay;
                     ++k;
                 }
             }
+
             Node[] nodes = new Node[container.Size];
             for (int t = 0; t < container.Size; ++t)
                 nodes[t] = new Node();
@@ -417,8 +377,8 @@ namespace NetworkModel
             BFS((int)container.Size - 1, nodes);
             avg /= k;
 
-            avgPath = avg;
-            diameter = diametr;
+            averagePathLength = avg;
+            diameter = d;
         }
 
         // Возвращает число циклов 4, которые содержат данную вершину.
@@ -459,25 +419,27 @@ namespace NetworkModel
         }
 
         // Возвращает распределение степеней.
-        private SortedDictionary<UInt32, UInt32> DegreeDistribution()
+        private SortedDictionary<uint, uint> DegreeDistribution()
         {
-            SortedDictionary<UInt32, UInt32> degreeDistribution =
-                new SortedDictionary<UInt32, UInt32>();
-            for (UInt32 i = 0; i < container.Size; ++i)
-                degreeDistribution[i] = new UInt32();
-            for (int i = 0; i < container.Size; ++i)
+            SortedDictionary<uint, uint> degreeDistribution = new SortedDictionary<uint, uint>();
+            for (uint i = 0; i < container.Size; ++i)
+                degreeDistribution[i] = new uint();
+
+            for (uint i = 0; i < container.Size; ++i)
             {
-                int degreeOfVertexI = container.Neighbourship[i].Count;
-                degreeDistribution[(UInt32)degreeOfVertexI]++;
+                uint degreeOfVertexI = (uint)container.Neighbourship[(int)i].Count;
+                ++degreeDistribution[degreeOfVertexI];
             }
-            for (UInt32 i = 0; i < container.Size; i++)
+
+            for (uint i = 0; i < container.Size; ++i)
                 if (degreeDistribution[i] == 0)
                     degreeDistribution.Remove(i);
 
             return degreeDistribution;
         }
 
-        private int fullSubGgraph(int u)    // Разобраться, почему не реализована соответсвующая функция интерфейса.
+        // Разобраться, почему не реализована соответсвующая функция интерфейса.
+        private int fullSubGgraph(int u)
         {
             List<int> n1;
             n1 = container.Neighbourship[u];
@@ -499,7 +461,6 @@ namespace NetworkModel
                         {
                             t = false;
                             break;
-
                         }
                     if (t == true)
                         n2.Add(n1[i]);
@@ -557,12 +518,18 @@ namespace NetworkModel
                                 count++;
                     }
                 }
-
-
             }
 
             return count / 2;
-
         }
+
+        // Возвращает среднее степеней.
+        // TODO check the logic
+        public double AverageDegree()
+        {
+            return container.CalculateNumberOfEdges() * 2 / container.Size;
+        }
+
+        #endregion
     }
 }
