@@ -31,8 +31,11 @@ namespace ERModel
 
         public void RandomGeneration(Dictionary<GenerationParameter, object> genParam)
         {
-            UInt16 numberOfVertices = (UInt16)genParam[GenerationParameter.Vertices];
-            Single probability = (Single)genParam[GenerationParameter.Probability];
+            // TODO change without parse
+            //UInt16 numberOfVertices = (UInt16)genParam[GenerationParameter.Vertices];
+            //Single probability = (Single)genParam[GenerationParameter.Probability];
+            UInt16 numberOfVertices = UInt16.Parse(genParam[GenerationParameter.Vertices].ToString());
+            Single probability = Single.Parse(genParam[GenerationParameter.Probability].ToString());
             
             container.Size = numberOfVertices;           
             FillValuesByProbability(probability);

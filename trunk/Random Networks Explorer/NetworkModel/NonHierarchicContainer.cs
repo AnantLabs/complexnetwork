@@ -28,6 +28,8 @@ namespace NetworkModel
             get { return (UInt32)size; }
             set
             {
+                size = (int)value;
+
                 neighbourship.Clear();
                 for (int i = 0; i < size; ++i)
                 {
@@ -39,8 +41,6 @@ namespace NetworkModel
                 {
                     degrees.Add(0);
                 }
-
-                size = (int)value;
             }
         }
 
@@ -142,6 +142,12 @@ namespace NetworkModel
         public int GetVertexDegree(int i)
         {
             return neighbourship[i].Count;
+        }
+
+        public int CalculateNumberOfEdges()
+        {
+            // TODO add implementation
+            return 0;
         }
 
         /// <summary>

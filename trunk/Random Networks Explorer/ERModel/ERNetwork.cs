@@ -24,6 +24,7 @@ namespace ERModel
         AnalyzeOption.CycleDistribution |
         AnalyzeOption.Cycles3 |
         AnalyzeOption.Cycles4 |
+        AnalyzeOption.CycleDistribution |
         AnalyzeOption.DegreeDistribution |
         AnalyzeOption.Diameter |
         AnalyzeOption.DistanceDistribution |
@@ -44,7 +45,8 @@ namespace ERModel
             if (p.ContainsKey(GenerationParameter.Vertices) &&
                 p[GenerationParameter.Vertices] != null)
             {
-                return (UInt32)p[GenerationParameter.Vertices];
+                // TODO change without parse
+                return UInt32.Parse(p[GenerationParameter.Vertices].ToString());
             }
             else
             {

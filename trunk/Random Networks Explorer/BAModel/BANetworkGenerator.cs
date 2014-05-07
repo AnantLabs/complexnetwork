@@ -18,7 +18,6 @@ namespace BAModel
     {
         private NonHierarchicContainer container;
         private NonHierarchicContainer initialcontainer;
-        private int edges;
 
         public BANetworkGenerator()
         {
@@ -34,14 +33,19 @@ namespace BAModel
 
         public void RandomGeneration(Dictionary<GenerationParameter, object> genParam)
         {
-            UInt16 numberOfVertices = (UInt16)genParam[GenerationParameter.Vertices];
+            // TODO change without parse
+            /*UInt16 numberOfVertices = (UInt16)genParam[GenerationParameter.Vertices];
             edges = (Int32)genParam[GenerationParameter.Edges];
             Single probability = (Single)genParam[GenerationParameter.Probability];
-            UInt16 stepCount = (UInt16)genParam[GenerationParameter.StepCount];
+            UInt16 stepCount = (UInt16)genParam[GenerationParameter.StepCount];*/
+            UInt16 numberOfVertices = UInt16.Parse(genParam[GenerationParameter.Vertices].ToString());
+            UInt32 edges = UInt32.Parse(genParam[GenerationParameter.Edges].ToString());
+            Single probability = Single.Parse(genParam[GenerationParameter.Probability].ToString());
+            UInt16 stepCount = UInt16.Parse(genParam[GenerationParameter.StepCount].ToString());
 
             container.Size = numberOfVertices;
             initialcontainer.Size = numberOfVertices;
-            Generate(stepCount, probability);
+            Generate(stepCount, probability, edges);
         }
 
         public void StaticGeneration(ArrayList matrix)
@@ -51,21 +55,21 @@ namespace BAModel
 
         private RNGCrypto rand = new RNGCrypto();
 
-        private void Generate(long stepCount, double probability)
+        private void Generate(uint stepCount, double probability, uint edges)
         {
-            GenereateInitialGraph(probability);
+            GenerateInitialGraph(probability);
             container = initialcontainer;
 
             while (stepCount > 0)
             {
                 double[] probabilyArray = container.CountProbabilities();
                 container.AddVertex();
-                container.RefreshNeighbourships(MakeGenerationStep(probabilyArray));
+                container.RefreshNeighbourships(MakeGenerationStep(probabilyArray, edges));
                 --stepCount;
             }
         }
 
-        private void GenereateInitialGraph(double probability)
+        private void GenerateInitialGraph(double probability)
         {
             for(int i = 0; i < container.Size; ++i)
                 for(int j = i + 1; j < container.Size; ++j)
@@ -75,7 +79,7 @@ namespace BAModel
                 }
         }
 
-        private bool[] MakeGenerationStep(double[] probabilityArray)
+        private bool[] MakeGenerationStep(double[] probabilityArray, uint edges)
         {
             Dictionary<int, double> resultDic = new Dictionary<int, double>();
             int count = 0;

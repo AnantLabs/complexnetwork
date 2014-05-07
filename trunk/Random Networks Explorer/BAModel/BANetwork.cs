@@ -48,8 +48,9 @@ namespace BAModel
                 p[GenerationParameter.Vertices] != null &&
                 p[GenerationParameter.StepCount] != null)
             {
-                return (UInt32)p[GenerationParameter.Vertices] +
-                    (UInt32)p[GenerationParameter.StepCount];
+                // TODO change without parse
+                return UInt32.Parse(p[GenerationParameter.Vertices].ToString()) +
+                    UInt32.Parse(p[GenerationParameter.StepCount].ToString());
             }
             else
             {
