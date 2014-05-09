@@ -84,6 +84,9 @@ namespace RandomGraph.Common.Model
         TriangleCountByVertex = 0x80000,
 
         [AnalyzeOptionInfo("Triangle Trajectory", "Triangle trajectory", LXAxis = "Time", LYAxis = "Values")]
-        TriangleTrajectory = 0x100000
+        TriangleTrajectory = 0x100000,
+
+        [AnalyzeOptionInfo("Cycles of Order 5", "Cycles with 5 length", GXAxis = "Instances", GYAxis = "Count")]
+        Cycles5 = 0x200000
     }
 }

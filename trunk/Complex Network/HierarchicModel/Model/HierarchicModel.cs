@@ -25,7 +25,8 @@ namespace Model.HierarchicModel
         AnalyseOptions.Cycles |
         AnalyseOptions.EigenValue |
         AnalyseOptions.DistEigenPath |
-        AnalyseOptions.TriangleCountByVertex)]
+        AnalyseOptions.TriangleCountByVertex |
+        AnalyseOptions.Cycles5)]
     [RequiredGenerationParam(GenerationParam.BranchIndex, 3)]
     [RequiredGenerationParam(GenerationParam.Level, 4)]
     [RequiredGenerationParam(GenerationParam.Mu, 6)]
@@ -88,7 +89,8 @@ namespace Model.HierarchicModel
                 AnalyseOptions.Cycles |
                 AnalyseOptions.EigenValue |
                 AnalyseOptions.DistEigenPath |
-                AnalyseOptions.TriangleCountByVertex;
+                AnalyseOptions.TriangleCountByVertex |
+                AnalyseOptions.Cycles5;
 
             // Определение генератора и анализатора для данной модели (Block-Hierarchic).
             log.Info("Creating generator and analyzer for model.");

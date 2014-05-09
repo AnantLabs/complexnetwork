@@ -162,6 +162,12 @@ namespace RandomGraph.Common.Model
                     Result.Result[AnalyseOptions.Cycles4] = analyzer.GetCycles4();
                 }
 
+                if ((AnalyzeOptions & AnalyseOptions.Cycles5) == AnalyseOptions.Cycles5)
+                {
+                    InvokeProgressEvent(GraphProgress.Analyzing, 33, "Cycles of order 5");
+                    Result.Result[AnalyseOptions.Cycles5] = analyzer.GetCycles5();
+                }
+
                 if ((AnalyzeOptions & AnalyseOptions.CycleEigen3) == AnalyseOptions.CycleEigen3)
                 {
                     InvokeProgressEvent(GraphProgress.Analyzing, 35, "Cycles of order 3 (Eigen)");

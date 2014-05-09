@@ -45,6 +45,12 @@ namespace CommonLibrary.Model
             return 0;
         }
 
+        public virtual long GetCycles5()
+        {
+            log.Error("This model does not support Cycles4 algorithm.");
+            return 0;
+        }
+
         // Возвращается число циклов длиной 3 в графе (вычисление с помощью собственных значений).
         public virtual int GetCyclesEigen3()
         {
