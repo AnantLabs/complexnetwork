@@ -79,7 +79,7 @@ namespace Model.HierarchicModel.Realization
             return (long)Count4Cycle(0, 0)[0];
         }
 
-        public long GetCycles5()
+        public override long GetCycles5()
         {
             log.Info("Getting count of cycles - order 5.");
             return (long)Count5Cycle(0, 0)[0];
