@@ -140,5 +140,42 @@ namespace GenericAlgorithms
             }
             return branches;
         }
+
+        public static List<KeyValuePair<int, int>> NeighbourshipsReader(string filePath)
+        {
+            // the first is size
+            List<KeyValuePair<int, int>> neighbourship = new List<KeyValuePair<int, int>>();
+
+            StreamReader streamreader;
+            using (streamreader = new StreamReader(filePath, System.Text.Encoding.Default))
+            {
+                string contents;
+                // retrieving size
+                while (!(contents = streamreader.ReadLine()).Contains("-"))
+                {
+                    if (contents.Contains("N"))
+                    {
+                        string genParamName = contents.Substring(0, contents.IndexOf('='));
+                        string genParamValue = contents.Substring(contents.IndexOf('=') + 1);
+
+                        neighbourship.Add(new KeyValuePair<int, int>(Convert.ToInt32(-1),
+                            Convert.ToInt32(genParamValue)));
+                    }
+                }
+
+                // retrieving data
+                while ((contents = streamreader.ReadLine()) != null)
+                {
+                    string[] split = System.Text.RegularExpressions.Regex.Split(contents, 
+                        "\\s+", 
+                        System.Text.RegularExpressions.RegexOptions.None);
+
+                    neighbourship.Add(new KeyValuePair<int, int>(Convert.ToInt32(split[0]), 
+                        Convert.ToInt32(split[1])));
+                }
+            }
+     
+            return neighbourship;
+        }
     }
 }
