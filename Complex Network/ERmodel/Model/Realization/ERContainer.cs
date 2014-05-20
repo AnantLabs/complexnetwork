@@ -103,17 +103,33 @@ namespace Model.ERModel.Realization
         // Строится граф на основе матрицы смежности.
         public override void SetMatrix(string fileName)
         {
-            ArrayList matrix = MatrixFileReader.MatrixReader(fileName);
-
-            log.Info("Creating ERContainer object from given matrix.");
-            size = matrix.Count;
-            Size = matrix.Count;
-            neighbourship = new SortedDictionary<int, List<int>>();
-            ArrayList neighbourshipOfIVertex = new ArrayList();
-            for (int i = 0; i < matrix.Count; i++)
+            try
             {
-                neighbourshipOfIVertex = (ArrayList)matrix[i];
-                SetDataToDictionary(i, neighbourshipOfIVertex);
+                List<KeyValuePair<int, int>> l = MatrixFileReader.NeighbourshipsReader(fileName);
+
+                Size = l[0].Value;
+                foreach (KeyValuePair<int, int> kv in l)
+                {
+                    if (kv.Key == -1)
+                        continue;
+
+                    AddEdge(kv.Key, kv.Value);
+                }
+            }
+            catch(SystemException)
+            {
+                ArrayList matrix = MatrixFileReader.MatrixReader(fileName);
+
+                log.Info("Creating ERContainer object from given matrix.");
+                size = matrix.Count;
+                Size = matrix.Count;
+                neighbourship = new SortedDictionary<int, List<int>>();
+                ArrayList neighbourshipOfIVertex = new ArrayList();
+                for (int i = 0; i < matrix.Count; i++)
+                {
+                    neighbourshipOfIVertex = (ArrayList)matrix[i];
+                    SetDataToDictionary(i, neighbourshipOfIVertex);
+                }
             }
         }
 
