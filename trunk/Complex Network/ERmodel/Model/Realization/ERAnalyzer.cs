@@ -8,6 +8,8 @@ using CommonLibrary.Model;
 using Algorithms;
 using log4net;
 
+using System.Configuration;
+
 namespace Model.ERModel.Realization
 {
     // Реализация анализатора (ER).
@@ -343,7 +345,6 @@ namespace Model.ERModel.Realization
                         tarctory.Add(time, counttriangle);
                         currentContainer = tempContainer.Copy();
                         currentcounttriangle = counttriangle;
-
                     }
                     else
                     {
@@ -352,11 +353,26 @@ namespace Model.ERModel.Realization
                             tarctory.Add(time, counttriangle);
                             currentContainer = tempContainer.Copy();
                             currentcounttriangle = counttriangle;
-
                         }
                         else
                         {
                             tarctory.Add(time, currentcounttriangle);
+
+                            // very freak code
+
+                            bool trace = false;
+                            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                            if (config.AppSettings.Settings["Tracing"].Value == "yes")
+                                trace = true;
+                            
+                            if (trace && (time == stepcount))
+                            {
+                                TraceContainer(config.AppSettings.Settings["TracingDirectory"].Value, 
+                                    currentContainer,
+                                    constant);
+                            }
+
+                            // end of freak code
                         }
 
                         Console.WriteLine(time);
@@ -370,6 +386,33 @@ namespace Model.ERModel.Realization
             }
 
             return tarctory;
+        }
+
+        // very freak method
+        private void TraceContainer(string tracingDirectory, ERContainer container, double mu)
+        {
+            string dir = tracingDirectory + "TrajectoryResults\\";
+            string filePath = dir + mu.ToString() + "_dump.txt";
+            System.IO.Directory.CreateDirectory(dir);
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath))
+            {
+                bool[,] matrix = container.GetMatrix();
+                for (int i = 0; i < matrix.GetLength(0); ++i)
+                {
+                    for (int j = 0; j < matrix.GetLength(1); ++j)
+                    {
+                        if (matrix[i, j])
+                        {
+                            file.Write(1 + " ");
+                        }
+                        else
+                        {
+                            file.Write(0 + " ");
+                        }
+                    }
+                    file.WriteLine("");
+                }
+            }
         }
 
         private ERContainer TransformKeppingDistriburtion(ERContainer tranformation, Random random, out int triangle)

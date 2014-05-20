@@ -59,18 +59,7 @@ namespace Model.BAModel.Realization
         // Строится граф на основе матрицы смежности.
         public override void SetMatrix(string fileName)
         {
-            List<KeyValuePair<int, int>> l = MatrixFileReader.NeighbourshipsReader(fileName);
-
-            Size = l[0].Value;
-            foreach (KeyValuePair<int, int> kv in l)
-            {
-                if (kv.Key == -1)
-                    continue;
-
-                ConnectVertex(kv.Key, kv.Value);
-            }
-
-            /*ArrayList matrix = MatrixFileReader.MatrixReader(fileName);
+            ArrayList matrix = MatrixFileReader.MatrixReader(fileName);
 
             log.Info("Creating BAContainer object from given matrix.");
             size = matrix.Count;
@@ -80,7 +69,7 @@ namespace Model.BAModel.Realization
             {
                 neighbourshipOfIVertex = (ArrayList)matrix[i];
                 SetDataToDictionary(i, neighbourshipOfIVertex);
-            }*/
+            }
         }
 
         // Возвращается матрица смежности, соответсвующая графу.
