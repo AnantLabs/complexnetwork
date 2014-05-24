@@ -357,22 +357,6 @@ namespace Model.ERModel.Realization
                         else
                         {
                             tarctory.Add(time, currentcounttriangle);
-
-                            // very freak code
-
-                            bool trace = false;
-                            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                            if (config.AppSettings.Settings["Tracing"].Value == "yes")
-                                trace = true;
-                            
-                            if (trace && (time == stepcount))
-                            {
-                                TraceContainer(config.AppSettings.Settings["TracingDirectory"].Value, 
-                                    currentContainer,
-                                    constant);
-                            }
-
-                            // end of freak code
                         }
 
                         Console.WriteLine(time);
@@ -385,18 +369,38 @@ namespace Model.ERModel.Realization
 
             }
 
+            // very freak code
+
+            bool trace = false;
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            if (config.AppSettings.Settings["Tracing"].Value == "yes")
+                trace = true;
+
+            if (trace)
+            {
+                TraceContainer(config.AppSettings.Settings["TracingDirectory"].Value,
+                    currentContainer,
+                    constant);
+            }
+
+            // end of freak code
+
             return tarctory;
         }
 
         // very freak method
-        private void TraceContainer(string tracingDirectory, ERContainer container, double mu)
+        private void TraceContainer(string tracingDirectory, ERContainer cont, double mu)
         {
             string dir = tracingDirectory + "TrajectoryResults\\";
             string filePath = dir + mu.ToString() + "_dump.txt";
+
+            if (System.IO.File.Exists(filePath))
+                filePath = dir + mu.ToString() + "_1_dump.txt";
+
             System.IO.Directory.CreateDirectory(dir);
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath))
             {
-                bool[,] matrix = container.GetMatrix();
+                bool[,] matrix = cont.GetMatrix();
                 for (int i = 0; i < matrix.GetLength(0); ++i)
                 {
                     for (int j = 0; j < matrix.GetLength(1); ++j)

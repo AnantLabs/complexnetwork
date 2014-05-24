@@ -873,20 +873,25 @@ namespace StatisticAnalyzerUI
             }
             if (this.globalPropertiesList.GetItemChecked(6))
             {
+                analyzer.options |= AnalyseOptions.Cycles5;
+                checkedOptions.Add(AnalyseOptions.Cycles5);
+            }
+            if (this.globalPropertiesList.GetItemChecked(7))
+            {
                 analyzer.options |= AnalyseOptions.MaxFullSubgraph;
                 checkedOptions.Add(AnalyseOptions.MaxFullSubgraph);
             }
-            if (this.globalPropertiesList.GetItemChecked(7))
+            if (this.globalPropertiesList.GetItemChecked(8))
             {
                 analyzer.options |= AnalyseOptions.LargestConnectedComponent;
                 checkedOptions.Add(AnalyseOptions.LargestConnectedComponent);
             }
-            if (this.globalPropertiesList.GetItemChecked(8))
+            if (this.globalPropertiesList.GetItemChecked(9))
             {
                 analyzer.options |= AnalyseOptions.MinEigenValue;
                 checkedOptions.Add(AnalyseOptions.MinEigenValue);
             }
-            if (this.globalPropertiesList.GetItemChecked(9))
+            if (this.globalPropertiesList.GetItemChecked(10))
             {
                 analyzer.options |= AnalyseOptions.MaxEigenValue;
                 checkedOptions.Add(AnalyseOptions.MaxEigenValue);
