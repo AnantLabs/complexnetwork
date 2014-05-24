@@ -74,6 +74,8 @@ namespace StatisticAnalyzer.Analyzer
                 GlobalAnalyzeByOption(AnalyseOptions.Cycles3);
             if ((options & AnalyseOptions.Cycles4) == AnalyseOptions.Cycles4)
                 GlobalAnalyzeByOption(AnalyseOptions.Cycles4);
+            if ((options & AnalyseOptions.Cycles5) == AnalyseOptions.Cycles5)
+                GlobalAnalyzeByOption(AnalyseOptions.Cycles5);
             if ((options & AnalyseOptions.MaxFullSubgraph) == AnalyseOptions.MaxFullSubgraph)
                 GlobalAnalyzeByOption(AnalyseOptions.MaxFullSubgraph);
             if ((options & AnalyseOptions.LargestConnectedComponent) == AnalyseOptions.LargestConnectedComponent)

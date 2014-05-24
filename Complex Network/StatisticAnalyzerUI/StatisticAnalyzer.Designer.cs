@@ -38,6 +38,7 @@
             this.MenuSetProvider = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuTools = new System.Windows.Forms.ToolStripMenuItem();
             this.dBOptimizerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.researchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.modelName = new System.Windows.Forms.Label();
             this.modelNameCmb = new System.Windows.Forms.ComboBox();
@@ -90,7 +91,6 @@
             this.bySecondParamCheck = new System.Windows.Forms.CheckBox();
             this.byFirstParamCmb = new System.Windows.Forms.ComboBox();
             this.byFirstParamCheck = new System.Windows.Forms.CheckBox();
-            this.researchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             this.LocalAnalyzeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.localAnalyzeOptionsGrd)).BeginInit();
@@ -142,9 +142,16 @@
             // dBOptimizerToolStripMenuItem
             // 
             this.dBOptimizerToolStripMenuItem.Name = "dBOptimizerToolStripMenuItem";
-            this.dBOptimizerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.dBOptimizerToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.dBOptimizerToolStripMenuItem.Text = "DB Optimizer";
             this.dBOptimizerToolStripMenuItem.Click += new System.EventHandler(this.dBOptimizerToolStripMenuItem_Click);
+            // 
+            // researchesToolStripMenuItem
+            // 
+            this.researchesToolStripMenuItem.Name = "researchesToolStripMenuItem";
+            this.researchesToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.researchesToolStripMenuItem.Text = "Researches";
+            this.researchesToolStripMenuItem.Click += new System.EventHandler(this.researchesToolStripMenuItem_Click);
             // 
             // MenuHelp
             // 
@@ -495,6 +502,7 @@
             "Degree Distribution",
             "Cycles of Order 3",
             "Cycles of Order 4",
+            "Cycles of Order 5",
             "Order of Maximal Subgraph",
             "Largest Connected Component",
             "Minimal Eigen Value",
@@ -720,13 +728,6 @@
             this.byFirstParamCheck.Text = "By Mu";
             this.byFirstParamCheck.UseVisualStyleBackColor = true;
             this.byFirstParamCheck.CheckedChanged += new System.EventHandler(this.byFirstParamCheck_CheckedChanged);
-            // 
-            // researchesToolStripMenuItem
-            // 
-            this.researchesToolStripMenuItem.Name = "researchesToolStripMenuItem";
-            this.researchesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.researchesToolStripMenuItem.Text = "Researches";
-            this.researchesToolStripMenuItem.Click += new System.EventHandler(this.researchesToolStripMenuItem_Click);
             // 
             // StatisticAnalyzer
             // 

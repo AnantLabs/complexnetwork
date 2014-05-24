@@ -153,7 +153,7 @@ namespace GenericAlgorithms
                 // retrieving size
                 while (!(contents = streamreader.ReadLine()).Contains("-"))
                 {
-                    if (contents.Contains("N"))
+                    if (contents.Contains("Vertices"))
                     {
                         string genParamName = contents.Substring(0, contents.IndexOf('='));
                         string genParamValue = contents.Substring(contents.IndexOf('=') + 1);
