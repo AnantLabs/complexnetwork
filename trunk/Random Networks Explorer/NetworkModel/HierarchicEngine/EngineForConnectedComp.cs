@@ -27,7 +27,7 @@ namespace NetworkModel.HierarchicEngine
 
         public EngineForConnectedComp() { }
 
-        public ArrayList GetCountConnSGruph(Dictionary<int, ArrayList> graph, int countNodes)
+        public ArrayList GetCountConnSGraph(Dictionary<int, ArrayList> graph, int countNodes)
         {
             int[][] grp = new int[countNodes][];
             for (int i = 0; i < countNodes; i++)
@@ -43,6 +43,21 @@ namespace NetworkModel.HierarchicEngine
                 if (conn_comp[i].Count > 1)
                     arr.Add(conn_comp[i].Count);
             return arr;
+        }
+
+        public Dictionary<int, ArrayList> GetConnSGraph(Dictionary<int, ArrayList> graph, 
+            int countNodes)
+        {
+            int[][] grp = new int[countNodes][];
+            for (int i = 0; i < countNodes; ++i)
+            {
+                grp[i] = new int[graph[i].Count];
+                for (int j = 0; j < grp[i].Length; ++j)
+                    grp[i][j] = Convert.ToInt32(graph[i][j]);
+            }
+            FindConnSGruph(grp, countNodes);
+            Dictionary<int, ArrayList> retconn_comp = conn_comp;
+            return retconn_comp;
         }
         
         // Утилиты.

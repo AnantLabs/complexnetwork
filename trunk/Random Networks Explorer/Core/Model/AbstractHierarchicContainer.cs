@@ -20,6 +20,6 @@ namespace Core.Model
         /// Gets branches for the graph.
         /// </summary>
         /// <returns>Branches by levels.</returns>
-        public abstract int[][] GetBranches();
+        public abstract UInt16[][] GetBranches();
     }
 }

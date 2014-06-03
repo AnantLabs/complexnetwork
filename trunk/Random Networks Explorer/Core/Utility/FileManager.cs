@@ -103,7 +103,7 @@ namespace Core.Utility
             return branches;
         }
 
-        public static void BranchesWriter(int[][] branches, String filePath)
+        public static void BranchesWriter(UInt16[][] branches, String filePath)
         {
             using (System.IO.StreamWriter writer = new System.IO.StreamWriter(filePath + "_branches.txt"))
             {

@@ -59,6 +59,7 @@ namespace RegularHierarchicModel
 
         protected override double CalculateAverageClusteringCoefficient()
         {
+            // TODO 3 cycles in BigInteger
             double cycles3 = Count3Cycle(0, 0)[0], sum = 0, degree = 0;
             for (int i = 0; i < container.Size; ++i)
             {
@@ -326,7 +327,7 @@ namespace RegularHierarchicModel
             {
                 int powPK = Convert.ToInt32(Math.Pow(container.BranchingIndex, container.Level - level - 1));
                 EngineForConnectedComp engForConnectedComponent = new EngineForConnectedComp();
-                ArrayList arrConnComp = engForConnectedComponent.GetCountConnSGruph(container.NodeAdjacencyLists(node),
+                ArrayList arrConnComp = engForConnectedComponent.GetCountConnSGraph(container.NodeAdjacencyLists(node),
                     container.BranchingIndex);
                 uint uKey = 0;
                 for (int i = 0; i < arrConnComp.Count; i++)
@@ -381,7 +382,7 @@ namespace RegularHierarchicModel
                 {
                     for (int j = (i + 1); j < container.BranchingIndex * (numberNode + 1); j++)
                     {
-                        if (container.IsConnectedTwoBlocks(node, i - numberNode * container.BranchingIndex,
+                        if (container.AreConnectedTwoBlocks(node, i - numberNode * container.BranchingIndex,
                             j - numberNode * container.BranchingIndex))
                         {
                             countCycle += (countEdge[i - numberNode * container.BranchingIndex] +
@@ -389,9 +390,9 @@ namespace RegularHierarchicModel
 
                             for (int k = (j + 1); k < container.BranchingIndex * (numberNode + 1); k++)
                             {
-                                if (container.IsConnectedTwoBlocks(node, j - numberNode * container.BranchingIndex,
+                                if (container.AreConnectedTwoBlocks(node, j - numberNode * container.BranchingIndex,
                                     k - numberNode * container.BranchingIndex)
-                                    && container.IsConnectedTwoBlocks(node, i - numberNode * container.BranchingIndex,
+                                    && container.AreConnectedTwoBlocks(node, i - numberNode * container.BranchingIndex,
                                     k - numberNode * container.BranchingIndex))
                                     countCycle += powPK * powPK * powPK;
                             }
@@ -438,7 +439,7 @@ namespace RegularHierarchicModel
                 {
                     for (int j = i + 1; j < (nodeNumber + 1) * bIndex; ++j)
                     {
-                        if (container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex))
+                        if (container.AreConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex))
                         {
                             arrayReturned[0] += (array[i][2] + array[j][2]) * powPK;
                             arrayReturned[0] += 2 * array[i][1] * array[j][1];
@@ -453,31 +454,31 @@ namespace RegularHierarchicModel
 
                         for (int k = j + 1; k < (nodeNumber + 1) * bIndex; ++k)
                         {
-                            if (container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
-                                container.IsConnectedTwoBlocks(node, j - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
-                                container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex))
+                            if (container.AreConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
+                                container.AreConnectedTwoBlocks(node, j - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
+                                container.AreConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex))
                             {
                                 arrayReturned[0] += 2 * (array[i][1] + array[j][1] + array[k][1]) * powPK * powPK;
                             }
 
-                            if (container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
-                                container.IsConnectedTwoBlocks(node, j - nodeNumber * bIndex, k - nodeNumber * bIndex))
+                            if (container.AreConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
+                                container.AreConnectedTwoBlocks(node, j - nodeNumber * bIndex, k - nodeNumber * bIndex))
                             {
                                 arrayReturned[0] += powPK * powPK * powPK * (powPK - 1) / 2;
 
                                 arrayReturned[2] += powPK * powPK * powPK;
                             }
 
-                            if (container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
-                                container.IsConnectedTwoBlocks(node, k - nodeNumber * bIndex, j - nodeNumber * bIndex))
+                            if (container.AreConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
+                                container.AreConnectedTwoBlocks(node, k - nodeNumber * bIndex, j - nodeNumber * bIndex))
                             {
                                 arrayReturned[0] += powPK * powPK * powPK * (powPK - 1) / 2;
 
                                 arrayReturned[2] += powPK * powPK * powPK;
                             }
 
-                            if (container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
-                                container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex))
+                            if (container.AreConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
+                                container.AreConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex))
                             {
                                 arrayReturned[0] += powPK * powPK * powPK * (powPK - 1) / 2;
 
@@ -486,18 +487,18 @@ namespace RegularHierarchicModel
 
                             for (int l = k + 1; l < (nodeNumber + 1) * bIndex; ++l)
                             {
-                                bool b1 = container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
-                                    container.IsConnectedTwoBlocks(node, j - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
-                                    container.IsConnectedTwoBlocks(node, k - nodeNumber * bIndex, l - nodeNumber * bIndex) &&
-                                    container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, l - nodeNumber * bIndex);
-                                bool b2 = container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
-                                    container.IsConnectedTwoBlocks(node, j - nodeNumber * bIndex, l - nodeNumber * bIndex) &&
-                                    container.IsConnectedTwoBlocks(node, l - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
-                                    container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex);
-                                bool b3 = container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, l - nodeNumber * bIndex) &&
-                                    container.IsConnectedTwoBlocks(node, l - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
-                                    container.IsConnectedTwoBlocks(node, j - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
-                                    container.IsConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex);
+                                bool b1 = container.AreConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
+                                    container.AreConnectedTwoBlocks(node, j - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
+                                    container.AreConnectedTwoBlocks(node, k - nodeNumber * bIndex, l - nodeNumber * bIndex) &&
+                                    container.AreConnectedTwoBlocks(node, i - nodeNumber * bIndex, l - nodeNumber * bIndex);
+                                bool b2 = container.AreConnectedTwoBlocks(node, i - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
+                                    container.AreConnectedTwoBlocks(node, j - nodeNumber * bIndex, l - nodeNumber * bIndex) &&
+                                    container.AreConnectedTwoBlocks(node, l - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
+                                    container.AreConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex);
+                                bool b3 = container.AreConnectedTwoBlocks(node, i - nodeNumber * bIndex, l - nodeNumber * bIndex) &&
+                                    container.AreConnectedTwoBlocks(node, l - nodeNumber * bIndex, j - nodeNumber * bIndex) &&
+                                    container.AreConnectedTwoBlocks(node, j - nodeNumber * bIndex, k - nodeNumber * bIndex) &&
+                                    container.AreConnectedTwoBlocks(node, i - nodeNumber * bIndex, k - nodeNumber * bIndex);
                                 if (b1)
                                 {
                                     arrayReturned[0] += powPK * powPK * powPK * powPK;
@@ -560,16 +561,16 @@ namespace RegularHierarchicModel
                 double degree = container.VertexDegree(vertexNumber, level + 1);
                 for (int j = numberNode * container.BranchingIndex; j < container.BranchingIndex * (numberNode + 1); ++j)
                 {
-                    if (container.IsConnectedTwoBlocks(node, vertexIndex, j - numberNode * container.BranchingIndex))
+                    if (container.AreConnectedTwoBlocks(node, vertexIndex, j - numberNode * container.BranchingIndex))
                     {
                         result[0] += container.CalculateNumberOfEdges(level + 1, j);
                         result[0] += powPK * degree;
 
                         for (int k = j + 1; k < container.BranchingIndex * (numberNode + 1); ++k)
                         {
-                            if (container.IsConnectedTwoBlocks(node, j - numberNode * container.BranchingIndex,
+                            if (container.AreConnectedTwoBlocks(node, j - numberNode * container.BranchingIndex,
                                 k - numberNode * container.BranchingIndex) &&
-                                container.IsConnectedTwoBlocks(node, k - numberNode * container.BranchingIndex,
+                                container.AreConnectedTwoBlocks(node, k - numberNode * container.BranchingIndex,
                                 vertexIndex))
                             {
                                 result[0] += powPK * powPK;

@@ -156,13 +156,13 @@ namespace RegularHierarchicModel
             return matrix;
         }
 
-        public override int[][] GetBranches()
+        public override UInt16[][] GetBranches()
         {
-            int[][] branches = new int[Level][];
+            UInt16[][] branches = new UInt16[Level][];
             for (int i = 0; i < Level; ++i)
             { 
                 int levelVertexCount = Convert.ToInt32(Math.Pow(branchingIndex, i));
-                branches[i] = new int[levelVertexCount];
+                branches[i] = new UInt16[levelVertexCount];
                 for (int j = 0; j < levelVertexCount; ++j)
                 {
                     branches[i][j] = branchingIndex;
@@ -541,7 +541,7 @@ namespace RegularHierarchicModel
 
                     for (int j = i + 1; j < (currentNodeNumber + 1) * branchingIndex; ++j)
                     {
-                        if (IsConnectedTwoBlocks(node, 
+                        if (AreConnectedTwoBlocks(node, 
                             i - currentNodeNumber * branchingIndex, 
                             j - currentNodeNumber * branchingIndex))
                         {
@@ -550,7 +550,7 @@ namespace RegularHierarchicModel
 
                             for (int k = j + 1; k < (currentNodeNumber + 1) * branchingIndex; ++k)
                             {
-                                if (IsConnectedTwoBlocks(node, 
+                                if (AreConnectedTwoBlocks(node, 
                                     j - currentNodeNumber * branchingIndex, 
                                     k - currentNodeNumber * branchingIndex))
                                 {
@@ -596,7 +596,7 @@ namespace RegularHierarchicModel
         /// <param name="n2">Index of second subtree.</param>
         /// <note>Indices of subtrees must be in [0, branchingIndex - 1] range.</note>
         /// <returns>true, if specifed subtrees are connected. false atherwise.</returns>
-        public bool IsConnectedTwoBlocks(BitArray nodeInformation, int n1, int n2)
+        public bool AreConnectedTwoBlocks(BitArray nodeInformation, int n1, int n2)
         {
             if((n1 < 0 || n1 > branchingIndex - 1) || (n2 < 0 || n2 > branchingIndex - 1))
                 throw new SystemException("Wrong parameter - n1 or n2.");
@@ -644,7 +644,7 @@ namespace RegularHierarchicModel
             {
                 for (int j = i + 1; j < branchingIndex * (currentNodeNumber + 1); ++j)
                 {
-                    if (IsConnectedTwoBlocks(node, 
+                    if (AreConnectedTwoBlocks(node, 
                         i - branchingIndex * currentNodeNumber, 
                         j - branchingIndex * currentNodeNumber))
                         ++result;
@@ -678,7 +678,7 @@ namespace RegularHierarchicModel
             BitArray node = TreeNode(currentLevel, currentNodeNumber);
             for (int j = branchingIndex * currentNodeNumber; j < branchingIndex * (currentNodeNumber + 1); ++j)
             {
-                if (IsConnectedTwoBlocks(node, i, j - branchingIndex * currentNodeNumber))
+                if (AreConnectedTwoBlocks(node, i, j - branchingIndex * currentNodeNumber))
                     ++result;
             }
 
