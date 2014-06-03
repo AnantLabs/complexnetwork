@@ -9,18 +9,26 @@ using Core.Attributes;
 
 namespace NonRegularHierarchicModel
 {
+    /// <summary>
+    /// Implementation of non regularly branching block-hierarchic network.
+    /// </summary>
     [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrixFile)]
+    [RequiredGenerationParameter(GenerationParameter.Vertices)]
     [RequiredGenerationParameter(GenerationParameter.BranchingIndex)]
-    [RequiredGenerationParameter(GenerationParameter.Level)]
     [RequiredGenerationParameter(GenerationParameter.Mu)]
     [AvailableAnalyzeOption(AnalyzeOption.AvgClusteringCoefficient |
         AnalyzeOption.AvgDegree |
         AnalyzeOption.AvgPathLength |
         AnalyzeOption.ClusteringCoefficientDistribution |
+        AnalyzeOption.ConnectedComponentDistribution |
         AnalyzeOption.Cycles3 |
         AnalyzeOption.Cycles4 |
         AnalyzeOption.DegreeDistribution |
-        AnalyzeOption.Diameter)]
+        AnalyzeOption.Diameter | 
+        AnalyzeOption.DistanceDistribution | 
+        AnalyzeOption.EigenDistanceDistribution | 
+        AnalyzeOption.EigenValues |
+        AnalyzeOption.TriangleByVertexDistribution)]
     public class NonRegularHierarchicNetwork : AbstractNetwork
     {
         public NonRegularHierarchicNetwork(Dictionary<GenerationParameter, object> genParams,
@@ -32,8 +40,16 @@ namespace NonRegularHierarchicModel
 
         public static UInt32 CalculateSize(Dictionary<GenerationParameter, object> p)
         {
-            // TODO
-            return 0;
+            if (p.ContainsKey(GenerationParameter.Vertices) &&
+                p[GenerationParameter.Vertices] != null)
+            {
+                // TODO change without parse
+                return UInt32.Parse(p[GenerationParameter.Vertices].ToString());
+            }
+            else
+            {
+                throw new SystemException("Wrong generation parameters for current model.");
+            }
         }
     }
 }
