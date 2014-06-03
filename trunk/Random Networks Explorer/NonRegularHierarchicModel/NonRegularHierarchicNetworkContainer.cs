@@ -227,11 +227,12 @@ namespace NonRegularHierarchicModel
         }
 
         /// <summary>
-        /// 
+        /// Retrieves mark of specified node of non-regular block-hierarchical tree.
         /// </summary>
-        /// <param name="currentLevel"></param>
-        /// <param name="currentNodeNumber"></param>
-        /// <returns></returns>
+        /// <param name="currentLevel">Index of level of specified node.</param>
+        /// <note>currentLevel must be in [0, level - 1] range.</note>
+        /// <param name="currentNodeNumber">Index of specified node in currentLevel.</param>
+        /// <returns>Sequence of {0, 1} values. Length is branchSize*(branchSize-1)/2</returns>
         public BitArray TreeNode(int currentLevel, long currentNodeNumber)
         {
             if (currentLevel < 0 || currentLevel > level - 1)
@@ -275,11 +276,12 @@ namespace NonRegularHierarchicModel
         }
 
         /// <summary>
-        /// 
+        /// Retrieves the adjacency matrix for specified node of non-regular block-hierarchical tree.
         /// </summary>
-        /// <param name="currentLevel"></param>
-        /// <param name="currentNodeNumber"></param>
-        /// <returns></returns>
+        /// <param name="currentLevel">Index of level of specified node.</param>
+        /// <note>currentLevel must be in [0, level - 1] range.</note>
+        /// <param name="currentNodeNumber">Index of specified node in currentLevel.</param>
+        /// <returns>Matrix of {0, 1} values. Size is branchSize X branchSize.</returns>
         public int[,] NodeMatrix(int currentLevel, long currentNodeNumber)
         {
             if (currentLevel < 0 || currentLevel >= level)
@@ -332,11 +334,11 @@ namespace NonRegularHierarchicModel
         }
 
         /// <summary>
-        /// 
+        /// Retrieves adjacency lists for specified node's mark (bit sequence).
         /// </summary>
-        /// <param name="nodeInformation"></param>
-        /// <param name="branchSize"></param>
-        /// <returns></returns>
+        /// <param name="nodeInformation">The mark of node (bit sequence).</param>
+        /// <param name="branchSize">The size of the branch.</param>
+        /// <returns>Adjacency lists.</returns>
         public Dictionary<int, ArrayList> NodeAdjacencyLists(BitArray nodeInformation, 
             int branchSize)
         {
@@ -366,11 +368,12 @@ namespace NonRegularHierarchicModel
         }
 
         /// <summary>
-        /// 
+        /// Calculates number of edges for the given cluster.
         /// </summary>
-        /// <param name="currentLevel"></param>
-        /// <param name="currentNodeNumber"></param>
-        /// <returns></returns>
+        /// <param name="currentLevel">Index of level of specified node.</param>
+        /// <note>currentLevel must be in [0, level - 1] range.</note>
+        /// <param name="currentNodeNumber">Index of specified node in currentLevel.</param>
+        /// <returns>Number of edges.</returns>
         public int CalculateNumberOfEdges(int currentLevel, int currentNodeNumber)
         {
             if (currentLevel < 0 || currentLevel > level)
@@ -401,13 +404,13 @@ namespace NonRegularHierarchicModel
         }
 
         /// <summary>
-        /// 
+        /// Defines if specified subtrees are connected in specified nodes's mark.
         /// </summary>
-        /// <param name="nodeInformation"></param>
-        /// <param name="branchSize"></param>
-        /// <param name="n1"></param>
-        /// <param name="n2"></param>
-        /// <returns></returns>
+        /// <param name="nodeInformation">The mark of node (bit sequence).</param>
+        /// <param name="branchSize">The size of the branch.</param>
+        /// <param name="n1">Index of first subtree.</param>
+        /// <param name="n2">Index of first subtree.</param>
+        /// <returns>true, if specifed subtrees are connected. false otherwise.</returns>
         public bool AreConnectedTwoBlocks(BitArray nodeInformation, int branchSize, int n1, int n2)
         {
             if (n1 == n2)
@@ -431,12 +434,14 @@ namespace NonRegularHierarchicModel
         }
 
         /// <summary>
-        /// 
+        /// Calculates the number of connections between specified subtree with other subtrees 
+        /// for specified node.
         /// </summary>
-        /// <param name="child"></param>
-        /// <param name="parent"></param>
-        /// <param name="parentLevel"></param>
-        /// <returns></returns>
+        /// <param name="child">Index of specified subtree.</param>
+        /// <param name="parent">Index of specified node in parentLevel.</param>
+        /// <param name="parentLevel">Index of level of specified node.</param>
+        /// <note>currentLevel must be in [0, level] range.</note>
+        /// <returns>Number of connections.</returns>
         public int Links(int child, int parent, int parentLevel)
         {
             int result = 0;
@@ -460,12 +465,13 @@ namespace NonRegularHierarchicModel
         }
 
         /// <summary>
-        /// 
+        /// Calculates number of subtrees, which are connected with specified subtree.
         /// </summary>
-        /// <param name="nodeInformation"></param>
-        /// <param name="branchSize"></param>
-        /// <param name="subtreeIndex"></param>
-        /// <returns></returns>
+        /// <param name="nodeInformation">The mark of node (bit sequence).</param>
+        /// <param name="branchSize">The size of the branch.</param>
+        /// <param name="subtreeIndex">Index of subtree.</param>
+        /// <note>Index of subtree must be in [0, branchSize - 1] range.</note>
+        /// <returns>Number of subtrees.</returns>
         public int CountConnectedBlocks(BitArray nodeInformation, int branchSize, int subtreeIndex)
         {
             subtreeIndex++;
@@ -491,11 +497,12 @@ namespace NonRegularHierarchicModel
         }
 
         /// <summary>
-        /// 
+        /// Recoursively retrieves the index of subtree on specified level, 
+        /// which contains the specified vertex.
         /// </summary>
-        /// <param name="v"></param>
-        /// <param name="currentLevel"></param>
-        /// <returns></returns>
+        /// <param name="v">Index of the vertex (as leaf).</param>
+        /// <param name="currentLevel">Index of level.</param>
+        /// <returns>Index of subtree.</returns>
         public int TreeIndex(int v, int currentLevel)
         {
             if (currentLevel == level)
@@ -516,11 +523,13 @@ namespace NonRegularHierarchicModel
         }
 
         /// <summary>
-        /// 
+        /// Calculates the length of shortest path between specified vertices.
         /// </summary>
-        /// <param name="v1"></param>
-        /// <param name="v2"></param>
-        /// <returns></returns>
+        /// <param name="v1">Index of the first vertex.</param>
+        /// <param name="v2">Index of the second vertex.</param>
+        /// <note>Indices of vertices must be in [0, Size] range, where Size is the 
+        /// number of vertices in the network.</note>
+        /// <returns>-1, if there is no path between specified vertices.</returns>
         public int CalculateMinimalPathLength(int v1, int v2)
         {
             int vertex1 = v1, vertex2 = v2;
@@ -575,11 +584,12 @@ namespace NonRegularHierarchicModel
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="v1"></param>
-        /// <param name="v2"></param>
-        /// <returns></returns>
+        /// Defines if specified vertices are connected (are neighbours).
+        /// <param name="v1">Index of the first vertex.</param>
+        /// <param name="v2">Index of the second vertex.</param>
+        /// <note>Indices of vertices must be in [0, Size] range, where Size is the 
+        /// number of vertices in the network.</note>
+        /// <returns>1, if specified vertices are connected. 0 otherwise.</returns>
         private int this[int v1, int v2]
         {
             get
@@ -604,18 +614,20 @@ namespace NonRegularHierarchicModel
 
                 int branchSize = branches[currentLevel][numberOfGroup1];
                 BitArray currentNode = TreeNode(currentLevel, numberOfGroup1);
-                int index = AdjacentIndex(branchSize, v1 % branchSize, v2 % branchSize);
+                int index = AdjacentIndex(branchSize, v1, v2);
                 return Convert.ToInt32(currentNode[index]);
             }
         }        
 
         /// <summary>
-        /// 
+        /// Retrieves information about connectness (neighbourship) of specified vertices.
         /// </summary>
-        /// <param name="branchSize"></param>
-        /// <param name="v1"></param>
-        /// <param name="v2"></param>
-        /// <returns></returns>
+        /// <param name="branchSize">The size of the branch.</param>
+        /// <param name="v1">Index of the first vertex.</param>
+        /// <param name="v2">Index of the second vertex.</param>
+        /// <note>Indices of vertices must be in [0, Size] range, where Size is the 
+        /// number of vertices in the network.</note>
+        /// <returns>Index of a bit, which defines connectness of specified vertices.</returns>
         private int AdjacentIndex(int branchSize, int v1, int v2)
         {
             if (branchSize == 2)
@@ -640,11 +652,12 @@ namespace NonRegularHierarchicModel
         }
 
         /// <summary>
-        /// 
+        /// Retrieves the index of tree on specified level, 
+        /// which contains the specified subtree that is lower with one level.
         /// </summary>
-        /// <param name="v"></param>
-        /// <param name="currentLevel"></param>
-        /// <returns></returns>
+        /// <param name="v">The index of subtree.</param>
+        /// <param name="currentLevel">The level of the tree, which contains the subtree.</param>
+        /// <returns>The index of tree, which is on currentLevel.</returns>
         public int TreeIndexStep(int v, int currentLevel)
         {
             if (currentLevel > level - 1)
@@ -673,11 +686,12 @@ namespace NonRegularHierarchicModel
         }
 
         /// <summary>
-        /// 
+        /// Calculate the number of vertices in the given cluster.
         /// </summary>
-        /// <param name="currentLevel"></param>
-        /// <param name="currentNodeNumber"></param>
-        /// <returns></returns>
+        /// <param name="currentLevel">Index of level of specified node.</param>
+        /// <note>currentLevel must be in [0, level - 1] range.</note>
+        /// <param name="currentNodeNumber">Index of specified node in currentLevel.</param>
+        /// <returns>Number of vertices.</returns>
         public int CountLeaves(int currentLevel, int currentNodeNumber)
         {
             if (currentLevel < 0 || currentLevel > level)
@@ -701,14 +715,13 @@ namespace NonRegularHierarchicModel
             }
         }
 
-        // Возвращает начальный номер поддеревьев дерево данного уровня и номера,
-        // количиство можно посчетать container.branches[currentLevel][numberNode]
         /// <summary>
-        /// 
+        /// Finds the first index of a subtree that is lower with one level and belongs to the given tree.
         /// </summary>
-        /// <param name="currentLevel"></param>
-        /// <param name="currentNodeNumber"></param>
-        /// <returns></returns>
+        /// <param name="currentLevel">Index of level of specified node.</param>
+        /// <note>currentLevel must be in [0, level - 1] range.</note>
+        /// <param name="currentNodeNumber">Index of specified node in currentLevel.</param>
+        /// <returns>The index of the subtree.</returns>
         public int FindBranches(int currentLevel, int currentNodeNumber)
         {
             if (currentLevel < 0 || currentLevel > level - 1)

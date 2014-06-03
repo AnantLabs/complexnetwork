@@ -595,7 +595,7 @@ namespace RegularHierarchicModel
         /// <param name="n1">Index of first subtree.</param>
         /// <param name="n2">Index of second subtree.</param>
         /// <note>Indices of subtrees must be in [0, branchingIndex - 1] range.</note>
-        /// <returns>true, if specifed subtrees are connected. false atherwise.</returns>
+        /// <returns>true, if specifed subtrees are connected. false otherwise.</returns>
         public bool AreConnectedTwoBlocks(BitArray nodeInformation, int n1, int n2)
         {
             if((n1 < 0 || n1 > branchingIndex - 1) || (n2 < 0 || n2 > branchingIndex - 1))
@@ -723,7 +723,7 @@ namespace RegularHierarchicModel
         /// Recoursively retrieves the index of subtree on specified level, 
         /// which contains the specified vertex.
         /// </summary>
-        /// <param name="v">Index of vertex (as leave).</param>
+        /// <param name="v">Index of the vertex (as leaf).</param>
         /// <note>Index of vertex must be in [0, pow(branchingIndex, level) - 1] range.</note>
         /// <param name="currentLevel">Index of level.</param>
         /// <returns>Index of subtree.</returns>
@@ -741,8 +741,8 @@ namespace RegularHierarchicModel
         /// <summary>
         /// Calculates the length of shortest path between specified vertices.
         /// </summary>
-        /// <param name="v1">Index of first vertex.</param>
-        /// <param name="v2">Index of second vertex.</param>
+        /// <param name="v1">Index of the first vertex.</param>
+        /// <param name="v2">Index of the second vertex.</param>
         /// <note>Indices of vertices must be in [0, pow(branchingIndex, level) - 1] range.</note>
         /// <returns>-1, if there is no path between specified vertices.</returns>
         public int CalculateMinimalPathLength(int v1, int v2)
@@ -844,8 +844,8 @@ namespace RegularHierarchicModel
         /// <summary>
         /// Retrieves information about connectness (neighbourship) of specified vertices.
         /// </summary>
-        /// <param name="v1">Index of first vertex.</param>
-        /// <param name="v2">Index of second vertex.</param>
+        /// <param name="v1">Index of the first vertex.</param>
+        /// <param name="v2">Index of the second vertex.</param>
         /// <note>Indices of vertices must be in [0, branchingIndex - 1] range.</note>
         /// <returns>Index of a bit, which defines connectness of specified vertices.</returns>
         public int AdjacentIndex(int v1, int v2)

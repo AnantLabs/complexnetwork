@@ -35,6 +35,10 @@ namespace NonRegularHierarchicModel
             container = c;
         }
 
+        /// <summary>
+        /// Calculates the average length of paths between vertices. 
+        /// </summary>
+        /// <returns>Average length of paths between vertices.</returns>
         protected override double CalculateAveragePath()
         {
             if (!calledPaths)
@@ -43,6 +47,10 @@ namespace NonRegularHierarchicModel
             return Math.Round(averagePathLength, 4);
         }
 
+        /// <summary>
+        /// Calculates the diameter of the network. (Maximum distance between vertices).
+        /// </summary>
+        /// <returns>Diameter of the network.</returns>
         protected override uint CalculateDiameter()
         {
             if (!calledPaths)
@@ -51,11 +59,19 @@ namespace NonRegularHierarchicModel
             return diameter;
         }
 
+        /// <summary>
+        /// Calculates average degree of the vertices.
+        /// </summary>
+        /// <returns>Average degree of vertices.</returns>
         protected override double CalculateAverageDegree()
         {
             return (double)container.CalculateNumberOfEdges(0, 0) * 2 / container.Size;
         }
 
+        /// <summary>
+        /// Calculates average clustering coefficient.
+        /// </summary>
+        /// <returns>Average clustering coefficient.</returns>
         protected override double CalculateAverageClusteringCoefficient()
         {
             // TODO 3 cycles in BigInteger
@@ -69,18 +85,30 @@ namespace NonRegularHierarchicModel
             return 6 * cycles3 / sum;
         }
 
+        /// <summary>
+        /// Calculates the number of cycles of 3 order.
+        /// </summary>
+        /// <returns>Number of cycles of 3 order.</returns>
         protected override BigInteger CalculateCycles3()
         {
             // TODO get BigInteger result
             return (long)Count3Cycle(0, 0)[0];
         }
 
+        /// <summary>
+        /// Calculates the number of cycles of 4 order.
+        /// </summary>
+        /// <returns>Number of cycles of 4 order.</returns>
         protected override BigInteger CalculateCycles4()
         {
             // TODO get BigInteger result
             return (long)Count4Cycle(0, 0)[0];
         }
 
+        /// <summary>
+        /// Calculates the eigen values.
+        /// </summary>
+        /// <returns>List of eigen values.</returns>
         protected override List<Double> CalculateEigenValues()
         {
             bool[,] m = container.GetMatrix();
@@ -98,6 +126,10 @@ namespace NonRegularHierarchicModel
             }
         }
 
+        /// <summary>
+        /// Calculates the distribution of eigen distances.
+        /// </summary>
+        /// <returns>Distribution of eigen distances.</returns>
         protected override SortedDictionary<Double, UInt32> CalculateEigenDistanceDistribution()
         {
             bool[,] m = container.GetMatrix();
@@ -116,11 +148,19 @@ namespace NonRegularHierarchicModel
             }
         }
 
+        /// <summary>
+        /// Calculates the distribution of degrees of the vertices.
+        /// </summary>
+        /// <returns>Distribution of degrees of the vertices.</returns>
         protected override SortedDictionary<UInt32, UInt32> CalculateDegreeDistribution()
         {
             return DegreeDistributionInCluster(0, 0);
         }
 
+        /// <summary>
+        /// Calculates the distribution of clustering coefficients of the vertices.
+        /// </summary>
+        /// <returns>Distribution of clustering coefficients of the vertices.</returns>
         protected override SortedDictionary<Double, UInt32> CalculateClusteringCoefficientDistribution()
         {
             SortedDictionary<double, uint> result = new SortedDictionary<double, uint>();
@@ -137,11 +177,19 @@ namespace NonRegularHierarchicModel
             return result;
         }
 
+        /// <summary>
+        /// Calculates the distribution of connected components of the network.
+        /// </summary>
+        /// <returns>Distribution of connected components.</returns>
         protected override SortedDictionary<UInt32, UInt32> CalculateConnectedComponentDistribution()
         {
             return ConnectedSubgraphsInCluster(0, 0);
         }
 
+        /// <summary>
+        /// Calculates the distribution of distances between the vertices.
+        /// </summary>
+        /// <returns>Distribution of distances between the vertices.</returns>
         protected override SortedDictionary<UInt32, UInt32> CalculateDistanceDistribution()
         {
             if (!calledPaths)
@@ -150,6 +198,10 @@ namespace NonRegularHierarchicModel
             return distanceDistribution;
         }
 
+        /// <summary>
+        /// Calcuate the distribution of trianges that contain the given vertex.
+        /// </summary>
+        /// <returns>Distribution of trianges that contain the given vertex.</returns>
         protected override SortedDictionary<UInt32, UInt32> CalculateTriangleByVertexDistribution()
         {
             SortedDictionary<uint, uint> result = new SortedDictionary<uint, uint>();
@@ -176,6 +228,9 @@ namespace NonRegularHierarchicModel
         bool calledEigens = false;
         private List<double> eigenValues = new List<double>();
 
+        /// <summary>
+        /// A method that is used to count distance distribution, average path length and diameter.
+        /// </summary>
         private void CountEssentialOptions()
         {
             double avg = 0;
@@ -210,8 +265,12 @@ namespace NonRegularHierarchicModel
             calledPaths = true;
         }
 
-        // Возвращает распределение степеней.
-        // Распределение степеней вычисляется в данном узле данного уровня.
+        /// <summary>
+        /// Calculates the distribution of degrees of vertices that belong to the given cluster.
+        /// </summary>
+        /// <param name="numberNode">The index of cluster.</param>
+        /// <param name="currentLevel">The level of cluster.</param>
+        /// <returns>Distribution of degrees of vertices that belong to the given cluster.</returns>
         private SortedDictionary<uint, uint> DegreeDistributionInCluster(int numberNode, 
             int currentLevel)
         {
@@ -267,8 +326,12 @@ namespace NonRegularHierarchicModel
             }
         }
 
-        // Возвращает число циклов порядка 3 в нулевом элементе SortedDictionary<int, double>.
-        // Число циклов вычисляется в данном узле данного уровня.
+        /// <summary>
+        /// Calculates the number of cycles of 3 order in the given cluster.
+        /// </summary>
+        /// <param name="level">The level of cluster.</param>
+        /// <param name="numberNode">The index of cluster.</param>
+        /// <returns>Number of cycles of 3 order in the given cluster.</returns>
         private SortedDictionary<int, double> Count3Cycle(int level, int numberNode)
         {
             SortedDictionary<int, double> retArray = new SortedDictionary<int, double>();
@@ -326,8 +389,12 @@ namespace NonRegularHierarchicModel
             }
         }
 
-        // Возвращает число циклов порядка 4 в нулевом элементе SortedDictionary<int, double>.
-        // Число циклов вычисляется в данном узле данного уровня.
+        /// <summary>
+        /// Calculates the number of cycles of 4 order in the given cluster.
+        /// </summary>
+        /// <param name="level">The level of cluster.</param>
+        /// <param name="numberNode">The index of cluster.</param>
+        /// <returns>Number of cycles of 4 order in the given cluster.</returns>
         private SortedDictionary<int, double> Count4Cycle(int level, int nodeNumber)
         {
             SortedDictionary<int, double> retArray = new SortedDictionary<int, double>();
@@ -462,8 +529,11 @@ namespace NonRegularHierarchicModel
             }
         }
 
-        // Возвращает коэффициент класстеризации для данной вершины (vertexNumber).
-        // Вычисляется с помощью числа циклов порядка 3, прикрепленных к данной вершине.
+        /// <summary>
+        /// Calculates the clusterring coefficient of the given vertex.
+        /// </summary>
+        /// <param name="vertexNumber">The index of vertex.</param>
+        /// <returns>Clusterring coefficient.</returns>
         private double ClusterringCoefficientOfVertex(int vertexNumber)
         {
             SortedDictionary<int, double> result = Count3CycleOfVertex(vertexNumber, 0);
@@ -475,9 +545,12 @@ namespace NonRegularHierarchicModel
                 return (2 * count3CyclesOfVertex) / (degree * (degree - 1));
         }
 
-        // Возвращает число циклов порядка 3 прикрепленных к данному узлу 
-        // в нулевом элементе SortedDictionary<int, double>.
-        // Число циклов вычисляется в данном узле данного уровня.
+        /// <summary>
+        /// Calculates the number of triangles of that contain the given vertex on a cluster of given level.
+        /// </summary>
+        /// <param name="vertexNumber">The index of vertex.</param>
+        /// <param name="level">The level of cluster.</param>
+        /// <returns>Number of triangles.</returns>
         private SortedDictionary<int, double> Count3CycleOfVertex(int vertexNumber, int level)
         {
             SortedDictionary<int, double> result = new SortedDictionary<int, double>();
@@ -527,7 +600,12 @@ namespace NonRegularHierarchicModel
             }
         }
 
-        // Возвращает степень данного узла на данном уровне (в соответствующем кластере).
+        /// <summary>
+        /// Calculates the degree of the given vertex on a cluster of the given level.
+        /// </summary>
+        /// <param name="vertexNumber">The index of vertex.</param>
+        /// <param name="level">The level of cluster.</param>
+        /// <returns>Degree of the vertex.</returns>
         private double VertexDegree(int vertexNumber, int level)
         {
             if (level == container.Level)
@@ -559,6 +637,12 @@ namespace NonRegularHierarchicModel
 
         public int bIndex { get; set; }
 
+        /// <summary>
+        /// Retrives the connected subgraphs of the given cluster.
+        /// </summary>
+        /// <param name="level">The level of cluster.</param>
+        /// <param name="numberNode">The index of cluster.</param>
+        /// <returns>Connected components.</returns>
         private SortedDictionary<uint, uint> ConnectedSubgraphsInCluster(int level, int numberNode)
         {
             SortedDictionary<uint, uint> retArray = new SortedDictionary<uint, uint>();
