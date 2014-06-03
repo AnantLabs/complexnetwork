@@ -52,10 +52,11 @@ namespace NonRegularHierarchicModel
         private const int ARRAY_MAX_SIZE = 2000000000;
 
         /// <summary>
-        /// 
+        /// Dynamically generates a non-regular block-hierarchical network by the number of vertices. 
         /// </summary>
-        /// <param name="mu"></param>
-        /// <returns></returns>
+        /// <param name="mu">Density parameter.</param>
+        /// <returns>Two-dimensional array of bits which define the connectedness
+        /// of clusters between each other.</returns>
         private BitArray[][] GenerateByVertices(Single mu)
         {
             List<List<int>> branchList = GenerateBranchList();
@@ -83,9 +84,9 @@ namespace NonRegularHierarchicModel
         }
 
         /// <summary>
-        /// 
+        /// Creates the connectivity tree of the network.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Two-dimensional List that contains the connectivity tree of the network.</returns>
         private List<List<int>> GenerateBranchList()
         {
             List<List<int>> branchList = new List<List<int>>();
@@ -111,11 +112,12 @@ namespace NonRegularHierarchicModel
         }
 
         /// <summary>
-        /// 
+        /// Generates the BitArray that desribes the connectedness of cluster on the given level. 
         /// </summary>
-        /// <param name="treeMatrix"></param>
-        /// <param name="level"></param>
-        /// <param name="dataLength"></param>
+        /// <param name="treeMatrix">Two-dimensional array of bits which define the connectedness
+        /// of clusters between each other.</param>
+        /// <param name="level">The level of cluster.</param>
+        /// <param name="dataLength">The lenght of data.</param>
         private void GenerateTreeMatrixForLevel(BitArray[][] treeMatrix, 
             int level, 
             long dataLength)
@@ -134,10 +136,12 @@ namespace NonRegularHierarchicModel
         }
 
         /// <summary>
-        /// 
+        /// Fills values in the two-dimensional array of bits which define the connectedness
+        /// of clusters between each other.
         /// </summary>
-        /// <param name="treeMatrix"></param>
-        /// <param name="mu"></param>
+        /// <param name="treeMatrix">Two-dimensional array of bits which define the connectedness
+        /// of clusters between each other.</param>
+        /// <param name="mu">Density parameter.</param>
         private void GenerateData(BitArray[][] treeMatrix, Single mu)
         {
             for (int currentLevel = 0; currentLevel < container.Level; ++currentLevel)
