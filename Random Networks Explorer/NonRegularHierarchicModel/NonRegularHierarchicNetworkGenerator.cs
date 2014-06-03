@@ -59,7 +59,7 @@ namespace NonRegularHierarchicModel
         /// of clusters between each other.</returns>
         private BitArray[][] GenerateByVertices(Single mu)
         {
-            List<List<int>> branchList = GenerateBranchList();
+            List<List<UInt16>> branchList = GenerateBranchList();
             container.Level = (UInt16)branchList.Count;
             container.Branches = new UInt16[container.Level][];
             BitArray[][] treeMatrix = new BitArray[container.Level][];
@@ -71,7 +71,7 @@ namespace NonRegularHierarchicModel
                 long dataLength = 0;
                 for (int j = 0; j < levelVertexCount; ++j)
                 {
-                    int nodeDataLength = branchList[container.Level - 1 - i][j];
+                    UInt16 nodeDataLength = branchList[container.Level - 1 - i][j];
                     container.Branches[i][j] = (UInt16)nodeDataLength;
                     dataLength += nodeDataLength * (nodeDataLength - 1) / 2;
                 }
@@ -87,20 +87,20 @@ namespace NonRegularHierarchicModel
         /// Creates the connectivity tree of the network.
         /// </summary>
         /// <returns>Two-dimensional List that contains the connectivity tree of the network.</returns>
-        private List<List<int>> GenerateBranchList()
+        private List<List<UInt16>> GenerateBranchList()
         {
-            List<List<int>> branchList = new List<List<int>>();
+            List<List<UInt16>> branchList = new List<List<UInt16>>();
             int left = (int)container.Size;
 
             while (left != 1)
             {
-                List<int> list = new List<int>();
+                List<UInt16> list = new List<UInt16>();
                 while (left != 0)
                 {
-                    int randomInt = rand.Next(1, container.BranchIndex + 1);
+                    UInt16 randomInt = (UInt16)rand.Next(1, container.BranchIndex + 1);
                     if (randomInt > left)
                     {
-                        randomInt = left;
+                        randomInt = (UInt16)left;
                     }
                     left -= randomInt;
                     list.Add(randomInt);
