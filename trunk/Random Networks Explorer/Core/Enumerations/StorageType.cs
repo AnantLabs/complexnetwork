@@ -23,6 +23,10 @@ namespace Core.Enumerations
 
         [StorageTypeInfo("TXT file with defined LINK structure.", 
             "Storage.TXTResultStorage, Storage")]
-        TXTStorage
+        TXTStorage,
+
+        [StorageTypeInfo("Excel file with defined LINK structure.",
+            "Storage.ExcelResultStorage, Storage")]
+        ExcelStorage
     }
 }

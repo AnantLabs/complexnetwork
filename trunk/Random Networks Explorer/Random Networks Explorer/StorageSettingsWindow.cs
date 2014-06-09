@@ -33,6 +33,8 @@ namespace RandomNetworksExplorer
                     return StorageType.XMLStorage;
                 else if (txtRadioButton.Checked)
                     return StorageType.TXTStorage;
+                else if (excelRadioButton.Checked)
+                    return StorageType.ExcelStorage;
                 else if (sqlRadioButton.Checked)
                     return StorageType.SQLStorage;
                 else
@@ -51,9 +53,14 @@ namespace RandomNetworksExplorer
             get { return txtOutputDirectoryTxt.Text; }
         }
 
+        public string ExcelOutputDirectory
+        {
+            get { return excelOutputDirectoryTxt.Text; }
+        }
+
         public string SqlConnectionString
         {
-            get { return this.connectionStrTxt.Text; }
+            get { return connectionStrTxt.Text; }
         }
 
         #region Event Handlers
@@ -66,18 +73,28 @@ namespace RandomNetworksExplorer
                     xmlRadioButton.Checked = true;
                     xmlOutputDirectoryTxt.Text = initialStorageString;
                     txtOutputDirectoryTxt.Text = Settings.StorageDirectory;
-                    //connectionStrTxt.Text = Settings.ConnectionString;
+                    excelOutputDirectoryTxt.Text = Settings.StorageDirectory;
+                    //connectionStrTxt.Text = initialStorageString;
                     break;
                 case StorageType.TXTStorage:
                     txtRadioButton.Checked = true;
                     xmlOutputDirectoryTxt.Text = Settings.StorageDirectory;
                     txtOutputDirectoryTxt.Text = initialStorageString;
-                    //connectionStrTxt.Text = Settings.ConnectionString;
+                    excelOutputDirectoryTxt.Text = Settings.StorageDirectory;
+                    //connectionStrTxt.Text = initialStorageString;
+                    break;
+                case StorageType.ExcelStorage:
+                    excelRadioButton.Checked = true;
+                    xmlOutputDirectoryTxt.Text = Settings.StorageDirectory;
+                    txtOutputDirectoryTxt.Text = Settings.StorageDirectory;
+                    excelOutputDirectoryTxt.Text = initialStorageString;
+                    //connectionStrTxt.Text = initialStorageString;
                     break;
                 case StorageType.SQLStorage:
                     sqlRadioButton.Checked = true;
                     xmlOutputDirectoryTxt.Text = Settings.StorageDirectory;
                     txtOutputDirectoryTxt.Text = Settings.StorageDirectory;
+                    excelOutputDirectoryTxt.Text = Settings.StorageDirectory;
                     //connectionStrTxt.Text = initialStorageString;
                     break;
                 default:
@@ -93,18 +110,27 @@ namespace RandomNetworksExplorer
                 case "xmlRadioButton":
                     XmlChecked(true);
                     TxtChecked(false);
+                    ExcelChecked(false);
                     SqlChecked(false);
                     StorageType = StorageType.XMLStorage;
                     break;
                 case "txtRadioButton":
                     XmlChecked(false);
                     TxtChecked(true);
+                    ExcelChecked(false);
                     SqlChecked(false);
                     StorageType = StorageType.TXTStorage;
+                    break;
+                case "excelRadioButton":
+                    XmlChecked(false);
+                    TxtChecked(false);
+                    ExcelChecked(true);
+                    SqlChecked(false);
                     break;
                 case "sqlRadioButton":
                     XmlChecked(false);
                     TxtChecked(false);
+                    ExcelChecked(false);
                     SqlChecked(true);
                     StorageType = StorageType.SQLStorage;
                     break;
@@ -126,6 +152,14 @@ namespace RandomNetworksExplorer
             if (browserDlg.ShowDialog() == DialogResult.OK)
             {
                 txtOutputDirectoryTxt.Text = browserDlg.SelectedPath;
+            }
+        }
+
+        private void excelBrowseButton_Click(object sender, EventArgs e)
+        {
+            if (browserDlg.ShowDialog() == DialogResult.OK)
+            {
+                excelOutputDirectoryTxt.Text = browserDlg.SelectedPath;
             }
         }
 
@@ -156,6 +190,13 @@ namespace RandomNetworksExplorer
             txtOutputDirectory.Enabled = c;
             txtOutputDirectoryTxt.Enabled = c;
             txtBrowseButton.Enabled = c;
+        }
+
+        private void ExcelChecked(bool c)
+        {
+            excelOutputDirectory.Enabled = c;
+            excelOutputDirectoryTxt.Enabled = c;
+            excelBrowseButton.Enabled = c;
         }
 
         private void SqlChecked(bool c)

@@ -148,6 +148,8 @@ namespace Storage
             writer.WriteEndElement();
         }
 
+        #region Utilities
+
         private void SaveValueList(AnalyzeOptionInfo info, Object value)
         {
             if (info.EnsembleResultType.Equals(typeof(List<Double>)))
@@ -194,5 +196,7 @@ namespace Storage
                 }
             }
         }
+
+        #endregion
     }
 }

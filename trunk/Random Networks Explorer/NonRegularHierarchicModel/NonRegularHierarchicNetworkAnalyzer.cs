@@ -35,10 +35,6 @@ namespace NonRegularHierarchicModel
             container = c;
         }
 
-        /// <summary>
-        /// Calculates the average length of paths between vertices. 
-        /// </summary>
-        /// <returns>Average length of paths between vertices.</returns>
         protected override double CalculateAveragePath()
         {
             if (!calledPaths)
@@ -47,10 +43,6 @@ namespace NonRegularHierarchicModel
             return Math.Round(averagePathLength, 4);
         }
 
-        /// <summary>
-        /// Calculates the diameter of the network. (Maximum distance between vertices).
-        /// </summary>
-        /// <returns>Diameter of the network.</returns>
         protected override uint CalculateDiameter()
         {
             if (!calledPaths)
@@ -59,19 +51,11 @@ namespace NonRegularHierarchicModel
             return diameter;
         }
 
-        /// <summary>
-        /// Calculates average degree of the vertices.
-        /// </summary>
-        /// <returns>Average degree of vertices.</returns>
         protected override double CalculateAverageDegree()
         {
             return (double)container.CalculateNumberOfEdges(0, 0) * 2 / container.Size;
         }
 
-        /// <summary>
-        /// Calculates average clustering coefficient.
-        /// </summary>
-        /// <returns>Average clustering coefficient.</returns>
         protected override double CalculateAverageClusteringCoefficient()
         {
             // TODO 3 cycles in BigInteger
@@ -85,30 +69,18 @@ namespace NonRegularHierarchicModel
             return 6 * cycles3 / sum;
         }
 
-        /// <summary>
-        /// Calculates the number of cycles of 3 order.
-        /// </summary>
-        /// <returns>Number of cycles of 3 order.</returns>
         protected override BigInteger CalculateCycles3()
         {
             // TODO get BigInteger result
             return (long)Count3Cycle(0, 0)[0];
         }
 
-        /// <summary>
-        /// Calculates the number of cycles of 4 order.
-        /// </summary>
-        /// <returns>Number of cycles of 4 order.</returns>
         protected override BigInteger CalculateCycles4()
         {
             // TODO get BigInteger result
             return (long)Count4Cycle(0, 0)[0];
         }
 
-        /// <summary>
-        /// Calculates the eigen values.
-        /// </summary>
-        /// <returns>List of eigen values.</returns>
         protected override List<Double> CalculateEigenValues()
         {
             bool[,] m = container.GetMatrix();
@@ -126,10 +98,6 @@ namespace NonRegularHierarchicModel
             }
         }
 
-        /// <summary>
-        /// Calculates the distribution of eigen distances.
-        /// </summary>
-        /// <returns>Distribution of eigen distances.</returns>
         protected override SortedDictionary<Double, UInt32> CalculateEigenDistanceDistribution()
         {
             bool[,] m = container.GetMatrix();
@@ -148,19 +116,11 @@ namespace NonRegularHierarchicModel
             }
         }
 
-        /// <summary>
-        /// Calculates the distribution of degrees of the vertices.
-        /// </summary>
-        /// <returns>Distribution of degrees of the vertices.</returns>
         protected override SortedDictionary<UInt32, UInt32> CalculateDegreeDistribution()
         {
             return DegreeDistributionInCluster(0, 0);
         }
 
-        /// <summary>
-        /// Calculates the distribution of clustering coefficients of the vertices.
-        /// </summary>
-        /// <returns>Distribution of clustering coefficients of the vertices.</returns>
         protected override SortedDictionary<Double, UInt32> CalculateClusteringCoefficientDistribution()
         {
             SortedDictionary<double, uint> result = new SortedDictionary<double, uint>();
@@ -177,19 +137,11 @@ namespace NonRegularHierarchicModel
             return result;
         }
 
-        /// <summary>
-        /// Calculates the distribution of connected components of the network.
-        /// </summary>
-        /// <returns>Distribution of connected components.</returns>
         protected override SortedDictionary<UInt32, UInt32> CalculateConnectedComponentDistribution()
         {
             return ConnectedSubgraphsInCluster(0, 0);
         }
 
-        /// <summary>
-        /// Calculates the distribution of distances between the vertices.
-        /// </summary>
-        /// <returns>Distribution of distances between the vertices.</returns>
         protected override SortedDictionary<UInt32, UInt32> CalculateDistanceDistribution()
         {
             if (!calledPaths)
@@ -198,10 +150,6 @@ namespace NonRegularHierarchicModel
             return distanceDistribution;
         }
 
-        /// <summary>
-        /// Calcuate the distribution of trianges that contain the given vertex.
-        /// </summary>
-        /// <returns>Distribution of trianges that contain the given vertex.</returns>
         protected override SortedDictionary<UInt32, UInt32> CalculateTriangleByVertexDistribution()
         {
             SortedDictionary<uint, uint> result = new SortedDictionary<uint, uint>();
