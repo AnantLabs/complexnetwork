@@ -134,6 +134,9 @@ namespace RandomNetworksExplorer
                         case StorageType.TXTStorage:
                             storageString = storageSettingsDlg.TxtOutputDirectory;
                             break;
+                        case StorageType.ExcelStorage:
+                            storageString = storageSettingsDlg.ExcelOutputDirectory;
+                            break;
                         case StorageType.SQLStorage:
                             storageString = storageSettingsDlg.SqlConnectionString;
                             break;

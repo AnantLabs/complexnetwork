@@ -43,12 +43,16 @@
             this.txtOutputDirectoryTxt = new System.Windows.Forms.TextBox();
             this.txtOutputDirectory = new System.Windows.Forms.Label();
             this.browserDlg = new System.Windows.Forms.FolderBrowserDialog();
+            this.excelBrowseButton = new System.Windows.Forms.Button();
+            this.excelRadioButton = new System.Windows.Forms.RadioButton();
+            this.excelOutputDirectoryTxt = new System.Windows.Forms.TextBox();
+            this.excelOutputDirectory = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(538, 194);
+            this.cancelButton.Location = new System.Drawing.Point(538, 261);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 19;
@@ -57,7 +61,7 @@
             // 
             // okButton
             // 
-            this.okButton.Location = new System.Drawing.Point(457, 194);
+            this.okButton.Location = new System.Drawing.Point(457, 261);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 18;
@@ -79,7 +83,7 @@
             // 
             this.sqlRadioButton.AutoSize = true;
             this.sqlRadioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.sqlRadioButton.Location = new System.Drawing.Point(12, 130);
+            this.sqlRadioButton.Location = new System.Drawing.Point(12, 197);
             this.sqlRadioButton.Name = "sqlRadioButton";
             this.sqlRadioButton.Size = new System.Drawing.Size(72, 17);
             this.sqlRadioButton.TabIndex = 31;
@@ -90,7 +94,7 @@
             // 
             // connectionsButton
             // 
-            this.connectionsButton.Location = new System.Drawing.Point(531, 154);
+            this.connectionsButton.Location = new System.Drawing.Point(531, 221);
             this.connectionsButton.Name = "connectionsButton";
             this.connectionsButton.Size = new System.Drawing.Size(82, 23);
             this.connectionsButton.TabIndex = 32;
@@ -100,7 +104,7 @@
             // 
             // connectionStrTxt
             // 
-            this.connectionStrTxt.Location = new System.Drawing.Point(137, 157);
+            this.connectionStrTxt.Location = new System.Drawing.Point(137, 224);
             this.connectionStrTxt.Name = "connectionStrTxt";
             this.connectionStrTxt.Size = new System.Drawing.Size(388, 20);
             this.connectionStrTxt.TabIndex = 34;
@@ -126,7 +130,7 @@
             // connectionStr
             // 
             this.connectionStr.AutoSize = true;
-            this.connectionStr.Location = new System.Drawing.Point(32, 161);
+            this.connectionStr.Location = new System.Drawing.Point(32, 228);
             this.connectionStr.Name = "connectionStr";
             this.connectionStr.Size = new System.Drawing.Size(88, 13);
             this.connectionStr.TabIndex = 33;
@@ -178,13 +182,54 @@
             this.txtOutputDirectory.TabIndex = 36;
             this.txtOutputDirectory.Text = "Storage location";
             // 
+            // excelBrowseButton
+            // 
+            this.excelBrowseButton.Location = new System.Drawing.Point(531, 157);
+            this.excelBrowseButton.Name = "excelBrowseButton";
+            this.excelBrowseButton.Size = new System.Drawing.Size(82, 23);
+            this.excelBrowseButton.TabIndex = 42;
+            this.excelBrowseButton.Text = "Browse";
+            this.excelBrowseButton.UseVisualStyleBackColor = true;
+            this.excelBrowseButton.Click += new System.EventHandler(this.excelBrowseButton_Click);
+            // 
+            // excelRadioButton
+            // 
+            this.excelRadioButton.AutoSize = true;
+            this.excelRadioButton.Location = new System.Drawing.Point(12, 134);
+            this.excelRadioButton.Name = "excelRadioButton";
+            this.excelRadioButton.Size = new System.Drawing.Size(77, 17);
+            this.excelRadioButton.TabIndex = 39;
+            this.excelRadioButton.Text = "Excel store";
+            this.excelRadioButton.UseVisualStyleBackColor = true;
+            this.excelRadioButton.CheckedChanged += new System.EventHandler(this.store_checkedChanged);
+            // 
+            // excelOutputDirectoryTxt
+            // 
+            this.excelOutputDirectoryTxt.Location = new System.Drawing.Point(137, 160);
+            this.excelOutputDirectoryTxt.Name = "excelOutputDirectoryTxt";
+            this.excelOutputDirectoryTxt.Size = new System.Drawing.Size(388, 20);
+            this.excelOutputDirectoryTxt.TabIndex = 41;
+            // 
+            // excelOutputDirectory
+            // 
+            this.excelOutputDirectory.AutoSize = true;
+            this.excelOutputDirectory.Location = new System.Drawing.Point(33, 164);
+            this.excelOutputDirectory.Name = "excelOutputDirectory";
+            this.excelOutputDirectory.Size = new System.Drawing.Size(84, 13);
+            this.excelOutputDirectory.TabIndex = 40;
+            this.excelOutputDirectory.Text = "Output Directory";
+            // 
             // StorageSettingsWindow
             // 
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(624, 226);
+            this.ClientSize = new System.Drawing.Size(624, 302);
+            this.Controls.Add(this.excelBrowseButton);
+            this.Controls.Add(this.excelRadioButton);
+            this.Controls.Add(this.excelOutputDirectoryTxt);
+            this.Controls.Add(this.excelOutputDirectory);
             this.Controls.Add(this.txtBrowseButton);
             this.Controls.Add(this.txtRadioButton);
             this.Controls.Add(this.txtOutputDirectoryTxt);
@@ -227,5 +272,9 @@
         private System.Windows.Forms.TextBox txtOutputDirectoryTxt;
         private System.Windows.Forms.Label txtOutputDirectory;
         private System.Windows.Forms.FolderBrowserDialog browserDlg;
+        private System.Windows.Forms.Button excelBrowseButton;
+        private System.Windows.Forms.RadioButton excelRadioButton;
+        private System.Windows.Forms.TextBox excelOutputDirectoryTxt;
+        private System.Windows.Forms.Label excelOutputDirectory;
     }
 }
