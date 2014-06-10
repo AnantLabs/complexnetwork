@@ -41,9 +41,9 @@ namespace ERModel
             FillValuesByProbability(probability);
         }
 
-        public void StaticGeneration(ArrayList matrix)
+        public void StaticGeneration(MatrixInfoToRead matrixInfo)
         {
-            container.SetMatrix(matrix);
+            container.SetMatrix(matrixInfo.Matrix);
         }
 
         private RNGCrypto r = new RNGCrypto();

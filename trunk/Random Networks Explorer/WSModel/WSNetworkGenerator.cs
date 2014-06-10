@@ -41,9 +41,9 @@ namespace WSModel
             FillValuesByProbability(probability, stepCount);
         }
 
-        public void StaticGeneration(ArrayList matrix)
+        public void StaticGeneration(MatrixInfoToRead matrixInfo)
         {
-            container.SetMatrix(matrix);
+            container.SetMatrix(matrixInfo.Matrix);
         }
 
         private int currentId = 0;

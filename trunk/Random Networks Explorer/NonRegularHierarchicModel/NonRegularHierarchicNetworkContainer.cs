@@ -81,28 +81,26 @@ namespace NonRegularHierarchicModel
             set { hierarchicTree = value; }
         }
 
-        public override void SetMatrix(ArrayList matrix)
+        public void SetBranches(ArrayList branches)
         {
-            /*ArrayList branch = MatrixFileReader.BranchesReader(fileName.Insert(fileName.Length - 4, "_branches"));
-            ArrayList matrix = MatrixFileReader.MatrixReader(fileName);
-
-            log.Info("Creating NonRegularHierarchicContainer object from given matrix.");
-
             // Fill this.branches from branch
-            this.branches = new int[branch.Count][];
+            this.branches = new UInt16[branches.Count][];
             ArrayList arr;
-            for (int i = 0; i < branch.Count; ++i)
+            for (int i = 0; i < branches.Count; ++i)
             {
-                arr = (ArrayList)branch[i];
-                this.branches[i] = new int[arr.Count];
+                arr = (ArrayList)branches[i];
+                this.branches[i] = new UInt16[arr.Count];
                 for (int j = 0; j < arr.Count; ++j)
-                    this.branches[i][j] = (int)arr[j];
+                    this.branches[i][j] = (UInt16)arr[j];
             }
 
-            this.level = branch.Count;
+            this.level = (UInt16)branches.Count;
+        }
 
+        public override void SetMatrix(ArrayList matrix)
+        {
             // Move the matrix to List
-
+            ArrayList arr;
             List<List<bool>> matrixInList = new List<List<bool>>();
             for (int i = 0; i < matrix.Count; ++i)
             {
@@ -202,7 +200,7 @@ namespace NonRegularHierarchicModel
                         }
                     }
                 }
-            }*/
+            }
         }
 
         public override bool[,] GetMatrix()
