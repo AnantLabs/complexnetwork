@@ -48,9 +48,9 @@ namespace BAModel
             Generate(stepCount, probability, edges);
         }
 
-        public void StaticGeneration(ArrayList matrix)
+        public void StaticGeneration(MatrixInfoToRead matrixInfo)
         {
-            container.SetMatrix(matrix);
+            container.SetMatrix(matrixInfo.Matrix);
         }
 
         private RNGCrypto rand = new RNGCrypto();

@@ -28,6 +28,6 @@ namespace Core.Model
         /// Generates network from adjacency matrix.
         /// </summary>
         /// <param name="matrix"></param>
-        void StaticGeneration(ArrayList matrix);
+        void StaticGeneration(MatrixInfoToRead matrixInfo);
     }
 }

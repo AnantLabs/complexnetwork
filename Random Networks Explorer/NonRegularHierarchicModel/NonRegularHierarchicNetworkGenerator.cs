@@ -43,9 +43,10 @@ namespace NonRegularHierarchicModel
             container.HierarchicTree = GenerateByVertices(mu);
         }
 
-        public void StaticGeneration(ArrayList matrix)
+        public void StaticGeneration(MatrixInfoToRead matrixInfo)
         {
-            container.SetMatrix(matrix);
+            container.SetBranches(matrixInfo.Branches);
+            container.SetMatrix(matrixInfo.Matrix);
         }
 
         private RNGCrypto rand = new RNGCrypto();

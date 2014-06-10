@@ -45,7 +45,7 @@ namespace Core
                     (generationParameterValues[GenerationParameter.AdjacencyMatrixFile] != null))
                 {
                     string filePath = generationParameterValues[GenerationParameter.AdjacencyMatrixFile].ToString();
-                    networkGenerator.StaticGeneration(FileManager.MatrixReader(filePath));
+                    networkGenerator.StaticGeneration(FileManager.Read(filePath));
                 }
                 else
                 {
@@ -89,10 +89,12 @@ namespace Core
         /// </summary>
         public void Trace(string tracingPath)
         {
-            FileManager.MatrixWriter(networkGenerator.Container.GetMatrix(), tracingPath);
-
+            MatrixInfoToWrite matrixInfo = new MatrixInfoToWrite();
+            matrixInfo.Matrix = networkGenerator.Container.GetMatrix();
             if (networkGenerator.Container is AbstractHierarchicContainer)
-                FileManager.BranchesWriter((networkGenerator.Container as AbstractHierarchicContainer).GetBranches(), tracingPath);
+                matrixInfo.Branches = (networkGenerator.Container as AbstractHierarchicContainer).GetBranches();
+            
+            FileManager.Write(matrixInfo, tracingPath);   
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.IO;
 
 using Core.Exceptions;
+using Core.Model;
 
 namespace Core.Utility
 {
@@ -14,7 +15,34 @@ namespace Core.Utility
     /// </summary>
     public static class FileManager
     {
-        public static ArrayList MatrixReader(String filePath)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static MatrixInfoToRead Read(String filePath)
+        {
+            MatrixInfoToRead result = new MatrixInfoToRead();
+
+            result.Matrix = MatrixReader(filePath);
+            result.Branches = BranchesReader(filePath.Insert(filePath.Length - 4, "_branches"));
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="matrixInfo"></param>
+        /// <param name="filePath"></param>
+        public static void Write(MatrixInfoToWrite matrixInfo, String filePath)
+        {
+            MatrixWriter(matrixInfo.Matrix, filePath);
+            if(matrixInfo.Branches != null)
+                BranchesWriter(matrixInfo.Branches, filePath);
+        }
+
+        private static ArrayList MatrixReader(String filePath)
         {
             ArrayList matrix = new ArrayList();
             try
@@ -50,7 +78,7 @@ namespace Core.Utility
             return matrix;
         }
 
-        public static void MatrixWriter(bool[,] matrix, String filePath)
+        private static void MatrixWriter(bool[,] matrix, String filePath)
         {
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath + ".txt"))
             {
@@ -72,38 +100,42 @@ namespace Core.Utility
             }
         }
 
-        public static ArrayList BranchesReader(String filePath)
+        private static ArrayList BranchesReader(String filePath)
         {
-            ArrayList branches = new ArrayList();
-            try
+            if (File.Exists(filePath))
             {
-                using (StreamReader streamreader =
-                    new StreamReader(filePath, System.Text.Encoding.Default))
+                ArrayList branches = new ArrayList();
+                try
                 {
-                    string contents;
-                    while ((contents = streamreader.ReadLine()) != null)
+                    using (StreamReader streamreader =
+                        new StreamReader(filePath, System.Text.Encoding.Default))
                     {
-                        string[] split = System.Text.RegularExpressions.Regex.Split(contents,
-                            "\\s+", System.Text.RegularExpressions.RegexOptions.None);
-                        ArrayList tmp = new ArrayList();
-                        foreach (string s in split)
+                        string contents;
+                        while ((contents = streamreader.ReadLine()) != null)
                         {
-                            if (s != "")
-                                tmp.Add(Int32.Parse(s));
+                            string[] split = System.Text.RegularExpressions.Regex.Split(contents,
+                                "\\s+", System.Text.RegularExpressions.RegexOptions.None);
+                            ArrayList tmp = new ArrayList();
+                            foreach (string s in split)
+                            {
+                                if (s != "")
+                                    tmp.Add(Int32.Parse(s));
+                            }
+                            branches.Add(tmp);
                         }
-                        branches.Add(tmp);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new CoreException(ex.Message);
-            }
+                catch (Exception ex)
+                {
+                    throw new CoreException(ex.Message);
+                }
 
-            return branches;
+                return branches;
+            }
+            else return null;
         }
 
-        public static void BranchesWriter(UInt16[][] branches, String filePath)
+        private static void BranchesWriter(UInt16[][] branches, String filePath)
         {
             using (System.IO.StreamWriter writer = new System.IO.StreamWriter(filePath + "_branches.txt"))
             {
