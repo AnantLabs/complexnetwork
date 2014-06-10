@@ -60,6 +60,38 @@ namespace Storage
             workbook.Save(fileName + ".xls");
         }
 
+        #region Utilities
+
+        private void InitializeWorkbook(string title)
+        {
+            workbook = new Workbook();
+
+            // Some optional properties of the Document
+            workbook.Properties.Author = "Ani Kocharyan";
+            workbook.Properties.Title = title;
+            workbook.Properties.Created = DateTime.Now;
+
+            // Add some styles to the Workbook
+            WorksheetStyle style = workbook.Styles.Add("HeaderStyle");
+            style.Font.FontName = "TimesNewRoman";
+            style.Font.Size = 12;
+            style.Alignment.Horizontal = StyleHorizontalAlignment.Center;
+
+            style = workbook.Styles.Add("DefaultStyle");
+            style.Font.FontName = "TimesNewRoman";
+            style.Font.Size = 11;
+            style.Alignment.Horizontal = StyleHorizontalAlignment.Center;
+
+            // Add sheets
+            Worksheet researchInfoSheet = workbook.Worksheets.Add("Research Info");
+            researchInfoSheet.Table.Columns.Add(new WorksheetColumn(100));
+            researchInfoSheet.Table.Columns.Add(new WorksheetColumn(250));
+
+            Worksheet genParametersSheet = workbook.Worksheets.Add("Generation Parameters");
+            genParametersSheet.Table.Columns.Add(new WorksheetColumn(100));
+            genParametersSheet.Table.Columns.Add(new WorksheetColumn());
+        }
+
         private void SaveResearchInfo(Guid researchID,
             string researchName,
             ResearchType rType,
@@ -87,7 +119,8 @@ namespace Storage
 
             WorksheetRow rowRCount = researchInfoSheet.Table.Rows.Add();
             rowRCount.Cells.Add(new WorksheetCell("RealizationCount", "HeaderStyle"));
-            rowRCount.Cells.Add(new WorksheetCell(realizationCount.ToString(), "HeaderStyle"));
+            rowRCount.Cells.Add(new WorksheetCell(realizationCount.ToString(), 
+                DataType.Number, "HeaderStyle"));
 
             WorksheetRow rowDate = researchInfoSheet.Table.Rows.Add();
             rowDate.Cells.Add(new WorksheetCell("Date", "HeaderStyle"));
@@ -95,22 +128,29 @@ namespace Storage
 
             WorksheetRow rowSize = researchInfoSheet.Table.Rows.Add();
             rowSize.Cells.Add(new WorksheetCell("Size", "HeaderStyle"));
-            rowSize.Cells.Add(new WorksheetCell(size.ToString(), "HeaderStyle"));
+            rowSize.Cells.Add(new WorksheetCell(size.ToString(), 
+                DataType.Number, "HeaderStyle"));
         }
 
         private void SaveResearchParameters(Dictionary<ResearchParameter, object> p)
         {
-            Worksheet researchParametersSheet = workbook.Worksheets["Research Parameters"];
-
-            foreach (ResearchParameter rp in p.Keys)
+            if (p.Count != 0)
             {
-                if (p[rp] != null)
+                Worksheet researchParametersSheet = workbook.Worksheets.Add("Research Parameters");
+                researchParametersSheet.Table.Columns.Add(new WorksheetColumn(100));
+                researchParametersSheet.Table.Columns.Add(new WorksheetColumn(100));
+
+                foreach (ResearchParameter rp in p.Keys)
                 {
-                    WorksheetRow row = researchParametersSheet.Table.Rows.Add();
-                    WorksheetCell rCellName = new WorksheetCell(rp.ToString(), "HeaderStyle");
-                    WorksheetCell rCellValue = new WorksheetCell(p[rp].ToString(), "HeaderStyle");
-                    row.Cells.Add(rCellName);
-                    row.Cells.Add(rCellValue);
+                    if (p[rp] != null)
+                    {
+                        WorksheetRow row = researchParametersSheet.Table.Rows.Add();
+                        WorksheetCell rCellName = new WorksheetCell(rp.ToString(), "HeaderStyle");
+                        WorksheetCell rCellValue = new WorksheetCell(p[rp].ToString(),
+                            DataType.Number, "HeaderStyle");
+                        row.Cells.Add(rCellName);
+                        row.Cells.Add(rCellValue);
+                    }
                 }
             }
         }
@@ -125,7 +165,8 @@ namespace Storage
                 {
                     WorksheetRow row = genParametersSheet.Table.Rows.Add();
                     WorksheetCell rCellName = new WorksheetCell(gp.ToString(), "HeaderStyle");
-                    WorksheetCell rCellValue = new WorksheetCell(p[gp].ToString(), "HeaderStyle");
+                    WorksheetCell rCellValue = new WorksheetCell(p[gp].ToString(), 
+                        DataType.Number, "HeaderStyle");
                     row.Cells.Add(rCellName);
                     row.Cells.Add(rCellValue);
                 }
@@ -156,55 +197,6 @@ namespace Storage
             }
         }
 
-        #region Utilities
-
-        private void InitializeWorkbook(string title)
-        {
-            workbook = new Workbook();
-
-            // Some optional properties of the Document
-            workbook.Properties.Author = "Ani Kocharyan";
-            workbook.Properties.Title = title;
-            workbook.Properties.Created = DateTime.Now;
-
-            // Add some styles to the Workbook
-            WorksheetStyle style = workbook.Styles.Add("HeaderStyle");
-            style.Font.FontName = "TimesNewRoman";
-            style.Font.Size = 14;
-            style.Font.Bold = true;
-            style.Alignment.Horizontal = StyleHorizontalAlignment.Center;
-            style.Font.Color = "White";
-            style.Interior.Color = "Gray";
-            style.Interior.Pattern = StyleInteriorPattern.Solid;
-
-            style = workbook.Styles.Add("ColumnNames");
-            style.Font.FontName = "TimesNewRoman";
-            style.Font.Size = 12;
-            style.Font.Bold = true;
-            style.Alignment.Horizontal = StyleHorizontalAlignment.Center;
-            style.Font.Color = "White";
-            style.Interior.Color = "Gray";
-            style.Interior.Pattern = StyleInteriorPattern.Solid;
-
-            style = workbook.Styles.Add("Default");
-            style.Font.FontName = "TimesNewRoman";
-            style.Font.Size = 11;
-            style.Alignment.Horizontal = StyleHorizontalAlignment.Center;
-
-            // Add sheets
-            Worksheet researchInfoSheet = workbook.Worksheets.Add("Research Info");
-            researchInfoSheet.Table.Columns.Add(new WorksheetColumn(220));
-            researchInfoSheet.Table.Columns.Add(new WorksheetColumn(220));
-
-            Worksheet researchParametersSheet = workbook.Worksheets.Add("Research Parameters");
-            researchParametersSheet.Table.Columns.Add(new WorksheetColumn(220));
-            researchParametersSheet.Table.Columns.Add(new WorksheetColumn(220));
-
-            Worksheet genParametersSheet = workbook.Worksheets.Add("Generation Parameters");
-            genParametersSheet.Table.Columns.Add(new WorksheetColumn(220));
-            genParametersSheet.Table.Columns.Add(new WorksheetColumn(220));
-        }
-
         private void SaveToGlobalSheet(string optName, string optValue)
         {
             Worksheet globalSheet;
@@ -215,13 +207,13 @@ namespace Storage
             catch (ArgumentException)
             {
                 globalSheet = workbook.Worksheets.Add("Global");
-                globalSheet.Table.Columns.Add(new WorksheetColumn(220));
-                globalSheet.Table.Columns.Add(new WorksheetColumn(220));
+                globalSheet.Table.Columns.Add(new WorksheetColumn(200));
+                globalSheet.Table.Columns.Add(new WorksheetColumn(100));
             }
 
             WorksheetRow row = globalSheet.Table.Rows.Add();
-            row.Cells.Add(new WorksheetCell(optName, "HeaderStyle"));
-            row.Cells.Add(new WorksheetCell(optValue, "HeaderStyle"));
+            row.Cells.Add(new WorksheetCell(optName, "DefaultStyle"));
+            row.Cells.Add(new WorksheetCell(optValue, DataType.Number, "DefaultStyle"));
         }
 
         private void SaveValueListSheet(AnalyzeOptionInfo info, Object value)
@@ -229,22 +221,22 @@ namespace Storage
             if (info.EnsembleResultType.Equals(typeof(List<Double>)))
             {
                 Worksheet valueListSheet = workbook.Worksheets.Add("Value List");
-                valueListSheet.Table.Columns.Add(new WorksheetColumn(220));
+                valueListSheet.Table.Columns.Add(new WorksheetColumn());
 
                 List<Double> l = value as List<Double>;
                 foreach (Double d in l)
                 {
                     WorksheetRow row = valueListSheet.Table.Rows.Add();
-                    row.Cells.Add(new WorksheetCell(d.ToString(), "HeaderStyle"));
+                    row.Cells.Add(new WorksheetCell(d.ToString(), DataType.Number, "DefaultStyle"));
                 }
             }
         }
 
         private void SaveDistributionSheet(AnalyzeOptionInfo info, Object value)
         {
-            Worksheet distributionSheet = workbook.Worksheets.Add(info.FullName);
-            distributionSheet.Table.Columns.Add(new WorksheetColumn(220));
-            distributionSheet.Table.Columns.Add(new WorksheetColumn(220));
+            Worksheet distributionSheet = workbook.Worksheets.Add(info.FullName.Substring(0, 10));
+            distributionSheet.Table.Columns.Add(new WorksheetColumn());
+            distributionSheet.Table.Columns.Add(new WorksheetColumn());
 
             if (info.EnsembleResultType.Equals(typeof(SortedDictionary<Double, Double>)))
             {
@@ -252,8 +244,8 @@ namespace Storage
                 foreach (Double d in l.Keys)
                 {
                     WorksheetRow row = distributionSheet.Table.Rows.Add();
-                    row.Cells.Add(new WorksheetCell(d.ToString(), "HeaderStyle"));
-                    row.Cells.Add(new WorksheetCell(l[d].ToString(), "HeaderStyle"));
+                    row.Cells.Add(new WorksheetCell(d.ToString(), DataType.Number, "DefaultStyle"));
+                    row.Cells.Add(new WorksheetCell(l[d].ToString(), DataType.Number, "DefaultStyle"));
                 }
             }
             else if (info.EnsembleResultType.Equals(typeof(SortedDictionary<UInt32, Double>)))
@@ -262,8 +254,8 @@ namespace Storage
                 foreach (UInt32 d in l.Keys)
                 {
                     WorksheetRow row = distributionSheet.Table.Rows.Add();
-                    row.Cells.Add(new WorksheetCell(d.ToString(), "HeaderStyle"));
-                    row.Cells.Add(new WorksheetCell(l[d].ToString(), "HeaderStyle"));
+                    row.Cells.Add(new WorksheetCell(d.ToString(), DataType.Number, "DefaultStyle"));
+                    row.Cells.Add(new WorksheetCell(l[d].ToString(), DataType.Number, "DefaultStyle"));
                 }
             }
             else if (info.EnsembleResultType.Equals(typeof(SortedDictionary<UInt16, Double>)))
@@ -272,65 +264,10 @@ namespace Storage
                 foreach (UInt16 d in l.Keys)
                 {
                     WorksheetRow row = distributionSheet.Table.Rows.Add();
-                    row.Cells.Add(new WorksheetCell(d.ToString(), "HeaderStyle"));
-                    row.Cells.Add(new WorksheetCell(l[d].ToString(), "HeaderStyle"));
+                    row.Cells.Add(new WorksheetCell(d.ToString(), DataType.Number, "DefaultStyle"));
+                    row.Cells.Add(new WorksheetCell(l[d].ToString(), DataType.Number, "DefaultStyle"));
                 }
             }
-        }
-
-        void f()
-        {
-            /*Worksheet sheet = book.Worksheets.Add("Value Table");
-            sheet.Table.Columns.Add(new WorksheetColumn(220));
-            sheet.Table.Columns.Add(new WorksheetColumn(220));
-
-            WorksheetRow row = sheet.Table.Rows.Add();
-
-            WorksheetCell generationCell = new WorksheetCell(this.generationCmbBox.Text, "HeaderStyle");
-            generationCell.Comment.Data.Text = GenerationParameters.Text;
-            row.Cells.Add(generationCell);
-            generationCell.MergeAcross = 1;
-
-            row = sheet.Table.Rows.Add();
-            WorksheetCell optionCell = new WorksheetCell(this.optionCmbBox.Text, "HeaderStyle");
-            row.Cells.Add(optionCell);
-            optionCell.Comment.Data.Text = OptionNameLabel.Text;
-            optionCell.MergeAcross = 1;
-
-            if (this.currentResult.type == StAnalyzeType.Local)
-            {
-                row = sheet.Table.Rows.Add();
-                WorksheetCell approximationCell = new WorksheetCell(this.apprLabel.Text + " - " +
-                        this.currentResult.approximationType.ToString(), "HeaderStyle");
-                row.Cells.Add(approximationCell);
-                approximationCell.MergeAcross = 1;
-            }
-
-            row = sheet.Table.Rows.Add();
-            WorksheetCell realizationCountCell = new WorksheetCell(this.realizationCountLabel.Text
-                + " = " + this.realizationCountTxt.Text, "HeaderStyle");
-            row.Cells.Add(realizationCountCell);
-            realizationCountCell.MergeAcross = 1;
-
-            row = sheet.Table.Rows.Add();
-            row.Cells.Add(this.ValuesGrd.Columns[0].HeaderText, DataType.String, "ColumnNames");
-            row.Cells.Add(this.ValuesGrd.Columns[1].HeaderText, DataType.String, "ColumnNames");
-
-            // Generate values 
-            for (int i = 0; i < this.ValuesGrd.Rows.Count; i++)
-            {
-                row = sheet.Table.Rows.Add();
-                row.Cells.Add(new WorksheetCell(this.ValuesGrd.Rows[i].Cells[0].Value.ToString(),
-                    DataType.String, "Default"));
-                row.Cells.Add(new WorksheetCell(this.ValuesGrd.Rows[i].Cells[1].Value.ToString(),
-                    DataType.String, "Default"));
-            }
-
-            saveFileDialog.FileName = "ValueTable.xls";
-            if (this.saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                book.Save(this.saveFileDialog.FileName);
-            }*/
         }
 
         #endregion

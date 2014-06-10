@@ -111,8 +111,8 @@ namespace Core.Enumerations
             "AvgCount")]
         DegreeDistribution = 0x400,
 
-        [AnalyzeOptionInfo("", 
-            "",
+        [AnalyzeOptionInfo("Clustering coefficients distribution", 
+            "Network's node clustering coefficient distribution.",
             OptionType.Distribution,
             typeof(SortedDictionary<Double, UInt32>),
             typeof(SortedDictionary<Double, Double>),
