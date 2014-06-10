@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.researchesTable = new System.Windows.Forms.DataGridView();
             this.researchColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -84,6 +84,7 @@
             this.analyzeOptionsTable = new System.Windows.Forms.DataGridView();
             this.analyzeOptionNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.analyzeOptionCheckedColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.openFileDlg = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.researchesTable)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.realizationCountTxt)).BeginInit();
@@ -105,9 +106,9 @@
             // 
             this.researchesTable.AllowUserToAddRows = false;
             this.researchesTable.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            this.researchesTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            this.researchesTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
             this.researchesTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
@@ -146,8 +147,8 @@
             // 
             // nameColumn
             // 
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.nameColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.nameColumn.DefaultCellStyle = dataGridViewCellStyle6;
             this.nameColumn.HeaderText = "Name";
             this.nameColumn.Name = "nameColumn";
             this.nameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -279,6 +280,7 @@
             this.generationParametersTable.RowHeadersVisible = false;
             this.generationParametersTable.Size = new System.Drawing.Size(463, 141);
             this.generationParametersTable.TabIndex = 26;
+            this.generationParametersTable.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.generationParametersTable_CellClick);
             this.generationParametersTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.generationParametersTable_CellEndEdit);
             // 
             // generationParameterNameColumn
@@ -292,9 +294,9 @@
             // generationParameterValueColumn
             // 
             this.generationParameterValueColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.NullValue = null;
-            this.generationParameterValueColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.NullValue = null;
+            this.generationParameterValueColumn.DefaultCellStyle = dataGridViewCellStyle7;
             this.generationParameterValueColumn.FillWeight = 101.5228F;
             this.generationParameterValueColumn.HeaderText = "Value";
             this.generationParameterValueColumn.Name = "generationParameterValueColumn";
@@ -594,13 +596,17 @@
             // analyzeOptionCheckedColumn
             // 
             this.analyzeOptionCheckedColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.NullValue = "False";
-            this.analyzeOptionCheckedColumn.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.NullValue = "False";
+            this.analyzeOptionCheckedColumn.DefaultCellStyle = dataGridViewCellStyle8;
             this.analyzeOptionCheckedColumn.HeaderText = "";
             this.analyzeOptionCheckedColumn.Name = "analyzeOptionCheckedColumn";
             this.analyzeOptionCheckedColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.analyzeOptionCheckedColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // openFileDlg
+            // 
+            this.openFileDlg.Filter = "\"txt files (*.txt)|*.txt|All files (*.*)|*.*\"";
             // 
             // MainWindow
             // 
@@ -690,6 +696,7 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn generationColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn tracingColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn statusColumn;
+        private System.Windows.Forms.OpenFileDialog openFileDlg;
     }
 }
 

@@ -271,6 +271,28 @@ namespace RandomNetworksExplorer
             }
         }
 
+        private void generationParametersTable_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
+            if (generationParametersTable[e.ColumnIndex, e.RowIndex].OwningColumn.Name == "generationParameterValueColumn"
+                && generationParametersTable[e.ColumnIndex, e.RowIndex] is DataGridViewButtonCell)
+            {
+                if (generationParametersTable[e.ColumnIndex, e.RowIndex].Value.ToString() == "Browse")
+                    openFileDlg.InitialDirectory = Settings.StorageDirectory;
+                if (openFileDlg.ShowDialog() == DialogResult.OK)
+                {
+                    generationParametersTable[e.ColumnIndex, e.RowIndex].Value = openFileDlg.FileName;
+                }
+
+                int currentResearchIndex = researchesTable.SelectedRows[0].Index;
+                SessionManager.SetGenerationParameterValue(researchIDs[currentResearchIndex],
+                        GenerationParameter.AdjacencyMatrixFile, 
+                        generationParametersTable[e.ColumnIndex, e.RowIndex].Value);
+            }
+        }
+
         private void analyzeOptionsTable_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
@@ -435,14 +457,29 @@ namespace RandomNetworksExplorer
 
             if (SessionManager.GetResearchGenerationType(id) == GenerationType.Static)
             {
+                // TODO remove freak code
+                generationParametersTable.Columns.Remove("generationParameterValueColumn");
+                DataGridViewButtonColumn newColumn = new DataGridViewButtonColumn();
+                newColumn.Name = "generationParameterValueColumn";
+                generationParametersTable.Columns.Add(newColumn);
+                // end of freak code
+
                 if (gValues[GenerationParameter.AdjacencyMatrixFile] != null)
                     generationParametersTable.Rows.Add("AdjacencyMatrixFile",
                         gValues[GenerationParameter.AdjacencyMatrixFile].ToString());
                 else
-                    generationParametersTable.Rows.Add("AdjacencyMatrixFile");
+                    generationParametersTable.Rows.Add("AdjacencyMatrixFile", "Browse");
             }
             else
             {
+                // TODO remove freak code
+                generationParametersTable.Columns.Remove("generationParameterValueColumn");
+                DataGridViewTextBoxColumn newColumn = new DataGridViewTextBoxColumn();
+                newColumn.Name = "generationParameterValueColumn";
+                newColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                generationParametersTable.Columns.Add(newColumn);
+                // end of freak code
+
                 foreach (GenerationParameter g in gValues.Keys)
                 {
                     if (g != GenerationParameter.AdjacencyMatrixFile)
