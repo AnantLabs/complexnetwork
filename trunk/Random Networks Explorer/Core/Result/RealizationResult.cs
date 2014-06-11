@@ -12,6 +12,7 @@ namespace Core.Result
     /// </summary>
     public class RealizationResult
     {
+        public UInt32 NetworkSize { get; set; }
         public Dictionary<AnalyzeOption, object> Result { get; set; }
 
         public RealizationResult()

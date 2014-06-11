@@ -67,6 +67,8 @@ namespace Core
             
             try
             {
+                NetworkResult.NetworkSize = networkAnalyzer.Container.Size;
+
                 Array existingOptions = Enum.GetValues(typeof(AnalyzeOption));
                 foreach (AnalyzeOption opt in existingOptions)
                 {
