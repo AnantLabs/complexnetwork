@@ -44,30 +44,13 @@ namespace Core.Utility
 
         private static ArrayList MatrixReader(String filePath)
         {
-            ArrayList matrix = new ArrayList();
+            ArrayList matrix;
             try
             {
-                using (StreamReader streamreader = new StreamReader(filePath, System.Text.Encoding.Default))
+                if (!TryReadClassicalMatrix(filePath, out matrix))
                 {
-                    string contents;
-                    while ((contents = streamreader.ReadLine()) != null)
-                    {
-                        string[] split = System.Text.RegularExpressions.Regex.Split(contents, 
-                            "\\s+", System.Text.RegularExpressions.RegexOptions.None);
-                        ArrayList tmp = new ArrayList();
-                        foreach (string s in split)
-                        {
-                            if (s.Equals("0"))
-                            {
-                                tmp.Add(false);
-                            }
-                            else
-                            {
-                                tmp.Add(true);
-                            }
-                        }
-                        matrix.Add(tmp);
-                    }
+                    if (!TryReadExtendedMatrix(filePath, out matrix))
+                        throw new SystemException("Unknown matrix format.");
                 }
             }
             catch (SystemException ex)
@@ -76,6 +59,97 @@ namespace Core.Utility
             }
 
             return matrix;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        private static bool TryReadClassicalMatrix(String filePath, out ArrayList matrix)
+        {
+            matrix = new ArrayList();
+            using (StreamReader streamreader = new StreamReader(filePath, System.Text.Encoding.Default))
+            {
+                string contents;
+                while ((contents = streamreader.ReadLine()) != null)
+                {
+                    string[] split = System.Text.RegularExpressions.Regex.Split(contents,
+                        "\\s+", System.Text.RegularExpressions.RegexOptions.None);
+                    ArrayList tmp = new ArrayList();
+                    foreach (string s in split)
+                    {
+                        if (s.Equals("0"))
+                        {
+                            tmp.Add(false);
+                        }
+                        else if (s.Equals("1"))
+                        {
+                            tmp.Add(true);
+                        }
+                        else
+                            return false;
+                    }
+                    matrix.Add(tmp);
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        private static bool TryReadExtendedMatrix(String filePath, out ArrayList matrix)
+        {
+            matrix = new ArrayList();
+
+            int size = 0;
+            bool[,] n;
+            using (StreamReader streamreader = new StreamReader(filePath, System.Text.Encoding.Default))
+            {
+                string contents;
+                // TODO check model name
+                // retrieving model name
+                if (!(contents = streamreader.ReadLine()).Contains("ERModel"))
+                    return false;
+
+                // retrieving size
+                while (!(contents = streamreader.ReadLine()).Contains("-"))
+                {
+                    if (contents.Contains("Vertices"))
+                        size = Convert.ToInt32(contents.Substring(contents.IndexOf('=') + 1));
+                }
+
+                n = new bool[size, size];
+                // retrieving data
+                while ((contents = streamreader.ReadLine()) != null)
+                {
+                    string[] split = System.Text.RegularExpressions.Regex.Split(contents,
+                        "\\s+",
+                        System.Text.RegularExpressions.RegexOptions.None);
+
+                    int i = Convert.ToInt32(split[0]), j = Convert.ToInt32(split[1]);
+                    n[i, j] = true;
+                    n[j, i] = true;
+                }
+            }
+
+            for (int i = 0; i < size; ++i)
+            {
+                ArrayList tmp = new ArrayList();
+                for (int j = 0; j < size; ++j)
+                {
+                    tmp.Add(n[i, j]);
+                }
+                matrix.Add(tmp);
+            }
+            
+            return true;
         }
 
         private static void MatrixWriter(bool[,] matrix, String filePath)
