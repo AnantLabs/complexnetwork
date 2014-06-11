@@ -14,6 +14,7 @@ namespace Core.Result
     /// </summary>
     public class EnsembleResult
     {
+        public UInt32 NetworkSize { get; set; }
         public Dictionary<AnalyzeOption, object> Result { get; set; }
 
         /// <summary>
@@ -24,6 +25,7 @@ namespace Core.Result
         public static EnsembleResult AverageResults(List<RealizationResult> results)
         {
             EnsembleResult r = new EnsembleResult();
+            r.NetworkSize = results[0].NetworkSize;
             r.Result = new Dictionary<AnalyzeOption, object>();
 
             int rCount = results.Count;
