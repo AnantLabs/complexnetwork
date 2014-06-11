@@ -119,7 +119,7 @@ namespace Core.Utility
                             foreach (string s in split)
                             {
                                 if (s != "")
-                                    tmp.Add(Int32.Parse(s));
+                                    tmp.Add(UInt16.Parse(s));
                             }
                             branches.Add(tmp);
                         }
