@@ -38,7 +38,6 @@ namespace RandomNetworksExplorer
             storageDirectoryTxt.Text = Settings.StorageDirectory;
             //databaseTxt.Text = Settings.ConnectionString;
             tracingDirectoryTxt.Text = Settings.TracingDirectory;
-            managerTypeCmb.SelectedIndex = (int)Settings.WorkingMode - 1;
         }
 
         private void loggingBrowseButton_Click(object sender, EventArgs e)

@@ -27,6 +27,7 @@ namespace RandomNetworksExplorer
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            InitializeStorageTypeColumn();
             InitializeGenerationTypeColumn();
         }
 
@@ -109,48 +110,6 @@ namespace RandomNetworksExplorer
             researchesTable.BeginEdit(true);
         }
 
-        private void researchTable_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0 || e.ColumnIndex < 0)
-                return;
-
-            if (researchesTable[e.ColumnIndex, e.RowIndex].OwningColumn.Name == "storageColumn")
-            {
-                StorageSettingsWindow storageSettingsDlg = new StorageSettingsWindow(
-                    SessionManager.GetResearchStorageType(researchIDs[e.RowIndex]), 
-                    SessionManager.GetResearchStorageString(researchIDs[e.RowIndex]));
-
-                if (storageSettingsDlg.ShowDialog() == DialogResult.OK)
-                {
-                    DataGridViewButtonCell btn = researchesTable.Rows[e.RowIndex].Cells["storageColumn"] as DataGridViewButtonCell;
-                    btn.Value = storageSettingsDlg.StorageType.ToString();
-
-                    string storageString = null;
-                    switch (storageSettingsDlg.StorageType)
-                    {
-                        case StorageType.XMLStorage:
-                            storageString = storageSettingsDlg.XmlOutputDirectory;
-                            break;
-                        case StorageType.TXTStorage:
-                            storageString = storageSettingsDlg.TxtOutputDirectory;
-                            break;
-                        case StorageType.ExcelStorage:
-                            storageString = storageSettingsDlg.ExcelOutputDirectory;
-                            break;
-                        case StorageType.SQLStorage:
-                            storageString = storageSettingsDlg.SqlConnectionString;
-                            break;
-                        default:
-                            break;
-                    }
-
-                    SessionManager.SetResearchStorage(researchIDs[e.RowIndex],
-                        storageSettingsDlg.StorageType,
-                        storageString);
-                }
-            }
-        }
-
         private void researchTable_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
@@ -162,11 +121,8 @@ namespace RandomNetworksExplorer
                     DataGridViewCheckBoxCell;
                 if ((bool)(cell.Value) == true)
                 {
-                    if (browserDlg.ShowDialog() == DialogResult.OK)
-                    {
-                        SessionManager.SetResearchTracingPath(researchIDs[e.RowIndex],
-                            browserDlg.SelectedPath);
-                    }
+                    SessionManager.SetResearchTracingPath(researchIDs[e.RowIndex], 
+                        Settings.TracingDirectory);
                 }
                 else
                     SessionManager.SetResearchTracingPath(researchIDs[e.RowIndex], "");
@@ -195,6 +151,12 @@ namespace RandomNetworksExplorer
                         (ModelType)Enum.Parse(typeof(ModelType), editedCell.Value.ToString()));
                     FillGenerationParametersTable(researchIDs[e.RowIndex], e.RowIndex);
                     FillAnalyzeOptionsTable(researchIDs[e.RowIndex]);
+                    break;
+                case "storageColumn":
+                    StorageType stType = (StorageType)Enum.Parse(typeof(StorageType), 
+                        editedCell.Value.ToString());
+                    SessionManager.SetResearchStorage(researchIDs[e.RowIndex],
+                        stType, RetrieveStorageString(stType));
                     break;
                 case "generationColumn":
                     SessionManager.SetResearchGenerationType(researchIDs[e.RowIndex],
@@ -334,6 +296,17 @@ namespace RandomNetworksExplorer
 
         private void startResearch_Click(object sender, EventArgs e)
         {
+            foreach (DataGridViewRow row in generationParametersTable.Rows)
+            {
+                if (row.Cells["generationParameterValueColumn"].Value == null)
+                {
+                    MessageBox.Show("Parameters are not set correctly.", "Error");
+                    return;
+                }
+                else
+                    continue;
+            }
+
             int currentResearchIndex = researchesTable.SelectedRows[0].Index;
             SessionManager.StartResearch(researchIDs[currentResearchIndex]);
         }
@@ -347,6 +320,16 @@ namespace RandomNetworksExplorer
         #endregion
 
         #region Utilities
+
+        private void InitializeStorageTypeColumn()
+        {
+            DataGridViewComboBoxColumn storageColumn =
+                researchesTable.Columns["storageColumn"] as DataGridViewComboBoxColumn;
+            storageColumn.Items.Clear();
+            string[] storageTypeNames = Enum.GetNames(typeof(StorageType));
+            for (int i = 0; i < storageTypeNames.Length; ++i)
+                storageColumn.Items.Add(storageTypeNames[i]);
+        }
 
         private void InitializeGenerationTypeColumn()
         {
@@ -443,6 +426,21 @@ namespace RandomNetworksExplorer
                 analyzeOptionsTable.Rows.Clear();
                 realizationCountTxt.Value = 1;
                 statusTable.Rows.Clear();
+            }
+        }
+
+        private String RetrieveStorageString(StorageType stType)
+        {
+            switch (stType)
+            {
+                case StorageType.XMLStorage:
+                case StorageType.TXTStorage:
+                case StorageType.ExcelStorage:
+                    return Settings.StorageDirectory;
+                case StorageType.SQLStorage:
+                    return null; //Settings.ConnectionString;
+                default:
+                    return null;
             }
         }
 
