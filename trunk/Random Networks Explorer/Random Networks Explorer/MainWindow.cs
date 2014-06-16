@@ -287,6 +287,24 @@ namespace RandomNetworksExplorer
             }
         }
 
+        private void selectAll_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow r in analyzeOptionsTable.Rows)
+            {
+                DataGridViewCheckBoxCell cell = r.Cells[1] as DataGridViewCheckBoxCell;
+                cell.Value = true;
+            }
+        }
+
+        private void deselectAll_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow r in analyzeOptionsTable.Rows)
+            {
+                DataGridViewCheckBoxCell cell = r.Cells[1] as DataGridViewCheckBoxCell;
+                cell.Value = false;
+            }
+        }
+
         private void realizationCountTxt_ValueChanged(object sender, EventArgs e)
         {
             Guid researchId = researchIDs[researchesTable.SelectedRows[0].Index];
