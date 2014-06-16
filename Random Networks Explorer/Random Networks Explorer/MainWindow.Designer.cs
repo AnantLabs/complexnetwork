@@ -37,7 +37,7 @@
             this.researchColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.modelColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.storageColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.storageColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.generationColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.tracingColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.statusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -57,7 +57,6 @@
             this.percolationNewResearch = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteResearch = new System.Windows.Forms.ToolStripMenuItem();
             this.cloneResearch = new System.Windows.Forms.ToolStripMenuItem();
-            this.browserDlg = new System.Windows.Forms.FolderBrowserDialog();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newResearchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.basicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -130,7 +129,6 @@
             this.researchesTable.Size = new System.Drawing.Size(776, 679);
             this.researchesTable.TabIndex = 0;
             this.researchesTable.TabStop = false;
-            this.researchesTable.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.researchTable_CellClick);
             this.researchesTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.researchesTable_CellEndEdit);
             this.researchesTable.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.researchTable_CellValueChanged);
             this.researchesTable.CurrentCellDirtyStateChanged += new System.EventHandler(this.researchTable_CurrentCellDirtyStateChanged);
@@ -164,10 +162,10 @@
             // 
             // storageColumn
             // 
+            this.storageColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
             this.storageColumn.HeaderText = "Storage";
             this.storageColumn.Name = "storageColumn";
             this.storageColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.storageColumn.Text = "";
             // 
             // generationColumn
             // 
@@ -355,10 +353,6 @@
             this.cloneResearch.Size = new System.Drawing.Size(157, 22);
             this.cloneResearch.Text = "Clone Research";
             this.cloneResearch.Click += new System.EventHandler(this.cloneResearchMenuItem_Click);
-            // 
-            // browserDlg
-            // 
-            this.browserDlg.Description = "Choose directory for tracing output";
             // 
             // fileToolStripMenuItem
             // 
@@ -651,7 +645,6 @@
         private System.Windows.Forms.ToolStripMenuItem cloneResearch;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.FolderBrowserDialog browserDlg;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -689,14 +682,14 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn analyzeOptionCheckedColumn;
         private System.Windows.Forms.ToolStripMenuItem dataConvertionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem statisticAnalyzerToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openFileDlg;
         private System.Windows.Forms.DataGridViewTextBoxColumn researchColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn modelColumn;
-        private System.Windows.Forms.DataGridViewButtonColumn storageColumn;
+        private System.Windows.Forms.DataGridViewComboBoxColumn storageColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn generationColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn tracingColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn statusColumn;
-        private System.Windows.Forms.OpenFileDialog openFileDlg;
     }
 }
 

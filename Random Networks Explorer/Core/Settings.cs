@@ -19,6 +19,8 @@ namespace Core
     /// </summary>
     public static class Settings
     {
+        static private String defaultDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
+
         static private Configuration config;
 
         //static private LoggerMode logger;
@@ -71,9 +73,7 @@ namespace Core
         {
             get
             {
-                return (loggingDirectory == "") ? 
-                    Directory.GetCurrentDirectory() : 
-                    loggingDirectory;
+                return (loggingDirectory == "") ? defaultDirectory + "\\Logging" : loggingDirectory;
             }
             set
             {
@@ -99,9 +99,7 @@ namespace Core
         {
             get
             {
-                return (storageDirectory == "") ?
-                    Directory.GetCurrentDirectory() :
-                    storageDirectory;
+                return (storageDirectory == "") ? defaultDirectory + "\\Results" : storageDirectory;
             }
             set
             {
@@ -141,9 +139,7 @@ namespace Core
         {
             get
             {
-                return (tracingDirectory == "") ?
-                    Directory.GetCurrentDirectory() :
-                    tracingDirectory;
+                return (tracingDirectory == "") ? defaultDirectory + "\\Tracing" : tracingDirectory;
             }
             set
             {

@@ -37,6 +37,10 @@ namespace Core.Utility
         /// <param name="filePath"></param>
         public static void Write(MatrixInfoToWrite matrixInfo, String filePath)
         {
+            String directoryPath = Settings.TracingDirectory;
+            if (!Directory.Exists(directoryPath))
+                Directory.CreateDirectory(directoryPath);
+
             MatrixWriter(matrixInfo.Matrix, filePath);
             if(matrixInfo.Branches != null)
                 BranchesWriter(matrixInfo.Branches, filePath);
