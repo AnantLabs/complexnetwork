@@ -25,6 +25,7 @@ namespace ERModel
         AnalyzeOption.Cycles3 |
         AnalyzeOption.Cycles4 |
         AnalyzeOption.CycleDistribution |
+        AnalyzeOption.Cycles3Trajectory |
         AnalyzeOption.DegreeDistribution |
         AnalyzeOption.Diameter |
         AnalyzeOption.DistanceDistribution |
@@ -33,11 +34,12 @@ namespace ERModel
         AnalyzeOption.TriangleByVertexDistribution)]
     public class ERNetwork : AbstractNetwork
     {
-        public ERNetwork(Dictionary<GenerationParameter, object> genParams,
-            AnalyzeOption analyzeOpts) : base(genParams, analyzeOpts)
+        public ERNetwork(Dictionary<ResearchParameter, object> rParams,
+            Dictionary<GenerationParameter, object> genParams,
+            AnalyzeOption analyzeOpts) : base(rParams, genParams, analyzeOpts)
         {
             networkGenerator = new ERNetworkGenerator();
-            networkAnalyzer = new NonHierarchicAnalyzer();
+            networkAnalyzer = new NonHierarchicAnalyzer(this);
         }
 
         public static UInt32 CalculateSize(Dictionary<GenerationParameter, object> p)

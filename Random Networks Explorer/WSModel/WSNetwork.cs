@@ -34,11 +34,12 @@ namespace WSModel
         AnalyzeOption.EigenValues)]
     public class WSNetwork : AbstractNetwork
     {
-        public WSNetwork(Dictionary<GenerationParameter, object> genParams,
-            AnalyzeOption analyzeOpts) : base(genParams, analyzeOpts)
+        public WSNetwork(Dictionary<ResearchParameter, object> rParams,
+            Dictionary<GenerationParameter, object> genParams,
+            AnalyzeOption analyzeOpts) : base(rParams, genParams, analyzeOpts)
         {
             networkGenerator = new WSNetworkGenerator();
-            networkAnalyzer = new NonHierarchicAnalyzer();
+            networkAnalyzer = new NonHierarchicAnalyzer(this);
         }
 
         public static UInt32 CalculateSize(Dictionary<GenerationParameter, object> p)

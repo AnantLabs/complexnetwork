@@ -12,7 +12,8 @@ namespace Core.Attributes
     {
         Global,
         ValueList,
-        Distribution
+        Distribution,
+        Trajectory
     }
 
     /// <summary>

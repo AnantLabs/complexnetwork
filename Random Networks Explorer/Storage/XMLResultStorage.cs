@@ -136,6 +136,7 @@ namespace Storage
                         writer.WriteEndElement();
                         break;
                     case OptionType.Distribution:
+                    case OptionType.Trajectory:
                         writer.WriteStartElement(opt.ToString());
                         SaveDistribution(info, e.Result[opt]);
                         writer.WriteEndElement();

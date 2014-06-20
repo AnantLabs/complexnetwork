@@ -189,6 +189,7 @@ namespace Storage
                         SaveValueListSheet(info, e.Result[opt]);
                         break;
                     case OptionType.Distribution:
+                    case OptionType.Trajectory:
                         SaveDistributionSheet(info, e.Result[opt]);
                         break;
                     default:

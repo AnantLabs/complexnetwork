@@ -31,11 +31,12 @@ namespace NonRegularHierarchicModel
         AnalyzeOption.TriangleByVertexDistribution)]
     public class NonRegularHierarchicNetwork : AbstractNetwork
     {
-        public NonRegularHierarchicNetwork(Dictionary<GenerationParameter, object> genParams,
-            AnalyzeOption analyzeOpts) : base(genParams, analyzeOpts)
+        public NonRegularHierarchicNetwork(Dictionary<ResearchParameter, object> rParams,
+            Dictionary<GenerationParameter, object> genParams,
+            AnalyzeOption analyzeOpts) : base(rParams, genParams, analyzeOpts)
         {
             networkGenerator = new NonRegularHierarchicNetworkGenerator();
-            networkAnalyzer = new NonRegularHierarchicNetworkAnalyzer();
+            networkAnalyzer = new NonRegularHierarchicNetworkAnalyzer(this);
         }
 
         public static UInt32 CalculateSize(Dictionary<GenerationParameter, object> p)

@@ -64,7 +64,7 @@ namespace Research
             SaveResearch();
         }
 
-        protected override void FillGenerationParameters(AbstractEnsembleManager m)
+        protected override void FillParameters(AbstractEnsembleManager m)
         {
             m.GenerationParameterValues = GenerationParameterValues;
         }        

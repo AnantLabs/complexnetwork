@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Numerics;
 
+using Core;
 using Core.Model;
 using NetworkModel;
 using NetworkModel.Engine.Eigenvalues;
@@ -28,12 +29,7 @@ namespace NonRegularHierarchicModel
             set { container = (NonRegularHierarchicNetworkContainer)value; }
         }
 
-        public NonRegularHierarchicNetworkAnalyzer() { }
-
-        public NonRegularHierarchicNetworkAnalyzer(NonRegularHierarchicNetworkContainer c) 
-        { 
-            container = c;
-        }
+        public NonRegularHierarchicNetworkAnalyzer(AbstractNetwork n) : base(n) { }
 
         protected override double CalculateAveragePath()
         {

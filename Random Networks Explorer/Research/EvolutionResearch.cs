@@ -9,21 +9,29 @@ using Core.Attributes;
 
 namespace Research
 {
+    /// <summary>
+    /// Evolution research implementation.
+    /// </summary>
     [AvailableModelType(ModelType.ER)]
-    [RequiredResearchParameter(ResearchParameter.StepCount)]
+    [RequiredResearchParameter(ResearchParameter.EvolutionStepCount)]
     [RequiredResearchParameter(ResearchParameter.Nu)]
     [RequiredResearchParameter(ResearchParameter.PermanentDistribution)]
-    [AvailableAnalyzeOption(AnalyzeOption.Cycles3)]
+    [AvailableAnalyzeOption(AnalyzeOption.Cycles3Trajectory)]
     public class EvolutionResearch : AbstractResearch
     {
+        /// <summary>
+        /// Creates a single EnsembleManager, runs in background thread.
+        /// </summary>
         public override void StartResearch()
         {
-            throw new NotImplementedException();
+            CreateEnsembleManager();
+            ManagerRunner r = new ManagerRunner(currentManager.Run);
+            r.BeginInvoke(new AsyncCallback(RunCompleted), null);
         }
 
         public override void StopResearch()
         {
-            throw new NotImplementedException();
+            currentManager.Cancel();
         }
 
         public override ResearchType GetResearchType()
@@ -31,9 +39,17 @@ namespace Research
             return ResearchType.Evolution;
         }
 
-        protected override void FillGenerationParameters(AbstractEnsembleManager m)
+        private void RunCompleted(IAsyncResult res)
         {
-            throw new NotImplementedException();
+            realizationCount = currentManager.RealizationsDone;
+            result.EnsembleResults.Add(currentManager.Result);
+            SaveResearch();
+        }
+
+        protected override void FillParameters(AbstractEnsembleManager m)
+        {
+            m.ResearchParamaterValues = ResearchParameterValues;
+            m.GenerationParameterValues = GenerationParameterValues;
         }
     }
 }

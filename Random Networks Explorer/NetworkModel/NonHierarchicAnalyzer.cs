@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Numerics;
 
+using Core;
+using Core.Exceptions;
 using Core.Enumerations;
 using Core.Model;
 using NetworkModel.Engine.Eigenvalues;
 using NetworkModel.Engine.Cycles;
+using RandomNumberGeneration;
 
 namespace NetworkModel
 {
@@ -18,13 +21,7 @@ namespace NetworkModel
     {
         private NonHierarchicContainer container;
 
-        public NonHierarchicAnalyzer() { }
-
-        public NonHierarchicAnalyzer(NonHierarchicContainer c)
-        {
-            container = c;
-            Initialization();
-        }
+        public NonHierarchicAnalyzer(AbstractNetwork n) : base(n) { }
 
         public override INetworkContainer Container
         {
@@ -271,6 +268,73 @@ namespace NetworkModel
             return cyclesCount;
         }
 
+        protected override SortedDictionary<UInt32, long> CalculateCycles3Trajectory()
+        {
+            // Retrieving research parameters from network. //
+            // TODO without parce
+            if(network.ResearchParameterValues == null)
+                throw new CoreException("Research parameters are not set.");
+            UInt32 stepCount = UInt32.Parse(network.ResearchParameterValues[ResearchParameter.EvolutionStepCount].ToString());
+            Single nu = Single.Parse(network.ResearchParameterValues[ResearchParameter.Nu].ToString());
+            bool permanentDistribution = Boolean.Parse(network.ResearchParameterValues[ResearchParameter.PermanentDistribution].ToString());
+
+            // keep initial container
+            NonHierarchicContainer initialContainer = container.Clone();
+
+            SortedDictionary<UInt32, long> trajectory = new SortedDictionary<UInt32, long>();
+            uint currentStep = 0;
+            long currentCycle3Count = (long)CalculateCycles3();
+            trajectory.Add(currentStep, currentCycle3Count);
+
+            NonHierarchicContainer previousContainer = new NonHierarchicContainer();
+            RNGCrypto rand = new RNGCrypto();
+            while (currentStep != stepCount)
+            {
+                previousContainer = container.Clone();
+                try
+                {
+                    ++currentStep;
+
+                    long deltaCount = permanentDistribution ?
+                        container.PermanentRandomization() : 
+                        container.NonPermanentRandomization();
+                    long newCycle3Count = currentCycle3Count + deltaCount;
+
+                    int delta = (int)(newCycle3Count - currentCycle3Count);
+                    if (delta > 0)
+                    {
+                        // accept
+                        trajectory.Add(currentStep, newCycle3Count);
+                        currentCycle3Count = newCycle3Count;
+                    }
+                    else
+                    {
+                        double probability = Math.Exp((-nu * Math.Abs(delta)));
+                        if (rand.NextDouble() < probability)
+                        {
+                            // accept
+                            trajectory.Add(currentStep, newCycle3Count);
+                            currentCycle3Count = newCycle3Count;
+                        }
+                        else
+                        {
+                            // reject
+                            trajectory.Add(currentStep, currentCycle3Count);
+                            container = previousContainer;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    container = initialContainer;
+                    //log.Error(String.Format("Error occurred in step {0} ,Error message {1} ", currentStep, ex.InnerException));
+                }
+            }
+
+            container = initialContainer;
+            return trajectory;
+        }
+
         #region Utilities
 
         bool calledPaths = false;
@@ -282,12 +346,6 @@ namespace NetworkModel
 
         bool calledEigens = false;
         private List<double> eigenValues = new List<double>();
-        
-        private void Initialization()
-        {
-            for (int i = 0; i < container.Size; ++i)
-                edgesBetweenNeighbours.Add(-1);
-        }
 
         private class Node
         {
