@@ -88,9 +88,11 @@ namespace Manager
                 ModelTypeInfo[] info = (ModelTypeInfo[])ModelType.GetType().GetField(ModelType.ToString()).GetCustomAttributes(typeof(ModelTypeInfo), false);
                 Type t = Type.GetType(info[0].Implementation);
                 Type[] constructTypes = new Type[] { 
+                    typeof(Dictionary<ResearchParameter, object>),
                     typeof(Dictionary<GenerationParameter, object>), 
                     typeof(AnalyzeOption) };
                 object[] invokeParams = new object[] { 
+                    ResearchParamaterValues,
                     GenerationParameterValues, 
                     AnalyzeOptions };
                 networks[i] = (AbstractNetwork)t.GetConstructor(constructTypes).Invoke(invokeParams);

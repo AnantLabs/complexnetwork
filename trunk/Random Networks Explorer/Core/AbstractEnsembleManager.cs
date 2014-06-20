@@ -21,6 +21,8 @@ namespace Core
 
         public int RealizationCount { protected get; set; }
 
+        public Dictionary<ResearchParameter, object> ResearchParamaterValues { get; set; }
+
         public Dictionary<GenerationParameter, object> GenerationParameterValues { get; set; }
 
         public AnalyzeOption AnalyzeOptions { get; set; }

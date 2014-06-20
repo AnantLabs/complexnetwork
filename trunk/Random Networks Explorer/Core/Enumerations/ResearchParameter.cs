@@ -14,8 +14,8 @@ namespace Core.Enumerations
     /// </summary>
     public enum ResearchParameter
     {
-        [ResearchParameterInfo("", "", typeof(UInt16))]
-        StepCount,
+        [ResearchParameterInfo("", "", typeof(UInt32))]
+        EvolutionStepCount,
 
         [ResearchParameterInfo("", "", typeof(Single))]
         Nu,

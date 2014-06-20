@@ -13,7 +13,14 @@ namespace Core.Model
     /// </summary>
     public abstract class AbstractNetworkAnalyzer : INetworkAnalyzer
     {
+        protected AbstractNetwork network;
+
         public abstract INetworkContainer Container { get; set; }
+
+        public AbstractNetworkAnalyzer(AbstractNetwork n)
+        {
+            network = n;
+        }
 
         public Object CalculateOption(AnalyzeOption option)
         {
@@ -38,6 +45,8 @@ namespace Core.Model
                     return CalculateCycles3();
                 case AnalyzeOption.Cycles3Eigen:
                     return CalculateCycles3Eigen();
+                case AnalyzeOption.Cycles3Trajectory:
+                    return CalculateCycles3Trajectory();
                 case AnalyzeOption.Cycles4:
                     return CalculateCycles4();
                 case AnalyzeOption.Cycles4Eigen:
@@ -210,6 +219,18 @@ namespace Core.Model
         /// <param name="hightBound">Maximal length of cycle.</param>
         /// <returns>(cycle length, count) pairs.</returns>
         protected virtual SortedDictionary<UInt16, BigInteger> CalculateCycleDistribution(UInt16 lowBound, UInt16 hightBound)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Calculates the counts of cycles 3 in the network during evolution process.
+        /// </summary>
+        /// <param name="stepCount">Count of steps of evolution.</param>
+        /// <param name="nu">Managment parameter.</param>
+        /// <param name="permanentDistribution">Indicates if degree distribution must be permanent during evolution process.</param>
+        /// <returns>(step, cycles 3 count)</returns>
+        protected virtual SortedDictionary<UInt32, long> CalculateCycles3Trajectory()
         {
             throw new NotImplementedException();
         }

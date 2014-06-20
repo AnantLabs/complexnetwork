@@ -116,14 +116,14 @@ namespace Core
             currentManager.TracingPath = (TracingPath == "" ? "" : TracingPath + "\\" + ResearchName);
             currentManager.RealizationCount = realizationCount;
             currentManager.AnalyzeOptions = AnalyzeOption;
-            FillGenerationParameters(currentManager);
+            FillParameters(currentManager);
         }
 
         /// <summary>
         /// Initializes generation parameters for single ensemble manager.
         /// </summary>
         /// <param name="m">Ensemble manager to initialize.</param>
-        protected abstract void FillGenerationParameters(AbstractEnsembleManager m);
+        protected abstract void FillParameters(AbstractEnsembleManager m);
 
         /// <summary>
         /// Saves the results of research analyze.

@@ -89,7 +89,7 @@ namespace Research
             }
         }
 
-        protected override void FillGenerationParameters(AbstractEnsembleManager m)
+        protected override void FillParameters(AbstractEnsembleManager m)
         {
             Dictionary<GenerationParameter, object> g = new Dictionary<GenerationParameter, object>();
             foreach (GenerationParameter p in base.GenerationParameterValues.Keys)

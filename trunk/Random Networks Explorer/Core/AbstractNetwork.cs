@@ -16,20 +16,23 @@ namespace Core
     /// </summary>
     public abstract class AbstractNetwork
     {
+        public Dictionary<ResearchParameter, object> ResearchParameterValues { get; private set; }
+        public Dictionary<GenerationParameter, object> GenerationParameterValues { get; private set; }
+        public AnalyzeOption AnalyzeOptions { get; private set; }
+
         protected INetworkGenerator networkGenerator;
         protected INetworkAnalyzer networkAnalyzer;
-
-        protected Dictionary<GenerationParameter, object> generationParameterValues;
-        protected AnalyzeOption analyzeOptions;
 
         public bool SuccessfullyCompleted { get; private set; }
         public RealizationResult NetworkResult { get; protected set; }
 
-        public AbstractNetwork(Dictionary<GenerationParameter, object> genParams,
-            AnalyzeOption analyzeOptions)
+        public AbstractNetwork(Dictionary<ResearchParameter, object> rParams,
+            Dictionary<GenerationParameter, object> genParams,
+            AnalyzeOption AnalyzeOptions)
         {
-            generationParameterValues = genParams;
-            this.analyzeOptions = analyzeOptions;
+            ResearchParameterValues = rParams;
+            GenerationParameterValues = genParams;
+            this.AnalyzeOptions = AnalyzeOptions;
 
             NetworkResult = new RealizationResult();
         }
@@ -41,15 +44,15 @@ namespace Core
         {
             try
             {
-                if (generationParameterValues.ContainsKey(GenerationParameter.AdjacencyMatrixFile) &&
-                    (generationParameterValues[GenerationParameter.AdjacencyMatrixFile] != null))
+                if (GenerationParameterValues.ContainsKey(GenerationParameter.AdjacencyMatrixFile) &&
+                    (GenerationParameterValues[GenerationParameter.AdjacencyMatrixFile] != null))
                 {
-                    string filePath = generationParameterValues[GenerationParameter.AdjacencyMatrixFile].ToString();
+                    string filePath = GenerationParameterValues[GenerationParameter.AdjacencyMatrixFile].ToString();
                     networkGenerator.StaticGeneration(FileManager.Read(filePath));
                 }
                 else
                 {
-                    networkGenerator.RandomGeneration(generationParameterValues);
+                    networkGenerator.RandomGeneration(GenerationParameterValues);
                 }
             }
             catch (SystemException ex)
@@ -72,7 +75,7 @@ namespace Core
                 Array existingOptions = Enum.GetValues(typeof(AnalyzeOption));
                 foreach (AnalyzeOption opt in existingOptions)
                 {
-                    if ((analyzeOptions & opt) == opt)
+                    if ((AnalyzeOptions & opt) == opt)
                     {
                         NetworkResult.Result.Add(opt, networkAnalyzer.CalculateOption(opt));
                     }

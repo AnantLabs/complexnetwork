@@ -31,11 +31,12 @@ namespace RegularHierarchicModel
         AnalyzeOption.TriangleByVertexDistribution)]
     public class RegularHierarchicNetwork : AbstractNetwork
     {
-        public RegularHierarchicNetwork(Dictionary<GenerationParameter, object> genParams,
-            AnalyzeOption analyzeOpts) : base(genParams, analyzeOpts)
+        public RegularHierarchicNetwork(Dictionary<ResearchParameter, object> rParams,
+            Dictionary<GenerationParameter, object> genParams,
+            AnalyzeOption analyzeOpts) : base(rParams, genParams, analyzeOpts)
         {
             networkGenerator = new RegularHierarchicNetworkGenerator();
-            networkAnalyzer = new RegularHierarchicNetworkAnalyzer();
+            networkAnalyzer = new RegularHierarchicNetworkAnalyzer(this);
         }
 
         public static UInt32 CalculateSize(Dictionary<GenerationParameter, object> p)

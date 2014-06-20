@@ -163,6 +163,17 @@ namespace Core.Enumerations
             typeof(SortedDictionary<UInt16, Double>),
             "Length",
             "AvgCount")]
-        CycleDistribution = 0x10000
+        CycleDistribution = 0x10000,
+
+        // Trajectories. //
+
+        [AnalyzeOptionInfo("3-length cycles trajectory",
+            "Count of 3-length cycles in evolution process.",
+            OptionType.Trajectory,
+            typeof(SortedDictionary<UInt32, long>),
+            typeof(SortedDictionary<UInt32, Double>),
+            "StepNumber",
+            "AvgCount")]
+        Cycles3Trajectory = 0x20000
     }
 }

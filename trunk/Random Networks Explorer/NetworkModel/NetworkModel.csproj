@@ -57,6 +57,10 @@
       <Project>{479C57F7-2B45-48F4-B434-C7E59D0B0F7B}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RandomNumberGeneration\RandomNumberGeneration.csproj">
+      <Project>{C64D64AC-5910-485F-9EE3-60E525952ECE}</Project>
+      <Name>RandomNumberGeneration</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
