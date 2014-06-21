@@ -79,6 +79,9 @@ namespace Core.Utility
                 string contents;
                 while ((contents = streamreader.ReadLine()) != null)
                 {
+                    if (Char.IsLetter(contents[0]))
+                        return false;
+
                     string[] split = System.Text.RegularExpressions.Regex.Split(contents,
                         "\\s+", System.Text.RegularExpressions.RegexOptions.None);
                     ArrayList tmp = new ArrayList();
@@ -92,8 +95,6 @@ namespace Core.Utility
                         {
                             tmp.Add(true);
                         }
-                        else
-                            return false;
                     }
                     matrix.Add(tmp);
                 }

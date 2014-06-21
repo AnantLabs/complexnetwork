@@ -241,10 +241,10 @@ namespace RandomNetworksExplorer
             if (generationParametersTable[e.ColumnIndex, e.RowIndex].OwningColumn.Name == "generationParameterValueColumn"
                 && generationParametersTable[e.ColumnIndex, e.RowIndex] is DataGridViewButtonCell)
             {
-                if (generationParametersTable[e.ColumnIndex, e.RowIndex].Value.ToString() == "Browse")
-                    openFileDlg.InitialDirectory = Settings.StorageDirectory;
+                openFileDlg.InitialDirectory = Settings.StaticGenerationDirectory;
                 if (openFileDlg.ShowDialog() == DialogResult.OK)
                 {
+                    Settings.StaticGenerationDirectory = openFileDlg.InitialDirectory;
                     generationParametersTable[e.ColumnIndex, e.RowIndex].Value = openFileDlg.FileName;
                 }
 

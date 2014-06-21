@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Core;
+using Core.Utility;
 using Core.Model;
 using RandomNumberGeneration;
 
@@ -94,6 +96,27 @@ namespace NetworkModel
             }
 
             return matrix;
+        }
+
+        // TODO add to interface
+        public void Trace(String extendedName)
+        {
+            String tracingDirectory = Settings.TracingDirectory;
+            if (tracingDirectory != "")
+            {
+                string filePath = tracingDirectory + "_" + extendedName;
+                int i = 1;
+                while (System.IO.File.Exists(filePath + ".txt"))
+                {
+                    filePath = tracingDirectory + "_" + extendedName + "_" + i.ToString();
+                    ++i;
+                }
+
+                MatrixInfoToWrite matrixInfo = new MatrixInfoToWrite();
+                matrixInfo.Matrix = GetMatrix();
+                matrixInfo.Branches = null;
+                FileManager.Write(matrixInfo, filePath);
+            }
         }
 
         /// <summary>

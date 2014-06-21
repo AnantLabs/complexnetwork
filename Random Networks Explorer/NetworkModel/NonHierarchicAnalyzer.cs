@@ -331,6 +331,7 @@ namespace NetworkModel
                 }
             }
 
+            container.Trace(nu.ToString());
             container = initialContainer;
             return trajectory;
         }

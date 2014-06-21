@@ -29,7 +29,8 @@ namespace Core
         //static private StorageProvider storage;
         //static private string connectionString;
         static private string tracingDirectory;
-        static private ManagerType workingMode;       
+        static private ManagerType workingMode;
+        static private string staticGenerationDirectory;
 
         static Settings()
         {
@@ -49,6 +50,7 @@ namespace Core
                 tracingDirectory = config.AppSettings.Settings["TracingDirectory"].Value;
                 workingMode = (ManagerType)Enum.Parse(typeof(ManagerType), 
                     config.AppSettings.Settings["WorkingMode"].Value);
+                staticGenerationDirectory = config.AppSettings.Settings["StaticGenerationDirectory"].Value;
             }
             catch
             {
@@ -171,6 +173,32 @@ namespace Core
             {
                 workingMode = value;
                 config.AppSettings.Settings["WorkingMode"].Value = workingMode.ToString(); ;
+            }
+        }
+
+        static public string StaticGenerationDirectory
+        {
+            get
+            {
+                return (staticGenerationDirectory == "") ? defaultDirectory + "\\Results" : staticGenerationDirectory;
+            }
+            set
+            {
+                if (value.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                {
+                    staticGenerationDirectory = value;
+                }
+                else
+                {
+                    staticGenerationDirectory = value + Path.DirectorySeparatorChar;
+                }
+
+                if (Directory.Exists(staticGenerationDirectory) == false)
+                {
+                    Directory.CreateDirectory(staticGenerationDirectory);
+                }
+
+                config.AppSettings.Settings["StaticGenerationDirectory"].Value = staticGenerationDirectory;
             }
         }
 
