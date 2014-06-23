@@ -11,11 +11,32 @@ using Core.Utility;
 
 namespace Core
 {
+    public class ProgressEventArgs : EventArgs
+    {
+        public string Status { get; private set; }
+
+        public ProgressEventArgs(string status)
+        {
+            Status = status;
+        }
+    }
+
     /// <summary>
     /// Abstract class presenting random network.
     /// </summary>
     public abstract class AbstractNetwork
     {
+        public delegate void StatusUpdateHandler(object sender, ProgressEventArgs e);
+        public event StatusUpdateHandler OnUpdateStatus;
+        private void UpdateStatus(string status)
+        {
+            // Make sure someone is listening to event
+            if (OnUpdateStatus == null) return;
+
+            ProgressEventArgs args = new ProgressEventArgs(status);
+            OnUpdateStatus(this, args);
+        }
+
         public Dictionary<ResearchParameter, object> ResearchParameterValues { get; private set; }
         public Dictionary<GenerationParameter, object> GenerationParameterValues { get; private set; }
         public AnalyzeOption AnalyzeOptions { get; private set; }
@@ -54,6 +75,8 @@ namespace Core
                 {
                     networkGenerator.RandomGeneration(GenerationParameterValues);
                 }
+
+                UpdateStatus("Generation is completed.");
             }
             catch (SystemException ex)
             {

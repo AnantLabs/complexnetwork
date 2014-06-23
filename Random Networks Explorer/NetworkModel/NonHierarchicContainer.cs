@@ -164,11 +164,12 @@ namespace NetworkModel
         {
             if (AreConnected(i, j))
             {
+                int iVertexDegree = GetVertexDegree(i);
+                int jVertexDegree = GetVertexDegree(j);
+
                 neighbourship[i].Remove(j);
                 neighbourship[j].Remove(i);
 
-                int iVertexDegree = GetVertexDegree(i);
-                int jVertexDegree = GetVertexDegree(j);
                 --degrees[iVertexDegree];
                 --degrees[jVertexDegree];
                 ++degrees[iVertexDegree - 1];
@@ -301,8 +302,12 @@ namespace NetworkModel
 
             while (existingEdges[e1].Key == existingEdges[e2].Key ||
                 existingEdges[e1].Value == existingEdges[e2].Value ||
-                existingEdges.Contains(new KeyValuePair<int, int>(existingEdges[e1].Key, existingEdges[e2].Key)) ||
-                existingEdges.Contains(new KeyValuePair<int, int>(existingEdges[e1].Value, existingEdges[e2].Value)))
+                existingEdges[e1].Key == existingEdges[e2].Value ||
+                existingEdges[e1].Value == existingEdges[e2].Key ||
+                AreConnected(existingEdges[e1].Key, existingEdges[e2].Key) ||
+                AreConnected(existingEdges[e1].Value, existingEdges[e2].Value) ||
+                AreConnected(existingEdges[e1].Key, existingEdges[e2].Value) ||
+                AreConnected(existingEdges[e1].Value, existingEdges[e2].Key))
             {
                 e1 = rand.Next(0, existingEdges.Count - 1);
                 e2 = rand.Next(0, existingEdges.Count - 1);
