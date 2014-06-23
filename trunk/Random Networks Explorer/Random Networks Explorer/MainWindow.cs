@@ -244,6 +244,7 @@ namespace RandomNetworksExplorer
                 openFileDlg.InitialDirectory = Settings.StaticGenerationDirectory;
                 if (openFileDlg.ShowDialog() == DialogResult.OK)
                 {
+                    // TODO TODO TODO
                     Settings.StaticGenerationDirectory = openFileDlg.InitialDirectory;
                     generationParametersTable[e.ColumnIndex, e.RowIndex].Value = openFileDlg.FileName;
                 }

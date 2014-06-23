@@ -132,6 +132,7 @@ namespace Manager
             {
                 for (int i = d.FirstIndex; i < d.SecondIndex; ++i)
                 {
+                    networks[i].OnUpdateStatus += new AbstractNetwork.StatusUpdateHandler(LocalEnsembleManager_OnUpdateStatus);
                     networks[i].Generate();
                     if(TracingPath != "")
                         networks[i].Trace(TracingPath + "_" + i.ToString());
@@ -152,6 +153,11 @@ namespace Manager
             {
                 waitHandles[d.ThreadIndex].Set();
             }
+        }
+
+        private void LocalEnsembleManager_OnUpdateStatus(object sender, ProgressEventArgs e)
+        {
+            Console.WriteLine(e.Status);
         }
     }
 }
