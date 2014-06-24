@@ -19,7 +19,8 @@ namespace Core
     /// </summary>
     public static class Settings
     {
-        static private String defaultDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
+        static private String defaultDirectory = 
+            Directory.GetParent(Directory.GetCurrentDirectory()).FullName + "\\RNE";
 
         static private Configuration config;
 

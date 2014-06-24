@@ -5,38 +5,18 @@ using System.Linq;
 using System.Text;
 
 using Core.Enumerations;
+using Core.Events;
 using Core.Model;
 using Core.Result;
 using Core.Utility;
 
 namespace Core
 {
-    public class ProgressEventArgs : EventArgs
-    {
-        public string Status { get; private set; }
-
-        public ProgressEventArgs(string status)
-        {
-            Status = status;
-        }
-    }
-
     /// <summary>
     /// Abstract class presenting random network.
     /// </summary>
     public abstract class AbstractNetwork
     {
-        public delegate void StatusUpdateHandler(object sender, ProgressEventArgs e);
-        public event StatusUpdateHandler OnUpdateStatus;
-        private void UpdateStatus(string status)
-        {
-            // Make sure someone is listening to event
-            if (OnUpdateStatus == null) return;
-
-            ProgressEventArgs args = new ProgressEventArgs(status);
-            OnUpdateStatus(this, args);
-        }
-
         public Dictionary<ResearchParameter, object> ResearchParameterValues { get; private set; }
         public Dictionary<GenerationParameter, object> GenerationParameterValues { get; private set; }
         public AnalyzeOption AnalyzeOptions { get; private set; }
@@ -46,6 +26,8 @@ namespace Core
 
         public bool SuccessfullyCompleted { get; private set; }
         public RealizationResult NetworkResult { get; protected set; }
+
+        private event NetworkStatusUpdateHandler OnUpdateStatus;
 
         public AbstractNetwork(Dictionary<ResearchParameter, object> rParams,
             Dictionary<GenerationParameter, object> genParams,
@@ -123,6 +105,15 @@ namespace Core
                 matrixInfo.Branches = (networkGenerator.Container as AbstractHierarchicContainer).GetBranches();
             
             FileManager.Write(matrixInfo, tracingPath);   
+        }
+
+        private void UpdateStatus(string status)
+        {
+            // Make sure someone is listening to event
+            if (OnUpdateStatus == null) return;
+
+            NetworkEventArgs args = new NetworkEventArgs(status);
+            OnUpdateStatus(this, args);
         }
     }
 }

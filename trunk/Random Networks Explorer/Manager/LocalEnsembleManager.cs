@@ -7,6 +7,7 @@ using System.Threading;
 using Core;
 using Core.Attributes;
 using Core.Enumerations;
+using Core.Events;
 using Core.Exceptions;
 using Core.Result;
 
@@ -132,7 +133,7 @@ namespace Manager
             {
                 for (int i = d.FirstIndex; i < d.SecondIndex; ++i)
                 {
-                    networks[i].OnUpdateStatus += new AbstractNetwork.StatusUpdateHandler(LocalEnsembleManager_OnUpdateStatus);
+                    //networks[i].OnUpdateStatus += new AbstractNetwork.StatusUpdateHandler(LocalEnsembleManager_OnUpdateStatus);
                     networks[i].Generate();
                     if(TracingPath != "")
                         networks[i].Trace(TracingPath + "_" + i.ToString());
@@ -155,9 +156,9 @@ namespace Manager
             }
         }
 
-        private void LocalEnsembleManager_OnUpdateStatus(object sender, ProgressEventArgs e)
-        {
-            Console.WriteLine(e.Status);
-        }
+        //private void LocalEnsembleManager_OnUpdateStatus(object sender, ProgressEventArgs e)
+        //{
+            //Console.WriteLine(e.Status);
+        //}
     }
 }
