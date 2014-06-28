@@ -86,6 +86,7 @@
             this.analyzeOptionNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.analyzeOptionCheckedColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.openFileDlg = new System.Windows.Forms.OpenFileDialog();
+            this.matrixConvertionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.researchesTable)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.realizationCountTxt)).BeginInit();
@@ -419,7 +420,8 @@
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.modelCheckingToolStripMenuItem,
-            this.dataConvertionsToolStripMenuItem});
+            this.dataConvertionsToolStripMenuItem,
+            this.matrixConvertionToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
@@ -427,14 +429,14 @@
             // modelCheckingToolStripMenuItem
             // 
             this.modelCheckingToolStripMenuItem.Name = "modelCheckingToolStripMenuItem";
-            this.modelCheckingToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.modelCheckingToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.modelCheckingToolStripMenuItem.Text = "&Model checking...";
             this.modelCheckingToolStripMenuItem.Click += new System.EventHandler(this.modelCheckingToolStripMenuItem_Click);
             // 
             // dataConvertionsToolStripMenuItem
             // 
             this.dataConvertionsToolStripMenuItem.Name = "dataConvertionsToolStripMenuItem";
-            this.dataConvertionsToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.dataConvertionsToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.dataConvertionsToolStripMenuItem.Text = "&Data Convertions...";
             this.dataConvertionsToolStripMenuItem.Click += new System.EventHandler(this.dataConvertionsToolStripMenuItem_Click);
             // 
@@ -636,6 +638,13 @@
             // 
             this.openFileDlg.Filter = "\"txt files (*.txt)|*.txt|All files (*.*)|*.*\"";
             // 
+            // matrixConvertionToolStripMenuItem
+            // 
+            this.matrixConvertionToolStripMenuItem.Name = "matrixConvertionToolStripMenuItem";
+            this.matrixConvertionToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.matrixConvertionToolStripMenuItem.Text = "Matrix Convertion...";
+            this.matrixConvertionToolStripMenuItem.Click += new System.EventHandler(this.matrixConvertionToolStripMenuItem_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -726,6 +735,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn statusColumn;
         private System.Windows.Forms.Button selectAll;
         private System.Windows.Forms.Button deselectAll;
+        private System.Windows.Forms.ToolStripMenuItem matrixConvertionToolStripMenuItem;
     }
 }
 

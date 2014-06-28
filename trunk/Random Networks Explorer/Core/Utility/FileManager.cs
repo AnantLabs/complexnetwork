@@ -46,7 +46,7 @@ namespace Core.Utility
                 BranchesWriter(matrixInfo.Branches, filePath);
         }
 
-        private static ArrayList MatrixReader(String filePath)
+        public static ArrayList MatrixReader(String filePath)
         {
             ArrayList matrix;
             try
@@ -71,7 +71,7 @@ namespace Core.Utility
         /// <param name="filePath"></param>
         /// <param name="matrix"></param>
         /// <returns></returns>
-        private static bool TryReadClassicalMatrix(String filePath, out ArrayList matrix)
+        public static bool TryReadClassicalMatrix(String filePath, out ArrayList matrix)
         {
             matrix = new ArrayList();
             using (StreamReader streamreader = new StreamReader(filePath, System.Text.Encoding.Default))
@@ -109,7 +109,7 @@ namespace Core.Utility
         /// <param name="filePath"></param>
         /// <param name="matrix"></param>
         /// <returns></returns>
-        private static bool TryReadExtendedMatrix(String filePath, out ArrayList matrix)
+        public static bool TryReadExtendedMatrix(String filePath, out ArrayList matrix)
         {
             matrix = new ArrayList();
 
@@ -157,7 +157,7 @@ namespace Core.Utility
             return true;
         }
 
-        private static void MatrixWriter(bool[,] matrix, String filePath)
+        public static void MatrixWriter(bool[,] matrix, String filePath)
         {
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath + ".txt"))
             {
@@ -179,7 +179,7 @@ namespace Core.Utility
             }
         }
 
-        private static ArrayList BranchesReader(String filePath)
+        public static ArrayList BranchesReader(String filePath)
         {
             if (File.Exists(filePath))
             {
@@ -214,7 +214,7 @@ namespace Core.Utility
             else return null;
         }
 
-        private static void BranchesWriter(UInt16[][] branches, String filePath)
+        public static void BranchesWriter(UInt16[][] branches, String filePath)
         {
             using (System.IO.StreamWriter writer = new System.IO.StreamWriter(filePath + "_branches.txt"))
             {
