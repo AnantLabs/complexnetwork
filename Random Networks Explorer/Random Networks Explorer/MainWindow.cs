@@ -83,6 +83,12 @@ namespace RandomNetworksExplorer
             dataConvertionsWnd.Show();
         }
 
+        private void matrixConvertionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MatrixConvertion matrixConvertionWnd = new MatrixConvertion();
+            matrixConvertionWnd.Show();
+        }
+
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             HelpWindow helpWindow = new HelpWindow(@"HELP/main.html");

@@ -85,6 +85,12 @@
     <Compile Include="MainWindow.designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="MatrixConvertion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MatrixConvertion.Designer.cs">
+      <DependentUpon>MatrixConvertion.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModelCheckWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,6 +119,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MatrixConvertion.resx">
+      <DependentUpon>MatrixConvertion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModelCheckWindow.resx">
       <DependentUpon>ModelCheckWindow.cs</DependentUpon>
