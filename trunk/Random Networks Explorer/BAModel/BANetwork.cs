@@ -41,22 +41,5 @@ namespace BAModel
             networkGenerator = new BANetworkGenerator();
             networkAnalyzer = new NonHierarchicAnalyzer(this);
         }
-
-        public static UInt32 CalculateSize(Dictionary<GenerationParameter, object> p)
-        {
-            if (p.ContainsKey(GenerationParameter.Vertices) &&
-                p.ContainsKey(GenerationParameter.StepCount) &&
-                p[GenerationParameter.Vertices] != null &&
-                p[GenerationParameter.StepCount] != null)
-            {
-                // TODO change without parse
-                return UInt32.Parse(p[GenerationParameter.Vertices].ToString()) +
-                    UInt32.Parse(p[GenerationParameter.StepCount].ToString());
-            }
-            else
-            {
-                throw new SystemException("Wrong generation parameters for current model.");
-            }
-        }
     }
 }

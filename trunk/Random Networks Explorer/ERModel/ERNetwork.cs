@@ -41,19 +41,5 @@ namespace ERModel
             networkGenerator = new ERNetworkGenerator();
             networkAnalyzer = new NonHierarchicAnalyzer(this);
         }
-
-        public static UInt32 CalculateSize(Dictionary<GenerationParameter, object> p)
-        {
-            if (p.ContainsKey(GenerationParameter.Vertices) &&
-                p[GenerationParameter.Vertices] != null)
-            {
-                // TODO change without parse
-                return UInt32.Parse(p[GenerationParameter.Vertices].ToString());
-            }
-            else
-            {
-                throw new SystemException("Wrong generation parameters for current model.");
-            }
-        }
     }
 }

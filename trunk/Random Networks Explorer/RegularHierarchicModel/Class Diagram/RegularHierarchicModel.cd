@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="RegularHierarchicModel.RegularHierarchicNetwork">
-    <Position X="0.5" Y="4.25" Width="2.75" />
+    <Position X="0.5" Y="5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>RegularHierarchicNetwork.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RegularHierarchicModel.RegularHierarchicNetworkAnalyzer">
-    <Position X="11.25" Y="6" Width="2.75" />
+    <Position X="11.25" Y="6.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>JAAAABQBA0AKAEQAgYgAmCAABgAAAIEQEAmEAAwAAAA=</HashCode>
+      <HashCode>JAAAABQBA0AKAEQAgYgAmCAARgAAAIEQEAkEAAwAAAA=</HashCode>
       <FileName>RegularHierarchicNetworkAnalyzer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RegularHierarchicModel.RegularHierarchicNetworkContainer">
     <Position X="7.5" Y="3" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAYAAEAAABAAgoABCIAACRSAEAEEBAABCAigCAAAAAA=</HashCode>
+      <HashCode>AAYAAEAAABAAgoABCIAACRSAEAEEBAEBCAigCAAAAAA=</HashCode>
       <FileName>RegularHierarchicNetworkContainer.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -33,12 +33,12 @@
     <Position X="0.5" Y="0.5" Width="2.75" />
     <TypeIdentifier />
   </Class>
-  <Class Name="NetworkModel.AbstractHierarchicContainer">
+  <Class Name="Core.Model.AbstractHierarchicContainer">
     <Position X="7.5" Y="0.5" Width="2.75" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="NetworkModel.AbstractNetworkAnalyzer">
+  <Class Name="Core.Model.AbstractNetworkAnalyzer">
     <Position X="11.25" Y="0.5" Width="2.75" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />

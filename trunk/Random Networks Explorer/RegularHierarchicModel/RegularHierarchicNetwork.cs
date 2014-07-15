@@ -38,22 +38,5 @@ namespace RegularHierarchicModel
             networkGenerator = new RegularHierarchicNetworkGenerator();
             networkAnalyzer = new RegularHierarchicNetworkAnalyzer(this);
         }
-
-        public static UInt32 CalculateSize(Dictionary<GenerationParameter, object> p)
-        {
-            if (p.ContainsKey(GenerationParameter.BranchingIndex) &&
-                p.ContainsKey(GenerationParameter.Level) &&
-                p[GenerationParameter.BranchingIndex] != null &&
-                p[GenerationParameter.Level] != null)
-            {
-                // TODO change without parse
-                return (UInt32)Math.Pow(UInt16.Parse(p[GenerationParameter.BranchingIndex].ToString()),
-                    UInt16.Parse(p[GenerationParameter.Level].ToString()));
-            }
-            else
-            {
-                throw new SystemException("Wrong generation parameters for current model.");
-            }
-        }
     }
 }

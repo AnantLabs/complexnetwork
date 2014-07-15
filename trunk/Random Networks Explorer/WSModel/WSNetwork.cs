@@ -41,18 +41,5 @@ namespace WSModel
             networkGenerator = new WSNetworkGenerator();
             networkAnalyzer = new NonHierarchicAnalyzer(this);
         }
-
-        public static UInt32 CalculateSize(Dictionary<GenerationParameter, object> p)
-        {
-            if (p.ContainsKey(GenerationParameter.Vertices) &&
-                p[GenerationParameter.Vertices] != null)
-            {
-                return Convert.ToUInt32(p[GenerationParameter.Vertices]);
-            }
-            else
-            {
-                throw new SystemException("Wrong generation parameters for current model.");
-            }
-        }
     }
 }
