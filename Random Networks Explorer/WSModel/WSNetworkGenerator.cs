@@ -31,10 +31,10 @@ namespace WSModel
 
         public void RandomGeneration(Dictionary<GenerationParameter, object> genParam)
         {
-            UInt16 numberOfVertices = (UInt16)genParam[GenerationParameter.Vertices];
-            UInt32 numberOfEdges = (UInt32)genParam[GenerationParameter.Edges];
-            Single probability = (Single)genParam[GenerationParameter.Probability];
-            UInt16 stepCount = (UInt16)genParam[GenerationParameter.StepCount];
+            UInt16 numberOfVertices = Convert.ToUInt16(genParam[GenerationParameter.Vertices]);
+            UInt32 numberOfEdges = Convert.ToUInt32(genParam[GenerationParameter.Edges]);
+            Single probability = Convert.ToSingle(genParam[GenerationParameter.Probability]);
+            UInt16 stepCount = Convert.ToUInt16(genParam[GenerationParameter.StepCount]);
 
             //container.SetParameters(numberOfVertices, numberOfEdges / 2);
             Randomize();

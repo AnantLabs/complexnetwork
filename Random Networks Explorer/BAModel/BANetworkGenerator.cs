@@ -33,15 +33,10 @@ namespace BAModel
 
         public void RandomGeneration(Dictionary<GenerationParameter, object> genParam)
         {
-            // TODO change without parse
-            /*UInt16 numberOfVertices = (UInt16)genParam[GenerationParameter.Vertices];
-            edges = (Int32)genParam[GenerationParameter.Edges];
-            Single probability = (Single)genParam[GenerationParameter.Probability];
-            UInt16 stepCount = (UInt16)genParam[GenerationParameter.StepCount];*/
-            UInt16 numberOfVertices = UInt16.Parse(genParam[GenerationParameter.Vertices].ToString());
-            UInt32 edges = UInt32.Parse(genParam[GenerationParameter.Edges].ToString());
-            Single probability = Single.Parse(genParam[GenerationParameter.Probability].ToString());
-            UInt16 stepCount = UInt16.Parse(genParam[GenerationParameter.StepCount].ToString());
+            UInt16 numberOfVertices = Convert.ToUInt16(genParam[GenerationParameter.Vertices]);
+            UInt32 edges = Convert.ToUInt32(genParam[GenerationParameter.Edges]);
+            Single probability = Convert.ToSingle(genParam[GenerationParameter.Probability]);
+            UInt16 stepCount = Convert.ToUInt16(genParam[GenerationParameter.StepCount]);
 
             container.Size = numberOfVertices;
             initialcontainer.Size = numberOfVertices;

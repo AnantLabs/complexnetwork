@@ -31,11 +31,8 @@ namespace ERModel
 
         public void RandomGeneration(Dictionary<GenerationParameter, object> genParam)
         {
-            // TODO change without parse
-            //UInt16 numberOfVertices = (UInt16)genParam[GenerationParameter.Vertices];
-            //Single probability = (Single)genParam[GenerationParameter.Probability];
-            UInt16 numberOfVertices = UInt16.Parse(genParam[GenerationParameter.Vertices].ToString());
-            Single probability = Single.Parse(genParam[GenerationParameter.Probability].ToString());
+            UInt16 numberOfVertices = Convert.ToUInt16(genParam[GenerationParameter.Vertices]);
+            Single probability = Convert.ToSingle(genParam[GenerationParameter.Probability]);
             
             container.Size = numberOfVertices;           
             FillValuesByProbability(probability);
@@ -46,7 +43,7 @@ namespace ERModel
             container.SetMatrix(matrixInfo.Matrix);
         }
 
-        private RNGCrypto r = new RNGCrypto();
+        private RNGCrypto rand = new RNGCrypto();
 
         private void FillValuesByProbability(double p)
         {            
@@ -54,7 +51,7 @@ namespace ERModel
             {
                 for (int j = i + 1; j < container.Size; ++j)
                 {
-                    double a = r.NextDouble();
+                    double a = rand.NextDouble();
                     if (a < p)
                     {
                         container.AddConnection(i, j);

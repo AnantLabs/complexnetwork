@@ -33,10 +33,9 @@ namespace NonRegularHierarchicModel
 
         public void RandomGeneration(Dictionary<GenerationParameter, object> genParam)
         {
-            // TODO change without parse
-            UInt32 vertices = UInt32.Parse(genParam[GenerationParameter.Vertices].ToString());
-            UInt16 branchingIndex = UInt16.Parse(genParam[GenerationParameter.BranchingIndex].ToString());
-            Single mu = Single.Parse(genParam[GenerationParameter.Mu].ToString());
+            UInt32 vertices = Convert.ToUInt32(genParam[GenerationParameter.Vertices]);
+            UInt16 branchingIndex = Convert.ToUInt16(genParam[GenerationParameter.BranchingIndex]);
+            Single mu = Convert.ToSingle(genParam[GenerationParameter.Mu]);
 
             container.Vertices = vertices;
             container.BranchIndex = branchingIndex;            
