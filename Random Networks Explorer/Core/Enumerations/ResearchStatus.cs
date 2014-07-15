@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Core.Enumerations
 {
-    public enum Status
+    public enum ResearchStatus
     {
         NotStarted,
         Running,

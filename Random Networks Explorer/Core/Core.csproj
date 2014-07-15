@@ -65,9 +65,10 @@
     <Compile Include="Enumerations\ManagerType.cs" />
     <Compile Include="Enumerations\ModelType.cs" />
     <Compile Include="Enumerations\Operation.cs" />
+    <Compile Include="Enumerations\RealizationStatus.cs" />
+    <Compile Include="Enumerations\ResearchStatus.cs" />
     <Compile Include="Enumerations\ResearchType.cs" />
     <Compile Include="Enumerations\ResearchParameter.cs" />
-    <Compile Include="Enumerations\Status.cs" />
     <Compile Include="Enumerations\StorageType.cs" />
     <Compile Include="Events\NetworkEventArgs.cs" />
     <Compile Include="Exceptions\CoreException.cs" />

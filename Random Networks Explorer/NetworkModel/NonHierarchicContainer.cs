@@ -260,14 +260,6 @@ namespace NetworkModel
             clone.nonExistingEdges = new List<KeyValuePair<int, int>>(nonExistingEdges);
 
             return clone;
-
-            /*clone.Motifs4Order = new SortedDictionary<int, List<int>>(this.Motifs4Order);
-            foreach (var item in this.Motifs4Order)
-            {
-                other.Motifs4Order[item.Key] = new List<int>(item.Value);
-            }
-
-            clone.MotifsEdjes = new List<KeyValuePair<int, int>>(this.MotifsEdjes);*/
         }
 
         public int NonPermanentRandomization()
@@ -347,7 +339,6 @@ namespace NetworkModel
             return sum;
         }
 
-        // TODO fix it
         private int Cycles3ByVertices(int i, int j)
         {
             List<int> n = neighbourship[j];

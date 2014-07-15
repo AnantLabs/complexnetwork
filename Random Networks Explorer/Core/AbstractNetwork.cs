@@ -27,7 +27,7 @@ namespace Core
         public bool SuccessfullyCompleted { get; private set; }
         public RealizationResult NetworkResult { get; protected set; }
 
-        private event NetworkStatusUpdateHandler OnUpdateStatus;
+        public event NetworkStatusUpdateHandler OnUpdateStatus;
 
         public AbstractNetwork(Dictionary<ResearchParameter, object> rParams,
             Dictionary<GenerationParameter, object> genParams,
@@ -47,6 +47,8 @@ namespace Core
         {
             try
             {
+                UpdateStatus(RealizationStatus.Generating, "Generating.");
+
                 if (GenerationParameterValues.ContainsKey(GenerationParameter.AdjacencyMatrixFile) &&
                     (GenerationParameterValues[GenerationParameter.AdjacencyMatrixFile] != null))
                 {
@@ -58,11 +60,13 @@ namespace Core
                     networkGenerator.RandomGeneration(GenerationParameterValues);
                 }
 
-                UpdateStatus("Generation is completed.");
+                UpdateStatus(RealizationStatus.GenerationCompleted, "Generation Completed.");
             }
             catch (SystemException ex)
             {
                 Console.WriteLine(ex.Message);
+
+                UpdateStatus(RealizationStatus.Failed, "Generation Failed.");
             }
         }
 
@@ -75,22 +79,31 @@ namespace Core
             
             try
             {
+                UpdateStatus(RealizationStatus.Analyzing, "Analyzing.");
+
                 NetworkResult.NetworkSize = networkAnalyzer.Container.Size;
 
                 Array existingOptions = Enum.GetValues(typeof(AnalyzeOption));
                 foreach (AnalyzeOption opt in existingOptions)
                 {
-                    if ((AnalyzeOptions & opt) == opt)
+                    if (opt != AnalyzeOption.None && (AnalyzeOptions & opt) == opt)
                     {
+                        UpdateStatus(RealizationStatus.Analyzing, 
+                            "Calculating " + opt.ToString() + ".");
+
                         NetworkResult.Result.Add(opt, networkAnalyzer.CalculateOption(opt));
                     }
                 }
 
                 SuccessfullyCompleted = true;
+
+                UpdateStatus(RealizationStatus.AnalyzingCompleted, "Analyzing Completed.");
             }
             catch (SystemException ex)
             {
                 Console.WriteLine(ex.Message);
+
+                UpdateStatus(RealizationStatus.Failed, "Analyzing Failed.");
             }
         }
 
@@ -99,21 +112,34 @@ namespace Core
         /// </summary>
         public void Trace(string tracingPath)
         {
-            MatrixInfoToWrite matrixInfo = new MatrixInfoToWrite();
-            matrixInfo.Matrix = networkGenerator.Container.GetMatrix();
-            if (networkGenerator.Container is AbstractHierarchicContainer)
-                matrixInfo.Branches = (networkGenerator.Container as AbstractHierarchicContainer).GetBranches();
-            
-            FileManager.Write(matrixInfo, tracingPath);   
+            try
+            {
+                UpdateStatus(RealizationStatus.Tracing, "Tracing.");
+
+                MatrixInfoToWrite matrixInfo = new MatrixInfoToWrite();
+                matrixInfo.Matrix = networkGenerator.Container.GetMatrix();
+                if (networkGenerator.Container is AbstractHierarchicContainer)
+                    matrixInfo.Branches = (networkGenerator.Container as AbstractHierarchicContainer).GetBranches();
+
+                FileManager.Write(matrixInfo, tracingPath);
+
+                UpdateStatus(RealizationStatus.TracingCompleted, "Tracing Completed.");
+            }
+            catch (SystemException ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                UpdateStatus(RealizationStatus.Failed, "Tracing Failed.");
+            }
         }
 
-        private void UpdateStatus(string status)
+        private void UpdateStatus(RealizationStatus status, string extendedInfo)
         {
             // Make sure someone is listening to event
-            if (OnUpdateStatus == null) return;
+            if (OnUpdateStatus == null) 
+                return;
 
-            NetworkEventArgs args = new NetworkEventArgs(status);
-            OnUpdateStatus(this, args);
+            OnUpdateStatus(this, new NetworkEventArgs(status, extendedInfo));
         }
     }
 }

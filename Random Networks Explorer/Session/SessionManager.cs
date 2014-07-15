@@ -125,7 +125,7 @@ namespace Session
         {
             try
             {
-                if (existingResearches[id].Status == Status.NotStarted)
+                if (existingResearches[id].Status == ResearchStatus.NotStarted)
                     existingResearches[id].StartResearch();
                 else
                     throw new CoreException("Unable to start the specified research.");
@@ -144,7 +144,7 @@ namespace Session
         {
             try
             {
-                if (existingResearches[id].Status == Status.Running)
+                if (existingResearches[id].Status == ResearchStatus.Running)
                     existingResearches[id].StopResearch();
                 else
                     throw new CoreException("Unable to stop the specified research");
@@ -162,7 +162,7 @@ namespace Session
         {
             foreach (Guid id in existingResearches.Keys)
             {
-                if (existingResearches[id].Status == Status.Running)
+                if (existingResearches[id].Status == ResearchStatus.Running)
                     existingResearches[id].StopResearch();
             }
         }
@@ -179,7 +179,7 @@ namespace Session
             {
                 foreach (Guid id in existingResearches.Keys)
                 {
-                    if (existingResearches[id].Status == Status.Running)
+                    if (existingResearches[id].Status == ResearchStatus.Running)
                         return true;
                 }
 
@@ -453,7 +453,7 @@ namespace Session
         /// </summary>
         /// <param name="id">ID of research.</param>
         /// <returns>Status.</returns>
-        public static Status GetResearchStatus(Guid id)
+        public static ResearchStatus GetResearchStatus(Guid id)
         {
             return existingResearches[id].Status;
         }
@@ -487,7 +487,7 @@ namespace Session
         {
             try
             {
-                if (existingResearches[id].Status == Status.NotStarted)
+                if (existingResearches[id].Status == ResearchStatus.NotStarted)
                     existingResearches[id].ResearchParameterValues[p] = value;
                 else
                     throw new CoreException("Unable to modify research after start.");
@@ -527,7 +527,7 @@ namespace Session
         {
             try
             {
-                if (existingResearches[id].Status == Status.NotStarted)
+                if (existingResearches[id].Status == ResearchStatus.NotStarted)
                     existingResearches[id].GenerationParameterValues[p] = value;
                 else
                     throw new CoreException("Unable to modify research after start.");
@@ -592,7 +592,7 @@ namespace Session
         {
             try
             {
-                if (existingResearches[id].Status == Status.NotStarted)
+                if (existingResearches[id].Status == ResearchStatus.NotStarted)
                 {
                     AnalyzeOption opt = GetAvailableAnalyzeOptions(id);
                     if ((opt | o) != opt)
