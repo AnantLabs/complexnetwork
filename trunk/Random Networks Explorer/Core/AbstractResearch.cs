@@ -27,7 +27,7 @@ namespace Core
         public AbstractResearch()
         {
             ResearchID = Guid.NewGuid();
-            Status = Status.NotStarted;
+            Status = ResearchStatus.NotStarted;
             GenerationType = GenerationType.Random;
 
             ResearchParameterValues = new Dictionary<ResearchParameter, object>();
@@ -66,7 +66,7 @@ namespace Core
 
         public string TracingPath { get; set; }
 
-        public Status Status { get; private set; }
+        public ResearchStatus Status { get; private set; }
 
         public int RealizationCount
         {
@@ -135,7 +135,7 @@ namespace Core
             result.ResearchType = GetResearchType();
             result.ModelType = modelType;
             result.RealizationCount = realizationCount;
-            result.Size = result.EnsembleResults[0].NetworkSize; //CalculateSize();
+            result.Size = result.EnsembleResults[0].NetworkSize;
 
             result.ResearchParameterValues = ResearchParameterValues;
             result.GenerationParameterValues = GenerationParameterValues;

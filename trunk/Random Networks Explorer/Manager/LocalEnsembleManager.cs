@@ -97,6 +97,8 @@ namespace Manager
                     GenerationParameterValues, 
                     AnalyzeOptions };
                 networks[i] = (AbstractNetwork)t.GetConstructor(constructTypes).Invoke(invokeParams);
+
+                networks[i].OnUpdateStatus += new NetworkStatusUpdateHandler(LocalEnsembleManager_OnUpdateNetworkStatus);
             }
 
             int threadCount = Math.Min(networks.Length, Environment.ProcessorCount);
@@ -133,7 +135,6 @@ namespace Manager
             {
                 for (int i = d.FirstIndex; i < d.SecondIndex; ++i)
                 {
-                    //networks[i].OnUpdateStatus += new AbstractNetwork.StatusUpdateHandler(LocalEnsembleManager_OnUpdateStatus);
                     networks[i].Generate();
                     if(TracingPath != "")
                         networks[i].Trace(TracingPath + "_" + i.ToString());
@@ -156,9 +157,10 @@ namespace Manager
             }
         }
 
-        //private void LocalEnsembleManager_OnUpdateStatus(object sender, ProgressEventArgs e)
-        //{
-            //Console.WriteLine(e.Status);
-        //}
+        private void LocalEnsembleManager_OnUpdateNetworkStatus(object sender, NetworkEventArgs e)
+        {
+            Console.WriteLine(e.Status);
+            Console.WriteLine(e.ExtendedInfo);
+        }
     }
 }

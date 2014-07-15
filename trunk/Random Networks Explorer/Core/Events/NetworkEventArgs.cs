@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Core.Enumerations;
+
 namespace Core.Events
 {
     public class NetworkEventArgs : EventArgs
     {
-        public string Status { get; private set; }
+        public RealizationStatus Status { get; private set; }
+        public string ExtendedInfo { get; private set; }
 
-        public NetworkEventArgs(string status)
+        public NetworkEventArgs(RealizationStatus status, string extendedInfo)
         {
             Status = status;
+            ExtendedInfo = extendedInfo;
         }
     }
 
