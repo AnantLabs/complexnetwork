@@ -9,11 +9,19 @@ namespace Core.Events
 {
     public class NetworkEventArgs : EventArgs
     {
-        public RealizationStatus Status { get; private set; }
-        public string ExtendedInfo { get; private set; }
+        public int ID { get; set; }
+        public NetworkStatus Status { get; set; }
+        public string ExtendedInfo { get; set; }
 
-        public NetworkEventArgs(RealizationStatus status, string extendedInfo)
+        public NetworkEventArgs()
         {
+            Status = NetworkStatus.NotStarted;
+            ExtendedInfo = "Not Started";
+        }
+
+        public NetworkEventArgs(int id, NetworkStatus status, string extendedInfo)
+        {
+            ID = id;
             Status = status;
             ExtendedInfo = extendedInfo;
         }

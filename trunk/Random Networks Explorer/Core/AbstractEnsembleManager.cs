@@ -5,6 +5,7 @@ using System.Text;
 
 using Core.Enumerations;
 using Core.Result;
+using Core.Events;
 
 namespace Core
 {
@@ -13,6 +14,8 @@ namespace Core
     /// </summary>
     public abstract class AbstractEnsembleManager
     {
+        protected AbstractNetwork[] networks;
+        protected NetworkEventArgs[] networksStatuses;
         protected int realizationsDone;
 
         public ModelType ModelType { protected get; set; }
@@ -35,6 +38,8 @@ namespace Core
 
         public EnsembleResult Result { get; protected set; }
 
+        public event EnsembleStatusUpdateHandler OnUpdateStatus;
+
         /// <summary>
         /// Runs generation, analyze and save for each realization in single ensemble.
         /// Blocks current thread until whole work completes.
@@ -45,5 +50,18 @@ namespace Core
         /// Terminates running operations.
         /// </summary>
         public abstract void Cancel();
+
+        protected void LocalEnsembleManager_OnUpdateNetworkStatus(object sender, NetworkEventArgs e)
+        {
+            networksStatuses[e.ID].Status = e.Status;
+            networksStatuses[e.ID].ExtendedInfo = e.ExtendedInfo;
+
+            // Make sure someone is listening to event
+            if (OnUpdateStatus == null)
+                return;
+
+            // Invoke event for AbstractResearch
+            OnUpdateStatus(this, new EnsembleEventArgs(e));
+        }
     }
 }

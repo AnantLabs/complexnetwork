@@ -24,6 +24,7 @@ namespace Core
         protected INetworkGenerator networkGenerator;
         protected INetworkAnalyzer networkAnalyzer;
 
+        public int NetworkID { get; set; }
         public bool SuccessfullyCompleted { get; private set; }
         public RealizationResult NetworkResult { get; protected set; }
 
@@ -47,7 +48,7 @@ namespace Core
         {
             try
             {
-                UpdateStatus(RealizationStatus.Generating, "Generating.");
+                UpdateStatus(NetworkStatus.Generating, "Generating.");
 
                 if (GenerationParameterValues.ContainsKey(GenerationParameter.AdjacencyMatrixFile) &&
                     (GenerationParameterValues[GenerationParameter.AdjacencyMatrixFile] != null))
@@ -60,13 +61,13 @@ namespace Core
                     networkGenerator.RandomGeneration(GenerationParameterValues);
                 }
 
-                UpdateStatus(RealizationStatus.GenerationCompleted, "Generation Completed.");
+                UpdateStatus(NetworkStatus.GenerationCompleted, "Generation Completed.");
             }
             catch (SystemException ex)
             {
                 Console.WriteLine(ex.Message);
 
-                UpdateStatus(RealizationStatus.Failed, "Generation Failed.");
+                UpdateStatus(NetworkStatus.Failed, "Generation Failed.");
             }
         }
 
@@ -79,7 +80,7 @@ namespace Core
             
             try
             {
-                UpdateStatus(RealizationStatus.Analyzing, "Analyzing.");
+                UpdateStatus(NetworkStatus.Analyzing, "Analyzing.");
 
                 NetworkResult.NetworkSize = networkAnalyzer.Container.Size;
 
@@ -88,7 +89,7 @@ namespace Core
                 {
                     if (opt != AnalyzeOption.None && (AnalyzeOptions & opt) == opt)
                     {
-                        UpdateStatus(RealizationStatus.Analyzing, 
+                        UpdateStatus(NetworkStatus.Analyzing, 
                             "Calculating " + opt.ToString() + ".");
 
                         NetworkResult.Result.Add(opt, networkAnalyzer.CalculateOption(opt));
@@ -97,13 +98,13 @@ namespace Core
 
                 SuccessfullyCompleted = true;
 
-                UpdateStatus(RealizationStatus.AnalyzingCompleted, "Analyzing Completed.");
+                UpdateStatus(NetworkStatus.AnalyzingCompleted, "Analyzing Completed.");
             }
             catch (SystemException ex)
             {
                 Console.WriteLine(ex.Message);
 
-                UpdateStatus(RealizationStatus.Failed, "Analyzing Failed.");
+                UpdateStatus(NetworkStatus.Failed, "Analyzing Failed.");
             }
         }
 
@@ -114,7 +115,7 @@ namespace Core
         {
             try
             {
-                UpdateStatus(RealizationStatus.Tracing, "Tracing.");
+                UpdateStatus(NetworkStatus.Tracing, "Tracing.");
 
                 MatrixInfoToWrite matrixInfo = new MatrixInfoToWrite();
                 matrixInfo.Matrix = networkGenerator.Container.GetMatrix();
@@ -123,23 +124,24 @@ namespace Core
 
                 FileManager.Write(matrixInfo, tracingPath);
 
-                UpdateStatus(RealizationStatus.TracingCompleted, "Tracing Completed.");
+                UpdateStatus(NetworkStatus.TracingCompleted, "Tracing Completed.");
             }
             catch (SystemException ex)
             {
                 Console.WriteLine(ex.Message);
 
-                UpdateStatus(RealizationStatus.Failed, "Tracing Failed.");
+                UpdateStatus(NetworkStatus.Failed, "Tracing Failed.");
             }
         }
 
-        private void UpdateStatus(RealizationStatus status, string extendedInfo)
+        private void UpdateStatus(NetworkStatus status, string extendedInfo)
         {
             // Make sure someone is listening to event
             if (OnUpdateStatus == null) 
                 return;
 
-            OnUpdateStatus(this, new NetworkEventArgs(status, extendedInfo));
+            // Invoke event for *EnsembleManager
+            OnUpdateStatus(this, new NetworkEventArgs(NetworkID, status, extendedInfo));
         }
     }
 }

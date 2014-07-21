@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 using Session;
 using Core;
@@ -87,6 +88,11 @@ namespace RandomNetworksExplorer
         {
             MatrixConvertion matrixConvertionWnd = new MatrixConvertion();
             matrixConvertionWnd.Show();
+        }
+
+        private void statisticAnalyzerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start("Random Networks Statistic Analyzer.exe");
         }
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
@@ -179,6 +185,11 @@ namespace RandomNetworksExplorer
             if (researchesTable.SelectedRows.Count > 0)
             {
                 int selectedRowIndex = researchesTable.SelectedRows[0].Index;
+
+                //SessionManager.AddResearchUpdateHandler(researchIDs[selectedRowIndex],
+                //    CurrentResearch_OnResearchUpdateStatus);
+                //SessionManager.AddResearchEnsembleUpdateHandler(researchIDs[selectedRowIndex],
+                //    CurrentResearch_OnResearchEnsembleUpdateStatus);
 
                 FillResearchInformation(researchIDs[selectedRowIndex], selectedRowIndex);
             }
