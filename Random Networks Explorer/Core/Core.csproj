@@ -64,13 +64,15 @@
     <Compile Include="Enumerations\GenerationType.cs" />
     <Compile Include="Enumerations\ManagerType.cs" />
     <Compile Include="Enumerations\ModelType.cs" />
+    <Compile Include="Enumerations\NetworkStatus.cs" />
     <Compile Include="Enumerations\Operation.cs" />
-    <Compile Include="Enumerations\RealizationStatus.cs" />
     <Compile Include="Enumerations\ResearchStatus.cs" />
     <Compile Include="Enumerations\ResearchType.cs" />
     <Compile Include="Enumerations\ResearchParameter.cs" />
     <Compile Include="Enumerations\StorageType.cs" />
+    <Compile Include="Events\EnsembleEventArgs.cs" />
     <Compile Include="Events\NetworkEventArgs.cs" />
+    <Compile Include="Events\ResearchEventArgs.cs" />
     <Compile Include="Exceptions\CoreException.cs" />
     <Compile Include="Model\AbstractHierarchicContainer.cs" />
     <Compile Include="Model\AbstractNetworkAnalyzer.cs" />

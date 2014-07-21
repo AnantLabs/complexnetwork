@@ -7,6 +7,7 @@ using Core.Enumerations;
 using Core.Attributes;
 using Core.Exceptions;
 using Core.Result;
+using Core.Events;
 
 namespace Core
 {
@@ -22,7 +23,10 @@ namespace Core
         protected AbstractEnsembleManager currentManager;
         protected delegate void ManagerRunner();
 
-        protected ResearchResult result = new ResearchResult();       
+        protected ResearchResult result = new ResearchResult();
+
+        public event ResearchStatusUpdateHandler OnUpdateResearchStatus;
+        public event ResearchEnsembleStatusUpdateHandler OnUpdateResearchEnsembleStatus;
 
         public AbstractResearch()
         {
@@ -117,6 +121,8 @@ namespace Core
             currentManager.RealizationCount = realizationCount;
             currentManager.AnalyzeOptions = AnalyzeOption;
             FillParameters(currentManager);
+
+            currentManager.OnUpdateStatus += new EnsembleStatusUpdateHandler(CurrentManager_OnUpdateStatus);
         }
 
         /// <summary>
@@ -179,13 +185,55 @@ namespace Core
                 GenerationParameterValues.Add(gp[i].Parameter, null);
         }
 
-        /*private UInt32 CalculateSize()
+        private void CurrentManager_OnUpdateStatus(object sender, EnsembleEventArgs e)
         {
-            ModelTypeInfo info = ((ModelTypeInfo[])modelType.GetType().GetField(modelType.ToString()).GetCustomAttributes(typeof(ModelTypeInfo), false))[0];
-            Type t = Type.GetType(info.Implementation, true);
+            InvokeUpdateResearchStatus(e);
+            InvokeUpdateResearchEnsembleStatus(e);
+        }
 
-            object[] invokeParams = new object[] { GenerationParameterValues };
-            return (UInt32)t.GetMethod("CalculateSize").Invoke(null, invokeParams);
-        }*/
+        private void InvokeUpdateResearchStatus(EnsembleEventArgs e)
+        {
+            string info;
+            switch (e.UpdatedStatus)
+            {
+                case NetworkStatus.AnalyzingCompleted:
+                    if(e.UpdatedNetworkID == realizationCount - 1)
+                    {
+                        Status = ResearchStatus.Succed;
+                        info = "Research completed succesfully.";
+                    }
+                    else
+                    {
+                        Status = ResearchStatus.Running;
+                        info = "Research is running.";
+                    }
+                    break;
+                case NetworkStatus.Failed:
+                    Status = ResearchStatus.Failed;
+                    info = "Research is failed.";
+                    break;
+                default:
+                    Status = ResearchStatus.Running;
+                    info = "Research is running.";
+                    break;
+            }
+
+            // Make sure someone is listening to event
+            if (OnUpdateResearchStatus == null)
+                return;
+
+            // Invoke event for GUI
+            OnUpdateResearchStatus(this, new ResearchEventArgs(ResearchID, Status, info));
+        }
+
+        void InvokeUpdateResearchEnsembleStatus(EnsembleEventArgs e)
+        {
+            // Make sure someone is listening to event
+            if (OnUpdateResearchEnsembleStatus == null)
+                return;
+
+            // Invoke event for GUI
+            OnUpdateResearchEnsembleStatus(this, new ResearchEnsembleEventArgs(ResearchID, e));
+        }
     }
 }

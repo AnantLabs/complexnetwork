@@ -7,6 +7,7 @@ using Core;
 using Core.Enumerations;
 using Core.Attributes;
 using Core.Exceptions;
+using Core.Events;
 
 namespace Session
 {
@@ -456,6 +457,56 @@ namespace Session
         public static ResearchStatus GetResearchStatus(Guid id)
         {
             return existingResearches[id].Status;
+        }
+
+        public static void AddResearchUpdateHandler(Guid id, ResearchStatusUpdateHandler method)
+        {
+            try
+            {
+                existingResearches[id].OnUpdateResearchStatus += method;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        public static void AddResearchEnsembleUpdateHandler(Guid id,
+            ResearchEnsembleStatusUpdateHandler method)
+        {
+            try
+            {
+                existingResearches[id].OnUpdateResearchEnsembleStatus += method;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        public static void RemoveResearchUpdateHandler(Guid id, ResearchStatusUpdateHandler method)
+        {
+            try
+            {
+                existingResearches[id].OnUpdateResearchStatus -= method;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        public static void RemoveResearchEnsembleUpdateHandler(Guid id,
+            ResearchEnsembleStatusUpdateHandler method)
+        {
+            try
+            {
+                existingResearches[id].OnUpdateResearchEnsembleStatus -= method;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
         }
 
         /// <summary>

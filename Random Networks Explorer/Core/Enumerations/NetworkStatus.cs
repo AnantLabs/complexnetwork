@@ -5,8 +5,9 @@ using System.Text;
 
 namespace Core.Enumerations
 {
-    public enum RealizationStatus
+    public enum NetworkStatus
     {
+        NotStarted,
         Generating,
         GenerationCompleted,
         Tracing,

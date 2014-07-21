@@ -18,7 +18,6 @@ namespace Manager
     /// </summary>
     public class LocalEnsembleManager : AbstractEnsembleManager
     {
-        private AbstractNetwork[] networks;
         private Thread[] threads;
         private AutoResetEvent[] waitHandles;
         private ThreadEntryData[] threadData;
@@ -84,21 +83,26 @@ namespace Manager
         private void PrepareData()
         {
             networks = new AbstractNetwork[RealizationCount];
+            networksStatuses = new NetworkEventArgs[RealizationCount];
             for (int i = 0; i < RealizationCount; i++)
             {
                 ModelTypeInfo[] info = (ModelTypeInfo[])ModelType.GetType().GetField(ModelType.ToString()).GetCustomAttributes(typeof(ModelTypeInfo), false);
                 Type t = Type.GetType(info[0].Implementation);
-                Type[] constructTypes = new Type[] { 
+                Type[] constructTypes = new Type[] {
                     typeof(Dictionary<ResearchParameter, object>),
                     typeof(Dictionary<GenerationParameter, object>), 
                     typeof(AnalyzeOption) };
-                object[] invokeParams = new object[] { 
+                object[] invokeParams = new object[] {
                     ResearchParamaterValues,
                     GenerationParameterValues, 
                     AnalyzeOptions };
                 networks[i] = (AbstractNetwork)t.GetConstructor(constructTypes).Invoke(invokeParams);
 
+                networks[i].NetworkID = i;
                 networks[i].OnUpdateStatus += new NetworkStatusUpdateHandler(LocalEnsembleManager_OnUpdateNetworkStatus);
+
+                networksStatuses[i] = new NetworkEventArgs();
+                networksStatuses[i].ID = i;
             }
 
             int threadCount = Math.Min(networks.Length, Environment.ProcessorCount);
@@ -155,12 +159,6 @@ namespace Manager
             {
                 waitHandles[d.ThreadIndex].Set();
             }
-        }
-
-        private void LocalEnsembleManager_OnUpdateNetworkStatus(object sender, NetworkEventArgs e)
-        {
-            Console.WriteLine(e.Status);
-            Console.WriteLine(e.ExtendedInfo);
         }
     }
 }

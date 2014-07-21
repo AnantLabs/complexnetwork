@@ -67,6 +67,7 @@
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modelCheckingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataConvertionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.matrixConvertionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.statisticAnalyzerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,7 +87,6 @@
             this.analyzeOptionNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.analyzeOptionCheckedColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.openFileDlg = new System.Windows.Forms.OpenFileDialog();
-            this.matrixConvertionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.researchesTable)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.realizationCountTxt)).BeginInit();
@@ -440,6 +440,13 @@
             this.dataConvertionsToolStripMenuItem.Text = "&Data Convertions...";
             this.dataConvertionsToolStripMenuItem.Click += new System.EventHandler(this.dataConvertionsToolStripMenuItem_Click);
             // 
+            // matrixConvertionToolStripMenuItem
+            // 
+            this.matrixConvertionToolStripMenuItem.Name = "matrixConvertionToolStripMenuItem";
+            this.matrixConvertionToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.matrixConvertionToolStripMenuItem.Text = "Matrix Convertion...";
+            this.matrixConvertionToolStripMenuItem.Click += new System.EventHandler(this.matrixConvertionToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
@@ -465,6 +472,7 @@
             this.statisticAnalyzerToolStripMenuItem.Name = "statisticAnalyzerToolStripMenuItem";
             this.statisticAnalyzerToolStripMenuItem.Size = new System.Drawing.Size(108, 20);
             this.statisticAnalyzerToolStripMenuItem.Text = "&Statistic Analyzer";
+            this.statisticAnalyzerToolStripMenuItem.Click += new System.EventHandler(this.statisticAnalyzerToolStripMenuItem_Click);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -638,13 +646,6 @@
             // 
             this.openFileDlg.Filter = "\"txt files (*.txt)|*.txt|All files (*.*)|*.*\"";
             // 
-            // matrixConvertionToolStripMenuItem
-            // 
-            this.matrixConvertionToolStripMenuItem.Name = "matrixConvertionToolStripMenuItem";
-            this.matrixConvertionToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-            this.matrixConvertionToolStripMenuItem.Text = "Matrix Convertion...";
-            this.matrixConvertionToolStripMenuItem.Click += new System.EventHandler(this.matrixConvertionToolStripMenuItem_Click);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -656,7 +657,7 @@
             this.MinimumSize = new System.Drawing.Size(900, 600);
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Main";
+            this.Text = "Random Networks Explorer";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.researchesTable)).EndInit();
             this.panel1.ResumeLayout(false);
