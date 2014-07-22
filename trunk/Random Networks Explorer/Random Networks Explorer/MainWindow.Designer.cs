@@ -108,6 +108,7 @@
             // 
             this.researchesTable.AllowUserToAddRows = false;
             this.researchesTable.AllowUserToDeleteRows = false;
+            this.researchesTable.AllowUserToResizeColumns = false;
             this.researchesTable.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
