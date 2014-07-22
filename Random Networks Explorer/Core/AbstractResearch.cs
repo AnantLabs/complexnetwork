@@ -106,6 +106,11 @@ namespace Core
         /// <returns>Research type.</returns>
         public abstract ResearchType GetResearchType();
 
+        public NetworkEventArgs[] GetEnsembleStatus()
+        {
+            return currentManager.NetworkStatuses;
+        }
+
         /// <summary>
         /// Creates ensemble manager of corresponding type and 
         /// initializes from current research.

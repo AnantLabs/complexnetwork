@@ -456,7 +456,14 @@ namespace Session
         /// <returns>Status.</returns>
         public static ResearchStatus GetResearchStatus(Guid id)
         {
-            return existingResearches[id].Status;
+            try
+            {
+                return existingResearches[id].Status;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
         }
 
         public static void AddResearchUpdateHandler(Guid id, ResearchStatusUpdateHandler method)
@@ -471,12 +478,11 @@ namespace Session
             }
         }
 
-        public static void AddResearchEnsembleUpdateHandler(Guid id,
-            ResearchEnsembleStatusUpdateHandler method)
+        public static void RemoveResearchUpdateHandler(Guid id, ResearchStatusUpdateHandler method)
         {
             try
             {
-                existingResearches[id].OnUpdateResearchEnsembleStatus += method;
+                existingResearches[id].OnUpdateResearchStatus -= method;
             }
             catch (KeyNotFoundException)
             {
@@ -484,11 +490,29 @@ namespace Session
             }
         }
 
-        public static void RemoveResearchUpdateHandler(Guid id, ResearchStatusUpdateHandler method)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static NetworkEventArgs[] GetResearchEnsembleStatus(Guid id)
         {
             try
             {
-                existingResearches[id].OnUpdateResearchStatus -= method;
+                return existingResearches[id].GetEnsembleStatus();
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        public static void AddResearchEnsembleUpdateHandler(Guid id,
+            ResearchEnsembleStatusUpdateHandler method)
+        {
+            try
+            {
+                existingResearches[id].OnUpdateResearchEnsembleStatus += method;
             }
             catch (KeyNotFoundException)
             {

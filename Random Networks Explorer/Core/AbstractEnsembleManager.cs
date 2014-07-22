@@ -38,6 +38,14 @@ namespace Core
 
         public EnsembleResult Result { get; protected set; }
 
+        public NetworkEventArgs[] NetworkStatuses
+        {
+            get
+            {
+                return networksStatuses;
+            }
+        }
+
         public event EnsembleStatusUpdateHandler OnUpdateStatus;
 
         /// <summary>
