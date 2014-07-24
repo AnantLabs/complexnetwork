@@ -13,6 +13,7 @@ using Core;
 using Core.Exceptions;
 using Core.Enumerations;
 using Core.Events;
+using Core.Settings;
 
 namespace RandomNetworksExplorer
 {
@@ -138,8 +139,8 @@ namespace RandomNetworksExplorer
                     DataGridViewCheckBoxCell;
                 if ((bool)(cell.Value) == true)
                 {
-                    SessionManager.SetResearchTracingPath(researchIDs[e.RowIndex], 
-                        Settings.TracingDirectory);
+                    SessionManager.SetResearchTracingPath(researchIDs[e.RowIndex],
+                        ExplorerSettings.TracingDirectory);
                 }
                 else
                     SessionManager.SetResearchTracingPath(researchIDs[e.RowIndex], "");
@@ -266,11 +267,11 @@ namespace RandomNetworksExplorer
             if (generationParametersTable[e.ColumnIndex, e.RowIndex].OwningColumn.Name == "generationParameterValueColumn"
                 && generationParametersTable[e.ColumnIndex, e.RowIndex] is DataGridViewButtonCell)
             {
-                openFileDlg.InitialDirectory = Settings.StaticGenerationDirectory;
+                openFileDlg.InitialDirectory = ExplorerSettings.StaticGenerationDirectory;
                 if (openFileDlg.ShowDialog() == DialogResult.OK)
                 {
                     // TODO TODO TODO
-                    Settings.StaticGenerationDirectory = openFileDlg.InitialDirectory;
+                    ExplorerSettings.StaticGenerationDirectory = openFileDlg.InitialDirectory;
                     generationParametersTable[e.ColumnIndex, e.RowIndex].Value = openFileDlg.FileName;
                 }
 
@@ -483,7 +484,7 @@ namespace RandomNetworksExplorer
                 case StorageType.XMLStorage:
                 case StorageType.TXTStorage:
                 case StorageType.ExcelStorage:
-                    return Settings.StorageDirectory;
+                    return ExplorerSettings.StorageDirectory;
                 case StorageType.SQLStorage:
                     return null; //Settings.ConnectionString;
                 default:

@@ -28,12 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadFromToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,45 +44,59 @@
             this.researchRealizationCountColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.researchSizeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.researchDateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.researchTableCSM = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteResearchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectDeselectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modelTypeCmb = new System.Windows.Forms.ComboBox();
             this.modelType = new System.Windows.Forms.Label();
             this.researchTypeCmb = new System.Windows.Forms.ComboBox();
             this.researchType = new System.Windows.Forms.Label();
             this.statisticAnalyzeGrp = new System.Windows.Forms.GroupBox();
-            this.analyzeTabs = new System.Windows.Forms.TabControl();
-            this.GlobalAnalyzeTab = new System.Windows.Forms.TabPage();
-            this.deselectGlobal = new System.Windows.Forms.Button();
-            this.selectGlobal = new System.Windows.Forms.Button();
-            this.valueButton = new System.Windows.Forms.Button();
-            this.globalPropertiesList = new System.Windows.Forms.CheckedListBox();
-            this.GetGlobalResult = new System.Windows.Forms.Button();
-            this.GlobalDrawGraphics = new System.Windows.Forms.Button();
-            this.LocalAnalyzeTab = new System.Windows.Forms.TabPage();
-            this.deselectLocal = new System.Windows.Forms.Button();
-            this.selectLocal = new System.Windows.Forms.Button();
-            this.localValueButton = new System.Windows.Forms.Button();
-            this.localAnalyzeOptionsGrd = new System.Windows.Forms.DataGridView();
-            this.PropertyNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DeltaColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ThickeningColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ApproximationType = new System.Windows.Forms.Label();
-            this.ApproximationTypeCmb = new System.Windows.Forms.ComboBox();
-            this.localPropertiesList = new System.Windows.Forms.CheckedListBox();
-            this.LocalDrawGraphics = new System.Windows.Forms.Button();
+            this.optionsTabs = new System.Windows.Forms.TabControl();
+            this.distributedOptionsTab = new System.Windows.Forms.TabPage();
+            this.trajectoryOptionsTab = new System.Windows.Forms.TabPage();
             this.detailsGrp = new System.Windows.Forms.GroupBox();
             this.parametersTable = new System.Windows.Forms.DataGridView();
             this.parameterNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.parameterValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.valueButton = new System.Windows.Forms.Button();
+            this.GlobalDrawGraphics = new System.Windows.Forms.Button();
+            this.selectAll = new System.Windows.Forms.Button();
+            this.deselectAll = new System.Windows.Forms.Button();
+            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.approximationColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.thickeningColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.deltaColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.distributedOptionsTable = new System.Windows.Forms.DataGridView();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewCheckBoxColumn2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.globalOptionsTab = new System.Windows.Forms.TabPage();
+            this.checkedColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.optionNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.globalOptionsTable = new System.Windows.Forms.DataGridView();
+            this.drawOptionsGrp = new System.Windows.Forms.GroupBox();
+            this.colorDlg = new System.Windows.Forms.ColorDialog();
+            this.color = new System.Windows.Forms.Button();
+            this.pointsCheck = new System.Windows.Forms.CheckBox();
+            this.groupCheck = new System.Windows.Forms.CheckBox();
+            this.lineColor = new System.Windows.Forms.Label();
             this.mainMenu.SuspendLayout();
             this.researchesGrp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.researchesTable)).BeginInit();
+            this.researchTableCSM.SuspendLayout();
             this.statisticAnalyzeGrp.SuspendLayout();
-            this.analyzeTabs.SuspendLayout();
-            this.GlobalAnalyzeTab.SuspendLayout();
-            this.LocalAnalyzeTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.localAnalyzeOptionsGrd)).BeginInit();
+            this.optionsTabs.SuspendLayout();
+            this.distributedOptionsTab.SuspendLayout();
+            this.trajectoryOptionsTab.SuspendLayout();
             this.detailsGrp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.parametersTable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.distributedOptionsTable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.globalOptionsTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.globalOptionsTable)).BeginInit();
+            this.drawOptionsGrp.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMenu
@@ -110,15 +123,20 @@
             this.loadFromToolStripMenuItem.Name = "loadFromToolStripMenuItem";
             this.loadFromToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.loadFromToolStripMenuItem.Text = "Load from...";
+            this.loadFromToolStripMenuItem.Click += new System.EventHandler(this.loadFromToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "&Help";
+            this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
             // researchesGrp
             // 
+            this.researchesGrp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.researchesGrp.Controls.Add(this.refresh);
             this.researchesGrp.Controls.Add(this.researchesTable);
             this.researchesGrp.Controls.Add(this.modelTypeCmb);
@@ -127,19 +145,21 @@
             this.researchesGrp.Controls.Add(this.researchType);
             this.researchesGrp.Location = new System.Drawing.Point(12, 27);
             this.researchesGrp.Name = "researchesGrp";
-            this.researchesGrp.Size = new System.Drawing.Size(617, 409);
+            this.researchesGrp.Size = new System.Drawing.Size(617, 369);
             this.researchesGrp.TabIndex = 1;
             this.researchesGrp.TabStop = false;
             this.researchesGrp.Text = "Loaded Researches";
             // 
             // refresh
             // 
-            this.refresh.Location = new System.Drawing.Point(490, 23);
+            this.refresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.refresh.Location = new System.Drawing.Point(532, 23);
             this.refresh.Name = "refresh";
-            this.refresh.Size = new System.Drawing.Size(121, 21);
+            this.refresh.Size = new System.Drawing.Size(79, 23);
             this.refresh.TabIndex = 10;
             this.refresh.Text = "Refresh";
             this.refresh.UseVisualStyleBackColor = true;
+            this.refresh.Click += new System.EventHandler(this.refresh_Click);
             // 
             // researchesTable
             // 
@@ -147,7 +167,8 @@
             this.researchesTable.AllowUserToDeleteRows = false;
             this.researchesTable.AllowUserToResizeColumns = false;
             this.researchesTable.AllowUserToResizeRows = false;
-            this.researchesTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+            this.researchesTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.researchesTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.researchesTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -155,18 +176,20 @@
             this.researchRealizationCountColumn,
             this.researchSizeColumn,
             this.researchDateColumn});
+            this.researchesTable.ContextMenuStrip = this.researchTableCSM;
             this.researchesTable.Location = new System.Drawing.Point(9, 50);
             this.researchesTable.Name = "researchesTable";
             this.researchesTable.ReadOnly = true;
             this.researchesTable.RowHeadersVisible = false;
             this.researchesTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.researchesTable.Size = new System.Drawing.Size(602, 352);
+            this.researchesTable.Size = new System.Drawing.Size(602, 312);
             this.researchesTable.TabIndex = 9;
+            this.researchesTable.SelectionChanged += new System.EventHandler(this.researchesTable_SelectionChanged);
             // 
             // researchNameColumn
             // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.researchNameColumn.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.researchNameColumn.DefaultCellStyle = dataGridViewCellStyle21;
             this.researchNameColumn.HeaderText = "Name";
             this.researchNameColumn.Name = "researchNameColumn";
             this.researchNameColumn.ReadOnly = true;
@@ -174,8 +197,8 @@
             // 
             // researchRealizationCountColumn
             // 
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.researchRealizationCountColumn.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.researchRealizationCountColumn.DefaultCellStyle = dataGridViewCellStyle22;
             this.researchRealizationCountColumn.HeaderText = "Realization Count";
             this.researchRealizationCountColumn.Name = "researchRealizationCountColumn";
             this.researchRealizationCountColumn.ReadOnly = true;
@@ -183,8 +206,8 @@
             // 
             // researchSizeColumn
             // 
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.researchSizeColumn.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.researchSizeColumn.DefaultCellStyle = dataGridViewCellStyle23;
             this.researchSizeColumn.HeaderText = "Network Size";
             this.researchSizeColumn.Name = "researchSizeColumn";
             this.researchSizeColumn.ReadOnly = true;
@@ -193,11 +216,33 @@
             // researchDateColumn
             // 
             this.researchDateColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.researchDateColumn.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.researchDateColumn.DefaultCellStyle = dataGridViewCellStyle24;
             this.researchDateColumn.HeaderText = "Date";
             this.researchDateColumn.Name = "researchDateColumn";
             this.researchDateColumn.ReadOnly = true;
+            // 
+            // researchTableCSM
+            // 
+            this.researchTableCSM.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteResearchToolStripMenuItem,
+            this.selectDeselectAllToolStripMenuItem});
+            this.researchTableCSM.Name = "researchTableCSM";
+            this.researchTableCSM.Size = new System.Drawing.Size(158, 48);
+            // 
+            // deleteResearchToolStripMenuItem
+            // 
+            this.deleteResearchToolStripMenuItem.Name = "deleteResearchToolStripMenuItem";
+            this.deleteResearchToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.deleteResearchToolStripMenuItem.Text = "Delete Research";
+            this.deleteResearchToolStripMenuItem.Click += new System.EventHandler(this.deleteResearchToolStripMenuItem_Click);
+            // 
+            // selectDeselectAllToolStripMenuItem
+            // 
+            this.selectDeselectAllToolStripMenuItem.Name = "selectDeselectAllToolStripMenuItem";
+            this.selectDeselectAllToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.selectDeselectAllToolStripMenuItem.Text = "Select All";
+            this.selectDeselectAllToolStripMenuItem.Click += new System.EventHandler(this.selectDeselectAllToolStripMenuItem_Click);
             // 
             // modelTypeCmb
             // 
@@ -206,6 +251,7 @@
             this.modelTypeCmb.Name = "modelTypeCmb";
             this.modelTypeCmb.Size = new System.Drawing.Size(121, 21);
             this.modelTypeCmb.TabIndex = 8;
+            this.modelTypeCmb.SelectedIndexChanged += new System.EventHandler(this.modelTypeCmb_SelectedIndexChanged);
             // 
             // modelType
             // 
@@ -223,6 +269,7 @@
             this.researchTypeCmb.Name = "researchTypeCmb";
             this.researchTypeCmb.Size = new System.Drawing.Size(121, 21);
             this.researchTypeCmb.TabIndex = 6;
+            this.researchTypeCmb.SelectedIndexChanged += new System.EventHandler(this.researchTypeCmb_SelectedIndexChanged);
             // 
             // researchType
             // 
@@ -235,240 +282,62 @@
             // 
             // statisticAnalyzeGrp
             // 
-            this.statisticAnalyzeGrp.Controls.Add(this.analyzeTabs);
-            this.statisticAnalyzeGrp.Location = new System.Drawing.Point(12, 442);
+            this.statisticAnalyzeGrp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.statisticAnalyzeGrp.Controls.Add(this.drawOptionsGrp);
+            this.statisticAnalyzeGrp.Controls.Add(this.selectAll);
+            this.statisticAnalyzeGrp.Controls.Add(this.deselectAll);
+            this.statisticAnalyzeGrp.Controls.Add(this.valueButton);
+            this.statisticAnalyzeGrp.Controls.Add(this.GlobalDrawGraphics);
+            this.statisticAnalyzeGrp.Controls.Add(this.optionsTabs);
+            this.statisticAnalyzeGrp.Location = new System.Drawing.Point(12, 402);
             this.statisticAnalyzeGrp.Name = "statisticAnalyzeGrp";
-            this.statisticAnalyzeGrp.Size = new System.Drawing.Size(1001, 314);
+            this.statisticAnalyzeGrp.Size = new System.Drawing.Size(1001, 308);
             this.statisticAnalyzeGrp.TabIndex = 2;
             this.statisticAnalyzeGrp.TabStop = false;
             this.statisticAnalyzeGrp.Text = "Statistic Analyze Options";
             // 
-            // analyzeTabs
+            // optionsTabs
             // 
-            this.analyzeTabs.Controls.Add(this.GlobalAnalyzeTab);
-            this.analyzeTabs.Controls.Add(this.LocalAnalyzeTab);
-            this.analyzeTabs.Location = new System.Drawing.Point(9, 19);
-            this.analyzeTabs.Name = "analyzeTabs";
-            this.analyzeTabs.SelectedIndex = 0;
-            this.analyzeTabs.Size = new System.Drawing.Size(748, 295);
-            this.analyzeTabs.TabIndex = 11;
+            this.optionsTabs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.optionsTabs.Controls.Add(this.globalOptionsTab);
+            this.optionsTabs.Controls.Add(this.distributedOptionsTab);
+            this.optionsTabs.Controls.Add(this.trajectoryOptionsTab);
+            this.optionsTabs.Location = new System.Drawing.Point(9, 19);
+            this.optionsTabs.Name = "optionsTabs";
+            this.optionsTabs.SelectedIndex = 0;
+            this.optionsTabs.Size = new System.Drawing.Size(810, 253);
+            this.optionsTabs.TabIndex = 11;
             // 
-            // GlobalAnalyzeTab
+            // distributedOptionsTab
             // 
-            this.GlobalAnalyzeTab.Controls.Add(this.deselectGlobal);
-            this.GlobalAnalyzeTab.Controls.Add(this.selectGlobal);
-            this.GlobalAnalyzeTab.Controls.Add(this.valueButton);
-            this.GlobalAnalyzeTab.Controls.Add(this.globalPropertiesList);
-            this.GlobalAnalyzeTab.Controls.Add(this.GetGlobalResult);
-            this.GlobalAnalyzeTab.Controls.Add(this.GlobalDrawGraphics);
-            this.GlobalAnalyzeTab.Location = new System.Drawing.Point(4, 22);
-            this.GlobalAnalyzeTab.Name = "GlobalAnalyzeTab";
-            this.GlobalAnalyzeTab.Padding = new System.Windows.Forms.Padding(3);
-            this.GlobalAnalyzeTab.Size = new System.Drawing.Size(740, 269);
-            this.GlobalAnalyzeTab.TabIndex = 0;
-            this.GlobalAnalyzeTab.Text = "Global Analyze";
-            this.GlobalAnalyzeTab.UseVisualStyleBackColor = true;
+            this.distributedOptionsTab.Controls.Add(this.distributedOptionsTable);
+            this.distributedOptionsTab.Location = new System.Drawing.Point(4, 22);
+            this.distributedOptionsTab.Name = "distributedOptionsTab";
+            this.distributedOptionsTab.Size = new System.Drawing.Size(600, 227);
+            this.distributedOptionsTab.TabIndex = 2;
+            this.distributedOptionsTab.Text = "Distributed Options";
+            this.distributedOptionsTab.UseVisualStyleBackColor = true;
             // 
-            // deselectGlobal
+            // trajectoryOptionsTab
             // 
-            this.deselectGlobal.Location = new System.Drawing.Point(109, 235);
-            this.deselectGlobal.Name = "deselectGlobal";
-            this.deselectGlobal.Size = new System.Drawing.Size(75, 23);
-            this.deselectGlobal.TabIndex = 45;
-            this.deselectGlobal.Text = "Deselect All";
-            this.deselectGlobal.UseVisualStyleBackColor = true;
-            // 
-            // selectGlobal
-            // 
-            this.selectGlobal.Location = new System.Drawing.Point(13, 235);
-            this.selectGlobal.Name = "selectGlobal";
-            this.selectGlobal.Size = new System.Drawing.Size(75, 23);
-            this.selectGlobal.TabIndex = 44;
-            this.selectGlobal.Text = "Select All";
-            this.selectGlobal.UseVisualStyleBackColor = true;
-            // 
-            // valueButton
-            // 
-            this.valueButton.Location = new System.Drawing.Point(614, 144);
-            this.valueButton.Name = "valueButton";
-            this.valueButton.Size = new System.Drawing.Size(120, 37);
-            this.valueButton.TabIndex = 16;
-            this.valueButton.Text = "Show Values";
-            this.valueButton.UseVisualStyleBackColor = true;
-            // 
-            // globalPropertiesList
-            // 
-            this.globalPropertiesList.CheckOnClick = true;
-            this.globalPropertiesList.FormattingEnabled = true;
-            this.globalPropertiesList.Items.AddRange(new object[] {
-            "Average Path Length",
-            "Diameter",
-            "Clustering Coefficient",
-            "Degree Distribution",
-            "Cycles of Order 3",
-            "Cycles of Order 4",
-            "Cycles of Order 5",
-            "Order of Maximal Subgraph",
-            "Largest Connected Component",
-            "Minimal Eigen Value",
-            "Maximal Eigen Value"});
-            this.globalPropertiesList.Location = new System.Drawing.Point(13, 25);
-            this.globalPropertiesList.Name = "globalPropertiesList";
-            this.globalPropertiesList.Size = new System.Drawing.Size(577, 199);
-            this.globalPropertiesList.TabIndex = 15;
-            // 
-            // GetGlobalResult
-            // 
-            this.GetGlobalResult.Location = new System.Drawing.Point(614, 101);
-            this.GetGlobalResult.Name = "GetGlobalResult";
-            this.GetGlobalResult.Size = new System.Drawing.Size(120, 37);
-            this.GetGlobalResult.TabIndex = 12;
-            this.GetGlobalResult.Text = "Get Global Result";
-            this.GetGlobalResult.UseVisualStyleBackColor = true;
-            // 
-            // GlobalDrawGraphics
-            // 
-            this.GlobalDrawGraphics.Location = new System.Drawing.Point(614, 187);
-            this.GlobalDrawGraphics.Name = "GlobalDrawGraphics";
-            this.GlobalDrawGraphics.Size = new System.Drawing.Size(120, 37);
-            this.GlobalDrawGraphics.TabIndex = 6;
-            this.GlobalDrawGraphics.Text = "Draw Graphics";
-            this.GlobalDrawGraphics.UseVisualStyleBackColor = true;
-            // 
-            // LocalAnalyzeTab
-            // 
-            this.LocalAnalyzeTab.Controls.Add(this.deselectLocal);
-            this.LocalAnalyzeTab.Controls.Add(this.selectLocal);
-            this.LocalAnalyzeTab.Controls.Add(this.localValueButton);
-            this.LocalAnalyzeTab.Controls.Add(this.localAnalyzeOptionsGrd);
-            this.LocalAnalyzeTab.Controls.Add(this.ApproximationType);
-            this.LocalAnalyzeTab.Controls.Add(this.ApproximationTypeCmb);
-            this.LocalAnalyzeTab.Controls.Add(this.localPropertiesList);
-            this.LocalAnalyzeTab.Controls.Add(this.LocalDrawGraphics);
-            this.LocalAnalyzeTab.Location = new System.Drawing.Point(4, 22);
-            this.LocalAnalyzeTab.Name = "LocalAnalyzeTab";
-            this.LocalAnalyzeTab.Size = new System.Drawing.Size(740, 269);
-            this.LocalAnalyzeTab.TabIndex = 2;
-            this.LocalAnalyzeTab.Text = "Local Analyze";
-            this.LocalAnalyzeTab.UseVisualStyleBackColor = true;
-            // 
-            // deselectLocal
-            // 
-            this.deselectLocal.Location = new System.Drawing.Point(109, 235);
-            this.deselectLocal.Name = "deselectLocal";
-            this.deselectLocal.Size = new System.Drawing.Size(75, 23);
-            this.deselectLocal.TabIndex = 43;
-            this.deselectLocal.Text = "Deselect All";
-            this.deselectLocal.UseVisualStyleBackColor = true;
-            // 
-            // selectLocal
-            // 
-            this.selectLocal.Location = new System.Drawing.Point(13, 235);
-            this.selectLocal.Name = "selectLocal";
-            this.selectLocal.Size = new System.Drawing.Size(75, 23);
-            this.selectLocal.TabIndex = 42;
-            this.selectLocal.Text = "Select All";
-            this.selectLocal.UseVisualStyleBackColor = true;
-            // 
-            // localValueButton
-            // 
-            this.localValueButton.Location = new System.Drawing.Point(613, 144);
-            this.localValueButton.Name = "localValueButton";
-            this.localValueButton.Size = new System.Drawing.Size(120, 37);
-            this.localValueButton.TabIndex = 39;
-            this.localValueButton.Text = "Show Values";
-            this.localValueButton.UseVisualStyleBackColor = true;
-            // 
-            // localAnalyzeOptionsGrd
-            // 
-            this.localAnalyzeOptionsGrd.AllowUserToAddRows = false;
-            this.localAnalyzeOptionsGrd.AllowUserToDeleteRows = false;
-            this.localAnalyzeOptionsGrd.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.localAnalyzeOptionsGrd.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.PropertyNameColumn,
-            this.DeltaColumn,
-            this.ThickeningColumn});
-            this.localAnalyzeOptionsGrd.Location = new System.Drawing.Point(207, 26);
-            this.localAnalyzeOptionsGrd.Name = "localAnalyzeOptionsGrd";
-            this.localAnalyzeOptionsGrd.Size = new System.Drawing.Size(383, 198);
-            this.localAnalyzeOptionsGrd.TabIndex = 16;
-            // 
-            // PropertyNameColumn
-            // 
-            this.PropertyNameColumn.HeaderText = "Property Name";
-            this.PropertyNameColumn.Name = "PropertyNameColumn";
-            this.PropertyNameColumn.ReadOnly = true;
-            this.PropertyNameColumn.Width = 140;
-            // 
-            // DeltaColumn
-            // 
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.NullValue = "0";
-            this.DeltaColumn.DefaultCellStyle = dataGridViewCellStyle11;
-            this.DeltaColumn.HeaderText = "Delta";
-            this.DeltaColumn.Name = "DeltaColumn";
-            this.DeltaColumn.Width = 80;
-            // 
-            // ThickeningColumn
-            // 
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle12.NullValue = "0";
-            this.ThickeningColumn.DefaultCellStyle = dataGridViewCellStyle12;
-            this.ThickeningColumn.HeaderText = "Thickening (in %)";
-            this.ThickeningColumn.Name = "ThickeningColumn";
-            this.ThickeningColumn.Width = 120;
-            // 
-            // ApproximationType
-            // 
-            this.ApproximationType.AutoSize = true;
-            this.ApproximationType.Location = new System.Drawing.Point(611, 86);
-            this.ApproximationType.Name = "ApproximationType";
-            this.ApproximationType.Size = new System.Drawing.Size(100, 13);
-            this.ApproximationType.TabIndex = 38;
-            this.ApproximationType.Text = "Approximation Type";
-            // 
-            // ApproximationTypeCmb
-            // 
-            this.ApproximationTypeCmb.FormattingEnabled = true;
-            this.ApproximationTypeCmb.Location = new System.Drawing.Point(613, 102);
-            this.ApproximationTypeCmb.Name = "ApproximationTypeCmb";
-            this.ApproximationTypeCmb.Size = new System.Drawing.Size(121, 21);
-            this.ApproximationTypeCmb.TabIndex = 37;
-            // 
-            // localPropertiesList
-            // 
-            this.localPropertiesList.CheckOnClick = true;
-            this.localPropertiesList.FormattingEnabled = true;
-            this.localPropertiesList.Items.AddRange(new object[] {
-            "Clustering Coefficient",
-            "Degree Distribution",
-            "Connected Subgraphs by Order",
-            "Distance between Vertices",
-            "Eigen Values",
-            "Distance between Eigen Values",
-            "Cycles",
-            "Triangle Count by Vertex",
-            "Triangle Trajectory"});
-            this.localPropertiesList.Location = new System.Drawing.Point(13, 25);
-            this.localPropertiesList.Name = "localPropertiesList";
-            this.localPropertiesList.Size = new System.Drawing.Size(183, 199);
-            this.localPropertiesList.TabIndex = 36;
-            // 
-            // LocalDrawGraphics
-            // 
-            this.LocalDrawGraphics.Location = new System.Drawing.Point(614, 187);
-            this.LocalDrawGraphics.Name = "LocalDrawGraphics";
-            this.LocalDrawGraphics.Size = new System.Drawing.Size(120, 37);
-            this.LocalDrawGraphics.TabIndex = 15;
-            this.LocalDrawGraphics.Text = "Draw Graphics";
-            this.LocalDrawGraphics.UseVisualStyleBackColor = true;
+            this.trajectoryOptionsTab.Controls.Add(this.dataGridView1);
+            this.trajectoryOptionsTab.Location = new System.Drawing.Point(4, 22);
+            this.trajectoryOptionsTab.Name = "trajectoryOptionsTab";
+            this.trajectoryOptionsTab.Size = new System.Drawing.Size(600, 227);
+            this.trajectoryOptionsTab.TabIndex = 3;
+            this.trajectoryOptionsTab.Text = "Trajectory Options";
+            this.trajectoryOptionsTab.UseVisualStyleBackColor = true;
             // 
             // detailsGrp
             // 
+            this.detailsGrp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.detailsGrp.Controls.Add(this.parametersTable);
             this.detailsGrp.Location = new System.Drawing.Point(635, 27);
             this.detailsGrp.Name = "detailsGrp";
-            this.detailsGrp.Size = new System.Drawing.Size(378, 409);
+            this.detailsGrp.Size = new System.Drawing.Size(378, 369);
             this.detailsGrp.TabIndex = 3;
             this.detailsGrp.TabStop = false;
             this.detailsGrp.Text = "Details";
@@ -479,19 +348,17 @@
             this.parametersTable.AllowUserToDeleteRows = false;
             this.parametersTable.AllowUserToResizeColumns = false;
             this.parametersTable.AllowUserToResizeRows = false;
-            this.parametersTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
             this.parametersTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.parametersTable.ColumnHeadersVisible = false;
             this.parametersTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.parameterNameColumn,
             this.parameterValueColumn});
-            this.parametersTable.Location = new System.Drawing.Point(6, 23);
+            this.parametersTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.parametersTable.Location = new System.Drawing.Point(3, 16);
             this.parametersTable.Name = "parametersTable";
             this.parametersTable.ReadOnly = true;
             this.parametersTable.RowHeadersVisible = false;
-            this.parametersTable.Size = new System.Drawing.Size(366, 379);
+            this.parametersTable.Size = new System.Drawing.Size(372, 350);
             this.parametersTable.TabIndex = 0;
             // 
             // parameterNameColumn
@@ -508,31 +375,257 @@
             this.parameterValueColumn.Name = "parameterValueColumn";
             this.parameterValueColumn.ReadOnly = true;
             // 
+            // valueButton
+            // 
+            this.valueButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.valueButton.Location = new System.Drawing.Point(825, 180);
+            this.valueButton.Name = "valueButton";
+            this.valueButton.Size = new System.Drawing.Size(170, 37);
+            this.valueButton.TabIndex = 50;
+            this.valueButton.Text = "Show Values";
+            this.valueButton.UseVisualStyleBackColor = true;
+            // 
+            // GlobalDrawGraphics
+            // 
+            this.GlobalDrawGraphics.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.GlobalDrawGraphics.Location = new System.Drawing.Point(825, 231);
+            this.GlobalDrawGraphics.Name = "GlobalDrawGraphics";
+            this.GlobalDrawGraphics.Size = new System.Drawing.Size(170, 37);
+            this.GlobalDrawGraphics.TabIndex = 48;
+            this.GlobalDrawGraphics.Text = "Draw Graphics";
+            this.GlobalDrawGraphics.UseVisualStyleBackColor = true;
+            // 
+            // selectAll
+            // 
+            this.selectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.selectAll.Location = new System.Drawing.Point(13, 278);
+            this.selectAll.Name = "selectAll";
+            this.selectAll.Size = new System.Drawing.Size(79, 23);
+            this.selectAll.TabIndex = 52;
+            this.selectAll.Text = "Select All";
+            this.selectAll.UseVisualStyleBackColor = true;
+            // 
+            // deselectAll
+            // 
+            this.deselectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.deselectAll.Location = new System.Drawing.Point(98, 278);
+            this.deselectAll.Name = "deselectAll";
+            this.deselectAll.Size = new System.Drawing.Size(79, 23);
+            this.deselectAll.TabIndex = 51;
+            this.deselectAll.Text = "Deselect All";
+            this.deselectAll.UseVisualStyleBackColor = true;
+            // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            this.dataGridViewCheckBoxColumn1.HeaderText = "";
+            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            // 
+            // approximationColumn
+            // 
+            this.approximationColumn.HeaderText = "Approximation";
+            this.approximationColumn.Name = "approximationColumn";
+            this.approximationColumn.Width = 130;
+            // 
+            // thickeningColumn
+            // 
+            this.thickeningColumn.HeaderText = "Thickening (in %)";
+            this.thickeningColumn.Name = "thickeningColumn";
+            this.thickeningColumn.Width = 130;
+            // 
+            // deltaColumn
+            // 
+            this.deltaColumn.HeaderText = "Delta";
+            this.deltaColumn.Name = "deltaColumn";
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn1.HeaderText = "Name";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // distributedOptionsTable
+            // 
+            this.distributedOptionsTable.AllowUserToAddRows = false;
+            this.distributedOptionsTable.AllowUserToDeleteRows = false;
+            this.distributedOptionsTable.AllowUserToResizeColumns = false;
+            this.distributedOptionsTable.AllowUserToResizeRows = false;
+            this.distributedOptionsTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.distributedOptionsTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.deltaColumn,
+            this.thickeningColumn,
+            this.approximationColumn,
+            this.dataGridViewCheckBoxColumn1});
+            this.distributedOptionsTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.distributedOptionsTable.Location = new System.Drawing.Point(0, 0);
+            this.distributedOptionsTable.Name = "distributedOptionsTable";
+            this.distributedOptionsTable.RowHeadersVisible = false;
+            this.distributedOptionsTable.Size = new System.Drawing.Size(600, 227);
+            this.distributedOptionsTable.TabIndex = 1;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeColumns = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewCheckBoxColumn2});
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.Size = new System.Drawing.Size(600, 227);
+            this.dataGridView1.TabIndex = 1;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn2.HeaderText = "Name";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewCheckBoxColumn2
+            // 
+            this.dataGridViewCheckBoxColumn2.HeaderText = "";
+            this.dataGridViewCheckBoxColumn2.Name = "dataGridViewCheckBoxColumn2";
+            // 
+            // globalOptionsTab
+            // 
+            this.globalOptionsTab.Controls.Add(this.globalOptionsTable);
+            this.globalOptionsTab.Location = new System.Drawing.Point(4, 22);
+            this.globalOptionsTab.Name = "globalOptionsTab";
+            this.globalOptionsTab.Padding = new System.Windows.Forms.Padding(3);
+            this.globalOptionsTab.Size = new System.Drawing.Size(802, 227);
+            this.globalOptionsTab.TabIndex = 0;
+            this.globalOptionsTab.Text = "Global Options";
+            this.globalOptionsTab.UseVisualStyleBackColor = true;
+            // 
+            // checkedColumn
+            // 
+            this.checkedColumn.HeaderText = "";
+            this.checkedColumn.Name = "checkedColumn";
+            // 
+            // optionNameColumn
+            // 
+            this.optionNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.optionNameColumn.HeaderText = "Name";
+            this.optionNameColumn.Name = "optionNameColumn";
+            this.optionNameColumn.ReadOnly = true;
+            // 
+            // globalOptionsTable
+            // 
+            this.globalOptionsTable.AllowUserToAddRows = false;
+            this.globalOptionsTable.AllowUserToDeleteRows = false;
+            this.globalOptionsTable.AllowUserToResizeColumns = false;
+            this.globalOptionsTable.AllowUserToResizeRows = false;
+            this.globalOptionsTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.globalOptionsTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.optionNameColumn,
+            this.checkedColumn});
+            this.globalOptionsTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.globalOptionsTable.Location = new System.Drawing.Point(3, 3);
+            this.globalOptionsTable.Name = "globalOptionsTable";
+            this.globalOptionsTable.RowHeadersVisible = false;
+            this.globalOptionsTable.Size = new System.Drawing.Size(796, 221);
+            this.globalOptionsTable.TabIndex = 0;
+            // 
+            // drawOptionsGrp
+            // 
+            this.drawOptionsGrp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.drawOptionsGrp.Controls.Add(this.lineColor);
+            this.drawOptionsGrp.Controls.Add(this.groupCheck);
+            this.drawOptionsGrp.Controls.Add(this.pointsCheck);
+            this.drawOptionsGrp.Controls.Add(this.color);
+            this.drawOptionsGrp.Location = new System.Drawing.Point(825, 19);
+            this.drawOptionsGrp.Name = "drawOptionsGrp";
+            this.drawOptionsGrp.Size = new System.Drawing.Size(170, 144);
+            this.drawOptionsGrp.TabIndex = 53;
+            this.drawOptionsGrp.TabStop = false;
+            this.drawOptionsGrp.Text = "Drawing Options";
+            // 
+            // colorDlg
+            // 
+            this.colorDlg.FullOpen = true;
+            // 
+            // color
+            // 
+            this.color.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.color.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.color.Location = new System.Drawing.Point(74, 25);
+            this.color.Name = "color";
+            this.color.Size = new System.Drawing.Size(55, 23);
+            this.color.TabIndex = 0;
+            this.color.UseVisualStyleBackColor = false;
+            this.color.Click += new System.EventHandler(this.color_Click);
+            // 
+            // pointsCheck
+            // 
+            this.pointsCheck.AutoSize = true;
+            this.pointsCheck.Checked = true;
+            this.pointsCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.pointsCheck.Location = new System.Drawing.Point(17, 70);
+            this.pointsCheck.Name = "pointsCheck";
+            this.pointsCheck.Size = new System.Drawing.Size(55, 17);
+            this.pointsCheck.TabIndex = 1;
+            this.pointsCheck.Text = "Points";
+            this.pointsCheck.UseVisualStyleBackColor = true;
+            // 
+            // groupCheck
+            // 
+            this.groupCheck.AutoSize = true;
+            this.groupCheck.Location = new System.Drawing.Point(17, 112);
+            this.groupCheck.Name = "groupCheck";
+            this.groupCheck.Size = new System.Drawing.Size(148, 17);
+            this.groupCheck.TabIndex = 2;
+            this.groupCheck.Text = "Group Graphics by Option";
+            this.groupCheck.UseVisualStyleBackColor = true;
+            // 
+            // lineColor
+            // 
+            this.lineColor.AutoSize = true;
+            this.lineColor.Location = new System.Drawing.Point(14, 31);
+            this.lineColor.Name = "lineColor";
+            this.lineColor.Size = new System.Drawing.Size(54, 13);
+            this.lineColor.TabIndex = 3;
+            this.lineColor.Text = "Line Color";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1025, 762);
+            this.ClientSize = new System.Drawing.Size(1025, 722);
             this.Controls.Add(this.detailsGrp);
-            this.Controls.Add(this.statisticAnalyzeGrp);
             this.Controls.Add(this.researchesGrp);
+            this.Controls.Add(this.statisticAnalyzeGrp);
             this.Controls.Add(this.mainMenu);
             this.MainMenuStrip = this.mainMenu;
             this.Name = "MainWindow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Random Networks Statistic Analyzer";
+            this.Load += new System.EventHandler(this.MainWindow_Load);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             this.researchesGrp.ResumeLayout(false);
             this.researchesGrp.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.researchesTable)).EndInit();
+            this.researchTableCSM.ResumeLayout(false);
             this.statisticAnalyzeGrp.ResumeLayout(false);
-            this.analyzeTabs.ResumeLayout(false);
-            this.GlobalAnalyzeTab.ResumeLayout(false);
-            this.LocalAnalyzeTab.ResumeLayout(false);
-            this.LocalAnalyzeTab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.localAnalyzeOptionsGrd)).EndInit();
+            this.optionsTabs.ResumeLayout(false);
+            this.distributedOptionsTab.ResumeLayout(false);
+            this.trajectoryOptionsTab.ResumeLayout(false);
             this.detailsGrp.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.parametersTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.distributedOptionsTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.globalOptionsTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.globalOptionsTable)).EndInit();
+            this.drawOptionsGrp.ResumeLayout(false);
+            this.drawOptionsGrp.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -555,31 +648,40 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn researchSizeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn researchDateColumn;
         private System.Windows.Forms.GroupBox statisticAnalyzeGrp;
-        private System.Windows.Forms.TabControl analyzeTabs;
-        private System.Windows.Forms.TabPage GlobalAnalyzeTab;
-        private System.Windows.Forms.Button deselectGlobal;
-        private System.Windows.Forms.Button selectGlobal;
-        private System.Windows.Forms.Button valueButton;
-        private System.Windows.Forms.CheckedListBox globalPropertiesList;
-        private System.Windows.Forms.Button GetGlobalResult;
-        private System.Windows.Forms.Button GlobalDrawGraphics;
-        private System.Windows.Forms.TabPage LocalAnalyzeTab;
-        private System.Windows.Forms.Button deselectLocal;
-        private System.Windows.Forms.Button selectLocal;
-        private System.Windows.Forms.Button localValueButton;
-        private System.Windows.Forms.DataGridView localAnalyzeOptionsGrd;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PropertyNameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DeltaColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ThickeningColumn;
-        private System.Windows.Forms.Label ApproximationType;
-        private System.Windows.Forms.ComboBox ApproximationTypeCmb;
-        private System.Windows.Forms.CheckedListBox localPropertiesList;
-        private System.Windows.Forms.Button LocalDrawGraphics;
+        private System.Windows.Forms.TabControl optionsTabs;
+        private System.Windows.Forms.TabPage distributedOptionsTab;
         private System.Windows.Forms.GroupBox detailsGrp;
         private System.Windows.Forms.Button refresh;
         private System.Windows.Forms.DataGridView parametersTable;
         private System.Windows.Forms.DataGridViewTextBoxColumn parameterNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn parameterValueColumn;
+        private System.Windows.Forms.ContextMenuStrip researchTableCSM;
+        private System.Windows.Forms.ToolStripMenuItem deleteResearchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem selectDeselectAllToolStripMenuItem;
+        private System.Windows.Forms.TabPage trajectoryOptionsTab;
+        private System.Windows.Forms.Button valueButton;
+        private System.Windows.Forms.Button GlobalDrawGraphics;
+        private System.Windows.Forms.Button selectAll;
+        private System.Windows.Forms.Button deselectAll;
+        private System.Windows.Forms.DataGridView distributedOptionsTable;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn deltaColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn thickeningColumn;
+        private System.Windows.Forms.DataGridViewComboBoxColumn approximationColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
+        private System.Windows.Forms.TabPage globalOptionsTab;
+        private System.Windows.Forms.DataGridView globalOptionsTable;
+        private System.Windows.Forms.DataGridViewTextBoxColumn optionNameColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn checkedColumn;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn2;
+        private System.Windows.Forms.GroupBox drawOptionsGrp;
+        private System.Windows.Forms.Button color;
+        private System.Windows.Forms.ColorDialog colorDlg;
+        private System.Windows.Forms.CheckBox groupCheck;
+        private System.Windows.Forms.CheckBox pointsCheck;
+        private System.Windows.Forms.Label lineColor;
     }
 }
 

@@ -11,6 +11,7 @@ using System.ServiceModel.Discovery;
 using Session;
 using Core;
 using Core.Enumerations;
+using Core.Settings;
 
 namespace RandomNetworksExplorer
 {
@@ -34,10 +35,10 @@ namespace RandomNetworksExplorer
             if (SessionManager.ExistsAnyRunningResearch())
                 workingModePage.Enabled = false;
 
-            loggingDirectoryTxt.Text = Settings.LoggingDirectory;
-            storageDirectoryTxt.Text = Settings.StorageDirectory;
-            //databaseTxt.Text = Settings.ConnectionString;
-            tracingDirectoryTxt.Text = Settings.TracingDirectory;
+            loggingDirectoryTxt.Text = ExplorerSettings.LoggingDirectory;
+            storageDirectoryTxt.Text = ExplorerSettings.StorageDirectory;
+            //databaseTxt.Text = ExplorerSettings.ConnectionString;
+            tracingDirectoryTxt.Text = ExplorerSettings.TracingDirectory;
         }
 
         private void loggingBrowseButton_Click(object sender, EventArgs e)
@@ -89,15 +90,15 @@ namespace RandomNetworksExplorer
             /*Settings.Logger = debugCheckBox.Checked ?
                 Settings.LoggerMode.debug :
                 Settings.LoggerMode.info;*/
-            Settings.LoggingDirectory = loggingDirectoryTxt.Text;
-            Settings.StorageDirectory = storageDirectoryTxt.Text;
+            ExplorerSettings.LoggingDirectory = loggingDirectoryTxt.Text;
+            ExplorerSettings.StorageDirectory = storageDirectoryTxt.Text;
             //Settings.ConnectionString = textBoxConnStr.Text;
-            Settings.TracingDirectory = tracingDirectoryTxt.Text;
+            ExplorerSettings.TracingDirectory = tracingDirectoryTxt.Text;
 
-            Settings.WorkingMode = (ManagerType)Enum.Parse(typeof(ManagerType),
+            ExplorerSettings.WorkingMode = (ManagerType)Enum.Parse(typeof(ManagerType),
                 managerTypeCmb.SelectedItem.ToString());
 
-            if (Settings.WorkingMode == ManagerType.WCFDistributed)
+            if (ExplorerSettings.WorkingMode == ManagerType.WCFDistributed)
             {
                 if (discoveredServices.CheckedItems.Count == 0)
                 {
@@ -112,7 +113,7 @@ namespace RandomNetworksExplorer
                 //ServiceDiscoveryManager.SelectedServices = selectedEndpoints;
             }
 
-            Settings.Refresh();
+            ExplorerSettings.Refresh();
             Close();
         }
 

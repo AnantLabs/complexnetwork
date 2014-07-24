@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 using Core;
 using Core.Utility;
+using Core.Settings;
 
 namespace RandomNetworksExplorer
 {
@@ -22,7 +23,7 @@ namespace RandomNetworksExplorer
 
         private void inputBrowse_Click(object sender, EventArgs e)
         {
-            openFileDlg.InitialDirectory = Settings.StaticGenerationDirectory;
+            openFileDlg.InitialDirectory = ExplorerSettings.StaticGenerationDirectory;
             if (openFileDlg.ShowDialog() == DialogResult.OK)
             {
                 inputFileNameTxt.Text = openFileDlg.FileName;
@@ -31,7 +32,7 @@ namespace RandomNetworksExplorer
 
         private void outputBrowse_Click(object sender, EventArgs e)
         {
-            saveFileDlg.InitialDirectory = Settings.StaticGenerationDirectory;
+            saveFileDlg.InitialDirectory = ExplorerSettings.StaticGenerationDirectory;
             if (saveFileDlg.ShowDialog() == DialogResult.OK)
             {
                 outputFileNameTxt.Text = saveFileDlg.FileName;
