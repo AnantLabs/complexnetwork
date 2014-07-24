@@ -15,5 +15,68 @@ namespace Random_Networks_Statistic_Analyzer
         {
             InitializeComponent();
         }
+
+        #region Event Handlers
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            InitializeResearchType();
+        }
+
+        private void loadFromToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoadFrom loadFromWindow = new LoadFrom();
+            loadFromWindow.ShowDialog(this);
+        }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void deleteResearchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void selectDeselectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void researchTypeCmb_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void modelTypeCmb_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void refresh_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void researchesTable_SelectionChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void color_Click(object sender, EventArgs e)
+        {
+            colorDlg.ShowDialog();
+        }
+
+        #endregion
+
+        #region Utilities
+
+        void InitializeResearchType()
+        {
+        }
+
+        #endregion
     }
 }

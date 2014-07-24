@@ -7,6 +7,7 @@ using System.IO;
 
 using Core.Exceptions;
 using Core.Model;
+using Core.Settings;
 
 namespace Core.Utility
 {
@@ -37,7 +38,7 @@ namespace Core.Utility
         /// <param name="filePath"></param>
         public static void Write(MatrixInfoToWrite matrixInfo, String filePath)
         {
-            String directoryPath = Settings.TracingDirectory;
+            String directoryPath = ExplorerSettings.TracingDirectory;
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
 

@@ -7,6 +7,7 @@ using System.Text;
 using Core;
 using Core.Utility;
 using Core.Model;
+using Core.Settings;
 using RandomNumberGeneration;
 
 namespace NetworkModel
@@ -101,7 +102,7 @@ namespace NetworkModel
         // TODO add to interface
         public void Trace(String extendedName)
         {
-            String tracingDirectory = Settings.TracingDirectory;
+            String tracingDirectory = ExplorerSettings.TracingDirectory;
             if (tracingDirectory != "")
             {
                 string filePath = tracingDirectory + "_" + extendedName;

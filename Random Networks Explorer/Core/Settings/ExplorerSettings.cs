@@ -12,12 +12,12 @@ using System.IO;
 using Core.Exceptions;
 using Core.Enumerations;
 
-namespace Core
+namespace Core.Settings
 {
     /// <summary>
     /// 
     /// </summary>
-    public static class Settings
+    public static class ExplorerSettings
     {
         static private String defaultDirectory = 
             Directory.GetParent(Directory.GetCurrentDirectory()).FullName + "\\RNE";
@@ -33,7 +33,7 @@ namespace Core
         static private ManagerType workingMode;
         static private string staticGenerationDirectory;
 
-        static Settings()
+        static ExplorerSettings()
         {
             config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
@@ -173,7 +173,7 @@ namespace Core
             set
             {
                 workingMode = value;
-                config.AppSettings.Settings["WorkingMode"].Value = workingMode.ToString(); ;
+                config.AppSettings.Settings["WorkingMode"].Value = workingMode.ToString();
             }
         }
 

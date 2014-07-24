@@ -125,6 +125,7 @@
             this.generationColumn,
             this.tracingColumn,
             this.statusColumn});
+            this.researchesTable.ContextMenuStrip = this.researchTableCSM;
             this.researchesTable.Location = new System.Drawing.Point(6, 6);
             this.researchesTable.MinimumSize = new System.Drawing.Size(500, 0);
             this.researchesTable.MultiSelect = false;
@@ -330,21 +331,21 @@
             // basicNewResearch
             // 
             this.basicNewResearch.Name = "basicNewResearch";
-            this.basicNewResearch.Size = new System.Drawing.Size(134, 22);
+            this.basicNewResearch.Size = new System.Drawing.Size(152, 22);
             this.basicNewResearch.Text = "Basic";
             this.basicNewResearch.Click += new System.EventHandler(this.newBasicMenuItem_Click);
             // 
             // evolutionNewResearch
             // 
             this.evolutionNewResearch.Name = "evolutionNewResearch";
-            this.evolutionNewResearch.Size = new System.Drawing.Size(134, 22);
+            this.evolutionNewResearch.Size = new System.Drawing.Size(152, 22);
             this.evolutionNewResearch.Text = "Evolution";
             this.evolutionNewResearch.Click += new System.EventHandler(this.newEvolutionMenuItem_Click);
             // 
             // percolationNewResearch
             // 
             this.percolationNewResearch.Name = "percolationNewResearch";
-            this.percolationNewResearch.Size = new System.Drawing.Size(134, 22);
+            this.percolationNewResearch.Size = new System.Drawing.Size(152, 22);
             this.percolationNewResearch.Text = "Percolation";
             this.percolationNewResearch.Click += new System.EventHandler(this.newPercolationMenuItem_Click);
             // 

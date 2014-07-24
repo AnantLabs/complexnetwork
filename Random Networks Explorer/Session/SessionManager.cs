@@ -8,6 +8,7 @@ using Core.Enumerations;
 using Core.Attributes;
 using Core.Exceptions;
 using Core.Events;
+using Core.Settings;
 
 namespace Session
 {
@@ -34,7 +35,7 @@ namespace Session
             existingResearches.Add(r.ResearchID, r);
             r.ModelType = GetAvailableModelTypes(r.ResearchID)[0];
             r.ResearchName = "Default";
-            r.Storage = CreateStorage(StorageType.XMLStorage, Settings.StorageDirectory);
+            r.Storage = CreateStorage(StorageType.XMLStorage, ExplorerSettings.StorageDirectory);
             r.TracingPath = "";
 
             return r.ResearchID;

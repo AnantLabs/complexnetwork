@@ -8,6 +8,7 @@ using Core.Attributes;
 using Core.Exceptions;
 using Core.Result;
 using Core.Events;
+using Core.Settings;
 
 namespace Core
 {
@@ -41,7 +42,7 @@ namespace Core
             InitializeResearchParameters();
             InitializeGenerationParameters();
 
-            managerType = Settings.WorkingMode;
+            managerType = ExplorerSettings.WorkingMode;
         }
 
         public Guid ResearchID { get; private set; }

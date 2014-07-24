@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 using Core;
 using Core.Enumerations;
+using Core.Settings;
 
 namespace RandomNetworksExplorer
 {
@@ -72,29 +73,29 @@ namespace RandomNetworksExplorer
                 case StorageType.XMLStorage:
                     xmlRadioButton.Checked = true;
                     xmlOutputDirectoryTxt.Text = initialStorageString;
-                    txtOutputDirectoryTxt.Text = Settings.StorageDirectory;
-                    excelOutputDirectoryTxt.Text = Settings.StorageDirectory;
+                    txtOutputDirectoryTxt.Text = ExplorerSettings.StorageDirectory;
+                    excelOutputDirectoryTxt.Text = ExplorerSettings.StorageDirectory;
                     //connectionStrTxt.Text = initialStorageString;
                     break;
                 case StorageType.TXTStorage:
                     txtRadioButton.Checked = true;
-                    xmlOutputDirectoryTxt.Text = Settings.StorageDirectory;
+                    xmlOutputDirectoryTxt.Text = ExplorerSettings.StorageDirectory;
                     txtOutputDirectoryTxt.Text = initialStorageString;
-                    excelOutputDirectoryTxt.Text = Settings.StorageDirectory;
+                    excelOutputDirectoryTxt.Text = ExplorerSettings.StorageDirectory;
                     //connectionStrTxt.Text = initialStorageString;
                     break;
                 case StorageType.ExcelStorage:
                     excelRadioButton.Checked = true;
-                    xmlOutputDirectoryTxt.Text = Settings.StorageDirectory;
-                    txtOutputDirectoryTxt.Text = Settings.StorageDirectory;
+                    xmlOutputDirectoryTxt.Text = ExplorerSettings.StorageDirectory;
+                    txtOutputDirectoryTxt.Text = ExplorerSettings.StorageDirectory;
                     excelOutputDirectoryTxt.Text = initialStorageString;
                     //connectionStrTxt.Text = initialStorageString;
                     break;
                 case StorageType.SQLStorage:
                     sqlRadioButton.Checked = true;
-                    xmlOutputDirectoryTxt.Text = Settings.StorageDirectory;
-                    txtOutputDirectoryTxt.Text = Settings.StorageDirectory;
-                    excelOutputDirectoryTxt.Text = Settings.StorageDirectory;
+                    xmlOutputDirectoryTxt.Text = ExplorerSettings.StorageDirectory;
+                    txtOutputDirectoryTxt.Text = ExplorerSettings.StorageDirectory;
+                    excelOutputDirectoryTxt.Text = ExplorerSettings.StorageDirectory;
                     //connectionStrTxt.Text = initialStorageString;
                     break;
                 default:
