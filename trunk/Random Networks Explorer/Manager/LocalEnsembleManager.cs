@@ -24,14 +24,12 @@ namespace Manager
 
         private class ThreadEntryData
         {
-            public int FirstIndex { get; private set; }
-            public int SecondIndex { get; private set; }
+            public int ThreadCount { get; private set; }
             public int ThreadIndex { get; set; }
 
-            public ThreadEntryData(int f, int s, int tIndex)
+            public ThreadEntryData(int tCount, int tIndex)
             {
-                FirstIndex = f;
-                SecondIndex = s;
+                ThreadCount = tCount;
                 ThreadIndex = tIndex;
             }
         }
@@ -112,22 +110,11 @@ namespace Manager
             waitHandles = new AutoResetEvent[threadCount];
             threadData = new ThreadEntryData[threadCount];
 
-            // Initialize threadData[]
-            int c = networks.Length / threadCount;
-            int e = networks.Length % threadCount;   
-            for (int i = 0; i < e; ++i)
-            {
-                threadData[i] = new ThreadEntryData(i * (c + 1), (i + 1) * (c + 1), i);
-            }
-            for (int i = e; i < threadCount; ++i)
-            {
-                threadData[i] = new ThreadEntryData(i * c + e, (i + 1) * c + e, i);
-            }
-            
             // Initialize threads and handles
             for (int i = 0; i < threadCount; ++i)
             {
                 waitHandles[i] = new AutoResetEvent(false);
+                threadData[i] = new ThreadEntryData(threadCount, i);
                 threads[i] = new Thread(new ParameterizedThreadStart(ThreadEntry)) { Priority = ThreadPriority.Lowest };
             }
         }
@@ -138,12 +125,13 @@ namespace Manager
 
             try
             {
-                for (int i = d.FirstIndex; i < d.SecondIndex; ++i)
+                for (int i = 0; (d.ThreadIndex + i * d.ThreadCount) < networks.Length; ++i)
                 {
-                    networks[i].Generate();
+                    int networkToRun = d.ThreadIndex + i * d.ThreadCount;
+                    networks[networkToRun].Generate();
                     if(TracingPath != "")
-                        networks[i].Trace(TracingPath + "_" + i.ToString());
-                    networks[i].Analyze();
+                        networks[networkToRun].Trace(TracingPath + "_" + networkToRun.ToString());
+                    networks[networkToRun].Analyze();
 
                     Interlocked.Increment(ref realizationsDone);
                 }
