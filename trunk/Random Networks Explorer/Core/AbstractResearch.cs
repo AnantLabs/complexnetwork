@@ -24,6 +24,7 @@ namespace Core
         protected AbstractEnsembleManager currentManager;
         protected delegate void ManagerRunner();
 
+        private ResearchStatus status;
         protected ResearchResult result = new ResearchResult();
 
         public event ResearchStatusUpdateHandler OnUpdateResearchStatus;
@@ -71,7 +72,21 @@ namespace Core
 
         public string TracingPath { get; set; }
 
-        public ResearchStatus Status { get; private set; }
+        public ResearchStatus Status 
+        {
+            get { return status; }
+            protected set
+            {
+                status = value;
+
+                // Make sure someone is listening to event
+                if (OnUpdateResearchStatus == null)
+                    return;
+
+                // Invoke event for GUI
+                OnUpdateResearchStatus(this, new ResearchEventArgs(ResearchID, Status, Status.ToString()));
+            }
+        }
 
         public int RealizationCount
         {
@@ -109,7 +124,10 @@ namespace Core
 
         public NetworkEventArgs[] GetEnsembleStatus()
         {
-            return currentManager.NetworkStatuses;
+            if (currentManager != null)
+                return currentManager.NetworkStatuses;
+            else
+                return null;
         }
 
         /// <summary>
@@ -199,37 +217,8 @@ namespace Core
 
         private void InvokeUpdateResearchStatus(EnsembleEventArgs e)
         {
-            string info;
-            switch (e.UpdatedStatus)
-            {
-                case NetworkStatus.AnalyzingCompleted:
-                    if(e.UpdatedNetworkID == realizationCount - 1)
-                    {
-                        Status = ResearchStatus.Succed;
-                        info = "Research completed succesfully.";
-                    }
-                    else
-                    {
-                        Status = ResearchStatus.Running;
-                        info = "Research is running.";
-                    }
-                    break;
-                case NetworkStatus.Failed:
-                    Status = ResearchStatus.Failed;
-                    info = "Research is failed.";
-                    break;
-                default:
-                    Status = ResearchStatus.Running;
-                    info = "Research is running.";
-                    break;
-            }
-
-            // Make sure someone is listening to event
-            if (OnUpdateResearchStatus == null)
-                return;
-
-            // Invoke event for GUI
-            OnUpdateResearchStatus(this, new ResearchEventArgs(ResearchID, Status, info));
+            if (e.UpdatedStatus == NetworkStatus.Failed)
+                Status = ResearchStatus.Failed;
         }
 
         void InvokeUpdateResearchEnsembleStatus(EnsembleEventArgs e)

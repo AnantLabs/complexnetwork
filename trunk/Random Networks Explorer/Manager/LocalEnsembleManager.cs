@@ -54,12 +54,13 @@ namespace Manager
                     results.Add(networks[i].NetworkResult);
             }
 
-            Result = EnsembleResult.AverageResults(results);
+            if(results.Count != 0)
+                Result = EnsembleResult.AverageResults(results);
         }
 
         public override void Cancel()
         {
-            for (int i = 0; i < Environment.ProcessorCount; ++i)
+            for (int i = 0; i < threads.Length && i < Environment.ProcessorCount; ++i)
             {
                 if (threads[i] != null)
                 {
@@ -83,8 +84,8 @@ namespace Manager
         private void PrepareData()
         {
             networks = new AbstractNetwork[RealizationCount];
-            networksStatuses = new NetworkEventArgs[RealizationCount];
-            for (int i = 0; i < RealizationCount; i++)
+            NetworkStatuses = new NetworkEventArgs[RealizationCount];
+            for (int i = 0; i < RealizationCount; ++i)
             {
                 ModelTypeInfo[] info = (ModelTypeInfo[])ModelType.GetType().GetField(ModelType.ToString()).GetCustomAttributes(typeof(ModelTypeInfo), false);
                 Type t = Type.GetType(info[0].Implementation);
@@ -99,10 +100,10 @@ namespace Manager
                 networks[i] = (AbstractNetwork)t.GetConstructor(constructTypes).Invoke(invokeParams);
 
                 networks[i].NetworkID = i;
-                networks[i].OnUpdateStatus += new NetworkStatusUpdateHandler(LocalEnsembleManager_OnUpdateNetworkStatus);
+                networks[i].OnUpdateStatus += new NetworkStatusUpdateHandler(AbstractEnsembleManager_OnUpdateNetworkStatus);
 
-                networksStatuses[i] = new NetworkEventArgs();
-                networksStatuses[i].ID = i;
+                NetworkStatuses[i] = new NetworkEventArgs();
+                NetworkStatuses[i].ID = i;
             }
 
             int threadCount = Math.Min(networks.Length, Environment.ProcessorCount);

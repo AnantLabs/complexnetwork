@@ -36,5 +36,24 @@ namespace Core
         /// </summary>
         /// <param name="result"></param>
         public abstract void Save(ResearchResult result);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="researchID"></param>
+        public abstract void Delete(Guid researchID);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public abstract List<ResearchResult> LoadAllResearchInfo();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="researchID"></param>
+        /// <returns></returns>
+        public abstract ResearchResult Load(Guid researchID);
     }
 }

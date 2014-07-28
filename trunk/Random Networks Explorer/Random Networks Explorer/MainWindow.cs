@@ -121,6 +121,7 @@ namespace RandomNetworksExplorer
                 // adding a new row for created research
                 int newRowIndex = researchesTable.Rows.Add();
 
+                selectedIndex = newRowIndex;
                 FillResearchInformation(id);
 
                 researchesTable.CurrentCell = researchesTable.Rows[newRowIndex].Cells["nameColumn"];
@@ -356,14 +357,18 @@ namespace RandomNetworksExplorer
                 }
 
                 SessionManager.StartResearch(researchIDs[selectedIndex]);
-                //FillStatusTable(researchIDs[selectedIndex]);
+                FillStatusTableOnStart(researchIDs[selectedIndex]);
+                DisableButtons(false);
             }
         }
 
         private void stopResearch_Click(object sender, EventArgs e)
         {
             if (selectedIndex != -1)
+            {
                 SessionManager.StopResearch(researchIDs[selectedIndex]);
+                stopResearch.Enabled = false;
+            }
         }
 
         #endregion
@@ -400,6 +405,7 @@ namespace RandomNetworksExplorer
             // adding a new row for created research
             int newRowIndex = researchesTable.Rows.Add();
 
+            selectedIndex = newRowIndex;
             FillResearchInformation(id);
 
             researchesTable.CurrentCell = researchesTable.Rows[newRowIndex].Cells["nameColumn"];
@@ -454,6 +460,11 @@ namespace RandomNetworksExplorer
             FillAnalyzeOptionsTable(researchId);
             realizationCountTxt.Value = SessionManager.GetResearchRealizationCount(researchId);
             FillStatusTable(researchId);
+
+            if (SessionManager.GetResearchStatus(researchId) == ResearchStatus.NotStarted)
+                DisableButtons(true);
+            else
+                DisableButtons(false);
         }
 
         private void RemoveResearch(DataGridViewRow rowToRemove)
@@ -567,12 +578,39 @@ namespace RandomNetworksExplorer
             }
         }
 
+        private void DisableButtons(bool b)
+        {
+            if (selectedIndex != -1)
+            {
+                researchesTable.Rows[selectedIndex].ReadOnly = !b;
+                generationParametersTable.Enabled = b;
+                analyzeOptionsTable.Enabled = b;
+                selectAll.Enabled = b;
+                deselectAll.Enabled = b;
+                realizationCountTxt.Enabled = b;
+                startResearch.Enabled = b;
+            }
+        }
+
+        private void FillStatusTableOnStart(Guid researchId)
+        {
+            statusTable.Rows.Clear();
+
+            for (int i = 0; i < SessionManager.GetResearchRealizationCount(researchId); ++i)
+            {
+                int newRowIndex = statusTable.Rows.Add();
+                statusTable.Rows[newRowIndex].Cells["statusStatusColumn"].Value = "Not Started.";
+                statusTable.Rows[newRowIndex].Cells["statusStopColumn"].Value = "Stop";
+            }
+        }
+
         private void FillStatusTable(Guid researchId)
         {
             statusTable.Rows.Clear();
-            if (SessionManager.GetResearchStatus(researchId) != ResearchStatus.NotStarted)
+
+            NetworkEventArgs[] statuses = SessionManager.GetResearchEnsembleStatus(researchId);
+            if (statuses != null)
             {
-                NetworkEventArgs[] statuses = SessionManager.GetResearchEnsembleStatus(researchId);
                 for (int i = 0; i < statuses.Length; ++i)
                 {
                     int newRowIndex = statusTable.Rows.Add();
@@ -590,7 +628,7 @@ namespace RandomNetworksExplorer
 
         private void CurrentResearch_OnResearchEnsembleUpdateStatus(object sender, ResearchEnsembleEventArgs e)
         {
-            //statusTable.Rows[e.UpdatedNetworkID].Cells["statusStatusColumn"].Value = e.UpdatedNetworkID;
+            statusTable.Rows[e.UpdatedNetworkID].Cells["statusStatusColumn"].Value = e.UpdatedExtendedInfo;
         }
 
         #endregion

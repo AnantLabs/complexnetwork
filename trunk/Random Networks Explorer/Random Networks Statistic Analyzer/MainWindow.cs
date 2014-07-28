@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using Storage;
+
 namespace Random_Networks_Statistic_Analyzer
 {
     public partial class MainWindow : Form
@@ -20,6 +22,8 @@ namespace Random_Networks_Statistic_Analyzer
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            XMLResultStorage str = new XMLResultStorage("D:\\Disertation\\System (code)\\Last Version\\Random Networks Explorer\\RNE\\Results");
+            str.LoadAllResearchInfo();
             InitializeResearchType();
         }
 

@@ -43,6 +43,7 @@ namespace Research
         public override void StartResearch()
         {
             CreateEnsembleManager();
+            Status = ResearchStatus.Running;
             ManagerRunner r = new ManagerRunner(currentManager.Run);
             r.BeginInvoke(new AsyncCallback(RunCompleted), null);
         }
@@ -50,6 +51,7 @@ namespace Research
         public override void StopResearch()
         {
             currentManager.Cancel();
+            Status = ResearchStatus.Stopped;
         }
 
         public override ResearchType GetResearchType()
@@ -62,6 +64,7 @@ namespace Research
             realizationCount = currentManager.RealizationsDone;
             result.EnsembleResults.Add(currentManager.Result);
             SaveResearch();
+            Status = ResearchStatus.Succed;
         }
 
         protected override void FillParameters(AbstractEnsembleManager m)
