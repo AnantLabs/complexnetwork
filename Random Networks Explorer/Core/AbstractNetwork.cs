@@ -46,6 +46,8 @@ namespace Core
         /// </summary>
         public void Generate()
         {
+            UpdateStatus(NetworkStatus.NotStarted, "Not started.");
+
             try
             {
                 UpdateStatus(NetworkStatus.Generating, "Generating.");
@@ -140,7 +142,7 @@ namespace Core
             if (OnUpdateStatus == null) 
                 return;
 
-            // Invoke event for *EnsembleManager
+            // Invoke event for AbstractEnsembleManager
             OnUpdateStatus(this, new NetworkEventArgs(NetworkID, status, extendedInfo));
         }
     }

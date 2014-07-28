@@ -16,9 +16,10 @@ namespace Storage
     /// <summary>
     /// 
     /// </summary>
-    class XMLResultStorage : AbstractResultStorage
+    public class XMLResultStorage : AbstractResultStorage
     {
         XmlTextWriter writer;
+        XmlTextReader reader;
 
         public XMLResultStorage(string str) : base(str) 
         {
@@ -65,6 +66,102 @@ namespace Storage
 
                 writer.WriteEndElement();
             }
+        }
+
+        public override void Delete(Guid researchID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<ResearchResult> LoadAllResearchInfo()
+        {
+            List<ResearchResult> researchInfos = new List<ResearchResult>();
+
+            ResearchResult singleResearchInfo = null;
+            foreach (string fileName in Directory.GetFiles(storageStr, "*.xml",
+                SearchOption.TopDirectoryOnly))
+            {
+                singleResearchInfo = new ResearchResult();
+                using (reader = new XmlTextReader(fileName))
+                {
+                    try
+                    {
+                        reader.WhitespaceHandling = WhitespaceHandling.None;
+                        while (reader.Read())
+                        {
+                            if (reader.NodeType == XmlNodeType.Element)
+                            {
+                                if (reader.Name == "ResearchID")
+                                    singleResearchInfo.ResearchID = new Guid(reader.ReadElementString());
+                                else if (reader.Name == "ResearchName")
+                                    singleResearchInfo.ResearchName = reader.ReadElementString();
+                                else if (reader.Name == "ResearchType")
+                                    singleResearchInfo.ResearchType = (ResearchType)Enum.Parse(typeof(ResearchType), reader.ReadElementString());
+                                else if(reader.Name == "ModelType")
+                                    singleResearchInfo.ModelType = (ModelType)Enum.Parse(typeof(ModelType), reader.ReadElementString());
+                                else if(reader.Name == "RealizationCount")
+                                    singleResearchInfo.RealizationCount = Int32.Parse(reader.ReadElementString());
+                                else if (reader.Name == "Date")
+                                {
+                                    // TODO add date
+                                }
+                                else if (reader.Name == "Size")
+                                    singleResearchInfo.Size = UInt32.Parse(reader.ReadElementString());
+                                else if (reader.Name == "ResearchParameter")
+                                {
+                                    reader.MoveToAttribute("name");
+                                    ResearchParameter rp = (ResearchParameter)Enum.Parse(typeof(ResearchParameter), reader.ReadContentAsString());
+
+                                    reader.MoveToAttribute("value");
+                                    ResearchParameterInfo rpInfo = (ResearchParameterInfo)(rp.GetType().GetField(rp.ToString()).GetCustomAttributes(typeof(ResearchParameterInfo), false)[0]);
+                                    if (rpInfo.Type.Equals(typeof(UInt32)))
+                                        singleResearchInfo.ResearchParameterValues.Add(rp,
+                                            UInt32.Parse(reader.ReadContentAsString()));
+                                    else if (rpInfo.Type.Equals(typeof(Single)))
+                                        singleResearchInfo.ResearchParameterValues.Add(rp,
+                                            Single.Parse(reader.ReadContentAsString()));
+                                    else if (rpInfo.Type.Equals(typeof(Boolean)))
+                                        singleResearchInfo.ResearchParameterValues.Add(rp,
+                                            Boolean.Parse(reader.ReadContentAsString()));
+                                }
+                                else if (reader.Name == "GenerationParameter")
+                                {
+                                    reader.MoveToAttribute("name");
+                                    GenerationParameter gp = (GenerationParameter)Enum.Parse(typeof(GenerationParameter), reader.ReadContentAsString());
+
+                                    reader.MoveToAttribute("value");
+                                    GenerationParameterInfo gpInfo = (GenerationParameterInfo)(gp.GetType().GetField(gp.ToString()).GetCustomAttributes(typeof(ResearchParameterInfo), false)[0]);
+                                    if (gpInfo.Type.Equals(typeof(UInt16)))
+                                        singleResearchInfo.GenerationParameterValues.Add(gp,
+                                            UInt16.Parse(reader.ReadContentAsString()));
+                                    else if (gpInfo.Type.Equals(typeof(Single)))
+                                        singleResearchInfo.GenerationParameterValues.Add(gp,
+                                            Single.Parse(reader.ReadContentAsString()));
+                                    else if (gpInfo.Type.Equals(typeof(Boolean)))
+                                        singleResearchInfo.GenerationParameterValues.Add(gp,
+                                            Boolean.Parse(reader.ReadContentAsString()));
+                                    else if(gpInfo.Type.Equals(typeof(UInt32)))
+                                        singleResearchInfo.GenerationParameterValues.Add(gp,
+                                            UInt32.Parse(reader.ReadContentAsString()));
+                                }
+                            }
+                        }
+
+                        researchInfos.Add(singleResearchInfo);
+                    }
+                    catch (SystemException)
+                    {
+                        continue;
+                    }
+                }
+            }
+
+            return researchInfos;
+        }
+
+        public override ResearchResult Load(Guid researchID)
+        {
+            throw new NotImplementedException();
         }
 
         private void SaveResearchInfo(Guid researchID,

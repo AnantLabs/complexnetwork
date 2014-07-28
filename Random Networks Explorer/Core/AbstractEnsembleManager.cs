@@ -15,7 +15,6 @@ namespace Core
     public abstract class AbstractEnsembleManager
     {
         protected AbstractNetwork[] networks;
-        protected NetworkEventArgs[] networksStatuses;
         protected int realizationsDone;
 
         public ModelType ModelType { protected get; set; }
@@ -38,13 +37,7 @@ namespace Core
 
         public EnsembleResult Result { get; protected set; }
 
-        public NetworkEventArgs[] NetworkStatuses
-        {
-            get
-            {
-                return networksStatuses;
-            }
-        }
+        public NetworkEventArgs[] NetworkStatuses { get; protected set; }
 
         public event EnsembleStatusUpdateHandler OnUpdateStatus;
 
@@ -59,10 +52,10 @@ namespace Core
         /// </summary>
         public abstract void Cancel();
 
-        protected void LocalEnsembleManager_OnUpdateNetworkStatus(object sender, NetworkEventArgs e)
+        protected void AbstractEnsembleManager_OnUpdateNetworkStatus(object sender, NetworkEventArgs e)
         {
-            networksStatuses[e.ID].Status = e.Status;
-            networksStatuses[e.ID].ExtendedInfo = e.ExtendedInfo;
+            NetworkStatuses[e.ID].Status = e.Status;
+            NetworkStatuses[e.ID].ExtendedInfo = e.ExtendedInfo;
 
             // Make sure someone is listening to event
             if (OnUpdateStatus == null)

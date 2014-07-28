@@ -26,6 +26,21 @@ namespace Storage
             throw new NotImplementedException();
         }
 
+        public override void Delete(Guid researchID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<ResearchResult> LoadAllResearchInfo()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ResearchResult Load(Guid researchID)
+        {
+            throw new NotImplementedException();
+        }
+
         private void SaveResearchInfo(Guid researchID, 
             string researchName, 
             ResearchType rType, 

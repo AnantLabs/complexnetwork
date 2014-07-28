@@ -60,6 +60,21 @@ namespace Storage
             workbook.Save(fileName + ".xls");
         }
 
+        public override void Delete(Guid researchID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<ResearchResult> LoadAllResearchInfo()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ResearchResult Load(Guid researchID)
+        {
+            throw new NotImplementedException();
+        }
+
         #region Utilities
 
         private void InitializeWorkbook(string title)
