@@ -41,6 +41,13 @@
             this.generationColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.tracingColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.statusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.researchTableCSM = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.newResearch = new System.Windows.Forms.ToolStripMenuItem();
+            this.basicNewResearch = new System.Windows.Forms.ToolStripMenuItem();
+            this.evolutionNewResearch = new System.Windows.Forms.ToolStripMenuItem();
+            this.percolationNewResearch = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteResearch = new System.Windows.Forms.ToolStripMenuItem();
+            this.cloneResearch = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.realizationCountTxt = new System.Windows.Forms.NumericUpDown();
             this.startResearch = new System.Windows.Forms.Button();
@@ -50,13 +57,6 @@
             this.generationParametersTable = new System.Windows.Forms.DataGridView();
             this.generationParameterNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.generationParameterValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.researchTableCSM = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.newResearch = new System.Windows.Forms.ToolStripMenuItem();
-            this.basicNewResearch = new System.Windows.Forms.ToolStripMenuItem();
-            this.evolutionNewResearch = new System.Windows.Forms.ToolStripMenuItem();
-            this.percolationNewResearch = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteResearch = new System.Windows.Forms.ToolStripMenuItem();
-            this.cloneResearch = new System.Windows.Forms.ToolStripMenuItem();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newResearchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.basicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,11 +88,11 @@
             this.analyzeOptionCheckedColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.openFileDlg = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.researchesTable)).BeginInit();
+            this.researchTableCSM.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.realizationCountTxt)).BeginInit();
             this.generationParametersGrp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.generationParametersTable)).BeginInit();
-            this.researchTableCSM.SuspendLayout();
             this.mainMenu.SuspendLayout();
             this.statusGrp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.statusTable)).BeginInit();
@@ -195,6 +195,60 @@
             this.statusColumn.HeaderText = "Status";
             this.statusColumn.Name = "statusColumn";
             this.statusColumn.ReadOnly = true;
+            // 
+            // researchTableCSM
+            // 
+            this.researchTableCSM.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newResearch,
+            this.deleteResearch,
+            this.cloneResearch});
+            this.researchTableCSM.Name = "contextMenuStrip1";
+            this.researchTableCSM.Size = new System.Drawing.Size(158, 70);
+            // 
+            // newResearch
+            // 
+            this.newResearch.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.basicNewResearch,
+            this.evolutionNewResearch,
+            this.percolationNewResearch});
+            this.newResearch.Name = "newResearch";
+            this.newResearch.Size = new System.Drawing.Size(157, 22);
+            this.newResearch.Text = "New Research";
+            // 
+            // basicNewResearch
+            // 
+            this.basicNewResearch.Name = "basicNewResearch";
+            this.basicNewResearch.Size = new System.Drawing.Size(134, 22);
+            this.basicNewResearch.Text = "Basic";
+            this.basicNewResearch.Click += new System.EventHandler(this.newBasicMenuItem_Click);
+            // 
+            // evolutionNewResearch
+            // 
+            this.evolutionNewResearch.Name = "evolutionNewResearch";
+            this.evolutionNewResearch.Size = new System.Drawing.Size(134, 22);
+            this.evolutionNewResearch.Text = "Evolution";
+            this.evolutionNewResearch.Click += new System.EventHandler(this.newEvolutionMenuItem_Click);
+            // 
+            // percolationNewResearch
+            // 
+            this.percolationNewResearch.Name = "percolationNewResearch";
+            this.percolationNewResearch.Size = new System.Drawing.Size(134, 22);
+            this.percolationNewResearch.Text = "Percolation";
+            this.percolationNewResearch.Click += new System.EventHandler(this.newPercolationMenuItem_Click);
+            // 
+            // deleteResearch
+            // 
+            this.deleteResearch.Name = "deleteResearch";
+            this.deleteResearch.Size = new System.Drawing.Size(157, 22);
+            this.deleteResearch.Text = "Delete Research";
+            this.deleteResearch.Click += new System.EventHandler(this.deleteResearchMenuItem_Click);
+            // 
+            // cloneResearch
+            // 
+            this.cloneResearch.Name = "cloneResearch";
+            this.cloneResearch.Size = new System.Drawing.Size(157, 22);
+            this.cloneResearch.Text = "Clone Research";
+            this.cloneResearch.Click += new System.EventHandler(this.cloneResearchMenuItem_Click);
             // 
             // panel1
             // 
@@ -308,60 +362,6 @@
             this.generationParameterValueColumn.HeaderText = "Value";
             this.generationParameterValueColumn.Name = "generationParameterValueColumn";
             this.generationParameterValueColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // researchTableCSM
-            // 
-            this.researchTableCSM.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newResearch,
-            this.deleteResearch,
-            this.cloneResearch});
-            this.researchTableCSM.Name = "contextMenuStrip1";
-            this.researchTableCSM.Size = new System.Drawing.Size(158, 70);
-            // 
-            // newResearch
-            // 
-            this.newResearch.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.basicNewResearch,
-            this.evolutionNewResearch,
-            this.percolationNewResearch});
-            this.newResearch.Name = "newResearch";
-            this.newResearch.Size = new System.Drawing.Size(157, 22);
-            this.newResearch.Text = "New Research";
-            // 
-            // basicNewResearch
-            // 
-            this.basicNewResearch.Name = "basicNewResearch";
-            this.basicNewResearch.Size = new System.Drawing.Size(152, 22);
-            this.basicNewResearch.Text = "Basic";
-            this.basicNewResearch.Click += new System.EventHandler(this.newBasicMenuItem_Click);
-            // 
-            // evolutionNewResearch
-            // 
-            this.evolutionNewResearch.Name = "evolutionNewResearch";
-            this.evolutionNewResearch.Size = new System.Drawing.Size(152, 22);
-            this.evolutionNewResearch.Text = "Evolution";
-            this.evolutionNewResearch.Click += new System.EventHandler(this.newEvolutionMenuItem_Click);
-            // 
-            // percolationNewResearch
-            // 
-            this.percolationNewResearch.Name = "percolationNewResearch";
-            this.percolationNewResearch.Size = new System.Drawing.Size(152, 22);
-            this.percolationNewResearch.Text = "Percolation";
-            this.percolationNewResearch.Click += new System.EventHandler(this.newPercolationMenuItem_Click);
-            // 
-            // deleteResearch
-            // 
-            this.deleteResearch.Name = "deleteResearch";
-            this.deleteResearch.Size = new System.Drawing.Size(157, 22);
-            this.deleteResearch.Text = "Delete Research";
-            this.deleteResearch.Click += new System.EventHandler(this.deleteResearchMenuItem_Click);
-            // 
-            // cloneResearch
-            // 
-            this.cloneResearch.Name = "cloneResearch";
-            this.cloneResearch.Size = new System.Drawing.Size(157, 22);
-            this.cloneResearch.Text = "Clone Research";
-            this.cloneResearch.Click += new System.EventHandler(this.cloneResearchMenuItem_Click);
             // 
             // fileToolStripMenuItem
             // 
@@ -660,14 +660,15 @@
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Random Networks Explorer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.Load += new System.EventHandler(this.MainWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.researchesTable)).EndInit();
+            this.researchTableCSM.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.realizationCountTxt)).EndInit();
             this.generationParametersGrp.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.generationParametersTable)).EndInit();
-            this.researchTableCSM.ResumeLayout(false);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             this.statusGrp.ResumeLayout(false);

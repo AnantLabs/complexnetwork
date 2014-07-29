@@ -35,6 +35,12 @@ namespace RandomNetworksExplorer
             InitializeGenerationTypeColumn();
         }
 
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!CheckClosing())
+                e.Cancel = true;
+        }
+
         private void newBasicMenuItem_Click(object sender, EventArgs e)
         {
             AddResearch(ResearchType.Basic);
@@ -58,20 +64,7 @@ namespace RandomNetworksExplorer
 
         private void exitMenuItem_Click(object sender, EventArgs e)
         {
-            if (SessionManager.ExistsAnyRunningResearch())
-            {
-                DialogResult res = MessageBox.Show("There are running researches. \nDo you want to abort them and close?",
-                       "Warning",
-                       MessageBoxButtons.OKCancel);
-                if (DialogResult.OK == res)
-                {
-                    SessionManager.StopAllRunningResearches();
-                    Application.Exit();
-                }
-                else if (DialogResult.Cancel == res)
-                    return;
-            }
-            else
+            if(CheckClosing())
                 Application.Exit();
         }
 
@@ -393,6 +386,25 @@ namespace RandomNetworksExplorer
             string[] generationTypeNames = Enum.GetNames(typeof(GenerationType));
             for (int i = 0; i < generationTypeNames.Length; ++i)
                 generationColumn.Items.Add(generationTypeNames[i]);
+        }
+
+        private bool CheckClosing()
+        {
+            if (SessionManager.ExistsAnyRunningResearch())
+            {
+                DialogResult res = MessageBox.Show("There are running researches. \nDo you want to abort them and close?",
+                       "Warning",
+                       MessageBoxButtons.OKCancel);
+                if (DialogResult.OK == res)
+                {
+                    SessionManager.StopAllRunningResearches();
+                    return true;
+                }
+                else if (DialogResult.Cancel == res)
+                    return false;
+            }
+
+            return true;
         }
 
         private void AddResearch(ResearchType type)
