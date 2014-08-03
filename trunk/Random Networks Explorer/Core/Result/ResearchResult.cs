@@ -26,6 +26,9 @@ namespace Core.Result
 
         public ResearchResult()
         {
+            ResearchParameterValues = new Dictionary<ResearchParameter, object>();
+            GenerationParameterValues = new Dictionary<GenerationParameter, object>();
+
             EnsembleResults = new List<EnsembleResult>();
         }
     }
