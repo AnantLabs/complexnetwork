@@ -18,8 +18,13 @@ namespace Storage
     /// </summary>
     public class XMLResultStorage : AbstractResultStorage
     {
-        XmlTextWriter writer;
-        XmlTextReader reader;
+        private XmlWriter writer;
+        private XmlReader reader;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private SortedDictionary<Guid, string> existingFileNames; 
 
         public XMLResultStorage(string str) : base(str) 
         {
@@ -46,9 +51,8 @@ namespace Storage
             if (File.Exists(fileName + ".xml"))
                 fileName += result.ResearchID;
 
-            using (writer = new XmlTextWriter(fileName + ".xml", Encoding.ASCII))
+            using (writer = XmlWriter.Create(fileName + ".xml"))
             {
-                writer.Formatting = Formatting.Indented;
                 writer.WriteStartDocument(true);
                 writer.WriteStartElement("Research");
 
@@ -70,11 +74,22 @@ namespace Storage
 
         public override void Delete(Guid researchID)
         {
-            throw new NotImplementedException();
+            if (existingFileNames != null && existingFileNames.Keys.Contains(researchID))
+            {
+                File.Delete(existingFileNames[researchID]);
+                existingFileNames.Remove(researchID);
+            }
+            else
+            {
+                string fileNameToDelete = FileNameByGuid(researchID);
+                if(fileNameToDelete != null)
+                    File.Delete(fileNameToDelete);
+            }   
         }
 
         public override List<ResearchResult> LoadAllResearchInfo()
         {
+            existingFileNames = new SortedDictionary<Guid, string>();
             List<ResearchResult> researchInfos = new List<ResearchResult>();
 
             ResearchResult singleResearchInfo = null;
@@ -82,72 +97,20 @@ namespace Storage
                 SearchOption.TopDirectoryOnly))
             {
                 singleResearchInfo = new ResearchResult();
-                using (reader = new XmlTextReader(fileName))
+                using (reader = XmlReader.Create(fileName))
                 {
                     try
                     {
-                        reader.WhitespaceHandling = WhitespaceHandling.None;
-                        while (reader.Read())
-                        {
-                            if (reader.NodeType == XmlNodeType.Element)
-                            {
-                                if (reader.Name == "ResearchID")
-                                    singleResearchInfo.ResearchID = new Guid(reader.ReadElementString());
-                                else if (reader.Name == "ResearchName")
-                                    singleResearchInfo.ResearchName = reader.ReadElementString();
-                                else if (reader.Name == "ResearchType")
-                                    singleResearchInfo.ResearchType = (ResearchType)Enum.Parse(typeof(ResearchType), reader.ReadElementString());
-                                else if(reader.Name == "ModelType")
-                                    singleResearchInfo.ModelType = (ModelType)Enum.Parse(typeof(ModelType), reader.ReadElementString());
-                                else if(reader.Name == "RealizationCount")
-                                    singleResearchInfo.RealizationCount = Int32.Parse(reader.ReadElementString());
-                                else if (reader.Name == "Date")
-                                {
-                                    // TODO add date
-                                }
-                                else if (reader.Name == "Size")
-                                    singleResearchInfo.Size = UInt32.Parse(reader.ReadElementString());
-                                else if (reader.Name == "ResearchParameter")
-                                {
-                                    reader.MoveToAttribute("name");
-                                    ResearchParameter rp = (ResearchParameter)Enum.Parse(typeof(ResearchParameter), reader.ReadContentAsString());
+                        while (reader.Read() && 
+                            (reader.NodeType != XmlNodeType.Element || 
+                            reader.Name == "Research")) { }
 
-                                    reader.MoveToAttribute("value");
-                                    ResearchParameterInfo rpInfo = (ResearchParameterInfo)(rp.GetType().GetField(rp.ToString()).GetCustomAttributes(typeof(ResearchParameterInfo), false)[0]);
-                                    if (rpInfo.Type.Equals(typeof(UInt32)))
-                                        singleResearchInfo.ResearchParameterValues.Add(rp,
-                                            UInt32.Parse(reader.ReadContentAsString()));
-                                    else if (rpInfo.Type.Equals(typeof(Single)))
-                                        singleResearchInfo.ResearchParameterValues.Add(rp,
-                                            Single.Parse(reader.ReadContentAsString()));
-                                    else if (rpInfo.Type.Equals(typeof(Boolean)))
-                                        singleResearchInfo.ResearchParameterValues.Add(rp,
-                                            Boolean.Parse(reader.ReadContentAsString()));
-                                }
-                                else if (reader.Name == "GenerationParameter")
-                                {
-                                    reader.MoveToAttribute("name");
-                                    GenerationParameter gp = (GenerationParameter)Enum.Parse(typeof(GenerationParameter), reader.ReadContentAsString());
-
-                                    reader.MoveToAttribute("value");
-                                    GenerationParameterInfo gpInfo = (GenerationParameterInfo)(gp.GetType().GetField(gp.ToString()).GetCustomAttributes(typeof(ResearchParameterInfo), false)[0]);
-                                    if (gpInfo.Type.Equals(typeof(UInt16)))
-                                        singleResearchInfo.GenerationParameterValues.Add(gp,
-                                            UInt16.Parse(reader.ReadContentAsString()));
-                                    else if (gpInfo.Type.Equals(typeof(Single)))
-                                        singleResearchInfo.GenerationParameterValues.Add(gp,
-                                            Single.Parse(reader.ReadContentAsString()));
-                                    else if (gpInfo.Type.Equals(typeof(Boolean)))
-                                        singleResearchInfo.GenerationParameterValues.Add(gp,
-                                            Boolean.Parse(reader.ReadContentAsString()));
-                                    else if(gpInfo.Type.Equals(typeof(UInt32)))
-                                        singleResearchInfo.GenerationParameterValues.Add(gp,
-                                            UInt32.Parse(reader.ReadContentAsString()));
-                                }
-                            }
-                        }
+                        LoadResearchInfo(singleResearchInfo);
+                        LoadResearchParameters(singleResearchInfo);
+                        LoadGenerationParameters(singleResearchInfo);
 
                         researchInfos.Add(singleResearchInfo);
+                        existingFileNames.Add(singleResearchInfo.ResearchID, fileName);
                     }
                     catch (SystemException)
                     {
@@ -161,8 +124,43 @@ namespace Storage
 
         public override ResearchResult Load(Guid researchID)
         {
-            throw new NotImplementedException();
+            ResearchResult r = null;
+
+            string fileNameToLoad = null;
+            if (existingFileNames != null && existingFileNames.Keys.Contains(researchID))
+                fileNameToLoad = existingFileNames[researchID];
+            else
+                fileNameToLoad = FileNameByGuid(researchID);
+
+            if (fileNameToLoad != null)
+            {
+                r = new ResearchResult();
+                using (reader = XmlReader.Create(fileNameToLoad))
+                {
+                    try
+                    {
+                        while (reader.Read() &&
+                            (reader.NodeType != XmlNodeType.Element ||
+                            reader.Name == "Research")) { }
+
+                        LoadResearchInfo(r);
+                        LoadResearchParameters(r);
+                        LoadGenerationParameters(r);
+                        LoadEnsembleResults(r);
+                    }
+                    catch (SystemException ex)
+                    {
+                        Console.WriteLine(ex.Data);
+                    }
+                }
+            }
+
+            return r;
         }
+
+        #region Utilities
+
+        #region Save
 
         private void SaveResearchInfo(Guid researchID,
             string researchName,
@@ -222,14 +220,14 @@ namespace Storage
                 AnalyzeOptionInfo info = ((AnalyzeOptionInfo[])opt.GetType().GetField(opt.ToString()).GetCustomAttributes(typeof(AnalyzeOptionInfo), false))[0];
                 OptionType optionType = info.OptionType;
 
-                switch(optionType)
+                switch (optionType)
                 {
                     case OptionType.Global:
                         writer.WriteElementString(opt.ToString(), e.Result[opt].ToString());
                         break;
                     case OptionType.ValueList:
                         writer.WriteStartElement(opt.ToString());
-                        SaveValueList(info, e.Result[opt]);                            
+                        SaveValueList(info, e.Result[opt]);
                         writer.WriteEndElement();
                         break;
                     case OptionType.Distribution:
@@ -245,8 +243,6 @@ namespace Storage
 
             writer.WriteEndElement();
         }
-
-        #region Utilities
 
         private void SaveValueList(AnalyzeOptionInfo info, Object value)
         {
@@ -293,6 +289,218 @@ namespace Storage
                     writer.WriteEndElement();
                 }
             }
+        }
+
+        #endregion
+
+        #region Load
+
+        private void LoadResearchInfo(ResearchResult r)
+        {
+            if (reader.Name == "ResearchID")
+                r.ResearchID = new Guid(reader.ReadElementString());
+            if (reader.Name == "ResearchName")
+                r.ResearchName = reader.ReadElementString();
+            if (reader.Name == "ResearchType")
+                r.ResearchType = (ResearchType)Enum.Parse(typeof(ResearchType), reader.ReadElementString());
+            if (reader.Name == "ModelType")
+                r.ModelType = (ModelType)Enum.Parse(typeof(ModelType), reader.ReadElementString());
+            if (reader.Name == "RealizationCount")
+                r.RealizationCount = Int32.Parse(reader.ReadElementString());
+            if (reader.Name == "Date")
+            {
+                // TODO add date
+                reader.ReadElementString();
+            }
+            if (reader.Name == "Size")
+                r.Size = UInt32.Parse(reader.ReadElementString());
+        }
+
+        private void LoadResearchParameters(ResearchResult r)
+        {
+            while (reader.Read())
+            {
+                if (reader.Name == "ResearchParameter")
+                {
+                    reader.MoveToAttribute("name");
+                    ResearchParameter rp = (ResearchParameter)Enum.Parse(typeof(ResearchParameter), reader.ReadContentAsString());
+
+                    reader.MoveToAttribute("value");
+                    ResearchParameterInfo rpInfo = (ResearchParameterInfo)(rp.GetType().GetField(rp.ToString()).GetCustomAttributes(typeof(ResearchParameterInfo), false)[0]);
+                    if (rpInfo.Type.Equals(typeof(UInt32)))
+                        r.ResearchParameterValues.Add(rp, UInt32.Parse(reader.Value));
+                    else if (rpInfo.Type.Equals(typeof(Single)))
+                        r.ResearchParameterValues.Add(rp, Single.Parse(reader.Value));
+                    else if (rpInfo.Type.Equals(typeof(Boolean)))
+                        r.ResearchParameterValues.Add(rp, Boolean.Parse(reader.Value));
+                }
+                else if (reader.Name == "GenerationParameterValues")
+                    break;
+            }
+        }
+
+        private void LoadGenerationParameters(ResearchResult r)
+        {
+            while (reader.Read())
+            {
+                if (reader.Name == "GenerationParameter")
+                {
+                    reader.MoveToAttribute("name");
+                    GenerationParameter gp = (GenerationParameter)Enum.Parse(typeof(GenerationParameter), reader.ReadContentAsString());
+
+                    reader.MoveToAttribute("value");
+                    GenerationParameterInfo gpInfo = (GenerationParameterInfo)(gp.GetType().GetField(gp.ToString()).GetCustomAttributes(typeof(GenerationParameterInfo), false)[0]);
+                    if (gpInfo.Type.Equals(typeof(UInt16)))
+                        r.GenerationParameterValues.Add(gp, UInt16.Parse(reader.Value));
+                    else if (gpInfo.Type.Equals(typeof(Single)))
+                        r.GenerationParameterValues.Add(gp, Single.Parse(reader.Value));
+                    else if (gpInfo.Type.Equals(typeof(Boolean)))
+                        r.GenerationParameterValues.Add(gp, Boolean.Parse(reader.Value));
+                    else if (gpInfo.Type.Equals(typeof(UInt32)))
+                        r.GenerationParameterValues.Add(gp, UInt32.Parse(reader.Value));
+                }
+                if (reader.Name == "Ensembles")
+                    break;
+            }
+        }
+
+        private void LoadEnsembleResults(ResearchResult r)
+        {
+            while (reader.Read())
+            {
+                if (reader.Name == "Ensemble" && !reader.IsEmptyElement)
+                {
+                    EnsembleResult e = new EnsembleResult();
+                    e.NetworkSize = r.Size;
+                    e.Result = new Dictionary<AnalyzeOption, Object>();
+
+                    reader.Read();
+                    while (reader.NodeType != XmlNodeType.EndElement)
+                    {
+                        AnalyzeOption opt = (AnalyzeOption)Enum.Parse(typeof(AnalyzeOption), reader.Name);
+                        AnalyzeOptionInfo optInfo = (AnalyzeOptionInfo)(opt.GetType().GetField(opt.ToString()).GetCustomAttributes(typeof(AnalyzeOptionInfo), false)[0]);
+                        switch (optInfo.OptionType)
+                        {
+                            case OptionType.Global:
+                                if (optInfo.EnsembleResultType.Equals(typeof(Double)))
+                                    e.Result.Add(opt, reader.ReadElementContentAsDouble());
+                                break;
+                            case OptionType.ValueList:
+                                e.Result.Add(opt, LoadValueList(optInfo));
+                                reader.Read();
+                                break;
+                            case OptionType.Distribution:
+                            case OptionType.Trajectory:
+                                e.Result.Add(opt, LoadDistribution(optInfo));
+                                reader.Read();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    r.EnsembleResults.Add(e);
+                }
+            }
+        }
+
+        private Object LoadValueList(AnalyzeOptionInfo info)
+        {
+            if (info.EnsembleResultType.Equals(typeof(List<Double>)))
+            {
+                List<Double> valueList = new List<Double>();
+                reader.Read();
+                while (reader.NodeType != XmlNodeType.EndElement)
+                {
+                    valueList.Add(Double.Parse(reader.ReadElementString()));
+                }
+                return valueList;
+            }
+
+            return null;
+        }
+
+        private Object LoadDistribution(AnalyzeOptionInfo info)
+        {
+            if (info.EnsembleResultType.Equals(typeof(SortedDictionary<Double, Double>)))
+            {
+                SortedDictionary<Double, Double> d = new SortedDictionary<Double, Double>();
+                double first, second;
+                while (reader.Read() && reader.NodeType != XmlNodeType.EndElement)
+                {
+                    reader.MoveToFirstAttribute();
+                    first = Double.Parse(reader.Value);
+                    reader.MoveToNextAttribute();
+                    second = Double.Parse(reader.Value);
+                    d.Add(first, second);
+                }
+                return d;
+            }
+            else if (info.EnsembleResultType.Equals(typeof(SortedDictionary<UInt32, Double>)))
+            {
+                SortedDictionary<UInt32, Double> d = new SortedDictionary<UInt32, Double>();
+                UInt32 first;
+                double second;
+                while (reader.Read() && reader.NodeType != XmlNodeType.EndElement)
+                {
+                    reader.MoveToFirstAttribute();
+                    first = UInt32.Parse(reader.Value);
+                    reader.MoveToNextAttribute();
+                    second = Double.Parse(reader.Value);
+                    d.Add(first, second);
+                }
+                return d;
+            }
+            else if (info.EnsembleResultType.Equals(typeof(SortedDictionary<UInt16, Double>)))
+            {
+                SortedDictionary<UInt16, Double> d = new SortedDictionary<UInt16, Double>();
+                UInt16 first;
+                double second;
+                while (reader.Read() && reader.NodeType != XmlNodeType.EndElement)
+                {
+                    reader.MoveToFirstAttribute();
+                    first = UInt16.Parse(reader.Value);
+                    reader.MoveToNextAttribute();
+                    second = Double.Parse(reader.Value);
+                    d.Add(first, second);
+                }
+                return d;
+            }
+
+            return null;
+        }
+
+        #endregion
+
+        private string FileNameByGuid(Guid id)
+        {
+            foreach (string fileName in Directory.GetFiles(storageStr, "*.xml",
+                SearchOption.TopDirectoryOnly))
+            {
+                using (reader = XmlReader.Create(fileName))
+                {
+                    try
+                    {
+                        while (reader.Read() &&
+                            (reader.NodeType != XmlNodeType.Element ||
+                            reader.Name == "Research")) { }
+
+                        if (reader.Name == "ResearchID")
+                        {
+                            if (id == Guid.Parse(reader.ReadElementString()))
+                            {
+                                return fileName;
+                            }
+                        }
+                    }
+                    catch (SystemException)
+                    {
+                        continue;
+                    }
+                }
+            }
+
+            return null;
         }
 
         #endregion
