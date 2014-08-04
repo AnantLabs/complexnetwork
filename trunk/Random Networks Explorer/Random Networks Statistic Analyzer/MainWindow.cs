@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-using Core.Result;
-using Storage;
+using Core.Enumerations;
+using Core.Attributes;
 
 namespace Random_Networks_Statistic_Analyzer
 {
@@ -23,12 +23,8 @@ namespace Random_Networks_Statistic_Analyzer
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            XMLResultStorage str = new XMLResultStorage("D:\\Disertation\\System (code)\\Last Version\\Random Networks Explorer\\RNE\\Results");
-            List<ResearchResult> all = str.LoadAllResearchInfo();
-
-            ResearchResult r = str.Load(new Guid("0ecad003-ef52-4b7f-b435-34feadd1bed7"));
-
             InitializeResearchType();
+            InitializeModelType();
         }
 
         private void loadFromToolStripMenuItem_Click(object sender, EventArgs e)
@@ -42,24 +38,16 @@ namespace Random_Networks_Statistic_Analyzer
 
         }
 
-        private void deleteResearchToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void selectDeselectAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void researchTypeCmb_SelectedIndexChanged(object sender, EventArgs e)
         {
+            InitializeModelType();
 
+            // TODO refresh list in researchesTable
         }
 
         private void modelTypeCmb_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            // TODO refresh list in researchesTable
         }
 
         private void refresh_Click(object sender, EventArgs e)
@@ -72,17 +60,133 @@ namespace Random_Networks_Statistic_Analyzer
 
         }
 
+        private void researchesTable_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Right)
+            {
+                return;
+            }
+
+            DataGridView.HitTestInfo hit = researchesTable.HitTest(e.X, e.Y);
+            if (hit.RowIndex != -1)
+            {
+                researchesTable.Rows[hit.RowIndex].Selected = true;
+                researchTableCSM.Items["eraseResearch"].Enabled = true;
+                researchTableCSM.Items["selectGroup"].Enabled = true;
+            }
+            else
+            {
+                researchTableCSM.Items["eraseResearch"].Enabled = false;
+                researchTableCSM.Items["selectGroup"].Enabled = false;
+            }
+            researchTableCSM.Show(researchesTable, e.X, e.Y);
+        }
+
+        private void eraseResearchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void selectGroupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void selectAll_Click(object sender, EventArgs e)
+        {
+            switch (optionsTabs.SelectedIndex)
+            {
+                case 0:
+                    foreach (DataGridViewRow r in globalOptionsTable.Rows)
+                    {
+                        DataGridViewCheckBoxCell cell = r.Cells["globalCheckedColumn"] as DataGridViewCheckBoxCell;
+                        cell.Value = true;
+                    }
+                    break;
+                case 1:
+                    foreach (DataGridViewRow r in distributedOptionsTable.Rows)
+                    {
+                        DataGridViewCheckBoxCell cell = r.Cells["distributedCheckedColumn"] as DataGridViewCheckBoxCell;
+                        cell.Value = true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void deselectAll_Click(object sender, EventArgs e)
+        {
+            switch (optionsTabs.SelectedIndex)
+            {
+                case 0:
+                    foreach (DataGridViewRow r in globalOptionsTable.Rows)
+                    {
+                        DataGridViewCheckBoxCell cell = r.Cells["globalCheckedColumn"] as DataGridViewCheckBoxCell;
+                        cell.Value = false;
+                    }
+                    break;
+                case 1:
+                    foreach (DataGridViewRow r in distributedOptionsTable.Rows)
+                    {
+                        DataGridViewCheckBoxCell cell = r.Cells["distributedCheckedColumn"] as DataGridViewCheckBoxCell;
+                        cell.Value = false;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private void color_Click(object sender, EventArgs e)
         {
-            colorDlg.ShowDialog();
+            if (colorDlg.ShowDialog() == DialogResult.OK)
+            {
+                color.BackColor = colorDlg.Color;
+            }
         }
 
         #endregion
 
         #region Utilities
 
-        void InitializeResearchType()
+        private void InitializeResearchType()
         {
+            researchTypeCmb.Items.Clear();
+            string[] researchTypeNames = Enum.GetNames(typeof(ResearchType));
+            for (int i = 0; i < researchTypeNames.Length; ++i)
+                researchTypeCmb.Items.Add(researchTypeNames[i]);
+
+            researchTypeCmb.Items.Add("All types");
+
+            if (researchTypeCmb.Items.Count != 0)
+                researchTypeCmb.SelectedIndex = 0;
+        }
+
+        private void InitializeModelType()
+        {
+            modelTypeCmb.Items.Clear();
+            if (researchTypeCmb.Text == "All types")
+            {
+                string[] modelTypeNames = Enum.GetNames(typeof(ModelType));
+                for (int i = 0; i < modelTypeNames.Length; ++i)
+                    modelTypeCmb.Items.Add(modelTypeNames[i]);
+            }
+            else
+            {
+                ResearchType rtype = (ResearchType)Enum.Parse(typeof(ResearchType), researchTypeCmb.Text);
+                ResearchTypeInfo[] info = (ResearchTypeInfo[])rtype.GetType().GetField(rtype.ToString()).GetCustomAttributes(typeof(ResearchTypeInfo), false);
+                Type rt = Type.GetType(info[0].Implementation, true);
+
+                List<AvailableModelType> l = new List<AvailableModelType>((AvailableModelType[])rt.GetCustomAttributes(typeof(AvailableModelType), true));
+                for (int i = 0; i < l.Count; ++i)
+                    modelTypeCmb.Items.Add(l[i].ModelType.ToString());
+            }
+
+            modelTypeCmb.Items.Add("All types");
+
+            if (modelTypeCmb.Items.Count != 0)
+                modelTypeCmb.SelectedIndex = 0;
         }
 
         #endregion

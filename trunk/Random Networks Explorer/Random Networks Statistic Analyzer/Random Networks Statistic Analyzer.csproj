@@ -91,10 +91,6 @@
       <Project>{479C57F7-2B45-48F4-B434-C7E59D0B0F7B}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Storage\Storage.csproj">
-      <Project>{0F69615E-50D1-40D9-896A-2887A8C68B09}</Project>
-      <Name>Storage</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

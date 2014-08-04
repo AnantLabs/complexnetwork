@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadFromToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,58 +45,52 @@
             this.researchSizeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.researchDateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.researchTableCSM = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.deleteResearchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectDeselectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.eraseResearch = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectGroup = new System.Windows.Forms.ToolStripMenuItem();
             this.modelTypeCmb = new System.Windows.Forms.ComboBox();
             this.modelType = new System.Windows.Forms.Label();
             this.researchTypeCmb = new System.Windows.Forms.ComboBox();
             this.researchType = new System.Windows.Forms.Label();
             this.statisticAnalyzeGrp = new System.Windows.Forms.GroupBox();
+            this.drawOptionsGrp = new System.Windows.Forms.GroupBox();
+            this.lineColor = new System.Windows.Forms.Label();
+            this.groupCheck = new System.Windows.Forms.CheckBox();
+            this.pointsCheck = new System.Windows.Forms.CheckBox();
+            this.color = new System.Windows.Forms.Button();
+            this.selectAll = new System.Windows.Forms.Button();
+            this.deselectAll = new System.Windows.Forms.Button();
+            this.valueButton = new System.Windows.Forms.Button();
+            this.GlobalDrawGraphics = new System.Windows.Forms.Button();
             this.optionsTabs = new System.Windows.Forms.TabControl();
+            this.globalOptionsTab = new System.Windows.Forms.TabPage();
+            this.globalOptionsTable = new System.Windows.Forms.DataGridView();
             this.distributedOptionsTab = new System.Windows.Forms.TabPage();
-            this.trajectoryOptionsTab = new System.Windows.Forms.TabPage();
+            this.distributedOptionsTable = new System.Windows.Forms.DataGridView();
             this.detailsGrp = new System.Windows.Forms.GroupBox();
             this.parametersTable = new System.Windows.Forms.DataGridView();
             this.parameterNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.parameterValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.valueButton = new System.Windows.Forms.Button();
-            this.GlobalDrawGraphics = new System.Windows.Forms.Button();
-            this.selectAll = new System.Windows.Forms.Button();
-            this.deselectAll = new System.Windows.Forms.Button();
-            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.approximationColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.thickeningColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.deltaColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.distributedOptionsTable = new System.Windows.Forms.DataGridView();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewCheckBoxColumn2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.globalOptionsTab = new System.Windows.Forms.TabPage();
-            this.checkedColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.optionNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.globalOptionsTable = new System.Windows.Forms.DataGridView();
-            this.drawOptionsGrp = new System.Windows.Forms.GroupBox();
             this.colorDlg = new System.Windows.Forms.ColorDialog();
-            this.color = new System.Windows.Forms.Button();
-            this.pointsCheck = new System.Windows.Forms.CheckBox();
-            this.groupCheck = new System.Windows.Forms.CheckBox();
-            this.lineColor = new System.Windows.Forms.Label();
+            this.distributedNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.deltaColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.thickeningColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.approximationColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.distributedCheckedColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.optionNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.globalCheckedColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.mainMenu.SuspendLayout();
             this.researchesGrp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.researchesTable)).BeginInit();
             this.researchTableCSM.SuspendLayout();
             this.statisticAnalyzeGrp.SuspendLayout();
+            this.drawOptionsGrp.SuspendLayout();
             this.optionsTabs.SuspendLayout();
-            this.distributedOptionsTab.SuspendLayout();
-            this.trajectoryOptionsTab.SuspendLayout();
-            this.detailsGrp.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.parametersTable)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.distributedOptionsTable)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.globalOptionsTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.globalOptionsTable)).BeginInit();
-            this.drawOptionsGrp.SuspendLayout();
+            this.distributedOptionsTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.distributedOptionsTable)).BeginInit();
+            this.detailsGrp.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.parametersTable)).BeginInit();
             this.SuspendLayout();
             // 
             // mainMenu
@@ -185,11 +179,12 @@
             this.researchesTable.Size = new System.Drawing.Size(602, 312);
             this.researchesTable.TabIndex = 9;
             this.researchesTable.SelectionChanged += new System.EventHandler(this.researchesTable_SelectionChanged);
+            this.researchesTable.MouseDown += new System.Windows.Forms.MouseEventHandler(this.researchesTable_MouseDown);
             // 
             // researchNameColumn
             // 
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.researchNameColumn.DefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.researchNameColumn.DefaultCellStyle = dataGridViewCellStyle5;
             this.researchNameColumn.HeaderText = "Name";
             this.researchNameColumn.Name = "researchNameColumn";
             this.researchNameColumn.ReadOnly = true;
@@ -197,8 +192,8 @@
             // 
             // researchRealizationCountColumn
             // 
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.researchRealizationCountColumn.DefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.researchRealizationCountColumn.DefaultCellStyle = dataGridViewCellStyle6;
             this.researchRealizationCountColumn.HeaderText = "Realization Count";
             this.researchRealizationCountColumn.Name = "researchRealizationCountColumn";
             this.researchRealizationCountColumn.ReadOnly = true;
@@ -206,8 +201,8 @@
             // 
             // researchSizeColumn
             // 
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.researchSizeColumn.DefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.researchSizeColumn.DefaultCellStyle = dataGridViewCellStyle7;
             this.researchSizeColumn.HeaderText = "Network Size";
             this.researchSizeColumn.Name = "researchSizeColumn";
             this.researchSizeColumn.ReadOnly = true;
@@ -216,8 +211,8 @@
             // researchDateColumn
             // 
             this.researchDateColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.researchDateColumn.DefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.researchDateColumn.DefaultCellStyle = dataGridViewCellStyle8;
             this.researchDateColumn.HeaderText = "Date";
             this.researchDateColumn.Name = "researchDateColumn";
             this.researchDateColumn.ReadOnly = true;
@@ -225,24 +220,24 @@
             // researchTableCSM
             // 
             this.researchTableCSM.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.deleteResearchToolStripMenuItem,
-            this.selectDeselectAllToolStripMenuItem});
+            this.eraseResearch,
+            this.selectGroup});
             this.researchTableCSM.Name = "researchTableCSM";
-            this.researchTableCSM.Size = new System.Drawing.Size(158, 48);
+            this.researchTableCSM.Size = new System.Drawing.Size(224, 70);
             // 
-            // deleteResearchToolStripMenuItem
+            // eraseResearch
             // 
-            this.deleteResearchToolStripMenuItem.Name = "deleteResearchToolStripMenuItem";
-            this.deleteResearchToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.deleteResearchToolStripMenuItem.Text = "Delete Research";
-            this.deleteResearchToolStripMenuItem.Click += new System.EventHandler(this.deleteResearchToolStripMenuItem_Click);
+            this.eraseResearch.Name = "eraseResearch";
+            this.eraseResearch.Size = new System.Drawing.Size(223, 22);
+            this.eraseResearch.Text = "Erase Research from Storage";
+            this.eraseResearch.Click += new System.EventHandler(this.eraseResearchToolStripMenuItem_Click);
             // 
-            // selectDeselectAllToolStripMenuItem
+            // selectGroup
             // 
-            this.selectDeselectAllToolStripMenuItem.Name = "selectDeselectAllToolStripMenuItem";
-            this.selectDeselectAllToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.selectDeselectAllToolStripMenuItem.Text = "Select All";
-            this.selectDeselectAllToolStripMenuItem.Click += new System.EventHandler(this.selectDeselectAllToolStripMenuItem_Click);
+            this.selectGroup.Name = "selectGroup";
+            this.selectGroup.Size = new System.Drawing.Size(223, 22);
+            this.selectGroup.Text = "Select Group";
+            this.selectGroup.Click += new System.EventHandler(this.selectGroupToolStripMenuItem_Click);
             // 
             // modelTypeCmb
             // 
@@ -297,38 +292,174 @@
             this.statisticAnalyzeGrp.TabStop = false;
             this.statisticAnalyzeGrp.Text = "Statistic Analyze Options";
             // 
+            // drawOptionsGrp
+            // 
+            this.drawOptionsGrp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.drawOptionsGrp.Controls.Add(this.lineColor);
+            this.drawOptionsGrp.Controls.Add(this.groupCheck);
+            this.drawOptionsGrp.Controls.Add(this.pointsCheck);
+            this.drawOptionsGrp.Controls.Add(this.color);
+            this.drawOptionsGrp.Location = new System.Drawing.Point(825, 19);
+            this.drawOptionsGrp.Name = "drawOptionsGrp";
+            this.drawOptionsGrp.Size = new System.Drawing.Size(170, 144);
+            this.drawOptionsGrp.TabIndex = 53;
+            this.drawOptionsGrp.TabStop = false;
+            this.drawOptionsGrp.Text = "Drawing Options";
+            // 
+            // lineColor
+            // 
+            this.lineColor.AutoSize = true;
+            this.lineColor.Location = new System.Drawing.Point(14, 31);
+            this.lineColor.Name = "lineColor";
+            this.lineColor.Size = new System.Drawing.Size(54, 13);
+            this.lineColor.TabIndex = 3;
+            this.lineColor.Text = "Line Color";
+            // 
+            // groupCheck
+            // 
+            this.groupCheck.AutoSize = true;
+            this.groupCheck.Location = new System.Drawing.Point(17, 112);
+            this.groupCheck.Name = "groupCheck";
+            this.groupCheck.Size = new System.Drawing.Size(148, 17);
+            this.groupCheck.TabIndex = 2;
+            this.groupCheck.Text = "Group Graphics by Option";
+            this.groupCheck.UseVisualStyleBackColor = true;
+            // 
+            // pointsCheck
+            // 
+            this.pointsCheck.AutoSize = true;
+            this.pointsCheck.Checked = true;
+            this.pointsCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.pointsCheck.Location = new System.Drawing.Point(17, 70);
+            this.pointsCheck.Name = "pointsCheck";
+            this.pointsCheck.Size = new System.Drawing.Size(55, 17);
+            this.pointsCheck.TabIndex = 1;
+            this.pointsCheck.Text = "Points";
+            this.pointsCheck.UseVisualStyleBackColor = true;
+            // 
+            // color
+            // 
+            this.color.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.color.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.color.Location = new System.Drawing.Point(74, 25);
+            this.color.Name = "color";
+            this.color.Size = new System.Drawing.Size(55, 23);
+            this.color.TabIndex = 0;
+            this.color.UseVisualStyleBackColor = false;
+            this.color.Click += new System.EventHandler(this.color_Click);
+            // 
+            // selectAll
+            // 
+            this.selectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.selectAll.Location = new System.Drawing.Point(648, 278);
+            this.selectAll.Name = "selectAll";
+            this.selectAll.Size = new System.Drawing.Size(79, 23);
+            this.selectAll.TabIndex = 52;
+            this.selectAll.Text = "Select All";
+            this.selectAll.UseVisualStyleBackColor = true;
+            this.selectAll.Click += new System.EventHandler(this.selectAll_Click);
+            // 
+            // deselectAll
+            // 
+            this.deselectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.deselectAll.Location = new System.Drawing.Point(733, 278);
+            this.deselectAll.Name = "deselectAll";
+            this.deselectAll.Size = new System.Drawing.Size(79, 23);
+            this.deselectAll.TabIndex = 51;
+            this.deselectAll.Text = "Deselect All";
+            this.deselectAll.UseVisualStyleBackColor = true;
+            this.deselectAll.Click += new System.EventHandler(this.deselectAll_Click);
+            // 
+            // valueButton
+            // 
+            this.valueButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.valueButton.Location = new System.Drawing.Point(825, 180);
+            this.valueButton.Name = "valueButton";
+            this.valueButton.Size = new System.Drawing.Size(170, 37);
+            this.valueButton.TabIndex = 50;
+            this.valueButton.Text = "Show Values";
+            this.valueButton.UseVisualStyleBackColor = true;
+            // 
+            // GlobalDrawGraphics
+            // 
+            this.GlobalDrawGraphics.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.GlobalDrawGraphics.Location = new System.Drawing.Point(825, 231);
+            this.GlobalDrawGraphics.Name = "GlobalDrawGraphics";
+            this.GlobalDrawGraphics.Size = new System.Drawing.Size(170, 37);
+            this.GlobalDrawGraphics.TabIndex = 48;
+            this.GlobalDrawGraphics.Text = "Draw Graphics";
+            this.GlobalDrawGraphics.UseVisualStyleBackColor = true;
+            // 
             // optionsTabs
             // 
             this.optionsTabs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.optionsTabs.Controls.Add(this.globalOptionsTab);
             this.optionsTabs.Controls.Add(this.distributedOptionsTab);
-            this.optionsTabs.Controls.Add(this.trajectoryOptionsTab);
             this.optionsTabs.Location = new System.Drawing.Point(9, 19);
             this.optionsTabs.Name = "optionsTabs";
             this.optionsTabs.SelectedIndex = 0;
             this.optionsTabs.Size = new System.Drawing.Size(810, 253);
             this.optionsTabs.TabIndex = 11;
             // 
+            // globalOptionsTab
+            // 
+            this.globalOptionsTab.Controls.Add(this.globalOptionsTable);
+            this.globalOptionsTab.Location = new System.Drawing.Point(4, 22);
+            this.globalOptionsTab.Name = "globalOptionsTab";
+            this.globalOptionsTab.Padding = new System.Windows.Forms.Padding(3);
+            this.globalOptionsTab.Size = new System.Drawing.Size(802, 227);
+            this.globalOptionsTab.TabIndex = 0;
+            this.globalOptionsTab.Text = "Global Options";
+            this.globalOptionsTab.UseVisualStyleBackColor = true;
+            // 
+            // globalOptionsTable
+            // 
+            this.globalOptionsTable.AllowUserToAddRows = false;
+            this.globalOptionsTable.AllowUserToDeleteRows = false;
+            this.globalOptionsTable.AllowUserToResizeColumns = false;
+            this.globalOptionsTable.AllowUserToResizeRows = false;
+            this.globalOptionsTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.globalOptionsTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.optionNameColumn,
+            this.globalCheckedColumn});
+            this.globalOptionsTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.globalOptionsTable.Location = new System.Drawing.Point(3, 3);
+            this.globalOptionsTable.Name = "globalOptionsTable";
+            this.globalOptionsTable.RowHeadersVisible = false;
+            this.globalOptionsTable.Size = new System.Drawing.Size(796, 221);
+            this.globalOptionsTable.TabIndex = 0;
+            // 
             // distributedOptionsTab
             // 
             this.distributedOptionsTab.Controls.Add(this.distributedOptionsTable);
             this.distributedOptionsTab.Location = new System.Drawing.Point(4, 22);
             this.distributedOptionsTab.Name = "distributedOptionsTab";
-            this.distributedOptionsTab.Size = new System.Drawing.Size(600, 227);
+            this.distributedOptionsTab.Size = new System.Drawing.Size(802, 227);
             this.distributedOptionsTab.TabIndex = 2;
             this.distributedOptionsTab.Text = "Distributed Options";
             this.distributedOptionsTab.UseVisualStyleBackColor = true;
             // 
-            // trajectoryOptionsTab
+            // distributedOptionsTable
             // 
-            this.trajectoryOptionsTab.Controls.Add(this.dataGridView1);
-            this.trajectoryOptionsTab.Location = new System.Drawing.Point(4, 22);
-            this.trajectoryOptionsTab.Name = "trajectoryOptionsTab";
-            this.trajectoryOptionsTab.Size = new System.Drawing.Size(600, 227);
-            this.trajectoryOptionsTab.TabIndex = 3;
-            this.trajectoryOptionsTab.Text = "Trajectory Options";
-            this.trajectoryOptionsTab.UseVisualStyleBackColor = true;
+            this.distributedOptionsTable.AllowUserToAddRows = false;
+            this.distributedOptionsTable.AllowUserToDeleteRows = false;
+            this.distributedOptionsTable.AllowUserToResizeColumns = false;
+            this.distributedOptionsTable.AllowUserToResizeRows = false;
+            this.distributedOptionsTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.distributedOptionsTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.distributedNameColumn,
+            this.deltaColumn,
+            this.thickeningColumn,
+            this.approximationColumn,
+            this.distributedCheckedColumn});
+            this.distributedOptionsTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.distributedOptionsTable.Location = new System.Drawing.Point(0, 0);
+            this.distributedOptionsTable.Name = "distributedOptionsTable";
+            this.distributedOptionsTable.RowHeadersVisible = false;
+            this.distributedOptionsTable.Size = new System.Drawing.Size(802, 227);
+            this.distributedOptionsTable.TabIndex = 1;
             // 
             // detailsGrp
             // 
@@ -375,57 +506,21 @@
             this.parameterValueColumn.Name = "parameterValueColumn";
             this.parameterValueColumn.ReadOnly = true;
             // 
-            // valueButton
+            // colorDlg
             // 
-            this.valueButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.valueButton.Location = new System.Drawing.Point(825, 180);
-            this.valueButton.Name = "valueButton";
-            this.valueButton.Size = new System.Drawing.Size(170, 37);
-            this.valueButton.TabIndex = 50;
-            this.valueButton.Text = "Show Values";
-            this.valueButton.UseVisualStyleBackColor = true;
+            this.colorDlg.FullOpen = true;
             // 
-            // GlobalDrawGraphics
+            // distributedNameColumn
             // 
-            this.GlobalDrawGraphics.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.GlobalDrawGraphics.Location = new System.Drawing.Point(825, 231);
-            this.GlobalDrawGraphics.Name = "GlobalDrawGraphics";
-            this.GlobalDrawGraphics.Size = new System.Drawing.Size(170, 37);
-            this.GlobalDrawGraphics.TabIndex = 48;
-            this.GlobalDrawGraphics.Text = "Draw Graphics";
-            this.GlobalDrawGraphics.UseVisualStyleBackColor = true;
+            this.distributedNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.distributedNameColumn.HeaderText = "Name";
+            this.distributedNameColumn.Name = "distributedNameColumn";
+            this.distributedNameColumn.ReadOnly = true;
             // 
-            // selectAll
+            // deltaColumn
             // 
-            this.selectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.selectAll.Location = new System.Drawing.Point(13, 278);
-            this.selectAll.Name = "selectAll";
-            this.selectAll.Size = new System.Drawing.Size(79, 23);
-            this.selectAll.TabIndex = 52;
-            this.selectAll.Text = "Select All";
-            this.selectAll.UseVisualStyleBackColor = true;
-            // 
-            // deselectAll
-            // 
-            this.deselectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.deselectAll.Location = new System.Drawing.Point(98, 278);
-            this.deselectAll.Name = "deselectAll";
-            this.deselectAll.Size = new System.Drawing.Size(79, 23);
-            this.deselectAll.TabIndex = 51;
-            this.deselectAll.Text = "Deselect All";
-            this.deselectAll.UseVisualStyleBackColor = true;
-            // 
-            // dataGridViewCheckBoxColumn1
-            // 
-            this.dataGridViewCheckBoxColumn1.HeaderText = "";
-            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-            // 
-            // approximationColumn
-            // 
-            this.approximationColumn.HeaderText = "Approximation";
-            this.approximationColumn.Name = "approximationColumn";
-            this.approximationColumn.Width = 130;
+            this.deltaColumn.HeaderText = "Delta";
+            this.deltaColumn.Name = "deltaColumn";
             // 
             // thickeningColumn
             // 
@@ -433,82 +528,16 @@
             this.thickeningColumn.Name = "thickeningColumn";
             this.thickeningColumn.Width = 130;
             // 
-            // deltaColumn
+            // approximationColumn
             // 
-            this.deltaColumn.HeaderText = "Delta";
-            this.deltaColumn.Name = "deltaColumn";
+            this.approximationColumn.HeaderText = "Approximation";
+            this.approximationColumn.Name = "approximationColumn";
+            this.approximationColumn.Width = 130;
             // 
-            // dataGridViewTextBoxColumn1
+            // distributedCheckedColumn
             // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn1.HeaderText = "Name";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // distributedOptionsTable
-            // 
-            this.distributedOptionsTable.AllowUserToAddRows = false;
-            this.distributedOptionsTable.AllowUserToDeleteRows = false;
-            this.distributedOptionsTable.AllowUserToResizeColumns = false;
-            this.distributedOptionsTable.AllowUserToResizeRows = false;
-            this.distributedOptionsTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.distributedOptionsTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.deltaColumn,
-            this.thickeningColumn,
-            this.approximationColumn,
-            this.dataGridViewCheckBoxColumn1});
-            this.distributedOptionsTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.distributedOptionsTable.Location = new System.Drawing.Point(0, 0);
-            this.distributedOptionsTable.Name = "distributedOptionsTable";
-            this.distributedOptionsTable.RowHeadersVisible = false;
-            this.distributedOptionsTable.Size = new System.Drawing.Size(600, 227);
-            this.distributedOptionsTable.TabIndex = 1;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToResizeColumns = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewCheckBoxColumn2});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(600, 227);
-            this.dataGridView1.TabIndex = 1;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn2.HeaderText = "Name";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
-            // dataGridViewCheckBoxColumn2
-            // 
-            this.dataGridViewCheckBoxColumn2.HeaderText = "";
-            this.dataGridViewCheckBoxColumn2.Name = "dataGridViewCheckBoxColumn2";
-            // 
-            // globalOptionsTab
-            // 
-            this.globalOptionsTab.Controls.Add(this.globalOptionsTable);
-            this.globalOptionsTab.Location = new System.Drawing.Point(4, 22);
-            this.globalOptionsTab.Name = "globalOptionsTab";
-            this.globalOptionsTab.Padding = new System.Windows.Forms.Padding(3);
-            this.globalOptionsTab.Size = new System.Drawing.Size(802, 227);
-            this.globalOptionsTab.TabIndex = 0;
-            this.globalOptionsTab.Text = "Global Options";
-            this.globalOptionsTab.UseVisualStyleBackColor = true;
-            // 
-            // checkedColumn
-            // 
-            this.checkedColumn.HeaderText = "";
-            this.checkedColumn.Name = "checkedColumn";
+            this.distributedCheckedColumn.HeaderText = "";
+            this.distributedCheckedColumn.Name = "distributedCheckedColumn";
             // 
             // optionNameColumn
             // 
@@ -517,82 +546,10 @@
             this.optionNameColumn.Name = "optionNameColumn";
             this.optionNameColumn.ReadOnly = true;
             // 
-            // globalOptionsTable
+            // globalCheckedColumn
             // 
-            this.globalOptionsTable.AllowUserToAddRows = false;
-            this.globalOptionsTable.AllowUserToDeleteRows = false;
-            this.globalOptionsTable.AllowUserToResizeColumns = false;
-            this.globalOptionsTable.AllowUserToResizeRows = false;
-            this.globalOptionsTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.globalOptionsTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.optionNameColumn,
-            this.checkedColumn});
-            this.globalOptionsTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.globalOptionsTable.Location = new System.Drawing.Point(3, 3);
-            this.globalOptionsTable.Name = "globalOptionsTable";
-            this.globalOptionsTable.RowHeadersVisible = false;
-            this.globalOptionsTable.Size = new System.Drawing.Size(796, 221);
-            this.globalOptionsTable.TabIndex = 0;
-            // 
-            // drawOptionsGrp
-            // 
-            this.drawOptionsGrp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.drawOptionsGrp.Controls.Add(this.lineColor);
-            this.drawOptionsGrp.Controls.Add(this.groupCheck);
-            this.drawOptionsGrp.Controls.Add(this.pointsCheck);
-            this.drawOptionsGrp.Controls.Add(this.color);
-            this.drawOptionsGrp.Location = new System.Drawing.Point(825, 19);
-            this.drawOptionsGrp.Name = "drawOptionsGrp";
-            this.drawOptionsGrp.Size = new System.Drawing.Size(170, 144);
-            this.drawOptionsGrp.TabIndex = 53;
-            this.drawOptionsGrp.TabStop = false;
-            this.drawOptionsGrp.Text = "Drawing Options";
-            // 
-            // colorDlg
-            // 
-            this.colorDlg.FullOpen = true;
-            // 
-            // color
-            // 
-            this.color.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.color.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.color.Location = new System.Drawing.Point(74, 25);
-            this.color.Name = "color";
-            this.color.Size = new System.Drawing.Size(55, 23);
-            this.color.TabIndex = 0;
-            this.color.UseVisualStyleBackColor = false;
-            this.color.Click += new System.EventHandler(this.color_Click);
-            // 
-            // pointsCheck
-            // 
-            this.pointsCheck.AutoSize = true;
-            this.pointsCheck.Checked = true;
-            this.pointsCheck.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.pointsCheck.Location = new System.Drawing.Point(17, 70);
-            this.pointsCheck.Name = "pointsCheck";
-            this.pointsCheck.Size = new System.Drawing.Size(55, 17);
-            this.pointsCheck.TabIndex = 1;
-            this.pointsCheck.Text = "Points";
-            this.pointsCheck.UseVisualStyleBackColor = true;
-            // 
-            // groupCheck
-            // 
-            this.groupCheck.AutoSize = true;
-            this.groupCheck.Location = new System.Drawing.Point(17, 112);
-            this.groupCheck.Name = "groupCheck";
-            this.groupCheck.Size = new System.Drawing.Size(148, 17);
-            this.groupCheck.TabIndex = 2;
-            this.groupCheck.Text = "Group Graphics by Option";
-            this.groupCheck.UseVisualStyleBackColor = true;
-            // 
-            // lineColor
-            // 
-            this.lineColor.AutoSize = true;
-            this.lineColor.Location = new System.Drawing.Point(14, 31);
-            this.lineColor.Name = "lineColor";
-            this.lineColor.Size = new System.Drawing.Size(54, 13);
-            this.lineColor.TabIndex = 3;
-            this.lineColor.Text = "Line Color";
+            this.globalCheckedColumn.HeaderText = "";
+            this.globalCheckedColumn.Name = "globalCheckedColumn";
             // 
             // MainWindow
             // 
@@ -615,17 +572,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.researchesTable)).EndInit();
             this.researchTableCSM.ResumeLayout(false);
             this.statisticAnalyzeGrp.ResumeLayout(false);
-            this.optionsTabs.ResumeLayout(false);
-            this.distributedOptionsTab.ResumeLayout(false);
-            this.trajectoryOptionsTab.ResumeLayout(false);
-            this.detailsGrp.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.parametersTable)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.distributedOptionsTable)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.globalOptionsTab.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.globalOptionsTable)).EndInit();
             this.drawOptionsGrp.ResumeLayout(false);
             this.drawOptionsGrp.PerformLayout();
+            this.optionsTabs.ResumeLayout(false);
+            this.globalOptionsTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.globalOptionsTable)).EndInit();
+            this.distributedOptionsTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.distributedOptionsTable)).EndInit();
+            this.detailsGrp.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.parametersTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -656,32 +611,28 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn parameterNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn parameterValueColumn;
         private System.Windows.Forms.ContextMenuStrip researchTableCSM;
-        private System.Windows.Forms.ToolStripMenuItem deleteResearchToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem selectDeselectAllToolStripMenuItem;
-        private System.Windows.Forms.TabPage trajectoryOptionsTab;
+        private System.Windows.Forms.ToolStripMenuItem eraseResearch;
+        private System.Windows.Forms.ToolStripMenuItem selectGroup;
         private System.Windows.Forms.Button valueButton;
         private System.Windows.Forms.Button GlobalDrawGraphics;
         private System.Windows.Forms.Button selectAll;
         private System.Windows.Forms.Button deselectAll;
         private System.Windows.Forms.DataGridView distributedOptionsTable;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn deltaColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn thickeningColumn;
-        private System.Windows.Forms.DataGridViewComboBoxColumn approximationColumn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private System.Windows.Forms.TabPage globalOptionsTab;
         private System.Windows.Forms.DataGridView globalOptionsTable;
-        private System.Windows.Forms.DataGridViewTextBoxColumn optionNameColumn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn checkedColumn;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn2;
         private System.Windows.Forms.GroupBox drawOptionsGrp;
         private System.Windows.Forms.Button color;
         private System.Windows.Forms.ColorDialog colorDlg;
         private System.Windows.Forms.CheckBox groupCheck;
         private System.Windows.Forms.CheckBox pointsCheck;
         private System.Windows.Forms.Label lineColor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn distributedNameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn deltaColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn thickeningColumn;
+        private System.Windows.Forms.DataGridViewComboBoxColumn approximationColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn distributedCheckedColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn optionNameColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn globalCheckedColumn;
     }
 }
 
