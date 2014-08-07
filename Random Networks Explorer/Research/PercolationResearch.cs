@@ -40,11 +40,12 @@ namespace Research
             else
                 throw new SystemException("Unexpected generation parameter set.");
 
-            minProbability = (Single)GenerationParameterValues[probabilityParameter];
+            minProbability = Convert.ToSingle(GenerationParameterValues[probabilityParameter]);
             currentProbability = minProbability;
-            maxProbability = (Single)ResearchParameterValues[ResearchParameter.ProbabilityMax];
-            delta = (Single)ResearchParameterValues[ResearchParameter.ProbabilityDelta];
+            maxProbability = Convert.ToSingle(ResearchParameterValues[ResearchParameter.ProbabilityMax]);
+            delta = Convert.ToSingle(ResearchParameterValues[ResearchParameter.ProbabilityDelta]);
 
+            Status = ResearchStatus.Running;
             StartCurrentEnsemble();
         }
 
@@ -52,6 +53,7 @@ namespace Research
         {
             isCanceled = true;
             currentManager.Cancel();
+            Status = ResearchStatus.Stopped;
         }
 
         public override ResearchType GetResearchType()
@@ -77,7 +79,7 @@ namespace Research
 
         private void StartCurrentEnsemble()
         {
-            if (currentProbability < maxProbability && !isCanceled)
+            if (currentProbability <= maxProbability && !isCanceled)
             {
                 base.CreateEnsembleManager();
                 ManagerRunner r = new ManagerRunner(currentManager.Run);
@@ -86,6 +88,7 @@ namespace Research
             else
             {
                 base.SaveResearch();
+                Status = ResearchStatus.Succed;
             }
         }
 
