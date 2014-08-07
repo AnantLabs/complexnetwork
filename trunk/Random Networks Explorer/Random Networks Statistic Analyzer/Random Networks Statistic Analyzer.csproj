@@ -91,6 +91,10 @@
       <Project>{479C57F7-2B45-48F4-B434-C7E59D0B0F7B}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Session\Session.csproj">
+      <Project>{CCFA6E32-253E-4E0D-A8FA-5856069268F9}</Project>
+      <Name>Session</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
