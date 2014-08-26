@@ -91,7 +91,7 @@ namespace Core.Enumerations
             typeof(Double))]
         Cycles4Eigen = 0x100,
 
-        [AnalyzeOptionInfo("Eigenvalues intervals distribution",
+        [AnalyzeOptionInfo("Eigenvalues distances distribution",
             "The distribution of intervals between network's adjacency matrix’s eigenvalues.",
             OptionType.Distribution,
             typeof(SortedDictionary<Double, UInt32>),

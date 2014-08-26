@@ -236,7 +236,7 @@ namespace Storage
         {
             if (info.EnsembleResultType.Equals(typeof(List<Double>)))
             {
-                Worksheet valueListSheet = workbook.Worksheets.Add("Value List");
+                Worksheet valueListSheet = workbook.Worksheets.Add(info.FullName);
                 valueListSheet.Table.Columns.Add(new WorksheetColumn());
 
                 List<Double> l = value as List<Double>;
@@ -250,9 +250,14 @@ namespace Storage
 
         private void SaveDistributionSheet(AnalyzeOptionInfo info, Object value)
         {
-            Worksheet distributionSheet = workbook.Worksheets.Add(info.FullName.Substring(0, 10));
-            distributionSheet.Table.Columns.Add(new WorksheetColumn());
-            distributionSheet.Table.Columns.Add(new WorksheetColumn());
+            int length = (info.FullName.Length > 31) ? 30 : info.FullName.Length;
+            Worksheet distributionSheet = workbook.Worksheets.Add(info.FullName.Substring(0, length));
+            distributionSheet.Table.Columns.Add(new WorksheetColumn(100));
+            distributionSheet.Table.Columns.Add(new WorksheetColumn(100));
+
+            WorksheetRow headerRow = distributionSheet.Table.Rows.Add();
+            headerRow.Cells.Add(new WorksheetCell(info.XAxisName, "HeaderStyle"));
+            headerRow.Cells.Add(new WorksheetCell(info.YAxixName, "HeaderStyle"));
 
             if (info.EnsembleResultType.Equals(typeof(SortedDictionary<Double, Double>)))
             {
