@@ -27,12 +27,15 @@ namespace RandomNetworksExplorer
             if (openFileDlg.ShowDialog() == DialogResult.OK)
             {
                 inputFileNameTxt.Text = openFileDlg.FileName;
+                int l = inputFileNameTxt.Text.Length;
+                outputFileNameTxt.Text = inputFileNameTxt.Text.Substring(0, l - 4) + "_out.txt";
             }
         }
 
         private void outputBrowse_Click(object sender, EventArgs e)
         {
             saveFileDlg.InitialDirectory = ExplorerSettings.StaticGenerationDirectory;
+            saveFileDlg.FileName = outputFileNameTxt.Text;
             if (saveFileDlg.ShowDialog() == DialogResult.OK)
             {
                 outputFileNameTxt.Text = saveFileDlg.FileName;
@@ -41,6 +44,8 @@ namespace RandomNetworksExplorer
 
         private void convert_Click(object sender, EventArgs e)
         {
+            convert.Enabled = false;
+
             ArrayList matrix;
             if (!FileManager.TryReadClassicalMatrix(inputFileNameTxt.Text, out matrix))
             {
@@ -68,6 +73,8 @@ namespace RandomNetworksExplorer
                     }
                 }
             }
+
+            convert.Enabled = true;
         }
     }
 }

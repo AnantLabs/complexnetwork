@@ -87,6 +87,7 @@
     <Compile Include="Settings\ExplorerSettings.cs" />
     <Compile Include="Settings\StatisticAnalyzerSettings.cs" />
     <Compile Include="Utility\FileManager.cs" />
+    <Compile Include="Utility\Int128.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
