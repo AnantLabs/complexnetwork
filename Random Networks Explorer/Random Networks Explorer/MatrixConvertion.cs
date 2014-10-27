@@ -74,6 +74,7 @@ namespace RandomNetworksExplorer
                 }
             }
 
+            MessageBox.Show("Successfully converted connectivity matrix to degree-list.");
             convert.Enabled = true;
         }
     }

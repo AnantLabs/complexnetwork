@@ -62,7 +62,7 @@ namespace RegularHierarchicModel
             {
                 arr = (ArrayList)matrix[i];
                 matrixInList.Add(new List<bool>());
-                for(int j = 0; j < arr.Count - 1; ++j)
+                for(int j = 0; j < arr.Count; ++j)
                     matrixInList[i].Add((bool)arr[j]);
             }
 

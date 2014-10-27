@@ -44,9 +44,9 @@
             this.inputFileName.AutoSize = true;
             this.inputFileName.Location = new System.Drawing.Point(12, 9);
             this.inputFileName.Name = "inputFileName";
-            this.inputFileName.Size = new System.Drawing.Size(76, 13);
+            this.inputFileName.Size = new System.Drawing.Size(106, 13);
             this.inputFileName.TabIndex = 0;
-            this.inputFileName.Text = "Input file name";
+            this.inputFileName.Text = "Matrix-input file name";
             // 
             // inputFileNameTxt
             // 
@@ -89,9 +89,9 @@
             this.outputFileName.AutoSize = true;
             this.outputFileName.Location = new System.Drawing.Point(11, 59);
             this.outputFileName.Name = "outputFileName";
-            this.outputFileName.Size = new System.Drawing.Size(84, 13);
+            this.outputFileName.Size = new System.Drawing.Size(125, 13);
             this.outputFileName.TabIndex = 3;
-            this.outputFileName.Text = "Output file name";
+            this.outputFileName.Text = "Degrees-output file name";
             // 
             // openFileDlg
             // 

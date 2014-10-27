@@ -105,12 +105,6 @@
     <Compile Include="SettingsWindow.Designer.cs">
       <DependentUpon>SettingsWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="StorageSettingsWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StorageSettingsWindow.Designer.cs">
-      <DependentUpon>StorageSettingsWindow.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="DataConvertionsWindow.resx">
       <DependentUpon>DataConvertionsWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -138,9 +132,6 @@
     </Compile>
     <EmbeddedResource Include="SettingsWindow.resx">
       <DependentUpon>SettingsWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StorageSettingsWindow.resx">
-      <DependentUpon>StorageSettingsWindow.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config">
       <SubType>Designer</SubType>
