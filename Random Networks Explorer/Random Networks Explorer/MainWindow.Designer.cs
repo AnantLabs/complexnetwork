@@ -267,6 +267,11 @@
             // realizationCountTxt
             // 
             this.realizationCountTxt.Location = new System.Drawing.Point(3, 3);
+            this.realizationCountTxt.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.realizationCountTxt.Name = "realizationCountTxt";
             this.realizationCountTxt.Size = new System.Drawing.Size(124, 20);
             this.realizationCountTxt.TabIndex = 27;
