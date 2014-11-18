@@ -77,7 +77,7 @@ namespace NonRegularHierarchicModel
             return (long)Count4Cycle(0, 0)[0];
         }
 
-        protected override List<Double> CalculateEigenValues()
+        /*protected override List<Double> CalculateEigenValues()
         {
             bool[,] m = container.GetMatrix();
 
@@ -110,7 +110,7 @@ namespace NonRegularHierarchicModel
             {
                 return new SortedDictionary<Double, UInt32>();
             }
-        }
+        }*/
 
         protected override SortedDictionary<UInt32, UInt32> CalculateDegreeDistribution()
         {

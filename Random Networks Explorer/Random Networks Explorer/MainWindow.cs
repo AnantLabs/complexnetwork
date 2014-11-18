@@ -595,8 +595,8 @@ namespace RandomNetworksExplorer
             if (selectedIndex != -1)
             {
                 researchesTable.Rows[selectedIndex].ReadOnly = !b;
-                generationParametersTable.Enabled = b;
-                analyzeOptionsTable.Enabled = b;
+                generationParametersTable.Columns[1].ReadOnly = !b;
+                analyzeOptionsTable.Columns[1].ReadOnly = !b;
                 selectAll.Enabled = b;
                 deselectAll.Enabled = b;
                 realizationCountTxt.Enabled = b;
