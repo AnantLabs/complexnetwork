@@ -26,8 +26,6 @@ namespace NonRegularHierarchicModel
         AnalyzeOption.DegreeDistribution |
         AnalyzeOption.Diameter | 
         AnalyzeOption.DistanceDistribution | 
-        AnalyzeOption.EigenDistanceDistribution | 
-        AnalyzeOption.EigenValues |
         AnalyzeOption.TriangleByVertexDistribution)]
     public class NonRegularHierarchicNetwork : AbstractNetwork
     {
