@@ -108,7 +108,7 @@ namespace Core.Model
         /// Calculates the number of cycles of length 3 in the network.
         /// </summary>
         /// <returns>Number of cycles 3.</returns>
-        protected virtual BigInteger CalculateCycles3()
+        protected virtual long CalculateCycles3()
         {
             throw new NotImplementedException();
         }
@@ -117,7 +117,7 @@ namespace Core.Model
         /// Calculates the number of cycles of length 4 in the network.
         /// </summary>
         /// <returns>Number of cycles 4.</returns>
-        protected virtual BigInteger CalculateCycles4()
+        protected virtual long CalculateCycles4()
         {
             throw new NotImplementedException();
         }

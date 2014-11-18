@@ -64,6 +64,16 @@ namespace Core.Result
                     }
                     r.Result.Add(option, temp);
                 }
+                // TODO remove this case
+                else if(t.Equals(typeof(long)))
+                {
+                    double temp = 0;
+                    foreach (RealizationResult res in results)
+                    {
+                        temp += (long)res.Result[option] / (double)rCount;
+                    }
+                    r.Result.Add(option, temp);
+                }
                 else if(t.Equals(typeof(List<Double>)))
                 {
                     List<Double> temp = new List<double>(results[0].Result[option] as List<Double>);
