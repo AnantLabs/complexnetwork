@@ -71,13 +71,13 @@ namespace RegularHierarchicModel
             return 6 * cycles3 / sum;
         }
 
-        protected override BigInteger CalculateCycles3()
+        protected override long CalculateCycles3()
         {
             // TODO get BigInteger result
             return (long)Count3Cycle(0, 0)[0];
         }
 
-        protected override BigInteger CalculateCycles4()
+        protected override long CalculateCycles4()
         {
             // TODO get BigInteger result
             return (long)Count4Cycle(0, 0)[0];

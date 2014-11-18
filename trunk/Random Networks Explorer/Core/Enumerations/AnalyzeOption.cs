@@ -57,14 +57,14 @@ namespace Core.Enumerations
         [AnalyzeOptionInfo("3-length cycles", 
             "Number of cycles of length 3 in the network.",
             OptionType.Global,
-            typeof(BigInteger),
+            typeof(long),   //typeof(BigInteger),
             typeof(Double))]
         Cycles3 = 0x10,
 
         [AnalyzeOptionInfo("4-length cycles", 
             "Number of cycles of length 4 in the network.",
             OptionType.Global,
-            typeof(BigInteger),
+            typeof(long),   //typeof(BigInteger),
             typeof(Double))]
         Cycles4 = 0x20,
 

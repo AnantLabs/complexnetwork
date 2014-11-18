@@ -62,7 +62,7 @@ namespace NetworkModel
             return 6 * cycles3 / sum;
         }
 
-        protected override BigInteger CalculateCycles3()
+        protected override long CalculateCycles3()
         {
             // TODO get BigInteger result
             if (!calledPaths)
@@ -80,17 +80,17 @@ namespace NetworkModel
             else
                 cycles3 /= 3;
 
-            return (BigInteger)cycles3;
+            return (long)cycles3;
         }
 
-        protected override BigInteger CalculateCycles4()
+        protected override long CalculateCycles4()
         {
             // TODO get BigInteger result
             long count = 0;
             for (int i = 0; i < container.Size; i++)
                 count += Get4OrderCyclesOfNode(i);
 
-            return (BigInteger)count / 4;
+            return count / 4;
         }
 
         protected override List<double> CalculateEigenValues()
