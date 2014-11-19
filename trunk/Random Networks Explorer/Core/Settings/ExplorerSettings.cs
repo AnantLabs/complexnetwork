@@ -32,6 +32,8 @@ namespace Core.Settings
         static private string tracingDirectory;
         static private ManagerType workingMode;
         static private string staticGenerationDirectory;
+        static private string matrixConvertionToolDirectory;
+        static private string modelCheckingToolDirectory;
 
         static ExplorerSettings()
         {
@@ -52,6 +54,8 @@ namespace Core.Settings
                 workingMode = (ManagerType)Enum.Parse(typeof(ManagerType), 
                     config.AppSettings.Settings["WorkingMode"].Value);
                 staticGenerationDirectory = config.AppSettings.Settings["StaticGenerationDirectory"].Value;
+                matrixConvertionToolDirectory = config.AppSettings.Settings["MatrixConvertionToolDirectory"].Value;
+                modelCheckingToolDirectory = config.AppSettings.Settings["ModelCheckingToolDirectory"].Value;
             }
             catch
             {
@@ -181,7 +185,7 @@ namespace Core.Settings
         {
             get
             {
-                return (staticGenerationDirectory == "") ? defaultDirectory + "\\Results" : staticGenerationDirectory;
+                return (staticGenerationDirectory == "") ? defaultDirectory + "\\Tracing" : staticGenerationDirectory;
             }
             set
             {
@@ -203,6 +207,58 @@ namespace Core.Settings
             }
         }
 
+        static public string MatrixConvertionToolDirectory
+        {
+            get
+            {
+                return (matrixConvertionToolDirectory == "") ? defaultDirectory + "\\Tracing" : matrixConvertionToolDirectory;
+            }
+            set
+            {
+                if (value.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                {
+                    matrixConvertionToolDirectory = value;
+                }
+                else
+                {
+                    matrixConvertionToolDirectory = value + Path.DirectorySeparatorChar;
+                }
+
+                if (Directory.Exists(matrixConvertionToolDirectory) == false)
+                {
+                    Directory.CreateDirectory(matrixConvertionToolDirectory);
+                }
+
+                config.AppSettings.Settings["MatrixConvertionToolDirectory"].Value = matrixConvertionToolDirectory;
+            }
+        }
+
+        static public string ModelCheckingToolDirectory
+        {
+            get
+            {
+                return (modelCheckingToolDirectory == "") ? defaultDirectory + "\\Tracing" : modelCheckingToolDirectory;
+            }
+            set
+            {
+                if (value.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                {
+                    modelCheckingToolDirectory = value;
+                }
+                else
+                {
+                    modelCheckingToolDirectory = value + Path.DirectorySeparatorChar;
+                }
+
+                if (Directory.Exists(modelCheckingToolDirectory) == false)
+                {
+                    Directory.CreateDirectory(modelCheckingToolDirectory);
+                }
+
+                config.AppSettings.Settings["ModelCheckingToolDirectory"].Value = modelCheckingToolDirectory;
+            }
+        }
+
         /// <summary>
         /// Refreshes app.config file content.
         /// </summary>
@@ -210,7 +266,7 @@ namespace Core.Settings
         {
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
-            ConfigurationManager.RefreshSection("connectionStrings");
+            //ConfigurationManager.RefreshSection("connectionStrings");
         }
 
         static public void InitializeLogManager()

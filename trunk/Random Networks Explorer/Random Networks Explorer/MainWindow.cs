@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.IO;
 
 using Session;
 using Core;
@@ -264,8 +265,8 @@ namespace RandomNetworksExplorer
                 openFileDlg.InitialDirectory = ExplorerSettings.StaticGenerationDirectory;
                 if (openFileDlg.ShowDialog() == DialogResult.OK)
                 {
-                    // TODO TODO TODO
-                    ExplorerSettings.StaticGenerationDirectory = openFileDlg.InitialDirectory;
+                    ExplorerSettings.StaticGenerationDirectory = Path.GetDirectoryName(openFileDlg.FileName);
+                    ExplorerSettings.Refresh();
                     generationParametersTable[e.ColumnIndex, e.RowIndex].Value = openFileDlg.FileName;
                 }
 

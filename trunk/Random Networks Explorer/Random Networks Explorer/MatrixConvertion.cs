@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 using Core;
 using Core.Utility;
@@ -23,9 +24,11 @@ namespace RandomNetworksExplorer
 
         private void inputBrowse_Click(object sender, EventArgs e)
         {
-            openFileDlg.InitialDirectory = ExplorerSettings.StaticGenerationDirectory;
+            openFileDlg.InitialDirectory = ExplorerSettings.MatrixConvertionToolDirectory;
             if (openFileDlg.ShowDialog() == DialogResult.OK)
             {
+                ExplorerSettings.MatrixConvertionToolDirectory = Path.GetDirectoryName(openFileDlg.FileName);
+                ExplorerSettings.Refresh();
                 inputFileNameTxt.Text = openFileDlg.FileName;
                 int l = inputFileNameTxt.Text.Length;
                 outputFileNameTxt.Text = inputFileNameTxt.Text.Substring(0, l - 4) + "_out.txt";
@@ -34,7 +37,7 @@ namespace RandomNetworksExplorer
 
         private void outputBrowse_Click(object sender, EventArgs e)
         {
-            saveFileDlg.InitialDirectory = ExplorerSettings.StaticGenerationDirectory;
+            saveFileDlg.InitialDirectory = ExplorerSettings.MatrixConvertionToolDirectory;
             saveFileDlg.FileName = outputFileNameTxt.Text;
             if (saveFileDlg.ShowDialog() == DialogResult.OK)
             {

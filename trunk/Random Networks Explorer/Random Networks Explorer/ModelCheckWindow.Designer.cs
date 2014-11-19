@@ -99,6 +99,10 @@
             this.notExactResultTxt.TabIndex = 6;
             this.notExactResultTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.Filter = "\"txt files (*.txt)|*.txt|All files (*.*)|*.*\"";
+            // 
             // checkersTab
             // 
             this.checkersTab.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)

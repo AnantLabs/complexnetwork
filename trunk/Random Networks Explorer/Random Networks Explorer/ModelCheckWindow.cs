@@ -6,7 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
+using Core.Settings;
 using ModelChecking;
 
 namespace RandomNetworksExplorer
@@ -58,18 +60,22 @@ namespace RandomNetworksExplorer
 
         private void notExactBrowseBtn_Click(object sender, EventArgs e)
         {
-            openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog.InitialDirectory = ExplorerSettings.ModelCheckingToolDirectory;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                ExplorerSettings.ModelCheckingToolDirectory = Path.GetDirectoryName(openFileDialog.FileName);
+                ExplorerSettings.Refresh();
                 this.notExactFilePathTxt.Text = openFileDialog.FileName;
             }
         }
 
         private void exactBrowseBtn_Click(object sender, EventArgs e)
         {
-            openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog.InitialDirectory = ExplorerSettings.ModelCheckingToolDirectory;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                ExplorerSettings.ModelCheckingToolDirectory = Path.GetDirectoryName(openFileDialog.FileName);
+                ExplorerSettings.Refresh();
                 this.exactFilePathTxt.Text = openFileDialog.FileName;
             }
         }
