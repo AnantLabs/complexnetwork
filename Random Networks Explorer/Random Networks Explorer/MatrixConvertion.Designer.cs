@@ -52,13 +52,13 @@
             // 
             this.inputFileNameTxt.Location = new System.Drawing.Point(12, 25);
             this.inputFileNameTxt.Name = "inputFileNameTxt";
-            this.inputFileNameTxt.Size = new System.Drawing.Size(150, 20);
+            this.inputFileNameTxt.Size = new System.Drawing.Size(390, 20);
             this.inputFileNameTxt.TabIndex = 1;
             this.inputFileNameTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // inputBrowse
             // 
-            this.inputBrowse.Location = new System.Drawing.Point(168, 23);
+            this.inputBrowse.Location = new System.Drawing.Point(425, 23);
             this.inputBrowse.Name = "inputBrowse";
             this.inputBrowse.Size = new System.Drawing.Size(75, 23);
             this.inputBrowse.TabIndex = 2;
@@ -68,7 +68,7 @@
             // 
             // outputBrowse
             // 
-            this.outputBrowse.Location = new System.Drawing.Point(167, 73);
+            this.outputBrowse.Location = new System.Drawing.Point(424, 73);
             this.outputBrowse.Name = "outputBrowse";
             this.outputBrowse.Size = new System.Drawing.Size(75, 23);
             this.outputBrowse.TabIndex = 5;
@@ -80,7 +80,7 @@
             // 
             this.outputFileNameTxt.Location = new System.Drawing.Point(11, 75);
             this.outputFileNameTxt.Name = "outputFileNameTxt";
-            this.outputFileNameTxt.Size = new System.Drawing.Size(150, 20);
+            this.outputFileNameTxt.Size = new System.Drawing.Size(390, 20);
             this.outputFileNameTxt.TabIndex = 4;
             this.outputFileNameTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -103,7 +103,7 @@
             // 
             // convert
             // 
-            this.convert.Location = new System.Drawing.Point(168, 112);
+            this.convert.Location = new System.Drawing.Point(425, 112);
             this.convert.Name = "convert";
             this.convert.Size = new System.Drawing.Size(75, 23);
             this.convert.TabIndex = 6;
@@ -115,7 +115,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(252, 147);
+            this.ClientSize = new System.Drawing.Size(511, 147);
             this.Controls.Add(this.convert);
             this.Controls.Add(this.outputBrowse);
             this.Controls.Add(this.outputFileNameTxt);
@@ -124,6 +124,7 @@
             this.Controls.Add(this.inputFileNameTxt);
             this.Controls.Add(this.inputFileName);
             this.Name = "MatrixConvertion";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Matrix Convertion Tool";
             this.ResumeLayout(false);
             this.PerformLayout();
