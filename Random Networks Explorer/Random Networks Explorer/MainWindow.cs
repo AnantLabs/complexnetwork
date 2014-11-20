@@ -462,6 +462,7 @@ namespace RandomNetworksExplorer
                         break;
                     case "statusColumn":
                         row.Cells[i].Value = SessionManager.GetResearchStatus(researchId).ToString();
+                        stopResearch.Enabled = (ResearchStatus.Running.ToString() == row.Cells[i].Value.ToString());
                         break;
                     default:
                         break;
@@ -637,6 +638,7 @@ namespace RandomNetworksExplorer
         {
             int researchIndex = researchIDs.IndexOf(e.ResearchID);
             researchesTable.Rows[researchIndex].Cells["statusColumn"].Value = e.Status.ToString();
+            stopResearch.Enabled = (ResearchStatus.Running == e.Status);
         }
 
         private void CurrentResearch_OnResearchEnsembleUpdateStatus(object sender, ResearchEnsembleEventArgs e)

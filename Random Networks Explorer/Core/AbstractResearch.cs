@@ -160,6 +160,8 @@ namespace Core
         /// </summary>
         protected void SaveResearch()
         {
+            if (result.EnsembleResults.Count() != 0 && result.EnsembleResults[0] == null)
+                return;
             result.ResearchID = ResearchID;
             result.ResearchName = ResearchName;
             result.ResearchType = GetResearchType();
