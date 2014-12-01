@@ -7,8 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using Session;
 using Core.Enumerations;
 using Core.Attributes;
+using Core.Result;
 
 namespace Random_Networks_Statistic_Analyzer
 {
@@ -25,6 +27,38 @@ namespace Random_Networks_Statistic_Analyzer
         {
             InitializeResearchType();
             InitializeModelType();
+            StSessionManager.SortByGroups();
+
+            Color c = Color.AntiqueWhite;
+            foreach (List<ResearchResult> r in StSessionManager.existingResultsByGroups)
+            {
+                foreach (ResearchResult r1 in r)
+                {
+                    int newRowIndex = researchesTable.Rows.Add();
+
+                    // filling specified research properties into researchesTable's specified row
+                    DataGridViewRow row = researchesTable.Rows[newRowIndex];
+                    row.DefaultCellStyle.BackColor = c;
+                    for (int i = 0; i < row.Cells.Count; ++i)
+                    {
+                        switch (row.Cells[i].OwningColumn.Name)
+                        {
+                            case "researchNameColumn":
+                                row.Cells[i].Value = r1.ResearchName.ToString();
+                                break;
+                            case "researchRealizationCountColumn":
+                                row.Cells[i].Value = r1.RealizationCount.ToString();
+                                break;
+                            case "researchSizeColumn":
+                                row.Cells[i].Value = r1.Size.ToString();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                c = (c == Color.AntiqueWhite) ? Color.GhostWhite : Color.AntiqueWhite;
+            }
         }
 
         private void loadFromToolStripMenuItem_Click(object sender, EventArgs e)
