@@ -87,6 +87,12 @@ namespace RandomNetworksExplorer
             matrixConvertionWnd.Show();
         }
 
+        private void probabilityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ProbabilityCalculator probabilityCalculatorWnd = new ProbabilityCalculator();
+            probabilityCalculatorWnd.Show();
+        }
+
         private void statisticAnalyzerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Process.Start("Random Networks Statistic Analyzer.exe");
@@ -110,6 +116,7 @@ namespace RandomNetworksExplorer
             {
                 // cloning the specified research
                 Guid id = SessionManager.CloneResearch(researchIDs[selectedIndex]);
+                SessionManager.AddResearchUpdateHandler(id, CurrentResearch_OnResearchUpdateStatus);
                 researchIDs.Add(id);
 
                 // adding a new row for created research
