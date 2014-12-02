@@ -88,7 +88,7 @@ namespace Research
             else
             {
                 base.SaveResearch();
-                Status = ResearchStatus.Succed;
+                Status = ResearchStatus.Succeed;
             }
         }
 

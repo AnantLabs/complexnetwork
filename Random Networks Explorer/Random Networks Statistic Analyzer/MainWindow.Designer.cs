@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadFromToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,10 +40,6 @@
             this.researchesGrp = new System.Windows.Forms.GroupBox();
             this.refresh = new System.Windows.Forms.Button();
             this.researchesTable = new System.Windows.Forms.DataGridView();
-            this.researchNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.researchRealizationCountColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.researchSizeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.researchDateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.researchTableCSM = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.eraseResearch = new System.Windows.Forms.ToolStripMenuItem();
             this.selectGroup = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,20 +60,24 @@
             this.optionsTabs = new System.Windows.Forms.TabControl();
             this.globalOptionsTab = new System.Windows.Forms.TabPage();
             this.globalOptionsTable = new System.Windows.Forms.DataGridView();
+            this.optionNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.globalCheckedColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.distributedOptionsTab = new System.Windows.Forms.TabPage();
             this.distributedOptionsTable = new System.Windows.Forms.DataGridView();
-            this.detailsGrp = new System.Windows.Forms.GroupBox();
-            this.parametersTable = new System.Windows.Forms.DataGridView();
-            this.parameterNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.parameterValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colorDlg = new System.Windows.Forms.ColorDialog();
             this.distributedNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.deltaColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.thickeningColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.approximationColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.distributedCheckedColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.optionNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.globalCheckedColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.detailsGrp = new System.Windows.Forms.GroupBox();
+            this.parametersTable = new System.Windows.Forms.DataGridView();
+            this.parameterNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.parameterValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colorDlg = new System.Windows.Forms.ColorDialog();
+            this.researchNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.researchRealizationCountColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.researchSizeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.researchDateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mainMenu.SuspendLayout();
             this.researchesGrp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.researchesTable)).BeginInit();
@@ -180,42 +180,6 @@
             this.researchesTable.TabIndex = 9;
             this.researchesTable.SelectionChanged += new System.EventHandler(this.researchesTable_SelectionChanged);
             this.researchesTable.MouseDown += new System.Windows.Forms.MouseEventHandler(this.researchesTable_MouseDown);
-            // 
-            // researchNameColumn
-            // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.researchNameColumn.DefaultCellStyle = dataGridViewCellStyle5;
-            this.researchNameColumn.HeaderText = "Name";
-            this.researchNameColumn.Name = "researchNameColumn";
-            this.researchNameColumn.ReadOnly = true;
-            this.researchNameColumn.Width = 150;
-            // 
-            // researchRealizationCountColumn
-            // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.researchRealizationCountColumn.DefaultCellStyle = dataGridViewCellStyle6;
-            this.researchRealizationCountColumn.HeaderText = "Realization Count";
-            this.researchRealizationCountColumn.Name = "researchRealizationCountColumn";
-            this.researchRealizationCountColumn.ReadOnly = true;
-            this.researchRealizationCountColumn.Width = 150;
-            // 
-            // researchSizeColumn
-            // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.researchSizeColumn.DefaultCellStyle = dataGridViewCellStyle7;
-            this.researchSizeColumn.HeaderText = "Network Size";
-            this.researchSizeColumn.Name = "researchSizeColumn";
-            this.researchSizeColumn.ReadOnly = true;
-            this.researchSizeColumn.Width = 150;
-            // 
-            // researchDateColumn
-            // 
-            this.researchDateColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.researchDateColumn.DefaultCellStyle = dataGridViewCellStyle8;
-            this.researchDateColumn.HeaderText = "Date";
-            this.researchDateColumn.Name = "researchDateColumn";
-            this.researchDateColumn.ReadOnly = true;
             // 
             // researchTableCSM
             // 
@@ -431,6 +395,18 @@
             this.globalOptionsTable.Size = new System.Drawing.Size(796, 221);
             this.globalOptionsTable.TabIndex = 0;
             // 
+            // optionNameColumn
+            // 
+            this.optionNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.optionNameColumn.HeaderText = "Name";
+            this.optionNameColumn.Name = "optionNameColumn";
+            this.optionNameColumn.ReadOnly = true;
+            // 
+            // globalCheckedColumn
+            // 
+            this.globalCheckedColumn.HeaderText = "";
+            this.globalCheckedColumn.Name = "globalCheckedColumn";
+            // 
             // distributedOptionsTab
             // 
             this.distributedOptionsTab.Controls.Add(this.distributedOptionsTable);
@@ -460,6 +436,35 @@
             this.distributedOptionsTable.RowHeadersVisible = false;
             this.distributedOptionsTable.Size = new System.Drawing.Size(802, 227);
             this.distributedOptionsTable.TabIndex = 1;
+            // 
+            // distributedNameColumn
+            // 
+            this.distributedNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.distributedNameColumn.HeaderText = "Name";
+            this.distributedNameColumn.Name = "distributedNameColumn";
+            this.distributedNameColumn.ReadOnly = true;
+            // 
+            // deltaColumn
+            // 
+            this.deltaColumn.HeaderText = "Delta";
+            this.deltaColumn.Name = "deltaColumn";
+            // 
+            // thickeningColumn
+            // 
+            this.thickeningColumn.HeaderText = "Thickening (in %)";
+            this.thickeningColumn.Name = "thickeningColumn";
+            this.thickeningColumn.Width = 130;
+            // 
+            // approximationColumn
+            // 
+            this.approximationColumn.HeaderText = "Approximation";
+            this.approximationColumn.Name = "approximationColumn";
+            this.approximationColumn.Width = 130;
+            // 
+            // distributedCheckedColumn
+            // 
+            this.distributedCheckedColumn.HeaderText = "";
+            this.distributedCheckedColumn.Name = "distributedCheckedColumn";
             // 
             // detailsGrp
             // 
@@ -510,46 +515,45 @@
             // 
             this.colorDlg.FullOpen = true;
             // 
-            // distributedNameColumn
+            // researchNameColumn
             // 
-            this.distributedNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.distributedNameColumn.HeaderText = "Name";
-            this.distributedNameColumn.Name = "distributedNameColumn";
-            this.distributedNameColumn.ReadOnly = true;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.researchNameColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            this.researchNameColumn.HeaderText = "Name";
+            this.researchNameColumn.Name = "researchNameColumn";
+            this.researchNameColumn.ReadOnly = true;
+            this.researchNameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.researchNameColumn.Width = 150;
             // 
-            // deltaColumn
+            // researchRealizationCountColumn
             // 
-            this.deltaColumn.HeaderText = "Delta";
-            this.deltaColumn.Name = "deltaColumn";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.researchRealizationCountColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.researchRealizationCountColumn.HeaderText = "Realization Count";
+            this.researchRealizationCountColumn.Name = "researchRealizationCountColumn";
+            this.researchRealizationCountColumn.ReadOnly = true;
+            this.researchRealizationCountColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.researchRealizationCountColumn.Width = 150;
             // 
-            // thickeningColumn
+            // researchSizeColumn
             // 
-            this.thickeningColumn.HeaderText = "Thickening (in %)";
-            this.thickeningColumn.Name = "thickeningColumn";
-            this.thickeningColumn.Width = 130;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.researchSizeColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            this.researchSizeColumn.HeaderText = "Network Size";
+            this.researchSizeColumn.Name = "researchSizeColumn";
+            this.researchSizeColumn.ReadOnly = true;
+            this.researchSizeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.researchSizeColumn.Width = 150;
             // 
-            // approximationColumn
+            // researchDateColumn
             // 
-            this.approximationColumn.HeaderText = "Approximation";
-            this.approximationColumn.Name = "approximationColumn";
-            this.approximationColumn.Width = 130;
-            // 
-            // distributedCheckedColumn
-            // 
-            this.distributedCheckedColumn.HeaderText = "";
-            this.distributedCheckedColumn.Name = "distributedCheckedColumn";
-            // 
-            // optionNameColumn
-            // 
-            this.optionNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.optionNameColumn.HeaderText = "Name";
-            this.optionNameColumn.Name = "optionNameColumn";
-            this.optionNameColumn.ReadOnly = true;
-            // 
-            // globalCheckedColumn
-            // 
-            this.globalCheckedColumn.HeaderText = "";
-            this.globalCheckedColumn.Name = "globalCheckedColumn";
+            this.researchDateColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.researchDateColumn.DefaultCellStyle = dataGridViewCellStyle4;
+            this.researchDateColumn.HeaderText = "Date";
+            this.researchDateColumn.Name = "researchDateColumn";
+            this.researchDateColumn.ReadOnly = true;
+            this.researchDateColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // MainWindow
             // 
@@ -598,10 +602,6 @@
         private System.Windows.Forms.Label modelType;
         private System.Windows.Forms.ComboBox researchTypeCmb;
         private System.Windows.Forms.Label researchType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn researchNameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn researchRealizationCountColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn researchSizeColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn researchDateColumn;
         private System.Windows.Forms.GroupBox statisticAnalyzeGrp;
         private System.Windows.Forms.TabControl optionsTabs;
         private System.Windows.Forms.TabPage distributedOptionsTab;
@@ -633,6 +633,10 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn distributedCheckedColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn optionNameColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn globalCheckedColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn researchNameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn researchRealizationCountColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn researchSizeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn researchDateColumn;
     }
 }
 

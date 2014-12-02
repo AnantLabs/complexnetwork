@@ -16,6 +16,8 @@ namespace Random_Networks_Statistic_Analyzer
 {
     public partial class MainWindow : Form
     {
+        private static Dictionary<Guid, int> researchIDs = new Dictionary<Guid, int>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -27,38 +29,7 @@ namespace Random_Networks_Statistic_Analyzer
         {
             InitializeResearchType();
             InitializeModelType();
-            StSessionManager.SortByGroups();
-
-            Color c = Color.AntiqueWhite;
-            foreach (List<ResearchResult> r in StSessionManager.existingResultsByGroups)
-            {
-                foreach (ResearchResult r1 in r)
-                {
-                    int newRowIndex = researchesTable.Rows.Add();
-
-                    // filling specified research properties into researchesTable's specified row
-                    DataGridViewRow row = researchesTable.Rows[newRowIndex];
-                    row.DefaultCellStyle.BackColor = c;
-                    for (int i = 0; i < row.Cells.Count; ++i)
-                    {
-                        switch (row.Cells[i].OwningColumn.Name)
-                        {
-                            case "researchNameColumn":
-                                row.Cells[i].Value = r1.ResearchName.ToString();
-                                break;
-                            case "researchRealizationCountColumn":
-                                row.Cells[i].Value = r1.RealizationCount.ToString();
-                                break;
-                            case "researchSizeColumn":
-                                row.Cells[i].Value = r1.Size.ToString();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-                c = (c == Color.AntiqueWhite) ? Color.GhostWhite : Color.AntiqueWhite;
-            }
+            FillResearchesTable();
         }
 
         private void loadFromToolStripMenuItem_Click(object sender, EventArgs e)
@@ -221,6 +192,45 @@ namespace Random_Networks_Statistic_Analyzer
 
             if (modelTypeCmb.Items.Count != 0)
                 modelTypeCmb.SelectedIndex = 0;
+        }
+
+        private void FillResearchesTable()
+        {
+            StSessionManager.SortByGroups();
+
+            Color c = Color.WhiteSmoke;
+            foreach (List<ResearchResult> r in StSessionManager.existingResultsByGroups)
+            {
+                foreach (ResearchResult r1 in r)
+                {
+                    int newRowIndex = researchesTable.Rows.Add();
+
+                    // filling specified research properties into researchesTable's specified row
+                    DataGridViewRow row = researchesTable.Rows[newRowIndex];
+                    row.DefaultCellStyle.BackColor = c;
+                    for (int i = 0; i < row.Cells.Count; ++i)
+                    {
+                        switch (row.Cells[i].OwningColumn.Name)
+                        {
+                            case "researchNameColumn":
+                                row.Cells[i].Value = r1.ResearchName.ToString();
+                                break;
+                            case "researchRealizationCountColumn":
+                                row.Cells[i].Value = r1.RealizationCount.ToString();
+                                break;
+                            case "researchSizeColumn":
+                                row.Cells[i].Value = r1.Size.ToString();
+                                break;
+                            case "researchDateColumn":
+                                //row.Cells[i].Value = r1.Date.ToString();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                c = (c == Color.WhiteSmoke) ? Color.MistyRose : Color.WhiteSmoke;
+            }
         }
 
         #endregion

@@ -64,7 +64,7 @@ namespace Research
             realizationCount = currentManager.RealizationsDone;
             result.EnsembleResults.Add(currentManager.Result);
             SaveResearch();
-            Status = ResearchStatus.Succed;
+            Status = ResearchStatus.Succeed;
         }
 
         protected override void FillParameters(AbstractEnsembleManager m)

@@ -87,6 +87,7 @@
             this.analyzeOptionNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.analyzeOptionCheckedColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.openFileDlg = new System.Windows.Forms.OpenFileDialog();
+            this.probabilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.researchesTable)).BeginInit();
             this.researchTableCSM.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -428,7 +429,8 @@
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.modelCheckingToolStripMenuItem,
             this.dataConvertionsToolStripMenuItem,
-            this.matrixConvertionToolStripMenuItem});
+            this.matrixConvertionToolStripMenuItem,
+            this.probabilityToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
@@ -653,6 +655,13 @@
             // 
             this.openFileDlg.Filter = "\"txt files (*.txt)|*.txt|All files (*.*)|*.*\"";
             // 
+            // probabilityToolStripMenuItem
+            // 
+            this.probabilityToolStripMenuItem.Name = "probabilityToolStripMenuItem";
+            this.probabilityToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.probabilityToolStripMenuItem.Text = "Probability...";
+            this.probabilityToolStripMenuItem.Click += new System.EventHandler(this.probabilityToolStripMenuItem_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -745,6 +754,7 @@
         private System.Windows.Forms.Button selectAll;
         private System.Windows.Forms.Button deselectAll;
         private System.Windows.Forms.ToolStripMenuItem matrixConvertionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem probabilityToolStripMenuItem;
     }
 }
 
