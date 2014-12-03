@@ -16,7 +16,8 @@ namespace Random_Networks_Statistic_Analyzer
 {
     public partial class MainWindow : Form
     {
-        private static Dictionary<Guid, int> researchIDs = new Dictionary<Guid, int>();
+        private static Dictionary<int, List<Guid>> resultsByGroups = new Dictionary<int, List<Guid>>();
+        private Guid selectedId = Guid.Parse("00000000-0000-0000-0000-000000000000");
 
         public MainWindow()
         {
@@ -46,23 +47,26 @@ namespace Random_Networks_Statistic_Analyzer
         private void researchTypeCmb_SelectedIndexChanged(object sender, EventArgs e)
         {
             InitializeModelType();
-
-            // TODO refresh list in researchesTable
+            FillResearchesTable();
         }
 
         private void modelTypeCmb_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // TODO refresh list in researchesTable
+            FillResearchesTable();
         }
 
         private void refresh_Click(object sender, EventArgs e)
         {
-
+            FillResearchesTable();
         }
 
         private void researchesTable_SelectionChanged(object sender, EventArgs e)
         {
-
+            if (researchesTable.SelectedRows.Count > 0)
+            {
+                selectedId = Guid.Parse(researchesTable.SelectedRows[0].Cells["researchIdColumn"].Value.ToString());
+                FillGroupParameters();
+            }
         }
 
         private void researchesTable_MouseDown(object sender, MouseEventArgs e)
@@ -75,6 +79,10 @@ namespace Random_Networks_Statistic_Analyzer
             DataGridView.HitTestInfo hit = researchesTable.HitTest(e.X, e.Y);
             if (hit.RowIndex != -1)
             {
+                foreach (DataGridViewRow r in researchesTable.SelectedRows)
+                {
+                    r.Selected = false;
+                }
                 researchesTable.Rows[hit.RowIndex].Selected = true;
                 researchTableCSM.Items["eraseResearch"].Enabled = true;
                 researchTableCSM.Items["selectGroup"].Enabled = true;
@@ -89,12 +97,24 @@ namespace Random_Networks_Statistic_Analyzer
 
         private void eraseResearchToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
         }
 
         private void selectGroupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            foreach (int i in resultsByGroups.Keys)
+            {
+                if (resultsByGroups[i].Contains(selectedId))
+                {
+                    foreach (Guid id in resultsByGroups[i])
+                    {
+                        foreach (DataGridViewRow r in researchesTable.Rows)
+                        {
+                            if (r.Cells["researchIdColumn"].Value.ToString() == id.ToString())
+                                r.Selected = true;
+                        }
+                    }
+                }
+            }
         }
 
         private void selectAll_Click(object sender, EventArgs e)
@@ -196,40 +216,56 @@ namespace Random_Networks_Statistic_Analyzer
 
         private void FillResearchesTable()
         {
-            StSessionManager.SortByGroups();
+            researchesTable.Rows.Clear();
+
+            ResearchType rt = (ResearchType)Enum.Parse(typeof(ResearchType), researchTypeCmb.Text.ToString());
+            ModelType mt = (ModelType)Enum.Parse(typeof(ModelType), modelTypeCmb.Text.ToString());
+            resultsByGroups = StSessionManager.GetFilteredResultsByGroups(rt, mt);
 
             Color c = Color.WhiteSmoke;
-            foreach (List<ResearchResult> r in StSessionManager.existingResultsByGroups)
+            foreach (int i in resultsByGroups.Keys)
             {
-                foreach (ResearchResult r1 in r)
+                foreach(Guid id in resultsByGroups[i])
                 {
-                    int newRowIndex = researchesTable.Rows.Add();
-
-                    // filling specified research properties into researchesTable's specified row
+                    int newRowIndex = researchesTable.Rows.Add(id.ToString(),
+                        StSessionManager.GetResearchName(id),
+                        StSessionManager.GetResearchRealizationCount(id).ToString(),
+                        StSessionManager.GetResearchNetworkSize(id).ToString());
                     DataGridViewRow row = researchesTable.Rows[newRowIndex];
                     row.DefaultCellStyle.BackColor = c;
-                    for (int i = 0; i < row.Cells.Count; ++i)
-                    {
-                        switch (row.Cells[i].OwningColumn.Name)
-                        {
-                            case "researchNameColumn":
-                                row.Cells[i].Value = r1.ResearchName.ToString();
-                                break;
-                            case "researchRealizationCountColumn":
-                                row.Cells[i].Value = r1.RealizationCount.ToString();
-                                break;
-                            case "researchSizeColumn":
-                                row.Cells[i].Value = r1.Size.ToString();
-                                break;
-                            case "researchDateColumn":
-                                //row.Cells[i].Value = r1.Date.ToString();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
+                    //row.Cells["dateColumn"].Value = StSessionManager.GetResearchDate(id).ToString();
                 }
+                
                 c = (c == Color.WhiteSmoke) ? Color.MistyRose : Color.WhiteSmoke;
+            }
+        }
+
+        private void FillGroupParameters()
+        {
+            parametersTable.Rows.Clear();
+
+            Dictionary<GenerationParameter, object> gValues =
+                StSessionManager.GetGenerationParameterValues(selectedId);
+            Dictionary<ResearchParameter, object> rValues =
+                StSessionManager.GetResearchParameterValues(selectedId);
+
+            foreach (GenerationParameter g in gValues.Keys)
+            {
+                if (g != GenerationParameter.AdjacencyMatrixFile)
+                {
+                    if (gValues[g] != null)
+                        parametersTable.Rows.Add(g.ToString(), gValues[g].ToString());
+                    else
+                        parametersTable.Rows.Add(g.ToString());
+                }
+            }
+
+            foreach (ResearchParameter r in rValues.Keys)
+            {
+                if (rValues[r] != null)
+                    parametersTable.Rows.Add(r.ToString(), rValues[r].ToString());
+                else
+                    parametersTable.Rows.Add(r.ToString());
             }
         }
 

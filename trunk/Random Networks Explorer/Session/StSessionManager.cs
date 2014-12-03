@@ -5,6 +5,7 @@ using System.Text;
 
 using Core;
 using Core.Enumerations;
+using Core.Exceptions;
 using Core.Attributes;
 using Core.Result;
 using Core.Settings;
@@ -13,17 +14,172 @@ namespace Session
 {
     public static class StSessionManager
     {
-        public static List<List<ResearchResult>> existingResultsByGroups;
+        private static Dictionary<Guid, ResearchResult> existingResults;
+        private static Dictionary<int, List<Guid>> existingResultsByGroups;
         private static AbstractResultStorage storage;
 
         static StSessionManager()
         {
-            existingResultsByGroups = new List<List<ResearchResult>>();
+            existingResults = new Dictionary<Guid, ResearchResult>();
+            existingResultsByGroups = new Dictionary<int, List<Guid>>();
             storage = CreateStorage();
+            RefreshExistingResults();
         }
 
+        /// <summary>
+        /// Refreshes existing results repository.
+        /// <note>Sorts existing results by groups also.</note>
+        /// </summary>
         public static void RefreshExistingResults()
         {
+            existingResults.Clear();
+            List<ResearchResult> results = storage.LoadAllResearchInfo();
+            foreach (ResearchResult r in results)
+            {
+                existingResults.Add(r.ResearchID, r);
+            }
+
+            SortExistingResultsByGroups();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        public static void DeleteResearch(Guid id)
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static string GetResearchName(Guid id)
+        {
+            try
+            {
+                return existingResults[id].ResearchName;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static int GetResearchRealizationCount(Guid id)
+        {
+            try
+            {
+                return existingResults[id].RealizationCount;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static uint GetResearchNetworkSize(Guid id)
+        {
+            try
+            {
+                return existingResults[id].Size;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// Gets research parameter values for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <returns>Research parameters with values.</returns>
+        public static Dictionary<ResearchParameter, object> GetResearchParameterValues(Guid id)
+        {
+            try
+            {
+                return existingResults[id].ResearchParameterValues;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// Gets generation parameter values for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <returns>Generation parameters with values.</returns>
+        public static Dictionary<GenerationParameter, object> GetGenerationParameterValues(Guid id)
+        {
+            try
+            {
+                return existingResults[id].GenerationParameterValues;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// Loads ensemble results for specified research.
+        /// </summary>
+        /// <param name="id">ID of research</param>
+        /// <note>Method checks if result is not loaded yet.</note>
+        public static void LoadResearchResult(Guid id)
+        {
+            try
+            {
+                if (existingResults[id].EnsembleResults == null)
+                    existingResults[id] = storage.Load(id);
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static Dictionary<int, List<Guid>> GetResultsByGroup()
+        {
+            return existingResultsByGroups;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rt"></param>
+        /// <param name="mt"></param>
+        /// <returns></returns>
+        public static Dictionary<int, List<Guid>> GetFilteredResultsByGroups(ResearchType rt, ModelType mt)
+        {
+            Dictionary<int, List<Guid>> result = new Dictionary<int, List<Guid>>();
+
+            foreach (int i in existingResultsByGroups.Keys)
+            {
+                Guid id = existingResultsByGroups[i].First();
+                if (existingResults[id].ResearchType == rt && existingResults[id].ModelType == mt)
+                    result.Add(i, existingResultsByGroups[i]);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -58,41 +214,52 @@ namespace Session
             return (AbstractResultStorage)t.GetConstructor(patametersType).Invoke(invokeParameters);
         }
 
-        public static void SortByGroups()
+        /// <summary>
+        /// 
+        /// </summary>
+        private static void SortExistingResultsByGroups()
         {
-            List<ResearchResult> existingResults = storage.LoadAllResearchInfo();
-
-            while (existingResults.Count != 0)
+            existingResultsByGroups.Clear();
+            List<ResearchResult> temp = storage.LoadAllResearchInfo();
+            int k = 0;
+            while (temp.Count != 0)
             {
-                List<ResearchResult> current = new List<ResearchResult>();
-                ResearchResult currentResult = existingResults[0];
-                current.Add(currentResult);
-                existingResults.Remove(currentResult);
+                List<Guid> current = new List<Guid>();
+                ResearchResult currentResult = temp[0];
+                current.Add(currentResult.ResearchID);
+                temp.Remove(currentResult);
                 int i = 0;
-                while(i < existingResults.Count())
+                while(i < temp.Count())
                 {
-                    if (existingResults[i].ModelType == currentResult.ModelType &&
-                        existingResults[i].ResearchType == currentResult.ResearchType &&
-                        existingResults[i].Size == currentResult.Size &&
-                        SameParameters(existingResults[i], currentResult))
+                    if (temp[i].ModelType == currentResult.ModelType &&
+                        temp[i].ResearchType == currentResult.ResearchType &&
+                        temp[i].Size == currentResult.Size &&
+                        AreParametersCompatible(temp[i], currentResult))
                     {
-                        current.Add(existingResults[i]);
-                        existingResults.Remove(existingResults[i]);
+                        current.Add(temp[i].ResearchID);
+                        temp.Remove(temp[i]);
                     }
                     else
                     {
                         ++i;
                     }
                 }
-                existingResultsByGroups.Add(current);
+                existingResultsByGroups.Add(k, current);
+                ++k;
             }
 
             return;
         }
 
-        private static bool SameParameters(ResearchResult r1, ResearchResult r2)
+        /// <summary>
+        /// Checks if specified results are compatible for statistic analyze.
+        /// </summary>
+        /// <param name="r1">First result.</param>
+        /// <param name="r2">Second result</param>
+        /// <returns>True, if results are compatible. False otherwise</returns>
+        /// <note>Research result must have same researchType and modelType.</note>
+        private static bool AreParametersCompatible(ResearchResult r1, ResearchResult r2)
         {
-            // entadrum enq, te researchner@ nuyn model type-i ev nuyn research type-i en
             foreach (GenerationParameter gp in r1.GenerationParameterValues.Keys)
             {
                 if (r1.GenerationParameterValues[gp].ToString() != r2.GenerationParameterValues[gp].ToString())
