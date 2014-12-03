@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.branchingIndex = new System.Windows.Forms.Label();
             this.branchingIndexTxt = new System.Windows.Forms.TextBox();
             this.levelTxt = new System.Windows.Forms.TextBox();
@@ -44,9 +44,10 @@
             this.calculate = new System.Windows.Forms.Button();
             this.result = new System.Windows.Forms.Label();
             this.resultsTable = new System.Windows.Forms.DataGridView();
-            this.save = new System.Windows.Forms.Button();
             this.muColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.probabilityColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.save = new System.Windows.Forms.Button();
+            this.saveFileDlg = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.resultsTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -160,14 +161,14 @@
             this.resultsTable.AllowUserToDeleteRows = false;
             this.resultsTable.AllowUserToResizeColumns = false;
             this.resultsTable.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.resultsTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.resultsTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.resultsTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.resultsTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.muColumn,
@@ -178,6 +179,26 @@
             this.resultsTable.RowHeadersVisible = false;
             this.resultsTable.Size = new System.Drawing.Size(250, 165);
             this.resultsTable.TabIndex = 12;
+            // 
+            // muColumn
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.muColumn.DefaultCellStyle = dataGridViewCellStyle5;
+            this.muColumn.HeaderText = "Mu";
+            this.muColumn.Name = "muColumn";
+            this.muColumn.ReadOnly = true;
+            this.muColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.muColumn.Width = 90;
+            // 
+            // probabilityColumn
+            // 
+            this.probabilityColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.probabilityColumn.DefaultCellStyle = dataGridViewCellStyle6;
+            this.probabilityColumn.HeaderText = "Probability";
+            this.probabilityColumn.Name = "probabilityColumn";
+            this.probabilityColumn.ReadOnly = true;
+            this.probabilityColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // save
             // 
@@ -190,25 +211,9 @@
             this.save.UseVisualStyleBackColor = true;
             this.save.Click += new System.EventHandler(this.save_Click);
             // 
-            // muColumn
+            // saveFileDlg
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.muColumn.DefaultCellStyle = dataGridViewCellStyle2;
-            this.muColumn.HeaderText = "Mu";
-            this.muColumn.Name = "muColumn";
-            this.muColumn.ReadOnly = true;
-            this.muColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.muColumn.Width = 90;
-            // 
-            // probabilityColumn
-            // 
-            this.probabilityColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.probabilityColumn.DefaultCellStyle = dataGridViewCellStyle3;
-            this.probabilityColumn.HeaderText = "Probability";
-            this.probabilityColumn.Name = "probabilityColumn";
-            this.probabilityColumn.ReadOnly = true;
-            this.probabilityColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.saveFileDlg.Filter = "\"txt files (*.txt)|*.txt|All files (*.*)|*.*\"";
             // 
             // ProbabilityCalculator
             // 
@@ -257,5 +262,6 @@
         private System.Windows.Forms.Button save;
         private System.Windows.Forms.DataGridViewTextBoxColumn muColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn probabilityColumn;
+        private System.Windows.Forms.SaveFileDialog saveFileDlg;
     }
 }

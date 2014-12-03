@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 
+using Core.Settings;
+
 namespace RandomNetworksExplorer
 {
     public partial class ProbabilityCalculator : Form
@@ -50,14 +52,28 @@ namespace RandomNetworksExplorer
 
         private void save_Click(object sender, EventArgs e)
         {
-            /*std::fstream rfile;
-	        rfile.open ("result.txt");
-	        std::vector<double>::const_iterator it = results.begin();
-	        for(; it != results.end(); ++it)
-	        {
-		        rfile << *it << std::endl;
-	        }
-	        rfile.close();*/
+            saveFileDlg.InitialDirectory = ExplorerSettings.TracingDirectory;
+            string fileName = null;
+            if (saveFileDlg.ShowDialog() == DialogResult.OK)
+            {
+                fileName = saveFileDlg.FileName;
+            }
+
+            if (fileName == null)
+            {
+                return;
+            }
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(fileName + ".txt"))
+            {
+                file.WriteLine("BranchingIndex = " + branchingIndexTxt.Text.ToString());
+                file.WriteLine("Level = " + levelTxt.Text.ToString());
+                file.WriteLine("-");
+
+                foreach (double m in results.Keys)
+                {
+                    file.WriteLine(m + " " + results[m]);
+                }
+            }
         }
 
         private double CalculateProbability(int p, int level, double mu)
