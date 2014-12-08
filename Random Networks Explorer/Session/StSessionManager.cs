@@ -48,6 +48,8 @@ namespace Session
         /// <param name="id"></param>
         public static void DeleteResearch(Guid id)
         {
+            storage.Delete(id);
+            RefreshExistingResults();
         }
 
         /// <summary>

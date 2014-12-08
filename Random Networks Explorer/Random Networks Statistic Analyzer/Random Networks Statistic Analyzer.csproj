@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnalyzeCharts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AnalyzeCharts.Designer.cs">
+      <DependentUpon>AnalyzeCharts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChartTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ChartTab.Designer.cs">
+      <DependentUpon>ChartTab.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoadFrom.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +73,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AnalyzeCharts.resx">
+      <DependentUpon>AnalyzeCharts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChartTab.resx">
+      <DependentUpon>ChartTab.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoadFrom.resx">
       <DependentUpon>LoadFrom.cs</DependentUpon>
     </EmbeddedResource>

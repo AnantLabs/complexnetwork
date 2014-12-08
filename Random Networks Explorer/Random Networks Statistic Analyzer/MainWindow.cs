@@ -14,6 +14,20 @@ using Core.Result;
 
 namespace Random_Networks_Statistic_Analyzer
 {
+    // TODO remove to Core
+    public enum ThickeningType
+    {
+        Delta,
+        Percent
+    }
+
+    public enum ApproximationType
+    {
+        Degree,
+        Exponential,
+        Gaus
+    }
+
     public partial class MainWindow : Form
     {
         private static Dictionary<int, List<Guid>> resultsByGroups = new Dictionary<int, List<Guid>>();
@@ -30,6 +44,7 @@ namespace Random_Networks_Statistic_Analyzer
         {
             InitializeResearchType();
             InitializeModelType();
+            InitializeOptionsTables();
             FillResearchesTable();
         }
 
@@ -57,6 +72,7 @@ namespace Random_Networks_Statistic_Analyzer
 
         private void refresh_Click(object sender, EventArgs e)
         {
+            StSessionManager.RefreshExistingResults();
             FillResearchesTable();
         }
 
@@ -97,6 +113,12 @@ namespace Random_Networks_Statistic_Analyzer
 
         private void eraseResearchToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (researchesTable.SelectedRows.Count > 0)
+            {
+                Guid id = Guid.Parse(researchesTable.SelectedRows[0].Cells["researchIdColumn"].Value.ToString());
+                StSessionManager.DeleteResearch(id);
+                FillResearchesTable();
+            }
         }
 
         private void selectGroupToolStripMenuItem_Click(object sender, EventArgs e)
@@ -171,6 +193,37 @@ namespace Random_Networks_Statistic_Analyzer
             }
         }
 
+        private void showGraphics_Click(object sender, EventArgs e)
+        {
+            foreach (int i in resultsByGroups.Keys)
+            {
+                if (resultsByGroups[i].Contains(selectedId))
+                {
+                    Dictionary<AnalyzeOption, ChartProperties> p = new Dictionary<AnalyzeOption,ChartProperties>();
+                    foreach(DataGridViewRow r in distributedOptionsTable.Rows)
+                    {
+                        DataGridViewCheckBoxCell cell = r.Cells["distributedCheckedColumn"] as DataGridViewCheckBoxCell;
+                        if ((bool)(cell.Value) == true)
+                        {
+                            AnalyzeOption opt = (AnalyzeOption)Enum.Parse(typeof(AnalyzeOption), 
+                                r.Cells["distributedNameColumn"].Value.ToString());
+                            ThickeningType t = (ThickeningType)Enum.Parse(typeof(ThickeningType), 
+                                r.Cells["thickeningTypeColumn"].Value.ToString());
+                            ApproximationType at = (ApproximationType)Enum.Parse(typeof(ApproximationType), 
+                                r.Cells["approximationColumn"].Value.ToString());
+                            ChartProperties pv = new ChartProperties(t, 
+                                double.Parse(r.Cells["thickeningValueColumn"].Value.ToString()), 
+                                at);
+                            p.Add(opt, pv);
+                        }
+                    }
+                    AnalyzeCharts chartsWindow = new AnalyzeCharts(i, p);
+                    chartsWindow.Show();
+                    return;
+                }
+            }
+        }
+
         #endregion
 
         #region Utilities
@@ -212,6 +265,48 @@ namespace Random_Networks_Statistic_Analyzer
 
             if (modelTypeCmb.Items.Count != 0)
                 modelTypeCmb.SelectedIndex = 0;
+        }
+
+        private void InitializeOptionsTables()
+        {
+            globalOptionsTable.Rows.Clear();
+            distributedOptionsTable.Rows.Clear();
+
+            DataGridViewComboBoxColumn thickeningTypeColumn =
+                distributedOptionsTable.Columns["thickeningTypeColumn"] as DataGridViewComboBoxColumn;
+            thickeningTypeColumn.Items.Clear();
+            string[] thickeningTypeNames = Enum.GetNames(typeof(ThickeningType));
+            for (int i = 0; i < thickeningTypeNames.Length; ++i)
+                thickeningTypeColumn.Items.Add(thickeningTypeNames[i]);
+
+            DataGridViewComboBoxColumn approximationColumn =
+                distributedOptionsTable.Columns["approximationColumn"] as DataGridViewComboBoxColumn;
+            approximationColumn.Items.Clear();
+            string[] approximationTypeNames = Enum.GetNames(typeof(ApproximationType));
+            for (int i = 0; i < approximationTypeNames.Length; ++i)
+                approximationColumn.Items.Add(approximationTypeNames[i]);                
+
+            Array options = Enum.GetValues(typeof(AnalyzeOption));
+            foreach(AnalyzeOption opt in options)
+            {
+                AnalyzeOptionInfo[] info = (AnalyzeOptionInfo[])opt.GetType().GetField(opt.ToString()).GetCustomAttributes(typeof(AnalyzeOptionInfo), false);
+                if (opt != AnalyzeOption.None && info[0].OptionType == OptionType.Global)
+                {
+                    globalOptionsTable.Rows.Add(opt.ToString(), false);
+                }
+                else if (info[0].OptionType == OptionType.Distribution)
+                {
+                    int newRowIndex = distributedOptionsTable.Rows.Add(opt.ToString());
+                    DataGridViewRow newRow = distributedOptionsTable.Rows[newRowIndex];
+                    DataGridViewComboBoxCell tCell = newRow.Cells["thickeningTypeColumn"] as DataGridViewComboBoxCell;
+                    tCell.Value = tCell.Items[0].ToString();
+                    newRow.Cells["thickeningValueColumn"].Value = "0";
+                    DataGridViewComboBoxCell aCell = newRow.Cells["approximationColumn"] as DataGridViewComboBoxCell;
+                    aCell.Value = aCell.Items[0].ToString();
+                    newRow.Cells["distributedCheckedColumn"].Value = false;
+                }
+                // TODO add other Analyze Options
+            }
         }
 
         private void FillResearchesTable()
@@ -270,5 +365,6 @@ namespace Random_Networks_Statistic_Analyzer
         }
 
         #endregion
+
     }
 }
