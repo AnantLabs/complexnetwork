@@ -93,7 +93,7 @@ namespace Core.Settings
                     loggingDirectory = value + Path.DirectorySeparatorChar;
                 }
 
-                if (Directory.Exists(storageDirectory) == false)
+                if (Directory.Exists(loggingDirectory) == false)
                 {
                     Directory.CreateDirectory(loggingDirectory);
                 }
