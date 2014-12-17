@@ -213,9 +213,15 @@ namespace Random_Networks_Statistic_Analyzer
                                 r.Cells["approximationColumn"].Value.ToString());
                             ChartProperties pv = new ChartProperties(t, 
                                 double.Parse(r.Cells["thickeningValueColumn"].Value.ToString()), 
-                                at);
+                                at,
+                                color.BackColor);
                             p.Add(opt, pv);
                         }
+                    }
+                    if (p.Count() == 0)
+                    {
+                        MessageBox.Show("There are no checked options.", "Information");
+                        return;
                     }
                     AnalyzeCharts chartsWindow = new AnalyzeCharts(i, p);
                     chartsWindow.Show();

@@ -643,9 +643,9 @@ namespace RandomNetworksExplorer
 
         private void CurrentResearch_OnResearchUpdateStatus(object sender, ResearchEventArgs e)
         {
-            int researchIndex = researchIDs.IndexOf(e.ResearchID);
-            researchesTable.Rows[researchIndex].Cells["statusColumn"].Value = e.Status.ToString();
-            stopResearch.Enabled = (ResearchStatus.Running == e.Status);
+            //int researchIndex = researchIDs.IndexOf(e.ResearchID);
+            //researchesTable.Rows[researchIndex].Cells["statusColumn"].Value = e.Status.ToString();
+            //stopResearch.Enabled = (ResearchStatus.Running == e.Status);
         }
 
         private void CurrentResearch_OnResearchEnsembleUpdateStatus(object sender, ResearchEnsembleEventArgs e)

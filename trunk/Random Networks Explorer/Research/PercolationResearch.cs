@@ -88,7 +88,8 @@ namespace Research
             else
             {
                 base.SaveResearch();
-                Status = ResearchStatus.Succeed;
+                if(Status != ResearchStatus.Stopped)
+                    Status = ResearchStatus.Succeed;
             }
         }
 
