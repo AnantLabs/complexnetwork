@@ -14,16 +14,18 @@ namespace Random_Networks_Statistic_Analyzer
 {
     public struct ChartProperties
     {
-        public ChartProperties(ThickeningType t, double v, ApproximationType at)
+        public ChartProperties(ThickeningType t, double v, ApproximationType at, Color c)
         {
             thickeningType = t;
             thickeningValue = v;
             approximationType = at;
+            color = c;
         }
 
         ThickeningType thickeningType;
         double thickeningValue;
         ApproximationType approximationType;
+        Color color;
     }
 
     public partial class AnalyzeCharts : Form
@@ -48,30 +50,6 @@ namespace Random_Networks_Statistic_Analyzer
                 optTab.Controls.Add(t);
                 chartTabs.TabPages.Add(optTab);
             }
-
-            /*Chart graphic = new Chart();
-            graphic.Titles.Add("Network Size = " + this.research.Size.ToString());
-
-            ChartArea chArea = new ChartArea("Current Level = " + k.ToString());
-            chArea.AxisX.Title = "Mu";
-            chArea.AxisY.Title = "Order";
-            graphic.ChartAreas.Add(chArea);
-
-            Series s = new Series("Current Level = " + k.ToString());
-            s.ChartType = SeriesChartType.Line;
-            s.Color = Color.Red;
-            foreach (KeyValuePair<double, SubGraphsInfo> v in this.research.Result[k])
-            {
-                s.Points.Add(new DataPoint(v.Key, v.Value.avgOrder));
-            }
-            graphic.Series.Add(s);
-
-            graphic.Dock = DockStyle.Fill;
-            TabPage page = new TabPage("Current Level = " + k.ToString());
-            page.Controls.Add(graphic);
-            this.graphicsTab.TabPages.Add(page);
-
-            this.graphics.Add(graphic);*/
         }
     }
 }

@@ -268,6 +268,8 @@ namespace NetworkModel
             return cyclesCount;
         }
 
+        static private int tracingCount = 0;
+
         protected override SortedDictionary<UInt32, long> CalculateCycles3Trajectory()
         {
             // Retrieving research parameters from network. //
@@ -331,7 +333,8 @@ namespace NetworkModel
                 }
             }
 
-            container.Trace(nu.ToString());
+            container.Trace(nu.ToString() +  "_" + tracingCount.ToString());
+            ++tracingCount;
             container = initialContainer;
             return trajectory;
         }
