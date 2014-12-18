@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Numerics;
+using System.Threading;
 
 using Core;
 using Core.Exceptions;
@@ -268,7 +269,7 @@ namespace NetworkModel
             return cyclesCount;
         }
 
-        static private int tracingCount = 0;
+        static private int tracingCount = 1;
 
         protected override SortedDictionary<UInt32, long> CalculateCycles3Trajectory()
         {
@@ -325,6 +326,9 @@ namespace NetworkModel
                             container = previousContainer;
                         }
                     }
+
+                    container.Trace(nu.ToString() + "_" + tracingCount.ToString());
+                    Interlocked.Increment(ref tracingCount);
                 }
                 catch (Exception ex)
                 {
@@ -333,8 +337,6 @@ namespace NetworkModel
                 }
             }
 
-            container.Trace(nu.ToString() +  "_" + tracingCount.ToString());
-            ++tracingCount;
             container = initialContainer;
             return trajectory;
         }
