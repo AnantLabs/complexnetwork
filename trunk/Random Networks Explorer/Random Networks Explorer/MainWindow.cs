@@ -547,6 +547,19 @@ namespace RandomNetworksExplorer
                         gValues[GenerationParameter.AdjacencyMatrixFile].ToString());
                 else
                     generationParametersTable.Rows.Add("AdjacencyMatrixFile", "Browse");
+
+                foreach (ResearchParameter r in rValues.Keys)
+                {
+                    DataGridViewRow newRow = new DataGridViewRow();
+                    DataGridViewCell c1 = new DataGridViewTextBoxCell();
+                    DataGridViewCell c2 = new DataGridViewTextBoxCell();
+                    c1.Value = r.ToString();
+                    if (rValues[r] != null)
+                        c2.Value = rValues[r].ToString();
+                    newRow.Cells.Add(c1);
+                    newRow.Cells.Add(c2);
+                    generationParametersTable.Rows.Add(newRow);
+                }
             }
             else
             {
