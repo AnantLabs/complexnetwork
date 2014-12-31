@@ -53,6 +53,8 @@ namespace NetworkModel
                     degrees.Add(0);
                 }
 
+                existingEdges.Clear();
+
                 nonExistingEdges.Clear();
                 for (int i = 0; i < size; ++i)
                 {
@@ -69,8 +71,7 @@ namespace NetworkModel
 
         public void SetMatrix(ArrayList matrix)
         {
-            size = matrix.Count;
-            neighbourship = new SortedDictionary<int, List<int>>();
+            Size = (uint)matrix.Count;
             ArrayList neighbourshipOfVertex = new ArrayList();
             for (int i = 0; i < matrix.Count; i++)
             {
@@ -325,10 +326,11 @@ namespace NetworkModel
 
         private void SetDataToDictionary(int index, ArrayList neighbourshipOfIVertex)
         {
-            neighbourship[index] = new List<int>();
             for (int j = 0; j < size; j++)
                 if ((bool)neighbourshipOfIVertex[j] == true && index != j)
-                    neighbourship[index].Add(j);
+                {
+                    AddConnection(index, j);
+                }
         }
 
         private int CalculateSumOfDegrees()
