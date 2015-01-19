@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Numerics;
-using System.Threading;
 
 using Core;
 using Core.Exceptions;
@@ -269,8 +268,6 @@ namespace NetworkModel
             return cyclesCount;
         }
 
-        static private int tracingCount = 1;
-
         protected override SortedDictionary<UInt32, long> CalculateCycles3Trajectory()
         {
             // Retrieving research parameters from network. //
@@ -291,6 +288,7 @@ namespace NetworkModel
 
             NonHierarchicContainer previousContainer = new NonHierarchicContainer();
             RNGCrypto rand = new RNGCrypto();
+            Guid fid = Guid.NewGuid();
             while (currentStep != stepCount)
             {
                 previousContainer = container.Clone();
@@ -327,8 +325,7 @@ namespace NetworkModel
                         }
                     }
 
-                    container.Trace(nu.ToString() + "_" + tracingCount.ToString());
-                    Interlocked.Increment(ref tracingCount);
+                    container.Trace(nu.ToString() + "_" + fid.ToString());
                 }
                 catch (Exception ex)
                 {

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
+using System.Threading;
 
 using Core;
 using Core.Utility;
@@ -101,18 +103,17 @@ namespace NetworkModel
         }
 
         // TODO add to interface
+        static int traceCount = 1;
+
         public void Trace(String extendedName)
         {
             String tracingDirectory = ExplorerSettings.TracingDirectory;
             if (tracingDirectory != "")
             {
-                string filePath = tracingDirectory + "_" + extendedName;
-                int i = 1;
-                while (System.IO.File.Exists(filePath + ".txt"))
-                {
-                    filePath = tracingDirectory + "_" + extendedName + "_" + i.ToString();
-                    ++i;
-                }
+                string newFolderName = tracingDirectory + "\\" + extendedName;
+                Directory.CreateDirectory(newFolderName);
+                string filePath = newFolderName + "\\" + traceCount.ToString();
+                Interlocked.Increment(ref traceCount);
 
                 MatrixInfoToWrite matrixInfo = new MatrixInfoToWrite();
                 matrixInfo.Matrix = GetMatrix();
