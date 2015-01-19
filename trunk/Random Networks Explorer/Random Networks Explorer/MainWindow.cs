@@ -13,6 +13,7 @@ using Session;
 using Core;
 using Core.Exceptions;
 using Core.Enumerations;
+using Core.Attributes;
 using Core.Events;
 using Core.Settings;
 
@@ -527,68 +528,111 @@ namespace RandomNetworksExplorer
         private void FillGenerationParametersTable(Guid researchId)
         {
             generationParametersTable.Rows.Clear();
+            
+            if (SessionManager.GetResearchGenerationType(researchId) == GenerationType.Static)
+            {
+                FillStaticGenerationParameters(researchId);
+            }
+            else
+            {
+                FillRandomGenerationParameters(researchId);
+            }
+        }
 
+        private void FillStaticGenerationParameters(Guid researchId)
+        {
             Dictionary<GenerationParameter, object> gValues =
                 SessionManager.GetGenerationParameterValues(researchId);
             Dictionary<ResearchParameter, object> rValues =
                 SessionManager.GetResearchParameterValues(researchId);
 
-            if (SessionManager.GetResearchGenerationType(researchId) == GenerationType.Static)
+            DataGridViewRow r = new DataGridViewRow();
+            DataGridViewCell rc1 = new DataGridViewTextBoxCell();
+            DataGridViewCell rc2 = new DataGridViewButtonCell();
+            rc1.Value = "AdjacencyMatrixFile";
+            r.Cells.Add(rc1);
+            if (gValues[GenerationParameter.AdjacencyMatrixFile] != null)
             {
-                // TODO remove freak code
-                generationParametersTable.Columns.Remove("generationParameterValueColumn");
-                DataGridViewButtonColumn newColumn = new DataGridViewButtonColumn();
-                newColumn.Name = "generationParameterValueColumn";
-                generationParametersTable.Columns.Add(newColumn);
-                // end of freak code
-
-                if (gValues[GenerationParameter.AdjacencyMatrixFile] != null)
-                    generationParametersTable.Rows.Add("AdjacencyMatrixFile",
-                        gValues[GenerationParameter.AdjacencyMatrixFile].ToString());
-                else
-                    generationParametersTable.Rows.Add("AdjacencyMatrixFile", "Browse");
-
-                foreach (ResearchParameter r in rValues.Keys)
-                {
-                    DataGridViewRow newRow = new DataGridViewRow();
-                    DataGridViewCell c1 = new DataGridViewTextBoxCell();
-                    DataGridViewCell c2 = new DataGridViewTextBoxCell();
-                    c1.Value = r.ToString();
-                    if (rValues[r] != null)
-                        c2.Value = rValues[r].ToString();
-                    newRow.Cells.Add(c1);
-                    newRow.Cells.Add(c2);
-                    generationParametersTable.Rows.Add(newRow);
-                }
+                rc2.Value = gValues[GenerationParameter.AdjacencyMatrixFile].ToString();
+                r.Cells.Add(rc2);
+                generationParametersTable.Rows.Add(r);
             }
             else
             {
-                // TODO remove freak code
-                generationParametersTable.Columns.Remove("generationParameterValueColumn");
-                DataGridViewTextBoxColumn newColumn = new DataGridViewTextBoxColumn();
-                newColumn.Name = "generationParameterValueColumn";
-                newColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                generationParametersTable.Columns.Add(newColumn);
-                // end of freak code
+                rc2.Value = "Browse";
+                r.Cells.Add(rc2);
+                generationParametersTable.Rows.Add(r);
+            }
 
-                foreach (GenerationParameter g in gValues.Keys)
+            foreach (ResearchParameter rp in rValues.Keys)
+            {
+                DataGridViewRow rpr = new DataGridViewRow();
+                DataGridViewCell rpc1 = new DataGridViewTextBoxCell();
+                DataGridViewCell rpc2;
+                rpc1.Value = rp.ToString();
+                ResearchParameterInfo rpInfo = (ResearchParameterInfo)(rp.GetType().GetField(rp.ToString()).GetCustomAttributes(typeof(ResearchParameterInfo), false)[0]);
+                if (rpInfo.Type == typeof(bool))
                 {
-                    if (g != GenerationParameter.AdjacencyMatrixFile)
-                    {
-                        if (gValues[g] != null)
-                            generationParametersTable.Rows.Add(g.ToString(), gValues[g].ToString());
-                        else
-                            generationParametersTable.Rows.Add(g.ToString());
-                    }
-                }
-
-                foreach (ResearchParameter r in rValues.Keys)
-                {
-                    if (rValues[r] != null)
-                        generationParametersTable.Rows.Add(r.ToString(), rValues[r].ToString());
+                    rpc2 = new DataGridViewCheckBoxCell();
+                    if (rValues[rp] != null)
+                        rpc2.Value = bool.Parse(rValues[rp].ToString());
                     else
-                        generationParametersTable.Rows.Add(r.ToString());
+                        rpc2.Value = false;
                 }
+                else
+                {
+                    rpc2 = new DataGridViewTextBoxCell();
+                    if (rValues[rp] != null)
+                        rpc2.Value = rValues[rp].ToString();
+                }
+                rpr.Cells.Add(rpc1);
+                rpr.Cells.Add(rpc2);
+                generationParametersTable.Rows.Add(rpr);
+            }
+        }
+
+        private void FillRandomGenerationParameters(Guid researchId)
+        {
+            Dictionary<GenerationParameter, object> gValues =
+                SessionManager.GetGenerationParameterValues(researchId);
+            Dictionary<ResearchParameter, object> rValues =
+                SessionManager.GetResearchParameterValues(researchId);
+
+            foreach (GenerationParameter g in gValues.Keys)
+            {
+                if (g != GenerationParameter.AdjacencyMatrixFile)
+                {
+                    if (gValues[g] != null)
+                        generationParametersTable.Rows.Add(g.ToString(), gValues[g].ToString());
+                    else
+                        generationParametersTable.Rows.Add(g.ToString());
+                }
+            }
+
+            foreach (ResearchParameter r in rValues.Keys)
+            {
+                DataGridViewRow rr = new DataGridViewRow();
+                DataGridViewCell rrc1 = new DataGridViewTextBoxCell();
+                DataGridViewCell rrc2;
+                rrc1.Value = r.ToString();
+                ResearchParameterInfo rInfo = (ResearchParameterInfo)(r.GetType().GetField(r.ToString()).GetCustomAttributes(typeof(ResearchParameterInfo), false)[0]);
+                if (rInfo.Type == typeof(bool))
+                {
+                    rrc2 = new DataGridViewCheckBoxCell();
+                    if (rValues[r] != null)
+                        rrc2.Value = bool.Parse(rValues[r].ToString());
+                    else
+                        rrc2.Value = false;
+                }
+                else
+                {
+                    rrc2 = new DataGridViewTextBoxCell();
+                    if (rValues[r] != null)
+                        rrc2.Value = rValues[r].ToString();
+                }
+                rr.Cells.Add(rrc1);
+                rr.Cells.Add(rrc2);
+                generationParametersTable.Rows.Add(rr);
             }
         }
 
