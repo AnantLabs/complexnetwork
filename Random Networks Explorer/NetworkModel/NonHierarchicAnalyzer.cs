@@ -277,12 +277,15 @@ namespace NetworkModel
             UInt32 stepCount = UInt32.Parse(network.ResearchParameterValues[ResearchParameter.EvolutionStepCount].ToString());
             Single nu = Single.Parse(network.ResearchParameterValues[ResearchParameter.Nu].ToString());
             bool permanentDistribution = Boolean.Parse(network.ResearchParameterValues[ResearchParameter.PermanentDistribution].ToString());
+            object v = network.ResearchParameterValues[ResearchParameter.TracingStepIncrement];
+            UInt16 tracingStepIncrement = ((v != null) ? UInt16.Parse(v.ToString()) : (ushort)0);
 
             // keep initial container
             NonHierarchicContainer initialContainer = container.Clone();
 
             SortedDictionary<UInt32, long> trajectory = new SortedDictionary<UInt32, long>();
             uint currentStep = 0;
+            uint currentTracingStep = 0;
             long currentCycle3Count = (long)CalculateCycles3();
             trajectory.Add(currentStep, currentCycle3Count);
 
@@ -325,7 +328,11 @@ namespace NetworkModel
                         }
                     }
 
-                    container.Trace(nu.ToString() + "_" + fid.ToString());
+                    if (currentTracingStep == currentStep - 1)
+                    {
+                        container.Trace(nu.ToString() + "_" + fid.ToString());
+                        currentTracingStep += tracingStepIncrement;
+                    }
                 }
                 catch (Exception ex)
                 {

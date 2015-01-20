@@ -148,6 +148,7 @@ namespace RandomNetworksExplorer
                 else
                     SessionManager.SetResearchTracingPath(researchIDs[e.RowIndex], "");
             }
+            FillGenerationParametersTable(researchIDs[e.RowIndex]);
         }
 
         private void researchTable_CurrentCellDirtyStateChanged(object sender, EventArgs e)
@@ -572,6 +573,9 @@ namespace RandomNetworksExplorer
 
             foreach (ResearchParameter rp in rValues.Keys)
             {
+                if (SessionManager.GetResearchTracingPath(researchId) == "" &&
+                    rp == ResearchParameter.TracingStepIncrement)
+                    continue;
                 DataGridViewRow rpr = new DataGridViewRow();
                 DataGridViewCell rpc1 = new DataGridViewTextBoxCell();
                 DataGridViewCell rpc2;
@@ -590,6 +594,8 @@ namespace RandomNetworksExplorer
                     rpc2 = new DataGridViewTextBoxCell();
                     if (rValues[rp] != null)
                         rpc2.Value = rValues[rp].ToString();
+                    else if (rp == ResearchParameter.TracingStepIncrement)
+                        rpc2.Value = 0;
                 }
                 rpr.Cells.Add(rpc1);
                 rpr.Cells.Add(rpc2);
@@ -617,6 +623,9 @@ namespace RandomNetworksExplorer
 
             foreach (ResearchParameter r in rValues.Keys)
             {
+                if (SessionManager.GetResearchTracingPath(researchId) == "" &&
+                    r == ResearchParameter.TracingStepIncrement)
+                    continue;
                 DataGridViewRow rr = new DataGridViewRow();
                 DataGridViewCell rrc1 = new DataGridViewTextBoxCell();
                 DataGridViewCell rrc2;
@@ -635,6 +644,8 @@ namespace RandomNetworksExplorer
                     rrc2 = new DataGridViewTextBoxCell();
                     if (rValues[r] != null)
                         rrc2.Value = rValues[r].ToString();
+                    else if (r == ResearchParameter.TracingStepIncrement)
+                        rrc2.Value = 0;
                 }
                 rr.Cells.Add(rrc1);
                 rr.Cells.Add(rrc2);
