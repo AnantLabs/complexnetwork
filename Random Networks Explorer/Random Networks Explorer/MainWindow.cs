@@ -183,6 +183,7 @@ namespace RandomNetworksExplorer
                     SessionManager.SetResearchGenerationType(researchIDs[e.RowIndex],
                         (GenerationType)Enum.Parse(typeof(GenerationType), editedCell.Value.ToString()));
                     FillGenerationParametersTable(researchIDs[e.RowIndex]);
+                    SetRealizationCount(researchIDs[e.RowIndex]);
                     break;
                 default:
                     break;
@@ -480,7 +481,7 @@ namespace RandomNetworksExplorer
             // filling specified research generation parameters and analyze options
             FillGenerationParametersTable(researchId);
             FillAnalyzeOptionsTable(researchId);
-            realizationCountTxt.Value = SessionManager.GetResearchRealizationCount(researchId);
+            SetRealizationCount(researchId);
             FillStatusTable(researchId);
 
             if (SessionManager.GetResearchStatus(researchId) == ResearchStatus.NotStarted)
@@ -499,6 +500,10 @@ namespace RandomNetworksExplorer
             SessionManager.DestroyResearch(researchIDs[rowToRemove.Index]);
 
             researchIDs.Remove(researchIDs[rowToRemove.Index]);
+            if(researchIDs.Count != 0)
+                selectedIndex = 0;
+            else
+                selectedIndex = -1;
             researchesTable.Rows.Remove(rowToRemove);
 
             if (researchesTable.Rows.Count == 0)
@@ -507,6 +512,7 @@ namespace RandomNetworksExplorer
                 analyzeOptionsTable.Rows.Clear();
                 realizationCountTxt.Value = 1;
                 statusTable.Rows.Clear();
+                selectedIndex = -1;
             }
         }
 
@@ -665,8 +671,25 @@ namespace RandomNetworksExplorer
                 analyzeOptionsTable.Columns[1].ReadOnly = !b;
                 selectAll.Enabled = b;
                 deselectAll.Enabled = b;
-                realizationCountTxt.Enabled = b;
                 startResearch.Enabled = b;
+                if (b && GenerationType.Static == SessionManager.GetResearchGenerationType(researchIDs[selectedIndex]))
+                    return;
+                realizationCountTxt.Enabled = b;                
+            }
+        }
+
+        private void SetRealizationCount(Guid researchId)
+        {
+            if (GenerationType.Static == SessionManager.GetResearchGenerationType(researchId))
+            {
+                realizationCountTxt.Value = 1;
+                realizationCountTxt.Enabled = false;
+                SessionManager.SetResearchRealizationCount(researchId, 1);
+            }
+            else
+            {
+                realizationCountTxt.Value = SessionManager.GetResearchRealizationCount(researchId);
+                realizationCountTxt.Enabled = true;
             }
         }
 
@@ -700,9 +723,9 @@ namespace RandomNetworksExplorer
 
         private void CurrentResearch_OnResearchUpdateStatus(object sender, ResearchEventArgs e)
         {
-            //int researchIndex = researchIDs.IndexOf(e.ResearchID);
-            //researchesTable.Rows[researchIndex].Cells["statusColumn"].Value = e.Status.ToString();
-            //stopResearch.Enabled = (ResearchStatus.Running == e.Status);
+            int researchIndex = researchIDs.IndexOf(e.ResearchID);
+            researchesTable.Rows[researchIndex].Cells["statusColumn"].Value = e.Status.ToString();
+            stopResearch.Enabled = (ResearchStatus.Running == e.Status);
         }
 
         private void CurrentResearch_OnResearchEnsembleUpdateStatus(object sender, ResearchEnsembleEventArgs e)

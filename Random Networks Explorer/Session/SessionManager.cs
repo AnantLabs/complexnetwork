@@ -103,6 +103,7 @@ namespace Session
                 r.ResearchName = "Cloned from " + researchToClone.ResearchName;
                 r.Storage = CreateStorage(researchToClone.Storage.GetStorageType(),
                     researchToClone.Storage.StorageString);
+                r.GenerationType = researchToClone.GenerationType;
                 r.TracingPath = researchToClone.TracingPath;
 
                 r.RealizationCount = researchToClone.RealizationCount;
