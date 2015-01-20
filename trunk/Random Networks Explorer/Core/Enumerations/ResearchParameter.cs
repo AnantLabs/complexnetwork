@@ -20,6 +20,9 @@ namespace Core.Enumerations
         [ResearchParameterInfo("", "", typeof(Single))]
         Nu,
 
+        [ResearchParameterInfo("", "", typeof(UInt16))]
+        TracingStepIncrement,
+
         [ResearchParameterInfo("", "", typeof(Boolean))]
         PermanentDistribution,
 

@@ -16,6 +16,7 @@ namespace Research
     [RequiredResearchParameter(ResearchParameter.EvolutionStepCount)]
     [RequiredResearchParameter(ResearchParameter.Nu)]
     [RequiredResearchParameter(ResearchParameter.PermanentDistribution)]
+    [RequiredResearchParameter(ResearchParameter.TracingStepIncrement)]
     [AvailableAnalyzeOption(AnalyzeOption.Cycles3Trajectory)]
     public class EvolutionResearch : AbstractResearch
     {
