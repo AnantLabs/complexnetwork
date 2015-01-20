@@ -68,6 +68,7 @@
             this.modelCheckingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataConvertionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.matrixConvertionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.probabilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.statisticAnalyzerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,8 +78,6 @@
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusGrp = new System.Windows.Forms.GroupBox();
             this.statusTable = new System.Windows.Forms.DataGridView();
-            this.statusStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.statusStopColumn = new System.Windows.Forms.DataGridViewButtonColumn();
             this.topSplitLayout = new System.Windows.Forms.SplitContainer();
             this.analyzeOptionsGrp = new System.Windows.Forms.GroupBox();
             this.selectAll = new System.Windows.Forms.Button();
@@ -87,7 +86,8 @@
             this.analyzeOptionNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.analyzeOptionCheckedColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.openFileDlg = new System.Windows.Forms.OpenFileDialog();
-            this.probabilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.statusStopColumn = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.researchesTable)).BeginInit();
             this.researchTableCSM.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -456,6 +456,13 @@
             this.matrixConvertionToolStripMenuItem.Text = "Matrix Convertion...";
             this.matrixConvertionToolStripMenuItem.Click += new System.EventHandler(this.matrixConvertionToolStripMenuItem_Click);
             // 
+            // probabilityToolStripMenuItem
+            // 
+            this.probabilityToolStripMenuItem.Name = "probabilityToolStripMenuItem";
+            this.probabilityToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.probabilityToolStripMenuItem.Text = "Probability...";
+            this.probabilityToolStripMenuItem.Click += new System.EventHandler(this.probabilityToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
@@ -539,19 +546,6 @@
             this.statusTable.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.statusTable.Size = new System.Drawing.Size(463, 216);
             this.statusTable.TabIndex = 0;
-            // 
-            // statusStatusColumn
-            // 
-            this.statusStatusColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.statusStatusColumn.HeaderText = "Status";
-            this.statusStatusColumn.Name = "statusStatusColumn";
-            this.statusStatusColumn.ReadOnly = true;
-            // 
-            // statusStopColumn
-            // 
-            this.statusStopColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.statusStopColumn.HeaderText = "";
-            this.statusStopColumn.Name = "statusStopColumn";
             // 
             // topSplitLayout
             // 
@@ -655,12 +649,19 @@
             // 
             this.openFileDlg.Filter = "\"txt files (*.txt)|*.txt|All files (*.*)|*.*\"";
             // 
-            // probabilityToolStripMenuItem
+            // statusStatusColumn
             // 
-            this.probabilityToolStripMenuItem.Name = "probabilityToolStripMenuItem";
-            this.probabilityToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-            this.probabilityToolStripMenuItem.Text = "Probability...";
-            this.probabilityToolStripMenuItem.Click += new System.EventHandler(this.probabilityToolStripMenuItem_Click);
+            this.statusStatusColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.statusStatusColumn.HeaderText = "Status";
+            this.statusStatusColumn.Name = "statusStatusColumn";
+            this.statusStatusColumn.ReadOnly = true;
+            // 
+            // statusStopColumn
+            // 
+            this.statusStopColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.statusStopColumn.HeaderText = "";
+            this.statusStopColumn.Name = "statusStopColumn";
+            this.statusStopColumn.Visible = false;
             // 
             // MainWindow
             // 
@@ -737,8 +738,6 @@
         private System.Windows.Forms.ToolStripMenuItem modelCheckingToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn generationParameterNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn generationParameterValueColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn statusStatusColumn;
-        private System.Windows.Forms.DataGridViewButtonColumn statusStopColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn analyzeOptionNameColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn analyzeOptionCheckedColumn;
         private System.Windows.Forms.ToolStripMenuItem dataConvertionsToolStripMenuItem;
@@ -755,6 +754,8 @@
         private System.Windows.Forms.Button deselectAll;
         private System.Windows.Forms.ToolStripMenuItem matrixConvertionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem probabilityToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn statusStatusColumn;
+        private System.Windows.Forms.DataGridViewButtonColumn statusStopColumn;
     }
 }
 
