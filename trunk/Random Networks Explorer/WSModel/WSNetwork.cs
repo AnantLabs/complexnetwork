@@ -34,9 +34,10 @@ namespace WSModel
         AnalyzeOption.EigenValues)]
     public class WSNetwork : AbstractNetwork
     {
-        public WSNetwork(Dictionary<ResearchParameter, object> rParams,
+        public WSNetwork(String rName,
+            Dictionary<ResearchParameter, object> rParams,
             Dictionary<GenerationParameter, object> genParams,
-            AnalyzeOption analyzeOpts) : base(rParams, genParams, analyzeOpts)
+            AnalyzeOption analyzeOpts) : base(rName, rParams, genParams, analyzeOpts)
         {
             networkGenerator = new WSNetworkGenerator();
             networkAnalyzer = new NonHierarchicAnalyzer(this);

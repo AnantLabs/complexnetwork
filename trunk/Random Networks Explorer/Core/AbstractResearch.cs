@@ -143,6 +143,7 @@ namespace Core
             currentManager.ModelType = modelType;
             currentManager.TracingPath = (TracingPath == "" ? "" : TracingPath + "\\" + ResearchName);
             currentManager.RealizationCount = realizationCount;
+            currentManager.ResearchName = ResearchName;
             currentManager.AnalyzeOptions = AnalyzeOption;
             FillParameters(currentManager);
 

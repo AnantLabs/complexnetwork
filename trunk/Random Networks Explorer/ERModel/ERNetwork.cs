@@ -34,9 +34,10 @@ namespace ERModel
         AnalyzeOption.TriangleByVertexDistribution)]
     public class ERNetwork : AbstractNetwork
     {
-        public ERNetwork(Dictionary<ResearchParameter, object> rParams,
+        public ERNetwork(String rName,
+            Dictionary<ResearchParameter, object> rParams,
             Dictionary<GenerationParameter, object> genParams,
-            AnalyzeOption analyzeOpts) : base(rParams, genParams, analyzeOpts)
+            AnalyzeOption analyzeOpts) : base(rName, rParams, genParams, analyzeOpts)
         {
             networkGenerator = new ERNetworkGenerator();
             networkAnalyzer = new NonHierarchicAnalyzer(this);

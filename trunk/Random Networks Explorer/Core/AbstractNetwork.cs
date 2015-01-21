@@ -17,6 +17,7 @@ namespace Core
     /// </summary>
     public abstract class AbstractNetwork
     {
+        public String ResearchName { get; private set; }
         public Dictionary<ResearchParameter, object> ResearchParameterValues { get; private set; }
         public Dictionary<GenerationParameter, object> GenerationParameterValues { get; private set; }
         public AnalyzeOption AnalyzeOptions { get; private set; }
@@ -30,10 +31,12 @@ namespace Core
 
         public event NetworkStatusUpdateHandler OnUpdateStatus;
 
-        public AbstractNetwork(Dictionary<ResearchParameter, object> rParams,
+        public AbstractNetwork(String rName,
+            Dictionary<ResearchParameter, object> rParams,
             Dictionary<GenerationParameter, object> genParams,
             AnalyzeOption AnalyzeOptions)
         {
+            ResearchName = rName;
             ResearchParameterValues = rParams;
             GenerationParameterValues = genParams;
             this.AnalyzeOptions = AnalyzeOptions;

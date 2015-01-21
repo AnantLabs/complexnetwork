@@ -103,22 +103,23 @@ namespace NetworkModel
         }
 
         // TODO add to interface
-        static int traceCount = 1;
-
-        public void Trace(String extendedName)
+        public void Trace(String directoryName, String subDirectoryName, String fileName)
         {
             String tracingDirectory = ExplorerSettings.TracingDirectory;
+            String dPath = tracingDirectory + "\\" + directoryName;
+            String sdPath = dPath + "\\" + subDirectoryName;
+            String fPath = sdPath + "\\" + fileName;
             if (tracingDirectory != "")
             {
-                string newFolderName = tracingDirectory + "\\" + extendedName;
-                Directory.CreateDirectory(newFolderName);
-                string filePath = newFolderName + "\\" + traceCount.ToString();
-                Interlocked.Increment(ref traceCount);
+                if (!Directory.Exists(dPath))
+                    Directory.CreateDirectory(dPath);
+                if (!Directory.Exists(sdPath))
+                    Directory.CreateDirectory(sdPath);
 
                 MatrixInfoToWrite matrixInfo = new MatrixInfoToWrite();
                 matrixInfo.Matrix = GetMatrix();
                 matrixInfo.Branches = null;
-                FileManager.Write(matrixInfo, filePath);
+                FileManager.Write(matrixInfo, fPath);
             }
         }
 
