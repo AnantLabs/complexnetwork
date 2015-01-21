@@ -92,6 +92,7 @@ namespace Manager
                     typeof(Dictionary<GenerationParameter, object>), 
                     typeof(AnalyzeOption) };
                 object[] invokeParams = new object[] {
+                    ResearchName,
                     ResearchParamaterValues,
                     GenerationParameterValues, 
                     AnalyzeOptions };

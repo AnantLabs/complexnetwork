@@ -29,9 +29,10 @@ namespace NonRegularHierarchicModel
         AnalyzeOption.TriangleByVertexDistribution)]
     public class NonRegularHierarchicNetwork : AbstractNetwork
     {
-        public NonRegularHierarchicNetwork(Dictionary<ResearchParameter, object> rParams,
+        public NonRegularHierarchicNetwork(String rName,
+            Dictionary<ResearchParameter, object> rParams,
             Dictionary<GenerationParameter, object> genParams,
-            AnalyzeOption analyzeOpts) : base(rParams, genParams, analyzeOpts)
+            AnalyzeOption analyzeOpts) : base(rName, rParams, genParams, analyzeOpts)
         {
             networkGenerator = new NonRegularHierarchicNetworkGenerator();
             networkAnalyzer = new NonRegularHierarchicNetworkAnalyzer(this);

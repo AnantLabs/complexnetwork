@@ -34,9 +34,10 @@ namespace BAModel
         AnalyzeOption.TriangleByVertexDistribution)]
     public class BANetwork : AbstractNetwork
     {
-        public BANetwork(Dictionary<ResearchParameter, object> rParams,
+        public BANetwork(String rName,
+            Dictionary<ResearchParameter, object> rParams,
             Dictionary<GenerationParameter, object> genParams,
-            AnalyzeOption analyzeOpts) : base(rParams, genParams, analyzeOpts)
+            AnalyzeOption analyzeOpts) : base(rName, rParams, genParams, analyzeOpts)
         {
             networkGenerator = new BANetworkGenerator();
             networkAnalyzer = new NonHierarchicAnalyzer(this);

@@ -285,7 +285,7 @@ namespace NetworkModel
 
             SortedDictionary<UInt32, long> trajectory = new SortedDictionary<UInt32, long>();
             uint currentStep = 0;
-            uint currentTracingStep = 0;
+            uint currentTracingStep = tracingStepIncrement;
             long currentCycle3Count = (long)CalculateCycles3();
             trajectory.Add(currentStep, currentCycle3Count);
 
@@ -330,7 +330,9 @@ namespace NetworkModel
 
                     if (currentTracingStep == currentStep - 1)
                     {
-                        container.Trace(nu.ToString() + "_" + fid.ToString());
+                        container.Trace(network.ResearchName, 
+                            "Realization_" + network.NetworkID.ToString(), 
+                            "Matrix_" + currentTracingStep.ToString());
                         currentTracingStep += tracingStepIncrement;
                     }
                 }
