@@ -70,8 +70,6 @@ namespace Core
             }
             catch (SystemException ex)
             {
-                Console.WriteLine(ex.Message);
-
                 UpdateStatus(NetworkStatus.Failed, "Generation Failed.");
             }
         }

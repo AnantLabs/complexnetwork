@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 
 using Session;
 using Core;
@@ -23,6 +24,7 @@ namespace RandomNetworksExplorer
     {
         private static List<Guid> researchIDs = new List<Guid>();
         private int selectedIndex = -1;
+        private static Object syncObject = new Object();
 
         public MainWindow()
         {
@@ -147,8 +149,8 @@ namespace RandomNetworksExplorer
                 }
                 else
                     SessionManager.SetResearchTracingPath(researchIDs[e.RowIndex], "");
+                FillGenerationParametersTable(researchIDs[e.RowIndex]);
             }
-            FillGenerationParametersTable(researchIDs[e.RowIndex]);
         }
 
         private void researchTable_CurrentCellDirtyStateChanged(object sender, EventArgs e)
@@ -734,9 +736,12 @@ namespace RandomNetworksExplorer
 
         private void CurrentResearch_OnResearchUpdateStatus(object sender, ResearchEventArgs e)
         {
-            int researchIndex = researchIDs.IndexOf(e.ResearchID);
-            researchesTable.Rows[researchIndex].Cells["statusColumn"].Value = e.Status.ToString();
-            stopResearch.Enabled = (ResearchStatus.Running == e.Status);
+            lock (syncObject)
+            {
+                int researchIndex = researchIDs.IndexOf(e.ResearchID);
+                researchesTable.Rows[researchIndex].Cells["statusColumn"].Value = e.Status.ToString();
+                stopResearch.Enabled = (ResearchStatus.Running == e.Status);
+            }
         }
 
         private void CurrentResearch_OnResearchEnsembleUpdateStatus(object sender, ResearchEnsembleEventArgs e)
