@@ -169,6 +169,7 @@ namespace Core
             result.ModelType = modelType;
             result.RealizationCount = realizationCount;
             result.Size = result.EnsembleResults[0].NetworkSize;
+            result.Date = DateTime.Now;
 
             result.ResearchParameterValues = ResearchParameterValues;
             result.GenerationParameterValues = GenerationParameterValues;

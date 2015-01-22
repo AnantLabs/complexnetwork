@@ -331,10 +331,10 @@ namespace Random_Networks_Statistic_Analyzer
                     int newRowIndex = researchesTable.Rows.Add(id.ToString(),
                         StSessionManager.GetResearchName(id),
                         StSessionManager.GetResearchRealizationCount(id).ToString(),
-                        StSessionManager.GetResearchNetworkSize(id).ToString());
+                        StSessionManager.GetResearchNetworkSize(id).ToString(),
+                        StSessionManager.GetResearchDate(id).ToString());
                     DataGridViewRow row = researchesTable.Rows[newRowIndex];
                     row.DefaultCellStyle.BackColor = c;
-                    //row.Cells["dateColumn"].Value = StSessionManager.GetResearchDate(id).ToString();
                 }
                 
                 c = (c == Color.WhiteSmoke) ? Color.MistyRose : Color.WhiteSmoke;

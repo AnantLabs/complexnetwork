@@ -24,11 +24,11 @@ namespace RandomNetworksExplorer
     {
         private static List<Guid> researchIDs = new List<Guid>();
         private int selectedIndex = -1;
-        private static Object syncObject = new Object();
 
         public MainWindow()
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
         }
 
         #region Event Handlers
@@ -736,12 +736,9 @@ namespace RandomNetworksExplorer
 
         private void CurrentResearch_OnResearchUpdateStatus(object sender, ResearchEventArgs e)
         {
-            lock (syncObject)
-            {
-                int researchIndex = researchIDs.IndexOf(e.ResearchID);
-                researchesTable.Rows[researchIndex].Cells["statusColumn"].Value = e.Status.ToString();
-                stopResearch.Enabled = (ResearchStatus.Running == e.Status);
-            }
+            int researchIndex = researchIDs.IndexOf(e.ResearchID);
+            researchesTable.Rows[researchIndex].Cells["statusColumn"].Value = e.Status.ToString();
+            stopResearch.Enabled = (ResearchStatus.Running == e.Status);
         }
 
         private void CurrentResearch_OnResearchEnsembleUpdateStatus(object sender, ResearchEnsembleEventArgs e)

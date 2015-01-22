@@ -103,6 +103,18 @@ namespace Session
             }
         }
 
+        public static DateTime GetResearchDate(Guid id)
+        {
+            try
+            {
+                return existingResults[id].Date;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
         /// <summary>
         /// Gets research parameter values for specified research.
         /// </summary>
