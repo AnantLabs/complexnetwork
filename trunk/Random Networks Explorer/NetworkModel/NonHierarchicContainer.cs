@@ -148,8 +148,10 @@ namespace NetworkModel
                 neighbourship[i].Add(j);
                 neighbourship[j].Add(i);
 
-                --degrees[ivertexdegree];
-                --degrees[jvertexdegree];
+                if(degrees[ivertexdegree] != 0)
+                    --degrees[ivertexdegree];
+                if(degrees[jvertexdegree] != 0)
+                    --degrees[jvertexdegree];
                 ++degrees[ivertexdegree + 1];
                 ++degrees[jvertexdegree + 1];
 
@@ -304,6 +306,8 @@ namespace NetworkModel
                 AreConnected(existingEdges[e1].Value, existingEdges[e2].Value) ||
                 AreConnected(existingEdges[e1].Key, existingEdges[e2].Value) ||
                 AreConnected(existingEdges[e1].Value, existingEdges[e2].Key))
+                // AreConnected(existingEdges[e1].Key, existingEdges[e2].Value) ||
+                //AreConnected(existingEdges[e1].Value, existingEdges[e2].Key)) heriq e
             {
                 e1 = rand.Next(0, existingEdges.Count - 1);
                 e2 = rand.Next(0, existingEdges.Count - 1);

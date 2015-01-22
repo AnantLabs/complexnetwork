@@ -291,7 +291,6 @@ namespace NetworkModel
 
             NonHierarchicContainer previousContainer = new NonHierarchicContainer();
             RNGCrypto rand = new RNGCrypto();
-            Guid fid = Guid.NewGuid();
             while (currentStep != stepCount)
             {
                 previousContainer = container.Clone();

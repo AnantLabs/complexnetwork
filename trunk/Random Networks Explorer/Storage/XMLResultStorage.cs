@@ -57,7 +57,8 @@ namespace Storage
                 writer.WriteStartElement("Research");
 
                 SaveResearchInfo(result.ResearchID, result.ResearchName, 
-                    result.ResearchType, result.ModelType, result.RealizationCount, result.Size);
+                    result.ResearchType, result.ModelType, result.RealizationCount, 
+                    result.Date, result.Size);
                 SaveResearchParameters(result.ResearchParameterValues);
                 SaveGenerationParameters(result.GenerationParameterValues);
 
@@ -167,6 +168,7 @@ namespace Storage
             ResearchType rType,
             ModelType mType,
             int realizationCount,
+            DateTime date,
             UInt32 size)
         {
             writer.WriteElementString("ResearchID", researchID.ToString());
@@ -174,7 +176,7 @@ namespace Storage
             writer.WriteElementString("ResearchType", rType.ToString());
             writer.WriteElementString("ModelType", mType.ToString());
             writer.WriteElementString("RealizationCount", realizationCount.ToString());
-            writer.WriteElementString("Date", DateTime.Now.ToString());
+            writer.WriteElementString("Date", date.ToString());
             writer.WriteElementString("Size", size.ToString());
         }
 
@@ -308,10 +310,7 @@ namespace Storage
             if (reader.Name == "RealizationCount")
                 r.RealizationCount = Int32.Parse(reader.ReadElementString());
             if (reader.Name == "Date")
-            {
-                // TODO add date
-                reader.ReadElementString();
-            }
+                r.Date = DateTime.Parse(reader.ReadElementString());
             if (reader.Name == "Size")
                 r.Size = UInt32.Parse(reader.ReadElementString());
         }
