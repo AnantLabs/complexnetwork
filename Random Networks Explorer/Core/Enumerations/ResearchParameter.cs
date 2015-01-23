@@ -14,22 +14,22 @@ namespace Core.Enumerations
     /// </summary>
     public enum ResearchParameter
     {
-        [ResearchParameterInfo("", "", typeof(UInt32))]
+        [ResearchParameterInfo("", "", typeof(UInt32), "1")]
         EvolutionStepCount,
 
-        [ResearchParameterInfo("", "", typeof(Single))]
+        [ResearchParameterInfo("", "", typeof(Single), "0.1")]
         Nu,
 
-        [ResearchParameterInfo("", "", typeof(UInt16))]
+        [ResearchParameterInfo("", "", typeof(UInt16), "0")]
         TracingStepIncrement,
 
-        [ResearchParameterInfo("", "", typeof(Boolean))]
+        [ResearchParameterInfo("", "", typeof(Boolean), "false")]
         PermanentDistribution,
 
-        [ResearchParameterInfo("", "", typeof(Single))]
+        [ResearchParameterInfo("", "", typeof(Single), "1.0")]
         ProbabilityMax,
 
-        [ResearchParameterInfo("", "", typeof(Single))]
+        [ResearchParameterInfo("", "", typeof(Single), "0.01")]
         ProbabilityDelta
     }
 }
