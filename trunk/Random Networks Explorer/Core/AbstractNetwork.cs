@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 
 using Core.Enumerations;
+using Core.Exceptions;
 using Core.Events;
 using Core.Model;
 using Core.Result;

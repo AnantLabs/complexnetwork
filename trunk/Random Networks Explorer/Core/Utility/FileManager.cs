@@ -21,6 +21,7 @@ namespace Core.Utility
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
+        /// <throws>MatrixFormatException, BranchesFormatException</throws>
         public static MatrixInfoToRead Read(String filePath)
         {
             MatrixInfoToRead result = new MatrixInfoToRead();
@@ -50,17 +51,11 @@ namespace Core.Utility
         public static ArrayList MatrixReader(String filePath)
         {
             ArrayList matrix;
-            try
+
+            if (!TryReadClassicalMatrix(filePath, out matrix))
             {
-                if (!TryReadClassicalMatrix(filePath, out matrix))
-                {
-                    if (!TryReadExtendedMatrix(filePath, out matrix))
-                        throw new SystemException("Unknown matrix format.");
-                }
-            }
-            catch (SystemException ex)
-            {
-                throw new CoreException(ex.Message);
+                if (!TryReadExtendedMatrix(filePath, out matrix))
+                    throw new MatrixFormatException();
             }
 
             return matrix;
@@ -205,9 +200,9 @@ namespace Core.Utility
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (SystemException ex)
                 {
-                    throw new CoreException(ex.Message);
+                    throw new BranchesFormatException();
                 }
 
                 return branches;
