@@ -50,7 +50,8 @@ namespace NetworkModel
                 }
 
                 degrees.Clear();
-                for (int i = 0; i < size; ++i)
+                degrees.Add(size);
+                for (int i = 1; i < size; ++i)
                 {
                     degrees.Add(0);
                 }
@@ -148,10 +149,8 @@ namespace NetworkModel
                 neighbourship[i].Add(j);
                 neighbourship[j].Add(i);
 
-                if(degrees[ivertexdegree] != 0)
-                    --degrees[ivertexdegree];
-                if(degrees[jvertexdegree] != 0)
-                    --degrees[jvertexdegree];
+                --degrees[ivertexdegree];
+                --degrees[jvertexdegree];
                 ++degrees[ivertexdegree + 1];
                 ++degrees[jvertexdegree + 1];
 
@@ -298,16 +297,9 @@ namespace NetworkModel
             int e1 = rand.Next(0, existingEdges.Count - 1);
             int e2 = rand.Next(0, existingEdges.Count - 1);
 
-            while (existingEdges[e1].Key == existingEdges[e2].Key ||
-                existingEdges[e1].Value == existingEdges[e2].Value ||
-                existingEdges[e1].Key == existingEdges[e2].Value ||
-                existingEdges[e1].Value == existingEdges[e2].Key ||
+            while (e1 == e2 ||
                 AreConnected(existingEdges[e1].Key, existingEdges[e2].Key) ||
-                AreConnected(existingEdges[e1].Value, existingEdges[e2].Value) ||
-                AreConnected(existingEdges[e1].Key, existingEdges[e2].Value) ||
-                AreConnected(existingEdges[e1].Value, existingEdges[e2].Key))
-                // AreConnected(existingEdges[e1].Key, existingEdges[e2].Value) ||
-                //AreConnected(existingEdges[e1].Value, existingEdges[e2].Key)) heriq e
+                AreConnected(existingEdges[e1].Value, existingEdges[e2].Value))
             {
                 e1 = rand.Next(0, existingEdges.Count - 1);
                 e2 = rand.Next(0, existingEdges.Count - 1);

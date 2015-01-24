@@ -69,9 +69,10 @@ namespace Core
 
                 UpdateStatus(NetworkStatus.GenerationCompleted, "Generation Completed.");
             }
-            catch (SystemException ex)
+            catch (CoreException)
             {
                 UpdateStatus(NetworkStatus.Failed, "Generation Failed.");
+                throw;
             }
         }
 
