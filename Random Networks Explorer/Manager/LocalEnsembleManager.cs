@@ -36,7 +36,14 @@ namespace Manager
 
         public override void Run()
         {
-            PrepareData();
+            try
+            {
+                PrepareData();
+            }
+            catch (MatrixFormatException ex)
+            {
+                throw;
+            }
 
             for (int i = 0; i < threads.Length; ++i)
             {
@@ -138,13 +145,9 @@ namespace Manager
                     Interlocked.Increment(ref realizationsDone);
                 }
             }
-            catch (CoreException ex)
+            catch (CoreException)
             {
-                Console.WriteLine(ex.Message);
-            }
-            catch (SystemException ex)
-            {
-                Console.WriteLine(ex.Message);
+                throw;
             }
             finally
             {
