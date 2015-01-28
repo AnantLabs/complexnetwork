@@ -41,7 +41,7 @@ namespace Core
 
         public NetworkEventArgs[] NetworkStatuses { get; protected set; }
 
-        public event EnsembleStatusUpdateHandler OnUpdateStatus;
+        public event EnsembleStatusUpdateHandler OnUpdateNetworkStatus;
 
         /// <summary>
         /// Runs generation, analyze and save for each realization in single ensemble.
@@ -60,11 +60,38 @@ namespace Core
             NetworkStatuses[e.ID].ExtendedInfo = e.ExtendedInfo;
 
             // Make sure someone is listening to event
+            if (OnUpdateNetworkStatus == null)
+                return;
+
+            // Invoke event for AbstractResearch
+            OnUpdateNetworkStatus(this, new EnsembleEventArgs(e));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /*protected void RunCompleted()
+        {
+            bool allFailed = true, allSucceed = true;
+            foreach (NetworkEventArgs a in NetworkStatuses)
+            {
+                if (a.Status == NetworkStatus.Failed)
+                    allSucceed = false;
+                else if (a.Status == NetworkStatus.AnalyzingCompleted)
+                    allFailed = false;
+            }
+
+            // Make sure someone is listening to event
             if (OnUpdateStatus == null)
                 return;
 
             // Invoke event for AbstractResearch
-            OnUpdateStatus(this, new EnsembleEventArgs(e));
-        }
+            if (allFailed)
+                OnUpdateStatus(this, ResearchStatus.Failed);
+            else if(allSucceed)
+                OnUpdateStatus(this, ResearchStatus.Succeed);
+            else
+                OnUpdateStatus(this, ResearchStatus.CompletedWithErrors);
+        }*/
     }
 }

@@ -36,14 +36,7 @@ namespace Manager
 
         public override void Run()
         {
-            try
-            {
-                PrepareData();
-            }
-            catch (MatrixFormatException ex)
-            {
-                throw;
-            }
+            PrepareData();
 
             for (int i = 0; i < threads.Length; ++i)
             {
@@ -137,17 +130,22 @@ namespace Manager
                 for (int i = 0; (d.ThreadIndex + i * d.ThreadCount) < networks.Length; ++i)
                 {
                     int networkToRun = d.ThreadIndex + i * d.ThreadCount;
-                    networks[networkToRun].Generate();
-                    if(TracingPath != "")
-                        networks[networkToRun].Trace(TracingPath + "_" + networkToRun.ToString());
-                    networks[networkToRun].Analyze();
+                    if (!networks[networkToRun].Generate())
+                        continue;
+                    if (TracingPath != "")
+                    {
+                        if (!networks[networkToRun].Trace(TracingPath + "_" + networkToRun.ToString()))
+                            continue;
+                    }
+                    if (!networks[networkToRun].Analyze())
+                        continue;
 
                     Interlocked.Increment(ref realizationsDone);
                 }
             }
-            catch (CoreException)
+            catch (SystemException)
             {
-                throw;
+                // log something
             }
             finally
             {

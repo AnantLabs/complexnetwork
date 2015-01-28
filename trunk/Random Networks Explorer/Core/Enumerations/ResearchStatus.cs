@@ -11,6 +11,7 @@ namespace Core.Enumerations
         Running,
         Stopped,
         Failed,
+        CompletedWithErrors,
         Succeed
     }
 }

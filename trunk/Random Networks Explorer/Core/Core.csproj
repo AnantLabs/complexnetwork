@@ -84,6 +84,7 @@
     <Compile Include="Result\EnsembleResult.cs" />
     <Compile Include="Result\RealizationResult.cs" />
     <Compile Include="Result\ResearchResult.cs" />
+    <Compile Include="Result\StEnsembleResult.cs" />
     <Compile Include="Settings\ExplorerSettings.cs" />
     <Compile Include="Settings\StatisticAnalyzerSettings.cs" />
     <Compile Include="Utility\FileManager.cs" />

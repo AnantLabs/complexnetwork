@@ -147,7 +147,7 @@ namespace Core
             currentManager.AnalyzeOptions = AnalyzeOption;
             FillParameters(currentManager);
 
-            currentManager.OnUpdateStatus += new EnsembleStatusUpdateHandler(CurrentManager_OnUpdateStatus);
+            currentManager.OnUpdateNetworkStatus += new EnsembleStatusUpdateHandler(CurrentManager_OnUpdateNetworkStatus);
         }
 
         /// <summary>
@@ -213,9 +213,9 @@ namespace Core
                 GenerationParameterValues.Add(gp[i].Parameter, null);
         }
 
-        private void CurrentManager_OnUpdateStatus(object sender, EnsembleEventArgs e)
+        private void CurrentManager_OnUpdateNetworkStatus(object sender, EnsembleEventArgs e)
         {
-            InvokeUpdateResearchStatus(e);
+            //InvokeUpdateResearchStatus(e);
             InvokeUpdateResearchEnsembleStatus(e);
         }
 
