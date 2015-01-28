@@ -48,7 +48,7 @@ namespace Core
         /// <summary>
         /// Generates random network from generation parameters.
         /// </summary>
-        public void Generate()
+        public bool Generate()
         {
             UpdateStatus(NetworkStatus.NotStarted, "Not started.");
 
@@ -69,17 +69,29 @@ namespace Core
 
                 UpdateStatus(NetworkStatus.GenerationCompleted, "Generation Completed.");
             }
-            catch (CoreException)
+            catch (MatrixFormatException mEx)
+            {
+                UpdateStatus(NetworkStatus.Failed, "Generation Failed. " + mEx.Message);
+                return false;
+            }
+            catch (BranchesFormatException bEx)
+            {
+                UpdateStatus(NetworkStatus.Failed, "Generation Failed. " + bEx.Message);
+                return false;
+            }
+            catch(ApplicationException)
             {
                 UpdateStatus(NetworkStatus.Failed, "Generation Failed.");
-                throw;
+                return false;
             }
+
+            return true;
         }
 
         /// <summary>
         /// Calculates specified analyze options values.
         /// </summary>
-        public void Analyze()
+        public bool Analyze()
         {
             networkAnalyzer.Container = networkGenerator.Container;
             
@@ -107,16 +119,17 @@ namespace Core
             }
             catch (SystemException ex)
             {
-                Console.WriteLine(ex.Message);
-
                 UpdateStatus(NetworkStatus.Failed, "Analyzing Failed.");
+                return false;
             }
+
+            return true;
         }
 
         /// <summary>
         /// Traces the adjacency matrix of generated network to file.
         /// </summary>
-        public void Trace(string tracingPath)
+        public bool Trace(string tracingPath)
         {
             try
             {
@@ -133,10 +146,11 @@ namespace Core
             }
             catch (SystemException ex)
             {
-                Console.WriteLine(ex.Message);
-
                 UpdateStatus(NetworkStatus.Failed, "Tracing Failed.");
+                return false;
             }
+
+            return true;
         }
 
         private void UpdateStatus(NetworkStatus status, string extendedInfo)

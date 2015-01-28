@@ -362,20 +362,7 @@ namespace RandomNetworksExplorer
                         continue;
                 }
 
-                try
-                {
-                    SessionManager.StartResearch(researchIDs[selectedIndex]);
-                }
-                catch (MatrixFormatException mEx)
-                {
-                    MessageBox.Show(mEx.Message, "Error");
-                    return;
-                }
-                catch (BranchesFormatException bEx)
-                {
-                    MessageBox.Show(bEx.Message, "Error");
-                    return;
-                }
+                SessionManager.StartResearch(researchIDs[selectedIndex]);
                 FillStatusTableOnStart(researchIDs[selectedIndex]);
                 DisableButtons(false);
             }

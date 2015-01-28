@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Core.Exceptions;
 using Core.Model;
 using NetworkModel.HierarchicEngine;
 using ModelChecking;
@@ -69,7 +70,7 @@ namespace RegularHierarchicModel
             HierarchicExactChecker checker = new HierarchicExactChecker();
             if (!checker.IsHierarchic(matrixInList))
             {
-                throw new SystemException("Not correct matrix.");
+                throw new MatrixFormatException();
             }
             else
             {

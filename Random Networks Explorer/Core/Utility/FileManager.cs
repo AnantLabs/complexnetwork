@@ -52,10 +52,17 @@ namespace Core.Utility
         {
             ArrayList matrix;
 
-            if (!TryReadClassicalMatrix(filePath, out matrix))
+            try
             {
-                if (!TryReadExtendedMatrix(filePath, out matrix))
-                    throw new MatrixFormatException();
+                if (!TryReadClassicalMatrix(filePath, out matrix))
+                {
+                    if (!TryReadExtendedMatrix(filePath, out matrix))
+                        throw new MatrixFormatException();
+                }
+            }
+            catch (SystemException)
+            {
+                throw new MatrixFormatException();
             }
 
             return matrix;
