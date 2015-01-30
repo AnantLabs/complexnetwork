@@ -54,7 +54,6 @@ namespace NonRegularHierarchicModel
 
         protected override double CalculateAverageClusteringCoefficient()
         {
-            // TODO 3 cycles in BigInteger
             double cycles3 = Count3Cycle(0, 0)[0], sum = 0, degree = 0;
             for (int i = 0; i < container.Size; ++i)
             {
@@ -65,15 +64,13 @@ namespace NonRegularHierarchicModel
             return 6 * cycles3 / sum;
         }
 
-        protected override long CalculateCycles3()
+        protected override double CalculateCycles3()
         {
-            // TODO get BigInteger result
             return (long)Count3Cycle(0, 0)[0];
         }
 
-        protected override long CalculateCycles4()
+        protected override double CalculateCycles4()
         {
-            // TODO get BigInteger result
             return (long)Count4Cycle(0, 0)[0];
         }
 

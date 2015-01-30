@@ -62,9 +62,8 @@ namespace NetworkModel
             return 6 * cycles3 / sum;
         }
 
-        protected override long CalculateCycles3()
+        protected override double CalculateCycles3()
         {
-            // TODO get BigInteger result
             if (!calledPaths)
                 CountEssentialOptions();
 
@@ -80,12 +79,11 @@ namespace NetworkModel
             else
                 cycles3 /= 3;
 
-            return (long)cycles3;
+            return cycles3;
         }
 
-        protected override long CalculateCycles4()
+        protected override double CalculateCycles4()
         {
-            // TODO get BigInteger result
             long count = 0;
             for (int i = 0; i < container.Size; i++)
                 count += Get4OrderCyclesOfNode(i);
