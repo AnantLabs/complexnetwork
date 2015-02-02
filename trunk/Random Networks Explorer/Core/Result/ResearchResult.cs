@@ -31,7 +31,7 @@ namespace Core.Result
         /// <summary>
         /// Statistic part.
         /// </summary>
-        public List<StEnsembleResult> StEnsembleResults { get; set; }
+        //public List<StEnsembleResult> StEnsembleResults { get; set; }
 
         public ResearchResult()
         {
@@ -40,10 +40,10 @@ namespace Core.Result
 
             EnsembleResults = new List<EnsembleResult>();
 
-            StEnsembleResults = null;
+            //StEnsembleResults = null;
         }
 
-        public void GlobalAnalyze(AnalyzeOption opt)
+        /*public void GlobalAnalyze(AnalyzeOption opt)
         {
             int globalDelta = 10;
 
@@ -124,7 +124,7 @@ namespace Core.Result
 
         private void FillMathWaitingsAndDispersions(SortedDictionary<double, double> r, AnalyzeOption option)
         {
-            /*SortedDictionary<double, double>.KeyCollection keys = r.Keys;
+            SortedDictionary<double, double>.KeyCollection keys = r.Keys;
             switch (option)
             {
                 case AnalyzeOption.TriangleTrajectory:
@@ -170,7 +170,7 @@ namespace Core.Result
 
                         break;
                     }
-            }*/
-        }
+            }
+        }*/
     }
 }
