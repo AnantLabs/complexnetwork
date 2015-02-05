@@ -446,6 +446,7 @@ namespace NetworkModel
 
             averagePathLength = avg;
             diameter = d;
+            calledPaths = true;
         }
 
         // Возвращает число циклов 4, которые содержат данную вершину.
@@ -590,11 +591,13 @@ namespace NetworkModel
             return count / 2;
         }
 
-        // Возвращает среднее степеней.
-        // TODO check the logic
+        /// <summary>
+        /// Calculates average degree of the network.
+        /// </summary>
+        /// <returns>Average degree.</returns>
         public double AverageDegree()
         {
-            return container.CalculateNumberOfEdges() * 2 / container.Size;
+            return container.CalculateNumberOfEdges() * 2 / (double)container.Size;
         }
 
         #endregion
