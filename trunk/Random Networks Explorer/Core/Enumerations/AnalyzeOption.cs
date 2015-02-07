@@ -80,14 +80,14 @@ namespace Core.Enumerations
         [AnalyzeOptionInfo("3-length cycles (eigenvalues)", 
             "Number of cycles of length 3 in the network calculated from the spectrum of eigenvalues.",
             OptionType.Global,
-            typeof(BigInteger),
+            typeof(Double),
             typeof(Double))]
         Cycles3Eigen = 0x80,
 
         [AnalyzeOptionInfo("4-length cycles (eigenvalues)",
             "Number of cycles of length 4 in the network calculated from the spectrum of eigenvalues.",
             OptionType.Global,
-            typeof(BigInteger),
+            typeof(Double),
             typeof(Double))]
         Cycles4Eigen = 0x100,
 
@@ -159,7 +159,7 @@ namespace Core.Enumerations
         [AnalyzeOptionInfo("Cycle distribution", 
             "Cycle length distribution in the network.",
             OptionType.Distribution,
-            typeof(SortedDictionary<UInt16, BigInteger>),
+            typeof(SortedDictionary<UInt16, Double>),
             typeof(SortedDictionary<UInt16, Double>),
             "Length",
             "AvgCount")]
@@ -170,7 +170,7 @@ namespace Core.Enumerations
         [AnalyzeOptionInfo("3-length cycles trajectory",
             "Count of 3-length cycles in evolution process.",
             OptionType.Trajectory,
-            typeof(SortedDictionary<UInt32, long>),
+            typeof(SortedDictionary<UInt32, Double>),
             typeof(SortedDictionary<UInt32, Double>),
             "StepNumber",
             "AvgCount")]

@@ -55,25 +55,6 @@ namespace Core.Result
                     }
                     r.Result.Add(option, temp);
                 }
-                else if (t.Equals(typeof(BigInteger)))
-                {
-                    double temp = 0;
-                    foreach (RealizationResult res in results)
-                    {
-                        //temp += (BigInteger.Parse(res.Result[option].ToString())) / rCount;
-                    }
-                    r.Result.Add(option, temp);
-                }
-                // TODO remove this case
-                else if(t.Equals(typeof(long)))
-                {
-                    double temp = 0;
-                    foreach (RealizationResult res in results)
-                    {
-                        temp += (long)res.Result[option] / (double)rCount;
-                    }
-                    r.Result.Add(option, temp);
-                }
                 else if(t.Equals(typeof(List<Double>)))
                 {
                     List<Double> temp = new List<double>(results[0].Result[option] as List<Double>);
@@ -117,40 +98,6 @@ namespace Core.Result
                                 temp[k] += (double)d[k] / rCount;
                             else
                                 temp.Add(k, (double)d[k] / rCount);
-                        }
-                    }
-                    r.Result.Add(option, temp);
-                }
-                else if (t.Equals(typeof(SortedDictionary<UInt32, long>)))
-                {
-                    SortedDictionary<UInt32, Double> temp = new SortedDictionary<uint, double>();
-                    foreach (RealizationResult res in results)
-                    {
-                        SortedDictionary<UInt32, long> d = res.Result[option] as SortedDictionary<UInt32, long>;
-                        foreach (uint k in d.Keys)
-                        {
-                            if (temp.ContainsKey(k))
-                                temp[k] += (double)d[k] / rCount;
-                            else
-                                temp.Add(k, (double)d[k] / rCount);
-                        }
-                    }
-                    r.Result.Add(option, temp);
-                }
-                else if (t.Equals(typeof(SortedDictionary<UInt16, BigInteger>)))
-                {
-                    SortedDictionary<UInt16, Double> temp = new SortedDictionary<UInt16, Double>();
-                    foreach (RealizationResult res in results)
-                    {
-                        SortedDictionary<UInt16, BigInteger> d = res.Result[option] as SortedDictionary<UInt16, BigInteger>;
-                        foreach (UInt16 k in d.Keys)
-                        {
-                            if (temp.ContainsKey(k))
-                                temp[k] += 0;
-                            //temp[k] += (double)d[k] / rCount;
-                            else
-                                temp.Add(k, 0);
-                                //temp.Add(k, (double)d[k] / rCount);
                         }
                     }
                     r.Result.Add(option, temp);
