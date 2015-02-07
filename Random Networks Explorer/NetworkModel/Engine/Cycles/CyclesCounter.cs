@@ -42,9 +42,9 @@ namespace NetworkModel.Engine.Cycles
          * to the specified 'cycleLength' argument
          * @pre cycleLength >= 3
          */
-        public long getCyclesCount(int cycleLength)
+        public double getCyclesCount(int cycleLength)
         {
-            long count = 0;
+            double count = 0;
            
             try
             {

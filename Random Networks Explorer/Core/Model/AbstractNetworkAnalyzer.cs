@@ -108,7 +108,7 @@ namespace Core.Model
         /// Calculates the number of cycles of length 3 in the network.
         /// </summary>
         /// <returns>Number of cycles 3.</returns>
-        protected virtual double CalculateCycles3()
+        protected virtual Double CalculateCycles3()
         {
             throw new NotImplementedException();
         }
@@ -117,7 +117,7 @@ namespace Core.Model
         /// Calculates the number of cycles of length 4 in the network.
         /// </summary>
         /// <returns>Number of cycles 4.</returns>
-        protected virtual double CalculateCycles4()
+        protected virtual Double CalculateCycles4()
         {
             throw new NotImplementedException();
         }
@@ -135,7 +135,7 @@ namespace Core.Model
         /// Calculates the number of cycles of length 3 in the network using eigenvalues.
         /// </summary>
         /// <returns>Number of cycles 3.</returns>
-        protected virtual BigInteger CalculateCycles3Eigen()
+        protected virtual Double CalculateCycles3Eigen()
         {
             throw new NotImplementedException();
         }
@@ -144,7 +144,7 @@ namespace Core.Model
         /// Calculates the number of cycles of length 4 in the network using eigenvalues.
         /// </summary>
         /// <returns>Number of cycles 4.</returns>
-        protected virtual BigInteger CalculateCycles4Eigen()
+        protected virtual Double CalculateCycles4Eigen()
         {
             throw new NotImplementedException();
         }
@@ -218,7 +218,7 @@ namespace Core.Model
         /// <param name="lowBound">Minimal length of cycle.</param>
         /// <param name="hightBound">Maximal length of cycle.</param>
         /// <returns>(cycle length, count) pairs.</returns>
-        protected virtual SortedDictionary<UInt16, BigInteger> CalculateCycleDistribution(UInt16 lowBound, UInt16 hightBound)
+        protected virtual SortedDictionary<UInt16, Double> CalculateCycleDistribution(UInt16 lowBound, UInt16 hightBound)
         {
             throw new NotImplementedException();
         }
@@ -230,7 +230,7 @@ namespace Core.Model
         /// <param name="nu">Managment parameter.</param>
         /// <param name="permanentDistribution">Indicates if degree distribution must be permanent during evolution process.</param>
         /// <returns>(step, cycles 3 count)</returns>
-        protected virtual SortedDictionary<UInt32, long> CalculateCycles3Trajectory()
+        protected virtual SortedDictionary<UInt32, Double> CalculateCycles3Trajectory()
         {
             throw new NotImplementedException();
         }

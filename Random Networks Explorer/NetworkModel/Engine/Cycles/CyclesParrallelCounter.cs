@@ -39,7 +39,7 @@ namespace NetworkModel.Engine.Cycles
          * to the specified 'cycleLength' argument
          * @precondition cycleLength >= 3
          */ 
-        public long calculateCyclesCount(int cyclesLenght)
+        public double calculateCyclesCount(int cyclesLenght)
         {
             /*TextWriter tw = new StreamWriter(@"C:\ComplexNetwork\Progress"
                 + cyclesLenght.ToString() + ".txt", true);

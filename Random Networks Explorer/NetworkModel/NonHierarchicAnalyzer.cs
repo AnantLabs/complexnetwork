@@ -250,23 +250,22 @@ namespace NetworkModel
             return trianglesDistribution;
         }
 
-        protected override SortedDictionary<UInt16, BigInteger> CalculateCycleDistribution(UInt16 lowBound, UInt16 hightBound)
+        protected override SortedDictionary<UInt16, Double> CalculateCycleDistribution(UInt16 lowBound, UInt16 hightBound)
         {
-            // TODO get BigInteger result
             CyclesCounter cyclesCounter = new CyclesCounter(container);
-            SortedDictionary<UInt16, BigInteger> cyclesCount =
-                new SortedDictionary<UInt16, BigInteger>();
-            long count = 0;
+            SortedDictionary<UInt16, Double> cyclesCount =
+                new SortedDictionary<UInt16, Double>();
+            double count = 0;
             for (int i = lowBound; i <= hightBound; i++)
             {
                 count = cyclesCounter.getCyclesCount(i);
-                cyclesCount.Add((UInt16)i, (BigInteger)count);
+                cyclesCount.Add((UInt16)i, count);
             }
 
             return cyclesCount;
         }
 
-        protected override SortedDictionary<UInt32, long> CalculateCycles3Trajectory()
+        protected override SortedDictionary<UInt32, Double> CalculateCycles3Trajectory()
         {
             // Retrieving research parameters from network. //
             // TODO without parce
@@ -281,10 +280,10 @@ namespace NetworkModel
             // keep initial container
             NonHierarchicContainer initialContainer = container.Clone();
 
-            SortedDictionary<UInt32, long> trajectory = new SortedDictionary<UInt32, long>();
+            SortedDictionary<UInt32, double> trajectory = new SortedDictionary<UInt32, double>();
             uint currentStep = 0;
             uint currentTracingStep = tracingStepIncrement;
-            long currentCycle3Count = (long)CalculateCycles3();
+            double currentCycle3Count = CalculateCycles3();
             trajectory.Add(currentStep, currentCycle3Count);
 
             NonHierarchicContainer previousContainer = new NonHierarchicContainer();
@@ -299,7 +298,7 @@ namespace NetworkModel
                     long deltaCount = permanentDistribution ?
                         container.PermanentRandomization() : 
                         container.NonPermanentRandomization();
-                    long newCycle3Count = currentCycle3Count + deltaCount;
+                    double newCycle3Count = currentCycle3Count + deltaCount;
 
                     int delta = (int)(newCycle3Count - currentCycle3Count);
                     if (delta > 0)
