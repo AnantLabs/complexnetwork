@@ -446,12 +446,12 @@ namespace RegularHierarchicModel
         /// <summary>
         /// Gets the degree of specified node in specified level.
         /// </summary>
-        /// <param name="currentLevel">Index of level of specified node.</param>
-        /// <note>currentLevel must be in [0, level] range.</note>
         /// <param name="currentVertexNumber">Index of specified node.</param>
         /// <note>currentVertexNumber must be in [0, pow(branchingIndex, level)] range.</note>
+        /// <param name="currentLevel">Index of level of specified node.</param>
+        /// <note>currentLevel must be in [0, level] range.</note>
         /// <returns>The degree of node.</returns>
-        public double VertexDegree(int currentLevel, int currentVertexNumber)
+        public double VertexDegree(int currentVertexNumber, int currentLevel)
         {
             // TODO check what is wrong
             /*if (currentLevel < 0 || currentLevel > level)
