@@ -14,20 +14,6 @@ using Core.Result;
 
 namespace Random_Networks_Statistic_Analyzer
 {
-    // TODO remove to Core
-    public enum ThickeningType
-    {
-        Delta,
-        Percent
-    }
-
-    public enum ApproximationType
-    {
-        Degree,
-        Exponential,
-        Gaus
-    }
-
     public partial class MainWindow : Form
     {
         private static Dictionary<int, List<Guid>> resultsByGroups = new Dictionary<int, List<Guid>>();
@@ -212,7 +198,7 @@ namespace Random_Networks_Statistic_Analyzer
                             ApproximationType at = (ApproximationType)Enum.Parse(typeof(ApproximationType), 
                                 r.Cells["approximationColumn"].Value.ToString());
                             ChartProperties pv = new ChartProperties(t, 
-                                double.Parse(r.Cells["thickeningValueColumn"].Value.ToString()), 
+                                Int32.Parse(r.Cells["thickeningValueColumn"].Value.ToString()), 
                                 at,
                                 color.BackColor);
                             p.Add(opt, pv);

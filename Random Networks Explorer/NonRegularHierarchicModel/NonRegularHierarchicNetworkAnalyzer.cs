@@ -166,7 +166,7 @@ namespace NonRegularHierarchicModel
         private SortedDictionary<uint, uint> distanceDistribution =
             new SortedDictionary<uint, uint>();
 
-        bool calledEigens = false;
+        //bool calledEigens = false;
         private List<double> eigenValues = new List<double>();
 
         /// <summary>

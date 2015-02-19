@@ -102,6 +102,38 @@ namespace Core.Result
                     }
                     r.Result.Add(option, temp);
                 }
+                else if (t.Equals(typeof(SortedDictionary<UInt32, Double>)))		
+	            {		
+	                SortedDictionary<UInt32, Double> temp = new SortedDictionary<uint, double>();		
+	                foreach (RealizationResult res in results)		
+	                {
+                        SortedDictionary<UInt32, Double> d = res.Result[option] as SortedDictionary<UInt32, Double>;		
+	                    foreach (uint k in d.Keys)		
+	                    {		
+	                        if (temp.ContainsKey(k))		
+	                            temp[k] += (double)d[k] / rCount;		
+	                        else		
+	                            temp.Add(k, (double)d[k] / rCount);		
+	                    }		
+	                }		
+	                r.Result.Add(option, temp);		
+	            }		
+	            else if (t.Equals(typeof(SortedDictionary<UInt16, Double>)))		
+	            {		
+	                SortedDictionary<UInt16, Double> temp = new SortedDictionary<UInt16, Double>();		
+	                foreach (RealizationResult res in results)		
+	                {
+                        SortedDictionary<UInt16, Double> d = res.Result[option] as SortedDictionary<UInt16, Double>;		
+	                    foreach (UInt16 k in d.Keys)		
+	                    {		
+	                        if (temp.ContainsKey(k))		
+	                            temp[k] += (double)d[k] / rCount;		
+	                        else		
+	                            temp.Add(k, (double)d[k] / rCount);		
+	                    }		
+	                }		
+	                r.Result.Add(option, temp);		
+	            }
             }
 
             return r;

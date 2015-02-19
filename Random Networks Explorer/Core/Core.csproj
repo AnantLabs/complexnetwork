@@ -60,6 +60,7 @@
     <Compile Include="Attributes\ResearchTypeInfo.cs" />
     <Compile Include="Attributes\StorageTypeInfo.cs" />
     <Compile Include="Enumerations\AnalyzeOption.cs" />
+    <Compile Include="Enumerations\ApproximationType.cs" />
     <Compile Include="Enumerations\GenerationParameter.cs" />
     <Compile Include="Enumerations\GenerationType.cs" />
     <Compile Include="Enumerations\ManagerType.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Enumerations\ResearchType.cs" />
     <Compile Include="Enumerations\ResearchParameter.cs" />
     <Compile Include="Enumerations\StorageType.cs" />
+    <Compile Include="Enumerations\ThickeningType.cs" />
     <Compile Include="Events\EnsembleEventArgs.cs" />
     <Compile Include="Events\NetworkEventArgs.cs" />
     <Compile Include="Events\ResearchEventArgs.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="Result\EnsembleResult.cs" />
     <Compile Include="Result\RealizationResult.cs" />
     <Compile Include="Result\ResearchResult.cs" />
+    <Compile Include="Result\StatisticResult.cs" />
     <Compile Include="Settings\ExplorerSettings.cs" />
     <Compile Include="Settings\StatisticAnalyzerSettings.cs" />
     <Compile Include="Utility\FileManager.cs" />
