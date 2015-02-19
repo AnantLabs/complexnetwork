@@ -47,7 +47,7 @@ namespace NetworkModel
 
         protected override Double CalculateAverageDegree()
         {
-            return AverageDegree();
+            return Math.Round(AverageDegree());
         }
 
         protected override Double CalculateAverageClusteringCoefficient()
@@ -59,7 +59,7 @@ namespace NetworkModel
                 sum += degree * (degree - 1);
             }
 
-            return 6 * cycles3 / sum;
+            return Math.Round(6 * cycles3 / sum);
         }
 
         protected override double CalculateCycles3()

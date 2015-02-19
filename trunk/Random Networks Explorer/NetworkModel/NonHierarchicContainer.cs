@@ -298,6 +298,10 @@ namespace NetworkModel
             int e2 = rand.Next(0, existingEdges.Count - 1);
 
             while (e1 == e2 ||
+                existingEdges[e1].Key == existingEdges[e2].Key ||
+                existingEdges[e1].Value == existingEdges[e2].Value ||
+                existingEdges[e1].Key == existingEdges[e2].Value ||
+                existingEdges[e1].Value == existingEdges[e2].Key ||
                 AreConnected(existingEdges[e1].Key, existingEdges[e2].Key) ||
                 AreConnected(existingEdges[e1].Value, existingEdges[e2].Value))
             {
