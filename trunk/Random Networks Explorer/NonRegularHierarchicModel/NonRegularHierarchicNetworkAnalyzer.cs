@@ -49,7 +49,8 @@ namespace NonRegularHierarchicModel
 
         protected override double CalculateAverageDegree()
         {
-            return (double)container.CalculateNumberOfEdges(0, 0) * 2 / container.Size;
+            double result = container.CalculateNumberOfEdges(0, 0) * 2 / (double)container.Size;
+            return Math.Round(result, 4);
         }
 
         protected override double CalculateAverageClusteringCoefficient()
@@ -61,7 +62,8 @@ namespace NonRegularHierarchicModel
                 sum += degree * (degree - 1);
             }
 
-            return 6 * cycles3 / sum;
+            double result = 6 * cycles3 / sum;
+            return Math.Round(result, 4);
         }
 
         protected override double CalculateCycles3()
