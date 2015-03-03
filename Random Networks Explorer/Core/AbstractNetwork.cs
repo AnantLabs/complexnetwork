@@ -100,6 +100,7 @@ namespace Core
                 UpdateStatus(NetworkStatus.Analyzing, "Analyzing.");
 
                 NetworkResult.NetworkSize = networkAnalyzer.Container.Size;
+                NetworkResult.EdgesCount = networkAnalyzer.CalculateEdgesCount();
 
                 Array existingOptions = Enum.GetValues(typeof(AnalyzeOption));
                 foreach (AnalyzeOption opt in existingOptions)

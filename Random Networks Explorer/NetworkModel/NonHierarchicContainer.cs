@@ -124,6 +124,11 @@ namespace NetworkModel
             }
         }
 
+        public int ExistingEdgesCount()
+        {
+            return existingEdges.Count();
+        }
+
         /// <summary>
         /// Adds a new vertex with no connections.
         /// </summary>

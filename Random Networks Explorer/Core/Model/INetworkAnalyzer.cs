@@ -20,6 +20,12 @@ namespace Core.Model
         INetworkContainer Container { get; set; }
 
         /// <summary>
+        /// Calculates the count of edges of network.
+        /// </summary>
+        /// <returns>Caount of edges.</returns>
+        UInt32 CalculateEdgesCount();
+
+        /// <summary>
         /// Calculates specified analyze option.
         /// </summary>
         /// <param name="option">Analyze option</param>

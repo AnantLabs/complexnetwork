@@ -29,6 +29,11 @@ namespace NetworkModel
             set { container = (NonHierarchicContainer)value; }
         }
 
+        protected override uint CalculateEdgesCountOfNetwork()
+        {
+            return (UInt32)container.ExistingEdgesCount();
+        }
+
         protected override Double CalculateAveragePath()
         {
             if(!calledPaths)

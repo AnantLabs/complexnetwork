@@ -23,13 +23,19 @@ namespace NonRegularHierarchicModel
         /// </summary>
         private NonRegularHierarchicNetworkContainer container;
 
+        public NonRegularHierarchicNetworkAnalyzer(AbstractNetwork n) : base(n) { }
+
         public override INetworkContainer Container
         {
             get { return container; }
             set { container = (NonRegularHierarchicNetworkContainer)value; }
         }
 
-        public NonRegularHierarchicNetworkAnalyzer(AbstractNetwork n) : base(n) { }
+        protected override uint CalculateEdgesCountOfNetwork()
+        {
+            // TODO maybe non recursive calculation is available?
+            return (UInt32)container.CalculateNumberOfEdges(0, 0);
+        }
 
         protected override double CalculateAveragePath()
         {

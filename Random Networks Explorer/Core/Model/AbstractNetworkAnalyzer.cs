@@ -22,6 +22,11 @@ namespace Core.Model
             network = n;
         }
 
+        public UInt32 CalculateEdgesCount()
+        {
+            return CalculateEdgesCountOfNetwork();
+        }
+
         public Object CalculateOption(AnalyzeOption option)
         {
             switch (option)
@@ -66,6 +71,15 @@ namespace Core.Model
                 default:
                     return null;
             }
+        }
+
+        /// <summary>
+        /// Calculates count of edges of the network.
+        /// </summary>
+        /// <returns>Count of edges.</returns>
+        protected virtual UInt32 CalculateEdgesCountOfNetwork()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
