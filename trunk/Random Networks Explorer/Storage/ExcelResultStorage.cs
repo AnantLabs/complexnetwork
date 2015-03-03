@@ -48,7 +48,8 @@ namespace Storage
             InitializeWorkbook(result.ResearchName);
 
             SaveResearchInfo(result.ResearchID, result.ResearchName,
-                    result.ResearchType, result.ModelType, result.RealizationCount, result.Size);
+                    result.ResearchType, result.ModelType, result.RealizationCount, 
+                    result.Size, result.Edges);
             SaveResearchParameters(result.ResearchParameterValues);
             SaveGenerationParameters(result.GenerationParameterValues);
 
@@ -112,7 +113,8 @@ namespace Storage
             ResearchType rType,
             ModelType mType,
             int realizationCount,
-            UInt32 size)
+            UInt32 size,
+            Double edges)
         {
             Worksheet researchInfoSheet = workbook.Worksheets["Research Info"];
 
@@ -144,6 +146,11 @@ namespace Storage
             WorksheetRow rowSize = researchInfoSheet.Table.Rows.Add();
             rowSize.Cells.Add(new WorksheetCell("Size", "HeaderStyle"));
             rowSize.Cells.Add(new WorksheetCell(size.ToString(), 
+                DataType.Number, "HeaderStyle"));
+
+            WorksheetRow rowEdges = researchInfoSheet.Table.Rows.Add();
+            rowSize.Cells.Add(new WorksheetCell("Edges", "HeaderStyle"));
+            rowSize.Cells.Add(new WorksheetCell(edges.ToString(),
                 DataType.Number, "HeaderStyle"));
         }
 

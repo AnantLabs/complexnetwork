@@ -58,7 +58,7 @@ namespace Storage
 
                 SaveResearchInfo(result.ResearchID, result.ResearchName, 
                     result.ResearchType, result.ModelType, result.RealizationCount, 
-                    result.Date, result.Size);
+                    result.Date, result.Size, result.Edges);
                 SaveResearchParameters(result.ResearchParameterValues);
                 SaveGenerationParameters(result.GenerationParameterValues);
 
@@ -169,7 +169,8 @@ namespace Storage
             ModelType mType,
             int realizationCount,
             DateTime date,
-            UInt32 size)
+            UInt32 size,
+            Double edges)
         {
             writer.WriteElementString("ResearchID", researchID.ToString());
             writer.WriteElementString("ResearchName", researchName);
@@ -178,6 +179,7 @@ namespace Storage
             writer.WriteElementString("RealizationCount", realizationCount.ToString());
             writer.WriteElementString("Date", date.ToString());
             writer.WriteElementString("Size", size.ToString());
+            writer.WriteElementString("Edges", edges.ToString());
         }
 
         private void SaveResearchParameters(Dictionary<ResearchParameter, object> p)
@@ -371,6 +373,7 @@ namespace Storage
                 {
                     EnsembleResult e = new EnsembleResult();
                     e.NetworkSize = r.Size;
+                    e.EdgesCount = r.Edges;
                     e.Result = new Dictionary<AnalyzeOption, Object>();
 
                     reader.Read();

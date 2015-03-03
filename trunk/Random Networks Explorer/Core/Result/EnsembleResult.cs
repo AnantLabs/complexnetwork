@@ -15,6 +15,7 @@ namespace Core.Result
     public class EnsembleResult
     {
         public UInt32 NetworkSize { get; set; }
+        public Double EdgesCount { get; set; }
         public Dictionary<AnalyzeOption, object> Result { get; set; }
 
         /// <summary>
@@ -28,7 +29,12 @@ namespace Core.Result
             r.NetworkSize = results[0].NetworkSize;
             r.Result = new Dictionary<AnalyzeOption, object>();
 
-            int rCount = results.Count;
+            double rCount = results.Count;
+            foreach (RealizationResult res in results)
+            {
+                r.EdgesCount += res.EdgesCount;
+            }
+            r.EdgesCount /= rCount;
 
             foreach (AnalyzeOption option in results[0].Result.Keys)
             {
