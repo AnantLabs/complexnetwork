@@ -51,7 +51,11 @@ namespace Storage
             if (File.Exists(fileName + ".xml"))
                 fileName += result.ResearchID;
 
-            using (writer = XmlWriter.Create(fileName + ".xml"))
+            /*XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+            settings.Encoding = Encoding.ASCII;*/
+
+            using (writer = XmlWriter.Create(fileName + ".xml"))//, settings))
             {
                 writer.WriteStartDocument(true);
                 writer.WriteStartElement("Research");

@@ -42,7 +42,7 @@ namespace RegularHierarchicModel
             if (!calledPaths)
                 CountEssentialOptions();
 
-            return Math.Round(averagePathLength, 4);
+            return averagePathLength;
 
             // TODO !optimize!
             //long[] pathsInfo = GetSubgraphsPathInfo(0, 0);
@@ -61,7 +61,7 @@ namespace RegularHierarchicModel
 
         protected override double CalculateAverageDegree()
         {
-            return Math.Round(AverageDegree(), 4);
+            return AverageDegree();
         }
 
         protected override double CalculateAverageClusteringCoefficient()
@@ -73,8 +73,7 @@ namespace RegularHierarchicModel
                 sum += degree * (degree - 1);
             }
 
-            double result = 6 * cycles3 / sum;
-            return Math.Round(result, 4);
+            return 6 * cycles3 / sum;
         }
 
         protected override double CalculateCycles3()
@@ -133,7 +132,7 @@ namespace RegularHierarchicModel
 
             for (int i = 0; i < container.Size; ++i)
             {
-                double dresult = Math.Round(ClusterringCoefficientOfVertex(i), 4);
+                double dresult = Math.Round(ClusterringCoefficientOfVertex(i), 3);
                 if (result.Keys.Contains(dresult))
                     ++result[dresult];
                 else

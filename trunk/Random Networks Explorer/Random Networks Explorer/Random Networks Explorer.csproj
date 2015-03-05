@@ -169,6 +169,10 @@
       <Project>{CCFA6E32-253E-4E0D-A8FA-5856069268F9}</Project>
       <Name>Session</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Storage\Storage.csproj">
+      <Project>{0F69615E-50D1-40D9-896A-2887A8C68B09}</Project>
+      <Name>Storage</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
