@@ -42,7 +42,7 @@ namespace NonRegularHierarchicModel
             if (!calledPaths)
                 CountEssentialOptions();
 
-            return Math.Round(averagePathLength, 4);
+            return averagePathLength;
         }
 
         protected override uint CalculateDiameter()
@@ -55,8 +55,7 @@ namespace NonRegularHierarchicModel
 
         protected override double CalculateAverageDegree()
         {
-            double result = container.CalculateNumberOfEdges(0, 0) * 2 / (double)container.Size;
-            return Math.Round(result, 4);
+            return container.CalculateNumberOfEdges(0, 0) * 2 / (double)container.Size;
         }
 
         protected override double CalculateAverageClusteringCoefficient()
@@ -68,8 +67,7 @@ namespace NonRegularHierarchicModel
                 sum += degree * (degree - 1);
             }
 
-            double result = 6 * cycles3 / sum;
-            return Math.Round(result, 4);
+            return 6 * cycles3 / sum;
         }
 
         protected override double CalculateCycles3()
@@ -128,7 +126,7 @@ namespace NonRegularHierarchicModel
 
             for (int i = 0; i < container.Size; ++i)
             {
-                double dresult = Math.Round(ClusterringCoefficientOfVertex(i), 4);
+                double dresult = Math.Round(ClusterringCoefficientOfVertex(i), 3);
                 if (result.Keys.Contains(dresult))
                     ++result[dresult];
                 else

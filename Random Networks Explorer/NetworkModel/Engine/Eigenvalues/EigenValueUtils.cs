@@ -74,9 +74,9 @@ namespace NetworkModel.Engine.Eigenvalues
             eigenValue.Clear();
             for (int i = 0; i < vector.Length; ++i)
             {
-                if(!eigenValue.Contains(Math.Round(vector[i, 0], 4)))
+                if(!eigenValue.Contains(Math.Round(vector[i, 0], 3)))
                 {
-                    eigenValue.Add(Math.Round(vector[i, 0], 4));
+                    eigenValue.Add(Math.Round(vector[i, 0], 3));
                 }
             }
 
@@ -91,7 +91,7 @@ namespace NetworkModel.Engine.Eigenvalues
             var resultdist = new SortedDictionary<double, uint>();
             for (int i = 0; i < eigenValues.Count - 1; ++i)
             {
-                dist.Add(Math.Round((double)eigenValues[i + 1] - (double)eigenValues[i], 4));
+                dist.Add(Math.Round((double)eigenValues[i + 1] - (double)eigenValues[i], 3));
             }
            
             for (int i = 0; i < dist.Count; i++)

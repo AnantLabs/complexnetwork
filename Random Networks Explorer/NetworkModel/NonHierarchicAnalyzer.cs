@@ -39,7 +39,7 @@ namespace NetworkModel
             if(!calledPaths)
                 CountEssentialOptions();
 
-            return Math.Round(averagePathLength, 4);
+            return averagePathLength;
         }
 
         protected override UInt32 CalculateDiameter()
@@ -52,7 +52,7 @@ namespace NetworkModel
 
         protected override Double CalculateAverageDegree()
         {
-            return Math.Round(AverageDegree(), 4);
+            return AverageDegree();
         }
 
         protected override Double CalculateAverageClusteringCoefficient()
@@ -64,8 +64,7 @@ namespace NetworkModel
                 sum += degree * (degree - 1);
             }
 
-            double result = 6 * cycles3 / sum;
-            return Math.Round(result, 4);
+            return 6 * cycles3 / sum;
         }
 
         protected override double CalculateCycles3()
@@ -156,7 +155,7 @@ namespace NetworkModel
                 {
                     iEdgeCountForFullness = (iNeighbourCount == 1) ? 1 : iNeighbourCount * (iNeighbourCount - 1) / 2;
                     iclusteringCoefficient = (edgesBetweenNeighbours[i]) / iEdgeCountForFullness;
-                    iclusteringCoefficientList[i] = Math.Round(iclusteringCoefficient, 4);
+                    iclusteringCoefficientList[i] = Math.Round(iclusteringCoefficient, 3);
                     clusteringCoefficient += iclusteringCoefficient;
                 }
                 else

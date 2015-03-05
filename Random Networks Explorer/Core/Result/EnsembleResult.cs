@@ -35,6 +35,7 @@ namespace Core.Result
                 r.EdgesCount += res.EdgesCount;
             }
             r.EdgesCount /= rCount;
+            Math.Round(r.EdgesCount, 4);
 
             foreach (AnalyzeOption option in results[0].Result.Keys)
             {
@@ -48,7 +49,7 @@ namespace Core.Result
                     {
                         temp += (double)(res.Result[option]) / rCount;
                     }
-                    r.Result.Add(option, temp);
+                    r.Result.Add(option, Math.Round(temp, 4));
                 }
                 else if(t.Equals(typeof(UInt32)))
                 {
@@ -57,9 +58,9 @@ namespace Core.Result
                     foreach (RealizationResult res in results)
                     {
                         uTemp = (UInt32)res.Result[option];
-                        temp += (double)uTemp / rCount;
+                        temp += uTemp / rCount;
                     }
-                    r.Result.Add(option, temp);
+                    r.Result.Add(option, Math.Round(temp, 4));
                 }
                 else if(t.Equals(typeof(List<Double>)))
                 {
@@ -67,7 +68,7 @@ namespace Core.Result
                     for (int i = 0; i < temp.Count; ++i)
                         temp[i] /= rCount;
 
-                    // TODO check the theory logic of averaging eigen values
+                    // TODO check the theory logic of averaging eigen values and round to 3 digits
                     /*for (int i = 1; i < results.Count; ++i)
                     {
                         List<Double> l = results[i].Result[option] as List<Double>;
@@ -85,9 +86,9 @@ namespace Core.Result
                         foreach (double k in d.Keys)
                         {
                             if (temp.ContainsKey(k))
-                                temp[k] += (double)d[k] / rCount;
+                                temp[k] += Math.Round(d[k] / rCount, 3);
                             else
-                                temp.Add(k, (double)d[k] / rCount);
+                                temp.Add(k, Math.Round(d[k] / rCount, 3));
                         }
                     }
                     r.Result.Add(option, temp);
@@ -101,9 +102,9 @@ namespace Core.Result
                         foreach (uint k in d.Keys)
                         {
                             if (temp.ContainsKey(k))
-                                temp[k] += (double)d[k] / rCount;
+                                temp[k] += Math.Round(d[k] / rCount, 3);
                             else
-                                temp.Add(k, (double)d[k] / rCount);
+                                temp.Add(k, Math.Round(d[k] / rCount, 3));
                         }
                     }
                     r.Result.Add(option, temp);
@@ -117,9 +118,9 @@ namespace Core.Result
 	                    foreach (uint k in d.Keys)		
 	                    {		
 	                        if (temp.ContainsKey(k))		
-	                            temp[k] += (double)d[k] / rCount;		
+	                            temp[k] += Math.Round(d[k] / rCount, 3);		
 	                        else		
-	                            temp.Add(k, (double)d[k] / rCount);		
+	                            temp.Add(k, Math.Round(d[k] / rCount, 3));		
 	                    }		
 	                }		
 	                r.Result.Add(option, temp);		
@@ -133,9 +134,9 @@ namespace Core.Result
 	                    foreach (UInt16 k in d.Keys)		
 	                    {		
 	                        if (temp.ContainsKey(k))		
-	                            temp[k] += (double)d[k] / rCount;		
+	                            temp[k] += Math.Round(d[k] / rCount, 3);		
 	                        else		
-	                            temp.Add(k, (double)d[k] / rCount);		
+	                            temp.Add(k, Math.Round(d[k] / rCount, 3));		
 	                    }		
 	                }		
 	                r.Result.Add(option, temp);		
