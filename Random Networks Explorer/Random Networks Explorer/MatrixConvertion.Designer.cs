@@ -124,7 +124,7 @@
             this.Controls.Add(this.inputFileNameTxt);
             this.Controls.Add(this.inputFileName);
             this.Name = "MatrixConvertion";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Matrix Convertion Tool";
             this.ResumeLayout(false);
             this.PerformLayout();

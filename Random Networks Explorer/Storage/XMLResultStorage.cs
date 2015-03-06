@@ -319,6 +319,8 @@ namespace Storage
                 r.Date = DateTime.Parse(reader.ReadElementString());
             if (reader.Name == "Size")
                 r.Size = UInt32.Parse(reader.ReadElementString());
+            if (reader.Name == "Edges")
+                r.Edges = Double.Parse(reader.ReadElementString());
         }
 
         private void LoadResearchParameters(ResearchResult r)

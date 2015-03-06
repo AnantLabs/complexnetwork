@@ -149,8 +149,8 @@ namespace Storage
                 DataType.Number, "HeaderStyle"));
 
             WorksheetRow rowEdges = researchInfoSheet.Table.Rows.Add();
-            rowSize.Cells.Add(new WorksheetCell("Edges", "HeaderStyle"));
-            rowSize.Cells.Add(new WorksheetCell(edges.ToString(),
+            rowEdges.Cells.Add(new WorksheetCell("Edges", "HeaderStyle"));
+            rowEdges.Cells.Add(new WorksheetCell(edges.ToString(),
                 DataType.Number, "HeaderStyle"));
         }
 
