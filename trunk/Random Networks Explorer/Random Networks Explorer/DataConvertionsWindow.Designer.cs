@@ -39,6 +39,8 @@
             this.targetStorageCmb = new System.Windows.Forms.ComboBox();
             this.targetStorageType = new System.Windows.Forms.Label();
             this.convert = new System.Windows.Forms.Button();
+            this.sourceBrowserDlg = new System.Windows.Forms.FolderBrowserDialog();
+            this.targetBrowserDlg = new System.Windows.Forms.FolderBrowserDialog();
             this.SuspendLayout();
             // 
             // sourceStorageType
@@ -57,7 +59,6 @@
             this.sourceStorageTypeCmb.Name = "sourceStorageTypeCmb";
             this.sourceStorageTypeCmb.Size = new System.Drawing.Size(390, 21);
             this.sourceStorageTypeCmb.TabIndex = 1;
-            this.sourceStorageTypeCmb.SelectedIndexChanged += new System.EventHandler(this.sourceStorageTypeCmb_SelectedIndexChanged);
             // 
             // sourceBrowse
             // 
@@ -120,7 +121,6 @@
             this.targetStorageCmb.Name = "targetStorageCmb";
             this.targetStorageCmb.Size = new System.Drawing.Size(390, 21);
             this.targetStorageCmb.TabIndex = 7;
-            this.targetStorageCmb.SelectedIndexChanged += new System.EventHandler(this.targetStorageCmb_SelectedIndexChanged);
             // 
             // targetStorageType
             // 
@@ -179,5 +179,7 @@
         private System.Windows.Forms.ComboBox targetStorageCmb;
         private System.Windows.Forms.Label targetStorageType;
         private System.Windows.Forms.Button convert;
+        private System.Windows.Forms.FolderBrowserDialog sourceBrowserDlg;
+        private System.Windows.Forms.FolderBrowserDialog targetBrowserDlg;
     }
 }

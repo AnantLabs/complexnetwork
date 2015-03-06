@@ -11,6 +11,7 @@ using Core;
 using Core.Enumerations;
 using Core.Attributes;
 using Core.Result;
+using Core.Settings;
 using Storage;
 
 namespace RandomNetworksExplorer
@@ -35,30 +36,31 @@ namespace RandomNetworksExplorer
                 sourceStorageTypeCmb.SelectedIndex = 0;
             if (targetStorageCmb.Items.Count != 0)
                 targetStorageCmb.SelectedIndex = 0;
-        }
 
-        private void sourceStorageTypeCmb_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void targetStorageCmb_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            sourceResultTxt.Text = ExplorerSettings.StorageDirectory;
+            targetResultTxt.Text = ExplorerSettings.StorageDirectory;
         }
 
         private void sourceBrowse_Click(object sender, EventArgs e)
         {
-
+            if (sourceBrowserDlg.ShowDialog() == DialogResult.OK)
+            {
+                sourceResultTxt.Text = sourceBrowserDlg.SelectedPath;
+            }
         }
 
         private void targetBrowse_Click(object sender, EventArgs e)
         {
-
+            if (targetBrowserDlg.ShowDialog() == DialogResult.OK)
+            {
+                targetResultTxt.Text = targetBrowserDlg.SelectedPath;
+            }
         }
 
         private void convert_Click(object sender, EventArgs e)
         {
+            convert.Enabled = false;
+
             StorageType sourceType = (StorageType)Enum.Parse(typeof(StorageType), sourceStorageTypeCmb.Text);
             string sourceStr = sourceResultTxt.Text;
             StorageType targetType = (StorageType)Enum.Parse(typeof(StorageType), targetStorageCmb.Text);
@@ -71,16 +73,21 @@ namespace RandomNetworksExplorer
             AbstractResultStorage sourceStorage = (AbstractResultStorage)st.GetConstructor(patametersType).Invoke(sinvokeParameters);
 
             object[] tinvokeParameters = { targetStr };
-            StorageTypeInfo[] tinfo = (StorageTypeInfo[])sourceType.GetType().GetField(sourceType.ToString()).GetCustomAttributes(typeof(StorageTypeInfo), false);
+            StorageTypeInfo[] tinfo = (StorageTypeInfo[])targetType.GetType().GetField(targetType.ToString()).GetCustomAttributes(typeof(StorageTypeInfo), false);
             Type tt = Type.GetType(tinfo[0].Implementation, true);
             AbstractResultStorage targetStorage = (AbstractResultStorage)tt.GetConstructor(patametersType).Invoke(tinvokeParameters);
 
             List<ResearchResult> allResearchInfo = sourceStorage.LoadAllResearchInfo();
+            ResearchResult temp;
             foreach (ResearchResult r in allResearchInfo)
             {
-                sourceStorage.Load(r.ResearchID);
-                targetStorage.Save(r);
+                temp = sourceStorage.Load(r.ResearchID);
+                targetStorage.Save(temp);
             }
+
+            MessageBox.Show("Successfully converted from " + sourceStorageTypeCmb.Text + 
+                " to " + targetStorageCmb.Text + ".");
+            convert.Enabled = true;
         }
     }
 }
