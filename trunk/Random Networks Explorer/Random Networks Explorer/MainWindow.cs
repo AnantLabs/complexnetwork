@@ -262,7 +262,10 @@ namespace RandomNetworksExplorer
                         currentResearchParameter, editedCell.Value);
                 }
                 else
-                    throw new SystemException("Parameter name is not correct.");
+                {
+                    SessionManager.SetExtendedInformationValue(researchIDs[selectedIndex],
+                        parameterName, editedCell.Value.ToString());
+                }
             }
         }
 
@@ -362,8 +365,19 @@ namespace RandomNetworksExplorer
                         continue;
                 }
 
-                SessionManager.StartResearch(researchIDs[selectedIndex]);
-                FillStatusTableOnStart(researchIDs[selectedIndex]);
+                Guid researchId = researchIDs[selectedIndex];
+                if (SessionManager.GetResearchGenerationType(researchId) == GenerationType.Static)
+                {
+                    GenerationParameter g = GenerationParameter.AdjacencyMatrixFile;
+                    Core.Model.MatrixInfoToRead matrix = Core.Utility.FileManager.Read(
+                        SessionManager.GetGenerationParameterValues(researchId)[g].ToString(), 
+                        int.Parse(SessionManager.GetExtendedInformation(researchId)["Size"]), 
+                        (AdjacencyMatrixType)Enum.Parse(typeof(AdjacencyMatrixType), SessionManager.GetExtendedInformation(researchId)["Matrix Type"]));
+                    SessionManager.SetGenerationParameterValue(researchId, GenerationParameter.AdjacencyMatrix, matrix);
+                }
+
+                SessionManager.StartResearch(researchId);
+                FillStatusTableOnStart(researchId);
                 DisableButtons(false);
             }
         }
@@ -554,54 +568,33 @@ namespace RandomNetworksExplorer
                 SessionManager.GetGenerationParameterValues(researchId);
             Dictionary<ResearchParameter, object> rValues =
                 SessionManager.GetResearchParameterValues(researchId);
+            Dictionary<String, String> eValues =
+                SessionManager.GetExtendedInformation(researchId);
 
-            DataGridViewRow r = new DataGridViewRow();
-            DataGridViewCell rc1 = new DataGridViewTextBoxCell();
-            DataGridViewCell rc2 = new DataGridViewButtonCell();
-            rc1.Value = "AdjacencyMatrixFile";
-            r.Cells.Add(rc1);
-            if (gValues[GenerationParameter.AdjacencyMatrixFile] != null)
-            {
-                rc2.Value = gValues[GenerationParameter.AdjacencyMatrixFile].ToString();
-                r.Cells.Add(rc2);
-                generationParametersTable.Rows.Add(r);
-            }
-            else
-            {
-                rc2.Value = "Browse";
-                r.Cells.Add(rc2);
-                generationParametersTable.Rows.Add(r);
-            }
+            GenerationParameter g = GenerationParameter.AdjacencyMatrixFile;
+            AddGenerationParameterAsButton(g.ToString(),
+                gValues[g] != null ? gValues[g].ToString() : "Browse");
+            AddGenerationParameterAsTextBox("Size", eValues.ContainsKey("Size") ? eValues["Size"] : "0");
+            AddGenerationParameterAsComboBox("Matrix Type", 
+                eValues.ContainsKey("Matrix Type") ? eValues["Matrix Type"] : AdjacencyMatrixType.ClassicalMatrix.ToString(), 
+                typeof(AdjacencyMatrixType));
 
-            foreach (ResearchParameter rp in rValues.Keys)
+            foreach (ResearchParameter r in rValues.Keys)
             {
                 if (SessionManager.GetResearchTracingPath(researchId) == "" &&
-                    rp == ResearchParameter.TracingStepIncrement)
+                    r == ResearchParameter.TracingStepIncrement)
                     continue;
-                DataGridViewRow rpr = new DataGridViewRow();
-                DataGridViewCell rpc1 = new DataGridViewTextBoxCell();
-                DataGridViewCell rpc2;
-                rpc1.Value = rp.ToString();
-                ResearchParameterInfo rpInfo = (ResearchParameterInfo)(rp.GetType().GetField(rp.ToString()).GetCustomAttributes(typeof(ResearchParameterInfo), false)[0]);
-                if (rpInfo.Type == typeof(bool))
+                ResearchParameterInfo rInfo = (ResearchParameterInfo)(r.GetType().GetField(r.ToString()).GetCustomAttributes(typeof(ResearchParameterInfo), false)[0]);
+                if (rInfo.Type == typeof(bool))
                 {
-                    rpc2 = new DataGridViewCheckBoxCell();
-                    if (rValues[rp] != null)
-                        rpc2.Value = bool.Parse(rValues[rp].ToString());
-                    else
-                        rpc2.Value = false;
+                    AddGenerationParameterAsCheckBox(r.ToString(),
+                        rValues[r] != null ? bool.Parse(rValues[r].ToString()) : false);
                 }
                 else
                 {
-                    rpc2 = new DataGridViewTextBoxCell();
-                    if (rValues[rp] != null)
-                        rpc2.Value = rValues[rp].ToString();
-                    else if (rp == ResearchParameter.TracingStepIncrement)
-                        rpc2.Value = 0;
+                    AddGenerationParameterAsTextBox(r.ToString(),
+                        r == ResearchParameter.TracingStepIncrement ? 0 : rValues[r]);
                 }
-                rpr.Cells.Add(rpc1);
-                rpr.Cells.Add(rpc2);
-                generationParametersTable.Rows.Add(rpr);
             }
         }
 
@@ -614,10 +607,11 @@ namespace RandomNetworksExplorer
 
             foreach (GenerationParameter g in gValues.Keys)
             {
-                if (g != GenerationParameter.AdjacencyMatrixFile)
+                if (g != GenerationParameter.AdjacencyMatrixFile &&
+                    g != GenerationParameter.AdjacencyMatrix)
                 {
                     if (gValues[g] != null)
-                        generationParametersTable.Rows.Add(g.ToString(), gValues[g].ToString());
+                        AddGenerationParameterAsTextBox(g.ToString(), gValues[g]);
                     else
                         generationParametersTable.Rows.Add(g.ToString());
                 }
@@ -628,31 +622,63 @@ namespace RandomNetworksExplorer
                 if (SessionManager.GetResearchTracingPath(researchId) == "" &&
                     r == ResearchParameter.TracingStepIncrement)
                     continue;
-                DataGridViewRow rr = new DataGridViewRow();
-                DataGridViewCell rrc1 = new DataGridViewTextBoxCell();
-                DataGridViewCell rrc2;
-                rrc1.Value = r.ToString();
                 ResearchParameterInfo rInfo = (ResearchParameterInfo)(r.GetType().GetField(r.ToString()).GetCustomAttributes(typeof(ResearchParameterInfo), false)[0]);
                 if (rInfo.Type == typeof(bool))
                 {
-                    rrc2 = new DataGridViewCheckBoxCell();
-                    if (rValues[r] != null)
-                        rrc2.Value = bool.Parse(rValues[r].ToString());
-                    else
-                        rrc2.Value = false;
+                    AddGenerationParameterAsCheckBox(r.ToString(),
+                        rValues[r] != null ? bool.Parse(rValues[r].ToString()) : false);
                 }
                 else
                 {
-                    rrc2 = new DataGridViewTextBoxCell();
-                    if (rValues[r] != null)
-                        rrc2.Value = rValues[r].ToString();
-                    else if (r == ResearchParameter.TracingStepIncrement)
-                        rrc2.Value = 0;
+                    AddGenerationParameterAsTextBox(r.ToString(),
+                        r == ResearchParameter.TracingStepIncrement ? 0 : rValues[r]);
                 }
-                rr.Cells.Add(rrc1);
-                rr.Cells.Add(rrc2);
-                generationParametersTable.Rows.Add(rr);
             }
+        }
+
+        private void AddGenerationParameterAsTextBox(String g, Object v)
+        {
+            generationParametersTable.Rows.Add(g, v.ToString());
+        }
+
+        private void AddGenerationParameterAsButton(String g, String v)
+        {
+            DataGridViewRow r = new DataGridViewRow();
+            DataGridViewCell rColumn1 = new DataGridViewTextBoxCell();
+            DataGridViewCell rColumn2 = new DataGridViewButtonCell();
+            rColumn1.Value = g;
+            rColumn2.Value = v;
+            r.Cells.Add(rColumn1);
+            r.Cells.Add(rColumn2);
+            generationParametersTable.Rows.Add(r);
+        }
+
+        private void AddGenerationParameterAsCheckBox(String g, bool v)
+        {
+            DataGridViewRow r = new DataGridViewRow();
+            DataGridViewCell rColumn1 = new DataGridViewTextBoxCell();
+            DataGridViewCell rColumn2 = new DataGridViewCheckBoxCell();
+            rColumn1.Value = g;
+            rColumn2.Value = v;
+            r.Cells.Add(rColumn1);
+            r.Cells.Add(rColumn2);
+            generationParametersTable.Rows.Add(r);
+        }
+
+        private void AddGenerationParameterAsComboBox(String g, String v, Type t)
+        {
+            DataGridViewRow r = new DataGridViewRow();
+            DataGridViewCell rColumn1 = new DataGridViewTextBoxCell();
+            DataGridViewComboBoxCell rColumn2 = new DataGridViewComboBoxCell();
+            rColumn2.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
+            rColumn1.Value = g;
+            rColumn2.Items.Clear();
+            string[] mt = Enum.GetNames(t);
+            rColumn2.Items.AddRange(mt);
+            rColumn2.Value = v;
+            r.Cells.Add(rColumn1);
+            r.Cells.Add(rColumn2);
+            generationParametersTable.Rows.Add(r);
         }
 
         private void FillAnalyzeOptionsTable(Guid researchId)

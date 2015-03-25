@@ -56,11 +56,13 @@ namespace Core
             {
                 UpdateStatus(NetworkStatus.Generating, "Generating.");
 
-                if (GenerationParameterValues.ContainsKey(GenerationParameter.AdjacencyMatrixFile) &&
+                if (GenerationParameterValues.ContainsKey(GenerationParameter.AdjacencyMatrix) &&
+                    GenerationParameterValues.ContainsKey(GenerationParameter.AdjacencyMatrixFile) &&
+                    (GenerationParameterValues[GenerationParameter.AdjacencyMatrix] != null) &&
                     (GenerationParameterValues[GenerationParameter.AdjacencyMatrixFile] != null))
                 {
-                    string filePath = GenerationParameterValues[GenerationParameter.AdjacencyMatrixFile].ToString();
-                    networkGenerator.StaticGeneration(FileManager.Read(filePath));
+                    MatrixInfoToRead matrix = (MatrixInfoToRead)GenerationParameterValues[GenerationParameter.AdjacencyMatrixFile];
+                    networkGenerator.StaticGeneration(matrix);
                 }
                 else
                 {
@@ -68,16 +70,6 @@ namespace Core
                 }
 
                 UpdateStatus(NetworkStatus.GenerationCompleted, "Generation Completed.");
-            }
-            catch (MatrixFormatException mEx)
-            {
-                UpdateStatus(NetworkStatus.Failed, "Generation Failed. " + mEx.Message);
-                return false;
-            }
-            catch (BranchesFormatException bEx)
-            {
-                UpdateStatus(NetworkStatus.Failed, "Generation Failed. " + bEx.Message);
-                return false;
             }
             catch(ApplicationException)
             {

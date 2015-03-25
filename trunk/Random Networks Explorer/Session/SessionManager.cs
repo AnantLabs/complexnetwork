@@ -18,10 +18,12 @@ namespace Session
     public static class SessionManager
     {
         private static Dictionary<Guid, AbstractResearch> existingResearches;
+        private static Dictionary<Guid, Dictionary<String, String>> extendedInformation;
 
         static SessionManager()
         {
             existingResearches = new Dictionary<Guid, AbstractResearch>();
+            extendedInformation = new Dictionary<Guid, Dictionary<string, string>>();
         }
 
         /// <summary>
@@ -37,6 +39,8 @@ namespace Session
             r.ResearchName = "Default";
             r.Storage = CreateStorage(StorageType.XMLStorage, ExplorerSettings.StorageDirectory);
             r.TracingPath = "";
+
+            extendedInformation.Add(r.ResearchID, new Dictionary<string, string>());
 
             return r.ResearchID;
         }
@@ -67,6 +71,8 @@ namespace Session
             r.GenerationType = generationType;
             r.TracingPath = tracingPath;
 
+            extendedInformation.Add(r.ResearchID, new Dictionary<string, string>());
+
             return r.ResearchID;
         }
 
@@ -79,6 +85,7 @@ namespace Session
             try
             {
                 existingResearches.Remove(id);
+                extendedInformation.Remove(id);
             }
             catch (KeyNotFoundException)
             {
@@ -111,6 +118,9 @@ namespace Session
                 r.ResearchParameterValues = researchToClone.ResearchParameterValues;
                 r.GenerationParameterValues = researchToClone.GenerationParameterValues;
                 r.AnalyzeOption = researchToClone.AnalyzeOption;
+
+                extendedInformation.Add(r.ResearchID, 
+                    new Dictionary<string, string>(extendedInformation[researchToClone.ResearchID]));
 
                 return r.ResearchID;
             }
@@ -606,6 +616,52 @@ namespace Session
             {
                 if (existingResearches[id].Status == ResearchStatus.NotStarted)
                     existingResearches[id].GenerationParameterValues[p] = value;
+                else
+                    throw new CoreException("Unable to modify research after start.");
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// Gets extended information for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <returns>Extended information.</returns>
+        /// <note>Extended information is "Size" and "Matrix Type", which are used in static generation.</note>
+        public static Dictionary<String, String> GetExtendedInformation(Guid id)
+        {
+            try
+            {
+                return extendedInformation[id];
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new CoreException("Specified research does not exists.");
+            }
+        }
+
+        /// <summary>
+        /// Sets value of specified information for specified research.
+        /// </summary>
+        /// <param name="id">ID of research.</param>
+        /// <param name="p">Information name.</param>
+        /// <param name="value">Information value to set.</param>
+        public static void SetExtendedInformationValue(Guid id,
+            String name,
+            String value)
+        {
+            try
+            {
+                if (existingResearches[id].Status == ResearchStatus.NotStarted)
+                {
+                    if (extendedInformation[id].ContainsKey(name))
+                        extendedInformation[id][name] = value;
+                    else
+                        extendedInformation[id].Add(name, value);
+                }
                 else
                     throw new CoreException("Unable to modify research after start.");
             }

@@ -54,6 +54,11 @@ namespace Core.Enumerations
             typeof(Single), "0.1")]
         Mu,
 
+        [GenerationParameterInfo("Adjacency matrix",
+            "Adjacency matrix and branches of the networks.",
+            typeof(Core.Model.MatrixInfoToRead), null)]
+        AdjacencyMatrix,
+
         [GenerationParameterInfo("Adjacency matrix's file name",
             "The name of file, which contains adjacency matrix of network.",
             typeof(String), "")]
