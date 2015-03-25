@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
+using Core.Enumerations;
 using Core.Exceptions;
 using Core.Model;
 using Core.Settings;
@@ -17,26 +18,28 @@ namespace Core.Utility
     public static class FileManager
     {
         /// <summary>
-        /// 
+        /// Reads matrix and branches (if exists) from specified file.
         /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
-        /// <throws>MatrixFormatException, BranchesFormatException</throws>
-        public static MatrixInfoToRead Read(String filePath)
+        /// <param name="filePath">File path.</param>
+        /// <param name="networkSize">The size of the network (matrix, which represents the network).</param>
+        /// <param name="matrixType">The type of given matrix (content of the specified file)</param>
+        /// <returns>Matrix and branches (if exists).</returns>
+        /// <throws>CoreException, MatrixFormatException.</throws>
+        public static MatrixInfoToRead Read(String filePath, int networkSize, AdjacencyMatrixType matrixType)
         {
             MatrixInfoToRead result = new MatrixInfoToRead();
 
-            result.Matrix = MatrixReader(filePath);
+            result.Matrix = MatrixReader(filePath, networkSize, matrixType);
             result.Branches = BranchesReader(filePath.Insert(filePath.Length - 4, "_branches"));
 
             return result;
         }
 
         /// <summary>
-        /// 
+        /// Writes matrix and branches (if exists) to specified file.
         /// </summary>
-        /// <param name="matrixInfo"></param>
-        /// <param name="filePath"></param>
+        /// <param name="matrixInfo">Matrix and branches (if exists).</param>
+        /// <param name="filePath">File path.</param>
         public static void Write(MatrixInfoToWrite matrixInfo, String filePath)
         {
             String directoryPath = ExplorerSettings.TracingDirectory;
@@ -48,16 +51,26 @@ namespace Core.Utility
                 BranchesWriter(matrixInfo.Branches, filePath);
         }
 
-        public static ArrayList MatrixReader(String filePath)
+        private static ArrayList MatrixReader(String filePath, int networkSize, AdjacencyMatrixType matrixType)
         {
             ArrayList matrix;
 
+            bool r = false;
             try
             {
-                if (!TryReadClassicalMatrix(filePath, out matrix))
+                switch (matrixType)
                 {
-                    if (!TryReadExtendedMatrix(filePath, out matrix))
-                        throw new MatrixFormatException();
+                    case AdjacencyMatrixType.ClassicalMatrix:
+                        r = TryReadClassicalMatrix(filePath, networkSize, out matrix);
+                        break;
+                    case AdjacencyMatrixType.Degrees:
+                        r = TryReadDegreesMatrix(filePath, networkSize, "\\s+", out matrix);
+                        break;
+                    case AdjacencyMatrixType.CSV:
+                        r = TryReadDegreesMatrix(filePath, networkSize, ",", out matrix);
+                        break;
+                    default:
+                        throw new CoreException("Unknown matrix type.");
                 }
             }
             catch (SystemException)
@@ -65,16 +78,13 @@ namespace Core.Utility
                 throw new MatrixFormatException();
             }
 
+            if (!r)
+                throw new MatrixFormatException();
+
             return matrix;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <param name="matrix"></param>
-        /// <returns></returns>
-        public static bool TryReadClassicalMatrix(String filePath, out ArrayList matrix)
+        private static bool TryReadClassicalMatrix(String filePath, int networkSize, out ArrayList matrix)
         {
             matrix = new ArrayList();
             using (StreamReader streamreader = new StreamReader(filePath, System.Text.Encoding.Default))
@@ -82,85 +92,71 @@ namespace Core.Utility
                 string contents;
                 while ((contents = streamreader.ReadLine()) != null)
                 {
-                    if (Char.IsLetter(contents[0]))
-                        return false;
-
                     string[] split = System.Text.RegularExpressions.Regex.Split(contents,
                         "\\s+", System.Text.RegularExpressions.RegexOptions.None);
                     ArrayList tmp = new ArrayList();
                     foreach (string s in split)
                     {
                         if (s.Equals("0"))
-                        {
                             tmp.Add(false);
-                        }
                         else if (s.Equals("1"))
-                        {
                             tmp.Add(true);
-                        }
+                        else return false;
                     }
                     matrix.Add(tmp);
                 }
             }
 
+            if (networkSize != matrix.Count)
+                return false;
+
             return true;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <param name="matrix"></param>
-        /// <returns></returns>
-        public static bool TryReadExtendedMatrix(String filePath, out ArrayList matrix)
+        private static bool TryReadDegreesMatrix(String filePath, int networkSize, string saparator, out ArrayList matrix)
         {
             matrix = new ArrayList();
 
-            int size = 0;
-            bool[,] n;
+            bool[,] n = new bool[networkSize, networkSize];
             using (StreamReader streamreader = new StreamReader(filePath, System.Text.Encoding.Default))
             {
                 string contents;
-                // TODO check model name
-                // retrieving model name
-                if (!(contents = streamreader.ReadLine()).Contains("ERModel"))
-                    return false;
-
-                // retrieving size
-                while (!(contents = streamreader.ReadLine()).Contains("-"))
-                {
-                    if (contents.Contains("Vertices"))
-                        size = Convert.ToInt32(contents.Substring(contents.IndexOf('=') + 1));
-                }
-
-                n = new bool[size, size];
-                // retrieving data
                 while ((contents = streamreader.ReadLine()) != null)
                 {
                     string[] split = System.Text.RegularExpressions.Regex.Split(contents,
-                        "\\s+",
+                        saparator,
                         System.Text.RegularExpressions.RegexOptions.None);
 
-                    int i = Convert.ToInt32(split[0]), j = Convert.ToInt32(split[1]);
-                    n[i, j] = true;
-                    n[j, i] = true;
+                    try
+                    {
+                        int i = Convert.ToInt32(split[0]), j = Convert.ToInt32(split[1]);
+                        n[i, j] = true;
+                        n[j, i] = true;
+                    }
+                    catch(SystemException)
+                    {
+                        return false;
+                    }
                 }
             }
 
-            for (int i = 0; i < size; ++i)
+            for (int i = 0; i < networkSize; ++i)
             {
                 ArrayList tmp = new ArrayList();
-                for (int j = 0; j < size; ++j)
+                for (int j = 0; j < networkSize; ++j)
                 {
                     tmp.Add(n[i, j]);
                 }
                 matrix.Add(tmp);
             }
-            
+
+            if (networkSize != matrix.Count)
+                return false;
+
             return true;
         }
 
-        public static void MatrixWriter(bool[,] matrix, String filePath)
+        private static void MatrixWriter(bool[,] matrix, String filePath)
         {
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath + ".txt"))
             {
@@ -182,7 +178,7 @@ namespace Core.Utility
             }
         }
 
-        public static ArrayList BranchesReader(String filePath)
+        private static ArrayList BranchesReader(String filePath)
         {
             if (File.Exists(filePath))
             {
@@ -217,7 +213,7 @@ namespace Core.Utility
             else return null;
         }
 
-        public static void BranchesWriter(UInt16[][] branches, String filePath)
+        private static void BranchesWriter(UInt16[][] branches, String filePath)
         {
             using (System.IO.StreamWriter writer = new System.IO.StreamWriter(filePath + "_branches.txt"))
             {

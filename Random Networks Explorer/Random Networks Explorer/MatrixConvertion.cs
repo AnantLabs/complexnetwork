@@ -49,8 +49,8 @@ namespace RandomNetworksExplorer
         {
             convert.Enabled = false;
 
-            ArrayList matrix;
-            if (!FileManager.TryReadClassicalMatrix(inputFileNameTxt.Text, out matrix))
+            ArrayList matrix = new ArrayList(); ;
+            if (true)//!FileManager.TryReadClassicalMatrix(inputFileNameTxt.Text, out matrix))
             {
                 MessageBox.Show("Input matrix format is not correct.", "Error");
                 inputFileNameTxt.Focus();
