@@ -610,10 +610,7 @@ namespace RandomNetworksExplorer
                 if (g != GenerationParameter.AdjacencyMatrixFile &&
                     g != GenerationParameter.AdjacencyMatrix)
                 {
-                    if (gValues[g] != null)
-                        AddGenerationParameterAsTextBox(g.ToString(), gValues[g]);
-                    else
-                        generationParametersTable.Rows.Add(g.ToString());
+                    AddGenerationParameterAsTextBox(g.ToString(), gValues[g]);
                 }
             }
 
@@ -638,7 +635,10 @@ namespace RandomNetworksExplorer
 
         private void AddGenerationParameterAsTextBox(String g, Object v)
         {
-            generationParametersTable.Rows.Add(g, v.ToString());
+            if (v != null)
+                generationParametersTable.Rows.Add(g, v.ToString());
+            else
+                generationParametersTable.Rows.Add(g);
         }
 
         private void AddGenerationParameterAsButton(String g, String v)
