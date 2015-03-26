@@ -95,14 +95,15 @@ namespace Core.Utility
                     string[] split = System.Text.RegularExpressions.Regex.Split(contents,
                         "\\s+", System.Text.RegularExpressions.RegexOptions.None);
                     ArrayList tmp = new ArrayList();
-                    foreach (string s in split)
+                    for (int i = 0; i < split.Length - 1; ++i)
                     {
-                        if (s.Equals("0"))
+                        if (split[i].Equals("0"))
                             tmp.Add(false);
-                        else if (s.Equals("1"))
+                        else if (split[i].Equals("1"))
                             tmp.Add(true);
                         else return false;
                     }
+
                     matrix.Add(tmp);
                 }
             }
