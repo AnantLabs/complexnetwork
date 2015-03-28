@@ -183,7 +183,7 @@ namespace Storage
 
             foreach (GenerationParameter gp in p.Keys)
             {
-                if (p[gp] != null)
+                if (gp != GenerationParameter.AdjacencyMatrix && p[gp] != null)
                 {
                     WorksheetRow row = genParametersSheet.Table.Rows.Add();
                     WorksheetCell rCellName = new WorksheetCell(gp.ToString(), "HeaderStyle");

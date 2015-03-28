@@ -14,6 +14,7 @@ namespace ERModel
     /// Implementation of random network of Erdős-Rényi model's model.
     /// </summary>
     [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrixFile)]
+    [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrix)]
     [RequiredGenerationParameter(GenerationParameter.Vertices)]
     [RequiredGenerationParameter(GenerationParameter.Probability)]
     [AvailableAnalyzeOption(AnalyzeOption.AvgClusteringCoefficient |

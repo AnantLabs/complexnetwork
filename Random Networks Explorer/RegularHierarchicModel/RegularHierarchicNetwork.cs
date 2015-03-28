@@ -13,6 +13,7 @@ namespace RegularHierarchicModel
     /// Implementation of regularly branching block-hierarchic network.
     /// </summary>
     [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrixFile)]
+    [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrix)]
     [RequiredGenerationParameter(GenerationParameter.BranchingIndex)]
     [RequiredGenerationParameter(GenerationParameter.Level)]
     [RequiredGenerationParameter(GenerationParameter.Mu)]

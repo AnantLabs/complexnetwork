@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Core.Model;
 using Core.Attributes;
 
 namespace Core.Enumerations
@@ -56,7 +57,7 @@ namespace Core.Enumerations
 
         [GenerationParameterInfo("Adjacency matrix",
             "Adjacency matrix and branches of the networks.",
-            typeof(Core.Model.MatrixInfoToRead), null)]
+            typeof(MatrixInfoToRead), null)]
         AdjacencyMatrix,
 
         [GenerationParameterInfo("Adjacency matrix's file name",

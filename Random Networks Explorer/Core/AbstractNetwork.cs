@@ -61,7 +61,7 @@ namespace Core
                     (GenerationParameterValues[GenerationParameter.AdjacencyMatrix] != null) &&
                     (GenerationParameterValues[GenerationParameter.AdjacencyMatrixFile] != null))
                 {
-                    MatrixInfoToRead matrix = (MatrixInfoToRead)GenerationParameterValues[GenerationParameter.AdjacencyMatrixFile];
+                    MatrixInfoToRead matrix = (MatrixInfoToRead)GenerationParameterValues[GenerationParameter.AdjacencyMatrix];
                     networkGenerator.StaticGeneration(matrix);
                 }
                 else

@@ -14,6 +14,7 @@ namespace BAModel
     /// Implementation of random network of Baraba´si-Albert's model.
     /// </summary>
     [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrixFile)]
+    [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrix)]
     [RequiredGenerationParameter(GenerationParameter.Vertices)]
     [RequiredGenerationParameter(GenerationParameter.Edges)]
     [RequiredGenerationParameter(GenerationParameter.Probability)]

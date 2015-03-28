@@ -12,6 +12,9 @@ using System.IO;
 using Core;
 using Core.Utility;
 using Core.Settings;
+using Core.Model;
+using Core.Exceptions;
+using Core.Enumerations;
 
 namespace RandomNetworksExplorer
 {
@@ -47,38 +50,55 @@ namespace RandomNetworksExplorer
 
         private void convert_Click(object sender, EventArgs e)
         {
-            convert.Enabled = false;
+            EnableControls(false);
 
-            ArrayList matrix = new ArrayList(); ;
-            if (true)//!FileManager.TryReadClassicalMatrix(inputFileNameTxt.Text, out matrix))
+            int size = int.Parse(sizeTxt.Text.ToString());
+            try
+            {
+                MatrixInfoToRead matrix = FileManager.Read(inputFileNameTxt.Text, size, AdjacencyMatrixType.ClassicalMatrix);
+                ArrayList m = matrix.Matrix;
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(outputFileNameTxt.Text))
+                {
+                    ArrayList row = new ArrayList();
+                    for (int i = 0; i < size - 1; ++i)
+                    {
+                        row = (ArrayList)m[i];
+                        for (int j = i; j < size; ++j)
+                        {
+                            if ((bool)row[j] == true)
+                            {
+                                string s = csvRadioBtn.Checked ? "," : " ";
+                                file.WriteLine(i.ToString() + s + j.ToString());
+                            }
+                        }
+                    }
+                }
+
+                MessageBox.Show("Successfully converted connectivity matrix to degree-list.");
+            }
+            catch (MatrixFormatException)
             {
                 MessageBox.Show("Input matrix format is not correct.", "Error");
                 inputFileNameTxt.Focus();
                 inputFileNameTxt.SelectAll();
+                return;
             }
-
-            int size = matrix.Count;
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(outputFileNameTxt.Text))
+            finally
             {
-                // Header.
-                file.WriteLine("ModelName=ERModel");
-                file.WriteLine("Vertices=" + size.ToString());
-                file.WriteLine("-");
-
-                ArrayList row = new ArrayList();
-                for (int i = 0; i < matrix.Count - 1; ++i)
-                {
-                    row = (ArrayList)matrix[i];
-                    for (int j = i; j < matrix.Count; ++j)
-                    {
-                        if ((bool)row[j] == true)
-                            file.WriteLine(i.ToString() + " " + j.ToString());
-                    }
-                }
+                EnableControls(true);
             }
+        }
 
-            MessageBox.Show("Successfully converted connectivity matrix to degree-list.");
-            convert.Enabled = true;
+        private void EnableControls(bool b)
+        {
+            inputFileNameTxt.Enabled = b;
+            inputBrowse.Enabled = b;
+            sizeTxt.Enabled = b;
+            degreesRadioBtn.Enabled = b;
+            csvRadioBtn.Enabled = b;
+            outputFileNameTxt.Enabled = b;
+            outputBrowse.Enabled = b;
+            convert.Enabled = b;
         }
     }
 }

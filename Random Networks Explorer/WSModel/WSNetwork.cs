@@ -14,6 +14,7 @@ namespace WSModel
     /// Implementation of random network of Watts-Strogatz's model.
     /// </summary>
     [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrixFile)]
+    [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrix)]
     [RequiredGenerationParameter(GenerationParameter.Vertices)]
     [RequiredGenerationParameter(GenerationParameter.Edges)]
     [RequiredGenerationParameter(GenerationParameter.Probability)]
