@@ -356,7 +356,8 @@ namespace RandomNetworksExplorer
             {
                 foreach (DataGridViewRow row in generationParametersTable.Rows)
                 {
-                    if (row.Cells["generationParameterValueColumn"].Value == null)
+                    if (row.Cells["generationParameterValueColumn"].Value == null ||
+                        row.Cells["generationParameterValueColumn"].Value.ToString() == "Browse")
                     {
                         MessageBox.Show("Parameters are not set correctly.", "Error");
                         return;
@@ -574,10 +575,8 @@ namespace RandomNetworksExplorer
             GenerationParameter g = GenerationParameter.AdjacencyMatrixFile;
             AddGenerationParameterAsButton(g.ToString(),
                 gValues[g] != null ? gValues[g].ToString() : "Browse");
-            AddGenerationParameterAsTextBox("Size", eValues.ContainsKey("Size") ? eValues["Size"] : "0");
-            AddGenerationParameterAsComboBox("Matrix Type", 
-                eValues.ContainsKey("Matrix Type") ? eValues["Matrix Type"] : AdjacencyMatrixType.ClassicalMatrix.ToString(), 
-                typeof(AdjacencyMatrixType));
+            AddGenerationParameterAsTextBox("Size", eValues["Size"]);
+            AddGenerationParameterAsComboBox("Matrix Type", eValues["Matrix Type"], typeof(AdjacencyMatrixType));
 
             foreach (ResearchParameter r in rValues.Keys)
             {
@@ -773,5 +772,35 @@ namespace RandomNetworksExplorer
         }
 
         #endregion
+
+        /*private void extendedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string[] files = Directory.GetFiles(ExplorerSettings.LoggingDirectory);
+            int[] result = new int[files.Length];
+            for (int k = 0; k < files.Length; ++k)
+            {
+                MatrixInfoToRead m = FileManager.Read(files[k], 500, AdjacencyMatrixType.Degrees);
+                NonHierarchicContainer c = new NonHierarchicContainer();
+                c.SetMatrix(m.Matrix);
+                bool[,] b = c.GetMatrix();
+                int size = 500;
+                for (int i = size / 2; i < size; ++i)
+                {
+                    for (int j = 0; j < size / 2; ++j)
+                    {
+                        if (b[i, j])
+                            ++result[k];
+                    }
+                }
+            }
+
+            using (StreamWriter file = new StreamWriter(ExplorerSettings.LoggingDirectory + "\\result.txt"))
+            {
+                for (int i = 0; i < result.Length; ++i)
+                {
+                    file.WriteLine(i + " " + result[i]);
+                }
+            }
+        }*/
     }
 }

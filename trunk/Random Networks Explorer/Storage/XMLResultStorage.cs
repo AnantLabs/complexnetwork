@@ -207,7 +207,7 @@ namespace Storage
             writer.WriteStartElement("GenerationParameterValues");
             foreach (GenerationParameter gp in p.Keys)
             {
-                if (p[gp] != null)
+                if (gp != GenerationParameter.AdjacencyMatrix && p[gp] != null)
                 {
                     writer.WriteStartElement("GenerationParameter");
                     writer.WriteAttributeString("name", gp.ToString());

@@ -37,6 +37,11 @@
             this.openFileDlg = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDlg = new System.Windows.Forms.SaveFileDialog();
             this.convert = new System.Windows.Forms.Button();
+            this.degreesRadioBtn = new System.Windows.Forms.RadioButton();
+            this.csvRadioBtn = new System.Windows.Forms.RadioButton();
+            this.dash = new System.Windows.Forms.Label();
+            this.sizeTxt = new System.Windows.Forms.TextBox();
+            this.size = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // inputFileName
@@ -52,7 +57,7 @@
             // 
             this.inputFileNameTxt.Location = new System.Drawing.Point(12, 25);
             this.inputFileNameTxt.Name = "inputFileNameTxt";
-            this.inputFileNameTxt.Size = new System.Drawing.Size(390, 20);
+            this.inputFileNameTxt.Size = new System.Drawing.Size(289, 20);
             this.inputFileNameTxt.TabIndex = 1;
             this.inputFileNameTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -68,7 +73,7 @@
             // 
             // outputBrowse
             // 
-            this.outputBrowse.Location = new System.Drawing.Point(424, 73);
+            this.outputBrowse.Location = new System.Drawing.Point(425, 86);
             this.outputBrowse.Name = "outputBrowse";
             this.outputBrowse.Size = new System.Drawing.Size(75, 23);
             this.outputBrowse.TabIndex = 5;
@@ -78,20 +83,20 @@
             // 
             // outputFileNameTxt
             // 
-            this.outputFileNameTxt.Location = new System.Drawing.Point(11, 75);
+            this.outputFileNameTxt.Location = new System.Drawing.Point(15, 89);
             this.outputFileNameTxt.Name = "outputFileNameTxt";
-            this.outputFileNameTxt.Size = new System.Drawing.Size(390, 20);
+            this.outputFileNameTxt.Size = new System.Drawing.Size(377, 20);
             this.outputFileNameTxt.TabIndex = 4;
             this.outputFileNameTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // outputFileName
             // 
             this.outputFileName.AutoSize = true;
-            this.outputFileName.Location = new System.Drawing.Point(11, 59);
+            this.outputFileName.Location = new System.Drawing.Point(11, 69);
             this.outputFileName.Name = "outputFileName";
-            this.outputFileName.Size = new System.Drawing.Size(125, 13);
+            this.outputFileName.Size = new System.Drawing.Size(84, 13);
             this.outputFileName.TabIndex = 3;
-            this.outputFileName.Text = "Degrees-output file name";
+            this.outputFileName.Text = "Output file name";
             // 
             // openFileDlg
             // 
@@ -103,7 +108,7 @@
             // 
             // convert
             // 
-            this.convert.Location = new System.Drawing.Point(425, 112);
+            this.convert.Location = new System.Drawing.Point(425, 124);
             this.convert.Name = "convert";
             this.convert.Size = new System.Drawing.Size(75, 23);
             this.convert.TabIndex = 6;
@@ -111,11 +116,66 @@
             this.convert.UseVisualStyleBackColor = true;
             this.convert.Click += new System.EventHandler(this.convert_Click);
             // 
+            // degreesRadioBtn
+            // 
+            this.degreesRadioBtn.AutoSize = true;
+            this.degreesRadioBtn.Checked = true;
+            this.degreesRadioBtn.Location = new System.Drawing.Point(117, 67);
+            this.degreesRadioBtn.Name = "degreesRadioBtn";
+            this.degreesRadioBtn.Size = new System.Drawing.Size(100, 17);
+            this.degreesRadioBtn.TabIndex = 7;
+            this.degreesRadioBtn.TabStop = true;
+            this.degreesRadioBtn.Text = "Degrees Format";
+            this.degreesRadioBtn.UseVisualStyleBackColor = true;
+            // 
+            // csvRadioBtn
+            // 
+            this.csvRadioBtn.AutoSize = true;
+            this.csvRadioBtn.Location = new System.Drawing.Point(220, 67);
+            this.csvRadioBtn.Name = "csvRadioBtn";
+            this.csvRadioBtn.Size = new System.Drawing.Size(81, 17);
+            this.csvRadioBtn.TabIndex = 8;
+            this.csvRadioBtn.TabStop = true;
+            this.csvRadioBtn.Text = "CSV Format";
+            this.csvRadioBtn.UseVisualStyleBackColor = true;
+            // 
+            // dash
+            // 
+            this.dash.AutoSize = true;
+            this.dash.Location = new System.Drawing.Point(307, 28);
+            this.dash.Name = "dash";
+            this.dash.Size = new System.Drawing.Size(10, 13);
+            this.dash.TabIndex = 9;
+            this.dash.Text = "-";
+            // 
+            // sizeTxt
+            // 
+            this.sizeTxt.Location = new System.Drawing.Point(323, 26);
+            this.sizeTxt.Name = "sizeTxt";
+            this.sizeTxt.Size = new System.Drawing.Size(69, 20);
+            this.sizeTxt.TabIndex = 10;
+            this.sizeTxt.Text = "0";
+            this.sizeTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // size
+            // 
+            this.size.AutoSize = true;
+            this.size.Location = new System.Drawing.Point(320, 10);
+            this.size.Name = "size";
+            this.size.Size = new System.Drawing.Size(27, 13);
+            this.size.TabIndex = 11;
+            this.size.Text = "Size";
+            // 
             // MatrixConvertion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(511, 147);
+            this.ClientSize = new System.Drawing.Size(511, 160);
+            this.Controls.Add(this.size);
+            this.Controls.Add(this.sizeTxt);
+            this.Controls.Add(this.dash);
+            this.Controls.Add(this.csvRadioBtn);
+            this.Controls.Add(this.degreesRadioBtn);
             this.Controls.Add(this.convert);
             this.Controls.Add(this.outputBrowse);
             this.Controls.Add(this.outputFileNameTxt);
@@ -142,5 +202,10 @@
         private System.Windows.Forms.OpenFileDialog openFileDlg;
         private System.Windows.Forms.SaveFileDialog saveFileDlg;
         private System.Windows.Forms.Button convert;
+        private System.Windows.Forms.RadioButton degreesRadioBtn;
+        private System.Windows.Forms.RadioButton csvRadioBtn;
+        private System.Windows.Forms.Label dash;
+        private System.Windows.Forms.TextBox sizeTxt;
+        private System.Windows.Forms.Label size;
     }
 }

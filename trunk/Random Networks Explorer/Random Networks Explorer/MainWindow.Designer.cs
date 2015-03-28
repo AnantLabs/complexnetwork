@@ -78,6 +78,8 @@
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusGrp = new System.Windows.Forms.GroupBox();
             this.statusTable = new System.Windows.Forms.DataGridView();
+            this.statusStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.statusStopColumn = new System.Windows.Forms.DataGridViewButtonColumn();
             this.topSplitLayout = new System.Windows.Forms.SplitContainer();
             this.analyzeOptionsGrp = new System.Windows.Forms.GroupBox();
             this.selectAll = new System.Windows.Forms.Button();
@@ -86,8 +88,6 @@
             this.analyzeOptionNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.analyzeOptionCheckedColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.openFileDlg = new System.Windows.Forms.OpenFileDialog();
-            this.statusStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.statusStopColumn = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.researchesTable)).BeginInit();
             this.researchTableCSM.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -547,6 +547,20 @@
             this.statusTable.Size = new System.Drawing.Size(463, 216);
             this.statusTable.TabIndex = 0;
             // 
+            // statusStatusColumn
+            // 
+            this.statusStatusColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.statusStatusColumn.HeaderText = "Status";
+            this.statusStatusColumn.Name = "statusStatusColumn";
+            this.statusStatusColumn.ReadOnly = true;
+            // 
+            // statusStopColumn
+            // 
+            this.statusStopColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.statusStopColumn.HeaderText = "";
+            this.statusStopColumn.Name = "statusStopColumn";
+            this.statusStopColumn.Visible = false;
+            // 
             // topSplitLayout
             // 
             this.topSplitLayout.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -648,20 +662,6 @@
             // openFileDlg
             // 
             this.openFileDlg.Filter = "\"txt files (*.txt)|*.txt|All files (*.*)|*.*\"";
-            // 
-            // statusStatusColumn
-            // 
-            this.statusStatusColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.statusStatusColumn.HeaderText = "Status";
-            this.statusStatusColumn.Name = "statusStatusColumn";
-            this.statusStatusColumn.ReadOnly = true;
-            // 
-            // statusStopColumn
-            // 
-            this.statusStopColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.statusStopColumn.HeaderText = "";
-            this.statusStopColumn.Name = "statusStopColumn";
-            this.statusStopColumn.Visible = false;
             // 
             // MainWindow
             // 

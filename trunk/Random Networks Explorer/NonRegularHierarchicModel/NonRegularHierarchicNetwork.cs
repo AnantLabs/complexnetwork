@@ -13,6 +13,7 @@ namespace NonRegularHierarchicModel
     /// Implementation of non regularly branching block-hierarchic network.
     /// </summary>
     [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrixFile)]
+    [RequiredGenerationParameter(GenerationParameter.AdjacencyMatrix)]
     [RequiredGenerationParameter(GenerationParameter.Vertices)]
     [RequiredGenerationParameter(GenerationParameter.BranchingIndex)]
     [RequiredGenerationParameter(GenerationParameter.Mu)]

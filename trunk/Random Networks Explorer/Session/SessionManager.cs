@@ -40,7 +40,7 @@ namespace Session
             r.Storage = CreateStorage(StorageType.XMLStorage, ExplorerSettings.StorageDirectory);
             r.TracingPath = "";
 
-            extendedInformation.Add(r.ResearchID, new Dictionary<string, string>());
+            InitializeExtendedInformationForResearch(r.ResearchID);
 
             return r.ResearchID;
         }
@@ -71,7 +71,7 @@ namespace Session
             r.GenerationType = generationType;
             r.TracingPath = tracingPath;
 
-            extendedInformation.Add(r.ResearchID, new Dictionary<string, string>());
+            InitializeExtendedInformationForResearch(r.ResearchID);
 
             return r.ResearchID;
         }
@@ -657,10 +657,7 @@ namespace Session
             {
                 if (existingResearches[id].Status == ResearchStatus.NotStarted)
                 {
-                    if (extendedInformation[id].ContainsKey(name))
-                        extendedInformation[id][name] = value;
-                    else
-                        extendedInformation[id].Add(name, value);
+                    extendedInformation[id][name] = value;
                 }
                 else
                     throw new CoreException("Unable to modify research after start.");
@@ -769,6 +766,14 @@ namespace Session
             StorageTypeInfo[] info = (StorageTypeInfo[])st.GetType().GetField(st.ToString()).GetCustomAttributes(typeof(StorageTypeInfo), false);
             Type t = Type.GetType(info[0].Implementation, true);
             return (AbstractResultStorage)t.GetConstructor(patametersType).Invoke(invokeParameters);
+        }
+
+        private static void InitializeExtendedInformationForResearch(Guid id)
+        {
+            Dictionary<string, string> d = new Dictionary<string, string>();
+            d.Add("Size", "0");
+            d.Add("Matrix Type", AdjacencyMatrixType.ClassicalMatrix.ToString());
+            extendedInformation.Add(id, d);
         }
 
         #endregion
