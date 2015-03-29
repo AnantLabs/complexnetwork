@@ -1,0 +1,1 @@
+Random Networks Explorer (RNE) is a software system, which gives possibility to generate, analyze and research random networks of several types - small-world, scale-free, block-hierarchical.
